@@ -20,49 +20,49 @@
   ],
   "rules": {
     "address-is-national-not-about-the-player": {
-      "read": 7,
-      "breaks": 4,
-      "per100": 57.1
+      "read": 9,
+      "breaks": 0,
+      "per100": 0
     },
     "speech-has-one-theme": {
-      "read": 7,
-      "breaks": 5,
-      "per100": 71.4
+      "read": 9,
+      "breaks": 1,
+      "per100": 11.1
     },
     "asks-differ-by-world": {
-      "read": 7,
-      "breaks": 2,
-      "per100": 28.6
+      "read": 9,
+      "breaks": 0,
+      "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 79,
-      "breaks": 48,
-      "per100": 60.8
+      "read": 58,
+      "breaks": 21,
+      "per100": 36.2
     },
     "one-idea-to-a-sentence": {
-      "read": 79,
-      "breaks": 1,
-      "per100": 1.3
+      "read": 58,
+      "breaks": 0,
+      "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 45,
+      "read": 22,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 45,
-      "breaks": 14,
-      "per100": 31.1
+      "read": 22,
+      "breaks": 0,
+      "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 50,
-      "breaks": 24,
-      "per100": 48
+      "read": 27,
+      "breaks": 0,
+      "per100": 0
     },
     "no-non-replies": {
-      "read": 45,
-      "breaks": 17,
-      "per100": 37.8
+      "read": 22,
+      "breaks": 5,
+      "per100": 22.7
     },
     "note-stands-alone": {
       "read": 12,

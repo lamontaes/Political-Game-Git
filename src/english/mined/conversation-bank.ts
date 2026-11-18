@@ -34,6 +34,12 @@ export interface MinedUse {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the piece back. */
+  excludesFacts?: string[];
+  /** A core that is itself a goodbye: no closer follows it (round 11, rule 80). */
+  closesTalk?: boolean;
+  /** Facts the piece sets for the parts after it (a lead that fixes how its stance reads, round 11, rule 75). */
+  setsFacts?: string[];
   /** A `reason` piece: the role of the lines it may follow (`raise`, `reply`, `answer`), joined after them by the engine. */
   for?: string;
 }
@@ -96,6 +102,9 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
     ...(use.requiresFacts
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
+    ...(use.excludesFacts?.length
+      ? { excludesFacts: use.excludesFacts.map((f) => f.replace(/_/g, "-")) }
+      : {}),
     ...(pronoun ? { pronoun } : {}),
     ...(part.bearing ? { bearing: part.bearing } : {}),
   };
@@ -137,7 +146,23 @@ export function conversationDataFromBank(
       const fits = CONVERSATION_RULES.answerMoves?.[use.subject];
       if (field === "answers" && fits && !fits.includes(use.choice)) continue;
       const moves = ((subjects[use.subject] ??= {})[field] ??= []);
-      if (moves.some((row) => row.part === part.key && row.key === use.choice))
+      // A piece used twice for one answer keeps each use that has its own
+      // facts or stages (the same words to a steady housemate and to a
+      // worried one); only a repeat of the same use is dropped.
+      const sameUse = (row: Move) =>
+        field !== "answers" ||
+        (JSON.stringify(row.requiresFacts ?? []) ===
+          JSON.stringify(
+            (use.requiresFacts ?? []).map((f) => f.replace(/_/g, "-")),
+          ) &&
+          JSON.stringify(row.stages ?? []) ===
+            JSON.stringify(use.stages ?? []));
+      if (
+        moves.some(
+          (row) =>
+            row.part === part.key && row.key === use.choice && sameUse(row),
+        )
+      )
         continue;
       const move =
         field === "answers"
@@ -156,11 +181,12 @@ export function conversationDataFromBank(
           use.choice === "at" && /\b(?:went|graduated)\b/.test(part.text)
             ? ["graduated"]
             : ["enrolled"];
-      // A bare question turned back ("And you?") follows the plain answer, so
-      // the question is never answered with a question.
+      // A bare question turned back ("And you?"), or asking why it was asked
+      // ("Why do you ask?"), follows the plain answer, so the question is
+      // never answered with a question.
       if (
         field === "answers" &&
-        use.choice === "turn" &&
+        (use.choice === "turn" || use.choice === "ask-why") &&
         /\?$/.test(part.text) &&
         !SLOT.test(part.text)
       )

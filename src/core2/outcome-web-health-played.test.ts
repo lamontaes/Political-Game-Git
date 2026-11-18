@@ -24,9 +24,9 @@
  * and the month each link first moved in the treated world shows no effect in
  * the control wherever its law then stood at the base.
  *
- * The two links into the uninsured share run on their lags here; the engine
- * that reads them is the coverage review (web-coverage-reads), so this test
- * checks only that they run. Played in a place drawn from all 56 on a seed
+ * The two links into the uninsured share run on their lags here; the web's
+ * graduation link reads that share (no person's employer plan does: a job
+ * lost already ends one), so this test checks only that they run. Played in a place drawn from all 56 on a seed
  * nobody chose.
  */
 import { randomBytes } from "node:crypto";

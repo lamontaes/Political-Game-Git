@@ -140,10 +140,27 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
         .nth(given % talk.replies.length)
         .click();
       given += 1;
+      await untilTalkChanges(page, key);
     } else if (await shown(page, "talk-leave"))
       await page.locator("#talk-leave").click();
-    else if (talk.replies.length)
+    else if (talk.replies.length) {
       await page.locator("#talk-choices .reply").first().click();
+      await untilTalkChanges(page, key);
+    }
+  }
+}
+
+/**
+ * Waits for the box to change after a reply is pressed (or the talk to close),
+ * so the walk never presses the same button again while the first answer is on
+ * the way (the Journal walk at New Haven, Vermont, threw "Not an offered line"
+ * that way).
+ */
+async function untilTalkChanges(page, before) {
+  for (let wait = 0; wait < 40; wait += 1) {
+    if (!(await shown(page, "talk"))) return;
+    if (JSON.stringify(await talkOf(page)) !== before) return;
+    await page.waitForTimeout(150);
   }
 }
 
@@ -152,18 +169,28 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
  * a stop is continued, a scene's talk is played and written down. A stop
  * holds Day until it is answered, so waiting on Day alone would wait forever.
  */
-export async function pressDay(walk) {
+export async function pressDay(walk, button = "day") {
   const { page } = walk;
-  walk.say(`=== Day pressed at [${await clockOf(page)}]`);
-  await page.locator("#day").click();
+  walk.say(
+    `=== ${button === "day" ? "Day" : button} pressed at [${await clockOf(page)}]`,
+  );
+  await page.locator(`#${button}`).click();
   const free = () =>
     page.evaluate(() => !document.getElementById("day").disabled);
   for (let step = 0; step < 400; step += 1) {
     await page.waitForTimeout(600);
     if (await shown(page, "talk")) await playTalk(walk, "scene");
-    else if (await shown(page, "continue")) {
+    else if (
+      (await shown(page, "continue")) &&
+      // A stop that stages a scene opens its talk a moment later.
+      !(await page.waitForTimeout(2500).then(() => shown(page, "talk")))
+    ) {
       walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
-      await page.locator("#continue").click();
+      // A Continue that opens a scene is gone before a second look.
+      await page
+        .locator("#continue")
+        .click({ timeout: 5000 })
+        .catch(() => null);
     } else if (await free()) break;
   }
   if (!(await free()))

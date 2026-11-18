@@ -15,7 +15,9 @@ import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
+import { isoDateFromParts } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
+import { placeStateKey } from "./place-map";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -92,6 +94,44 @@ export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
   return row;
 }
 
+/** The calendar date one due date falls on in a year (an nth weekday counts 1 = Monday, "last" is the month's last day). */
+function dueDateIn(year: number, due: PropertyTaxDueDate): string {
+  const lastDay = new Date(Date.UTC(year, due.month, 0)).getUTCDate();
+  if ("day" in due)
+    return isoDateFromParts(
+      year,
+      due.month,
+      due.day === "last" ? lastDay : Math.min(due.day, lastDay),
+    );
+  const first = new Date(Date.UTC(year, due.month - 1, 1)).getUTCDay() || 7;
+  const day = 1 + ((due.weekday - first + 7) % 7) + 7 * (due.nth - 1);
+  return isoDateFromParts(year, due.month, Math.min(day, lastDay));
+}
+
+/**
+ * Whether one of a place's property tax due dates falls from this review day
+ * up to the next month's: an owner without an escrow account pays an
+ * installment at the review just before it is due.
+ */
+function installmentDue(date: string, due: PropertyTaxDueDates): boolean {
+  const [year, month, day] = date.split("-").map(Number) as [
+    number,
+    number,
+    number,
+  ];
+  const next = isoDateFromParts(
+    month === 12 ? year + 1 : year,
+    month === 12 ? 1 : month + 1,
+    day,
+  );
+  return [year, year + 1].some((y) =>
+    due.dueDates.some((d) => {
+      const at = dueDateIn(y, d);
+      return at >= date && at < next;
+    }),
+  );
+}
+
 /**
  * The property tax rate in force where owners are billed, as a share of home
  * value, and the law row it stands on; none until a government's rate is
@@ -121,7 +161,13 @@ interface AssessmentRow {
   year: number;
 }
 
-/** Bills every owner household for this month's tax (a twelfth, as through a mortgage escrow); returns what was paid. */
+/**
+ * Bills every owner household whose bill falls this month; returns what was
+ * paid. An owner with a mortgage pays a twelfth each month through the
+ * lender's escrow; an owner without one pays an installment on the place's
+ * own due dates (`propertyTaxDueDates`, the state's pattern, an estimate where
+ * counties differ) at the review before each falls due.
+ */
 export function billPropertyTax(
   api: CoreAPI,
   assessments: ModuleTable,
@@ -130,14 +176,14 @@ export function billPropertyTax(
     placeId: string;
     valueMinor: number;
   }[],
+  /** Whether a household pays through a mortgage escrow account (monthly). */
+  escrowed: (householdId: string) => boolean,
   /** Where unpaid tax is kept as arrears rows (the assessments table when not given). */
   arrears: ModuleTable = assessments,
 ): number {
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
-  // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  api.stopgap("SG-WORLD-property-tax-monthly");
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;
@@ -186,6 +232,7 @@ export function billPropertyTax(
       count: number,
       paidMinor: number,
       households = 1,
+      share = months,
     ) => {
       if (t.lawRowId)
         lawApplied(api, {
@@ -210,13 +257,13 @@ export function billPropertyTax(
           engine: "core2-housing-v1",
           what: "assessment-growth-capped",
           count,
-          // The tax the cap saved this month: the value the assessment left
-          // untaxed times the rate, a twelfth.
+          // The tax the cap saved on this bill: the value the assessment left
+          // untaxed times the rate, one installment.
           amountMinor: Math.round(
             (Math.max(0, home.valueMinor - assessedNow.assessedMinor) *
               t.rate *
               households) /
-              months,
+              share,
           ),
         });
     };
@@ -243,9 +290,20 @@ export function billPropertyTax(
         capLawId: t.assessmentLawRowId ?? null,
         savedAssessmentMinor: Math.max(0, home.valueMinor - assessed),
       });
-    // Last months' unpaid tax is added to this month's bill and paid first.
+    // An owner without an escrow account is billed only when a due date is near.
+    const schedule = escrowed(home.householdId)
+      ? undefined
+      : (() => {
+          const usps = (
+            placeStateKey(home.placeId) ?? c.placeMetadata?.housingState
+          )?.replace(/^US-/, "");
+          return usps ? DUE_DATES[usps] : undefined;
+        })();
+    if (schedule && !installmentDue(c.date, schedule)) continue;
+    const share = schedule ? schedule.installments : months;
+    // Last installments' unpaid tax is added to this one and paid first.
     const owed = owedRow(home.householdId)?.amountMinor ?? 0;
-    const bill = Math.round((assessed * t.rate) / months) + owed;
+    const bill = Math.round((assessed * t.rate) / share) + owed;
     if (bill <= 0) continue;
     const household = c.households.get(home.householdId);
     const to = payee(home.placeId, t);
@@ -270,7 +328,7 @@ export function billPropertyTax(
       }
       total += paid;
       keepArrears(home.householdId, home, t, bill - paid);
-      applied(home.householdId, "household", 1, paid);
+      applied(home.householdId, "household", 1, paid, 1, share);
     } else {
       const paid = countedPayment(api, {
         id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? UNNAMED_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
@@ -291,6 +349,7 @@ export function billPropertyTax(
         // The record stands for its weight: the tax it paid in all.
         paid * (stands?.households ?? 1),
         stands?.households ?? 1,
+        share,
       );
     }
   }

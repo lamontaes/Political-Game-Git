@@ -11,3 +11,16 @@ const NAMES = data.names as Readonly<Record<string, string>>;
 export function areaName(area: string): string | null {
   return NAMES[area] ?? null;
 }
+
+const MEASURES = (
+  data as unknown as {
+    measures: Readonly<Record<string, { said: string; share: boolean }>>;
+  }
+).measures;
+
+/** A term-read measure as a speech names it ("rents here"), and whether it is a share said by where it stood; null when it has no words. */
+export function measureWords(
+  measure: string,
+): { readonly said: string; readonly share: boolean } | null {
+  return MEASURES[measure] ?? null;
+}

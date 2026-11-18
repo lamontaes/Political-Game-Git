@@ -51,6 +51,11 @@ import {
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
+import {
+  ELSEWHERE_EMPLOYER,
+  elsewhereEmployerId,
+  elsewhereEmployerName,
+} from "./places-elsewhere";
 import { openingWorkStatus } from "./modules/jobs";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
@@ -702,10 +707,17 @@ export function runPastWork(
   // working lives of officials and others elsewhere wait for their own
   // records (history-past-officials).
   const places = new Set(firms.map((firm) => firm.placeId));
+  /** People the engines made to hold a role where the world keeps no business (core-life-record-part-4). */
+  const roleHolders: PersonState[] = [];
   for (const person of [...people].sort((a, b) => a.id.localeCompare(b.id))) {
-    // A relative living elsewhere, opened one at a time, works where the
-    // world keeps no employers: no employer is named (SG-LIVES-work-no-employer).
-    if (!places.has(person.placeId) && person.tier !== ELSEWHERE_TIER) continue;
+    if (!places.has(person.placeId)) {
+      // A relative living elsewhere, opened one at a time, works where the
+      // world keeps no employers: no employer is named (SG-LIVES-work-no-employer).
+      if (person.tier !== ELSEWHERE_TIER) {
+        roleHolders.push(person);
+        continue;
+      }
+    }
     const plan = planOf(api, person, window, months, mean);
     if (!plan || plan.end <= window.from) {
       if (plan?.current && !before) runs.push(heldOnly(plan, window));
@@ -807,6 +819,23 @@ export function runPastWork(
       for (const firm of town)
         if (!best || remaining(firm) > remaining(best)) best = firm;
     if (best) openings.set(`${best.id}|${quarter}`, remaining(best) - 1);
+    // Before they came to town, where the world keeps no employer: one of
+    // that place's, named from the place and the seed (an estimate), the
+    // same every time they are opened.
+    // The same when the town keeps no firm for that day (a first job before the
+    // town's oldest firm, or a town with none on record). Where the place they
+    // lived in is one the naming does not know, the employer is named from
+    // the place they live in now: the card names an employer for every spell.
+    if (!best)
+      return (
+        elsewhereEmployerId(c, run.plan.person, livedIn, run.spells.length) ??
+        elsewhereEmployerId(
+          c,
+          run.plan.person,
+          run.plan.person.placeId,
+          run.spells.length,
+        )
+      );
     return best?.id;
   };
   const begin = (
@@ -882,6 +911,10 @@ export function runPastWork(
     if (plan.endCause === "let-go" && !run.outs.some((row) => !row.endedAt))
       run.outs.push({ startedAt: plan.end, causeSpell: run.spells.length - 1 });
   };
+  for (const person of roleHolders) {
+    const run = roleCareer(api, person, window, months, mean, before, payOn);
+    if (run) runs.push(run);
+  }
   for (const [index, step] of steps.entries()) {
     const next = steps[index + 1] ?? addDays(makeIsoDate(window.through), 1);
     const quarter = step.slice(0, "YYYY-MM".length);
@@ -1016,6 +1049,67 @@ export function runPastWork(
 }
 
 /** A day-one job held since before the run (or since before school ended): its one record. */
+/**
+ * The working life that led a person to a role the engines made them for,
+ * where the world keeps no business to have employed them (a state's election
+ * chief, a station's news director in the market city): an earlier post at
+ * the same organization from the day they could first work to the day they
+ * took the role, then the role itself. The world keeps no record of the
+ * organization's earlier staff, so the post is an estimate from the person's
+ * own records (stopgap SG-PEOPLE-role-people-have-no-past). A member of a
+ * body the rosters record (an official, with a seat on their facts) keeps
+ * their career in their own term records instead.
+ */
+/** The fact a roster's official carries for their seat (state.ts). */
+const ROSTER_SEAT_FACT = "identity:seat";
+
+function roleCareer(
+  api: CoreAPI,
+  person: PersonState,
+  window: PreStartWindow,
+  months: readonly Conditions[],
+  mean: number,
+  before: { worldFrom: IsoDate } | undefined,
+  payOn: (plan: Plan, date: string, organizationId?: string) => number,
+): RunState | undefined {
+  if (person.pastFacts?.some((row) => row.kind === ROSTER_SEAT_FACT))
+    return undefined;
+  const plan = planOf(api, person, window, months, mean);
+  const current = plan?.current;
+  if (!plan || !current) return undefined;
+  // stopgapId: SG-PEOPLE-role-people-have-no-past
+  stopgap("SG-PEOPLE-role-people-have-no-past");
+  // The job held on day one is the window's run's to tell, once.
+  const run: RunState = {
+    ...heldOnly(before ? { ...plan, current: undefined } : plan, window),
+    spells: [],
+  };
+  const from = before
+    ? plan.entry
+    : plan.entry > window.from
+      ? plan.entry
+      : window.from;
+  // No earlier post when the role was their first work, or when it lies
+  // outside this run's years (the run of the years before tells it).
+  if (current.since <= plan.entry || from >= current.since) {
+    return before ? undefined : run;
+  }
+  if (from > window.through) return before ? undefined : run;
+  const spell: Spell = {
+    organizationId: current.organizationId,
+    startedAt: from,
+    how: !before && plan.entry < window.from ? "before-the-run" : "first-job",
+    hourlyMinor: payOn(plan, from, current.organizationId),
+  };
+  // A post still held when the years before the window end is handed over to the window's run.
+  run.spells.push(
+    before && current.since > window.through
+      ? { spell }
+      : { spell, endedAt: current.since, end: "moved-on" },
+  );
+  return run;
+}
+
 function heldOnly(plan: Plan, window: PreStartWindow): RunState {
   return {
     plan,
@@ -1053,6 +1147,28 @@ function recordsOf(
         ? window.from
         : date;
   const said = source(api, "Pre-start working life (src/core2/past-work.ts).");
+  // An employer named for a place the world keeps none for is a record of
+  // that place from the day a spell names it (owner, Nov 16: every named thing
+  // is a record): its kind and its place, no cash of its own.
+  const named = new Set<string>();
+  for (const row of run.spells) {
+    const id = row.spell.organizationId;
+    if (!id?.startsWith(ELSEWHERE_EMPLOYER) || named.has(id)) continue;
+    named.add(id);
+    if (api.state.organizations.has(id as never)) continue;
+    const name = elsewhereEmployerName(api.state, id);
+    const [kind, ...place] = id.slice(ELSEWHERE_EMPLOYER.length).split(":");
+    if (!name || !kind || !place.length) continue;
+    api.addOrganization({
+      id: id as never,
+      placeId: place.join(":") as never,
+      name,
+      kind: "business",
+      classification: `sector:${kind}`,
+      liquidMinor: 0,
+      source: said,
+    });
+  }
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   const spellId = (index: number) =>
     `past-work:${personId}:${mark}${index + 1}`;
@@ -1072,6 +1188,10 @@ function recordsOf(
         hourlyMinor: row.spell.hourlyMinor,
         ...(row.spell.organizationId
           ? { organizationId: row.spell.organizationId }
+          : {}),
+        // An employer named for a place the world keeps none for.
+        ...(row.spell.organizationId?.startsWith(ELSEWHERE_EMPLOYER)
+          ? { employerEstimated: "true" }
           : {}),
         ...(row.endedAt ? { endedAt: row.endedAt } : {}),
         ...(row.end ? { end: row.end } : {}),

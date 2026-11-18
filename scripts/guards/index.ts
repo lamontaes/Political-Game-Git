@@ -99,6 +99,67 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
+    id: "scene-pictures",
+    rule: "Every scene type is mapped to a picture in the one list, and a missing picture never holds work back: a scene with no fitting picture ships on its fallback with a line in the pictures-wanted list.",
+    readMore:
+      ".agents/rules/scene-pictures.md; skill scene-pictures; docs/art/SCENE-PICTURES.md",
+    command: vitest("tests/guards/scene-pictures.test.ts"),
+  },
+  {
+    id: "bring-it-up-lean",
+    rule: "A race's result brought up in talk is read on one path, and a line that claims a ballot or a shared side plays only where that path sets the fact; no line says a figure, a place or a first name.",
+    readMore:
+      "tests/guards/bring-it-up-lean.test.ts, its header; src/director/bring-it-up.ts",
+    command: vitest("tests/guards/bring-it-up-lean.test.ts"),
+  },
+  {
+    id: "day-zero",
+    rule: "Day one in motion: the day-zero file is well formed, its known-red list only shrinks, and every module has answered what its records hold on day zero.",
+    readMore: "skill day-one-in-motion; src/core2/data/opening/day-zero.json",
+    command: vitest("tests/guards/day-zero.test.ts"),
+  },
+  {
+    id: "line-extra",
+    rule: "One reading of how far a budget line stands above its base: a line's extra is read with lineExtra, never as a line minus baseBudget.",
+    readMore:
+      "tests/guards/line-extra.test.ts, its header; src/core2/modules/budgets.ts",
+    command: vitest("tests/guards/line-extra.test.ts"),
+  },
+  {
+    id: "no-private-place-lookup",
+    rule: "A town's state and county parts are read through their one reader, never by looking a place record up on the side.",
+    readMore:
+      "tests/guards/no-private-place-lookup.test.ts, its header; src/core2/place-map.ts",
+    command: vitest("tests/guards/no-private-place-lookup.test.ts"),
+  },
+  {
+    id: "one-face-one-card",
+    rule: "One face part and one person card: a face is drawn only by the face part from the one face record, and a person shown by face and name only by the person card.",
+    readMore:
+      "tests/guards/one-face-one-card.test.ts, its header; AGENTS.md, one screen renderer per menu type",
+    command: vitest("tests/guards/one-face-one-card.test.ts"),
+  },
+  {
+    id: "one-list-and-detail-part",
+    rule: "One screen renderer per menu type: every list beside its detail is the roster screen and every bar of tabs is the tab bar.",
+    readMore:
+      "tests/guards/one-list-and-detail-part.test.ts, its header; src/bench/ui/roster-screen.mjs",
+    command: vitest("tests/guards/one-list-and-detail-part.test.ts"),
+  },
+  {
+    id: "person-card-headings",
+    rule: "A person card's headings never show a slot: every heading label is worded with its slots filled.",
+    readMore:
+      "tests/guards/person-card-headings.test.ts, its header; skill player-screen-text",
+    command: vitest("tests/guards/person-card-headings.test.ts"),
+  },
+  {
+    id: "ui-tokens",
+    rule: "One UI system: a size, a corner or a color is named once in the root of play.css and every rule reads the name; the hand-typed count only shrinks.",
+    readMore: "tests/guards/ui-tokens-baseline.json; src/bench/ui/README.md",
+    command: vitest("tests/guards/ui-tokens.test.ts"),
+  },
+  {
     id: "daily-register",
     rule: "Not everything is tracked every day: every daily engine step and every kept table is written in the daily register, and a daily step or a table that grows unfolded is approved by name; the unapproved list only shrinks.",
     readMore:
@@ -160,6 +221,19 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
     command: ["node", "scripts/guards/reading-line.mjs"],
+  },
+  {
+    id: "check-changes",
+    rule: "No session edits the checks that judge it: a change adds no expected-failure, skip, only or todo mark, no known-red row, no test pinned to a named town or seed and no larger baseline, and drops no test file, case or assertion, without the CTO's line on the crew issue.",
+    readMore:
+      "scripts/guards/check-changes.mjs, its header; tests/guards/check-changes.json; docs/design/guards.md, check-changes",
+    // Its spelling list is TypeScript; CI runs Node 22.13, which loads it only
+    // with the flag (the checks-guard workflow passes it too).
+    command: [
+      "node",
+      "--experimental-strip-types",
+      "scripts/guards/check-changes.mjs",
+    ],
   },
   {
     id: "secrets",

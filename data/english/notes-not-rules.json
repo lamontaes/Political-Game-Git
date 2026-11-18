@@ -186,6 +186,13 @@
     },
     {
       "file": "restored-liked-lines.json",
+      "key": "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by",
+      "date": "2026-11-14",
+      "note": "Reworded to {count-by} by rule 22 (#9048); the live piece carries the grade.",
+      "reason": "Graded \"Short. I'll have a real count by Friday.\" good before rule 22 reworded its day to {count-by}; the note says where the grade went, not what is wrong with a line."
+    },
+    {
+      "file": "restored-liked-lines.json",
       "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
       "date": "2026-10-14",
       "note": "Fine. (batch 9 item 55)",

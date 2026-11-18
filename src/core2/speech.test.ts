@@ -94,4 +94,27 @@ describe(`a speech in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     for (const row of adults.filter((r) => !reached.has(r.id)))
       expect(stancesOf(api, row.id)).toEqual([]);
   });
+
+  it("is retold past the household too: some who take it in are the listener's ties outside the house", () => {
+    const outside = retellings.flatMap((row) => {
+      const house = new Set(
+        core.households.get(core.people.get(row.listenerId)!.householdId)
+          ?.memberIds ?? [],
+      );
+      return row.toIds
+        .filter((id) => !house.has(id))
+        .map((id) => ({ listenerId: row.listenerId, id }));
+    });
+    expect(
+      outside.length,
+      `${input.placeMetadata?.placeName}, seed ${seed}: retold to ties outside the household`,
+    ).toBeGreaterThan(0);
+    for (const { listenerId, id } of outside) {
+      // Each is a tie the listener has, and was not in the room.
+      const key =
+        listenerId < id ? `${listenerId}:${id}` : `${id}:${listenerId}`;
+      expect(core.relationships.has(key), `${listenerId} to ${id}`).toBe(true);
+      expect(audience.includes(id), id).toBe(false);
+    }
+  });
 });

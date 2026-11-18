@@ -8,6 +8,7 @@ import {
   OPENING_SPEECH_BANK,
   partValues,
 } from "../english/english-opening-speech";
+import { addressSentences } from "./address-sentences";
 
 /**
  * The President's address is the first thing a new player hears, and it
@@ -92,11 +93,11 @@ const thinGroupsOf = (pieces: readonly string[]) =>
       .filter((group) => (groupSizes.get(group) ?? 0) < LEAST_VERSIONS);
   });
 
-const sentencesOf = (text: string) =>
-  text
-    .split(/(?<=[.!?])\s+/)
-    .map((row) => row.trim())
-    .filter(Boolean);
+// One splitter for both versions tests: a question of three words or fewer
+// ("Why?") is read with the sentence after it (the words lead's ruling of
+// Nov 12; owner, Nov 11, call 12: "Replies of one to three words and action
+// names stay"). The bound is unchanged.
+const sentencesOf = addressSentences;
 
 it(`the President's address says different sentences, with its own world's names, in ten drawn worlds (seed ${base})`, () => {
   const was = setBookkeeping(false);
@@ -185,7 +186,14 @@ it(`the President's address says different sentences, with its own world's names
         address.sentences.flatMap((row) =>
           ["vice-president", "speaker", "home-state"]
             .map((key) => row.values[key])
-            .filter((value): value is string => !!value),
+            // A pronoun or a role (said-as: "he", "the Vice President") is
+            // not the name; only a name is counted (W-E, Nov 12).
+            .filter(
+              (value): value is string =>
+                !!value &&
+                /^[A-Z]\S* [A-Z]/.test(value) &&
+                !/^The /.test(value),
+            ),
         ),
       );
       for (const name of names)

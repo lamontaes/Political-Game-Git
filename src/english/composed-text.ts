@@ -68,6 +68,8 @@ export interface NamedPerson {
   readonly full: string;
   readonly given: string;
   readonly role?: string;
+  /** The pronoun the person's own record holds (`pronounFor` of `looks.gender`); "they" when it holds neither he nor she. */
+  readonly pronoun?: "he" | "she" | "they";
 }
 
 /** What one played life gave: its place and seed, its texts and the people it could name. */
@@ -82,6 +84,8 @@ export interface ComposedSample {
   readonly stateNames: readonly string[];
   /** The player's town, for a national speech that must not name it. */
   readonly townName: string;
+  /** The world's election days (YYYY-MM-DD), where the sample was read from a world. */
+  readonly electionDates?: readonly string[];
   readonly texts: readonly ComposedText[];
 }
 

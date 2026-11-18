@@ -41,8 +41,43 @@ export interface PersonWork {
   readonly offices: readonly PersonOffice[];
 }
 
-/** A form's note in parentheses, innermost first so a nested note goes whole. */
-const FORM_NOTE = /\s*\([^()]*\)/;
+/**
+ * A job title said by the place's own kind (Words lead, Nov 14: "city clerk at
+ * the Town of Ranchester"). Jobs on a government's payroll carry the title as
+ * its source writes it, which begins "City" ("City clerk", "City Attorney"),
+ * whatever kind of place employs them. The employer is the government, named
+ * by its kind ("Town of Ranchester", "Charter Township of Green"), so the
+ * title takes that kind: "town clerk" in a town, "township clerk" in a
+ * township, "village clerk" in a village. In a city the title is left as it
+ * is ("city clerk at the City of Raymond": people say both words, second
+ * words reader, Nov 14). A title that does not begin with "City", or one at an
+ * employer whose name carries no kind, is as stored.
+ */
+export function jobTitleByKind(
+  title: string,
+  employer: string | null | undefined,
+): string {
+  const rest = /^city (?<role>\S.*)$/i.exec(title)?.groups?.role;
+  const kind = employer
+    ? /^(?:(?:charter|civil|metro) )?(?<kind>town|city|village|borough|township|plantation) of /i
+        .exec(employer)
+        ?.groups?.kind?.toLowerCase()
+    : undefined;
+  if (!rest || !kind || kind === "city") return title;
+  return `${kind.charAt(0).toUpperCase()}${kind.slice(1)} ${rest}`;
+}
+
+/** A held job's title, said by the kind of government that employs them. */
+export function jobTitleSaid(
+  core: CoreState,
+  job: { readonly title: string; readonly organizationId: string },
+): string {
+  return jobTitleByKind(
+    job.title,
+    core.organizations.get(job.organizationId as never)?.name,
+  );
+}
+
 /** A title that names a body of several members, not one seat in it. */
 const BODY_TITLE = /\b(?:board|commission|council|committee)\b/i;
 /** A body named first and then by what it serves ("Board of Elections"). */
@@ -60,11 +95,7 @@ const SEAT_WORD =
  * "member of the board of elections" for a body named first; it reads in every frame ("served as", "the race for", "sworn in as").
  */
 export const officeInSentence = (title: string): string => {
-  let plain = title;
-  // A form's note ("(nonpartisan)", "(3 members, statewide, staggered 6-year
-  // terms)") is never said, as `seatSaid` drops it.
-  while (FORM_NOTE.test(plain)) plain = plain.replace(FORM_NOTE, "");
-  const said = plain
+  const said = title
     .trim()
     .split(/(\s+)/)
     .map((word) =>
@@ -153,5 +184,51 @@ export function personWorkOf(
           }
         : null,
     offices,
+  };
+}
+
+/** The work a person holds now and what it pays, wherever they hold it. */
+export interface WorkHeld {
+  readonly title: string;
+  /** Pay per hour in minor units; null where no published wage covers it. */
+  readonly hourlyMinor: number | null;
+  /** The job record, for work held in the played world; null for work kept as their identity's record. */
+  readonly jobId: string | null;
+  /** The record that says so: the job, or their identity's work fact. */
+  readonly recordId: string;
+}
+
+/**
+ * The work a person holds now: the open job they hold here (the jobs table),
+ * else the work they were filled in with where they live (their
+ * `identity:work` record, from that town's counts: `workFromHome`). One reader
+ * for every engine that weighs what someone would give up; null when they
+ * hold none.
+ */
+export function workHeld(
+  core: Readonly<CoreState>,
+  personId: string,
+): WorkHeld | null {
+  const person = core.people.get(personId as never);
+  if (!person) return null;
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  if (job && job.endsAt === undefined)
+    return {
+      title: job.title,
+      hourlyMinor:
+        job.hourlyMinor ??
+        job.wageDailyMinor / Math.max(job.hoursDaily, Number.EPSILON),
+      jobId: job.id,
+      recordId: job.id,
+    };
+  if (job) return null;
+  const kept = person.pastFacts?.find((f) => f.kind === "identity:work");
+  if (!kept) return null;
+  const hourly = kept.facts?.hourlyMinor;
+  return {
+    title: String(kept.facts?.title ?? kept.summary),
+    hourlyMinor: hourly === undefined ? null : Number(hourly),
+    jobId: null,
+    recordId: kept.id,
   };
 }

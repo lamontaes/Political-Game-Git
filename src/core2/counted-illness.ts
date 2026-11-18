@@ -23,6 +23,12 @@ export interface CountedIllnessRow {
   dueDate: IsoDate;
   /** The monthly counts row of the month the illness began (the group's record). */
   countsId: string;
+  /**
+   * How many of the households the record stands for this illness is in,
+   * where it is fewer than all of them (a heavy record's owed share of a
+   * month's deaths); absent, it is in every one.
+   */
+  share?: number;
 }
 
 const store = (api: CoreAPI) =>

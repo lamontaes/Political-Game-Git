@@ -28,7 +28,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { buildBenchWorld } from "../../src/bench/world";
+import { buildBenchWorld, PLAYER_MIN_AGE } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
@@ -543,15 +543,34 @@ function playWorld(seed: string) {
           `Full people other than the player chose only ${[...chosen.keys()].join(", ") || "nothing"} (${choosers.size} people; ${outsideFocus.length} outside the director's focus set of ${focusAtStart.size}). The core's choices (src/core2/life.ts, choice offers) must give people more than rest and contact, and people outside the focus set must choose too.`,
         );
 
-  // Break 2: the golden path's first step happens in play.
+  // Break 2: a new game's player is an adult of the town (owner, Nov 16, as
+  // src/bench/world.ts quotes him: "Just do 18 and up right now. Life before
+  // 18 will come after early access."). Before that ruling this check was
+  // that the player turned 18 in play.
+  // The player then ages with the clock: on the run's last anniversary of
+  // the opening, the birth record read at the end gives the opening age plus
+  // the years played (a birth date rewritten in play, or a clock that did
+  // not reach the anniversary, fails it).
   const ageAtStart = ageOnDate(playerBirth, makeIsoDate(start));
-  const ageAtEnd = ageOnDate(playerBirth, makeIsoDate(end));
-  verdicts["player turns 18"] =
-    ageAtStart < 18 && ageAtEnd >= 18
-      ? pass(`the player turns 18 in play (from ${ageAtStart})`)
-      : fail(
-          `The player character was ${ageAtStart} at the opening and ${ageAtEnd} at the end, so turning 18 never happens in play. The bench's entrant pick (src/bench/world.ts, entrantOf) must choose the resident closest to turning 18.`,
-        );
+  const anniversary = makeIsoDate(
+    `${Number(start.slice(0, 4)) + years}${start.slice(4, 10)}`,
+  );
+  const birthAtEnd = core.people.get(playerId)?.birthDate;
+  const ageAtEnd = birthAtEnd
+    ? ageOnDate(makeIsoDate(birthAtEnd), anniversary)
+    : undefined;
+  verdicts["player starts as an adult"] =
+    ageAtStart < PLAYER_MIN_AGE
+      ? fail(
+          `The player character was ${ageAtStart} at the opening; a new game's player is ${PLAYER_MIN_AGE} or older (src/bench/world.ts, entrantOf).`,
+        )
+      : core.date >= anniversary && ageAtEnd === ageAtStart + years
+        ? pass(
+            `the player is ${ageAtStart} at the opening and ${ageAtEnd} on ${anniversary}, ${years} year(s) later`,
+          )
+        : fail(
+            `The player was ${ageAtStart} at the opening (${start}) and ${ageAtEnd ?? "missing"} by their birth record on ${anniversary}, ${years} year(s) later, with the clock at ${core.date}; they should be ${ageAtStart + years} (src/core2/life.ts, advanceCore; the person's birthDate).`,
+          );
 
   // School: school-age people go to school.
   const schoolActs = [...schoolAgeIds].filter((id) =>
@@ -562,11 +581,18 @@ function playWorld(seed: string) {
   const schoolKinds = [...core.logByKind.keys()].filter((k) =>
     /school/.test(k),
   );
-  verdicts["school-age people attend school"] =
-    schoolAgeIds.size && (schoolActs.length || schoolKinds.length)
+  // A new game's player is an adult (Break 2), so a full person of school
+  // age is in the played world only where the player's household or circle
+  // holds one. Where none is, the cause did not arise: unobserved, as for a
+  // year in which no term ended.
+  verdicts["school-age people attend school"] = !schoolAgeIds.size
+    ? unobserved(
+        `no full person was of school age (${SCHOOL_AGES[0]} to ${SCHOOL_AGES[1]}) in the run`,
+      )
+    : schoolActs.length || schoolKinds.length
       ? pass(`${schoolActs.length} of ${schoolAgeIds.size} attended school`)
       : fail(
-          `${schoolAgeIds.size} full people were of school age (${SCHOOL_AGES[0]} to ${SCHOOL_AGES[1]}) and none attended school: the core's day (src/core2/life.ts) has no school attendance${schoolAgeIds.size ? "" : ", and the played world had nobody of school age"}.`,
+          `${schoolAgeIds.size} full people were of school age (${SCHOOL_AGES[0]} to ${SCHOOL_AGES[1]}) and none attended school: the core's day (src/core2/life.ts) has no school attendance.`,
         );
 
   // Break 4: withholding continues after January 1.
@@ -741,12 +767,28 @@ function playWorld(seed: string) {
         : undefined;
     }),
   );
-  const wantedToRun = rowsOf(core, "candidacy", "decisions").filter(
+  const decidedToRun = rowsOf(core, "candidacy", "decisions").filter(
     (d) =>
       d.run &&
       heldIds.has(String(d.contestId)) &&
       !incumbentIds.has(String(d.personId)),
   );
+  // `ballot` lists only the living, so a decider who died after reaching the
+  // ballot ran: their filing reads on-ballot, as in Mashantucket,
+  // Connecticut, where a filer for board seat 1 died before the election.
+  // A living decider with no ballot row still fails.
+  const filings = rowsOf(core, "core2-elections-v1", "filings");
+  const diedOnBallot = decidedToRun.filter(
+    (d) =>
+      core.people.get(String(d.personId))?.alive === false &&
+      filings.some(
+        (f) =>
+          f.personId === d.personId &&
+          f.contestId === d.contestId &&
+          f.status === "on-ballot",
+      ),
+  );
+  const wantedToRun = decidedToRun.filter((d) => !diedOnBallot.includes(d));
   // A challenger who filed and lost a primary ran too: the primary marks the
   // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
   // Crosspointe, Virginia, where the one challenger lost the Democratic
@@ -766,13 +808,33 @@ function playWorld(seed: string) {
         ? pass(
             `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
           )
-        : !wantedToRun.length
-          ? unobserved(
-              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+        : !wantedToRun.length && diedOnBallot.length
+          ? pass(
+              `${diedOnBallot.length} named challengers reached the ballot and died before the end of the run in ${held.length} races (${String(diedOnBallot[0]!.id)})`,
             )
-          : fail(
-              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-            );
+          : !wantedToRun.length
+            ? unobserved(
+                `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+              )
+            : fail(
+                `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot (${wantedToRun
+                  .slice(0, 3)
+                  .map((d) => {
+                    const f = filings.find(
+                      (r) =>
+                        r.personId === d.personId &&
+                        r.contestId === d.contestId,
+                    );
+                    const filing = (d.filing ?? {}) as {
+                      status?: string;
+                      unmet?: string[];
+                    };
+                    return `${String(d.id)} decided ${String(d.date)}, ${core.people.get(String(d.personId))?.alive === false ? "dead" : core.people.has(String(d.personId)) ? "living" : "counted"}, decision filing ${filing.status ?? "none"}${filing.unmet?.length ? ` (${filing.unmet.join(", ")})` : ""}, filing row ${f ? `${String(f.id)} ${String(f.status)}` : "none"}`;
+                  })
+                  .join(
+                    "; ",
+                  )}). Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+              );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
@@ -804,9 +866,30 @@ function playWorld(seed: string) {
   const judged = countedAdultsLive
     ? local.filter((c) => ballot(api, String(c.id)).length > 0)
     : [];
-  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  // The ballot-by-ballot detail of a race leaves the books countedBallotRetentionDays
+  // after its election (play runs with bookkeeping off, `dropOldCountedBallots`),
+  // while the result keeps the counted votes: a race past that date is read
+  // from its result, and the ballot record is required for the races whose
+  // detail is still kept.
+  const keptSince = addDays(
+    core.date,
+    -api.parameter("countedBallotRetentionDays"),
+  );
+  const detailKept = (c: { date?: unknown; electionDate?: unknown }) =>
+    String(c.electionDate ?? c.date) >= keptSince;
+  const unkept = judged.filter(
+    (c) => detailKept(c) && !countedOf(String(c.id)),
+  );
   const silent = judged.filter((c) => {
     const kept = countedOf(String(c.id));
+    if (!kept && !detailKept(c)) {
+      const result = resultOf(api, String(c.id));
+      const recorded = Object.values(result?.countedVotes ?? {}).reduce(
+        (n, v) => n + v,
+        0,
+      );
+      return (result?.countedEligible ?? 0) >= 2 && recorded === 0;
+    }
     if (!kept) return true;
     const backing = kept.split.map((row) => row.reduce((n, x) => n + x, 0));
     const chose = backing.some((x) => x > 0);
@@ -1078,7 +1161,7 @@ for (const [index, seed] of seeds.entries()) {
     alive("every module");
     alive("national races, lawmaking and outcomes are installed");
     alive("people choose varied acts");
-    alive("player turns 18");
+    alive("player starts as an adult");
     alive("school-age people attend school");
     alive("taxes are withheld after January 1");
     alive("a passed budget changes spending");

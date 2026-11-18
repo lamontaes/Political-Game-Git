@@ -18,8 +18,8 @@
  * where the record engine marks them kept or broken by the prior term's votes
  * and the voting engine weighs them.
  */
-import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
+import { centuryRace, centurySeatRace } from "./modules/elections";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { partySide } from "./appointments";
@@ -27,7 +27,13 @@ import { questionAxis } from "./campaign-views";
 import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
 import { leanOf } from "./modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  CORPUS,
+  OFFICES_MODULE_ID,
+  realResult,
+  worldWinnerShare,
+  type TermRow,
+} from "./modules/offices";
 import { officialOf } from "./modules/officials";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import type { ModuleRow } from "./module-data";
@@ -40,6 +46,7 @@ import {
   type PastTown,
 } from "./past-bodies";
 import {
+  keepPastRacesLost,
   pastParameter,
   seededBetween,
   shiftDays,
@@ -52,35 +59,13 @@ import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
 import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
-import type { CoreAPI, CoreState } from "./types";
+import type { CoreAPI, CoreState, PersonId } from "./types";
+import type { HistoryRecord } from "./pre-start";
 
 const viewsLeanMax = (): number =>
   (viewsData as unknown as { parameters: Record<string, { value: number }> })
     .parameters.leanMax!.value;
 
-type Corpus = {
-  house: {
-    seatKey: string;
-    stateUsps: string;
-    certifiedWinnerParty: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-    electionDate: string;
-  }[];
-  senate: {
-    stateUsps: string;
-    certifiedWinnerParty: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-    lastElectionYear: number;
-  }[];
-  presidentialByState: {
-    stateUsps: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-  }[];
-};
-const CORPUS = corpus as unknown as Corpus;
 const CORPUS_CITATION =
   "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024, and of November 8, 2022 and November 3, 2020 (data/source/electoral-calibration-2024/corpus.json)";
 const COUNTY = countyVotes as unknown as {
@@ -129,63 +114,6 @@ function averageShare(office: PastOffice): number {
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   return TENURE[key]!.value;
-}
-
-/** The winner's real two-party share where the research has this race. */
-function realResult(
-  town: PastTown,
-  office: PastOffice,
-  seat: { id: string },
-  party: string | null,
-  date: string,
-): { share: number; total: number } | null {
-  const year = Number(date.slice(0, 4));
-  const side = partySide(party);
-  const fromDemShare = (
-    dem: number | null,
-    winner: string,
-    total: number,
-  ): { share: number; total: number } | null => {
-    if (dem === null || side === 0 || partySide(winner) !== side) return null;
-    return { share: side < 0 ? dem : 1 - dem, total };
-  };
-  if (office.kind === "us-house") {
-    const key = `us-house:${town.usps}-${seat.id.split(":").at(-1)}`;
-    const row = CORPUS.house.find((r) => r.seatKey === key);
-    return row && row.electionDate.startsWith(String(year))
-      ? fromDemShare(
-          row.democraticTwoPartyShare,
-          row.certifiedWinnerParty,
-          row.totalVotes,
-        )
-      : null;
-  }
-  if (office.kind === "us-senate") {
-    const rows = CORPUS.senate.filter(
-      (r) => r.stateUsps === town.usps && r.lastElectionYear === year,
-    );
-    const row = rows.find((r) => partySide(r.certifiedWinnerParty) === side);
-    return row
-      ? fromDemShare(
-          row.democraticTwoPartyShare,
-          row.certifiedWinnerParty,
-          row.totalVotes,
-        )
-      : null;
-  }
-  if (office.kind === "president" || office.kind === "vice-president") {
-    if (year !== pastParameter(null, "pastPresidentialElectionYear"))
-      return null;
-    let total = 0;
-    let dem = 0;
-    for (const row of CORPUS.presidentialByState) {
-      if (row.democraticTwoPartyShare === null) continue;
-      total += row.totalVotes;
-      dem += row.democraticTwoPartyShare * row.totalVotes;
-    }
-    return side === 0 ? null : fromDemShare(dem / total, party ?? "", total);
-  }
-  return null;
 }
 
 /** Ballots in the state in the presidential year. */
@@ -269,6 +197,24 @@ function townBallots(api: CoreAPI, town: PastTown, date: string): number {
     (sum, b) => sum + b.adults * b.turnout,
     0,
   );
+}
+
+/**
+ * The presidential election before a federal executive term began: the
+ * latest November general election in a presidential year that falls before
+ * the term's first day. A world built some days early (New Game's warm-up)
+ * seats the term on its build day, which is still after that November.
+ */
+function presidentialElectionBefore(termStart: string): string {
+  const cycle = pastParameter(null, "pastPresidentialCycleYears");
+  const anchor = pastParameter(null, "pastPresidentialElectionYear");
+  let year = Number(termStart.slice(0, 4));
+  while (
+    (year - anchor) % cycle !== 0 ||
+    novemberGeneralElectionDay(year) >= termStart
+  )
+    year -= 1;
+  return novemberGeneralElectionDay(year);
 }
 
 /** Turnout against a presidential year, by when the election falls. */
@@ -407,6 +353,60 @@ function groupSplit(
 }
 
 /** The prior election of every elected seat covering the town. */
+/**
+ * The town's full person who fits a past race's challenger, or null: alive,
+ * living in town now and of the age to stand then, on the challenger's side of the lean (any side where
+ * the race kept none), and not the winner, a seat's holder or someone
+ * already named in another race. Of those, the most engaged first (the candidacy rule's
+ * engagement), then the lean nearest the challenger's, then the id: fit in a
+ * fixed order, never a roll. A counted person is never filled in for this.
+ * Whether they lived in town on the race's day is known only after the
+ * people pass writes their moves, so the race is told on their past only
+ * then (past-module.ts, the past's pre-start pass).
+ */
+function pastChallenger(
+  api: CoreAPI,
+  town: PastTown,
+  date: string,
+  challengerLean: number,
+  winnerId: string,
+  taken: ReadonlySet<string>,
+): string | null {
+  const core = api.state as CoreState;
+  const minimumAge = api.parameter("votingAge");
+  const fits = [...core.people.values()]
+    .filter(
+      (person) =>
+        person.alive &&
+        person.tier !== "husk" &&
+        person.placeId === town.townPlaceId &&
+        person.id !== winnerId &&
+        !taken.has(person.id) &&
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)) >=
+          minimumAge,
+    )
+    .map((person) => ({
+      id: person.id,
+      lean: leanOf(api, person.id),
+      engagement: viewOf(api, person.id)?.engagement ?? 0,
+    }))
+    .filter(
+      (row) =>
+        challengerLean === 0 ||
+        Math.sign(row.lean) === Math.sign(challengerLean),
+    )
+    .sort(
+      (a, b) =>
+        b.engagement - a.engagement ||
+        Math.abs(a.lean - challengerLean) - Math.abs(b.lean - challengerLean) ||
+        a.id.localeCompare(b.id),
+    );
+  return fits[0]?.id ?? null;
+}
+
+/** The record kind of a race lost before the game began, told on the loser's own list (src/core2/data/life/remembered.json). */
+export const PAST_RACE_LOST = "election.lost-before-start";
+
 export function buildPriorElections(
   api: CoreAPI,
   town: PastTown,
@@ -420,6 +420,16 @@ export function buildPriorElections(
     : null;
   const perWinner = pastParameter(api, "pastPromisesPerWinner");
   const lead = pastParameter(api, "pastCampaignLeadDays");
+  // Who is already in the town's past races: everyone who holds a seat now,
+  // and each challenger once named. Nobody is named to lose twice.
+  const named = new Set<string>();
+  for (const office of townOffices(api))
+    for (const seat of seatsOf(api, office.id))
+      for (const term of terms(api, seat.id)) {
+        const holder = holderId(api, term);
+        if (holder) named.add(holder);
+      }
+  const lost: Omit<HistoryRecord, "moduleId">[] = [];
   for (const office of townOffices(api)) {
     if (!office.elected) continue;
     for (const seat of seatsOf(api, office.id)) {
@@ -433,15 +443,33 @@ export function buildPriorElections(
           term.elected?.date ??
           (office.kind === "president" || office.kind === "vice-president"
             ? term.startDate <= town.opening
-              ? novemberGeneralElectionDay(
-                  Number(term.startDate.slice(0, 4)) - 1,
-                )
+              ? presidentialElectionBefore(term.startDate)
               : null
             : null);
         if (!date || date >= town.opening) continue;
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
-        const real = realResult(town, office, seat, term.party, date);
+        // The presidency's and Congress's races are the century's (electorate-century.ts): its
+        // share and votes cast are the count's, with no drift; "today" reads the real result.
+        const century:
+          { id: string; winnerShare: number; votes: number } | undefined =
+          office.kind === "president" || office.kind === "vice-president"
+            ? centuryRace(town.seed, town.opening, Number(date.slice(0, 4)))
+            : centurySeatRace(
+                town.seed,
+                office,
+                seat,
+                Number(date.slice(0, 4)),
+              );
+        const real = century
+          ? { share: century.winnerShare, total: century.votes }
+          : realResult({
+              officeKind: office.kind,
+              seatId: seat.id,
+              usps: town.usps,
+              party: term.party,
+              date,
+            });
         // The share the offices engine recorded when it seated the holder is
         // the one record of how the race went (wire-opening line 31: one
         // past-elections writer); only a term with no such record (the
@@ -451,17 +479,13 @@ export function buildPriorElections(
         const base = real?.share ?? averageShare(office);
         const share =
           term.elected?.share ??
-          Math.min(
-            pastParameter(api, "pastWinnerShareMax"),
-            Math.max(
-              pastParameter(api, "pastWinnerShareMin"),
-              seededBetween(
-                town.seed,
-                `${key}:share`,
-                base - (real ? drift : spread),
-                base + (real ? drift : spread),
-              ),
-            ),
+          century?.winnerShare ??
+          worldWinnerShare(
+            town.seed,
+            { seatId: seat.id, date },
+            base,
+            real ? drift : spread,
+            real?.total,
           );
         const ratio = turnoutRatio(date);
         // This world's votes cast (realistic, not real; owner, Oct 27): the
@@ -469,13 +493,16 @@ export function buildPriorElections(
         const center =
           real?.total ??
           electorateBallots(api, town, office, seat, date) * ratio;
+        // A race the century counted keeps its own votes cast.
         const total = Math.round(
-          worldLevel(
-            center,
-            town.seed,
-            `past-votes:${key}`,
-            "worldPastVotesSpreadShare",
-          ),
+          century
+            ? center
+            : worldLevel(
+                center,
+                town.seed,
+                `past-votes:${key}`,
+                "worldPastVotesSpreadShare",
+              ),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -489,11 +516,25 @@ export function buildPriorElections(
                 pastParameter(api, "pastChallengerLeanMin"),
               )
             : seededBetween(town.seed, `${key}:challenger-lean`, -1, 1);
-        const challengerName = pastIdentityName(
-          town,
-          `${key}:challenger`,
-          date,
-        );
+        // The town's own person who fits the challenger, where one does, in a
+        // race the town's own people stand in (its own and the county's
+        // offices, a legislative district's seat); else a name drawn for the
+        // race, no person of the world.
+        const ownRace =
+          (office.level !== "state" && office.level !== "federal") ||
+          (office.level === "state" &&
+            seat.district !== null &&
+            !/large/i.test(seat.district));
+        const challengerId = ownRace
+          ? pastChallenger(api, town, date, challengerLean, winnerId, named)
+          : null;
+        // Picked before their moves are written, so a person who moved into the
+        // county after the race keeps the name on it and the pre-start pass
+        // writes no lost race on their past (past-module.ts checks residenceOn).
+        if (challengerId) named.add(challengerId);
+        const challengerName = challengerId
+          ? personName(api, challengerId)
+          : pastIdentityName(town, `${key}:challenger`, date);
         const promises = strongestQuestions(api, winnerId, perWinner).map(
           (stance): PromiseRow => ({
             id: `promise:past:${seat.id}:${date}:${stance.question}`,
@@ -510,11 +551,26 @@ export function buildPriorElections(
         // The winner holds more than half the ballots, whole votes: in a
         // town of a few voters a share just over half rounds to a tie, and a
         // tie has no winner.
-        const winnerVotes = Math.min(
-          total,
-          Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
-        );
+        // A presidency the century counted keeps its own popular vote: its winner carried the
+        // electors and may hold less than half of it.
+        const winnerVotes = century
+          ? Math.round(total * century.winnerShare)
+          : Math.min(
+              total,
+              Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
+            );
         const winnerShare = total > 0 ? winnerVotes / total : share;
+        // A term the offices engine seated with no record of its race (the
+        // federal executive's) keeps this one, so the race's share is read
+        // from the term like every other seat's (offices.ts pastElections).
+        if (!term.elected)
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms")
+            .put({
+              ...term,
+              elected: { date, share: winnerShare },
+            } as unknown as ModuleRow);
         const candidates: PastCandidate[] = [
           {
             personId: winnerId,
@@ -526,7 +582,7 @@ export function buildPriorElections(
             incumbent: (term.serviceStart ?? term.startDate) < term.startDate,
           },
           {
-            personId: null,
+            personId: challengerId,
             name: challengerName,
             party: challengerParty,
             lean: challengerLean,
@@ -544,7 +600,9 @@ export function buildPriorElections(
           winnerId,
           candidates,
           totalVotes: total,
-          sourceVotes: Math.round(center),
+          ...(century
+            ? { centuryRecordId: century.id }
+            : { sourceVotes: Math.round(center) }),
           townGroups: groupSplit(
             api,
             town,
@@ -557,20 +615,51 @@ export function buildPriorElections(
           ),
           promiseIds: promises.map((p) => p.id),
           promiseQuestions: promises.map((p) => p.stance.question),
-          source: real
+          source: century
             ? {
-                tag: "SOURCED",
-                citation: `${CORPUS_CITATION}; drifted within pastRealShareDrift`,
-              }
-            : {
                 tag: "ESTIMATED",
-                citation:
-                  "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
-              },
+                citation: `The century's count of the ${date.slice(0, 4)} race, ${century.id} (src/core2/electorate-century.ts)`,
+              }
+            : real
+              ? {
+                  tag: "SOURCED",
+                  citation: `${CORPUS_CITATION}; drifted within pastRealShareDrift`,
+                }
+              : {
+                  tag: "ESTIMATED",
+                  citation:
+                    "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
+                },
         };
         out.push(row);
+        // The race the challenger lost, on their own past: the life record
+        // tells it as it tells a race lost in play.
+        if (challengerId)
+          lost.push({
+            id: `${PAST_RACE_LOST}:${id}:${challengerId}`,
+            date: makeIsoDate(date),
+            kind: PAST_RACE_LOST,
+            placeId: town.townPlaceId,
+            personIds: [challengerId as PersonId],
+            facts: {
+              contestId: id,
+              office: office.title ?? office.kind,
+              votes: total - winnerVotes,
+              winnerVotes,
+              winnerId,
+            },
+            publicRecord: true,
+            source: {
+              tag: "ESTIMATED",
+              asOf: api.state.date,
+              citation: `The past race ${id}: its challenger, the town's person who fits it (past-elections.ts, pastChallenger).`,
+              estimatedFrom:
+                "Who lived in town by the race's day, was of age, leaned the challenger's way and was the most engaged.",
+            },
+          });
       }
     }
   }
+  keepPastRacesLost(api.state as CoreState, lost);
   return out;
 }

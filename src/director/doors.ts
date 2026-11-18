@@ -2,7 +2,8 @@
  * The doors a candidate knocked themself today, from the campaign engine's
  * own records of who it reached (its causes table): each door that opened,
  * and whether the candidate had knocked there before. Of the day's doors,
- * the one whose resident most agrees or disagrees with the candidate's
+ * a door whose resident has a cause on record first (a variant other than
+ * the plain one), then the one whose resident most agrees or disagrees with the candidate's
  * platform (the cause's own agreement) is the household with a stake: the
  * owner's porch scene in a day of door knocking (Oct 8). While the
  * candidate's petition circulates, each door says whether its resident signed.
@@ -10,6 +11,7 @@
 import {
   CAMPAIGNS_MODULE_ID,
   causeSummaryOf,
+  petitionAsksAtDoors,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import {
@@ -22,6 +24,10 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { QueuedRecord } from "./circumstance";
+import { chooseVariant } from "./arc-variant";
+
+/** The door families' variant with no cause of its own (`arc-variants.json`). */
+const PLAIN_DOOR = "plain";
 
 export function doorsKnocked(
   core: Readonly<CoreState>,
@@ -57,39 +63,80 @@ export function doorsKnocked(
     causes.query("byCandidate", [personId]) as unknown as CauseRow[]
   ).filter((row) => door(row) && row.date === core.date && before(row));
   const strength = (row: CauseRow) => Math.abs(row.agreement ?? P.zero);
+  // A door whose resident's own records give the scene a cause (a layoff, a
+  // rent notice, an illness at home, a tie to the candidate: any variant but
+  // the plain one) is staged before a plain door (Words lead, Nov 14, ruling
+  // 62); among them, the strongest agreement or disagreement, as before.
+  const caused = new Map(
+    today.map((row) => {
+      const knock = knockFacts(core, row);
+      const choice = chooseVariant(core, {
+        family: knock.petition === "true" ? "ask-signature" : "ask-support",
+        askerId: row.voterId as PersonId,
+        askedId: personId,
+        cause: { id: row.id, date: core.date, facts: knock },
+        setting: "other-home",
+        ...(knock.first === "false" ? { nextDown: true } : {}),
+      });
+      return [row.id, !!choice && choice.variant !== PLAIN_DOOR] as const;
+    }),
+  );
   const most = today
     .filter((row) => row.agreement !== null)
-    .sort((a, b) => strength(b) - strength(a) || a.id.localeCompare(b.id))[
-    P.zero
-  ];
-  return today.map((row) => {
-    const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
-    // A door the candidate knocked on an earlier day is a return visit,
-    // a closed race's door among them (its folded summary).
-    const firstDoor = causeSummaryOf(api, row.voterId, personId)?.firstDoor;
-    const before =
-      (!!firstDoor && firstDoor < row.date) ||
-      (causes.query("byVoter", [row.voterId]) as unknown as CauseRow[]).some(
-        (earlier) =>
-          earlier.candidateId === personId &&
-          door(earlier) &&
-          earlier.date < row.date,
-      );
-    return {
-      id: row.id,
-      kind: "campaign.door",
-      direct: true as const,
-      personIds: [row.voterId as PersonId],
-      witnessIds: [],
-      facts: {
-        first: String(!before),
-        stake: String(row.id === most?.id),
-        candidateId: personId,
-        petition: String(!!petition),
-        ...(petition ? { signed: String(petition.signed) } : {}),
-      },
-    };
-  });
+    .sort(
+      (a, b) =>
+        Number(caused.get(b.id)) - Number(caused.get(a.id)) ||
+        strength(b) - strength(a) ||
+        a.id.localeCompare(b.id),
+    )[P.zero];
+  return today.map((row) => ({
+    id: row.id,
+    kind: "campaign.door",
+    direct: true as const,
+    personIds: [row.voterId as PersonId],
+    witnessIds: [],
+    facts: {
+      ...knockFacts(core, row),
+      stake: String(row.id === most?.id),
+      candidateId: personId,
+    },
+  }));
+}
+
+/**
+ * What one knock says of its door, from the campaign engine's records:
+ * whether the candidate knocked there on an earlier day (`first`, a closed
+ * race's door among them by its folded summary), and whether the
+ * candidate's petition circulates (`petition`) and the resident signed it
+ * (`signed`). The director's door record and the door scene read the same.
+ */
+export function knockFacts(
+  core: Readonly<CoreState>,
+  row: CauseRow,
+): Record<string, string> {
+  const api = coreAPI(core as CoreState);
+  const personId = row.candidateId as PersonId;
+  const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
+  const firstDoor = causeSummaryOf(api, row.voterId, personId)?.firstDoor;
+  const before =
+    (!!firstDoor && firstDoor < row.date) ||
+    (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .query("byVoter", [row.voterId]) as unknown as CauseRow[]
+    ).some(
+      (earlier) =>
+        earlier.candidateId === personId &&
+        earlier.act === "door" &&
+        earlier.actorId === personId &&
+        earlier.date < row.date,
+    );
+  return {
+    first: String(!before),
+    petition: String(!!petition),
+    ...(petition ? { signed: String(petition.signed) } : {}),
+  };
 }
 
 /**
@@ -124,7 +171,9 @@ export function petitionAtDoor(
           .query("byPerson", [candidateId]) as unknown as FilingRow[]
       ).find((row) => row.contestId === contestId)
     : undefined;
-  return filing && petitionCirculating(api, filing.id)
-    ? { signed: petitionSignerIds(api, filing.id).has(voterId) }
-    : null;
+  if (!filing || !petitionCirculating(api, filing.id)) return null;
+  // Past the target plus the cushion the doors ask for the vote, not a
+  // signature; a resident who signed before the switch still signed.
+  const signed = petitionSignerIds(api, filing.id).has(voterId);
+  return signed || petitionAsksAtDoors(api, filing.id) ? { signed } : null;
 }

@@ -291,6 +291,11 @@
       "what": "born"
     },
     {
+      "kindPrefix": "birthplace",
+      "life": "born",
+      "what": "born"
+    },
+    {
       "kindPrefix": "family:partner",
       "life": "partner",
       "what": "partnered",
@@ -937,6 +942,11 @@
       "reason": "told on the filing (candidate-filed) of each candidate"
     },
     {
+      "kind": "petition-short",
+      "from": "event",
+      "reason": "told in its scene; the petition's record holds the count"
+    },
+    {
       "kind": "rival-word",
       "from": "event",
       "reason": "campaign traffic; the race's record and the journal tell it"
@@ -957,6 +967,11 @@
       "reason": "a party's request; a filing that follows is told"
     },
     {
+      "kind": "endorsement-asked",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's endorsement row holds it"
+    },
+    {
       "kind": "volunteer-offered",
       "from": "event",
       "reason": "campaign traffic; the campaign's record holds it"
@@ -970,6 +985,16 @@
       "kind": "vote-ahead",
       "from": "event",
       "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
+      "kind": "sign-on-asked",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
+      "kind": "serve-asked",
+      "from": "event",
+      "reason": "the player's ask; the seat it fills is told (candidate-filed, official-appointed)"
     },
     {
       "kind": "campaign-message",
@@ -1072,6 +1097,7 @@
       "kind": "health.hospital-stay",
       "life": "health",
       "what": "hospital-stay"
-    }
+    },
+    { "kind": "election.lost-before-start", "life": "politics", "what": "lost" }
   ]
 }

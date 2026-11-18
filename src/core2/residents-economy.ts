@@ -409,11 +409,20 @@ export function shiftPurchaseShare(
       continue;
     const amount = Math.floor(flow.amountMinor * share);
     if (amount <= 0) continue;
-    flow.amountMinor -= amount;
-    // An outside buyers' flow keeps its opening base in step, so next month's scaling doesn't give the share back.
-    const bases = outsideBases.get(core);
-    if (flow.kind === "outside-sales" && bases?.has(flow.id))
-      bases.set(flow.id, bases.get(flow.id)! * (1 - share));
+    if (flow.kind === "outside-sales") {
+      // Outside buyers move by the opening base: the entrant's part is reserved
+      // in it now, and they go on paying this seller until the monthly scaling
+      // divides them by who can serve them (the entrant, once it has staff).
+      let bases = outsideBases.get(core);
+      if (!bases) outsideBases.set(core, (bases = new Map()));
+      const base =
+        bases.get(flow.id) ??
+        flow.amountMinor /
+          (flowFactor(core, flow.id) *
+            limitOf(core, flow.payeeId) *
+            shareOfFlow(core, flow.id));
+      bases.set(flow.id, base * (1 - share));
+    } else flow.amountMinor -= amount;
     // Households' own parts (fill-in takes them back) shrink in proportion.
     if (flow.amountByContract)
       flow.amountByContract = Object.fromEntries(
@@ -443,6 +452,8 @@ export function shiftPurchaseShare(
   for (const { flow, amount } of groups.values()) {
     const id = `entrant:${entrantId}:${n++}`;
     // The entrant's outside buyers start at today's factor: their base is today's amount at opening terms.
+    // It has nobody working yet, so they pay it nothing until its staff can serve them (the monthly scaling reads its service level).
+    const opening = flow.kind === "outside-sales" ? 0 : amount;
     if (flow.kind === "outside-sales") {
       let bases = outsideBases.get(core);
       if (!bases) outsideBases.set(core, (bases = new Map()));
@@ -460,7 +471,7 @@ export function shiftPurchaseShare(
       payeeId: entrantId,
       residentsId: flow.residentsId,
       placeId: flow.placeId,
-      amountMinor: amount,
+      amountMinor: opening,
       firstAt: flow.nextAt,
       cadence: flow.cadence,
       salesReceipt: flow.salesReceipt,
@@ -750,6 +761,30 @@ export function endFlowPart(
   delete parts[part];
   flow.amountByContract = parts;
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);
+  return true;
+}
+
+/**
+ * One household's part joins a merged flow (a counted household's new
+ * mortgage): the flow pays its parts' sum from its next due date. False when
+ * there is no such live merged flow; a part already there is an error.
+ */
+export function addFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+  amountMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  if (!flow || flow.endedAt || !flow.amountByContract) return false;
+  if (flow.amountByContract[part] !== undefined)
+    throw new Error(`The flow already has the part: ${id} ${part}`);
+  if (!Number.isSafeInteger(amountMinor) || amountMinor < 0)
+    throw new Error(`Invalid part amount: ${id} ${part}`);
+  const parts = ownMap(flow.amountByContract);
+  parts[part] = amountMinor;
+  flow.amountByContract = parts;
+  flow.amountMinor += amountMinor;
   return true;
 }
 

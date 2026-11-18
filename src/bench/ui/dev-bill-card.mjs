@@ -8,6 +8,7 @@ import { makeButton } from "./button.mjs";
 import { lookRow } from "./look-row.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
+import { devViewNodes } from "./dev-views.mjs";
 
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
@@ -171,7 +172,20 @@ export async function devBillCard({
     return [
       out.bill.number,
       out.bill.status,
-      ...out.tallies.map((t) => `${t.yes}–${t.no}`),
+      ...out.tallies.map((t) =>
+        t.abstained
+          ? `${t.yes}–${t.no} (${fill(labels.splitAbstain, {
+              name: t.abstained.name,
+              members: t.abstained.members,
+              vacancy:
+                t.abstained.vacant === 0
+                  ? labels.noSeatVacant
+                  : t.abstained.vacant === 1
+                    ? labels.oneSeatVacant
+                    : fill(labels.seatsVacant, { n: t.abstained.vacant }),
+            })})`
+          : `${t.yes}–${t.no}`,
+      ),
     ].join(" · ");
   };
   // Trace: where the vote went and why, on its own screen (ui/dev-trace-vote.mjs).
@@ -208,6 +222,8 @@ export async function devBillCard({
     result,
     ...(await outcomeLines({ billId: paper.id, labels, onDone })),
     ...twinLines(labels),
+    // Views registered from their own files draw here (ui/dev-views.mjs, slot "bill-card").
+    ...(await devViewNodes("bill-card", { billId: paper.id, onDone })),
   );
   section.classList.add("dev-only", "dev-bill-card");
   return section;
@@ -339,7 +355,12 @@ async function outcomeLines({ billId, labels, onDone }) {
       "dev-bill-added-sections",
     ),
   ];
-  if (outcome.ending.how === "law" && !outcome.laws.length)
+  if (
+    outcome.ending.how === "law" &&
+    !outcome.laws.length &&
+    !outcome.ended.length &&
+    !outcome.budget
+  )
     out.push(line(labels.noLaw));
   for (const law of outcome.laws) {
     const r = law.reach;
@@ -374,48 +395,158 @@ async function outcomeLines({ billId, labels, onDone }) {
       });
       out.push(el("div", { className: "acts" }, run));
     }
-    out.push(el("h4", { className: "label", textContent: labels.reach.title }));
-    if (!r.records) {
-      out.push(line(labels.reach.none, "dev-bill-reach-none"));
-      continue;
-    }
+    out.push(...reachLines(r, labels, line));
+    for (const before of law.replaced)
+      out.push(
+        ...endedLines(before, labels, line, onDone, {
+          heading: labels.ended.replaced,
+          when: labels.ended.replacedOn.replace("{date}", law.effectiveDate),
+        }),
+      );
+  }
+  // The law rows the bill's repeal sections ended.
+  for (const row of outcome.ended)
+    out.push(
+      ...endedLines(row, labels, line, onDone, {
+        heading: labels.ended.repealed,
+        when: (row.inForce
+          ? labels.ended.endsOn
+          : labels.ended.endedOn
+        ).replace("{date}", row.endDate),
+      }),
+    );
+  if (outcome.budget) {
     out.push(
       line(
-        [
-          `${labels.reach.records} ${r.records}`,
-          `${labels.reach.fullPeople} ${r.fullPeople} (${labels.reach.inTown} ${r.fullPeopleInTown}, ${labels.reach.elsewhere} ${r.fullPeopleElsewhere})`,
-          `${labels.reach.counted} ${Math.round(r.counted)}`,
-          `${labels.reach.organizations} ${r.organizations}`,
-          `${labels.reach.governments} ${r.governments}`,
-          `${labels.reach.money} ${dollars(r.amountMinor)} (${labels.reach.inTown} ${dollars(r.amountInTownMinor)}, ${labels.reach.elsewhere} ${dollars(r.amountElsewhereMinor)})`,
-        ].join(" · "),
-        "dev-bill-reach",
+        outcome.budget.lines
+          .map((l) => `${l.line} ${dollars(l.value)}`)
+          .join(" · "),
+        "dev-bill-budget-lines",
       ),
-      ...r.by.map((side) =>
-        line(
-          [
-            side.engine,
-            side.what,
-            `${labels.reach.records} ${side.records}`,
-            `${labels.reach.fullPeople} ${side.fullPeople}`,
-            `${labels.reach.counted} ${Math.round(side.counted)}`,
-            dollars(side.amountMinor),
-          ].join(" · "),
-          "dev-bill-reach-side",
-        ),
-      ),
-      ...r.named.map((person) =>
-        line(
-          [
-            person.name,
-            person.inTown ? labels.reach.inTown : labels.reach.elsewhere,
-            person.what,
-            dollars(person.amountMinor),
-          ].join(" · "),
-          "dev-bill-reach-person",
-        ),
-      ),
+      ...reachLines(outcome.budget.reach, labels, line),
     );
   }
+  return out;
+}
+
+/**
+ * A law row a bill ended or a new law took over from: the row, when it ended,
+ * who it reached while in force, and what of that has ended (the reach
+ * reader's `ended`, from the end days the engines record). A repeal dated
+ * ahead offers Run until it ends.
+ */
+function endedLines(row, labels, line, onDone, { heading, when }) {
+  const t = labels.ended;
+  const out = [
+    el("h4", { className: "label", textContent: heading }),
+    line(
+      [
+        row.series,
+        row.level,
+        `${row.value}${row.unit ? ` ${row.unit}` : ""}`,
+        when,
+      ].join(" · "),
+      "dev-bill-ended-law",
+    ),
+  ];
+  if (row.inForce && row.endDate) {
+    const run = makeButton({ className: "action small" }, t.runToEnd);
+    run.dataset.testid = "dev-bill-run-to-end";
+    run.addEventListener("click", async () => {
+      run.disabled = true;
+      try {
+        await send("run-until", {
+          event: "law-takes-effect",
+          subject: row.id,
+          cap: 800,
+        });
+        await onDone();
+      } finally {
+        run.disabled = false;
+      }
+    });
+    out.push(el("div", { className: "acts" }, run));
+  }
+  const e = row.reach.ended;
+  out.push(
+    ...reachLines(row.reach, labels, line, t.whileInForce),
+    el("h4", { className: "label", textContent: t.noLongerReached }),
+    e.records
+      ? line(
+          [
+            `${labels.reach.records} ${e.records}`,
+            `${labels.reach.fullPeople} ${e.fullPeople}`,
+            `${labels.reach.counted} ${Math.round(e.counted)}`,
+            `${labels.reach.organizations} ${e.organizations}`,
+            `${labels.reach.governments} ${e.governments}`,
+            `${labels.reach.money} ${dollars(e.amountMinor)}`,
+            t.since.replace("{date}", e.lastEndedOn),
+          ].join(" · "),
+          "dev-bill-no-longer-reached",
+        )
+      : line(t.noneEnded, "dev-bill-none-ended"),
+  );
+  return out;
+}
+
+/** Who a law or a bill's budget lines reached, by the core's one reach reader. */
+function reachLines(r, labels, line, title = labels.reach.title) {
+  const out = [el("h4", { className: "label", textContent: title })];
+  if (!r.records) {
+    out.push(line(labels.reach.none, "dev-bill-reach-none"));
+    return out;
+  }
+  out.push(
+    line(
+      [
+        `${labels.reach.records} ${r.records}`,
+        `${labels.reach.fullPeople} ${r.fullPeople} (${labels.reach.inTown} ${r.fullPeopleInTown}, ${labels.reach.elsewhere} ${r.fullPeopleElsewhere})`,
+        `${labels.reach.counted} ${Math.round(r.counted)}`,
+        `${labels.reach.organizations} ${r.organizations}`,
+        `${labels.reach.governments} ${r.governments}`,
+        `${labels.reach.money} ${dollars(r.amountMinor)} (${labels.reach.inTown} ${dollars(r.amountInTownMinor)}, ${labels.reach.elsewhere} ${dollars(r.amountElsewhereMinor)})`,
+      ].join(" · "),
+      "dev-bill-reach",
+    ),
+    // A government's own record (pay a line commits to positions): its own line, not money moved.
+    ...(r.governmentOwnMinor
+      ? [
+          line(
+            `${labels.reach.governmentOwn} ${dollars(r.governmentOwnMinor)}`,
+            "dev-bill-reach-government-own",
+          ),
+        ]
+      : []),
+    ...r.by.map((side) =>
+      line(
+        [
+          side.engine,
+          side.what,
+          `${labels.reach.records} ${side.records}`,
+          `${labels.reach.fullPeople} ${side.fullPeople}`,
+          `${labels.reach.counted} ${Math.round(side.counted)}`,
+          dollars(side.amountMinor),
+        ].join(" · "),
+        "dev-bill-reach-side",
+      ),
+    ),
+    ...r.named.map((person) =>
+      line(
+        [
+          person.name,
+          person.inTown ? labels.reach.inTown : labels.reach.elsewhere,
+          person.what,
+          dollars(person.amountMinor),
+        ].join(" · "),
+        "dev-bill-reach-person",
+      ),
+    ),
+    ...(r.namedOrganizations ?? []).map((o) =>
+      line(
+        [o.name || o.organizationId, dollars(o.amountMinor)].join(" · "),
+        "dev-bill-reach-organization",
+      ),
+    ),
+  );
   return out;
 }

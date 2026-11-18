@@ -68,9 +68,43 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* A week's row in the calendar's month: room for two things named on a day. */
+  --month-row: 96px;
+  /* A thing named on its day in the calendar's month. */
+  --t-cell: 12px;
   color-scheme: dark;
-  --glass-top: rgba(42, 42, 44, 0.72);
-  --glass-bottom: rgba(22, 22, 24, 0.82);
+  /* The one menu panel (owner, Nov 5; MENU-LOOK.md): the approved texture, 78%
+     solid, about #1C1A17 under it, with its slim brass edge and small corners
+     in the picture itself. The edge is cut from the picture's outer 64 pixels. */
+  --panel-art: url("/ui/kit13/panel.png");
+  --panel-edge: 40px;
+  --panel-edge-small: 26px;
+  --panel-tint: rgba(14, 13, 11, 0.42);
+  --panel-tint-inset: 4px;
+  --panel-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  /* Hover everywhere: a soft fill, a frame that is brightest mid-side and gone
+     before the corners, and a warm halo around and inside. */
+  --halo-fill: rgba(255, 248, 230, 0.07);
+  --halo-glow:
+    0 0 16px 1px rgba(232, 196, 120, 0.24),
+    inset 0 0 18px rgba(232, 196, 120, 0.12);
+  --halo-line-x: linear-gradient(
+    90deg,
+    transparent 4%,
+    rgba(242, 210, 140, 0.6) 50%,
+    transparent 96%
+  );
+  --halo-line-y: linear-gradient(
+    180deg,
+    transparent 10%,
+    rgba(242, 210, 140, 0.6) 50%,
+    transparent 90%
+  );
+  --halo-frame:
+    var(--halo-line-x) top / 100% 1px no-repeat,
+    var(--halo-line-x) bottom / 100% 1px no-repeat,
+    var(--halo-line-y) left / 1px 100% no-repeat,
+    var(--halo-line-y) right / 1px 100% no-repeat;
   --solid-top: #262628;
   --solid-bottom: #151517;
   --brass: #9c8350;
@@ -120,12 +154,17 @@
   --control-pad: 6px 16px;
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
+  /* Election night's page of the governor races elsewhere: columns across the board. */
+  --night-nation-columns: 3;
+  --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
+  /* The person card's bust column. */
+  --card-bust: 440px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
-  --pick-hover: rgba(214, 189, 132, 0.12);
-  --pick-hover-glow: 0 0 10px rgba(214, 189, 132, 0.2);
+  --pick-hover: var(--halo-frame), var(--halo-fill);
+  --pick-hover-glow: var(--halo-glow);
   --pick-on: linear-gradient(
     90deg,
     rgba(196, 160, 90, 0.34),
@@ -474,44 +513,31 @@ ol {
 /* ---- Kit 13 components ---- */
 .panel {
   position: absolute;
-  background: linear-gradient(var(--glass-top), var(--glass-bottom));
-  backdrop-filter: blur(6px) saturate(0.65);
-  -webkit-backdrop-filter: blur(6px) saturate(0.65);
-  border: 2.5px solid var(--brass);
-  border-radius: var(--control-radius);
-  box-shadow:
-    0 0 0 1px var(--iron),
-    inset 0 0 0 1px var(--iron),
-    0 4px 0 rgba(0, 0, 0, 0.58),
-    0 12px 24px rgba(0, 0, 0, 0.58);
+  isolation: isolate;
+  border: 2.5px solid transparent;
+  border-image: var(--panel-art) 64 fill / var(--panel-edge) stretch;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  box-shadow: var(--panel-shadow);
   color: var(--text);
   font: 400 var(--t-ui)/1.4 var(--ui);
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
   font-variant-numeric: lining-nums tabular-nums;
 }
-/* Brass corner ornaments, part of the approved panel frame. */
-.panel::before,
-.panel::after {
+/* The darker tint under the text, inside the brass edge (gold type failed
+   contrast in bright rooms without it). */
+.panel::before {
   content: "";
   position: absolute;
-  inset: -3px;
+  inset: var(--panel-tint-inset);
+  z-index: -1;
   pointer-events: none;
-  background-repeat: no-repeat;
-  background-size: 28px 28px;
+  background: var(--panel-tint);
 }
-.panel::before {
-  background-image:
-    url("/ui/kit13/corner-tl.svg"), url("/ui/kit13/corner-tr.svg");
-  background-position:
-    left top,
-    right top;
-}
-.panel::after {
-  background-image:
-    url("/ui/kit13/corner-bl.svg"), url("/ui/kit13/corner-br.svg");
-  background-position:
-    left bottom,
-    right bottom;
+/* A small panel (a note, a card in the corner) wears a smaller cut of the edge. */
+.panel.toast,
+#card.panel {
+  border-image-width: var(--panel-edge-small);
 }
 /* The title's Continue: the life's face beside its name and place. */
 #front-continue {
@@ -906,8 +932,10 @@ select:focus-visible {
 #sheet-body button:hover:not(:disabled),
 #person-facts button:hover {
   background:
+    var(--halo-frame),
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
     var(--key-hover);
+  box-shadow: var(--halo-glow);
   color: #fff;
 }
 .reply:hover:not(:disabled),
@@ -926,8 +954,10 @@ select:focus-visible {
 }
 .ring:hover {
   background:
+    var(--halo-frame),
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
     var(--key-hover);
+  box-shadow: var(--halo-glow);
 }
 .lie-scales:hover:not(:disabled) svg {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
@@ -1663,6 +1693,27 @@ body:not(.dev) .dev-only {
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* A broadcast heard at home: the station over the line, with a tiny icon of
+   its kind (owner, Oct 14: a small card with a radio/TV icon, the station,
+   and the line). */
+.talk-lines .heard .history-who::before {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.65em;
+  margin-right: 0.45em;
+  border: 1.5px solid currentColor;
+  border-radius: var(--control-radius);
+  vertical-align: -0.05em;
+}
+.talk-lines .heard-radio .history-who::before {
+  border-radius: 50%;
+}
+.talk-lines .heard-newspaper .history-who::before {
+  height: 0.8em;
+  width: 0.65em;
+  border-radius: 0;
+}
 /* Several past lines stack as one block; the rule sits under the last of them. */
 .talk-lines .history:has(+ .history) {
   padding-bottom: 0;
@@ -1941,7 +1992,7 @@ body:not(.dev) .dev-only {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
-  grid-auto-rows: 74px;
+  grid-auto-rows: var(--month-row);
   gap: 0 8px;
   min-height: 0;
   max-height: 640px;
@@ -1964,7 +2015,7 @@ body:not(.dev) .dev-only {
   min-height: 0;
   height: auto;
   margin: 0;
-  padding: 5px 7px;
+  padding: 5px 5px;
   overflow: hidden;
   text-align: left;
   font-weight: 400;
@@ -1993,10 +2044,32 @@ body:not(.dev) .dev-only {
 .month .day::after {
   display: none;
 }
-.month .marks {
+/* A thing on its day: its icon, then its own line, cut to the cell's width. */
+#sheet-body .month .day {
+  justify-content: flex-start;
+}
+.month .mark {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-start;
   gap: 3px;
+  min-width: 0;
+  font: 500 var(--t-cell) var(--ui);
+  line-height: 1.2;
+}
+.month .mark .what {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.month .mark .day-icon {
+  width: var(--t-cell);
+  height: var(--t-cell);
+  margin-top: 1px;
+}
+.month .mark.own .what {
+  color: var(--gold);
 }
 .month .day-icon,
 .calendar-entry .day-icon {
@@ -2036,6 +2109,15 @@ body:not(.dev) .dev-only {
   align-items: start;
   gap: 10px;
   font: var(--t-ui)/1.35 var(--ui);
+}
+.calendar-entry .attend-plan {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted, var(--text));
+}
+.calendar-entry .attend-meeting {
+  display: block;
+  margin: 6px 0 0;
 }
 .calendar-empty {
   margin: 0;
@@ -2204,6 +2286,7 @@ body:not(.dev) .dev-only {
   padding: 12px 16px 14px;
   background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
   border: 0;
+  border-image: none;
   border-radius: 4px;
   box-shadow:
     0 0 0 1px rgba(226, 191, 110, 0.18),
@@ -2384,6 +2467,10 @@ body:not(.dev) .dev-only {
   margin: 0 0 12px;
   font-size: var(--t-h2);
 }
+/* A line above the agenda (a refusal, or a resident's one line). */
+#meeting-items > .meeting-note {
+  margin: 0 0 12px;
+}
 .meeting-item + .meeting-item {
   margin-top: 16px;
   padding-top: 14px;
@@ -2467,43 +2554,17 @@ body:not(.dev) .dev-only {
   display: flex;
   flex-direction: column;
 }
-#election-day-lines,
-#returns-lines {
+#election-day-lines {
   flex: 1;
   min-height: 0;
   overflow: hidden;
 }
-#election-day .acts,
-#returns .acts {
+#election-day .acts {
   display: grid;
   gap: 6px;
   margin-top: 12px;
 }
-#returns-count {
-  margin-top: 12px;
-}
-/* The governor races elsewhere: their own page, two columns of tight rows. */
-#returns.nation #returns-lines {
-  flex: none;
-}
-#returns.nation #returns-count {
-  flex: 1;
-  min-height: 0;
-  columns: 2;
-  column-gap: 20px;
-}
-#returns.nation #returns-count .row {
-  padding: 2px 0;
-  gap: 8px;
-  font-size: var(--t-label);
-  white-space: nowrap;
-}
-#returns.nation #returns-count .row > b:first-child {
-  max-width: none;
-  letter-spacing: 0.06em;
-}
-#election-day-lines p,
-#returns-lines p {
+#election-day-lines p {
   margin: 0 0 10px;
 }
 #ballot-races {
@@ -2745,7 +2806,60 @@ body:not(.dev) .dev-only {
   grid-template-columns: 1fr;
 }
 .roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: var(--card-bust) minmax(0, 1fr);
+}
+/* The approved person card (pl-people): the bust at the left, the name over
+   two columns of sections beside it, so no half of the card stands empty. */
+.strip-screen.name-beside .mx3cols {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.strip-screen.name-beside .mx3cols.one {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* The person card stands the panel's full height (owner on People, Nov 16:
+   "still lots of empty space"): each column's last section reaches the
+   panel's foot, and a long story scrolls inside its own section. */
+.roster-screen.people > .roster-page:has(.strip-screen.name-beside) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.roster-screen.people > .roster-page > .strip-screen.name-beside {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3main,
+.strip-screen.name-beside .mx3col {
+  min-height: 0;
+}
+/* A column with more sections than the panel holds (dev mode adds several)
+   scrolls rather than being cut off. */
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3col {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.strip-screen.name-beside .mx3cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left > .sec:last-child,
+.strip-screen.name-beside .mx3col > .sec:last-child {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.strip-screen.name-beside .sec:last-child > .secbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -3410,6 +3524,7 @@ details.entry[open] {
   color: var(--paper-ink);
   text-shadow: none;
   border-color: #d8ccae;
+  border-image: none;
 }
 #news-reader::before,
 #news-reader::after {
@@ -3636,8 +3751,9 @@ details.entry[open] {
   cursor: pointer;
 }
 #sheet-body .member-card:hover:not(:disabled) {
-  background: linear-gradient(#343438, #222226);
-  border-color: var(--brass);
+  background: var(--pick-hover);
+  border-color: transparent;
+  box-shadow: var(--pick-hover-glow);
   color: var(--text-strong);
 }
 #sheet-body .member-card:focus-visible {
@@ -3775,6 +3891,35 @@ details.entry[open] {
 .draft-entry .draft-unit {
   font: 600 var(--t-read) var(--ui);
   color: var(--cream);
+}
+/* A phase-in's estimate: each step beside the others, a rule between. */
+.bill-step + .bill-step {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(242, 237, 228, 0.18);
+}
+/* A phase-in's rows: the amount with its unit, then when it takes effect. */
+.draft-step {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
+/* A phase-in by a percent a year: the percent, the years and the first day, a row each. */
+.draft-rise {
+  margin-bottom: 8px;
+}
+.draft-rise-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
+.draft-when {
+  color: var(--text-2);
+  font: var(--t-label) var(--ui);
 }
 /* A subject this body may not write a bill about: listed, and dimmed. */
 .draft-card .pick[data-blocked]:not([aria-pressed="true"]) {
@@ -3991,8 +4136,8 @@ details.entry[open] {
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,
 #sheet-body .travel-tile[aria-pressed="true"] {
-  border-color: rgba(214, 189, 132, 0.85);
-  box-shadow: 0 0 14px rgba(214, 189, 132, 0.35);
+  border-color: transparent;
+  box-shadow: var(--pick-hover-glow);
 }
 .travel-detail.strip-screen {
   width: auto;
@@ -5055,6 +5200,55 @@ select.release-pick {
   white-space: nowrap;
 }
 
+/* Dev mode's Industries panel: industries, a picked industry's businesses, a picked business's months. */
+.dev-industries,
+.dev-industry-businesses,
+.dev-industry-months {
+  display: table;
+  width: 100%;
+  margin-bottom: 10px;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-industries tr,
+.dev-industry-businesses tr,
+.dev-industry-months tr {
+  display: table-row;
+}
+.dev-industries th,
+.dev-industry-businesses th,
+.dev-industry-months th {
+  display: table-cell;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.dev-industries td,
+.dev-industry-businesses td,
+.dev-industry-months td {
+  display: table-cell;
+  padding: 3px 12px 3px 0;
+  white-space: nowrap;
+}
+.dev-industries tr.item,
+.dev-industry-businesses tr.item {
+  cursor: pointer;
+}
+.dev-industries tr.on,
+.dev-industry-businesses tr.on {
+  color: var(--gold);
+}
+.dev-industry-months .id {
+  margin-right: 6px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5075,6 +5269,33 @@ select.release-pick {
     Georgia,
     serif;
   color: var(--cream);
+}
+
+/* The campaign board: where the race stands, the money, and the trail button.
+   The money column keeps room for its figures, so a row such as "Signatures
+   0 of 21, due May 1, 2026" sits on one line, and the button keeps its words
+   on one line; when the sheet is narrow (the roster of several races beside
+   it, or a 1024-wide window) the button moves under the two columns instead
+   of squeezing them. */
+.strip-board.campaign-board .board-cols {
+  display: flex;
+  flex-wrap: wrap;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(1) {
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(2) {
+  flex: 1.6 1 310px;
+  min-width: 310px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(3) {
+  flex: 0 0 auto;
+}
+.strip-board.campaign-board .board-cols button,
+.strip-board.campaign-board .dotlabel,
+.strip-board.campaign-board .dotvalue {
+  white-space: nowrap;
 }
 
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
@@ -5137,6 +5358,17 @@ select.release-pick {
 }
 .news-headline.side {
   font-size: var(--t-h3);
+}
+/* A brief with a body: its headline opens it, set smaller than a front story's. */
+.news-dateline {
+  display: block;
+  font-size: var(--t-ui);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+.news-headline.brief {
+  font-size: var(--t-ui);
+  margin-bottom: 2px;
 }
 .news-text .intro {
   margin: 0 0 10px;
@@ -5388,7 +5620,8 @@ select.release-pick {
 }
 #ballot .ballot-choice:hover,
 #ballot .ballot-choice:focus-visible {
-  background: rgba(214, 189, 132, 0.14);
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
 }
 .ballot-person {
   display: grid;
@@ -5426,8 +5659,20 @@ select.release-pick {
   gap: 22px;
   align-items: start;
 }
+/* The governor races elsewhere, after the call (owner, Oct 27 audit: rows past the panel's foot
+   could not be reached): the list spans the board in columns, so every state and Close fit the
+   window with nothing to scroll. */
+#returns.nation .night-cols {
+  grid-template-columns: minmax(0, 1fr);
+}
 #returns.nation .night-cols .dotrows {
-  columns: 2;
+  columns: var(--night-nation-columns);
+  column-gap: var(--night-nation-gap);
+}
+#returns.nation .night-cols .dotrow {
+  break-inside: avoid;
+  white-space: nowrap;
+  font-size: var(--t-ui);
 }
 /* Election morning: the narrator's lines in italics, the choices numbered, in one dark box at
    the foot of the picture. */
@@ -5469,7 +5714,8 @@ select.release-pick {
 }
 #election-day-acts .action:hover,
 #election-day-acts .action:focus-visible {
-  background: rgba(214, 189, 132, 0.14);
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
 }
 .ballot-know.strip-screen {
   display: block;

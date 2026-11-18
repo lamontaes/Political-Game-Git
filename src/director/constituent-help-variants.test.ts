@@ -8,7 +8,6 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { parameter } from "../core2/parameters";
 import { CASES_MODULE_ID } from "../core2/modules/constituent-cases";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { beginSeriousIllness, careNeedOf } from "../core2/modules/health";
 import { townSeats } from "../core2/modules/offices";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -69,13 +68,7 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
   // Every variant keeps the plain arc's endings and what each keeps (promise,
   // meeting-set, relationship-strained, trust-lost), which is what the engines
   // read downstream: data equality, so none can go unreachable.
-  expect(Object.keys(VARIANTS).sort()).toEqual([
-    "eviction",
-    "lost-job",
-    "plain",
-    "short-pay",
-    "sick",
-  ]);
+  expect(Object.keys(VARIANTS).sort()).toEqual(["eviction", "plain", "sick"]);
   for (const [name, row] of Object.entries(VARIANTS)) {
     if (!row.arc) continue;
     expect(
@@ -193,30 +186,6 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
 
       // The reads are what the records give.
       const problem = String(visit.facts!.problem);
-      expect(chosen!.reads["paid-under-floor"], here).toBe(
-        problem === "paid-under-minimum-wage" ? 1 : 0,
-      );
-      expect(chosen!.reads["out-of-work"], here).toBe(
-        problem === "looking-for-work" ? 1 : 0,
-      );
-      const layoffs = (
-        api
-          .moduleState(JOBS_MODULE_ID)
-          .table("changes")
-          .query("byPerson", [residentId]) as unknown as {
-          kind: string;
-          date: string;
-        }[]
-      ).filter(
-        (row) =>
-          row.kind === "layoff" &&
-          row.date < visit.date &&
-          (Date.parse(visit.date) - Date.parse(row.date)) / 86_400_000 <= 180,
-      ).length;
-      expect(chosen!.reads["laid-off"], here).toBeCloseTo(
-        layoffs / (layoffs + 0.5),
-        10,
-      );
       const person = core.people.get(residentId)!;
       const notices = api
         .moduleState("housing")
@@ -238,8 +207,11 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         homeNeed,
         10,
       );
-      // A wage case is the short-pay scene, with the pay and the floor from
-      // the case's own record.
+      // A wage case is the plain arc worded by the case-help move set, with
+      // the pay and the floor from the case's own record (caseFacts). A lost
+      // job and short pay once had variants of their own (lost-job, short-pay)
+      // with lines that differed from plain; the set gives the case's lines to
+      // the plain arc now, so there is one arc for the two cases.
       if (problem === "paid-under-minimum-wage") {
         const row = api
           .moduleState(CASES_MODULE_ID)
@@ -248,32 +220,24 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
           facts: { hourlyMinor: number; floorMinor: number };
         };
         expect(row.facts.hourlyMinor, here).toBeLessThan(row.facts.floorMinor);
-        // The wage case scores short-pay by what the case holds; a very mild
-        // asker can still be pulled to the plain arc, which has its own wage lines.
         expect(
-          chosen!.scores.find((s) => s.variant === "short-pay")!.score,
+          scene.facts.find((f) => f.key === "pay")?.recordIds,
           here,
-        ).toBeGreaterThan(0);
-        if (chosen!.variant === "short-pay") {
-          expect(
-            scene.facts.find((f) => f.key === "pay")?.recordIds,
-            here,
-          ).toContain(String(visit.facts!.caseId));
-          expect(
-            scene.facts.some((f) => f.key === "floor"),
-            here,
-          ).toBe(true);
-        }
+        ).toContain(String(visit.facts!.caseId));
+        expect(
+          scene.facts.some((f) => f.key === "floor"),
+          here,
+        ).toBe(true);
       }
       // The facts a line may name are on the scene only where their records
       // are, cited to them.
       const has = (key: string) => scene.facts.find((f) => f.key === key);
-      if (chosen!.variant === "lost-job" && chosen!.reads["laid-off"]! > 0) {
-        expect(has("employer")?.recordIds, here).toBeTruthy();
-        expect(has("since"), here).toBeTruthy();
-      } else {
+      // The case's own facts (the case-help set, caseFacts): an employer only
+      // for a job seeker whose layoff is on the books, cited to it.
+      if (has("employer"))
+        expect(has("employer")!.recordIds.length, here).toBeGreaterThan(1);
+      if (problem === "paid-under-minimum-wage")
         expect(has("employer"), here).toBeUndefined();
-      }
       if (chosen!.reads["notice-served"] === 0)
         expect(has("owed"), here).toBeUndefined();
       if (chosen!.variant === "sick") {
@@ -291,15 +255,18 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       }
       // The request is worded by the variant's own piece where it has one.
       const requestKey = scene.talk.state.parts[0]!;
-      const requestPurpose = (
+      // A piece of the case-help move set serves every variant that has none.
+      const requestUse = (
         sceneTalk as unknown as {
-          parts: { key: string; uses: { purpose: string }[] }[];
+          parts: { key: string; uses: { purpose?: string; set?: string }[] }[];
         }
-      ).parts.find((part) => part.key === requestKey)?.uses[0]?.purpose;
+      ).parts.find((part) => part.key === requestKey)?.uses[0];
       expect(
-        [chosen!.purpose, "constituent-help"],
+        [chosen!.purpose, "constituent-help", "set:case-help"],
         `${here}: ${requestKey}`,
-      ).toContain(requestPurpose);
+      ).toContain(
+        requestUse?.set ? `set:${requestUse.set}` : requestUse?.purpose,
+      );
       played.set(chosen!.variant, (played.get(chosen!.variant) ?? 0) + 1);
       lines.push(
         `${residentId} (${problem}) ${chosen!.variant} [${chosen!.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}] opens "${scene.talk.state.text}"`,
@@ -403,6 +370,10 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       const facts: Record<string, Fact> = {
         name: fact("Pat Rivera", askerId),
         first: fact(core.people.get(asked)!.givenName, asked),
+        // What the case on the office's books gives every visit (caseFacts):
+        // where the office refers it, and when it decides.
+        agency: fact("the workforce office", askerId),
+        "respond-in": fact("in seven days", askerId),
         ...extra,
       };
       for (const [k, v] of Object.entries(c.reads))
@@ -436,53 +407,6 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       return result.talk;
     };
     const notes: string[] = [];
-
-    // PROBE (hand-made): a layoff on the constituent's record.
-    const a = apart[0]!.id;
-    const beforeA = pick(a);
-    expect(beforeA.reads["laid-off"]).toBe(0);
-    const org = [...core.organizations.values()][0]!;
-    api
-      .moduleState(JOBS_MODULE_ID)
-      .table("changes")
-      .put({
-        id: `probe:job-lost:${a}`,
-        date: core.date,
-        personId: a,
-        organizationId: org.id,
-        jobId: `probe-job:${a}`,
-        kind: "layoff",
-        reasonKey: "probe",
-        decidedBy: org.id,
-        heads: 1,
-        values: {},
-      } as never);
-    const afterA = pick(a);
-    expect(afterA.reads["laid-off"]).toBeCloseTo(1 / 1.5, 10);
-    expect(afterA.recordIds).toContain(`probe:job-lost:${a}`);
-    expect(
-      scoreOf(afterA, "lost-job") - scoreOf(beforeA, "lost-job"),
-    ).toBeCloseTo(0.9 * (1 / 1.5) * (1 + pullFor(a, "lost-job")), 10);
-    const layoffFacts = constituentFacts(
-      core,
-      a,
-      { id: "probe-words", date: nextDay, facts: {} },
-      afterA,
-    );
-    expect(layoffFacts.employer?.text.toLowerCase()).toBe(
-      org.name.toLowerCase(),
-    );
-    expect(layoffFacts.since?.text).toBe("less than a month");
-    expect(layoffFacts.employer?.sourceRecordIds).toContain(
-      `probe:job-lost:${a}`,
-    );
-    // A layoff of another resident moves nothing for this one.
-    const a2 = apart[1]!.id;
-    expect(pick(a2).reads["laid-off"]).toBe(0);
-    const talkA = wordsOf(afterA, a, layoffFacts);
-    notes.push(
-      `layoff took lost-job from ${scoreOf(beforeA, "lost-job").toFixed(2)} to ${scoreOf(afterA, "lost-job").toFixed(2)} (plain ${scoreOf(afterA, "plain").toFixed(2)}); opens "${talkA.state.text}"`,
-    );
 
     // PROBE (hand-made): a rent notice open on the household.
     const b = apart[2]!.id;
@@ -551,17 +475,10 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         handledBy: null,
         outcome: null,
       } as never);
-    const noCase = pick(c, { problem: "looking-for-work", caseId });
-    expect(noCase.reads["paid-under-floor"]).toBe(0);
     const wage = pick(c, { problem: "paid-under-minimum-wage", caseId });
-    expect(wage.reads["paid-under-floor"]).toBe(1);
-    expect(wage.reads.shortfall).toBeCloseTo(0.5, 10);
-    expect(wage.recordIds).toContain(caseId);
-    expect(scoreOf(wage, "short-pay")).toBeCloseTo(
-      (1.0 + 0.5 * 0.5) * (1 + pullFor(c, "short-pay")),
-      10,
-    );
-    expect(wage.scores[0]!.variant).toBe("short-pay");
+    // A wage case has no variant of its own: the plain arc plays it, worded by
+    // the case-help move set from the case's pay and the floor.
+    expect(wage.scores[0]!.variant).toBe("plain");
     const wageFacts = constituentFacts(
       core,
       c,
@@ -570,9 +487,8 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
     );
     expect(wageFacts.pay?.text).toBe("$6.50");
     expect(wageFacts.floor?.text).toBe("$7.25");
-    const talkC = wordsOf(wage, c, wageFacts);
     notes.push(
-      `wage case took short-pay to ${scoreOf(wage, "short-pay").toFixed(2)} (plain ${scoreOf(wage, "plain").toFixed(2)}); pay ${wageFacts.pay?.text} against ${wageFacts.floor?.text}; opens "${talkC.state.text}"`,
+      `wage case played by the plain arc (plain ${scoreOf(wage, "plain").toFixed(2)}); pay ${wageFacts.pay?.text} against ${wageFacts.floor?.text}`,
     );
 
     // PROBE (hand-made): a serious illness begun in the constituent's household

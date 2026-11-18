@@ -19,13 +19,14 @@ import { worldLevel, worldRate } from "../world-draw";
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import { parameter, type Parameter } from "../parameters";
 import { residentsRuntime } from "./residents";
+import { ageOfMajority } from "../age-of-majority";
 import { notifySalesReceipt } from "./finance";
 import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { firmCharged } from "../business-charges";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
-import { stopgap } from "../stopgaps";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
 import { placeStateKey } from "../place-map";
@@ -35,6 +36,7 @@ import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
+import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type {
   CoreAPI,
@@ -101,7 +103,7 @@ export function worldGoods(seed: string): {
       ...g.fuel,
       ceAnnualMinor: Math.round(g.fuel.ceAnnualMinor * level("fuel")),
     },
-    // stopgapId: SG-WEB-fare-free-riders-unread (a fare-free law's added riders pay a zero fare and nothing else reads them)
+    // Added riders (the web's ridership factor) also drive less: see `ridersMilesLeft`.
     "transit-fare": {
       ...g["transit-fare"],
       tripsPerHouseholdYear:
@@ -166,6 +168,8 @@ interface Rule {
   payeeId?: string;
   providerId?: string;
   cause: string;
+  /** The statute this rule is one of, so two statutes on one good (a clean-electricity standard and retail choice) are two rules, not one overwriting the other. */
+  statute?: string;
   since: string;
   source: Source;
 }
@@ -229,12 +233,21 @@ function store(api: CoreAPI) {
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
+export function ruleId(
+  placeId: string,
+  good: Good,
+  kind: Rule["kind"],
+  statute?: string,
+): string {
+  return `${placeId}:${good}:${kind}${statute ? `:${statute}` : ""}`;
+}
+
 function put(api: CoreAPI, rule: Omit<Rule, "id" | "since">): void {
   store(api)
     .table("rules")
     .put({
       ...rule,
-      id: `${rule.placeId}:${rule.good}:${rule.kind}`,
+      id: ruleId(rule.placeId, rule.good, rule.kind, rule.statute),
       since: api.state.date,
       isRule: true,
     } as unknown as { id: string });
@@ -374,8 +387,11 @@ export function endPlaceRule(
   placeId: string,
   good: Good,
   kind: Rule["kind"],
+  statute?: string,
 ): void {
-  store(api).table("rules").remove(`${placeId}:${good}:${kind}`);
+  store(api)
+    .table("rules")
+    .remove(ruleId(placeId, good, kind, statute));
 }
 
 /**
@@ -448,8 +464,7 @@ export function monthlyChange(
     }
     case "offer": {
       // Subscribers take the public offer when it's cheaper; the old bill no longer leaves the town.
-      // Each household switches as the subscribing share of one, not by its own choice yet.
-      stopgap("SG-WORLD-prices-household-shares");
+      // Each household's own take-up arrives in `web.subscribe` (`useFactor`).
       const b = g.broadband;
       if (rule.value >= b.monthlyPriceMinor)
         return { payMinor: 0, refundMinor: 0 };
@@ -498,6 +513,87 @@ function scaleFor(api: CoreAPI, monthlyPayMinor: number, good: Good): number {
     average * api.parameter("pricesIncomeFloorShare"),
   );
   return (income / average) ** api.parameter(g[good].elasticityParameter);
+}
+
+/** Who lives in a household, from its records: what its use of a good follows. */
+export interface Composition {
+  persons: number;
+  /** Members of age where they live (`ageOfMajority`, not the voting age a law can change). */
+  adults: number;
+  /** Members with a job (a recorded one, or work outside the recorded firms). */
+  workers: number;
+}
+
+function ageOn(date: string, born: string): number {
+  return (
+    Number(date.slice(0, 4)) -
+    Number(born.slice(0, 4)) -
+    (date.slice(5) < born.slice(5) ? 1 : 0)
+  );
+}
+
+/**
+ * A household's use of a good against the average household's, from who
+ * lives in it: miles follow the workers' commutes and the adults' errands,
+ * transit trips the workers and everyone else who has no car of their own to
+ * take, power the people the home holds (a bigger home for more people), and the broadband it takes up
+ * the work done at home. Each is the household's composition over the
+ * reference composition, so the average household's factor is one.
+ */
+export function useFactor(
+  api: CoreAPI,
+  good: Good,
+  kind: Rule["kind"],
+  who: Composition,
+): number {
+  const refPersons = api.parameter("pricesReferencePersons"),
+    refAdults = api.parameter("pricesReferenceAdults"),
+    refWorkers = api.parameter("pricesReferenceWorkers");
+  const mix = (share: number, a: number, b: number) =>
+    share * a + (1 - share) * b;
+  if (good === "vehicle-miles" || (good === "fuel" && kind === "share"))
+    return mix(
+      api.parameter("pricesCommuteMilesShare"),
+      who.workers / refWorkers,
+      who.adults / refAdults,
+    );
+  if (good === "transit-fare")
+    return mix(
+      api.parameter("pricesTransitWorkerShare"),
+      who.workers / refWorkers,
+      who.persons / refPersons,
+    );
+  if (good === "electricity")
+    // A bigger household has a bigger home and more to run, but each added
+    // person adds less than the one before (shared rooms and appliances).
+    return (
+      (who.persons / refPersons) ** api.parameter("pricesPowerPersonElasticity")
+    );
+  if (good === "broadband")
+    return (
+      1 +
+      api.parameter("pricesBroadbandWorkerLift") *
+        (who.workers / refWorkers - 1)
+    );
+  return 1;
+}
+
+/**
+ * The share of a household's miles left once its added transit riders ride:
+ * each extra trip the outcome web adds replaces a drive of the trip's length.
+ */
+export function ridersMilesLeft(
+  api: CoreAPI,
+  extraTripsMonthly: number,
+  milesMonthly: number,
+): number {
+  if (extraTripsMonthly <= 0 || milesMonthly <= 0) return 1;
+  return Math.max(
+    0,
+    1 -
+      (extraTripsMonthly * api.parameter("pricesTransitTripMiles")) /
+        milesMonthly,
+  );
 }
 
 function outsideOf(c: CoreState, placeId: string): string | undefined {
@@ -597,6 +693,34 @@ function learnFromStory(
   const law = lawOf(rule);
   const moved = Math.round(change.refundMinor) - Math.round(change.payMinor);
   if (!law || !moved) return;
+  learnFromLaw(
+    api,
+    { ...law, ruleId: rule.id },
+    personId,
+    householdId,
+    moved,
+    monthlyEarningsMinor,
+  );
+}
+
+/**
+ * The one reader of what a person paid under a law (a price rule's charge or
+ * a naturally voted tax's withholding): the same felt row, the same heard
+ * story, the same learned event.
+ */
+function learnFromLaw(
+  api: CoreAPI,
+  rule: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly ruleId: string;
+  },
+  personId: string,
+  householdId: string,
+  moved: number,
+  monthlyEarningsMinor: number,
+): void {
+  const law = rule;
   if (store(api).table("learned").get(`${personId}|${law.lawId}`)) return;
   // What the household paid under the law, for a story heard later.
   store(api)
@@ -605,7 +729,7 @@ function learnFromStory(
       id: `${householdId}|${law.lawId}`,
       householdId,
       payerId: personId,
-      ruleId: rule.id,
+      ruleId: rule.ruleId,
       key: law.key,
       lawId: law.lawId,
       movedMinor: moved,
@@ -636,12 +760,32 @@ function learnFromStory(
       personId,
       lawId: law.lawId,
       key: law.key,
-      ruleId: rule.id,
+      ruleId: rule.ruleId,
       moved,
       monthlyEarningsMinor,
       storyId,
     });
 }
+
+/**
+ * A naturally voted income tax a payday took from a person: the price
+ * engine's reader ties it to its law once they have heard a story about it
+ * (`learnFromLaw`). Registered with the withholding's listener list, which
+ * sits in its own file so budgets and prices do not import each other.
+ */
+onTaxWithheld((api, paid) => {
+  const person = api.state.people.get(paid.personId);
+  if (!person?.householdId || !api.state.modules.has(PLACE_PRICES_MODULE_ID))
+    return;
+  learnFromLaw(
+    api,
+    { key: paid.key, lawId: paid.lawId, ruleId: `withholding:${paid.id}` },
+    paid.personId,
+    person.householdId,
+    -paid.taxMinor,
+    paid.monthlyEarningsMinor,
+  );
+});
 
 /**
  * A story about a law reaches a person. If their household already paid
@@ -687,7 +831,11 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
     api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
       { series?: string } | undefined
   )?.series;
-  if (!series || !PRICE_LAW_QUESTIONS.has(series)) return;
+  if (
+    !series ||
+    !(PRICE_LAW_QUESTIONS.has(series) || TAX_LAW_SERIES.has(series))
+  )
+    return;
   // What they now know of the story, kept with the memory: the news forgets
   // a story's key after its days, and the views engine reads it.
   const known = api.knows(personId, newsKey(story.id));
@@ -812,12 +960,12 @@ function settle(
     readonly target: AppliedTarget;
     readonly count?: number;
   },
-): void {
+): number {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
-  if (!outside) return;
+  if (!outside) return 0;
   // A sale with no seller in town stays where it was: nothing moves.
-  if (rule.kind === "sale" && !sellers.length) return;
+  if (rule.kind === "sale" && !sellers.length) return 0;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
@@ -886,10 +1034,12 @@ function settle(
         reasonKey: "price",
         source: rule.source,
       });
-    return;
+    return 0;
   }
+  // What the account owner paid, less what came back: a business's books read it.
+  let net = 0;
   if (refund > 0)
-    transferCash(
+    net -= transferCash(
       api,
       `${sourceId}:refund`,
       outside,
@@ -900,26 +1050,37 @@ function settle(
   if (pay > 0 && rule.kind === "sale") {
     const parts = splitBy(pay, sellers);
     sellers.forEach((seller, i) => {
-      if (parts[i]! > 0)
+      if (parts[i]! > 0) {
+        const paid = transferCash(
+          api,
+          `${sourceId}:pay:${seller.id}`,
+          accountOwnerId,
+          seller.id,
+          parts[i]!,
+          rule.source,
+        );
+        net += paid;
         saleReceipt(
           api,
           rule,
           `${sourceId}:pay:${seller.id}`,
           seller.id,
           [accountOwnerId],
-          transferCash(
-            api,
-            `${sourceId}:pay:${seller.id}`,
-            accountOwnerId,
-            seller.id,
-            parts[i]!,
-            rule.source,
-          ),
+          paid,
           false,
         );
+      }
     });
   } else if (pay > 0 && to !== accountOwnerId)
-    transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
+    net += transferCash(
+      api,
+      `${sourceId}:pay`,
+      accountOwnerId,
+      to,
+      pay,
+      rule.source,
+    );
+  return net;
 }
 
 /** The statutes the price engine prices, by policy question. */
@@ -982,21 +1143,21 @@ function readPriceLaws(api: CoreAPI): void {
   const sync = (
     question: string,
     rule: Omit<Rule, "id" | "since" | "placeId" | "cause" | "source">,
-    gap: string,
+    gap: string | undefined,
     publicPayee = false,
   ) => {
     const law = lawInForce(api, question);
-    const id = `${placeId}:${rule.good}:${rule.kind}`;
+    const id = ruleId(placeId, rule.good, rule.kind, question);
     const cause = `law:${question}:`;
     if (law.value !== 1 || !law.governing) {
       // End only this statute's price, not a separately recorded service rule.
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
       )
-        endPlaceRule(api, placeId, rule.good, rule.kind);
+        endPlaceRule(api, placeId, rule.good, rule.kind, question);
       return;
     }
-    api.stopgap(gap);
+    if (gap) api.stopgap(gap);
     // The enacting government's treasury; a place whose governing row names a
     // jurisdiction with no budget (a territory) pays the town's nearest
     // government that keeps one.
@@ -1020,12 +1181,13 @@ function readPriceLaws(api: CoreAPI): void {
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
       )
-        endPlaceRule(api, placeId, rule.good, rule.kind);
+        endPlaceRule(api, placeId, rule.good, rule.kind, question);
       return;
     }
     put(api, {
       ...rule,
       placeId,
+      statute: question,
       cause: `${cause}${law.governing.id}`,
       ...(publicPayee
         ? rule.kind === "offer"
@@ -1041,17 +1203,14 @@ function readPriceLaws(api: CoreAPI): void {
       },
     });
   };
-  // stopgapId: SG-GOV-REACH-B-energy-price — calibrated consumption and
-  // policy sizes, not metered utility bills or a delivered explanation yet.
   sync(
     PRICE_LAWS.cleanElectricity,
     energyPriceRule(api, PRICE_LAWS.cleanElectricity)!,
-    "SG-GOV-REACH-B-energy-price",
+    undefined,
   );
   // Retail electric choice cuts residential electricity prices in the years
   // after it opens and the cut fades (Su 2015), so the share runs from the
   // law's effective date down to nothing over the researched years.
-  // stopgapId: SG-LAWS-retail-choice-price
   const choice = lawInForce(api, PRICE_LAWS.retailElectricChoice);
   const choiceYears = choice.governing
     ? (Date.parse(`${api.state.date}T00:00:00Z`) -
@@ -1067,16 +1226,14 @@ function readPriceLaws(api: CoreAPI): void {
         p.retailChoicePriceShare.value *
         Math.max(0, 1 - choiceYears / p.retailChoiceFadeYears.value),
     },
-    "SG-LAWS-retail-choice-price",
+    undefined,
   );
   sync(
     PRICE_LAWS.carbonPrice,
     energyPriceRule(api, PRICE_LAWS.carbonPrice)!,
-    "SG-GOV-REACH-B-energy-price",
+    undefined,
     true,
   );
-  // stopgapId: SG-GOV-REACH-B-retail-price — container use still uses a
-  // household estimate rather than individual purchases and return decisions.
   sync(
     PRICE_LAWS.bottleDeposit,
     {
@@ -1085,9 +1242,8 @@ function readPriceLaws(api: CoreAPI): void {
       value: p.bottleDepositCents.value,
       refundable: true,
     },
-    "SG-GOV-REACH-B-retail-price",
+    undefined,
   );
-  // stopgapId: SG-GOV-REACH-B-mileage-fee-price
   sync(
     PRICE_LAWS.mileageFee,
     {
@@ -1096,10 +1252,9 @@ function readPriceLaws(api: CoreAPI): void {
       value: p.mileageFeeCentsPerMile.value,
       replacesFuelTax: true,
     },
-    "SG-GOV-REACH-B-mileage-fee-price",
+    undefined,
     true,
   );
-  // stopgapId: SG-GOV-REACH-B-broadband-bill
   sync(
     PRICE_LAWS.publicBroadband,
     {
@@ -1107,10 +1262,9 @@ function readPriceLaws(api: CoreAPI): void {
       kind: "offer",
       value: p.broadbandMonthlyDollars.value * p.centsPerDollar.value,
     },
-    "SG-GOV-REACH-B-broadband-bill",
+    undefined,
     true,
   );
-  // stopgapId: SG-GOV-REACH-B-transit-fare-price
   sync(
     PRICE_LAWS.fareFreeTransit,
     {
@@ -1118,7 +1272,7 @@ function readPriceLaws(api: CoreAPI): void {
       kind: "price",
       value: 0,
     },
-    "SG-GOV-REACH-B-transit-fare-price",
+    undefined,
   );
   // stopgapId: SG-GOV-REACH-A-cannabis-market — the town's existing retail
   // businesses sell; no dedicated dispensary, license or tax yet.
@@ -1153,6 +1307,30 @@ export function businessEnergyCostYear(
       : "pricesBusinessFuelShare",
   );
   return Math.round(annualOtherCostsMinor * share * row.value);
+}
+
+/**
+ * The share of a business's other operating costs the energy price laws in
+ * force today add to its bills: for each statute `readPriceLaws` would price,
+ * the business share of that fuel times the law's price change, the same rule
+ * the monthly settlement charges before the outcome web adjusts it.
+ */
+export function businessEnergyLawShare(api: CoreAPI): number {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return 0;
+  let share = 0;
+  for (const question of PRICE_LAW_QUESTIONS) {
+    const law = lawInForce(api, question);
+    if (law.value !== 1 || !law.governing) continue;
+    const row = energyPriceRule(api, question);
+    if (!row) continue;
+    share +=
+      api.parameter(
+        row.good === "electricity"
+          ? "pricesBusinessElectricityShare"
+          : "pricesBusinessFuelShare",
+      ) * row.value;
+  }
+  return share;
 }
 
 /**
@@ -1279,6 +1457,86 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
   return out;
 }
 
+export function householdComposition(
+  c: CoreState,
+  members: readonly string[],
+): Composition {
+  let adults = 0,
+    workers = 0;
+  for (const id of members) {
+    const person = c.people.get(id)!;
+    if (ageOn(c.date, person.birthDate) >= ageOfMajority(person.placeId))
+      adults++;
+    const job = person.jobId ? c.jobs.get(person.jobId) : undefined;
+    if (job && job.endsAt === undefined) workers++;
+  }
+  return { persons: members.length, adults, workers };
+}
+
+function countedComposition(
+  date: string,
+  store: NonNullable<ReturnType<typeof residentsRuntime>>["store"],
+  household: Parameters<typeof store.countedCount>[0],
+  persons: number,
+): Composition {
+  let adults = 0;
+  for (const facts of store.factsOfHousehold(household))
+    if (ageOn(date, facts.birthDate) >= ageOfMajority(facts.placeId)) adults++;
+  const workers =
+    household.jobs.filter((job) => job.endsAt === undefined).length +
+    household.unplacedWorkers;
+  return { persons, adults, workers: Math.min(workers, adults || workers) };
+}
+
+/**
+ * The household's spending on the rule's good against the average's: its pay
+ * (the income elasticity) times who lives in it (`useFactor`), less the miles
+ * the transit trips its place's riders now take replace.
+ */
+function householdScale(
+  api: CoreAPI,
+  rule: Rule,
+  rules: readonly Rule[],
+  who: Composition,
+  pay: number,
+  useFor: (rule: Rule, pay: number) => ReturnType<typeof webUse>,
+): number {
+  const scale =
+    scaleFor(api, pay, rule.good) * useFactor(api, rule.good, rule.kind, who);
+  const miles =
+    rule.good === "vehicle-miles" ||
+    (rule.good === "fuel" && rule.kind === "share");
+  if (!miles) return scale;
+  const transit = rules.find(
+    (r) => r.placeId === rule.placeId && r.good === "transit-fare",
+  );
+  if (!transit) return scale;
+  const g = worldGoods(api.state.seed).goods;
+  const trips =
+    (g["transit-fare"].tripsPerHouseholdYear *
+      scaleFor(api, pay, "transit-fare") *
+      useFactor(api, "transit-fare", transit.kind, who)) /
+    MONTHS;
+  const extra = trips * (useFor(transit, pay).trips - 1);
+  const monthlyMiles =
+    (g["vehicle-miles"].milesPerHouseholdYear * scale) / MONTHS;
+  return scale * ridersMilesLeft(api, extra, monthlyMiles);
+}
+
+/** The outcome web's factors with this household's own take-up of a public offer. */
+function householdWeb(
+  api: CoreAPI,
+  rule: Rule,
+  use: ReturnType<typeof webUse>,
+  who: Composition,
+): ReturnType<typeof webUse> {
+  if (rule.good !== "broadband" || rule.kind !== "offer") return use;
+  return {
+    ...use,
+    subscribe: use.subscribe * useFactor(api, "broadband", "offer", who),
+  };
+}
+
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
@@ -1318,15 +1576,16 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const who = householdComposition(c, members);
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,
-        scaleFor(api, pay, rule.good),
+        householdScale(api, rule, rules, who, pay, useFor),
         rule.good === "cannabis"
           ? cannabisWeight(api, adultUsers(api, members))
           : members.length,
         worldGoods(api.state.seed).goods,
-        use,
+        householdWeb(api, rule, use, who),
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
@@ -1377,10 +1636,11 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      const who = countedComposition(c.date, rt!.store, household, persons);
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,
-        scaleFor(api, pay, rule.good),
+        householdScale(api, rule, rules, who, pay, useFor),
         rule.good === "cannabis"
           ? cannabisWeight(
               api,
@@ -1390,7 +1650,7 @@ function month(api: CoreAPI): void {
             )
           : persons,
         worldGoods(api.state.seed).goods,
-        use,
+        householdWeb(api, rule, use, who),
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,
@@ -1435,7 +1695,7 @@ function month(api: CoreAPI): void {
             share *
             webUse(api, rule, {}).rule.value) /
           MONTHS;
-        settle(
+        const paid = settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,
           rule,
@@ -1447,6 +1707,14 @@ function month(api: CoreAPI): void {
           undefined,
           [],
           { targetId: organizationId, target: "organization" },
+        );
+        const law = lawOf(rule);
+        firmCharged(
+          api,
+          organizationId,
+          "energy-laws",
+          paid,
+          law ? [law.lawId] : [],
         );
       }
   }

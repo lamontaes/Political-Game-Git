@@ -3,8 +3,9 @@
  * (a member of Congress outside the town) who dies leaves a vacancy the
  * offices engine opens under that office's own rule row, and the seat is
  * filled through it: the appointee takes the seat that day, or the special
- * election's stand-in on its date (SG-GOV-special-election-appointee). The
- * new holder keeps the party of the one they replace, and a House seat
+ * election's count on its date. A special election's winner holds the seat in
+ * the party the count named, and an appointee keeps the party of the one they
+ * replace; a House seat
  * waiting for its special election is not among the House's members until it
  * is filled. (Another place's legislators and governors sit on office terms
  * since gov-every-state-and-town-governs U1, so their seats are the offices
@@ -21,6 +22,7 @@ import { advanceCore } from "./life";
 import { FEDERAL_HOUSE, members } from "./modules/legislature";
 import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID, type VacancyRow } from "./modules/offices";
+import { racesOf } from "./modules/voting";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -110,7 +112,15 @@ it(`a member of Congress outside the town who dies is replaced through the vacan
       expect(now.length, `${where}: ${vacancy.seatId} filled`).toBe(1);
       const filler = now[0]!;
       expect(filler.id, `${where}: ${vacancy.seatId}`).not.toBe(gone!.id);
-      expect(filler.party, `${where}: ${filler.id}`).toBe(gone!.party);
+      const race = racesOf(api).find(
+        (row) =>
+          row.seatId === vacancy.seatId &&
+          row.id.endsWith(":special") &&
+          row.date >= vacancy.since,
+      );
+      expect(filler.party, `${where}: ${filler.id}`).toBe(
+        race?.winnerParty ?? gone!.party,
+      );
       filled += 1;
       lines.push(
         `${vacancy.id} (${vacancy.rule.method}) left by ${gone!.id}, filled by ${filler.id}`,

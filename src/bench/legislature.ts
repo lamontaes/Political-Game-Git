@@ -9,7 +9,10 @@ import {
 } from "../english/bill-names";
 import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
+import { questionReasons } from "../english/question-names";
+import { pronounSetOfGender, pronounWords } from "../english/pronoun-words";
 import { budgetLineNames, policyNames } from "./words";
+import { FEE_LEVEL_BASELINE, isFeeLevelSeries } from "../core2/fee-levels";
 import {
   billForm,
   bodyOf,
@@ -21,6 +24,11 @@ import {
   floorDateOf,
   memberKey,
   members as bodyMembersOf,
+  proposalRight,
+  publicDeclineReason,
+  declinedAsks,
+  likelyCarriers,
+  proposeAsExecutive,
   votesOn,
   whipCount,
   type BillRow,
@@ -30,6 +38,11 @@ import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
+import {
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "../core2/modules/budgets";
+import { FEE_LEVEL_SERVICES } from "../core2/fee-levels";
 import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
@@ -78,37 +91,59 @@ export function bodiesOf(core: CoreState, personId: string) {
       },
     ];
   });
-  return [
-    ...federal,
-    ...mine.flatMap((term) => {
+  // A single-seat executive with a proposal right has no seat on the body that votes on
+  // their government's bills; they send a bill to it through a member (the one engine,
+  // `proposeAsExecutive`), so the body is theirs to draft for.
+  const sitting = new Set(
+    mine.flatMap((term) => {
       const office = offices.table("offices").get(term.officeId) as
-        | {
-            id: string;
-            title: string;
-            seats: number;
-            level: string;
-            kind: string;
-          }
-        | undefined;
-      if (!office || office.seats < 2) return [];
-      const members = (
-        offices.table("seats").query("byOffice", [office.id]) as unknown as {
+        { id: string; seats: number } | undefined;
+      return office && office.seats >= 2 ? [office.id] : [];
+    }),
+  );
+  const byRequest = mine.flatMap((term) => {
+    const office = offices.table("offices").get(term.officeId) as
+      | {
           id: string;
-        }[]
-      ).flatMap(
-        (seat) =>
-          terms(core).query("bySeatStatus", [
-            seat.id,
-            "serving",
-          ]) as unknown as TermRow[],
-      );
+          kind: string;
+          seats: number;
+          jurisdiction: string;
+          level: string;
+          presidesOverBody?: boolean;
+        }
+      | undefined;
+    if (!office || office.seats >= 2) return [];
+    if (proposalRight(api, office.kind).mode !== "by-request") return [];
+    // An executive who presides over the board (the place's own county data) is the body's chair,
+    // not an outsider: the bill goes before it in their own name (`seatAct`), never through a member.
+    const presides = office.presidesOverBody === true;
+    return (
+      offices
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+        seats: number;
+        level: string;
+        kind: string;
+      }[]
+    ).flatMap((chamber) => {
+      // Only the government's own body: a state's U.S. senators share its jurisdiction.
+      const body =
+        chamber.seats >= 2 && chamber.level === office.level
+          ? bodyOf(api, chamber.id)
+          : undefined;
+      if (!body || sitting.has(chamber.id)) return [];
+      const roster = bodyMembersOf(api, chamber.id);
       return [
         {
-          officeId: office.id,
-          title: office.title,
-          level: office.level,
-          kind: office.kind,
-          members: members.map((row) => ({
+          officeId: chamber.id,
+          title: body.bodyName ?? body.governmentName,
+          level: chamber.level,
+          kind: chamber.kind,
+          // Sent through a member, never in the executive's own name, unless the executive
+          // presides over this body and puts the bill before it as its chair.
+          ...(presides ? { presides: true } : { byRequest: true }),
+          members: roster.map((row) => ({
             key: memberKey(row),
             name: personName(core, memberKey(row)),
             party: row.party,
@@ -116,8 +151,69 @@ export function bodiesOf(core: CoreState, personId: string) {
           })),
         },
       ];
-    }),
+    });
+  });
+  return [
+    ...federal,
+    ...byRequest,
+    ...mine.flatMap((term) => seatedBody(core, term.officeId, personId)),
   ];
+}
+
+/** A body of two seats or more by its office, with its serving members; `personId` marks which member is the viewer, if any. */
+function seatedBody(core: CoreState, officeId: string, personId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  const office = offices.table("offices").get(officeId) as
+    | {
+        id: string;
+        title: string;
+        seats: number;
+        level: string;
+        kind: string;
+      }
+    | undefined;
+  if (!office || office.seats < 2) return [];
+  const members = (
+    offices.table("seats").query("byOffice", [office.id]) as unknown as {
+      id: string;
+    }[]
+  ).flatMap(
+    (seat) =>
+      terms(core).query("bySeatStatus", [
+        seat.id,
+        "serving",
+      ]) as unknown as TermRow[],
+  );
+  return [
+    {
+      officeId: office.id,
+      title: office.title,
+      level: office.level,
+      kind: office.kind,
+      members: members.map((row) => ({
+        key: memberKey(row),
+        name: personName(core, memberKey(row)),
+        party: row.party,
+        you: row.personId === personId,
+      })),
+    },
+  ];
+}
+
+/**
+ * The body whose room a person is in: one they sit on, or, for someone who came to
+ * watch its meeting (`watching`), the body itself with none of its members marked as them.
+ */
+function roomBody(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  watching: boolean,
+) {
+  return (
+    bodiesOf(core, personId).find((b) => b.officeId === officeId) ??
+    (watching ? seatedBody(core, officeId, personId)[0] : undefined)
+  );
 }
 
 /** The seats this person left on taking another, with the law that required it. */
@@ -206,6 +302,8 @@ export function seatView(core: CoreState, personId: string) {
       const votes = votesOn(api, bill.id);
       return {
         bill,
+        // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+        spoken: spokenDesignation(bill.number, bill.form.kind),
         ...floorOf(core, bill),
         votes: votes.map((row) => ({
           ...row,
@@ -268,14 +366,25 @@ export function seatAct(
     value?: number;
     /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
     steps?: readonly { value: number; effectiveDate: string }[];
+    /**
+     * A phase-in by a percent a year, in place of `steps`: the amount in force rises by the percent
+     * on `firstDate` and again on each of the next `years - 1` anniversaries, each step the amount
+     * before it raised by the percent. It is drafted as the same dated steps, one section a year.
+     */
+    risePerYear?: { percent: number; years: number; firstDate: string };
   },
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  if (input.risePerYear && input.steps?.length)
+    throw new Error("A phase-in is dated steps or a percent a year, not both.");
   const body = bodiesOf(core, personId).find(
     (b) => b.officeId === input.officeId,
   );
   if (!body) throw new Error("You don't sit on that body.");
+  // An executive's bill goes through a member (`seatAsk`), never drafted in their name.
+  if ("byRequest" in body && body.byRequest)
+    throw new Error("An executive asks a member (seatAsk).");
   // A budget line's amount in force today, as the writing screen shows it
   // beside the box: the player types the line's new amount, and a budget-line
   // section records the change to the line (`value`) on that amount (`of`),
@@ -304,16 +413,46 @@ export function seatAct(
               menusFor(api, body.level, input.officeId!)
                 .flatMap((menu) => menu.items)
                 .find((row) => row.series === input.series)?.unit ?? undefined,
+            ...feeNaming(input.series, value),
           }
         : {
             kind: "policy-question",
             question: input.question ?? "",
             value: value ?? 1,
           };
-  // stopgapId: SG-LEGISLATURE-phase-in-percent-a-year
-  // The ruling's other form, a percent a year, is not drafted from the seat:
-  // a phase-in is the dated steps the sponsor names.
-  if (input.steps?.length) {
+  // A percent a year is the same dated steps, one a year, each the amount before it raised by the percent.
+  const rise = input.risePerYear;
+  let steps = input.steps;
+  if (rise) {
+    if (!input.series || input.line)
+      throw new Error("A phase-in steps a law amount.");
+    if (!Number.isFinite(rise.percent) || rise.percent === 0)
+      throw new Error("An increase a year needs a percent.");
+    if (!Number.isInteger(rise.years) || rise.years < 2)
+      throw new Error("An increase a year runs for two years or more.");
+    const inForce = menusFor(api, body.level, input.officeId!)
+      .flatMap((menu) => menu.items)
+      .find((row) => row.series === input.series)?.inForce;
+    if (typeof inForce !== "number" || inForce <= 0)
+      throw new Error(
+        "An increase by a percent a year needs an amount in force above zero.",
+      );
+    const base = inForce;
+    const first = makeIsoDate(rise.firstDate);
+    let amount = base;
+    steps = Array.from({ length: rise.years }, (_, i) => {
+      amount *= 1 + rise.percent / 100;
+      const value = Number.isInteger(base)
+        ? Math.round(amount)
+        : Math.round(amount * 10_000) / 10_000;
+      const year = Number(first.slice(0, 4)) + i;
+      return {
+        value,
+        effectiveDate: `${year}${first.slice(4)}`,
+      };
+    });
+  }
+  if (steps?.length) {
     if (input.value !== undefined)
       throw new Error("A phase-in gives each step's amount, not a value.");
     // Only a law amount reads a section's date: a budget line is amended the
@@ -322,7 +461,7 @@ export function seatAct(
     if (!input.series || input.line)
       throw new Error("A phase-in steps a law amount.");
     let last = core.date;
-    for (const step of input.steps) {
+    for (const step of steps) {
       const date = makeIsoDate(step.effectiveDate);
       if (date <= last)
         throw new Error(
@@ -331,8 +470,12 @@ export function seatAct(
       last = date;
     }
   }
-  const provisions: Provision[] = input.steps?.length
-    ? input.steps.map((step) => ({
+  if ("byRequest" in body && body.byRequest && steps?.length)
+    throw new Error(
+      "An executive's bill is sent as one amount, not a phase-in.",
+    );
+  const provisions: Provision[] = steps?.length
+    ? steps.map((step) => ({
         ...sectionOf(step.value),
         effectiveDate: makeIsoDate(step.effectiveDate),
       }))
@@ -354,6 +497,8 @@ export function seatAct(
   const floor = floorOf(core, bill);
   return {
     ...bill,
+    // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+    spoken: spokenDesignation(bill.number, bill.form.kind),
     text,
     ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
     floorDate: floor.floorDate,
@@ -440,8 +585,8 @@ function disputedWarning(
       lawyer: lawyer.toLowerCase(),
       body: name,
     });
-  // stopgapId: SG-GOV-body-lawyer-unrecorded (a county board, a township board, a state chamber or a town with no attorney appointed has no lawyer on record)
-  api.stopgap("SG-GOV-body-lawyer-unrecorded");
+  // Every body has counsel; where the executive engine seated none (a county board in a place a council runs, a township
+  // board, a state chamber) the paper names the role by the body, never a person.
   return screenLine("bill-paper", "bill-paper.authority.disputed-body", {
     body: name,
   });
@@ -485,8 +630,21 @@ export function billPaper(core: CoreState, billId: string) {
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
-  const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
+  const titled = billTitleOf({
+    form: bill.form,
+    provisions: bill.provisions,
+    budgetFor: bill.budgetFor,
+  });
   const names = { ...policyNames(), ...budgetLineNames() };
+  // A fee's section cites what the government's charge is today: the records the draft card reads.
+  const billBody = bodyOf(api, bill.bodyOfficeId);
+  const billGovernment = governmentOfJurisdiction(
+    api,
+    bodyRow(billBody?.kind ?? "")?.jurisdiction ?? billBody?.jurisdiction ?? "",
+  );
+  const billCharges = billGovernment
+    ? chargedServicesOf(api, billGovernment.id)
+    : [];
   const sections = bill.provisions.map((provision, index) => {
     const subject = bill.title?.subjects[index] ?? null;
     const purpose =
@@ -532,6 +690,17 @@ export function billPaper(core: CoreState, billId: string) {
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
+        ...feeCharge(
+          provision.series,
+          section,
+          billCharges,
+          // The level in force is the first section's "before"; a later step of the same fee follows an earlier one.
+          form.sections[
+            bill.provisions.findIndex((p) => p.series === provision.series)
+          ]?.before.value ?? null,
+          bill.provisions.findIndex((p) => p.series === provision.series) ===
+            index,
+        ),
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
         // The date this section names for itself (a phase-in's step), or
@@ -553,7 +722,10 @@ export function billPaper(core: CoreState, billId: string) {
     id: bill.id,
     number: bill.number,
     spoken: spokenDesignation(bill.number, bill.form.kind),
-    title: composed?.title ?? titled?.title ?? bill.number,
+    title:
+      composed?.title ??
+      titled?.title ??
+      spokenDesignation(bill.number, bill.form.kind),
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     bodyOfficeId: bill.bodyOfficeId,
@@ -596,8 +768,9 @@ export function bodyPicture(
   core: CoreState,
   personId: string,
   officeId: string,
+  watching = false,
 ): string | null {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   if (!body) return null;
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
@@ -635,10 +808,11 @@ export function bodyScene(
   personId: string,
   officeId: string,
   minute: number,
+  watching = false,
 ) {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   if (!body) throw new Error("You don't sit on that body.");
-  const place = bodyPicture(core, personId, officeId)!;
+  const place = bodyPicture(core, personId, officeId, watching)!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
@@ -665,8 +839,9 @@ export function bodyMembers(
   personId: string,
   officeId: string,
   place: string,
+  watching = false,
 ) {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   return (body?.members ?? []).map((m) => ({
     key: m.key,
     name: m.name,
@@ -717,6 +892,8 @@ function menusFor(
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),
         ...(row.unit ? { unit: row.unit } : {}),
+        // A fee: what the government's charge for it brings in, which the draft card shows as today's.
+        ...(row.charge ? { charge: row.charge } : {}),
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
@@ -730,4 +907,231 @@ function menusFor(
         reason: row.authority.reason,
       })),
   }));
+}
+
+/** Whether the person's bill to this body goes through a member (a single-seat executive's right). */
+export function isByRequest(
+  core: CoreState,
+  personId: string,
+  officeId: string | undefined,
+): boolean {
+  return bodiesOf(core, personId).some(
+    (b) => b.officeId === officeId && "byRequest" in b && b.byRequest,
+  );
+}
+
+/**
+ * An executive sends one bill to the body that votes on their government's bills: the
+ * member most inclined to carry it is asked (`proposeAsExecutive`, the one engine) and
+ * answers from their own position and tie to the executive. Returns who was asked, what
+ * they said and the bill when they carried it; a refusal files nothing.
+ */
+/** The one provision an executive's ask names, from the menu item and amount the player picked. */
+/**
+ * A fee bill names the fee it sets and whether it raises or lowers it (the
+ * level is a percent of today's fee, so above 100 raises and below lowers),
+ * which is what the bill's title is made from.
+ */
+/** A fee section's charge: what it brings in a year, the home's monthly figure, and the home's figure at the level the bill sets. */
+function feeCharge(
+  series: string | undefined,
+  section: {
+    before: { value: number | null };
+    after: { value: number | null };
+  } | null,
+  charges: readonly {
+    service: string;
+    yearlyMinor: number | bigint;
+    perHomeMonthMinor?: number | bigint | null;
+  }[],
+  inForceLevel: number | null,
+  first: boolean,
+) {
+  const service =
+    series && isFeeLevelSeries(series) ? FEE_LEVEL_SERVICES[series] : undefined;
+  const row = service ? charges.find((c) => c.service === service) : undefined;
+  if (!row) return {};
+  // The charge row is at the level in force today; a section's new home figure scales it to its own level.
+  const before = inForceLevel ?? FEE_LEVEL_BASELINE;
+  const after = section?.after.value;
+  return {
+    charge: {
+      // Only the first step reads today's figure; later steps say what the step before made it.
+      first,
+      yearlyMinor: String(row.yearlyMinor),
+      perHomeMonthMinor:
+        row.perHomeMonthMinor == null ? null : String(row.perHomeMonthMinor),
+      // What a home pays at the level this step starts from (a later step starts from the one before).
+      beforePerHomeMonthMinor:
+        row.perHomeMonthMinor != null && inForceLevel
+          ? String(
+              Math.round(
+                (Number(row.perHomeMonthMinor) *
+                  (section?.before.value ?? inForceLevel)) /
+                  inForceLevel,
+              ),
+            )
+          : null,
+      newPerHomeMonthMinor:
+        row.perHomeMonthMinor != null && typeof after === "number" && before
+          ? String(Math.round((Number(row.perHomeMonthMinor) * after) / before))
+          : null,
+    },
+  };
+}
+
+function feeNaming(
+  series: string,
+  value: number | undefined,
+): { policyId?: string; operation?: "raise" | "lower" } {
+  if (!isFeeLevelSeries(series) || value === undefined) return {};
+  return {
+    policyId: `law:${series}`,
+    operation: value >= FEE_LEVEL_BASELINE ? "raise" : "lower",
+  };
+}
+
+function askProvision(
+  api: ReturnType<typeof coreAPI>,
+  body: { level: string },
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+  },
+): Provision {
+  return input.line
+    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
+    : input.series
+      ? {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value ?? 0,
+          unit:
+            menusFor(api, body.level, input.officeId!)
+              .flatMap((menu) => menu.items)
+              .find((row) => row.series === input.series)?.unit ?? undefined,
+          ...feeNaming(input.series, input.value),
+        }
+      : {
+          kind: "policy-question",
+          question: input.question ?? "",
+          value: input.value ?? 1,
+        };
+}
+
+/**
+ * The members an executive may ask to carry this bill, with the one the engine would ask marked as
+ * the likely yes (`likelyCarriers`, the ranking the ask itself reads).
+ */
+export function seatAskOptions(
+  core: CoreState,
+  personId: string,
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+  },
+) {
+  const api = coreAPI(core);
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
+  );
+  if (!body) throw new Error("You can't send a bill to that body.");
+  const ranked = likelyCarriers(api, input.officeId!, [
+    askProvision(api, body, input),
+  ]);
+  return {
+    members: ranked.map((row, index) => ({
+      key: row.key,
+      name: personName(core, row.key),
+      party: body.members.find((m) => m.key === row.key)?.party ?? null,
+      likely: index === 0,
+    })),
+  };
+}
+
+export function seatAsk(
+  core: CoreState,
+  personId: string,
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+    /** The member the executive chose to ask; none asks the likeliest yes. */
+    memberId?: string;
+  },
+) {
+  const api = coreAPI(core);
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
+  );
+  if (!body) throw new Error("You can't send a bill to that body.");
+  const provision = askProvision(api, body, input);
+  const asked = proposeAsExecutive(api, {
+    bodyOfficeId: input.officeId!,
+    provisions: [provision],
+    byPlayer: true,
+    ...(input.memberId ? { memberId: input.memberId } : {}),
+  });
+  if (!asked)
+    throw new Error("No member of that body can be asked to carry it.");
+  // The member asked is never the player: `proposeAsExecutive` skips the executive's own key,
+  // and `bodiesOf` offers an executive only a body they do not sit on, so the engine's held
+  // ask for the player (`awaitingPlayer`) cannot come back here and the screen has no line for it.
+  if (asked.awaitingPlayer)
+    throw new Error(
+      "An executive's bill was asked of the player; the menu should not offer this body.",
+    );
+  // A no is kept with its reason and date (the ask's own row, `declinedAsks`) and can be asked
+  // again later; the screen reads the reason back and says when the same member said no before.
+  const reason = asked.carried ? null : publicDeclineReason(asked);
+  const section = asked.provisions[0]!;
+  const spoken =
+    reason === "views" &&
+    section.kind === "policy-question" &&
+    section.question &&
+    section.value > 0
+      ? questionReasons(section.question, "against").reason
+      : null;
+  const earlier = declinedAsks(
+    api,
+    asked.askerId,
+    asked.memberId,
+    asked.bodyOfficeId,
+  )
+    .filter((row) => row.id !== asked.id)
+    .map((row) => row.date);
+  const seat = bodyMembersOf(api, input.officeId!).find(
+    (row) => memberKey(row) === asked.memberId,
+  );
+  const person = api.state.people.get(asked.memberId);
+  const words = pronounWords(
+    person?.looks?.pronouns ?? pronounSetOfGender(seat?.identity.gender),
+  );
+  return {
+    asked: {
+      memberId: asked.memberId,
+      // How the screen speaks of the member, from their record: null is the they form.
+      pronouns: words
+        ? {
+            lower: words.lower,
+            object: words.object,
+            possessive: words.possessive,
+          }
+        : null,
+      name: personName(core, asked.memberId),
+      carried: asked.carried,
+      askId: asked.id,
+      billId: asked.billId,
+      ...(reason ? { reason, ...(spoken ? { reasonWords: spoken } : {}) } : {}),
+      ...(!asked.carried && earlier.length ? { earlier } : {}),
+    },
+  };
 }

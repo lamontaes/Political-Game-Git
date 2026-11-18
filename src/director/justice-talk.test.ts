@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -12,6 +11,10 @@ import {
   type CaseRow,
   type InvestigationRow,
 } from "../core2/modules/justice";
+import {
+  CORRUPTION_MODULE_ID,
+  type CrimeRecord,
+} from "../core2/modules/corruption";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
@@ -26,7 +29,7 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // charging step in a drawn place; the talk is the conversation engine's, and
 // every line comes from the bank's authored charge, conviction and acquittal
 // pieces, citing the justice record that fired it.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const seed = process.env.GOLDEN_PATH_SEED ?? "justice-talk-court-s3";
 const place = drawPlace(seed, "justice-talk");
 const where = `${place.name} (${place.key}), seed ${seed}`;
 
@@ -56,6 +59,24 @@ it(`the accused and their friend talk about a charge and its verdict in the word
     .sort((a, b) => a.id.localeCompare(b.id))[0]!;
   const friendId = [...accused.knownIds].filter(full).sort()[0]!;
 
+  // The crime the case is for, as the corruption engine records one: a bribe
+  // the accused paid (the talk says the offense from the case's crime).
+  const crime: CrimeRecord = {
+    id: `crime:justice-talk:${seed}`,
+    kind: "bribe",
+    date: core.date,
+    offererId: accused.id,
+    officialId: friendId,
+    amountMinor: 100_000,
+    subjectId: "",
+    offered: true,
+    taken: true,
+    reasons: {},
+  };
+  api
+    .moduleState(CORRUPTION_MODULE_ID)
+    .table("crimes")
+    .put(crime as never);
   // The engine charges them: strong evidence, a prosecutor's desk.
   const investigation: InvestigationRow = {
     id: `investigation:justice-talk:${seed}`,
@@ -67,7 +88,12 @@ it(`the accused and their friend talk about a charge and its verdict in the word
     date: core.date,
     reasons: {},
     targets: [
-      { personId: accused.id, crimeIds: [], evidence: [], strength: 1 },
+      {
+        personId: accused.id,
+        crimeIds: [crime.id],
+        evidence: [],
+        strength: 1,
+      },
     ],
     status: "open",
   };

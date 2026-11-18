@@ -39,6 +39,7 @@ interface HistoryRow {
 }
 
 const ROWS = history.monthly as readonly HistoryRow[];
+const BY_MONTH = new Map(ROWS.map((row) => [row.month, row]));
 const QUARTERS = new Map(
   history.quarterlyRealOutput.map((row) => [row.quarter, row.realOutput]),
 );
@@ -101,6 +102,13 @@ function realOutputAt(month: string, p: MacroParameter): number {
   }
 }
 
+/** The opening month: the last complete month before the start, or the last one published. */
+function openingMonth(startedAt: string, p: MacroParameter): string {
+  const last = ROWS.at(-p("one"))!.month;
+  const opening = shiftMonth(monthKey(startedAt), -p("one"), p);
+  return opening > last ? last : opening;
+}
+
 /**
  * The published opening month (the last complete month before the start) and
  * the months before it, as the agencies printed them. Calibration only: the
@@ -111,9 +119,7 @@ export function publishedMonths(
   p: MacroParameter,
 ): MacroMonth[] {
   const byMonth = new Map(ROWS.map((row) => [row.month, row]));
-  const last = ROWS.at(-p("one"))!.month;
-  let opening = shiftMonth(monthKey(startedAt), -p("one"), p);
-  if (opening > last) opening = last;
+  const opening = openingMonth(startedAt, p);
   const months: MacroMonth[] = [];
   // The coarse years before the start (M1-14): every real month since the latest full-data year, and at least the year before the opening.
   const [openingYear, openingPart] = opening.split("-").map(Number) as [
@@ -241,12 +247,82 @@ export function macroWorldOffsets(
   };
 }
 
+/** The figures a world's offsets move, as a published month or a world's month carries them. */
+type MovedFigures = Partial<
+  Record<
+    | "unemploymentPct"
+    | "priceIndex"
+    | "payrollJobsThousands"
+    | "hourlyEarnings"
+    | "realOutput"
+    | "policyRatePct"
+    | "treasury10Pct"
+    | "mortgage30Pct",
+    number
+  >
+>;
+
+/**
+ * One published month moved by this world's offsets (owner, Oct 27:
+ * "realistic, not real"; Nov 13: "it's simulated... things need to be
+ * simulated in order to make your modern day make sense"). The published
+ * figures set the base and the shape only. A rate offset moves every month
+ * alike; a growth offset compounds from the opening month back, so every
+ * month's 12-month change carries it, however far back the month is. The one
+ * rule for the months play opens from (`historyMonths`) and the months the
+ * history before them records (`worldPublishedMonth`), so the two agree on
+ * every month both hold and nothing jumps on day one. Only the figures the
+ * row has are moved.
+ */
+function moveByWorld<Row extends MovedFigures & { month: string }>(
+  row: Row,
+  opening: string,
+  o: MacroWorldOffsets,
+  p: MacroParameter,
+): Row {
+  const months = p("macroMonthsPerYear"),
+    hundred = p("macroHundred"),
+    one = p("one");
+  const [y, m] = row.month.split("-").map(Number) as [number, number];
+  const [oy, om] = opening.split("-").map(Number) as [number, number];
+  const monthsFrom = (y - oy) * months + (m - om);
+  const grown = (level: number, growthPoints: number) =>
+    (one + level) * (one + growthPoints / hundred) ** (monthsFrom / months);
+  const floor = p("macroPolicyLowerBoundPct");
+  const moved: MovedFigures = {};
+  if (row.unemploymentPct !== undefined)
+    moved.unemploymentPct = Math.max(
+      p("macroWorldUnemploymentLowestPct"),
+      row.unemploymentPct + o.unemploymentPoints,
+    );
+  if (row.priceIndex !== undefined)
+    moved.priceIndex =
+      row.priceIndex * grown(o.priceLevelShare, o.inflationPoints);
+  if (row.payrollJobsThousands !== undefined)
+    moved.payrollJobsThousands =
+      row.payrollJobsThousands * grown(o.jobsLevelShare, o.jobsGrowthPoints);
+  if (row.hourlyEarnings !== undefined)
+    moved.hourlyEarnings =
+      row.hourlyEarnings * grown(o.wageLevelShare, o.wageGrowthPoints);
+  if (row.realOutput !== undefined)
+    moved.realOutput =
+      row.realOutput * grown(o.outputLevelShare, o.outputGrowthPoints);
+  if (row.policyRatePct !== undefined)
+    moved.policyRatePct = Math.max(
+      floor,
+      row.policyRatePct + o.policyRatePoints,
+    );
+  if (row.treasury10Pct !== undefined)
+    moved.treasury10Pct = Math.max(floor, row.treasury10Pct + o.longRatePoints);
+  if (row.mortgage30Pct !== undefined)
+    moved.mortgage30Pct = row.mortgage30Pct + o.longRatePoints;
+  return { ...row, ...moved };
+}
+
 /**
  * This world's opening month and the months before it: the published series
- * moved by the world's own offsets (owner, Oct 27: "realistic, not real";
- * the published figures calibrate the spread and are never copied). A growth
- * offset compounds from the opening month back, so every month's 12-month
- * change carries it; a rate offset moves every month alike.
+ * moved by the world's own offsets (`moveByWorld`; the published figures
+ * calibrate the spread and are never copied).
  */
 export function historyMonths(
   startedAt: string,
@@ -256,58 +332,46 @@ export function historyMonths(
   const published = publishedMonths(startedAt, p);
   const opening = published.at(-p("one"))!.month;
   const o = macroWorldOffsets(seed, p);
-  const months = p("macroMonthsPerYear"),
-    hundred = p("macroHundred"),
+  const hundred = p("macroHundred"),
     one = p("one");
-  const monthsFrom = (month: string) => {
-    const [y, m] = month.split("-").map(Number) as [number, number];
-    const [oy, om] = opening.split("-").map(Number) as [number, number];
-    return (y - oy) * months + (m - om);
-  };
-  const grown = (month: string, level: number, growthPoints: number) =>
-    (one + level) *
-    (one + growthPoints / hundred) ** (monthsFrom(month) / months);
-  const floor = p("macroPolicyLowerBoundPct");
   return published.map((row) => {
-    const unemploymentPct = Math.max(
-      p("macroWorldUnemploymentLowestPct"),
-      row.unemploymentPct + o.unemploymentPoints,
-    );
-    const policyRatePct = Math.max(
-      floor,
-      row.policyRatePct + o.policyRatePoints,
-    );
-    const inflationPct =
-      ((one + row.inflationPct / hundred) *
-        (one + o.inflationPoints / hundred) -
-        one) *
-      hundred;
-    const outputGapPct =
-      -p("macroOkunOutputPerUnemploymentPoint") *
-      (unemploymentPct - row.naturalUnemploymentPct);
+    const moved = moveByWorld(row, opening, o, p);
     return {
-      ...row,
-      unemploymentPct,
-      priceIndex:
-        row.priceIndex * grown(row.month, o.priceLevelShare, o.inflationPoints),
+      ...moved,
       // The 12-month change of the moved price index, exactly.
-      inflationPct,
-      payrollJobsThousands:
-        row.payrollJobsThousands *
-        grown(row.month, o.jobsLevelShare, o.jobsGrowthPoints),
-      hourlyEarnings:
-        row.hourlyEarnings *
-        grown(row.month, o.wageLevelShare, o.wageGrowthPoints),
-      realOutput:
-        row.realOutput *
-        grown(row.month, o.outputLevelShare, o.outputGrowthPoints),
-      outputGapPct,
-      policyRatePct,
-      primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
-      treasury10Pct: Math.max(floor, row.treasury10Pct + o.longRatePoints),
-      mortgage30Pct: row.mortgage30Pct + o.longRatePoints,
+      inflationPct:
+        ((one + row.inflationPct / hundred) *
+          (one + o.inflationPoints / hundred) -
+          one) *
+        hundred,
+      outputGapPct:
+        -p("macroOkunOutputPerUnemploymentPoint") *
+        (moved.unemploymentPct - row.naturalUnemploymentPct),
+      primeRatePct: moved.policyRatePct + p("macroPrimeSpreadPct"),
     };
   });
+}
+
+/**
+ * A past month in this world, as the history before the start records it:
+ * the agencies' month (BLS, Fed H.15, FHFA) moved by the world's offsets, by
+ * the same rule as the months play opens from. Undefined for a month nothing
+ * was published for.
+ */
+export function worldPublishedMonth(
+  month: string,
+  startedAt: string,
+  seed: string,
+  p: MacroParameter,
+): Readonly<HistoryRow> | undefined {
+  const row = BY_MONTH.get(month);
+  if (!row) return undefined;
+  return moveByWorld(
+    row,
+    openingMonth(startedAt, p),
+    macroWorldOffsets(seed, p),
+    p,
+  );
 }
 
 /** What the sum of the states came to in a month, as the national row needs it (country-model.ts). */
@@ -489,8 +553,6 @@ export function checkBands(
   return out;
 }
 
-const BY_MONTH = new Map(ROWS.map((row) => [row.month, row]));
-
 /** The 30-year fixed mortgage rate in a past month (FHFA MIRS; after 2019 the 10-year plus its spread). */
 export function historicalMortgageRate(
   month: string,
@@ -500,9 +562,26 @@ export function historicalMortgageRate(
   return mortgageAt(BY_MONTH, month < first ? first : month, p);
 }
 
-/** A past month's published national figures, as recorded (BLS, Fed H.15, FHFA). */
-export function publishedMonth(
+/**
+ * The 30-year fixed mortgage rate in a past month of this world: the
+ * published rate (`historicalMortgageRate`) moved by the world's long-rate
+ * offset, the rule `historyMonths` gives its mortgage rate. A pure read of the
+ * month, start date and seed, so a pass that runs before the economy's
+ * history (home values and mortgages made at generation) reads the same rate
+ * the history records.
+ */
+export function worldMortgageRate(
   month: string,
-): Readonly<HistoryRow> | undefined {
-  return BY_MONTH.get(month);
+  startedAt: string,
+  seed: string,
+  p: MacroParameter,
+): number {
+  return (
+    moveByWorld(
+      { month, mortgage30Pct: historicalMortgageRate(month, p) },
+      openingMonth(startedAt, p),
+      macroWorldOffsets(seed, p),
+      p,
+    ).mortgage30Pct ?? historicalMortgageRate(month, p)
+  );
 }

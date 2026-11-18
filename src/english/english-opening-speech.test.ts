@@ -74,7 +74,11 @@ const said = (
 describe("the opening address's pieces", () => {
   it("hold no figure, year, state or office, and no line the owner turned down", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
-      expect(part.text, part.key).not.toMatch(/\d|percent/);
+      // No figure at all: an address says how far something moved in words
+      // (the Story lead's read of #9831, Nov 17: "no figure is spoken in an
+      // address"), so a context sentence says no percent either.
+      expect(part.text, part.key).not.toMatch(/\d/);
+      expect(part.text, part.key).not.toMatch(/percent/);
       expect(part.text, part.key).not.toMatch(FIGURE_SLOT);
       for (const line of TURNED_DOWN)
         expect(part.text, part.key).not.toMatch(line);
@@ -82,6 +86,41 @@ describe("the opening address's pieces", () => {
         /\b(?:Pennsylvania|Ohio|Texas|California|Florida|Congress shall)\b/,
       );
     }
+  });
+
+  it("a governor and a mayor have four ways to say each of jobs, pay and prices going wrong, and going right, that never name the place again", () => {
+    // The names budget drops a line that names the state or town again after
+    // the greeting and the close, so a worse line that took {realm-name}
+    // never played (Bee Cave, Texas, seed a7c13e: a bad term told no jobs).
+    for (const subject of ["state-of-the-state", "town-address"])
+      for (const topic of ["jobs", "pay", "prices"])
+        for (const tone of ["worse", "better"]) {
+          const fact = `${topic}-${tone}`;
+          const lines = OPENING_SPEECH_BANK.parts.filter((part) =>
+            part.uses.some(
+              (use) =>
+                use.subject === subject &&
+                use.move === "story-says" &&
+                use.requiresFacts?.includes(fact),
+            ),
+          );
+          expect(
+            lines.length,
+            `${subject} ${fact}: lines that tell it`,
+          ).toBeGreaterThanOrEqual(4);
+          for (const line of lines)
+            if (tone === "worse")
+              expect(line.text, line.key).not.toMatch(/\{realm-name\}/);
+        }
+  });
+
+  it('never contract "is" or "has" onto a noun phrase (words lead, round 7)', () => {
+    // "'s" for "is" attaches only to a pronoun or to "that", "there", "here",
+    // "what" and "who": "Progress on health care's something" is not English.
+    const nounContraction =
+      /(?<![\w'])(?!(?:it|that|there|here|what|who|he|she|let|how|where|when|why|everyone|someone|everybody|nobody|somebody|anyone|one|this)'s\b)[A-Za-z-]+\}?'s (?:a|an|the|within|something|not|so|just|still|more|less|good|bad|always|never|now|no|up|down|better|worse|going|been|got|like)\b/i;
+    for (const part of OPENING_SPEECH_BANK.parts)
+      expect(part.text, part.key).not.toMatch(nounContraction);
   });
 
   it("keep short sentences: a third of each move's cores in the President's address are twelve words or fewer, each with its insert", () => {

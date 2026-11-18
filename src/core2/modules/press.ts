@@ -19,6 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import endorsing from "../data/press/endorsements.json" with { type: "json" };
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import {
@@ -64,17 +65,25 @@ import {
   campaignFor,
   campaignRecognition,
   interviewHeldInTown,
+  townShareOfRace,
   makeStatements,
   touchImpression,
   registerAdOutlet,
   parsePlatform,
+  contestPositions,
+  outletWeighsRace,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
 import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  crimeRecord,
+  wantedFacts,
+  type CrimeRecord,
+} from "./corruption";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -88,7 +97,12 @@ import {
 } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
-import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
+import {
+  BUSINESS_MODULE_ID,
+  enrollBusinessOwner,
+  giveOutsideSuppliers,
+  ownerOf,
+} from "./business";
 import { publicOffset, questionAxis } from "../campaign-views";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import {
@@ -114,13 +128,19 @@ import {
   adBudgetMonthMinor,
   installOutletMoney,
   outletYearlyRevenue,
-  outsideCustomersOf,
-  payWiderAudience,
   type OutletMoneyDeps,
+  outsideCustomersOf,
+  payMarket,
+  payWiderAudience,
 } from "../press-money";
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
-import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
+import {
+  isPolicyTopic,
+  wireItem,
+  type WireItem,
+  type WireLevel,
+} from "../press-topics";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
 import {
   familyRelation,
@@ -136,11 +156,15 @@ import {
   regard,
   runDesk,
   slantOf,
+  usualSpace,
   type DeskContext,
+  type DeskOutlet,
   type PrintedStory,
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
+/** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
+export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
@@ -153,6 +177,29 @@ export type LocalKind = "newspaper" | "television" | "radio";
 export type NationalKind = "cable" | "magazine" | "online" | "national-paper";
 export type OutletKind = LocalKind | NationalKind;
 const KINDS: readonly LocalKind[] = ["newspaper", "television", "radio"];
+
+/**
+ * How an outlet of each kind carries the news: printed on paper, shown on a
+ * screen, or said on the air; a site online is none of the three. Talk says
+ * "I read in" a paper, "I saw on" a station, "I heard on" the radio.
+ */
+const MEDIA: Readonly<
+  Partial<Record<OutletKind, "paper" | "television" | "radio">>
+> = {
+  newspaper: "paper",
+  "national-paper": "paper",
+  magazine: "paper",
+  television: "television",
+  cable: "television",
+  radio: "radio",
+};
+
+/** How an outlet's kind carries the news, or null for one online. */
+export function outletMedium(
+  kind: OutletKind,
+): "paper" | "television" | "radio" | null {
+  return MEDIA[kind] ?? null;
+}
 
 interface NationalKindRow {
   readonly kind: NationalKind;
@@ -167,6 +214,9 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
+/** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
+const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
+
 const ALL_KINDS: readonly OutletKind[] = [
   ...KINDS,
   ...NATIONAL.kinds.map((row) => row.kind),
@@ -195,6 +245,18 @@ export interface OutletRow {
   readonly lean: number;
   /** Yearly revenue it took from its audience's spending at the opening. */
   readonly audienceRevenueMinor: number;
+  /**
+   * For a local outlet: the people it serves (`servedPeopleOf`), so a race or
+   * a story is weighed against its own audience, not the town's. A national
+   * outlet has none: its bar (`nationalInterviewBar`) and its beat weigh it.
+   */
+  readonly audiencePeople?: number;
+  /** The town's outlet of record (`townOutlet`), settled at the opening. */
+  readonly ofRecord?: boolean;
+  /** How far each seat's race has built toward a turn at this outlet (`raceTurns`). */
+  readonly raceCredit?: Readonly<Record<string, number>>;
+  /** How far each level's stories have built up at this outlet (`levelRoom`). */
+  readonly storyCredit?: Readonly<Partial<Record<WireLevel, number>>>;
 }
 
 /**
@@ -290,7 +352,14 @@ const NEWS = news as unknown as {
   };
 };
 const BASES = bases as unknown as {
-  places: Record<string, { population2024?: number }>;
+  places: Record<
+    string,
+    {
+      population2024?: number;
+      puertoRicoPopulation2025?: number;
+      islandAreaPopulation2020?: number;
+    }
+  >;
   countyPopulation2024: Record<string, number>;
 };
 const HABIT: Record<LocalKind, HabitKey> = {
@@ -397,6 +466,8 @@ export const PRESS_MODULE: CoreModule = {
   onDay: enrollPressEmployers,
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
+    else if (work.kind === "press-run") runExposure(api, work);
+    else if (work.kind === "press-invite") inviteDay(api, work);
     else pressWeek(api, work);
   },
   eventKinds: ["*"],
@@ -428,6 +499,9 @@ export const PRESS_MODULE: CoreModule = {
     const policeLog =
       event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
     if (!event.publicRecord && !policeLog) return;
+    // An exposure the paper holds for comment goes on the wire when it runs
+    // (runExposure), so no desk prints it before the one exposed is asked.
+    if (event.kind === "press.exposed" && event.facts?.runsOn) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -502,10 +576,19 @@ function countedReadersOf(api: CoreAPI, outlet: OutletRow): number {
   );
 }
 
+/** A paper's revenue per reader a year: the national amount per adult over the share of adults who follow local newspapers. */
+function revenuePerReaderYearMinor(): number {
+  return (
+    pressParameter("newspaperRevenuePerAdultYear") /
+    NEWS.habits.national.localNewspapers
+  );
+}
+
 /**
  * What an outlet can expect to take in a year: its readers' subscriptions and
- * its share of the town's businesses' ads at their cash today, and at least
- * what its people here cost where its wider audience makes up the rest.
+ * its share of the town's businesses' ads at their cash today. No wider
+ * audience tops it up: a paper that takes in less than its people cost shows
+ * the loss, and its owner weighs closing it.
  */
 function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
   const core = api.state as CoreState;
@@ -516,7 +599,7 @@ function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
   const subscriptions =
     outlet.kind === "newspaper"
       ? audience(outlet) *
-        pressParameter("newspaperRevenuePerFollowerYear") *
+        revenuePerReaderYearMinor() *
         pressParameter("newspaperCirculationShare")
       : 0;
   let ads = 0;
@@ -526,10 +609,161 @@ function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
         ads += adBudgetMonthMinor(api, id) * months;
   const town =
     subscriptions + (total > 0 ? (ads * audience(outlet)) / total : 0);
+  // A paper's market readers pay the national revenue per reader.
+  if (outlet.kind === "newspaper")
+    return Math.round(
+      town + marketReadersOf(api, outlet) * revenuePerReaderYearMinor(),
+    );
+  // A station's wider audience makes up its people's cost
+  // (SG-PEOPLE-press-bureau-shortfall), until its whole-cost model.
   const floor = outsideCustomersOf(core, outlet.placeId)
     ? outletMonthlyCostMinor(api, outlet) * months
     : 0;
   return Math.round(Math.max(town, floor));
+}
+
+/**
+ * The adults beyond the town whom an outlet reaches, counted and not
+ * simulated: a newspaper's county adults less the town's, at the town's own
+ * reading habits by age, shared among the papers as the town's readers are.
+ */
+export function marketReadersOf(api: CoreAPI, outlet: OutletRow): number {
+  // Only newspapers are paid by their market; a station's wider audience still
+  // makes up its people's cost.
+  if (outlet.kind !== "newspaper") return 0;
+  const town = townReading(api, outlet);
+  if (!town) return 0;
+  const own = openOfKind(api, outlet.kind);
+  const beyond = Math.max(0, marketAdultsOf(api, outlet, town) - town.adults);
+  return (beyond * (town.readers / town.adults)) / Math.max(1, own);
+}
+
+/** How many outlets of a kind are open: a closed one's readers go to the rest. */
+function openOfKind(api: CoreAPI, kind: string): number {
+  return outletsHere(api).filter(
+    (o) =>
+      o.kind === kind &&
+      !api.state.finance.businesses.get(o.organizationId)?.closedAt,
+  ).length;
+}
+
+/** The town's adults, all its people, and the adults who read an outlet's kind, by the habits of their age. */
+function townReading(
+  api: CoreAPI,
+  outlet: OutletRow,
+): { adults: number; people: number; readers: number } | null {
+  const adultAge = api.parameter("votingAge");
+  let adults = 0,
+    people = 0,
+    readers = 0;
+  for (const row of countsThisMonth(api)) {
+    if (row.placeId !== outlet.placeId) continue;
+    for (const [bandKey, count] of Object.entries(row.byAgeBand ?? {})) {
+      const low = Number(bandKey.split("-")[0]);
+      if (!Number.isFinite(low)) continue;
+      people += count;
+      if (low < adultAge) continue;
+      adults += count;
+      readers +=
+        count *
+        (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind as LocalKind]] ??
+          0);
+    }
+  }
+  return adults > 0 && people > 0 ? { adults, people, readers } : null;
+}
+
+/**
+ * The people in a newspaper's market: its county. A county the population
+ * data does not list (Puerto Rico's municipios, the island areas) is the
+ * state's people over the state's published newspapers, the average area one
+ * serves. Throws where no population is known, so a missing market never
+ * quietly becomes the town alone.
+ */
+export function marketPeople(
+  stateKey: string,
+  countyGeoid: string | undefined,
+): number {
+  // The state's people, or an island area's or Puerto Rico's own count.
+  const base = BASES.places[stateKey];
+  const state =
+    base?.population2024 ??
+    base?.puertoRicoPopulation2025 ??
+    base?.islandAreaPopulation2020 ??
+    0;
+  const county =
+    (countyGeoid ? BASES.countyPopulation2024[countyGeoid] : 0) ?? 0;
+  if (county > 0) return county;
+  const papers = NEWS.places[stateKey]?.newspapers ?? 0;
+  if (!(state > 0) || !(papers > 0))
+    throw new Error(`No population for ${stateKey}'s newspaper market`);
+  return state / papers;
+}
+
+/** The adults of an outlet's market: its people at the town's share of adults. */
+function marketAdultsOf(
+  api: CoreAPI,
+  outlet: OutletRow,
+  town: { adults: number; people: number },
+): number {
+  const chain = lawChain(api);
+  return (
+    marketPeople(chain.stateKey, chain.countyGeoids[0]) *
+    (town.adults / town.people)
+  );
+}
+
+/**
+ * The newsroom jobs a newspaper keeps for its market, shared among the
+ * papers there: the national jobs per adult (Pew 2020), scaled by how much
+ * the market reads relative to the nation so the newsroom follows circulation
+ * as revenue does, but never below the floor.
+ */
+export function newsroomJobsOf(
+  marketAdults: number,
+  papers: number,
+  readingRatio = 1,
+): number {
+  return Math.max(
+    pressParameter("newspaperNewsroomFloor"),
+    (marketAdults * readingRatio) /
+      pressParameter("adultsPerNewspaperNewsroomWorker") /
+      Math.max(1, papers),
+  );
+}
+
+/**
+ * What a newspaper pays each year outside the town: the newsroom beyond its
+ * town bureau (its market's newsroom jobs less the bureau's people, at a
+ * reporter's pay and the employer's payroll tax; these workers live outside
+ * the town and are not simulated) and the rest of its cost with each
+ * newsroom job (printing, delivery, sales, administration). A station has no
+ * whole-cost model yet and pays its town bureau alone.
+ */
+export function outsideNewsroomYearMinor(
+  api: CoreAPI,
+  outlet: OutletRow,
+  bureauPeople: number,
+): number {
+  // A station's cost stays its town bureau's pay until its whole-cost model.
+  if (outlet.kind !== "newspaper") return 0;
+  const town = townReading(api, outlet);
+  if (!town) return 0;
+  const own = openOfKind(api, outlet.kind);
+  const jobs = newsroomJobsOf(
+    marketAdultsOf(api, outlet, town),
+    own,
+    town.readers / town.adults / NEWS.habits.national.localNewspapers,
+  );
+  const pay = pressParameter("reporterAnnualPayMinor");
+  const other =
+    jobs * pressParameter("newspaperOtherCostPerNewsroomJobYearMinor");
+  return Math.round(
+    Math.max(0, jobs - bureauPeople) *
+      pay *
+      (1 + employerTaxShareOfWage(api, pay)) +
+      other,
+  );
 }
 
 /** What the money side reads of the press: its outlets, their audiences and costs. */
@@ -546,19 +780,24 @@ function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
     townPlaceId: () => lawChain(api).townPlaceId,
     outlets: local,
     followers: (id) => followersOf(api, id),
+    marketMonthlyPerReaderMinor: () =>
+      revenuePerReaderYearMinor() / pressParameter("monthsPerYear"),
+    monthlyCostMinor: (id) => {
+      const outlet = local().find((o) => o.id === id);
+      return outlet ? outletMonthlyCostMinor(api, outlet) : 0;
+    },
+    marketReaders: (id) => {
+      const outlet = local().find((o) => o.id === id);
+      return outlet ? marketReadersOf(api, outlet) : 0;
+    },
     countedFollowers: (id) => {
       const outlet = local().find((o) => o.id === id);
       return outlet ? countedReadersOf(api, outlet) : 0;
     },
     subscriptionYearMinor:
-      pressParameter("newspaperRevenuePerFollowerYear") *
-      pressParameter("newspaperCirculationShare"),
+      revenuePerReaderYearMinor() * pressParameter("newspaperCirculationShare"),
     adShareOfCosts: pressParameter("advertisingShareOfCosts"),
     localNewsShareOfAds: pressParameter("localNewsShareOfAdvertising"),
-    monthlyCostMinor: (id) => {
-      const outlet = local().find((o) => o.id === id);
-      return outlet ? outletMonthlyCostMinor(api, outlet) : 0;
-    },
     source: {
       tag: "ESTIMATED",
       citation:
@@ -623,8 +862,19 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     readonly reporters: number;
     readonly tier: "local" | "national";
     readonly audienceLean?: number;
+    readonly audiencePeople?: number;
   }
   const specs: Spec[] = [];
+  // The people each outlet serves: a station its market's (the state's people
+  // over its markets), a paper or a radio station its county's, shared with
+  // the county's other outlets of its kind. Never fewer than the town's.
+  const served = (kind: LocalKind): number =>
+    Math.max(
+      townPeople,
+      kind === "television"
+        ? statePeople / Math.max(1, counts?.tvMarkets ?? 1)
+        : countyPeople / Math.max(1, Math.min(cap, wanted[kind])),
+    );
   for (const kind of KINDS)
     for (let index = 0; index < Math.min(cap, wanted[kind]); index += 1) {
       const id = `outlet:${kind}:${index}:${town}`;
@@ -653,6 +903,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
             : "reportersPerStation",
         ),
         tier: "local",
+        audiencePeople: Math.round(served(kind)),
       });
     }
   for (const row of NATIONAL.kinds)
@@ -778,6 +1029,9 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       ...(spec.audienceLean === undefined
         ? {}
         : { audienceLean: spec.audienceLean }),
+      ...(spec.audiencePeople === undefined
+        ? {}
+        : { audiencePeople: spec.audiencePeople }),
       ownerId,
       headId,
       reporterIds,
@@ -821,6 +1075,13 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       audienceRevenueMinor: expectedRevenueYearMinor(api, outlet),
     } as unknown as ModuleRow);
   }
+  // The town's outlet of record, settled once its followers are known.
+  const record = townOutlet(api);
+  if (record)
+    table(api, "outlets").put({
+      ...record,
+      ofRecord: true,
+    } as unknown as ModuleRow);
   scheduleWeek(api, api.state.date);
   pressStaffChanged(api);
   return outletsHere(api);
@@ -860,9 +1121,8 @@ function enrollPressEmployers(api: CoreAPI): void {
     const payroll = Math.round(
       outletPayrollYearMinor(api, outlet.organizationId),
     );
-    // Its demand is the revenue it can expect (subscriptions, ads and its
-    // wider audience's part); an actual income anchor prevents manufactured
-    // zero demand. Its costs other than its people are not on its books.
+    // Its demand is the revenue it can expect (subscriptions and ads); an actual
+    // income anchor prevents manufactured zero demand. Its costs other than its people are not on its books.
     // stopgapId: SG-PEOPLE-press-outlet-other-costs
     api.stopgap("SG-PEOPLE-press-outlet-other-costs");
     api.addBusinessBooks({
@@ -870,7 +1130,7 @@ function enrollPressEmployers(api: CoreAPI): void {
       kindId: "information",
       annualPayrollMinor: payroll,
       annualDemandMinor: outlet.audienceRevenueMinor,
-      annualOtherCostsMinor: 0,
+      annualOtherCostsMinor: outsideNewsroomYearMinor(api, outlet, jobs.length),
       openingTownIncomeMinor: anchor.openingTownIncomeMinor,
       capacityMinor: outlet.audienceRevenueMinor,
       price: api.parameter("one"),
@@ -882,6 +1142,12 @@ function enrollPressEmployers(api: CoreAPI): void {
         estimatedFrom: "expected revenue",
       },
     });
+    // Its costs beyond its people are bought from outside suppliers, as every
+    // firm's are, so they show in its books as paid.
+    if (outlet.kind === "newspaper")
+      giveOutsideSuppliers(core, outlet.organizationId, [
+        ...(core.finance.businessesByPlace.get(outlet.placeId) ?? []),
+      ]);
     enrollBusinessOwner(api, {
       organizationId: outlet.organizationId,
       ownerId: owner.id,
@@ -893,6 +1159,8 @@ function enrollPressEmployers(api: CoreAPI): void {
       ownerId: owner.id,
       incomeAnchorRecordId: anchor.organizationId,
       date: core.date,
+      // The papers sharing its market when its books opened.
+      papers: openOfKind(api, outlet.kind),
     });
   }
 }
@@ -904,7 +1172,7 @@ function enrollPressEmployers(api: CoreAPI): void {
  */
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
-  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const own = openOfKind(api, outlet.kind);
   const adultAge = api.parameter("votingAge");
   let total = 0;
   for (const row of countsThisMonth(api)) {
@@ -930,14 +1198,44 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
 }
 
 /**
- * The outlet that carries the town's public record: the town's own
- * newspaper, else its first local outlet. Null where no press is installed.
+ * How a person says an outlet: what it is (a paper is read in, a television or
+ * online outlet is seen on, a radio station is heard on) and whether its name
+ * takes "the" ("the Wendell Gazette"; a station's call letters and a name that
+ * already opens with "The" do not). Read from the outlet's record, so every
+ * line that names an outlet can say it the same way.
+ */
+export function outletTelling(
+  api: CoreAPI,
+  organizationId: string,
+  name: string,
+):
+  | {
+      readonly medium: "paper" | "television" | "radio" | "online";
+      readonly the: boolean;
+    }
+  | undefined {
+  const row = outletsHere(api).find((o) => o.organizationId === organizationId);
+  if (!row) return undefined;
+  const medium = outletMedium(row.kind) ?? "online";
+  return { medium, the: medium === "paper" && !/^the\s/i.test(name) };
+}
+
+/**
+ * The town's outlet of record, which carries its public record (its legal
+ * notices, its police log, its government as a beat): the town's own
+ * newspaper, else the local outlet the most of the town follows
+ * (`widestLocalOutlet`), whatever its kind. Settled at the opening and kept
+ * on the outlet (`ofRecord`), so the town's record does not move from one
+ * station to another as followers shift week to week. Null where the town has no local
+ * outlet at all; then no outlet holds the town as its beat, and each weighs
+ * the town against its own audience.
  */
 export function townOutlet(api: CoreAPI): OutletRow | null {
   const local = outletsHere(api).filter((o) => o.tier === "local");
   return (
+    local.find((o) => o.ofRecord) ??
     local.find((o) => o.kind === "newspaper" && o.index === 0) ??
-    local[0] ??
+    widestLocalOutlet(api)?.outlet ??
     null
   );
 }
@@ -1119,30 +1417,40 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
 }
 
 /**
+ * The town's own outlet with the widest audience in town, television first
+ * where audiences tie. A national outlet's audience in town is not the town's.
+ */
+function widestLocalOutlet(
+  api: CoreAPI,
+): { outlet: OutletRow; followers: readonly string[] } | null {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
+  const best = outletsHere(api)
+    .filter((o) => o.tier !== "national")
+    .map((o) => ({ outlet: o, followers: followersOf(api, o.id) }))
+    .sort(
+      (a, b) =>
+        b.followers.length - a.followers.length ||
+        ALL_KINDS.indexOf(b.outlet.kind) - ALL_KINDS.indexOf(a.outlet.kind) ||
+        a.outlet.id.localeCompare(b.outlet.id),
+    )[0];
+  return best ?? null;
+}
+
+/**
  * Where a campaign buys an ad: the town's own outlet with the widest
- * audience, television first where audiences tie. A national outlet's
- * audience in town is not sold to a town's race.
+ * audience (`widestLocalOutlet`).
  */
 function adOutlet(api: CoreAPI): {
   organizationId: string;
   followerIds: readonly string[];
   countedFollowers: number;
 } | null {
-  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
-  const best = outletsHere(api)
-    .filter((o) => o.tier !== "national")
-    .map((o) => ({ o, followers: followersOf(api, o.id) }))
-    .sort(
-      (a, b) =>
-        b.followers.length - a.followers.length ||
-        ALL_KINDS.indexOf(b.o.kind) - ALL_KINDS.indexOf(a.o.kind) ||
-        a.o.id.localeCompare(b.o.id),
-    )[0];
+  const best = widestLocalOutlet(api);
   return best
     ? {
-        organizationId: best.o.organizationId,
+        organizationId: best.outlet.organizationId,
         followerIds: best.followers,
-        countedFollowers: countedFollowers(api, best.o.id),
+        countedFollowers: countedFollowers(api, best.outlet.id),
       }
     : null;
 }
@@ -1315,12 +1623,137 @@ export function acceptCase(reasons: {
 }
 
 /**
+ * The people of one level of the town's government: the town, its county, its
+ * state, or the nation (more than any outlet serves).
+ */
+function peopleAt(api: CoreAPI, level: WireLevel): number {
+  const town =
+    Number(api.state.placeMetadata.referencePopulation) ||
+    api.state.people.size;
+  if (level === "town") return town;
+  if (level === "nation") return Number.POSITIVE_INFINITY;
+  const chain = lawChain(api);
+  if (level === "state") {
+    const base = BASES.places[chain.stateKey];
+    return Math.max(
+      town,
+      base?.population2024 ??
+        base?.puertoRicoPopulation2025 ??
+        base?.islandAreaPopulation2020 ??
+        town,
+    );
+  }
+  const county = chain.countyGeoids[0];
+  return Math.max(
+    town,
+    (county ? BASES.countyPopulation2024[county] : undefined) ?? town,
+  );
+}
+
+/** The level whose people an office answers to. */
+const OFFICE_LEVEL: Readonly<Record<string, WireLevel>> = {
+  federal: "nation",
+  state: "state",
+  county: "county",
+};
+
+/**
+ * The share of an outlet's audience that a level's people make up, 0 to 1:
+ * one for a national outlet, and for a town's outlet the level's people over
+ * the people it serves. A market's station serves the state's people over its
+ * markets, so a village is a sliver of it and the state is all of it.
+ */
+export function levelAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  level: WireLevel,
+): number {
+  const served = servedPeople(api, outlet);
+  return served ? Math.min(1, peopleAt(api, level) / served) : 1;
+}
+
+/**
+ * The people an outlet answers to: those it serves (`audiencePeople`), but
+ * the town's own for the outlet that holds its record (`recordOutletOf`), whose beat is
+ * the town's government and record however wide it reaches. None for a
+ * national outlet.
+ */
+function servedPeople(api: CoreAPI, outlet: OutletRow): number | undefined {
+  if (!outlet.audiencePeople) return undefined;
+  // The outlet that holds the town's record now: the outlet of record, or,
+  // once it has no reporter living to file, the local outlet that took the
+  // record over (`recordOutletOf`, which the police log reads too).
+  return outlet.id === (recordOutletOf(api) ?? townOutlet(api)?.id)
+    ? Math.min(outlet.audiencePeople, peopleAt(api, "town"))
+    : outlet.audiencePeople;
+}
+
+/**
+ * The share of an outlet's audience a race's voters make up, 0 to 1: the
+ * race's people (the town's over the town's share of the race,
+ * `townShareOfRace`) over the people the outlet serves.
+ */
+export function raceAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  contestId: string,
+): number {
+  const served = servedPeople(api, outlet);
+  if (!served) return 1;
+  const ofRace = api.state.modules.has(CAMPAIGNS_MODULE_ID)
+    ? townShareOfRace(api, contestId)
+    : 1;
+  if (!(ofRace > 0)) return 1;
+  return Math.min(1, peopleAt(api, "town") / ofRace / served);
+}
+
+/**
+ * The share of an outlet's audience a person answers to: their race's voters
+ * when they are on a ballot, else the people of the highest office they hold.
+ */
+function speakerAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  speaker: Speaker,
+): number {
+  if (speaker.filing)
+    return raceAudienceShare(api, outlet, speaker.filing.contestId);
+  return servingTerms(api, speaker.personId).reduce((widest, term) => {
+    const office = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(term.officeId) as unknown as { level: string } | undefined;
+    return Math.max(
+      widest,
+      levelAudienceShare(
+        api,
+        outlet,
+        OFFICE_LEVEL[office?.level ?? ""] ?? "town",
+      ),
+    );
+  }, 0);
+}
+
+/**
  * How newsworthy a candidate is to a reporter: how many people in town have
  * heard of them, whether they hold the seat, and their share of the money
- * raised in the race.
+ * raised in the race. To one outlet, that worth is weighed against the
+ * outlet's own audience (`speakerAudienceShare`): a village race is a sliver
+ * of a market station's viewers, however well the village knows its
+ * candidates.
  */
-export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
+export function newsworthiness(
+  api: CoreAPI,
+  who: FilingRow | Speaker,
+  outlet?: OutletRow,
+): number {
   const speaker = asSpeaker(who);
+  const worth = townNewsworthiness(api, speaker);
+  return outlet ? worth * speakerAudienceShare(api, outlet, speaker) : worth;
+}
+
+/** A person's newsworthiness to the town (`newsworthiness`). */
+function townNewsworthiness(api: CoreAPI, speaker: Speaker): number {
   const filing = speaker.filing;
   const officeWorth = servingTerms(api, speaker.personId).reduce(
     (highest, term) => {
@@ -1495,6 +1928,27 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
 }
 
 /**
+ * The questions the seat a speaker runs for or holds decides (the same read
+ * the filing panel lists its positions from), or null where they have none.
+ */
+function seatQuestions(
+  api: CoreAPI,
+  speaker: Speaker,
+): ReadonlySet<string> | null {
+  const offices = speaker.filing
+    ? [contestOf(api, speaker.filing.contestId).officeId]
+    : servingTerms(api, speaker.personId).map((t) => t.officeId);
+  if (!offices.length) return null;
+  const positions = new Set(
+    offices.flatMap((officeId) => contestPositions(api, { officeId })),
+  );
+  // A body whose list is empty (a world that keeps no budget for it and whose
+  // state lets it decide none of the platform questions) leaves nothing to
+  // restrict to, so the reporter asks as before.
+  return positions.size ? positions : null;
+}
+
+/**
  * What the reporter asks: the questions the race's record puts in play,
  * scored by every reason a reporter has to ask each one: a promise the
  * candidate broke; the incumbent's recent recorded votes; how far apart the
@@ -1637,6 +2091,15 @@ export function interviewQuestions(
         ),
     );
   }
+  // A reporter asks what the seat's own body decides, and otherwise only what
+  // is truly in the news in the town: a question the body cannot decide keeps
+  // nothing but the town's concern for it, so it is asked as the town's news
+  // and never for the candidate's record or the rivals' gap.
+  const seat = seatQuestions(api, speaker);
+  if (seat)
+    for (const [q] of score)
+      if (!seat.has(q))
+        score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
@@ -1734,7 +2197,7 @@ export function outletInterest(
     id && api.state.people.get(id)?.alive
       ? regard(api, p, id, speaker.personId)
       : 0;
-  const worth = newsworthiness(api, speaker);
+  const worth = newsworthiness(api, speaker, outlet);
   const head = p("interestHeadWeight") * regardOf(outlet.headId);
   const owner = p("slantOwnerWeight") * regardOf(outlet.ownerId);
   const followers = followersOf(api, outlet.id);
@@ -1814,7 +2277,7 @@ function arrangeWith(
     OutletRow | undefined;
   if (!outlet) throw new Error(`No outlet ${outletId}`);
   const filing = speaker.filing;
-  const worth = newsworthiness(api, speaker);
+  const worth = newsworthiness(api, speaker, outlet);
   const key = filing?.id ?? speaker.personId;
   const base = {
     // One row per ask: a second ask the same day never overwrites the first.
@@ -2393,6 +2856,19 @@ export function writeArchiveStory(
   return written.story;
 }
 
+/**
+ * The outlet that runs the town's own police log: the town's outlet of record
+ * (`townOutlet`), or, when it has no reporter living to file it, the first
+ * local outlet that has one.
+ */
+export function recordOutletOf(api: CoreAPI): string | undefined {
+  const alive = (o: OutletRow) =>
+    (o.reporterIds ?? []).some((id) => api.state.people.get(id)?.alive);
+  const town = townOutlet(api);
+  if (town && alive(town)) return town.id;
+  return outletsHere(api).find((o) => o.tier === "local" && alive(o))?.id;
+}
+
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
   // Read once per desk run: a race's rivals and a campaign's ad money hold
@@ -2403,6 +2879,7 @@ export function deskContext(api: CoreAPI): DeskContext {
     parameter: pressParameter,
     followers: (outletId) => followersOf(api, outletId),
     townPlaceId: lawChain(api).townPlaceId,
+    recordOutletId: () => recordOutletOf(api),
     adMoney: (outlet, personId) => {
       const key = `${outlet.organizationId}|${personId}`;
       let held = ads.get(key);
@@ -2426,8 +2903,12 @@ export function deskContext(api: CoreAPI): DeskContext {
           wireId,
         ]) as unknown as PrintedStory[]
       ).some((s) => s.outletId === outletId),
+    printedAnywhere: (wireId) =>
+      (table(api, "stories").query("byWire", [wireId]) as unknown[]).length > 0,
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
+    paperOfRecord: (outlet) =>
+      outlet.tier !== "national" && townOutlet(api)?.id === outlet.id,
   };
 }
 
@@ -2519,7 +3000,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       staff,
       leak: false,
     });
-    if (row?.storyId) return;
+    if (row?.exposedId) return;
   }
 }
 
@@ -2627,10 +3108,16 @@ function weighTip(
   row.run = dig > 0 ? run : null;
   if (dig > 0 && run > 0) {
     const exposedId = `press.exposed:${act.id}:${outlet.id}`;
+    // A reporter asks the one exposed for comment before the story runs: it
+    // runs in the outlet's next edition (`exposureCommentDays`, runExposure).
+    const runsOn = addDays(
+      makeIsoDate(api.state.date),
+      p("exposureCommentDays"),
+    );
     api.emit({
       id: exposedId,
       date: api.state.date,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       personIds: api.state.people.has(officialId) ? [officialId] : [],
       placeId: outlet.placeId,
       publicRecord: true,
@@ -2640,6 +3127,7 @@ function weighTip(
         [act.fact[0]]: act.fact[1],
         ...act.facts,
         outletId: outlet.id,
+        runsOn,
       },
       source: {
         tag: "SOURCED",
@@ -2647,45 +3135,93 @@ function weighTip(
         asOf: api.state.date,
       },
     });
-    const ctx = deskContext(api);
-    const story = printItem(
-      api,
-      ctx,
-      outlet,
-      reporterId,
-      {
-        id: exposedId,
-        kind: "press.exposed",
-        date: api.state.date,
-        level: "town",
-        topic: `conduct:${officialId}`,
-        desiredChange: "remove",
-        ending: false,
-        subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+    row.exposedId = exposedId;
+    row.outletId = outlet.id;
+    row.runsOn = runsOn;
+    row.fact = [...act.fact];
+    api.moduleCalendar(PRESS_MODULE_ID).schedule({
+      key: `press-run:${exposedId}`,
+      date: runsOn,
+      kind: "press-run",
+      source: {
+        tag: "ESTIMATED",
+        citation:
+          "An exposure runs in the outlet's next edition, after the one exposed is asked for comment",
+        asOf: api.state.date,
+        estimatedFrom: "exposureCommentDays",
       },
-      null,
-      {
-        slant: {
-          slant: -Math.min(1, run),
-          reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-        },
-        facts: { [act.fact[0]]: act.fact[1] },
-      },
-    );
-    row.storyId = story.id;
-    for (const id of ctx.followers(outlet.id))
-      if (id !== officialId)
-        touchImpression(api, {
-          voterId: id,
-          officialId,
-          act: "interview",
-          target: -1,
-          weight: p("exposureWeight") * Math.min(1, run),
-          rapport: 0,
-        });
+      sourceRecordIds: [String(row.id)],
+    });
   }
   table(api, "tips").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * An exposure runs on its day (weighTip set it): the outlet prints the story,
+ * puts it on the wire for the other outlets, and the one exposed's standing
+ * with the outlet's followers falls as the story is read.
+ */
+function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "tips").get(work.sourceRecordIds[0]!) as unknown as
+    Record<string, unknown> | undefined;
+  if (!row?.exposedId || row.storyId) return;
+  const exposedId = String(row.exposedId);
+  const officialId = String(row.officialId);
+  const reporterId = String(row.reporterId);
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  if (!outlet || !api.state.people.get(reporterId as PersonId)?.alive) return;
+  const run = Number(row.run);
+  const [factKey, factWord] = row.fact as [string, string];
+  const ctx = deskContext(api);
+  const story = printItem(
+    api,
+    ctx,
+    outlet,
+    reporterId,
+    {
+      id: exposedId,
+      kind: PRESS_EXPOSED,
+      date: api.state.date,
+      level: "town",
+      topic: `conduct:${officialId}`,
+      desiredChange: "remove",
+      ending: false,
+      subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+    },
+    null,
+    {
+      slant: {
+        slant: -Math.min(1, run),
+        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+      },
+      facts: { [factKey]: factWord },
+    },
+  );
+  table(api, "tips").put({
+    ...row,
+    storyId: story.id,
+  } as unknown as ModuleRow);
+  // In print, it is on the wire for the other outlets to carry.
+  const exposure = api.state.durableLog.get(exposedId);
+  if (exposure) {
+    const chain = lawChain(api);
+    const item = wireItem(api, exposure, {
+      placeId: chain.townPlaceId,
+      stateKey: chain.stateKey,
+    });
+    if (item) table(api, "wire").put(item as unknown as ModuleRow);
+  }
+  for (const id of ctx.followers(outlet.id))
+    if (id !== officialId)
+      touchImpression(api, {
+        voterId: id,
+        officialId,
+        act: "interview",
+        target: -1,
+        weight: pressParameter("exposureWeight") * Math.min(1, run),
+        rapport: 0,
+      });
 }
 
 /**
@@ -2747,7 +3283,7 @@ function conflictBeat(api: CoreAPI): void {
           staff,
           leak: false,
         });
-        if (row?.storyId) break;
+        if (row?.exposedId) break;
       }
     }
 }
@@ -2814,7 +3350,7 @@ export function leakToReporter(
     throw new Error(`${input.reporterId} reports for no outlet here.`);
   const had = table(api, "tips").get(input.crimeId) as unknown as
     Record<string, unknown> | undefined;
-  if (had?.storyId) return had;
+  if (had?.exposedId) return had;
   const row = weighTip(api, {
     act: bribeAct(input.crimeId),
     officialId: crime.officialId,
@@ -3369,9 +3905,218 @@ function policeLog(api: CoreAPI): void {
     desiredChange: "crime.month",
     ending: false,
     subjectIds: [],
-    facts: { monthId: `${town}:${month}` },
+    facts: {
+      monthId: `${town}:${month}`,
+      // How far the month stands from the town's own usual: the desk's
+      // space for the log slides with it, down to nothing (Words lead,
+      // Nov 14). A town with no earlier months has no usual to compare.
+      ...policeLogComparison(api, town, month, reported),
+    },
   };
   table(api, "wire").put(item as unknown as ModuleRow);
+}
+
+/**
+ * How a town's police log for `month` stands against the town's usual: the
+ * facts the wire item carries (vsUsual, usual, spread, rising, the months of
+ * record, the chance and busier), read from the crime engine's month rows.
+ * The desk's space and the words read these from the wire; dev mode's trace
+ * reads the same function, so it shows what the paper read. A town with no
+ * earlier months has no usual to compare.
+ */
+export function policeLogComparison(
+  api: CoreAPI,
+  town: string,
+  month: string,
+  reported: number,
+): Record<string, string> {
+  const usual = usualMonth(api, town, month);
+  return usual
+    ? {
+        vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
+        // The words may compare the month with the town's usual only
+        // once the usual rests on enough closed months (two months are
+        // not a usual month), and only by how far the month stands off
+        // the usual against the town's own spread of months.
+        ...(usual.months >= pressParameter("briefUsualMinMonths")
+          ? {
+              usual: String(Math.round(usual.total * 10) / 10),
+              spread: String(Math.round(usual.spread * 10) / 10),
+              ...(usual.rising ? { rising: usual.rising } : {}),
+            }
+          : {}),
+        // How many closed months the usual rests on, and how often a
+        // month this busy comes by chance at that usual: a town with a
+        // short record or a small usual is not called busy on chance.
+        monthsOfRecord: String(usual.months),
+        chance: String(
+          Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
+            10000,
+        ),
+        ...(monthIsWellOver(usual.months, reported, usual.total)
+          ? { busier: "yes" }
+          : {}),
+      }
+    : {};
+}
+
+/** The town's closed crime months before `month` that its usual rests on, newest first. */
+function usualMonthRows(
+  api: CoreAPI,
+  town: string,
+  month: string,
+): readonly { readonly id: string; readonly month: string }[] {
+  return (
+    api
+      .moduleState(CRIME_MODULE_ID)
+      .table("months")
+      .query("byPlace", [town]) as unknown as {
+      readonly id: string;
+      readonly month: string;
+    }[]
+  )
+    .filter((row) => row.month < month)
+    .sort((a, b) => b.month.localeCompare(a.month))
+    .slice(0, pressParameter("usualMonths"));
+}
+
+/**
+ * Why a town's police log for a crime month stood where it did on the page,
+ * for dev mode's trace (owner, Nov 16: what a thread traces by script, dev
+ * mode traces in the game): the month's reported count, the comparison the
+ * wire carried (`policeLogComparison`), the closed months the usual rests
+ * on, and the share of a brief's space the desk gave it (`usualSpace`).
+ * Read from the crime engine's month rows; nothing is kept.
+ */
+export function policeLogWhy(
+  api: CoreAPI,
+  monthRowId: string,
+):
+  | {
+      readonly reported: number;
+      readonly comparison: Readonly<Record<string, string>>;
+      readonly usualMonthIds: readonly string[];
+      readonly space: number;
+    }
+  | undefined {
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(monthRowId) as unknown as
+    | {
+        readonly placeId: string;
+        readonly month: string;
+        readonly types?: Record<string, { readonly reported?: number }>;
+      }
+    | undefined;
+  if (!row) return undefined;
+  const reported = Object.values(row.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  const comparison = policeLogComparison(api, row.placeId, row.month, reported);
+  return {
+    reported,
+    comparison,
+    usualMonthIds: usualMonthRows(api, row.placeId, row.month).map(
+      (month) => month.id,
+    ),
+    space: usualSpace({ facts: comparison }, pressParameter),
+  };
+}
+
+/**
+ * What the town's police log usually holds: the mean of what was reported in
+ * its last twelve closed months before this one (at least two), and the
+ * crime type whose count most passed its own usual this month. Read from the
+ * crime engine's month rows; nothing is kept here.
+ */
+function usualMonth(
+  api: CoreAPI,
+  town: string,
+  month: string,
+):
+  | { total: number; months: number; spread: number; rising?: string }
+  | undefined {
+  type Month = {
+    readonly month: string;
+    readonly types?: Record<string, { readonly reported?: number }>;
+  };
+  const rows = usualMonthRows(api, town, month) as readonly Month[];
+  if (rows.length < 2) return undefined;
+  const mean = (read: (row: Month) => number) =>
+    rows.reduce((sum, row) => sum + read(row), 0) / rows.length;
+  const total = mean((row) =>
+    Object.values(row.types ?? {}).reduce(
+      (sum, type) => sum + (type.reported ?? 0),
+      0,
+    ),
+  );
+  if (!(total > 0)) return undefined;
+  // How far the town's own closed months stand off their mean: what is
+  // unusual for this town is read from its own months, never picked.
+  const monthTotals = rows.map((row) =>
+    Object.values(row.types ?? {}).reduce(
+      (sum, type) => sum + (type.reported ?? 0),
+      0,
+    ),
+  );
+  const spread = Math.sqrt(
+    monthTotals.reduce((sum, n) => sum + (n - total) ** 2, 0) /
+      Math.max(1, monthTotals.length - 1),
+  );
+  const now = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(`${town}:${month}`) as unknown as Month | undefined;
+  let rising: string | undefined;
+  let most = 0;
+  for (const [type, tally] of Object.entries(now?.types ?? {})) {
+    const over =
+      (tally.reported ?? 0) - mean((row) => row.types?.[type]?.reported ?? 0);
+    // A kind is said to have jumped only when it is itself clearly over its
+    // own usual: two or more reports over, and the share where a brief has
+    // all its space (the month's total could be over on noise alone).
+    const own = mean((row) => row.types?.[type]?.reported ?? 0);
+    if (
+      over > most &&
+      over >= 2 &&
+      (tally.reported ?? 0) >= pressParameter("briefUsualCeiling") * own
+    ) {
+      most = over;
+      rising = type;
+    }
+  }
+  return { total, months: rows.length, spread, ...(rising ? { rising } : {}) };
+}
+
+/** True when the usual rests on enough months and chance rarely gives a month this busy. */
+export function monthIsWellOver(
+  months: number,
+  count: number,
+  usual: number,
+): boolean {
+  return (
+    months >= pressParameter("briefUsualMinMonths") &&
+    chanceOfMonthAtLeast(count, usual) < pressParameter("briefChanceBar")
+  );
+}
+
+/**
+ * How often a month at least this busy comes by chance in a town whose usual
+ * month is `usual`: the chance of `count` or more reports when reports arrive
+ * independently at the usual rate (the upper tail of a count with that mean).
+ * A measure of the record against its own history, never a roll for what
+ * anyone does.
+ */
+export function chanceOfMonthAtLeast(count: number, usual: number): number {
+  let term = Math.exp(-usual);
+  let below = 0;
+  for (let k = 0; k < count; k += 1) {
+    below += term;
+    term *= usual / (k + 1);
+  }
+  return Math.max(0, 1 - below);
 }
 
 function freshWire(api: CoreAPI): WireItem[] {
@@ -3522,8 +4267,35 @@ export function refreshPressStaff(api: CoreAPI): void {
 }
 
 /**
- * Each press week the outlets' wider audience pays its part of the coming
- * week; the first press week of each month, each outlet's yearly revenue is
+ * When a paper closes, the papers left share its market: each takes the
+ * readers and newsroom that the market now divides into, by the same formulas
+ * as at the opening, and its books' demand and cost are reset to them.
+ */
+export function reassessSharedMarkets(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const enrolled = table(api, "employerEnrollment");
+  const open = openOfKind(api, "newspaper");
+  for (const outlet of outletsHere(api)) {
+    if (outlet.kind !== "newspaper" || outlet.tier === "national") continue;
+    const book = core.finance.businesses.get(outlet.organizationId);
+    const row = enrolled.get(outlet.id) as unknown as
+      { papers?: number } | undefined;
+    if (!book || book.closedAt || !row || row.papers === open) continue;
+    const demand = expectedRevenueYearMinor(api, outlet);
+    const cost = outsideNewsroomYearMinor(
+      api,
+      outlet,
+      staffOf(api, outlet.id).filter((s) => !s.leftOn).length,
+    );
+    book.anchorAnnualDemandMinor = book.annualDemandMinor = demand;
+    book.capacityMinor = demand;
+    book.anchorAnnualOtherCostsMinor = book.annualOtherCostsMinor = cost;
+    enrolled.put({ ...row, papers: open } as unknown as ModuleRow);
+  }
+}
+
+/**
+ * The first press week of each month, each outlet's yearly revenue is
  * last month's, times twelve.
  */
 function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
@@ -3531,13 +4303,11 @@ function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
   // A restored world has no money hooks until the press puts them back.
   installOutletMoney(api, deps);
   const core = api.state as CoreState;
-  payWiderAudience(
-    api,
-    deps,
-    outsideCustomersOf(core, lawChain(api).townPlaceId),
-    api.parameter("daysPerWeek"),
-  );
+  const payer = outsideCustomersOf(core, lawChain(api).townPlaceId);
+  payWiderAudience(api, deps, payer, api.parameter("daysPerWeek"));
   if (!monthStart) return;
+  reassessSharedMarkets(api);
+  payMarket(api, deps, payer);
   const last = addDays(makeIsoDate(`${core.date.slice(0, 7)}-01`), -1).slice(
     0,
     7,
@@ -3571,19 +4341,49 @@ function pressPeopleLive(api: CoreAPI): void {
   }
 }
 
+const LEVELS: readonly WireLevel[] = ["town", "county", "state", "nation"];
+
+/**
+ * The stories of each level an outlet has room for this week: its week's
+ * space (its reporters' stories and its briefs) times the level's share of
+ * its audience (`levelAudienceShare`), added to what the level had left, and
+ * never more than a week's space. A level that is all of the outlet's
+ * audience has its whole space every week; a village at a market's station
+ * builds up a story now and then, and the rest of the week goes to the
+ * county's, the state's and the nation's records on the wire. No dice.
+ */
+function levelRoom(api: CoreAPI, outlet: OutletRow): Map<WireLevel, number> {
+  const room = new Map<WireLevel, number>();
+  if (!outlet.audiencePeople) return room;
+  const reporters = outlet.reporterIds.filter(
+    (id) => api.state.people.get(id)?.alive,
+  ).length;
+  const space =
+    reporters * pressParameter("storiesPerReporterWeek") +
+    pressParameter("briefsPerOutletWeek");
+  for (const level of LEVELS)
+    room.set(
+      level,
+      Math.min(
+        space,
+        (outlet.storyCredit?.[level] ?? 0) +
+          levelAudienceShare(api, outlet, level) * space,
+      ),
+    );
+  return room;
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
-  // Revenue: the week's wider-audience part, and each month's yearly rate.
+  // Revenue: each month's yearly rate.
   reviewOutletRevenue(
     api,
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
   );
   pressPeopleLive(api);
   conflictBeat(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   schoolResults(api);
   policeLog(api);
   milestones(api);
@@ -3593,10 +4393,22 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // A national outlet covers the nation and the town's own state; a town's
   // council is not its beat.
   const wider = wire.filter((i) => i.level === "nation" || i.level === "state");
-  const ctx = deskContext(api);
+  const rooms = new Map<string, Map<WireLevel, number>>(
+    outletsHere(api).map((outlet) => [outlet.id, levelRoom(api, outlet)]),
+  );
+  const ctx = {
+    ...deskContext(api),
+    levelRoom: (o: DeskOutlet) => rooms.get(o.id)!,
+  };
   for (const outlet of outletsHere(api)) {
     const beat = outlet.tier === "national" ? wider : wire;
     runDesk(api, ctx, outlet, beat);
+    // What each level has left carries to next week.
+    if (outlet.audiencePeople)
+      table(api, "outlets").put({
+        ...(table(api, "outlets").get(outlet.id) as unknown as OutletRow),
+        storyCredit: Object.fromEntries(rooms.get(outlet.id)!),
+      } as unknown as ModuleRow);
     if (outlet.kind === "magazine") writeProfile(api, ctx, outlet, beat);
   }
   forgetOldWire(api);
@@ -3631,11 +4443,16 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const invitedThisWeek = new Map<string, InterviewRow[]>();
   const townAdults =
     api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
-  for (const outlet of outletsHere(api))
+  for (const outlet of outletsHere(api)) {
+    // The races whose turn at this outlet came this week, by their share of
+    // its audience (`raceTurns`).
+    const turns = raceTurns(api, outlet, contests);
     // Access: a candidate close to the outlet's reporters is asked first.
     for (const { f, worth } of filings
+      .filter((row) => turns.has(row.f.contestId))
       .map((row) => ({
         ...row,
+        worth: row.worth * raceAudienceShare(api, outlet, row.f.contestId),
         access: Math.max(
           0,
           ...(outlet.reporterIds ?? []).map((id) =>
@@ -3655,6 +4472,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       // The town's outlet interviews a district candidate by the town's share
       // of the race (the player's own invitations are never thinned).
       if (f.personId !== playerId && !interviewHeldInTown(api, f.id)) continue;
+      // An outlet asks for its own reason: the race is on its beat.
+      if (!outletCoversContest(outlet, contestOf(api, f.contestId))) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
       if (row.status === "invited" && f.personId === playerId)
         invitedThisWeek.set(row.candidateId, [
@@ -3704,6 +4523,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (!accepts) refuse(api, weighed);
       else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
+  }
   // Those still waiting on the player's answer reach them as one call.
   if (playerId) {
     const open = (invitedThisWeek.get(playerId) ?? []).filter(
@@ -3712,6 +4532,33 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ?.status === "invited",
     );
     if (open.length) invited(api, open);
+  }
+  // Each outlet weighs the races on its beat once its interviews in a race
+  // are settled, or in the last week before the vote however they stand
+  // (the final edition before it): an editorial board hears the candidates
+  // before it endorses (`outletWeighsRace`).
+  const lastWeek = addDays(makeIsoDate(api.state.date), 7);
+  for (const outlet of outletsHere(api)) {
+    // Papers and magazines endorse; a station or network reports the race.
+    if (!ENDORSING_KINDS.has(outlet.kind)) continue;
+    const waiting = new Set(
+      (
+        table(api, "interviews").query("byOutlet", [
+          outlet.id,
+        ]) as unknown as InterviewRow[]
+      ).flatMap((row) =>
+        row.status === "invited" && row.contestId ? [row.contestId] : [],
+      ),
+    );
+    for (const contest of contests) {
+      if (!outletCoversContest(outlet, contest)) continue;
+      if (waiting.has(contest.id) && contest.electionDate >= lastWeek) continue;
+      outletWeighsRace(api, contest.id, {
+        organizationId: outlet.organizationId,
+        headId: outlet.headId,
+        followerIds: followersOf(api, outlet.id),
+      });
+    }
   }
 }
 
@@ -3736,6 +4583,8 @@ function snubbed(
   outletId: string,
   byId: string,
   sourceId: string,
+  /** Those in the room when it was said (an attack in a speech): they saw it, so nobody tells them of it. */
+  presentIds: readonly string[] = [],
 ): void {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
@@ -3751,6 +4600,16 @@ function snubbed(
     date: api.state.date,
     kind,
     personIds: staff,
+    ...(presentIds.length
+      ? {
+          witnessIds: presentIds.filter(
+            (id) =>
+              id !== byId &&
+              !staff.includes(id) &&
+              api.state.people.get(id)?.alive,
+          ),
+        }
+      : {}),
     placeId: outlet.placeId,
     // The one who snubbed or attacked them is the responsible party.
     topic: byId,
@@ -3773,22 +4632,112 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
  * candidate's answers, said there, publish the interview (`answerInterview`).
  */
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
-/** The replies in an invitation's scene that accept it. */
-export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
-  "agree",
-  "relent",
-]);
-/** The replies in an invitation's scene that turn it down. */
-export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+// The replies that accept or turn down an ask live with every engine that reads them.
+import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+export { ACCEPTING_MOVES, REFUSING_MOVES };
 
 /**
- * The outlets' invitations of the week to the player, on the record as one
- * for the candidate and the first outlet's reporter who asks: the director
- * stages it as a call from that reporter, and the answer there is read back
- * here for every outlet that asked (`answerInvitation`).
+ * The races an outlet takes up this week. Each week a race in its horizon
+ * adds its share of the outlet's audience (`raceAudienceShare`) to what the
+ * outlet owes it, and its turn comes when that reaches one: a race that is
+ * the whole of an outlet's audience has a turn every week, and a village's
+ * race at a station serving a market of a million about once in a lifetime.
+ * No dice. What is owed is kept on the outlet, by seat.
+ */
+function raceTurns(
+  api: CoreAPI,
+  outlet: OutletRow,
+  contests: readonly ContestRow[],
+): ReadonlySet<string> {
+  const turns = new Set<string>();
+  if (!outlet.audiencePeople) {
+    for (const contest of contests) turns.add(contest.id);
+    return turns;
+  }
+  // Kept by seat, so what a small race is owed carries to the seat's next
+  // election rather than lapsing with its six weeks.
+  const credit: Record<string, number> = { ...outlet.raceCredit };
+  for (const contest of contests) {
+    const owed =
+      (credit[contest.seatId] ?? 0) +
+      raceAudienceShare(api, outlet, contest.id);
+    if (owed >= 1) turns.add(contest.id);
+    credit[contest.seatId] = owed >= 1 ? owed - 1 : owed;
+  }
+  table(api, "outlets").put({
+    ...outlet,
+    raceCredit: credit,
+  } as unknown as ModuleRow);
+  return turns;
+}
+
+/**
+ * Whether a race is on an outlet's beat. A national outlet covers the nation
+ * and the town's own state, as its desk does with the wire; a county or town
+ * race is not its beat, so it never asks that race's candidates for a sitting.
+ */
+export function outletCoversContest(
+  outlet: OutletRow,
+  contest: ContestRow,
+): boolean {
+  return (
+    outlet.tier !== "national" ||
+    contest.level === "federal" ||
+    contest.level === "state"
+  );
+}
+
+/**
+ * The outlets' invitations of the week to the player. Each outlet's is its
+ * own record and its own call from its own reporter, and the player's answer
+ * goes to that outlet alone (`answerInvitation`). They reach the player one a
+ * day, the outlet whose reporter knows them best first, so a week of requests
+ * is not one day of calls; one whose day would fall on or after the vote is
+ * never put (the week's pass refuses it once the race is over).
  */
 function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
-  const row = rows[0]!;
+  rows
+    .map((row) => ({
+      row,
+      tie: row.reporterId ? closeness(api, row.candidateId, row.reporterId) : 0,
+    }))
+    .sort((a, b) => b.tie - a.tie || a.row.id.localeCompare(b.row.id))
+    .forEach(({ row }, index) => {
+      if (index === 0) return invitation(api, row);
+      const date = addDays(makeIsoDate(api.state.date), index);
+      if (row.contestId && contestOf(api, row.contestId).electionDate <= date)
+        return;
+      api.moduleCalendar(PRESS_MODULE_ID).schedule({
+        key: `press-invite:${row.id}`,
+        date,
+        kind: "press-invite",
+        source: {
+          tag: "ESTIMATED",
+          citation:
+            "An outlet's political reporter calls a candidate on the day the reporter can",
+          asOf: api.state.date,
+          estimatedFrom: "interviewsPerWeek",
+        },
+        sourceRecordIds: [row.id],
+      });
+    });
+}
+
+/** The day an outlet's turn comes: its invitation goes out if it still stands. */
+function inviteDay(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "interviews").get(
+    work.sourceRecordIds[0] ?? "",
+  ) as unknown as InterviewRow | undefined;
+  if (
+    row?.status === "invited" &&
+    (!row.contestId ||
+      contestOf(api, row.contestId).electionDate > api.state.date)
+  )
+    invitation(api, row);
+}
+
+/** One outlet's invitation on the record: the director stages it as a call from that outlet's reporter. */
+function invitation(api: CoreAPI, row: InterviewRow): void {
   const ids = [row.candidateId, row.reporterId ?? ""].filter((id) =>
     api.state.people.has(id),
   );
@@ -3804,14 +4753,11 @@ function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `Interviews ${rows.map((r) => r.id).join(", ")}`,
+      citation: `Interview ${row.id}`,
       asOf: api.state.date,
     },
     facts: {
       interviewId: row.id,
-      // Every outlet that asked this week; the answer goes to each.
-      interviewIds: rows.map((r) => r.id).join(" "),
-      outlets: String(rows.length),
       invitedId: row.candidateId,
       outletId: outlet?.organizationId ?? row.outletId,
       ...(row.reporterId ? { reporterId: row.reporterId } : {}),
@@ -3848,9 +4794,60 @@ export function platformAnswers(
   });
 }
 
+/** A stand on a question and where it comes from. */
+export interface StandOnRecord {
+  readonly question: string;
+  /** In [-1, 1], or null where the candidate holds none of their own. */
+  readonly position: number | null;
+  /** The filed platform, a vote, their own view; null for none (a stand only their party takes is not theirs). */
+  readonly source: "platform" | "vote" | "view" | null;
+}
+
+/**
+ * What a candidate holds on each question, on the record, when a sitting
+ * puts it: the stand their filed platform states; where it states none, a
+ * vote of theirs or their own view (`candidateStance`, the read the platform
+ * itself is built from, blended with their party's position). A stand that
+ * rests only on their party's position is not theirs and counts as none.
+ * Nothing is made up and nothing is said for them: the sitting offers the
+ * candidate this stand as one of the sides they may take.
+ */
+export function standsOnRecord(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly StandOnRecord[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const reader = filing
+    ? stanceReader(api, filing.personId, filing.party ?? null)
+    : null;
+  return platformAnswers(api, filingId, questions).map(
+    ({ question, position }): StandOnRecord => {
+      if (position !== null) return { question, position, source: "platform" };
+      const grounds = reader?.grounds(question) ?? null;
+      const stance =
+        grounds === "vote" || grounds === "view"
+          ? reader!.stance(question)
+          : null;
+      return stance === null
+        ? { question, position: null, source: null }
+        : {
+            question,
+            position: Math.round(stance * 1000) / 1000,
+            source: grounds as "vote" | "view",
+          };
+    },
+  );
+}
+
 /**
  * The answer to an outlet's invitation, said in its scene: a yes puts the
- * sitting on the record (`interview-accepted`, one for each outlet that
+ * sitting on the record (`interview-accepted`, one for the outlet that
  * asked) and the interview waits for the candidate to sit for it, answering
  * each question as a line of their own; a no is a refusal on the record (the
  * outlet's people may take it as a snub); and anything else leaves it open
@@ -3861,14 +4858,13 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (cause?.kind !== INTERVIEW_INVITED_EVENT) return;
   const move = String(facts.move);
-  for (const id of String(cause.facts?.interviewIds ?? "").split(" ")) {
-    const row = table(api, "interviews").get(id) as unknown as
-      InterviewRow | undefined;
-    if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
-      continue;
-    if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
-    else if (REFUSING_MOVES.has(move)) refuse(api, row);
-  }
+  const row = table(api, "interviews").get(
+    String(cause.facts?.interviewId ?? ""),
+  ) as unknown as InterviewRow | undefined;
+  if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
+    return;
+  if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
+  else if (REFUSING_MOVES.has(move)) refuse(api, row);
 }
 
 /** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */
@@ -3890,26 +4886,53 @@ export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
   );
 }
 
+/** The scandal call's answers the paper quotes: owning it, denying it, or a lie. */
+const CALL_ANSWERS: ReadonlySet<string> = new Set(["confess", "deny", "lie"]);
+/** The endings whose story quotes what the person said (purpose-arcs.json). */
+const SAID_ENDINGS: ReadonlySet<string> = new Set([
+  "on-record",
+  "on-the-record",
+  "denial-printed",
+  "lie-printed",
+  "caught",
+]);
+
 /**
  * A press interview that ends on the record keeps what the person said; one
  * that ends in no comment or a walk-off keeps that they declined. A story
  * that runs (the ending's keeps) is told in the paper's story of the record
- * the reporter asked about.
+ * the reporter asked about. The reporter's call on an exposure (a scandal
+ * call) is kept the same way, before the story runs (runExposure): what the
+ * paper quotes is the official's own answer on the call (owning it, denying
+ * it or a lie), not a parting line after it; an answer is kept as it is said,
+ * so a call that stops after it still reaches the story; a call that ends
+ * without one is a decline. With no call there is no row, and the story
+ * says nothing of comment.
  */
 function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
-    return;
+  const call = facts.typeKey === "scandal";
+  const answer = call && CALL_ANSWERS.has(String(facts.move ?? ""));
+  const kept =
+    (facts.typeKey === "press-interview" && facts.keeps === "story-runs") ||
+    (call && (answer || Boolean(facts.ending)));
+  if (!kept) return;
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  const line = String(facts.line ?? "") || null;
+  const answered = call ? (commentOn(api, causeId)?.quote ?? null) : null;
+  const quote = answer
+    ? line
+    : SAID_ENDINGS.has(String(facts.ending ?? ""))
+      ? (answered ?? line)
+      : null;
   table(api, "comments").put({
     id: causeId,
     causeId,
     personId,
     date: api.state.date,
-    quote: said ? String(facts.line ?? "") || null : null,
+    quote,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
 }
@@ -4040,8 +5063,16 @@ export function attackOutlet(
       topic: outlet.organizationId,
       desiredChange: DISTRUST,
       audienceIds: input.audienceIds,
+      occasion: { recordId: id, kind: "attack" },
     });
-  snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
+  snubbed(
+    api,
+    "press.attacked",
+    outlet.id,
+    input.speakerId,
+    id,
+    input.audienceIds,
+  );
   followCache.delete(api.state);
   return id;
 }
@@ -4102,3 +5133,75 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
       reached: (delivered * followers) / total,
     }));
 });
+
+/*
+ * What a paper found when it exposed an official (`press.exposed`),
+ * read from the act's own record so the reporter who calls says what the
+ * story says, not only that there is one (owner, Nov 15, on the scandal call:
+ * "I've got a story about the water rates, and your name is in it... that's
+ * very ambiguous"; Words lead's lines in reply-sets/oath-bribe-scandal.md C).
+ *
+ * - a bribe taken (corruption.ts crime record): who paid, and what the money
+ *   was for, the bill or the contract award, read the same way the offer
+ *   scene reads it (`wantedFacts`);
+ * - a conflict on an award (contracts.ts award row, its conflict): the award
+ *   by the work it pays for, the firm, and whose firm it is, the official's
+ *   own or a relative's.
+ */
+/** The finding behind an exposure, with the records that hold it. */
+export interface ExposedFinding {
+  readonly found: "bribe" | "conflict";
+  /** The crime record or the award the story is on. */
+  readonly recordId: string;
+  /** The bill a bribe bought a vote on. */
+  readonly billId?: string;
+  /** The award, by its id and its spending line. */
+  readonly contractId?: string;
+  readonly contractLine?: string;
+  /** Who paid the bribe. */
+  readonly briberId?: string;
+  /** The firm an interested member chose, its owner and the owner's relation to the member. */
+  readonly firmId?: string;
+  readonly ownerId?: string;
+  readonly ownFirm?: boolean;
+}
+
+/** The finding an exposure's facts name; null when its record is gone. */
+export function exposedFinding(
+  api: CoreAPI,
+  said: Readonly<Record<string, string>>,
+): ExposedFinding | null {
+  const key = (prefix: string) =>
+    Object.keys(said).find((row) => row.startsWith(prefix));
+  const crimeKey = key("crime:");
+  if (crimeKey && said[crimeKey] === "bribe-taken") {
+    if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return null;
+    const crimeId = crimeKey.slice("crime:".length);
+    const crime = crimeRecord(api, crimeId);
+    if (!crime) return null;
+    const wanted = wantedFacts(crime.subjectId);
+    return {
+      found: "bribe",
+      recordId: crime.id,
+      briberId: crime.offererId,
+      ...(wanted.billId ? { billId: wanted.billId } : {}),
+      ...(wanted.contractId ? { contractId: wanted.contractId } : {}),
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+    };
+  }
+  const awardKey = key("award:");
+  if (awardKey && said[awardKey] === "conflict-of-interest") {
+    const awardId = awardKey.slice("award:".length);
+    const wanted = wantedFacts(awardId);
+    return {
+      found: "conflict",
+      recordId: awardId,
+      contractId: awardId,
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+      ...(said.organizationId ? { firmId: said.organizationId } : {}),
+      ...(said.ownerId ? { ownerId: said.ownerId } : {}),
+      ownFirm: said.relation === OWNER_RELATION,
+    };
+  }
+  return null;
+}

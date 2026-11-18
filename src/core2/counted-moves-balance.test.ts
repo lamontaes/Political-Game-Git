@@ -149,11 +149,10 @@ it("enacting the law to admit more immigrants raises the people a state takes in
   });
   for (const core of [law, control])
     advanceCore(core, addDays(makeIsoDate(core.date), 365 * 2));
-  const month = law.date.slice(0, 7);
   // A state with no counted place here, where only the coarse model moves it.
   const total = (core: CoreState) =>
     ["TX", "CA", "FL", "NY", "OH", "PA", "IL", "GA", "NC", "MI"].reduce(
-      (n, usps) => n + (countedStatePeople(core, usps, month) ?? 0),
+      (n, usps) => n + (countedStatePeople(core, usps) ?? 0),
       0,
     );
   const gain = total(law) - total(control);

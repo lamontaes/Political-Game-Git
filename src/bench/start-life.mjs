@@ -1,4 +1,4 @@
-/* global console, document, fetch, URL, URLSearchParams */
+/* global console, document, fetch, requestAnimationFrame, URL, URLSearchParams */
 // The one way a browser check starts a life (play-browser-checks-open-on-the-address).
 // A new life opens on the President's address (#6568), one talk with Continue,
 // then the talk after it. A check that clicks into the room before the talk is
@@ -17,6 +17,7 @@ const MAX_STEPS = 200;
  * its end and waits for the player's card. Returns { seed, placeName, fresh }.
  */
 export async function startLife(page, { url, fresh = false } = {}) {
+  watchRequests(page);
   const title = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/title",
   );
@@ -67,6 +68,34 @@ export async function playOpening(page, sceneMomentId) {
   return finishTalk(page);
 }
 
+/** Each watched page's requests still in flight. */
+const inFlight = new WeakMap();
+
+/**
+ * Starts counting a page's requests. It must be called before the press whose
+ * request is to be waited for: a request already on its way is not seen.
+ */
+export function watchRequests(page) {
+  let open = inFlight.get(page);
+  if (open) return open;
+  open = new Set();
+  inFlight.set(page, open);
+  page.on("request", (request) => open.add(request));
+  for (const done of ["requestfinished", "requestfailed"])
+    page.on(done, (request) => open.delete(request));
+  return open;
+}
+
+/** Resolves once the page has no request in flight: what its last press started has been answered. */
+async function requestsEnded(page) {
+  const open = watchRequests(page);
+  // A press's request leaves the page a moment after the click returns.
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => resolve())),
+  );
+  while (open.size) await page.waitForEvent("requestfinished").catch(() => {});
+}
+
 /** What the talk box shows now, to tell when a press has moved it on. */
 function talkState() {
   const talk = document.getElementById("talk");
@@ -82,15 +111,29 @@ function talkState() {
  * Never presses Skip scene. Throws if the talk does not end.
  */
 export async function finishTalk(page) {
+  watchRequests(page);
   for (let step = 0; step < MAX_STEPS; step += 1) {
     const before = await page.evaluate(talkState);
-    if (before === "closed") return step;
+    if (before === "closed") {
+      // The page hides the talk before it knows what follows: the last
+      // Continue of the address hides it, asks the server for the room, and
+      // only then lands the evening's line in the same box (play.mjs,
+      // `landHome`), about 700 ms later in Peach Springs, Arizona. So a
+      // closed talk is read again once the page's own requests have ended,
+      // and the opening is over only when it is still closed then.
+      await requestsEnded(page);
+      if ((await page.evaluate(talkState)) === "closed") return step;
+      continue;
+    }
     const next = page.locator("#talk-next");
     const reply = page.locator("#talk-choices .reply").first();
     const leave = page.locator("#talk-leave");
-    if (await next.isVisible()) await next.click();
-    else if (await reply.isVisible()) await reply.click();
-    else if (await leave.isVisible()) await leave.click();
+    // A button seen a moment ago can go with the talk (it closed on its
+    // own): the press is let go and the loop reads the talk again.
+    const press = (button) => button.click({ timeout: 5000 }).catch(() => {});
+    if (await next.isVisible()) await press(next);
+    else if (await reply.isVisible()) await press(reply);
+    else if (await leave.isVisible()) await press(leave);
     // Nothing to press yet: the line is still being drawn. Wait for a change.
     await page.waitForFunction(
       (was) => {
@@ -239,4 +282,45 @@ export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
     weeks: maxWeeks,
     tried,
   };
+}
+
+/**
+ * Someone in the room the player can talk to: the first talkable person, after
+ * waiting an hour at a time (the Hour button, as a player does) while no one
+ * is there, for at most `hours`. Who is home depends on the household and the
+ * hour, so a check never assumes someone is in the room the first evening.
+ * Throws when no one comes.
+ */
+export async function someoneToTalkTo(page, { hours = 24 } = {}) {
+  const talkable = page.locator("#here .busts-person.talkable");
+  for (let hour = 0; hour <= hours; hour += 1) {
+    const found = await talkable
+      .first()
+      .waitFor({ timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+    if (found) return talkable;
+    await finishTalk(page);
+    const press = page.locator("#hour");
+    await page.waitForFunction(
+      () => !document.getElementById("hour")?.disabled,
+    );
+    await press.click();
+    await page.waitForFunction(
+      () => !document.getElementById("hour")?.disabled,
+    );
+    await finishTalk(page);
+  }
+  throw new Error(`No one to talk to in ${hours} hours`);
+}
+
+/** Leaves the open talk as a player does: Leave where it is offered (and waits for the talk to close), else plays it to its end. */
+export async function leaveTalk(page) {
+  const leave = page.locator("#talk-leave");
+  if (await leave.isVisible()) {
+    await leave.click();
+    await page.locator("#talk").waitFor({ state: "hidden" });
+    return;
+  }
+  await finishTalk(page);
 }

@@ -11,6 +11,9 @@ import { pager } from "./pager.mjs";
 import { stripBoard, stripSection } from "./strips.mjs";
 import { dateWords, monthWords } from "../../english/plain-words.mjs";
 
+/** How many things a day names on the month; the rest are on its plate. */
+const DAY_LINES = 2;
+
 // The icon each kind of dated thing shows on its day.
 const dayIcon = (kind) =>
   ({
@@ -51,8 +54,22 @@ const saveHidden = (hidden) => {
   }
 };
 
+/**
+ * Whether a chosen day offers the jump to it: a later day, and no stop open. A stop waiting
+ * holds the clock, so a jump has nowhere to go (the server refuses it, as it does Week).
+ */
+export const offersJump = ({ selected, date, held }) =>
+  selected > date && !held;
+
 /** The calendar's node, for the sheet's body. */
-export function calendarScreen({ date, items: every, labels, onAdvance }) {
+export function calendarScreen({
+  date,
+  items: every,
+  labels,
+  onAdvance,
+  onAttend,
+  held = false,
+}) {
   // The kinds the player has hidden stay hidden, and the key lists the kinds
   // the calendar has (never a key for a kind with nothing to show).
   const hidden = savedHidden();
@@ -105,6 +122,22 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
     month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
     select(iso);
   };
+  // A posted meeting the player may come to as a resident: mark it, or take the mark
+  // back. The server answers with the calendar as it now stands.
+  const attendButton = (item) => {
+    const b = button(
+      item.attend.marked ? labels.attending : labels.attend,
+      async () => {
+        b.disabled = true;
+        every = await onAttend(item.attend, !item.attend.marked);
+        rebuild();
+        drawDay();
+      },
+      "action small attend-meeting",
+    );
+    b.setAttribute("aria-pressed", String(item.attend.marked));
+    return b;
+  };
   // The chosen day on its plate: weekday, the date large, how far off it is, each thing on
   // it with its icon, and the jump to it.
   const drawDay = () => {
@@ -122,7 +155,21 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
               "div",
               { className: `calendar-entry${item.own ? " own" : ""}` },
               icon(item),
-              el("span", { className: "what", textContent: item.line }),
+              item.attend && onAttend
+                ? el(
+                    "div",
+                    { className: "what" },
+                    el("span", { textContent: item.line }),
+                    // Once marked, the plan in the record's words.
+                    item.attend.plan
+                      ? el("span", {
+                          className: "attend-plan",
+                          textContent: item.attend.plan,
+                        })
+                      : "",
+                    attendButton(item),
+                  )
+                : el("span", { className: "what", textContent: item.line }),
             ),
             groupOf(item.kind),
           ),
@@ -133,7 +180,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
         2,
         `${weekday}, ${dayWords(selected)}`,
         el("div", { className: "calendar-day-list" }, ...lines),
-        ...(selected > date
+        ...(offersJump({ selected, date, held })
           ? [
               button(
                 labels.advance,
@@ -232,24 +279,20 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
       cell.setAttribute("aria-pressed", String(iso === selected));
       if (iso === date) cell.setAttribute("aria-current", "date");
       cell.append(el("span", { className: "num", textContent: String(day) }));
-      // Each kind of thing on the day is a small icon; its words are on the day's plate.
-      if (entries.length)
+      // Each thing on the day is named on it, its kind's icon before its own
+      // line (owner: "events on their days, one worded line each naming who
+      // and what"; the pl-calendar mock), the player's own first; the rest
+      // are on the day's plate.
+      for (const entry of entries.slice(0, DAY_LINES))
         cell.append(
-          el(
-            "span",
-            { className: "marks" },
-            ...[...new Set(entries.map((e) => groupOf(e.kind)))]
-              .slice(0, 3)
-              .map((group) =>
-                kinded(
-                  el("img", {
-                    src: `/ui/kit13/calendar-${dayIcon(GROUPS.find((g) => g.key === group).kinds[0])}.png`,
-                    alt: "",
-                    className: "day-icon",
-                  }),
-                  group,
-                ),
-              ),
+          kinded(
+            el(
+              "span",
+              { className: `mark${entry.own ? " own" : ""}` },
+              icon(entry),
+              el("span", { className: "what", textContent: entry.line }),
+            ),
+            groupOf(entry.kind),
           ),
         );
       grid.append(cell);

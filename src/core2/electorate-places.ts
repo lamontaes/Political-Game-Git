@@ -16,6 +16,7 @@
  * The eligible voters stay the people who live there, so a world's turnout
  * differs from the published one.
  */
+import { shareValue } from "./shares";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -30,9 +31,11 @@ import {
   legislativeSeatParts,
 } from "./legislative-district-results";
 import { parameter } from "./parameters";
-import { corePlaceStateIdentities } from "./place-lookup";
+import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
+import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
 import { worldOffsetUnit, worldRate } from "./world-draw";
+import { centuryCongressRoster, historyMode } from "./electorate-century";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -72,7 +75,12 @@ const CPS = lazyValue(() =>
       group: row.group,
       recordId: row.recordId,
       metrics: Object.fromEntries(
-        ["votedCitizenPercent", "adultPopulation", "citizenAdultPopulation"]
+        [
+          "votedCitizenPercent",
+          "registeredCitizenPercent",
+          "adultPopulation",
+          "citizenAdultPopulation",
+        ]
           .filter((key) => row.metrics[key] !== undefined)
           .map((key) => [key, { value: { ...row.metrics[key]!.value } }]),
       ),
@@ -137,6 +145,26 @@ export function cpsTurnout(
     recordId: row.recordId,
     national: row.geographyName !== name,
   };
+}
+
+/**
+ * The share of a state's citizens registered to vote in November 2024 (CPS
+ * table 4c), for one age band or all ages; the national row where the
+ * survey has no state row.
+ */
+export function cpsRegistered(usps: string, band?: string): number | null {
+  const name = stateName(usps)?.toUpperCase();
+  const find = (geography: string) =>
+    CPS().find(
+      (row) =>
+        row.geographyName === geography &&
+        (band
+          ? row.dimension === "age" && row.group === band
+          : row.dimension === "total"),
+    );
+  const row = (name ? find(name) : undefined) ?? find("UNITED STATES");
+  const registered = row?.metrics.registeredCitizenPercent?.value.value;
+  return registered === undefined ? null : registered / 100;
 }
 
 /** Shares already worked out, per place, state and seed (play only). */
@@ -433,7 +461,8 @@ function readHousePlace(
   const districts = CAL.house.filter((h) => h.stateUsps === usps).length || 1;
   const votes = stateTwoPartyVotes(usps, seed) / districts;
   if (!votes) return null;
-  const share = 0.5 + side * campaignParameter("legislativeSeatMargin");
+  const share =
+    shareValue("evenSplit") + side * campaignParameter("legislativeSeatMargin");
   return makePlace(
     seed,
     `district:${row?.districtGeoid ?? `${usps}${code}`}`,
@@ -521,6 +550,44 @@ export function countyPlaceIdOf(
   return null;
 }
 
+/** The county the town lies in, if the world records one. */
+export function countyOf(input: {
+  seed: string;
+  placeMetadata?: Readonly<Record<string, unknown>>;
+}) {
+  const placeKey = input.placeMetadata?.placeKey as string | undefined;
+  const town = placeKey ? corePlaceByKey(placeKey) : null;
+  const usps = placeStateKey(placeKey ?? "")?.slice(3);
+  if (!town?.sourceGeoid || !usps) return null;
+  const countyName = countyPlaceIdOf(
+    input.placeMetadata?.countyNames as string | undefined,
+    usps,
+  );
+  if (!countyName) return null;
+  const electorate = statePlaces(usps, input.seed).find(
+    (row) => row.id === countyName,
+  );
+  const shares = placeCountyPopulationShares(town.sourceGeoid);
+  const geoid = [...shares].sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0];
+  const county = geoid ? corePlaceByKey(`county:${geoid}`) : null;
+  if (!electorate || !geoid || !county) return null;
+  return {
+    usps,
+    geoid,
+    placeKey: placeKey!,
+    eligible: electorate.eligible,
+    jurisdictionId: county.context.jurisdiction.id as string,
+  };
+}
+
+/** The place (jurisdiction id) of the town's county, where the world records one. */
+export function countyPlaceOfWorld(world: {
+  seed: string;
+  placeMetadata?: Readonly<Record<string, unknown>>;
+}): string | null {
+  return countyOf(world)?.jurisdictionId ?? null;
+}
+
 /** A state's 2024 Republican two-party share for president, as published. */
 function publishedStateRight(usps: string): number | null {
   const state = CAL.presidentialByState.find((s) => s.stateUsps === usps);
@@ -582,7 +649,7 @@ function heldInWorld(
  * the roster's own name for the party; the national party where the roster
  * has none.
  */
-function rosterLabel(side: number): string {
+export function rosterLabel(side: number): string {
   if (!rosterLabels) {
     const counts = new Map<string, number>();
     const add = (label: string, n: number) =>
@@ -667,14 +734,41 @@ export function publishedSenateSeats(stateKey: string): readonly string[] {
   return ROSTER.congress[stateKey]?.senate ?? [];
 }
 
+/** The places that send members to Congress (the states, the District and the territories), in key order. */
+export function congressStateKeys(): readonly string[] {
+  return Object.keys(ROSTER.congress).sort();
+}
+
+/**
+ * A place's House seats as the roster keys them (the district number, "0" for an at-large seat or
+ * a delegate): the roster's seats and any district the 2024 results hold that the roster leaves
+ * vacant. Which seats exist, never who holds them.
+ */
+export function congressSeatKeys(stateKey: string): readonly string[] {
+  const usps = stateKey.slice(3);
+  const keys = new Set(
+    Object.keys(ROSTER.congress[stateKey] ?? {}).filter((k) => k !== "senate"),
+  );
+  for (const row of CAL.house)
+    if (row.stateUsps === usps && /^\d+$/.test(row.districtCode)) {
+      const district = String(Number(row.districtCode));
+      if (Number(district) > 0 && Number(district) < 98) keys.add(district);
+    }
+  return [...keys].sort((a, b) => Number(a) - Number(b) || a.localeCompare(b));
+}
+
 /**
  * This world's roster of the legislatures and Congress: each seat's holder by
  * `worldSeatParty`'s rule, and each chamber's party counts moved by its seats
- * that changed hands. Built once per world.
+ * that changed hands. Built once per world. Congress is the century's (electorate-century.ts)
+ * unless the world chose today's real record.
  */
 export function worldRoster(seed: string): typeof ROSTER {
-  const known = rosters.get(seed);
+  // One roster per world and per where its day one comes from (the century or today's record).
+  const cacheKey = `${seed}|${historyMode(seed)}`;
+  const known = rosters.get(cacheKey);
   if (known) return known;
+  const fromCentury = centuryCongressRoster(seed);
   const places: Record<string, Record<string, RosterChamber>> = {};
   for (const [stateKey, chambers] of Object.entries(ROSTER.places)) {
     const usps = stateKey.slice(3);
@@ -748,8 +842,8 @@ export function worldRoster(seed: string): typeof ROSTER {
         }
       }
   }
-  const world = { places, congress };
-  rosters.set(seed, world);
+  const world = { places, congress: fromCentury ?? congress };
+  rosters.set(cacheKey, world);
   return world;
 }
 

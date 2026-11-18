@@ -68,8 +68,8 @@
     "why": "The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed.",
-    "status": "open"
+    "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed. Resolved Nov 14, 2026 (play-stopgap-controls-text): every act's name is a piece in the choice-names bank (actionNames in src/bench/words.ts, served on /api/controls), and the controls table is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-opening-economy-fallback",
@@ -332,20 +332,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-office-hours-assumed",
-    "kind": "estimated-data",
-    "file": "src/bench/filing.ts",
-    "line": 252,
-    "whatItFakes": "A filing office whose clerk has no work record to read (a state's election office, a municipal finance officer who is not one of the town's full people) keeps assumed weekday hours of 8:00 AM to 5:00 PM, holidays not skipped.",
-    "why": "Going to a closed office plays the visit at its next opening (owner, Nov 1); only some clerks are full people with work spans, and an office with no record of hours must still have some, never none.",
-    "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
-    "addedAt": "2026-11-01",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stopgap-triage-play"
-  },
-  {
     "id": "SG-PLAY-trip-time-average",
     "kind": "missing-mechanic",
     "file": "src/bench/handler.ts",
@@ -369,18 +355,6 @@
     "addedBy": "play-campaign-ask-reaches-player",
     "addedAt": "2026-11-11",
     "replacement": "A director situation type that stages the ask record (core2-campaigns-v1 asks) as a talk with the candidate or a letter from them, whose replies call answerDonationAsk, with lines from the English engine.",
-    "status": "open"
-  },
-  {
-    "id": "SG-PLAY-party-joined-scene-awaits-words",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/parties.ts",
-    "line": 479,
-    "whatItFakes": "Joining a party writes the party-joined record, and Travel lists the party office for members, but no director scene plays at the office and no journal line tells it: the record has no situation type or lines yet.",
-    "why": "A cause bound to a type with no lines stages an empty scene that still stops the player (scene-producers, #6990), and lines under data/english/parts are the words session's to write.",
-    "addedBy": "play-join-a-party-has-no-scene-and-no-headquarters",
-    "addedAt": "2026-11-11",
-    "replacement": "play-party-joined-scene-at-the-office: a situation type caused by party-joined, staged at the party office with its leader, with the welcome, the replies and the journal line from the banks.",
     "status": "open"
   },
   {

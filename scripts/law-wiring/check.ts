@@ -6,7 +6,13 @@
  * law took effect the same day (budget lines: where nothing changed).
  *
  *   node --import tsx scripts/law-wiring/check.ts --seed <hex> [--only k1,k2]
- *     [--shard i/n] [--out file.json]
+ *     [--shard i/n] [--out file.json] [--at <level> | --levels]
+ *
+ * Each law is changed at one level: by default the lowest level of the town's
+ * chain that may pass it (the matrix's grade); `--at <level>` changes every law
+ * of the run at that level; `--levels` runs each law once at every level of the
+ * chain that may pass it, so a law the town, the state and Congress can all
+ * pass is graded at each (pool item laws-checker-tests-every-level).
  *
  * A law not in force at the opening is enacted the day after the opening and
  * repealed 35 days later; a law in force at the opening is measured from the
@@ -175,7 +181,7 @@ function underOf(sourceId: string): string {
   return under;
 }
 
-function startTraces(): void {
+export function startTraces(): void {
   Error.stackTraceLimit = 60;
   setTableTrace((moduleId, table, op, query) => {
     if (
@@ -718,12 +724,43 @@ function townLevel(
  * only its own ward lines, and most towns have none).
  */
 /**
- * `--at <level>` enacts every law of the run at that level: a law a town
+ * `--at <level>` changes every law of the run at that level: a law a town
  * cannot pass where it is drawn (a state's own minimum wage question, where
- * the state preempts local wages) is enacted where it can be. The general
+ * the state preempts local wages) is changed where it can be. The general
  * rule is `laws-checker-enacts-where-no-power`.
  */
 const AT = arg("at");
+const EVERY_LEVEL = process.argv.includes("--levels");
+
+/** The chain's own level and jurisdiction for `level`, or null where the town's chain has none. */
+function chainLevel(
+  api: CoreAPI,
+  level: string,
+): { level: LawRowInput["level"]; jurisdiction: string } | null {
+  const want = level === "local" ? "city" : level;
+  const row = lawChain(api).levels.find((l) => l.level === want);
+  return row ? { level: row.level, jurisdiction: row.jurisdiction } : null;
+}
+
+/**
+ * The levels of the town's chain that may pass a law, lowest first: what
+ * `--levels` runs each law at. A budget line runs at each level whose
+ * government keeps a budget.
+ */
+export function levelsFor(api: CoreAPI, law: LawEntry): readonly string[] {
+  const allowed = (
+    ENACT_AT[law.key] ??
+    enactingLevels(law) ?? ["city", "county", "state", "federal"]
+  ).map((l) => (l === "local" ? "city" : l));
+  const govLevels = new Set(governments(api).map((g) => g.level as string));
+  return (["city", "county", "state", "federal"] as const).filter(
+    (level) =>
+      allowed.includes(level) &&
+      (law.kind === "budget-line"
+        ? govLevels.has(level)
+        : chainLevel(api, level) !== null),
+  );
+}
 const ENACT_AT: Readonly<Record<string, readonly string[]>> = {
   "us-policy-positions:government-operations.independent-redistricting": [
     "state",
@@ -742,6 +779,8 @@ function setQuestion(
   tag: string,
   ids: Set<string>,
   repealed: { level: LawRowInput["level"]; jurisdiction: string }[] = [],
+  /** Change it at this level only: a repeal ends that level's yes, an enactment is that level's. */
+  level?: string,
 ): string {
   const date = addDays(makeIsoDate(api.state.date), 1);
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
@@ -760,9 +799,10 @@ function setQuestion(
     return `enacted again at ${repealed.map((r) => r.level).join(", ")} effective ${date}`;
   }
   if (value === 0) {
-    // Repeal at every level whose latest row says yes.
+    // Repeal at every level whose latest row says yes (at the one level asked, when one is).
     const levels: string[] = [];
-    for (const { level, jurisdiction } of lawChain(api).levels) {
+    for (const { level: at, jurisdiction } of lawChain(api).levels) {
+      if (level && at !== chainLevel(api, level)?.level) continue;
       const latest = (
         laws.query("bySeries", [
           jurisdiction,
@@ -775,7 +815,7 @@ function setQuestion(
       ids.add(latest.id);
       const row = enactLaw(api, {
         jurisdiction,
-        level,
+        level: at,
         series: law.key,
         value: 0,
         effectiveDate: date,
@@ -783,15 +823,14 @@ function setQuestion(
         citation: "Law-wiring check: repeal",
       });
       ids.add(row.id);
-      levels.push(level);
-      repealed.push({ level, jurisdiction });
+      levels.push(at);
+      repealed.push({ level: at, jurisdiction });
     }
     return `repealed at ${levels.join(", ") || "no level"} effective ${date}`;
   }
-  const at = townLevel(
-    api,
-    AT ? [AT] : (ENACT_AT[law.key] ?? enactingLevels(law)),
-  );
+  const at = level
+    ? chainLevel(api, level)
+    : townLevel(api, ENACT_AT[law.key] ?? enactingLevels(law));
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
     ...at,
@@ -888,7 +927,7 @@ function draftUnder(
  * The amount a body first enacts for a series that starts at none (0), where
  * a token 1 would bind nobody: the public pay floor at the owner's own
  * what-if example, a $70,000 public pay base (docs/coordination/OWNER-DECISIONS.md,
- * "The economy must answer what if"; src/bench/data/dev-experiments.json).
+ * "The economy must answer what if").
  */
 const FIRST_AMOUNT: Readonly<Record<string, number>> = {
   "public-pay-floor": 70_000,
@@ -942,10 +981,23 @@ function changeAmount(
   law: LawEntry,
   tag: string,
   ids: Set<string>,
+  /** Write the change as this level's own row, from that level's amount (else the law in force). */
+  level?: string,
 ): Change {
   const series = law.series!;
   const now = lawInForce(api, series);
-  const governing = now.governing as LawRowInput | null | undefined;
+  const asked = level ? chainLevel(api, level) : null;
+  if (level && !asked)
+    return {
+      lawIds: ids,
+      how: `the town's chain has no ${level} level`,
+      undo: () => {},
+    };
+  const governing = (
+    asked
+      ? (now.levels.find((l) => l.level === asked.level)?.row ?? null)
+      : now.governing
+  ) as LawRowInput | null | undefined;
   // The governing row can be another series lifted into a level's slot (the
   // state's average local sales tax stands in for a place with no local row):
   // the change is then made to the most local row of the law's own series.
@@ -960,9 +1012,11 @@ function changeAmount(
           )
           .find((row) => row)
       : governing;
-  const at = g
-    ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, AT ? [AT] : enactingLevels(law));
+  const at =
+    asked ??
+    (g
+      ? { level: g.level, jurisdiction: g.jurisdiction }
+      : townLevel(api, enactingLevels(law)));
   if (!at)
     return {
       lawIds: ids,
@@ -999,9 +1053,16 @@ function changeAmount(
   });
   ids.add(row.id);
   if (g) ids.add(g.id);
+  // Whether the new row applies on its day: a summed tax adds every level's
+  // row; otherwise a higher floor or a lower local law can still govern.
+  const then = lawInForce(api, series, date);
+  const applies =
+    then.doctrine === "additive"
+      ? then.levels.some((l) => l.row?.id === row.id && !l.setAside)
+      : (then.governing as LawRowInput | null)?.id === row.id;
   return {
     lawIds: ids,
-    how: `${series} ${old} -> ${next} at ${at.level} (${row.id}) effective ${date}`,
+    how: `${series} ${old} -> ${next} at ${at.level} (${row.id}) effective ${date}${applies ? "" : `; ${then.governing?.id ?? "no row"} governs`}`,
     undo: () => {
       const back = enactLaw(api, {
         ...at,
@@ -1018,19 +1079,22 @@ function changeAmount(
   };
 }
 
-function changeBudget(
+export function changeBudget(
   api: CoreAPI,
   law: LawEntry,
   tag: string,
   ids: Set<string>,
+  /** Change that level's own government's budget; left out, the lowest level that may pass the line and keeps a budget (`levelsFor`). */
+  level?: string,
 ): Change {
   const line = law.key.slice("budget-line:".length);
   const town = lawChain(api).levels;
   const govs = governments(api);
-  const gov =
-    govs.find((g) => g.level === "city") ??
-    govs.find((g) => g.level === "county") ??
-    govs.find((g) => g.level === "state");
+  // A line only Congress passes (the federal outlays) is the federal
+  // budget's: raising it in the town's own budget measured a town treasury
+  // paying a line it never keeps, and graded the federal law on that.
+  const at = level ?? levelsFor(api, law)[0];
+  const gov = at ? govs.find((g) => g.level === at) : undefined;
   if (!gov)
     return {
       lawIds: ids,
@@ -1107,7 +1171,7 @@ function build(drawn: ReturnType<typeof drawLawPlace>) {
   });
 }
 
-interface Control {
+export interface Control {
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
   reads: Map<string, Map<string, number>>;
   web: Map<string, number>;
@@ -1125,6 +1189,8 @@ interface Control {
   targets: Map<string, Reached[]>;
   /** The bill records that read or carry the laws' links in the control window. */
   records: BillRecords;
+  /** The levels of the town's chain that may pass each law, at the opening (`levelsFor`). */
+  levels: Map<string, readonly string[]>;
 }
 
 /** The series a null law sets: no engine, handler or link reads it. */
@@ -1136,12 +1202,15 @@ const NULL_SERIES = "law-wiring-null-control";
  * (for laws: any law taking effect is news and reruns the outcome web, so
  * only what this law's own content does differs from it).
  */
-function runControl(
+export function runControl(
   drawn: ReturnType<typeof drawLawPlace>,
   laws: readonly LawEntry[],
   nullLaw: boolean,
 ): Control {
   const w = build(drawn);
+  const levels = new Map(
+    laws.map((l) => [l.key, levelsFor(coreAPI(w.core), l)] as const),
+  );
   trackedKeys = new Set(laws.map((l) => l.key));
   // What a law already in force pays here is the money its repeal stops.
   citeTokens = laws.map((l) => l.key);
@@ -1208,14 +1277,17 @@ function runControl(
     treasury,
     byAccount,
     records,
+    levels,
     targets,
   };
 }
 
-function checkLaw(
+export function checkLaw(
   drawn: ReturnType<typeof drawLawPlace>,
   law: LawEntry,
   control: Control,
+  /** The level the law is changed at (`levelsFor`); left out, the town's lowest that may pass it. */
+  level: string | undefined = AT,
 ) {
   const started = Date.now();
   const w = build(drawn);
@@ -1227,8 +1299,14 @@ function checkLaw(
   trackedKeys = new Set([law.key]);
   resetTrace();
 
+  // A question asked at one level starts from that level's own answer: a yes there is repealed there.
+  const askedAt = level ? chainLevel(api, level)?.level : undefined;
   const opening =
-    law.kind === "question" ? yesLevels(api, law.key).length > 0 : false;
+    law.kind === "question"
+      ? askedAt
+        ? yesLevels(api, law.key).some((y) => y.level === askedAt)
+        : yesLevels(api, law.key).length > 0
+      : false;
   // Link 1 in the drawn place: the row in force (or saying no) on day one.
   const openingRow =
     law.kind === "budget-line"
@@ -1270,17 +1348,17 @@ function checkLaw(
   if (law.kind === "question") {
     const repealed: { level: LawRowInput["level"]; jurisdiction: string }[] =
       [];
-    how = setQuestion(api, law, opening ? 0 : 1, tag, ids, repealed);
+    how = setQuestion(api, law, opening ? 0 : 1, tag, ids, repealed, level);
     undo = () => {
-      how += `; then ${setQuestion(api, law, opening ? 1 : 0, `${tag}-b`, ids, repealed)}`;
+      how += `; then ${setQuestion(api, law, opening ? 1 : 0, `${tag}-b`, ids, repealed, level)}`;
     };
   } else if (law.kind === "budget-line") {
-    const c = changeBudget(api, law, tag, ids);
+    const c = changeBudget(api, law, tag, ids, level);
     how = c.how;
     undo = c.undo;
     raised = c.lines ?? [];
   } else {
-    const c = changeAmount(api, law, tag, ids);
+    const c = changeAmount(api, law, tag, ids, level);
     how = c.how;
     undo = c.undo;
   }
@@ -1534,6 +1612,7 @@ function checkLaw(
     readers.set(f, (readers.get(f) ?? 0) + n);
   return {
     key: law.key,
+    ...(level ? { level } : {}),
     kind: law.kind,
     family: law.family,
     inForceAtOpening: opening,
@@ -1627,6 +1706,7 @@ function main(): void {
         JSON.parse(readFileSync(out, "utf8")) as {
           results: {
             key: string;
+            level?: string;
             kind?: string;
             family?: string;
             error?: string;
@@ -1634,7 +1714,9 @@ function main(): void {
         }
       ).results.filter((r) => !r.error)
     : [];
-  const done = new Set(results.map((r) => r.key));
+  const caseOf = (key: string, level?: string) =>
+    level ? `${key}@${level}` : key;
+  const done = new Set(results.map((r) => caseOf(r.key, r.level)));
   const write = () => {
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(
@@ -1642,26 +1724,36 @@ function main(): void {
       `${JSON.stringify({ seed, place: drawn, window: WINDOW, after: AFTER, results }, null, 1)}\n`,
     );
   };
-  for (const law of laws) {
-    if (done.has(law.key)) continue;
+  // `--levels`: each law once at every level of the chain that may pass it.
+  const cases = laws.flatMap((law) =>
+    EVERY_LEVEL
+      ? (lawControl.levels.get(law.key) ?? []).map((level) => ({ law, level }))
+      : [{ law, level: AT }],
+  );
+  for (const { law, level } of cases) {
+    if (done.has(caseOf(law.key, level))) continue;
     try {
       const r = checkLaw(
         drawn,
         law,
         law.kind === "budget-line" ? lineControl : lawControl,
+        level,
       );
       results.push(r);
       console.error(
-        `${law.key}: reach ${r.reach.open} (full ${r.reach.fullPeople}, groups ${r.reach.countedGroups}, orgs ${r.reach.organizations}), readers ${Object.keys(r.readers).length}, money kinds ${r.money.diffKinds}, web ${r.web.firedCount}/${r.web.links.length}, heard ${r.heard.people}, after ${r.afterUndo.open} [${r.seconds}s]`,
+        `${caseOf(law.key, level)}: reach ${r.reach.open} (full ${r.reach.fullPeople}, groups ${r.reach.countedGroups}, orgs ${r.reach.organizations}), readers ${Object.keys(r.readers).length}, money kinds ${r.money.diffKinds}, web ${r.web.firedCount}/${r.web.links.length}, heard ${r.heard.people}, after ${r.afterUndo.open} [${r.seconds}s]`,
       );
     } catch (error) {
       results.push({
         key: law.key,
+        ...(level ? { level } : {}),
         kind: law.kind,
         family: law.family,
         error: String((error as Error).stack ?? error).slice(0, 800),
       });
-      console.error(`${law.key}: ERROR ${(error as Error).message}`);
+      console.error(
+        `${caseOf(law.key, level)}: ERROR ${(error as Error).message}`,
+      );
     }
     write();
   }

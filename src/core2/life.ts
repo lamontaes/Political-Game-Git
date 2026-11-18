@@ -16,7 +16,9 @@ export { chooseAct } from "./choice";
 // The player's control and clock, read by the director through this entry
 // (the families guard: one family reaches another through its entry files).
 export { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
-export { playerClockFrontierV1 } from "./player-stops-v1";
+export { passPlayerStopsV1, playerClockFrontierV1 } from "./player-stops-v1";
+export { dailyFocusReason, knowsThePlayer } from "./calendar";
+export type { DailyFocusReason } from "./calendar";
 import {
   WORK_MODULE,
   discretionaryHours,
@@ -62,6 +64,7 @@ import type {
   OfferRound,
   PersonState,
 } from "./types";
+import { OFFER_ROUND_PREDICTION } from "./types";
 
 export type Controller = (
   decision: DecisionResult,
@@ -291,6 +294,7 @@ function admits(
 export function availableActs(
   core: CoreState,
   personId: string,
+  prediction = false,
 ): readonly ActOffer[] {
   const actor = core.people.get(personId);
   if (!actor?.alive) return [];
@@ -305,6 +309,7 @@ export function availableActs(
   // One round of offers: the providers share what they work out for
   // this person today (nothing they read changes while the offers are made).
   const round: OfferRound = new Map();
+  if (prediction) round.set(OFFER_ROUND_PREDICTION, true);
   for (const definition of core.data.actions) {
     const provide = resolveOperation(
       core,
@@ -589,6 +594,7 @@ function runResultsDay(core: CoreState, api: CoreAPI): void {
   // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; each engine with an onResultsMonth step catches up on the first of the month)
   stopgap("SG-SPEED-results-mode-daily-work", core);
   runModuleCalendar(core, api);
+  for (const module of core.modules.values()) module.onResultsDay?.(api);
   const day = new Date(`${makeIsoDate(core.date)}T00:00:00.000Z`).getUTCDate();
   if (day === parameter("one", core.data.parameters))
     for (const module of core.modules.values()) module.onResultsMonth?.(api);

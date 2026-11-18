@@ -34,7 +34,7 @@ interface AllowEntry {
 // so the files they read left the waiting list.
 const AWAITING_READER_CEILING = 3;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
-const UNREAD_FOUND_CEILING = 38;
+const UNREAD_FOUND_CEILING = 33;
 
 const allowlist = JSON.parse(
   readFileSync(

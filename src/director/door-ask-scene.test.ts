@@ -20,9 +20,12 @@ import { corePlaceByKey } from "../core2/place-lookup";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { viewQuestionKey } from "./view-learned";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // A door the player's own canvass knocks, where the resident's agreement is
 // the day's strongest, plays as the player's ask: the player asks for their
@@ -46,6 +49,15 @@ const LABELS = [
 const ends = (node: TreeNode): TreeNode[] => [
   ...(node.end ? [node] : []),
   ...node.replies.flatMap((reply) => (reply.next ? ends(reply.next) : [])),
+];
+
+/** Every line of a tree: the asker's answers and the replies the player may press. */
+const linesOf = (node: TreeNode): { parts: string[]; text: string }[] => [
+  ...node.lines,
+  ...node.replies.flatMap((reply) => [
+    reply.line,
+    ...(reply.next ? linesOf(reply.next) : []),
+  ]),
 ];
 
 /** A local filing by a resident who holds no seat, from the open contests. */
@@ -88,17 +100,13 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     const start = makeIsoDate(core.date);
     // The town's own residents (officials living elsewhere cannot file here).
     const town = corePlaceByKey(place.key)?.context.jurisdiction.id;
-    const adults = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.placeId === town &&
-          row.tier !== "husk" &&
-          ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (row) =>
+        row.alive &&
+        row.placeId === town &&
+        row.tier !== "husk" &&
+        ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
+    );
     let filing: ReturnType<typeof fileLocal> = null;
     let personId: PersonId | undefined;
     for (const row of adults.slice(0, 60)) {
@@ -173,32 +181,91 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     const signed = petitionSignerIds(coreAPI(core), filing.id).has(
       cause.voterId,
     );
-    expect(result.scene.purpose, where).toBe(
+    // The door's family; the arc within it is the one the resident's own
+    // records give (door-variants.test.ts checks each against its record).
+    expect(result.scene.purpose.split(".")[0], where).toBe(
       petition ? "ask-signature" : "ask-support",
     );
     expect(
       first.move,
       `${where}: ${petition ? `signed ${signed}` : `warmth ${cause.warmthAfter}`}`,
     ).toBe((petition ? signed : cause.warmthAfter > 0) ? "agree" : "decline");
+    // The signature door tells the petition's own answer, named by its record
+    // id (door-facts.ts); the other answer is never set beside it.
+    if (petition) {
+      const told = scene.facts.find(
+        (row) => row.key === (signed ? "signed" : "would-not-sign"),
+      );
+      expect(told, `${where}: signed ${signed}`).toBeTruthy();
+      expect(told?.recordIds, where).toContain(`petition:${filing.id}`);
+      expect(
+        scene.facts.some(
+          (row) => row.key === (signed ? "would-not-sign" : "signed"),
+        ),
+        where,
+      ).toBe(false);
+    }
+    // A line that says what the player would do (`{stand}`), names the other
+    // candidate (`{rival}`) or the resident's question (`{about}`) plays only
+    // where the scene holds that fact, set from the views engine, the contest's
+    // other filing and the resident's own stance.
+    const held = new Set(scene.facts.map((row) => row.key));
+    const bank = new Map(
+      (sceneBank as unknown as { parts: { key: string; text: string }[] }).parts
+        .filter((part) => /\{(stand|rival|about)\}/.test(part.text))
+        .map((part) => [part.key, part.text]),
+    );
+    for (const line of linesOf(scene.talk.tree))
+      for (const key of line.parts) {
+        const text = bank.get(key);
+        if (!text) continue;
+        for (const slot of ["stand", "rival", "about"])
+          if (text.includes(`{${slot}}`))
+            expect(
+              held.has(slot),
+              `${where}: "${line.text}" needs ${slot}`,
+            ).toBe(true);
+      }
     // Every end is one the purpose names, by the one ending decider.
     const named = ends(scene.talk.tree).map((node) => node.end?.ending?.id);
     expect(named.every(Boolean), `${where}: ${named.join(", ")}`).toBe(true);
+    // A plain door's "what matters" answer is the resident's own record
+    // (Words lead, ruling 72): their strongest question, or that they hold
+    // no view strong enough. Asked, the player learns the question.
+    const plain = scene.purpose.endsWith(".plain");
+    const about = scene.facts.find((row) => row.key === "about");
+    if (plain)
+      expect(
+        Boolean(about) || scene.facts.some((row) => row.key === "no-view"),
+        `${where}: ${scene.facts.map((row) => row.key).join(", ")}`,
+      ).toBe(true);
+    const asked = scene.talk.tree.replies.findIndex(
+      (row) => row.line.move === "ask",
+    );
+    const path = plain && about && asked >= 0 ? asked : 0;
     // The player's first ask is written back as the resident's answer.
-    const replyId = replyInScene(core, director, personId, entry, [0]);
+    const replyId = replyInScene(core, director, personId, entry, [path]);
     expect(replyId, where).toBeTruthy();
     const reply = core.durableLog.get(replyId!)!;
     const answer =
-      scene.talk.tree.replies[0]!.next?.lines.find(
+      scene.talk.tree.replies[path]!.next?.lines.find(
         (row) => row.speakerId === cause.voterId,
       )?.move ?? first.move;
     expect(reply.facts?.move, where).toBe(answer);
     expect(reply.facts?.ending, where).toBe(
-      scene.talk.tree.replies[0]!.next?.end?.ending?.id ??
+      scene.talk.tree.replies[path]!.next?.end?.ending?.id ??
         scene.talk.tree.end?.ending?.id,
     );
+    if (path === asked && about)
+      expect(
+        core.knowledgeByPerson
+          .get(personId)
+          ?.get(viewQuestionKey(cause.voterId))?.value,
+        where,
+      ).toBe(scene.facts.find((row) => row.key === "view-question")?.text);
     process.stdout.write(
       [
-        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, cause ${cause.id}, filing ${filing.id}, ${petition ? `signed ${signed}` : `warmth after ${cause.warmthAfter.toFixed(2)}`}`,
+        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, ${scene.purpose}, path ${path}${about ? `, learned ${about.text}` : ""}, cause ${cause.id}, filing ${filing.id}, ${petition ? `signed ${signed}` : `warmth after ${cause.warmthAfter.toFixed(2)}`}`,
         ...scene.talk.narration.map((line) => `Narrator: ${line.text}`),
         `${scene.talk.state.speaker}: ${scene.talk.state.text}`,
         `${first.speaker}: ${first.text}`,

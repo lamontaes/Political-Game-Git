@@ -1,5 +1,11 @@
+import { organizationName } from "../director/words";
 import { coreAPI } from "../core2/state";
-import { JOBS_MODULE_ID, type PositionRow } from "../core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  applyForOpening,
+  quitJob,
+  type PositionRow,
+} from "../core2/modules/jobs";
 import type { CoreState } from "../core2/types";
 
 /**
@@ -25,9 +31,29 @@ export function openingsView(core: CoreState, personId: string) {
       .map((row) => ({
         recordId: row.id,
         title: row.title,
-        employer: core.organizations.get(row.organizationId)?.name ?? null,
+        employer: (() => {
+          const org = core.organizations.get(row.organizationId);
+          return org ? organizationName(org) : null;
+        })(),
         hourlyMinor: row.hourlyMinor,
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
+        applied: !!coreAPI(core)
+          .moduleState(JOBS_MODULE_ID)
+          .table("playerApplications")
+          .get(row.id),
       })),
   };
+}
+
+/**
+ * The player leaves their job by their own press: the jobs engine ends it the way a worker's own
+ * leaving always ends, and the answer says whether it did (`left`) or why the job stays.
+ */
+export function leaveJobAs(core: CoreState, personId: string) {
+  return quitJob(coreAPI(core), personId);
+}
+
+/** The player applies for a listed opening by their own press; the jobs engine records it. */
+export function applyForOpeningAs(core: CoreState, positionId: string) {
+  return { applied: applyForOpening(coreAPI(core), positionId) };
 }

@@ -6,9 +6,7 @@
  * engine's own ask. Run as a campaign day choice in a random place drawn
  * from all 56.
  */
-import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -38,19 +36,31 @@ import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
-const runSeed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`donor-meeting:${Date.now()}`).digest("hex");
+/**
+ * The place the test is pinned to (pinned-tests): a village whose board seat
+ * is open for filing on START, so there is a contest to file for and a room
+ * of people to ask.
+ */
+const PLACE = {
+  key: "5082375",
+  name: "West Rutland",
+  state: "US-VT",
+  seed: "bab0439bc0a3ea68b20fdb66b5bdc16d1954c78c40a8a6985742879912ec3f88",
+} as const;
+/** The contest the candidate files for: open for filing on START. */
+const CONTEST_ID = "contest:seat:gus2025:176640:board:0:2026-03-03";
 
-/** Candidates the test tries, each in turn, until a meeting raises money. */
-const CANDIDATES = 10;
+/** The candidate: the town's richest resident old enough to file at the pinned place and seed. */
+const CANDIDATE_ID =
+  "person:press:outlet:newspaper:0:jurisdiction_f125c0ad97490bf9:owner:0";
 /** Shifts of doors a candidate walks first, so the town has heard of them. */
 const SHIFTS = 4;
 
 function world() {
-  const place = drawPlace(runSeed, "donor-meeting");
+  const place = PLACE;
   const core = createLifeCore(
     buildPopulation({
       seed: place.seed,
@@ -61,7 +71,7 @@ function world() {
     { modules: [viewsModule] },
   ) as CoreState;
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -74,16 +84,14 @@ function world() {
       .table("town")
       .get("town") as unknown as { townPlaceId: string }
   ).townPlaceId;
-  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  const where = `${place.name}, ${place.state} (${place.key}), place seed ${place.seed}`;
   // Residents of the town old enough to file for something, richest first.
-  const residents = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const residents = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   return { core, api, residents, where };
 }
 
@@ -114,39 +122,41 @@ function file(
   core: CoreState,
   api: ReturnType<typeof coreAPI>,
   personId: string,
-): FilingRow | null {
+  where: string,
+): FilingRow {
   core.playerId = personId;
-  // A local seat (a council, a mayor, a county office), as phase A plays;
-  // a place with none (a territory's towns) files for what it has.
-  const open = openContests(api);
-  const local = open.filter(
-    (c) => c.level !== "federal" && c.level !== "state",
-  );
-  for (const contest of local.length ? local : open) {
-    const filed = fileCandidacy(api, {
-      personId,
-      contestId: contest.id,
-      platform: [`${PLATFORM_QUESTIONS[0]}=1`],
-    });
-    if (
-      filed.status !== "refused" &&
-      ["petitioning", "on-ballot"].includes(filed.filing.status ?? "")
-    )
-      return filed.filing;
-  }
-  return null;
+  const contest = openContests(api).find((c) => c.id === CONTEST_ID);
+  if (!contest)
+    throw new Error(
+      `no contest open for filing at ${PLACE.name}, ${PLACE.state} on ${START}: ${CONTEST_ID} (open: ${openContests(
+        api,
+      )
+        .map((c) => c.id)
+        .join(", ")}): ${where}`,
+    );
+  const filed = fileCandidacy(api, {
+    personId,
+    contestId: contest.id,
+    platform: [`${PLATFORM_QUESTIONS[0]}=1`],
+  });
+  if (
+    filed.status === "refused" ||
+    !["petitioning", "on-ballot"].includes(filed.filing.status ?? "")
+  )
+    throw new Error(
+      `${personId} could not file for ${CONTEST_ID} on ${START} (${filed.status}): ${where}`,
+    );
+  return filed.filing;
 }
 
 describe("a donor meeting", () => {
   it("asks each person in the host's room for money and names every gift", () => {
     const { core, api, residents, where } = world();
-    let checked = 0;
-    let tried = 0;
-    for (const candidate of residents) {
-      if (tried >= CANDIDATES) break;
-      const filing = file(core, api, candidate.id);
-      if (!filing) continue;
-      tried += 1;
+    {
+      const candidate = residents.find((p) => p.id === CANDIDATE_ID);
+      if (!candidate)
+        throw new Error(`${CANDIDATE_ID} is not a resident: ${where}`);
+      const filing = file(core, api, candidate.id, where);
       const id = filing.id;
       for (let shift = 0; shift < SHIFTS; shift += 1)
         takeCampaignDayChoice(api, id, "canvass");
@@ -180,10 +190,8 @@ describe("a donor meeting", () => {
       ).toEqual([]);
       if (offered?.kind !== "donor-meeting")
         throw new Error(`no donor-meeting choice: ${where}`);
-      if (!offered.available) {
-        expect(offered.facts.hostId, where).toBeNull();
-        continue;
-      }
+      if (!offered.available)
+        throw new Error(`no host for ${candidate.id}: ${where}`);
       const hostId = offered.facts.hostId!;
       // The host comes from the candidate's own circle.
       expect(circle.has(hostId), `host ${hostId} known: ${where}`).toBe(true);
@@ -309,12 +317,8 @@ describe("a donor meeting", () => {
       );
       if (next?.kind === "donor-meeting")
         expect(next.facts.hostId, where).not.toBe(hostId);
-      checked += 1;
-      if (givers.length > 0) break;
+      // The pinned room is one where the ask raised money.
+      expect(givers.length, `nobody gave: ${where}`).toBeGreaterThan(0);
     }
-    expect(checked, `no candidate had a host: ${where}`).toBeGreaterThan(0);
-    // Where no meeting raised money, every room's answers were checked
-    // against the records above: a town whose people hold nothing past their
-    // cushion gives nothing.
-  });
+  }, 60_000);
 });

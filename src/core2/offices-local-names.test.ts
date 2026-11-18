@@ -28,6 +28,12 @@ describe("a local body is named the way people write it", () => {
     expect(boardBodyName("PARISH OF ST EXAMPLE", "Parish Council")).toBe(
       "St. Example Parish Council",
     );
+    expect(boardBodyName("CITY AND COUNTY OF EXAMPLE", "County Council")).toBe(
+      "Example City Council",
+    );
+    expect(
+      boardBodyName("CITY AND COUNTY OF EXAMPLE", "Board of Supervisors"),
+    ).toBe("Example Board of Supervisors");
     expect(boardBodyName("PARISH OF EXAMPLE", "Police Jury")).toBe(
       "Example Parish Police Jury",
     );
@@ -36,7 +42,58 @@ describe("a local body is named the way people write it", () => {
     );
     expect(
       boardBodyName("COUNTY OF EXAMPLE", "Board of County Commissioners"),
-    ).toBe("Board of County Commissioners of Example County");
+    ).toBe("Example County Board of Commissioners");
+    expect(
+      boardBodyName("TOWNSHIP OF EXAMPLE", "Board of Township Trustees"),
+    ).toBe("Example Township Board of Trustees");
+  });
+
+  it("says a town's, township's or municipio's board the way people say it", () => {
+    // The class word goes where the body's own name follows the place
+    // (Words lead, Nov 14): the paper and the meeting panel read this name.
+    expect(boardBodyName("TOWN OF EXAMPLE", "Board of Selectmen")).toBe(
+      "Example Board of Selectmen",
+    );
+    expect(boardBodyName("TOWNSHIP OF EXAMPLE", "Township Committee")).toBe(
+      "Example Township Committee",
+    );
+    expect(boardBodyName("EXAMPLE MUNICIPIO", "Municipal Legislature")).toBe(
+      "Example Municipal Legislature",
+    );
+    // A charter township is a township (Paris, Michigan, Nov 14): the
+    // listing's "Charter" is its legal form, never part of the name said.
+    expect(boardBodyName("CHARTER TOWNSHIP OF GREEN", "Township Board")).toBe(
+      "Green Township Board",
+    );
+    expect(
+      boardBodyName("CHARTER TOWNSHIP OF GREEN", "Board of Trustees"),
+    ).toBe("Green Township Board of Trustees");
+    expect(boardBodyName("CIVIL TOWNSHIP OF EXAMPLE", "Township Board")).toBe(
+      "Example Township Board",
+    );
+  });
+
+  it("says the place's kind once in a played place's board name", () => {
+    // Pinned places that exercise the rule (Words lead, Nov 14): a township
+    // board whose own name holds "Township", a county board whose own name
+    // holds "County", and a township committee whose name begins with it.
+    const boards = (key: string) =>
+      localOfficesForPlace(key)
+        .filter((office) => office.kind.endsWith("-board"))
+        .map((office) => office.bodyName);
+    // Westminster, Ohio: Auglaize Township and Allen County.
+    expect(boards("3983930")).toEqual(
+      expect.arrayContaining([
+        "Auglaize Township Board of Trustees",
+        "Allen County Board of Commissioners",
+      ]),
+    );
+    // Vale, Oregon: Malheur County.
+    expect(boards("4176600")).toContain(
+      "Malheur County Board of Commissioners",
+    );
+    // Ocean Acres, New Jersey: Stafford Township.
+    expect(boards("3454315")).toContain("Stafford Township Committee");
   });
 
   it(`names every body of places drawn from all 56 from its own record (seed ${seed})`, () => {
@@ -72,9 +129,17 @@ describe("a local body is named the way people write it", () => {
         continue;
       }
       if (!council) continue;
-      expect(council.bodyName, government.key).toBe(
-        government.reading.bodyName,
-      );
+      // The charter's own name, said with whose it is: "Board of
+      // Commissioners" at Bowling Green is "Bowling Green Board of
+      // Commissioners", so a calendar holding a city's body and its
+      // county's tells them apart.
+      const charter = government.reading.bodyName!;
+      const rest = charter.split(" ").slice(1).join(" ") || charter;
+      expect(council.bodyName.endsWith(rest), government.key).toBe(true);
+      expect(
+        council.bodyName.length,
+        `${government.key}: ${council.bodyName}`,
+      ).toBeGreaterThanOrEqual(charter.length);
       checked += 1;
     }
     expect(checked, "compiled councils checked").toBeGreaterThan(20);

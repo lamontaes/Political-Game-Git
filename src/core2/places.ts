@@ -13,8 +13,11 @@ import authoredPlaces from "../../data/research/authored-life-places.json" with 
 import {
   corePlaceByKey,
   corePlaceStateIdentities,
+  searchCorePlaces,
   type CorePlace,
 } from "./place-lookup";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { stableHash } from "./kernel/ids";
 import countyNames from "./data/places/county-names.json" with { type: "json" };
 import localityData from "./data/places/localities.json" with { type: "json" };
 import states from "./data/places/states.json" with { type: "json" };
@@ -153,3 +156,58 @@ export function realLocalities(): readonly CorePlace[] {
     );
   return localities;
 }
+
+/** How many of a state's towns a home there is drawn among, weighed by who lives in each. */
+const STATE_HOME_TOWNS = 12;
+
+/** A seeded number in [0, 1) from a key. */
+const unitOf = (key: string) =>
+  parseInt(stableHash(key).slice(0, 8), 16) / 0x100000000;
+
+/**
+ * Where in a state someone lives who comes from outside the played town (a
+ * running mate offered, a cabinet secretary): the world's seed draws a
+ * sample of the state's towns and picks one by how many people live in each.
+ * Given the played town and the state's people, the played town is home at
+ * its share of the state's people, and the sample leaves it out. Seeded, so
+ * the same id always gets the same home.
+ */
+export function drawStateHome(
+  seed: string,
+  id: string,
+  stateKey: string,
+  playedTown?: {
+    readonly place: CorePlace;
+    readonly people: number;
+    readonly statePeople: number;
+  },
+): CorePlace | undefined {
+  if (
+    playedTown &&
+    playedTown.statePeople > 0 &&
+    unitOf(`${seed}:${id}:home-in-town`) <
+      playedTown.people / playedTown.statePeople
+  )
+    return playedTown.place;
+  const towns = searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+    stateJurisdictionKey: stateKey,
+    scope: "locality",
+  })
+    .filter((place) => place.key !== playedTown?.place.key)
+    .map((place) => ({
+      place,
+      order: stableHash(`${seed}:${id}:${place.key}`),
+    }))
+    .sort((a, b) => a.order.localeCompare(b.order))
+    .slice(0, STATE_HOME_TOWNS)
+    .map(({ place }) => ({
+      place,
+      people: place.sourceGeoid
+        ? (placeReferencePopulation(place.sourceGeoid, seed)?.value ?? 0)
+        : 0,
+    }));
+  let at =
+    unitOf(`${seed}:${id}:home`) * towns.reduce((sum, t) => sum + t.people, 0);
+  return towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
+}
+export { workFromHome, type CountedWork } from "./coarse-place";

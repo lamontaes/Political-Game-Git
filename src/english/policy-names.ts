@@ -6,6 +6,9 @@
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { amountWords } from "./bill-sections";
 import billSections from "../../data/english/bill-sections.json" with { type: "json" };
+import health from "../core2/data/health.json" with { type: "json" };
+import { questionAbout } from "./question-names";
+import causeForms from "../../data/english/cause-forms.json" with { type: "json" };
 
 interface Policy {
   question?: string;
@@ -49,6 +52,24 @@ export function topicInSentence(topic: string): string | null {
   return /^[A-Z][a-z]/.test(name)
     ? name.charAt(0).toLowerCase() + name.slice(1)
     : name;
+}
+
+/**
+ * What a cause is about, as a sentence says it mid-line, for any topic a
+ * cause can carry (drives.ts takes it from the event that formed the cause):
+ * a policy question or a law's amount (`topicInSentence`), a budget line by
+ * what it is about (question-names.json `about`), an illness by what the
+ * people in it want (cause-forms.json `illness`: "better care after a
+ * stroke"). Null where no bank names it, and the scene picks a wording that
+ * does not need it or is not staged.
+ */
+export function causeTopicSaid(topic: string): string | null {
+  const illness = topic.startsWith(`${health.topicPrefix}:`)
+    ? (causeForms.illness as Readonly<Record<string, string>>)[
+        topic.slice(health.topicPrefix.length + 1)
+      ]
+    : undefined;
+  return topicInSentence(topic) ?? questionAbout(topic) ?? illness ?? null;
 }
 
 /** A question's name as the bill catalog records it ("raise minimum wage"). */

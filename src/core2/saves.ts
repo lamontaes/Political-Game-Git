@@ -71,6 +71,24 @@ export interface SaveV1 {
    * only the commands after; otherwise the save replays from the opening.
    */
   snapshot?: { world: WorldSnapshot; commandCount: number };
+  /** What a title shows for the save without loading it, written by the host that saved it. */
+  cover?: SaveCover;
+}
+
+/**
+ * The life a save holds as a title shows it before loading (Continue and
+ * Saved games): a view of the records on the day it was written, never read
+ * by the world.
+ */
+export interface SaveCover {
+  personId: string;
+  name: string;
+  age: number;
+  placeName: string;
+  date: string;
+  minuteOfDay: number;
+  /** The player's face as every screen draws it. */
+  face?: unknown;
 }
 
 export interface Game {
@@ -210,7 +228,7 @@ export function runCommand<R = unknown>(
  */
 export function saveGame(
   game: Game,
-  options: { snapshot?: boolean } = {},
+  options: { snapshot?: boolean; cover?: SaveCover } = {},
 ): SaveV1 {
   const snapshot =
     options.snapshot !== false &&
@@ -228,6 +246,7 @@ export function saveGame(
     commands: JSON.parse(JSON.stringify(game.commands)),
     savedAt: makeIsoDate(game.core.date),
     ...(snapshot ? { snapshot } : {}),
+    ...(options.cover ? { cover: options.cover } : {}),
   };
 }
 
@@ -250,12 +269,10 @@ function fromSnapshot(save: SaveV1, options: GameOptions): Game | undefined {
  * longer applies.
  */
 export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
-  if (save.format !== SAVE_FORMAT)
-    throw new Error(`Unknown save format: ${String(save.format)}`);
+  const upgradedFrom = openSave(save);
   const restored = fromSnapshot(save, options);
   const game = restored ?? newGame(save.recipe, options);
-  if (save.coreApiVersion !== CORE_API_VERSION)
-    game.upgradedFrom = save.coreApiVersion;
+  if (upgradedFrom) game.upgradedFrom = upgradedFrom;
   const later = restored
     ? save.commands.slice(save.snapshot!.commandCount)
     : save.commands;
@@ -265,10 +282,7 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
         runCommand(game, "advance", { through: command.date });
       runCommand(game, command.kind, command.payload);
     } catch (error) {
-      game.skipped.push({
-        command,
-        reason: error instanceof Error ? error.message : String(error),
-      });
+      game.skipped.push(skippedFor(command, error));
       // A choice that no longer exists: the character decides for itself.
       if (command.kind === "player.resume") {
         const payload = command.payload as { pauseId?: string };
@@ -287,4 +301,54 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.savedAt > game.core.date)
     runCommand(game, "advance", { through: save.savedAt });
   return game;
+}
+
+/** A save read from its text, its format checked (the one reader every host uses). */
+export function parseSave(text: string): SaveV1 {
+  const save = JSON.parse(text) as SaveV1;
+  openSave(save);
+  return save;
+}
+
+/** A save's format checked; the version it was made under when it is not this one. */
+function openSave(save: SaveV1): string | undefined {
+  if (save.format !== SAVE_FORMAT)
+    throw new Error(`Unknown save format: ${String(save.format)}`);
+  return save.coreApiVersion !== CORE_API_VERSION
+    ? save.coreApiVersion
+    : undefined;
+}
+
+/** The one skip rule: a command this version cannot replay is kept with its reason, and the replay goes on. */
+function skippedFor(
+  command: SaveCommand,
+  error: unknown,
+): Game["skipped"][number] {
+  return {
+    command,
+    reason: error instanceof Error ? error.message : String(error),
+  };
+}
+
+/**
+ * Replays a save whose commands a host runs itself (the bench's recorded
+ * requests, which rebuild the world from their first one): checks the format,
+ * notes the version it was made under, and runs each command through `run`
+ * in order, skipping one that fails with its reason, by the same rule as
+ * `loadGame`.
+ */
+export async function replaySave(
+  save: SaveV1,
+  run: (command: SaveCommand) => unknown,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+  const upgradedFrom = openSave(save);
+  const skipped: Game["skipped"] = [];
+  for (const command of save.commands) {
+    try {
+      await run(command);
+    } catch (error) {
+      skipped.push(skippedFor(command, error));
+    }
+  }
+  return { skipped, ...(upgradedFrom ? { upgradedFrom } : {}) };
 }

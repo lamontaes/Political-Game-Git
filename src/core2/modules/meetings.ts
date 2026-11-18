@@ -52,10 +52,12 @@ import {
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  contestPositions,
   makeStatements,
   touchImpression,
   type CauseRow,
 } from "./campaigns";
+import { OFFICES_MODULE_ID, servingTermsOf } from "./offices";
 import {
   billOf,
   billReach,
@@ -319,7 +321,19 @@ export function signUpToSpeak(
     signedUp: true,
     date: api.state.date,
   };
+  const spokeBefore = table(api, "remarks").get(row.id) !== undefined;
   table(api, "remarks").put(row as unknown as ModuleRow);
+  // A board with committees took the bill's public comment on its committee's
+  // day; a remark made after, at the board's own meeting, is heard there by
+  // the members in the room, by the same rule (`hearRemarks`), once: a
+  // speaker already on the bill's record was heard when they first spoke.
+  if (
+    stance &&
+    local(bill) &&
+    !spokeBefore &&
+    bill.hooksRun?.includes("public-comment")
+  )
+    hearRemarks(api, bill, stance, [row], new Map());
   return row;
 }
 
@@ -411,9 +425,6 @@ export function commentSpeakers(
  * and say so; the room is a public record.
  */
 function publicComment(api: CoreAPI, billId: string): void {
-  /** The counted resident's record by id, as the views store reads it. */
-  const countedVoter = (id: string) =>
-    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   if (!api.state.modules.has(MEETINGS_MODULE_ID)) return;
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
@@ -438,6 +449,34 @@ function publicComment(api: CoreAPI, billId: string): void {
   }
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  hearRemarks(
+    api,
+    bill,
+    stance,
+    said,
+    new Map(speakers.map((x) => [x.p.id, x.p] as const)),
+  );
+}
+
+/**
+ * The members hear remarks on a bill: each speaker they did not know now
+ * knows them by name, the first tie holding the speaker's time at the podium,
+ * and each remark is a speech to the room (the members and the others who
+ * spoke), which moves them and lets them retell it. The comment is a public
+ * record (`public-comment:<bill>`), kept once per bill. A speaker still in the
+ * wider population is not met and speaks from their counted record
+ * (`counted`; two-level population).
+ */
+function hearRemarks(
+  api: CoreAPI,
+  bill: BillRow,
+  stance: { readonly question: string; readonly position: number },
+  said: readonly RemarkRow[],
+  counted: ReadonlyMap<string, Readonly<Pick<PersonState, "id" | "traits">>>,
+): void {
+  /** The counted resident's record by id, as the views store reads it. */
+  const countedVoter = (id: string) =>
+    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   // The members sit through the comment, so each speaker on the record (those
   // who signed up, the player among them, and those moved to stand up) they
   // did not know now knows them by name; the first tie holds the speaker's
@@ -468,7 +507,6 @@ function publicComment(api: CoreAPI, billId: string): void {
     // population speaks from their counted record: the room hears them with the
     // lean that record gives, by the same rule as a full person's (one model,
     // two tiers), and they are not filled in.
-    const counted = new Map(speakers.map((x) => [x.p.id, x.p] as const));
     for (const r of said) {
       const full = api.state.people.get(r.personId);
       const record = full ? undefined : counted.get(r.personId);
@@ -490,6 +528,8 @@ function publicComment(api: CoreAPI, billId: string): void {
       });
     }
   }
+  // The record is kept once per bill (an event id enters once): a remark heard
+  // after the bill's public comment was first kept cites that record.
   api.emit({
     id: `public-comment:${bill.id}`,
     date: api.state.date,
@@ -661,13 +701,47 @@ function ownView(
 }
 
 /**
+ * What a host's seat can decide (owner rule 99, the debate's own chooser): the
+ * questions the office they hold takes up, or the office their forum is held
+ * for, from `contestPositions`. A host with no seat has none, and a room asks
+ * anything.
+ */
+function hostSeatPositions(
+  api: CoreAPI,
+  hostId: string,
+  filingId?: string,
+): readonly string[] {
+  const officeIds = new Set<string>();
+  if (filingId && api.state.modules.has(ELECTIONS_MODULE_ID)) {
+    const elections = api.moduleState(ELECTIONS_MODULE_ID);
+    const filing = elections.table("filings").get(filingId) as unknown as
+      FilingRow | undefined;
+    const contest = filing
+      ? (elections.table("contests").get(filing.contestId) as unknown as
+          ContestRow | undefined)
+      : undefined;
+    if (contest) officeIds.add(contest.officeId);
+  } else if (api.state.modules.has(OFFICES_MODULE_ID))
+    for (const term of servingTermsOf(api, hostId))
+      officeIds.add(term.officeId);
+  return [
+    ...new Set(
+      [...officeIds].flatMap((officeId) => contestPositions(api, { officeId })),
+    ),
+  ];
+}
+
+/**
  * Who would fill a town hall's room, most driven first: each adult's
  * strongest question (among those their own life touches most) and how hard
  * it drives them, how strongly they feel it times their civic temperament.
+ * The question a resident stands up with is their strongest among what the
+ * host's seat can decide when the host holds one.
  */
 export function townHallDrives(
   api: CoreAPI,
   hostId: string,
+  filingId?: string,
 ): readonly {
   p: PersonState;
   question: string | undefined;
@@ -677,9 +751,16 @@ export function townHallDrives(
   cost: number;
   lean: number;
 }[] {
+  const decides = new Set(hostSeatPositions(api, hostId, filingId));
   const questions = Object.keys(POLICY_QUESTIONS).filter(
     (q) => questionAxis(q) !== 0,
   );
+  // What a resident may stand up to ask is what the host's seat can decide;
+  // who comes at all is how strongly they feel about anything (the room's
+  // calibrated size), so the host's seat shapes the question, not the room.
+  const askable = decides.size
+    ? [...decides].filter((q) => questionAxis(q) !== 0)
+    : questions;
   // The room fills from the town's full adults; its counted residents do
   // not come yet (public comment reads them, `commentSpeakers`).
   // stopgapId: SG-GOV-town-hall-room-full-people
@@ -704,10 +785,15 @@ export function townHallDrives(
           );
         return value;
       };
-      const question = questions
+      const strongest = questions
         .slice()
         .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
-      const base = question ? salience(question) : 0;
+      const base = strongest ? salience(strongest) : 0;
+      const question = askable.length
+        ? askable
+            .slice()
+            .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0]
+        : strongest;
       const { drive, lean: temperament } = driveOf(base, p, api.state);
       // What the evening costs them (their work's hours and how far they live),
       // weighed against how strongly they feel: a room fills only with those
@@ -777,7 +863,7 @@ export function holdTownHall(
   },
 ): TownHallRow {
   const drives = takePart(
-    townHallDrives(api, input.hostId),
+    townHallDrives(api, input.hostId, input.filingId),
     meetingParameter("townHallSize"),
   );
   const attendees = drives.map((row) => row.p);
@@ -1029,6 +1115,7 @@ function contestOf(api: CoreAPI, contestId: string): ContestRow {
 /** The moderator's questions: each candidate's own (their record, the widest gap, the most divisive), in turn. */
 function debateQuestions(
   api: CoreAPI,
+  contest: ContestRow,
   filings: readonly FilingRow[],
 ): readonly string[] {
   const lists = filings.map((f) => interviewQuestions(api, f));
@@ -1036,7 +1123,20 @@ function debateQuestions(
   for (let i = 0; lists.some((l) => l[i] !== undefined); i += 1)
     for (const list of lists)
       if (list[i] && !out.includes(list[i]!)) out.push(list[i]!);
-  return out.slice(0, meetingParameter("questionsPerDebate"));
+  // What the seat can decide comes first (owner rule 99): the questions the
+  // office takes up, and the stands the candidates filed on them, before
+  // anything above the office, which is asked only when nothing local is
+  // live, and then once.
+  const decides = new Set(contestPositions(api, contest));
+  const filed = filings.flatMap((f) =>
+    f.platform.map((row) => row.split("=")[0]!).filter((q) => decides.has(q)),
+  );
+  const local = [...new Set([...out.filter((q) => decides.has(q)), ...filed])];
+  const above = out.filter((q) => !decides.has(q));
+  return (local.length ? local : above.slice(0, 1)).slice(
+    0,
+    meetingParameter("questionsPerDebate"),
+  );
 }
 
 /** Where the debate airs: the outlet with the widest audience in town. */
@@ -1134,6 +1234,18 @@ function holdDebate(
       contestId: contest.id,
       outletId: row.outletId ?? "",
       candidates: String(filings.length),
+      // Who stood in it: every other candidate answers for themselves, and
+      // the player only when they said yes, so a rival speaks of the debate
+      // afterward only to someone who was there.
+      stood: JSON.stringify(
+        filings
+          .map((f) => f.personId)
+          .filter(
+            (id) =>
+              id !== playerId ||
+              api.state.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`),
+          ),
+      ),
     },
   });
   return held;
@@ -1390,7 +1502,7 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       outletId: outlet?.id ?? null,
       date: api.state.date,
       status: "invited",
-      questions: debateQuestions(api, filings),
+      questions: debateQuestions(api, contest, filings),
       answers: {},
       audience: 0,
     };

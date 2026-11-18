@@ -40,6 +40,7 @@ KINDS = {
     "private-school": ("Educational", ""),
     "clinic": ("Health", "Offices of physicians"),
     "care-home": ("Health", "Hospitals, nursing"),
+    "hospital": ("Health", "Hospitals, nursing"),
     "recreation": ("Arts", "Amusement, gambling"),
     "restaurant": ("Accommodation", "Food services"),
     "inn": ("Accommodation", "Accommodation"),

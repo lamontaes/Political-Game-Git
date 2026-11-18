@@ -1,4 +1,5 @@
 import openingEmploymentData from "./data/opening-employment.json" with { type: "json" };
+import { partTimeShare } from "./shares";
 import residentData from "./data/resident-employment.json" with { type: "json" };
 import countyEmployment from "./data/resident-employment-counties.json" with { type: "json" };
 import {
@@ -15,8 +16,6 @@ import { activeWorkers, townResidents } from "./opening-town-jobs";
 export { openingTownJobs } from "./opening-town-jobs";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
-  TOWN_PART_TIME_DEFAULT,
-  TOWN_PART_TIME_SHARE,
   TOWN_WORKPLACES,
   townWorkplaceFor,
   type Role,
@@ -629,9 +628,7 @@ export function openingEmploymentFromRecordedRoles(
     // workplace's part-time share), not whichever recorded hire is copied.
     const partTimeOf = (row: OpeningWorkTemplate) =>
       weeklyHoursOf(row.role) < p("fullTimeWeeklyHours");
-    const share =
-      TOWN_PART_TIME_SHARE[selected.templates[p("zero")]!.workplace.key] ??
-      TOWN_PART_TIME_DEFAULT;
+    const share = partTimeShare(selected.templates[p("zero")]!.workplace.key);
     const mix = hoursMix.get(selected.key) ?? {
       partTime: p("zero"),
       total: p("zero"),

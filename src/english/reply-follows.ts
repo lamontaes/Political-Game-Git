@@ -14,8 +14,14 @@
  * the verdicts through `follows`.
  *
  * A pair nobody has judged follows: the store lists only the "no" verdicts.
+ *
+ * The picker's table also holds every pair an enforced exchange rule barred
+ * (words machine part 3: a line judged with the line it answers), which the
+ * run writes to `data/english/pulled.json` as `barred`, each with the rule and
+ * verdict that barred it. One table, so one way a reply is kept from a line.
  */
 import verdictFile from "../../data/english/judged/reply-follows.json" with { type: "json" };
+import pulledFile from "../../data/english/pulled.json" with { type: "json" };
 import type { JudgedFile, NoVerdict } from "./judged";
 
 export const REPLY_RULE = "reply-follows-the-line-before";
@@ -51,8 +57,30 @@ export function replyTableOf(
   return tableOf(byReply);
 }
 
-export const REPLY_FOLLOWS: ReplyFollowsTable = replyTableOf(
+/** Only this rule's own "no" verdicts: what decides which pairs play can produce for the exchange rules to judge. */
+export const REPLY_STORE_TABLE: ReplyFollowsTable = replyTableOf(
   (verdictFile as unknown as JudgedFile).no,
+);
+
+/** The rule's table joined with the pairs the exchange rules barred (line to lines before). */
+export function withBarred(
+  table: ReplyFollowsTable,
+  barred: Readonly<Record<string, Readonly<Record<string, string>>>> = {},
+): ReplyFollowsTable {
+  if (!Object.keys(barred).length) return table;
+  const joined = new Map<string, Set<string>>();
+  for (const [reply, before] of table) joined.set(reply, new Set(before));
+  for (const [reply, row] of Object.entries(barred)) {
+    const set = joined.get(reply) ?? new Set<string>();
+    for (const before of Object.keys(row)) set.add(before);
+    joined.set(reply, set);
+  }
+  return joined;
+}
+
+export const REPLY_FOLLOWS: ReplyFollowsTable = withBarred(
+  REPLY_STORE_TABLE,
+  (pulledFile as { barred?: Record<string, Record<string, string>> }).barred,
 );
 
 /** Whether the reply follows that line: false only where a judge said it does not. */

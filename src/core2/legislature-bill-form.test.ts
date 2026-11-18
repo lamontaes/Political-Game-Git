@@ -26,6 +26,7 @@ import {
   openLegislature,
 } from "./modules/legislature";
 import { bodyNumbering, designation } from "./legislature-bill-form";
+import { localPlaceOf } from "./modules/legislature";
 import clauses from "./data/legislature/enacting-clauses.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -99,7 +100,7 @@ describe("a bill's form in its body", () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -142,7 +143,11 @@ describe("a bill's form in its body", () => {
         sponsorId: player.id,
         provisions,
       });
-      const numbering = bodyNumbering(body, core.date);
+      const numbering = bodyNumbering(
+        body,
+        core.date,
+        localPlaceOf(api, body as Parameters<typeof localPlaceOf>[1]),
+      );
       const n = Number(/\d+$/.exec(first.number)![0]);
       expect(first.number, where).toBe(designation(numbering, n));
       expect(second.number, where).toBe(designation(numbering, n + 1));
@@ -198,7 +203,7 @@ describe("a bill's form in its body", () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -215,4 +220,50 @@ describe("a bill's form in its body", () => {
     ).toBe(true);
     expect(bodyOf(api, FEDERAL_HOUSE)?.kind, where).toBe("us-house");
   }, 600_000);
+});
+
+describe("a local body's clause and numbering from its state's general law", () => {
+  const council = {
+    id: "office:x:council",
+    kind: "council",
+    jurisdiction: "x",
+  };
+  it("a city in a state whose statute gives the clause opens its ordinances with it, the place named", () => {
+    const n = bodyNumbering(council, "2026-03-01", {
+      state: "KS",
+      governmentName: "City of Norton",
+    });
+    expect(n.enactingClause).toBe(
+      "Be it ordained by the governing body of the city of Norton:",
+    );
+    expect(n.enactingSource).toMatch(/K\.S\.A\./);
+    expect(designation(n, 4)).toBe("2026-4");
+  });
+  it("a kind of government the statute does not cover keeps the national clause", () => {
+    const n = bodyNumbering(council, "2026-03-01", {
+      state: "KS",
+      governmentName: "Township of Norton",
+    });
+    expect(n.enactingClause).toBe("Be it ordained by the {body}");
+  });
+  it("the District's Council numbers by Council Period, the period named from its own rules", () => {
+    const dc = {
+      id: "office:dc:legislature",
+      kind: "legislature-unicameral",
+      jurisdiction: "US-DC",
+    };
+    expect(designation(bodyNumbering(dc, "2026-03-01"), 12)).toBe("Bill 26-12");
+    expect(designation(bodyNumbering(dc, "2027-03-01"), 1)).toBe("Bill 27-1");
+    expect(bodyNumbering(dc, "2027-03-01").enactingClause).toMatch(
+      /Council of the District of Columbia/,
+    );
+  });
+  it("a state with no statute read keeps the national numbering", () => {
+    const n = bodyNumbering(council, "2026-03-01", {
+      state: "AL",
+      governmentName: "City of Mobile",
+    });
+    expect(designation(n, 3)).toBe("2026-3");
+    expect(n.enactingClause).toBe("Be it ordained by the {body}");
+  });
 });

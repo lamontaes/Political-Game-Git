@@ -1,12 +1,13 @@
 /**
  * Short worded lines for the play screens (a calendar entry, a person's
- * history, a bill paper's warnings), from the English engine's screen banks. A part the owner's
+ * history, a bill paper's warnings, the meeting panel), from the English engine's screen banks. A part the owner's
  * grades hold back, or whose slots the record cannot fill, gives null, and
  * the screen shows nothing for it.
  */
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import billPaperJson from "../../data/english/parts/bill-paper.json" with { type: "json" };
+import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
 import { directorSlots, playable } from "./bank-parts";
 import {
   renderGroundedEnglish,
@@ -27,6 +28,9 @@ const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   ),
   "bill-paper": new Map(
     (billPaperJson.parts as ScreenPart[]).map((part) => [part.key, part]),
+  ),
+  meeting: new Map(
+    (meetingJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
 };
 

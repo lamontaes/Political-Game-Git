@@ -7,6 +7,7 @@
  * it came from. A record whose facts can't be said is left unworded here.
  */
 import { governmentProperName } from "../core2/government-proper-name";
+import { rememberedOf } from "../director/address-render";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -14,7 +15,11 @@ import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
 import board from "../core2/data/macro/board.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  atLargeGroup,
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import {
@@ -38,11 +43,13 @@ import {
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
-import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
 import {
-  corePlaceByJurisdictionId,
-  coreStateName,
-} from "../core2/place-lookup";
+  commentOn,
+  PRESS_MODULE_ID,
+  printedStoryOf,
+  type InterviewRow,
+} from "../core2/modules/press";
+import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
@@ -54,13 +61,22 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
+import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
+import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
-import { causeGroupName } from "../english/group-names";
+import { questionAbout } from "../english/question-names";
+import {
+  causeGroupForm,
+  causeGroupName,
+  stanceGroupForm,
+  stanceGroupAmong,
+} from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
-import { policyNames } from "./words";
+import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
+import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -88,6 +104,8 @@ export interface PrintedFacts {
   readonly kind: StoryKind;
   readonly speaker: string;
   readonly facts: Facts;
+  /** Which of the outlets that printed the same record this story is: each takes its own wordings. */
+  readonly turn?: number;
 }
 
 const MONTHS = [
@@ -135,7 +153,7 @@ const SMALL = [
   "nine",
 ];
 /** A count as a paper prints it: one through nine in words, then "1,250". */
-const count = (value: number) =>
+export const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
 const ORDINALS = [
@@ -205,7 +223,10 @@ const appointerWords = (appointedBy: string | undefined) => {
  * without its article, else the key read as words.
  */
 const measureName = (series: string) =>
-  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
+  // A label kept as "what: for whom" ("State campaign contribution limit:
+  // governor") is said as a phrase ("campaign contribution limit for
+  // governor"); whose law it is the sentence says (Fable A, Nov 13, rule 15).
+  measureSaid(storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series));
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -244,13 +265,21 @@ export function printedFacts(
         facts?: Record<string, string>;
       }
     | undefined;
-  // A source the durable log doesn't keep (a module's own record, a dated
-  // event) is named by its id: "event:<kind>:…" or "<kind>:…".
+  // A source the durable log doesn't keep (a public record of a place the
+  // player can't see, a module's own record, a dated event) is the kind the
+  // press desk printed the story as, where a story of that kind is worded;
+  // else it is named by its id: "event:<kind>:…" or "<kind>:…". A birth's id
+  // begins with the baby's, so only the desk's own row says it was a birth.
+  const printedAs = source
+    ? undefined
+    : printedStoryOf(coreAPI(core), story.id)?.kind;
   const kind =
     source?.kind ??
-    (sourceId.startsWith("event:")
-      ? sourceId.split(":")[1]!
-      : sourceId.split(":")[0]!);
+    (printedAs && BUILDERS[printedAs]
+      ? printedAs
+      : sourceId.startsWith("event:")
+        ? sourceId.split(":")[1]!
+        : sourceId.split(":")[0]!);
   const facts: Record<string, string> = { ...(source?.facts ?? {}) };
   for (const [key, value] of Object.entries(story.facts))
     if (typeof value === "string") facts[key] = value;
@@ -388,6 +417,46 @@ class Reader {
     ).find((row) => row.status === "serving");
     return serving ? this.officeTitle(serving.officeId) : null;
   }
+  /**
+   * The office a person serves in, as a title with its realm ("Massachusetts
+   * State Representative"): the title from the office's record and the
+   * place it is held for, with the term it is read from.
+   */
+  officeWithRealm(
+    id: string,
+  ): { text: string; common: string; recordId: string } | null {
+    const term = this.termOf(id);
+    const office = term
+      ? this.row<{ title?: string; jurisdiction?: string }>(
+          OFFICES_MODULE_ID,
+          "offices",
+          term.officeId,
+        )
+      : undefined;
+    const realm = office?.jurisdiction
+      ? (this.place(office.jurisdiction) ??
+        placeNameSaid(office.jurisdiction as EntityId))
+      : null;
+    if (!term || !office?.title) return null;
+    // A title said as a common noun: its words lower case, an abbreviation
+    // ("U.S.") as written.
+    const common = office.title
+      .split(" ")
+      .map((word) => (/[.]|^[A-Z]{2,}$/.test(word) ? word : word.toLowerCase()))
+      .join(" ");
+    if (realm) {
+      const bare = realm.replace(/^the /, "");
+      return {
+        text: `${realm} ${office.title}`,
+        common: `${/^[AEIOU]/.test(bare) ? "an" : "a"} ${bare} ${common}`,
+        recordId: term.id,
+      };
+    }
+    // The nation's offices are held for the whole country.
+    return office.jurisdiction === "US"
+      ? { text: office.title, common: `the ${common}`, recordId: term.id }
+      : null;
+  }
   /** One row of a module's table, when that module is in this world. */
   row<T>(module: string, name: string, id: string | undefined): T | undefined {
     return id ? (this.table(module, name)?.get(id) as unknown as T) : undefined;
@@ -514,13 +583,48 @@ class Reader {
       ),
     };
   }
-  /** A race's office, from its contest record ("Town board member"). */
+  /**
+   * A race's seat as a sentence says it ("the city council", "mayor"), through
+   * the one seat reader (`seatSaid`, rule 100), from the contest and its
+   * office records.
+   */
+  contestSeat(id: string | undefined): string | null {
+    if (!id) return null;
+    const contest = this.table(ELECTIONS_MODULE_ID, "contests")?.get(
+      id,
+    ) as unknown as
+      { title?: string; officeId?: string; district?: string } | undefined;
+    if (!contest?.title) return null;
+    const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
+      contest.officeId ?? "",
+    ) as unknown as { seats?: number; bodyName?: string | null } | undefined;
+    return seatSaid({
+      title: contest.title,
+      seats: office?.seats ?? 1,
+      bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
+      district: contest.district,
+    });
+  }
+  /**
+   * The office a race is for as the one who holds it is called in that place:
+   * "alderman" where the body is named for its members (the Board of Aldermen),
+   * else the title the record gives ("Council member"). Read from the contest's
+   * office record through the same member table the seat reader uses, never a
+   * second list of titles.
+   */
+  contestOffice(
+    id: string | undefined,
+    title: string | undefined,
+  ): string | undefined {
+    return raceMemberTitle(this.core, id) ?? title;
+  }
+  /** A race's office, from its contest record ("Town board member"), as that place calls whoever holds it. */
   contestTitle(id: string | undefined): string | null {
     if (!id) return null;
     const contest = this.table(ELECTIONS_MODULE_ID, "contests")?.get(
       id,
     ) as unknown as { title?: string } | undefined;
-    return contest?.title ?? null;
+    return this.contestOffice(id, contest?.title) ?? null;
   }
   /**
    * An organization's name; a founded cause group, which keeps only its key,
@@ -529,11 +633,27 @@ class Reader {
   organization(id: string | undefined): string | null {
     const org = id ? this.core.organizations.get(id as EntityId) : undefined;
     if (!org) return null;
-    if (/[:_]/.test(org.name))
-      return org.kind === "cause-group" && org.topic
-        ? causeGroupName(org.id, org.topic)
+    if (/[:_]/.test(org.name)) {
+      if (org.kind === "cause-group" && org.topic)
+        return causeGroupName(org.id, org.topic);
+      return org.kind === "interest-group" && org.topic
+        ? (this.stanceGroup(org.id as EntityId)?.name ?? null)
         : null;
+    }
     return org.name || null;
+  }
+  /**
+   * A group formed over a stance, named from the cause its side would put on
+   * a sign (group-names.ts `stanceGroupAmong`, Words lead Nov 14). The town's
+   * earlier groups (by the day each was formed, then id) hold their names
+   * first, so no two groups of one town share a name and a name never changes
+   * when a later group forms.
+   */
+  stanceGroup(id: EntityId): { name: string; plural: boolean } | null {
+    const org = this.core.organizations.get(id);
+    const town =
+      org?.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
+    return stanceGroupAmong(this.core.organizations, id, town);
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -576,8 +696,7 @@ class Reader {
       return name ? stateInSentence(name) : name;
     }
     if (jurisdiction && jurisdiction !== chain.townPlaceId) return null;
-    const town = corePlaceByJurisdictionId(chain.townPlaceId as EntityId);
-    return town ? (town.formalName ?? town.displayName.split(",")[0]!) : null;
+    return placeNameSaid(chain.townPlaceId as EntityId);
   }
   /** The first person the record names who has a name. */
   first(ids: readonly string[] = this.people): string | undefined {
@@ -631,6 +750,7 @@ function story(
   facts: Facts,
   needs: readonly string[],
   speaker = "",
+  turn?: number,
 ): PrintedFacts | null {
   if (!needs.every((key) => facts[key])) return null;
   const said = facts.number?.text.replace(/,/g, "") ?? "";
@@ -640,6 +760,7 @@ function story(
     kind,
     speaker,
     facts: size ? { ...facts, [size]: facts.number! } : facts,
+    ...(turn !== undefined ? { turn } : {}),
   };
 }
 
@@ -1064,6 +1185,12 @@ const override: Builder = (read, f) =>
 /** An executive signing or vetoing a bill. */
 const signed: Builder = (read, f) => {
   const vetoed = f.action === "vetoed";
+  // A bill left on the desk past its deadline is law without the signature.
+  const act = vetoed
+    ? "vetoed"
+    : f.action === "unsigned"
+      ? "unsigned"
+      : "signed";
   return story(
     "signed",
     {
@@ -1071,8 +1198,8 @@ const signed: Builder = (read, f) => {
       ...read.billFacts(f.billId, f.number),
       ...read.billBody(f.billId),
       date: read.date(),
-      // A veto fails the bill; a signature passes it into law.
-      [vetoed ? "vetoed" : "signed"]: read.yes(),
+      // A veto fails the bill; a signature, or the deadline passing, makes it law.
+      [act]: read.yes(),
       [vetoed ? "failed" : "passed"]: read.yes(),
     },
     ["name", "designation"],
@@ -1312,12 +1439,17 @@ const CONDITION_NOUNS: Readonly<Record<string, string>> = {
 const conditions: Builder = (read, f) => {
   // Who is out of work: the town's economic month the rate was taken from
   // (world-metrics writes it the day before the web's record).
-  const month = read.row<{ id: string; employed: number; unemployed: number }>(
+  const month = read.row<{
+    id: string;
+    residentsEmployed: number;
+    unemployed: number;
+  }>(
     WORLD_METRICS_MODULE_ID,
     "months",
     `metrics:${read.townPlaceId()}:${addDays(makeIsoDate(read.happened || read.story.date), -1)}`,
   );
-  const force = month ? month.employed + month.unemployed : 0;
+  // The rate's own labor force: the residents at work wherever the job is, with the jobless.
+  const force = month ? month.residentsEmployed + month.unemployed : 0;
   const moved: { measure: string; now: number; was: number; move: number }[] =
     [];
   for (const measure of Object.keys(CONDITIONS)) {
@@ -1401,6 +1533,34 @@ const rateDecision: Builder = (read) => {
         ? { from: read.fact(percent(meeting.fromRatePct), meetingId) }
         : {}),
       [move > 0 ? "up" : move < 0 ? "down" : "held"]: read.yes(),
+      date: read.date(),
+    },
+    ["percent"],
+  );
+};
+
+/**
+ * The month's poll of the President's approval (national-opinion.ts): the
+ * whole percent once, as a poll is reported, whether it rose, fell or held
+ * against last month's, and the President by name. The change in points is
+ * the record's, for weighing, and is not said.
+ */
+const approval: Builder = (read, f) => {
+  const pct = num(f.pct);
+  if (pct === undefined) return null;
+  return story(
+    "approval",
+    {
+      ...read.who(f.presidentId),
+      percent: read.fact(`${pct}%`, f.approvalId ?? read.sourceId),
+      ...(f.direction === "up" || f.direction === "down"
+        ? { [f.direction]: read.yes() }
+        : f.direction === "steady"
+          ? { held: read.yes() }
+          : {}),
+      ...(f.month
+        ? { month: read.fact(MONTHS[Number(f.month.slice(5, 7)) - 1]!) }
+        : {}),
       date: read.date(),
     },
     ["percent"],
@@ -1528,16 +1688,65 @@ const profile: Builder = (read) => {
   );
 };
 
-/** A candidate's interview, printed from the platform they filed. */
+/**
+ * A candidate's interview, printed from the answers they gave at the
+ * sitting (the press engine's interview row): which questions they were for,
+ * which against, and which they gave no answer on, each named the way the
+ * reporter asked it (`questionAbout`, the sitting's own name for it).
+ */
 const interview: Builder = (read, f) => {
   const key = Object.keys(f).find(
     (k) => k.startsWith("interview:") && k.endsWith(":candidate"),
   );
   const candidate = key ? f[key] : undefined;
   const topic = read.story.topic ?? "";
+  const interviewId = key?.slice("interview:".length, -":candidate".length);
+  const row = (interviewId && read.core.modules.has(PRESS_MODULE_ID)
+    ? read.api.moduleState(PRESS_MODULE_ID).table("interviews").get(interviewId)
+    : undefined) as unknown as InterviewRow | undefined;
+  const asked = (question: string) => questionAbout(question);
+  // The headline's question is said in the lede with its side; the rest
+  // are listed after it.
+  const lead = row?.answers.find((answer) => answer.question === topic);
+  const said = (side: (position: number | null) => boolean) =>
+    joinList(
+      (row?.answers ?? [])
+        .filter((answer) => answer !== lead && side(answer.position))
+        .map((answer) => asked(answer.question))
+        .filter((name): name is string => !!name),
+      "and",
+    );
+  const stands = {
+    "for-issues": said((position) => position !== null && position > 0),
+    "against-issues": said((position) => position !== null && position < 0),
+    "declined-issues": said((position) => position === null),
+  };
+  const subject = asked(topic);
   return story(
     "interview",
-    { ...read.who(candidate, "name", false), ...read.issue(topic) },
+    {
+      ...read.who(candidate, "name", false),
+      // After the lede names them, the story says the candidate by last name.
+      ...(candidate && read.name(candidate)
+        ? { last: read.fact(familyOf(read, candidate), candidate) }
+        : {}),
+      ...(subject
+        ? { issue: read.fact(subject, interviewId ?? "") }
+        : read.issue(topic)),
+      ...(lead?.position
+        ? {
+            [lead.position > 0 ? "issue-for" : "issue-against"]: read.fact(
+              "yes",
+              interviewId ?? "",
+            ),
+          }
+        : {}),
+      ...Object.fromEntries(
+        Object.entries(stands)
+          .filter(([, text]) => text)
+          .map(([slot, text]) => [slot, read.fact(text, interviewId ?? "")]),
+      ),
+    },
     ["name"],
     candidate,
   );
@@ -1588,10 +1797,25 @@ const debate: Builder = (read, f) => {
 const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
   // A group takes its article ("the Republican Party"), and a name that is
-  // no proper name is said in lower case ("the employers' association").
+  // no proper name is said in lower case ("the employers' association"). A
+  // founded group's name is a proper name, cased whole: it keeps its
+  // capitals and takes the verb its number needs (P2, Fruitland, Idaho, Nov
+  // 13: "The friends of policing backs Clara Evans", rule 15).
+  const form = group ? (causeGroupForm(group) ?? stanceGroupForm(group)) : null;
+  // A founded group's name is said as its record names it, with no article
+  // added ("Friends of Transportation back ..."; Fable A, Nov 13).
   const said = group
-    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    ? form
+      ? group
+      : `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
+  // The vote the endorsement is for, from the contest's record, so the brief
+  // says something its headline does not.
+  const vote = read.row<{ electionDate?: string }>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  )?.electionDate;
   const stance = f.stanceQuestion
     ? read.purpose(f.stanceQuestion, Number(f.stancePosition) < 0)
     : {};
@@ -1602,13 +1826,28 @@ const endorsement: Builder = (read, f) => {
         ? stance
         : { "unnamed-group": read.fact("yes", f.organizationId) }
       : read.who(f.speakerId, "subject", false);
-  const office = read.contestTitle(f.contestId);
+  // The seat as a sentence says it ("the city council", "mayor"), never the
+  // form's title ("Council member"): the one seat reader (rule 100).
+  const office = read.contestSeat(f.contestId);
   return story(
     "endorsement",
     {
       ...read.who(f.candidateId, "name", false),
       ...backer,
+      ...(said && form?.plural
+        ? { "plural-subject": read.fact("yes", f.organizationId ?? "") }
+        : {}),
+      // What the group works for, from the stance its endorsement stood on
+      // (a group told by that stance already says it in its lede).
+      ...(said && "purpose" in stance && stance.purpose
+        ? { work: stance.purpose }
+        : {}),
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+      ...(vote
+        ? {
+            when: read.fact(spokenDate(vote), f.contestId ?? ""),
+          }
+        : {}),
     },
     [
       "name",
@@ -1630,13 +1869,52 @@ const filing: Builder = (read, f) => {
     "filing",
     {
       ...read.who(id, "name", false),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
       ...(f.electionDate
         ? { when: read.fact(spokenDate(f.electionDate), f.contestId ?? "") }
         : {}),
     },
     ["name", "office"],
     id,
+  );
+};
+
+/**
+ * The notice of election the town's clerk posts before an election day: the
+ * place, the day and every office on that ballot, read from the contests the
+ * record names (never a copy kept with the notice).
+ */
+const electionNotice: Builder = (read, f) => {
+  let ids: string[] = [];
+  try {
+    ids = JSON.parse(f.contestIds ?? "[]") as string[];
+  } catch {
+    ids = [];
+  }
+  const offices = [
+    ...new Set(
+      ids
+        .map((id) => read.contestTitle(id))
+        .filter((title): title is string => !!title),
+    ),
+  ];
+  const place = read.place();
+  if (!f.electionDate || !offices.length || !place) return null;
+  return story(
+    "election-notice",
+    {
+      place: read.fact(place),
+      date: read.fact(spokenDate(f.electionDate), ...ids),
+      office: read.fact(joinList(offices, "and"), ...ids),
+    },
+    ["place", "date", "office"],
   );
 };
 
@@ -1652,41 +1930,290 @@ const electionResult: Builder = (read, f) => {
   if (!f.winnerId && !Object.keys(totals).length)
     return story(
       "unfilled",
-      f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {},
+      f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {},
       ["office"],
       f.contestId,
     );
-  const rival = Object.entries(totals)
-    .filter(([id]) => id !== f.winnerId && read.name(id))
-    .sort((a, b) => b[1] - a[1])[0]?.[0];
-  const cast = Object.values(totals).reduce((a, b) => a + b, 0);
+  const contest = read.row<ContestRow>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  );
+  const cite = f.contestId ?? "";
+  const ranked = Object.entries(totals).sort(
+    (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+  );
+  // A race that fills several seats at once (vote for N) is one story that
+  // names its winners together, from the race's own count: everyone who did
+  // not miss the cut (Words lead, Nov 13, rule 30).
+  const seats = num(f.seats) ?? 1;
+  // A seat's record names as out only those who filed for that seat, so a
+  // race for several seats reads its winners from each seat's result (a tie
+  // at the cut is settled by the place's law, not by the totals) and the
+  // first who missed from the whole race's count.
+  const seatWinners =
+    seats > 1 && contest
+      ? atLargeGroup(read.api, contest).flatMap((seat) => {
+          const won = read.row<{ winnerId?: string | null }>(
+            VOTING_MODULE_ID,
+            "results",
+            `result:${seat.id}`,
+          )?.winnerId;
+          return won ? [won] : [];
+        })
+      : [];
+  const winners =
+    seats > 1
+      ? ranked.map(([id]) => id).filter((id) => seatWinners.includes(id))
+      : [f.winnerId ?? ""];
+  // No more names on the ballot than seats is a race without opposition,
+  // for one seat or several (rules 32 and the Words lead's read, Nov 14).
+  const unopposed = ranked.length <= seats;
+  // The one the winner beat: first among those who missed the cut, read from
+  // this race's own count (in an at-large race the other winners were seated
+  // too).
+  const beaten = unopposed
+    ? null
+    : seats > 1
+      ? (ranked
+          .map(([id]) => ({ id }))
+          .find(({ id }) => !winners.includes(id)) ?? null)
+      : beatenRunnerUp(f, f.winnerId ?? "");
+  const rival = beaten && read.name(beaten.id) ? beaten.id : undefined;
+  const cast = ranked.reduce((sum, [, votes]) => sum + votes, 0);
+  // Each person in the story is named in full once, then by last name; two
+  // who share a last name keep their full names (rule 31). A headline also
+  // keeps full names where two of the day's winners share a last name.
+  const named = [...winners, ...(rival ? [rival] : [])].filter((id) =>
+    read.name(id),
+  );
+  const families = named.map((id) => familyOf(read, id));
+  const last = (id: string) => {
+    const family = familyOf(read, id);
+    return families.filter((other) => other === family).length > 1
+      ? read.name(id)!
+      : family;
+  };
+  const dayWinners = contest ? winnersOn(read, contest.electionDate) : [];
+  const short = (id: string) => {
+    const family = familyOf(read, id);
+    return dayWinners.some(
+      (other) => other !== id && familyOf(read, other) === family,
+    )
+      ? read.name(id)!
+      : last(id);
+  };
+  const officeId = contest?.officeId;
+  const district = seatFacts(read, contest?.seatId).district?.text;
+  // The office as a person says it (rule 34): lower case, its district
+  // before it where the seat is numbered ("District 5 commissioner").
+  const said = f.office
+    ? `${district ? `District ${district} ` : ""}${officeWords(read.contestOffice(f.contestId, f.office)!)}`
+    : null;
+  // The day of the count as the paper says it a few days on: the weekday
+  // within the week, the date after.
+  const day = read.happened
+    ? Number(
+        (Date.parse(read.story.date) - Date.parse(read.happened)) / 86_400_000,
+      ) < 7
+      ? `on ${WEEKDAYS[new Date(`${read.happened}T12:00:00Z`).getUTCDay()]}`
+      : `on ${spokenDate(read.happened)}`
+    : null;
+  // Who voted: the people the count kept as turning out, where the race is
+  // the town's own count; a wider race is told by its votes (rule 36). A
+  // race without opposition prints no total.
+  const result = read.row<{
+    namedTurnout?: number;
+    countedTurnout?: number;
+    placeVotes?: Record<string, number>;
+  }>(VOTING_MODULE_ID, "results", `result:${cite}`);
+  const voters =
+    result && !Object.keys(result.placeVotes ?? {}).length
+      ? Math.round((result.namedTurnout ?? 0) + (result.countedTurnout ?? 0))
+      : 0;
+  const town =
+    !district && (contest?.level === "city" || contest?.level === "township")
+      ? read.place()
+      : null;
+  const shown = winners.filter((id) => read.name(id));
+  const lastWinner = winners.at(-1);
+  const behind =
+    rival && lastWinner !== undefined
+      ? (totals[lastWinner] ?? 0) - (totals[rival] ?? 0)
+      : 0;
+  const body = read.body(officeId);
+  const winnerVotes = f.winnerId ? totals[f.winnerId] : undefined;
+  const share =
+    cast > 0 && winnerVotes !== undefined ? (winnerVotes / cast) * 100 : null;
   return story(
     "election",
     {
       ...read.who(f.winnerId, "name", false),
+      ...(f.winnerId && read.name(f.winnerId)
+        ? {
+            last: read.fact(last(f.winnerId), f.winnerId),
+            short: read.fact(short(f.winnerId), f.winnerId),
+          }
+        : {}),
       ...read.who(rival, "opponent"),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
-      ...seatFacts(
-        read,
-        read.row<{ seatId?: string }>(
-          ELECTIONS_MODULE_ID,
-          "contests",
-          f.contestId,
-        )?.seatId,
-      ),
+      ...(rival ? { rival: read.fact(last(rival), rival, cite) } : {}),
+      ...(said ? { office: read.fact(said, cite) } : {}),
+      ...(town ? { place: read.fact(town, cite) } : {}),
+      ...(day ? { day: read.fact(day, cite) } : {}),
       won: read.yes(),
+      ...(unopposed ? { unopposed: read.fact("yes", cite) } : {}),
+      ...(seats > 1
+        ? {
+            atLarge: read.fact("yes", cite),
+            winners: read.fact(listed(shown.map((id) => read.name(id)!)), cite),
+            lasts: read.fact(listed(shown.map(short)), cite),
+            seats: read.fact(count(seats), cite),
+            ...(body ? { body: read.fact(body, officeId!) } : {}),
+            ...(rival && behind > 0
+              ? {
+                  ordinal: read.fact(ordinal(seats + 1), cite),
+                  margin: read.fact(
+                    `${count(behind)} ${behind === 1 ? "vote" : "votes"}`,
+                    cite,
+                  ),
+                }
+              : {}),
+          }
+        : unopposed
+          ? {}
+          : {
+              contested: read.fact("yes", cite),
+              ...(rival && winnerVotes !== undefined
+                ? {
+                    count: read.fact(
+                      `${figure(winnerVotes)} ${winnerVotes === 1 ? "vote" : "votes"} to ${figure(totals[rival] ?? 0)}`,
+                      cite,
+                    ),
+                  }
+                : {}),
+              // A share means something only in a race for one seat
+              // between two or more (rule 33): a whole number, in words;
+              // under half, with the size of the field it led.
+              ...(share !== null
+                ? {
+                    percent: read.fact(`${Math.round(share)} percent`, cite),
+                    ...(share < 50
+                      ? { field: read.fact(count(ranked.length), cite) }
+                      : {}),
+                  }
+                : {}),
+            }),
       ...concessionFacts(read, f.contestId, rival),
-      ...voteFacts(
-        read,
-        num(f.winnerVotes) ?? totals[f.winnerId ?? ""],
-        num(f.totalVotes) ?? (cast > 0 ? cast : undefined),
-        f.contestId,
-      ),
+      ...(unopposed
+        ? {}
+        : voters > 0
+          ? {
+              number: read.fact(count(voters), cite),
+              voters: read.fact("yes", cite),
+            }
+          : cast > 1
+            ? {
+                number: read.fact(count(cast), cite),
+                cast: read.fact("yes", cite),
+              }
+            : {}),
     },
     ["name"],
     f.winnerId,
+    raceTurn(read, contest),
   );
 };
+
+/** Who won each race the town counted on one day, from the elections engine's results. */
+function winnersOn(read: Reader, date: string): string[] {
+  return read
+    .query<ContestRow>(ELECTIONS_MODULE_ID, "contests", "byDate", [date])
+    .flatMap((row) => {
+      const won = read.row<{ winnerId?: string | null }>(
+        VOTING_MODULE_ID,
+        "results",
+        `result:${row.id}`,
+      )?.winnerId;
+      return won ? [won] : [];
+    });
+}
+
+/**
+ * Which of the town's outlets that printed a race this story is, in the
+ * order of their ids: each takes its own wordings (rule 37), and a town with
+ * one paper takes none by turn. An at-large race may be printed from any of
+ * its seats' records.
+ */
+function raceTurn(
+  read: Reader,
+  contest: ContestRow | undefined,
+): number | undefined {
+  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return undefined;
+  const outlets = new Set<string>();
+  for (const seat of atLargeGroup(read.api, contest))
+    for (const row of read.query<{ outletId: string }>(
+      PRESS_MODULE_ID,
+      "stories",
+      "byWire",
+      [`election-result:${seat.id}`],
+    ))
+      outlets.add(row.outletId);
+  // A town with one paper has no other outlet's wording to differ from, so
+  // its stories take the composer's own pick by story, not all the first.
+  if (outlets.size < 2) return undefined;
+  const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
+  return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
+}
+
+/** A vote count as a paper prints it, always in figures: "23 votes to 5". */
+const figure = (value: number) =>
+  new Intl.NumberFormat("en-US").format(Math.round(value));
+
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+/** A person's or a named official's last name, from their record. */
+function familyOf(read: Reader, id: string): string {
+  const person = read.core.people.get(id as EntityId);
+  if (person) return person.familyName;
+  return read.term(id)?.identity.familyName ?? read.name(id) ?? "";
+}
+
+/**
+ * An office title as a sentence says it (rule 34): "Council member" is
+ * "council member", "County assessor" "county assessor"; an abbreviation
+ * ("U.S.") keeps its capitals.
+ */
+function officeWords(title: string): string {
+  return title
+    .split(" ")
+    .map((word) =>
+      /^[A-Z.]+$/.test(word) && word.length > 1 ? word : word.toLowerCase(),
+    )
+    .join(" ");
+}
+
+/** Up to three names, then how many more (rule 30): "A, B, C and two others". */
+function listed(names: readonly string[]): string {
+  if (names.length <= 2) return names.join(" and ");
+  if (names.length === 3) return `${names[0]}, ${names[1]} and ${names[2]}`;
+  const more = names.length - 3;
+  return `${names.slice(0, 3).join(", ")} and ${count(more)} ${more === 1 ? "other" : "others"}`;
+}
 
 /**
  * Whether the runner-up conceded on the call after the count, or would not
@@ -1757,21 +2284,6 @@ function seatFacts(read: Reader, seatId: string | undefined): Facts {
   // stopgapId: SG-GOV-named-district-story (a district named by place or a ward prints the office only)
   read.api.stopgap("SG-GOV-named-district-story");
   return {};
-}
-
-/** The winner's share of the vote and how many votes were cast, when the count is kept. */
-function voteFacts(
-  read: Reader,
-  won: number | undefined,
-  cast: number | undefined,
-  cite: string | undefined,
-): Facts {
-  return won && cast && cast > 1 && won <= cast
-    ? {
-        percent: read.fact(percent((won / cast) * 100), cite ?? ""),
-        number: read.fact(count(cast), cite ?? ""),
-      }
-    : {};
 }
 
 /** A party primary held for a race. */
@@ -1931,20 +2443,31 @@ const exposed: Builder = (read, f) => {
     Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
   const mine = award(f);
   const earlier = new Set<string>();
-  if (conflict && firm && id && mine)
-    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
-      const row = read.core.durableLog.get(logId as EntityId);
-      const theirs = award(row?.facts);
-      if (
-        row &&
-        theirs &&
-        theirs !== mine &&
-        row.personIds[0] === id &&
-        row.facts?.organizationId === f.organizationId &&
-        row.date <= (read.happened || read.story.date)
-      )
-        earlier.add(theirs);
-    }
+  const when = read.happened || read.story.date;
+  const exposures =
+    conflict && firm && id && mine
+      ? [...(read.core.logByKind.get("press.exposed") ?? [])]
+          .map((logId) => read.core.durableLog.get(logId as EntityId))
+          .filter((row) => row?.personIds[0] === id)
+      : [];
+  // This story's own finding: two found the same day are told in award
+  // order, so the first is not called the second (Wall, South Dakota, seed
+  // conflict-scan-1).
+  const found =
+    exposures.find((row) => award(row?.facts) === mine)?.date ?? when;
+  for (const row of exposures) {
+    const theirs = award(row?.facts);
+    if (
+      row &&
+      theirs &&
+      theirs !== mine &&
+      row.personIds[0] === id &&
+      row.facts?.organizationId === f.organizationId &&
+      row.date <= when &&
+      (row.date < found || (row.date === found && theirs < (mine ?? "")))
+    )
+      earlier.add(theirs);
+  }
   const time = earlier.size + 1;
   return story(
     "exposed",
@@ -2019,7 +2542,8 @@ const chamber: Builder = (read, f) => {
   )?.[1];
   const body = read.body(officeId);
   const posts = Object.entries(f).filter(
-    ([post, holder]) => post !== "level" && read.name(holder),
+    ([post, holder]) =>
+      post !== "level" && post !== "mid-term" && read.name(holder),
   );
   const [post, holder] =
     posts.find(([key]) => /^(?:speaker|president)$/.test(key)) ??
@@ -2042,6 +2566,7 @@ const chamber: Builder = (read, f) => {
       ...(post && /^(?:speaker|president)$/.test(post)
         ? { presides: read.yes() }
         : {}),
+      ...(f["mid-term"] ? { "mid-term": read.yes() } : {}),
       ...(body ? { body: read.fact(body, officeId ?? "") } : {}),
     },
     ["name", "post"],
@@ -2277,12 +2802,18 @@ function businessExtras(
     if (owner) extras.owner = read.fact(owner, id);
   }
   if (kind === "opening") {
-    const staff = read.row<{ staff: number }>(
+    const founding = read.row<{ staff: number; founderId?: string }>(
       BUSINESS_MODULE_ID,
       "foundings",
       id,
-    )?.staff;
+    );
+    const staff = founding?.staff;
     if (staff && staff > 1) extras.staff = read.fact(count(staff), id);
+    // Who started it, when the founder is a person the records name.
+    const founder = read.name(founding?.founderId);
+    if (founder) extras.owner = read.fact(founder, founding!.founderId!);
+    const where = read.place();
+    if (where) extras.place = read.fact(where);
   }
   return extras;
 }
@@ -2317,7 +2848,14 @@ const petitionChecked: Builder = (read, f) => {
     "petition-check",
     {
       ...read.who(id, "name", false),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
       ...(f.status === "on-ballot" || f.status === "short"
         ? { [f.status]: read.yes() }
         : {}),
@@ -2440,6 +2978,22 @@ const emergency: Builder = (read, f) => {
       ...(moved ? { money: read.fact(dollars(Math.abs(moved))) } : {}),
     },
     ["name"],
+    id,
+  );
+};
+
+/** A governor's disaster window closing with nothing declared: the act not taken, and the disaster it was about. */
+const emergencyLapsed: Builder = (read, f) => {
+  const id = read.first();
+  // The disaster as the room says it ("the flood"), from the incident type on the record.
+  const kind = f.incidentType?.toLowerCase().replace(/\//g, " or ");
+  return story(
+    "emergency-lapsed",
+    {
+      ...read.who(id, "name", false),
+      ...(kind ? { disaster: read.fact(kind, f.hazardRecordId ?? "") } : {}),
+    },
+    ["disaster"],
     id,
   );
 };
@@ -2666,8 +3220,39 @@ const campaignGift: Builder = (read, f) => {
   );
 };
 
-/** A birth in the town. */
+/**
+ * A birth. One the town does not keep a record of (a birth in a place the
+ * player can't see) reaches its papers only because a parent holds an office
+ * there (press-topics.ts wireItem), so its story says who that parent is,
+ * from their term (Words lead, Nov 16: a story printed because of who someone
+ * is says who they are); without such a parent it is not printed here.
+ */
 const birth: Builder = (read, f) => {
+  if (!read.core.durableLog.has(read.sourceId as EntityId)) {
+    const holder = [f.motherId, f.otherParentId].find(
+      (id) => id && read.officeWithRealm(id),
+    );
+    const office = holder ? read.officeWithRealm(holder) : null;
+    if (!holder || !office) return null;
+    const other = [f.motherId, f.otherParentId].find(
+      (id) => id && id !== holder,
+    );
+    return story(
+      "birth-elsewhere",
+      {
+        ...read.who(f.childId, "child", false),
+        ...read.who(holder, "parent", false),
+        ...read.who(other, "other-parent", false),
+        // Before a name the title keeps its capitals; in a sentence it is a
+        // common noun with its article (Words lead, Nov 16).
+        office: read.fact(office.text, office.recordId),
+        "office-a": read.fact(office.common, office.recordId),
+        date: read.date(),
+      },
+      ["child", "parent", "office"],
+      f.childId,
+    );
+  }
   const town = read.residence(f.childId);
   return story(
     "birth",
@@ -2933,7 +3518,7 @@ const retirement: Builder = (read, f) => {
       ...(government
         ? { government: read.fact(government, f.organizationId ?? "") }
         : {}),
-      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(years > 1 ? { years: read.fact(count(years), f.jobId ?? "") } : {}),
       ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
     },
     ["name"],
@@ -3073,8 +3658,28 @@ const honor: Builder = (read, f) => {
   const honored = num(f.count);
   if (!flag || !place || !honored) return null;
   // A full student is named; counted students are only counted.
-  const named =
-    honored === 1 && read.first() ? read.who(read.first(), "name", false) : {};
+  const winner = honored === 1 ? read.first() : undefined;
+  const named = winner ? read.who(winner, "name", false) : {};
+  // The body (brief M): the school the honor row names, the winner's grade
+  // that school year, the family the records hold, and what the honor leads
+  // to next. A fact the records do not hold is left out.
+  const person = winner ? read.core.people.get(winner as EntityId) : undefined;
+  const grade = winner && f.grade ? num(f.grade) : undefined;
+  // The regional bee is said as "later this month" in a paper printed in its
+  // month, and not at all once its month has passed.
+  const printedMonth = Number(read.story.date.slice(5, 7));
+  const nextMonth =
+    f.nextMonth && Number(f.nextMonth) >= printedMonth
+      ? f.nextMonth
+      : undefined;
+  const thisMonth =
+    nextMonth !== undefined && Number(nextMonth) === printedMonth;
+  const family = person && winner ? parentsOf(read, person) : undefined;
+  const kid =
+    family?.length && person
+      ? (JOURNAL_WORDS.relationWords.child?.[person.looks?.gender ?? "other"] ??
+        JOURNAL_WORDS.relationWords.child?.other)
+      : undefined;
   return story(
     "honor",
     {
@@ -3083,11 +3688,63 @@ const honor: Builder = (read, f) => {
       number: read.fact(count(honored), f.record ?? ""),
       ...named,
       ...(flag === "signing" ? {} : { won: read.yes() }),
+      ...(flag !== "signing" && f.school
+        ? { school: read.fact(f.school, f.record ?? "") }
+        : {}),
+      ...(flag !== "signing" && grade && grade >= 1 && grade <= 12
+        ? {
+            grade: read.fact(ordinal(grade), winner ?? ""),
+            // "a seventh grader", "an eighth grader".
+            "a-grade": read.fact(
+              `${/^[aeiou]/i.test(ordinal(grade)) ? "an" : "a"} ${ordinal(grade)}`,
+              winner ?? "",
+            ),
+          }
+        : {}),
+      ...(flag === "bee-local" && thisMonth
+        ? { soon: read.fact("later this month", f.record ?? "") }
+        : {}),
+      ...(flag === "bee-local" && nextMonth && !thisMonth
+        ? { month: read.fact(MONTHS[Number(nextMonth) - 1]!, f.record ?? "") }
+        : {}),
+      ...(family?.length && kid
+        ? {
+            kin: read.fact(kid, winner ?? ""),
+            parents: read.fact(
+              joinList(
+                family.map((id) => read.name(id)!),
+                "and",
+              ),
+              ...family,
+            ),
+          }
+        : {}),
     },
     ["place"],
     read.first(),
   );
 };
+
+/**
+ * A student's parents, named, from the family records: the student's own
+ * record of a parent, else each relative's record of them as a child.
+ */
+function parentsOf(read: Reader, person: Readonly<PersonState>): string[] {
+  const own = familyFactsOf(person);
+  const ids = new Set<string>();
+  for (const [kinId, row] of own) if (row.relation === "parent") ids.add(kinId);
+  for (const kinId of [...person.familyIds].sort()) {
+    if (own.has(kinId)) continue;
+    const theirs = familyFactsOf(read.core.people.get(kinId)).get(person.id);
+    if (theirs?.relation === "child") ids.add(kinId);
+  }
+  return [...ids]
+    .filter(
+      (id) => read.core.people.get(id as EntityId)?.alive && read.name(id),
+    )
+    .sort()
+    .slice(0, 2);
+}
 
 /** What a month's police reports were called, by the crime engine's type. */
 const REPORT_NOUNS: Readonly<Record<string, string>> = {
@@ -3097,8 +3754,21 @@ const REPORT_NOUNS: Readonly<Record<string, string>> = {
   robbery: "robberies",
   assault: "assaults",
 };
+/** What a kind of report is called when one kind rose, as people say it. */
+const RISING_NOUNS: Readonly<Record<string, string>> = {
+  burglary: "break-ins",
+  "other-property": "thefts",
+  vandalism: "vandalism",
+  robbery: "robberies",
+  assault: "assaults",
+};
+/** The town's usual month of police reports, from the wire item's record. */
+const usualOf = (f: Record<string, unknown>): number | undefined => {
+  const value = Number(f.usual);
+  return Number.isFinite(value) && value > 0 ? value : undefined;
+};
 /** The month's police log: how many crimes residents reported, and what most were. */
-const policeLog: Builder = (read) => {
+const policeLog: Builder = (read, f) => {
   const month = /^police-log:(\d{4}-\d{2})$/.exec(read.sourceId)?.[1];
   const place = read.place();
   const row = month
@@ -3116,6 +3786,19 @@ const policeLog: Builder = (read) => {
   const top = [...reported].sort(
     (a, b) => b.n - a.n || a.type.localeCompare(b.type),
   )[0]!;
+  const rising = f.rising ? RISING_NOUNS[String(f.rising)] : undefined;
+  // The town's usual month, rounded once; the extra is the month's count over
+  // that figure (a town whose usual rounds to none has the whole count over).
+  const usualRounded = Math.round(usualOf(f) ?? 0);
+  const over = usualOf(f) ? total - usualRounded : 0;
+  // Said only when the month stands off the usual by more than the town's
+  // own months do from their mean (a month one over a usual of twelve is
+  // not news).
+  const spread = Number(f.spread);
+  const extra =
+    over >= 1 && over >= (Number.isFinite(spread) ? spread : 1)
+      ? over
+      : undefined;
   return story(
     "police-log",
     {
@@ -3124,6 +3807,20 @@ const policeLog: Builder = (read) => {
       number: read.fact(count(total), row.id),
       crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
       ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
+      // How the month stands against the town's own usual, from the wire
+      // item's record: said only when the month is over it. The usual is
+      // rounded once and the extra taken from it, so the figures add up.
+      ...(extra !== undefined
+        ? {
+            extra: read.fact(count(extra), row.id),
+            ...(usualRounded >= 1
+              ? { usual: read.fact(count(usualRounded), row.id) }
+              : {}),
+          }
+        : {}),
+      ...(extra !== undefined && rising
+        ? { rising: read.fact(rising, row.id) }
+        : {}),
     },
     ["place", "number"],
   );
@@ -3227,7 +3924,19 @@ const publicAction =
       {
         place: read.fact(place, f.actionId ?? ""),
         date: read.date(),
-        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...(f.size
+          ? {
+              number: read.fact(
+                new Intl.NumberFormat("en-US").format(Number(f.size)),
+                f.actionId ?? "",
+              ),
+            }
+          : {}),
+        // A turnout that looks like a crowd, as the record kept it when the
+        // action formed (the same fact a scene reads), is the one a story calls one.
+        ...(f.turnout === "crowd"
+          ? { crowd: read.fact("yes", f.actionId ?? "") }
+          : {}),
         ...issue,
         ...(area ? { area: read.fact(area, f.actionId ?? "") } : {}),
         [kind]: read.fact("yes", f.actionId ?? ""),
@@ -3301,6 +4010,7 @@ const localAddress =
   (read, f) => {
     const id = f["address:speaker"];
     const style = f["address:style"];
+    const quote = rememberedOf(f);
     return story(
       "local-address",
       {
@@ -3308,9 +4018,7 @@ const localAddress =
         date: read.date(),
         [level]: read.yes(),
         ...(style ? { [`style-${style}`]: read.yes() } : {}),
-        ...(f["address:remembered"]
-          ? { quote: read.fact(f["address:remembered"], id ?? "") }
-          : {}),
+        ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
       },
       ["name"],
       id,
@@ -3325,14 +4033,62 @@ const localAddress =
 const ARCHIVED: Readonly<Record<string, Builder>> = {
   "election-result": (read, f) => {
     const office = read.officeTitle(f.officeId);
+    const seat = seatFacts(read, f.seatId);
+    const body = read.body(f.officeId);
+    const won = num(f.winnerVotes);
+    const cast = num(f.totalVotes);
+    const cite = f.recordId ?? "";
+    // The archive keeps the winner's votes and all votes cast, not the
+    // field: one name on the ballot took every vote; an at-large seat is a
+    // seat on its body, told without a share (rules 32 to 34).
+    const counted = won !== undefined && cast !== undefined && cast > 1;
     return story(
       "election",
       {
         ...read.who(f.winnerId, "name", false),
-        ...(office ? { office: read.fact(office, f.officeId ?? "") } : {}),
-        ...seatFacts(read, f.seatId),
+        ...(f.winnerId && read.name(f.winnerId)
+          ? {
+              last: read.fact(familyOf(read, f.winnerId), f.winnerId),
+              short: read.fact(familyOf(read, f.winnerId), f.winnerId),
+            }
+          : {}),
+        ...(seat.atLarge && body
+          ? {
+              office: read.fact(`a seat on the ${body}`, f.officeId ?? ""),
+              seat: read.yes(),
+            }
+          : office
+            ? {
+                office: read.fact(
+                  `${seat.district ? `District ${seat.district.text} ` : ""}${officeWords(office)}`,
+                  f.officeId ?? "",
+                ),
+              }
+            : {}),
+        ...(read.happened
+          ? { day: read.fact(`on ${spokenDate(read.happened)}`, cite) }
+          : {}),
         won: read.yes(),
-        ...voteFacts(read, num(f.winnerVotes), num(f.totalVotes), f.recordId),
+        ...(seat.atLarge || !counted
+          ? {}
+          : won >= cast
+            ? { unopposed: read.yes() }
+            : {
+                contested: read.yes(),
+                // The archive keeps no field, so a share under half (which
+                // needs its field said) is left out.
+                ...(won * 2 >= cast
+                  ? {
+                      percent: read.fact(
+                        `${Math.round((won / cast) * 100)} percent`,
+                        cite,
+                      ),
+                    }
+                  : {}),
+              }),
+        ...(counted && !(won >= cast)
+          ? { number: read.fact(count(cast), cite), cast: read.yes() }
+          : {}),
       },
       ["name"],
       f.winnerId,
@@ -3352,6 +4108,10 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       POLICIES[f.question ?? ""]?.purpose ?? ISSUES[f.question ?? ""];
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
+    // A bill that failed fell short by the votes it lacked for a majority of
+    // those cast (the engine passes a bill when its yeas outnumber its nays),
+    // never by the margin (Fable A, Nov 13, rule 15: 61 to 89 is 15 short).
+    const shortBy = Math.floor((yes + no) / 2) + 1 - yes;
     return story(
       "vote-or-law",
       {
@@ -3365,6 +4125,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
           : margin > 1
             ? { margin: read.fact(count(margin)) }
             : {}),
+        ...(f.passed !== "true" && shortBy > 1
+          ? { "short-by": read.fact(count(shortBy)) }
+          : {}),
       },
       ["body", "measure"],
     );
@@ -3460,6 +4223,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,
+  "national.approval": approval,
   meeting: rateDecision,
   "town-hall": townHall,
   "public-meeting": publicMeeting,
@@ -3475,6 +4239,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
+  "election-notice": electionNotice,
   "election-result": electionResult,
   "primary-result": primary,
   "took-office": tookOffice,
@@ -3489,6 +4254,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "official-trip": officialTrip,
   "ribbon-cut": ribbonCut,
   "emergency-declared": emergency,
+  "executive.emergency-lapsed": emergencyLapsed,
   succession,
   "recall-answer": recallReply,
   "ballot-measure-result": measureResult,

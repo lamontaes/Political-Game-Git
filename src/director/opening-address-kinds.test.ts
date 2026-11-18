@@ -1,3 +1,4 @@
+import { STORIES } from "./address-story";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -85,28 +86,30 @@ describe("the address picks its kind and subjects from the world", () => {
           row.facts.filter((key) => /-(?:worse|better)$/.test(key)),
         ),
       );
-    expect(
-      [...claims(bad)].some((key) => key.endsWith("-worse")),
-      where,
-    ).toBe(true);
-    expect(
-      [...claims(bad)].some((key) => key.endsWith("-better")),
-      where,
-    ).toBe(false);
-    expect(
-      [...claims(good)].some((key) => key.endsWith("-better")),
-      where,
-    ).toBe(true);
-    expect(bad.address.text, where).not.toBe(good.address.text);
-    expect(bad.addressKind, where).not.toBe(good.addressKind);
-    // The areas the bad year said cite the web's rows for the town.
-    const cited = bad.address.sentences
-      .filter((row) => row.facts.some((key) => key.endsWith("-worse")))
-      .flatMap((row) => row.sourceRecordIds);
-    expect(
-      cited.some((id) => id.startsWith(`web:${world.placeId}:`)),
-      where,
-    ).toBe(true);
+    // Since the speech outline (Nov 12) the President's address tells only
+    // its theme's measures, and its theme comes from the President's own
+    // issues, not the town's term read (a national speech, owner, Oct 27). So
+    // what it tells of schools, crime or health is checked only where its
+    // theme is one of them; the kind of address still follows the year.
+    if (claims(bad).size) {
+      expect(
+        [...claims(bad)].some((key) => key.endsWith("-better")),
+        where,
+      ).toBe(false);
+      const cited = bad.address.sentences
+        .filter((row) => row.facts.some((key) => key.endsWith("-worse")))
+        .flatMap((row) => row.sourceRecordIds);
+      expect(
+        cited.some((id) => id.startsWith("web:")),
+        where,
+      ).toBe(true);
+    }
+    // A President whose full list of points makes the policy push score
+    // highest gives that address in any year, by the sliding scores and not
+    // by a gap (as local-address.test.ts allows); otherwise the kind follows
+    // the year.
+    if (bad.addressKind !== "policy" || good.addressKind !== "policy")
+      expect(bad.addressKind, where).not.toBe(good.addressKind);
   });
 
   it("holds a piece, in both voices, for every area's good and bad news", () => {
@@ -132,7 +135,7 @@ describe("the address picks its kind and subjects from the world", () => {
 
   it("holds pieces of its own, in both voices, for every kind but the policy push", () => {
     for (const kind of ADDRESS_KINDS.filter((name) => name !== "policy"))
-      for (const role of ["story-open", "story-turn", "pledge", "hope"])
+      for (const role of ["pledge", "hope"])
         for (const voice of ["polished", "plain"])
           expect(
             OPENING_SPEECH_BANK.parts.filter(
@@ -143,5 +146,31 @@ describe("the address picks its kind and subjects from the world", () => {
             ).length,
             `${kind} ${role} ${voice}`,
           ).toBeGreaterThan(0);
+  });
+
+  it("holds an opening and a turn, in both voices, for every story at every level it orders", () => {
+    // The world's story an address opens on (address-story.ts): each row
+    // with an order for a level has its own story-open and story-turn
+    // pieces there, so a warning and a brag never borrow each other's words.
+    const subjects: Readonly<Record<string, readonly string[]>> = {
+      federal: ["inaugural", "state-of-the-union"],
+      local: ["state-of-the-state", "town-address"],
+    };
+    for (const [story, row] of Object.entries(STORIES.rows))
+      for (const level of Object.keys(row.sections))
+        for (const subject of subjects[level] ?? [])
+          for (const role of ["story-open", "story-turn"])
+            for (const voice of ["polished", "plain"])
+              expect(
+                OPENING_SPEECH_BANK.parts.filter(
+                  (part) =>
+                    partHolds(part.topic, story) &&
+                    partHolds(part.voice, voice) &&
+                    part.uses.some(
+                      (use) => use.subject === subject && use.role === role,
+                    ),
+                ).length,
+                `${story} ${subject} ${role} ${voice}`,
+              ).toBeGreaterThanOrEqual(3);
   });
 });

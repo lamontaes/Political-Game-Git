@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-campaign-outside-donors-no-poll
 pr: #8749
@@ -19,6 +19,7 @@ root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T07:58:02.759Z
 branch: claude/pool-tests-campaign-outside-donors-no-poll
+merged-at: 2026-11-15T22:51:27.621Z
 ---
 
 **What.** src/core2/campaign-outside-donors.test.ts fails on clean main: 'no wider race with outside gifts in 6 places' (GOLDEN_PATH_SEED=pet-run-1: Strasburg, North Dakota; Onaway, Idaho; Amsterdam, Ohio; Mountain City, Georgia; Lake Point, Utah; Big Coppitt Key, Florida). No campaign ever starts: the test files on the opening day, and no state or federal race is open for filing then. The Oct 28 symptom (a 2030 Senate campaign that bought no poll) is gone with it. Guards: a statewide campaign's outside donors and its poll, which the player sees on the campaign screen.
@@ -44,3 +45,5 @@ branch: claude/pool-tests-campaign-outside-donors-no-poll
 Cause found (Nov 11, 2026, cause finder for Fable B): reran the test with pet-run-1 (red in 36 s, no campaign log line) and probed the first two draws: no contest is open for filing on the opening day, and the first wider windows open 11 to 13 months later. Whether a funded campaign buys a poll could not be checked, since none starts.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:57 UTC) on branch claude/pool-tests-campaign-outside-donors-no-poll.
+
+Fixer F3 (Nov 14): Measured: the zero polls in East Charlotte, Vermont came from the test's filer (the richest adult), whose deliberation is -2: the campaign's poll share is pollSpendShare times max(0, 1 + spendTraitWeight times deliberation), exactly zero, by design. The test now files a resident whose poll share is above zero and is pinned to Cotulla, Texas (4817216, place seed 55e25c5754f41760a27bd4a36f84d3e00ad6e7e8bfdbe38fabe9b1ac5b0da972): filed 2025-10-09 for U.S. Senator, 180 outside gifts, 155 polls, 76 s. Other drawn places hit a separate defect, filed as elections-wider-race-no-outside-gifts-and-residency-refusals.

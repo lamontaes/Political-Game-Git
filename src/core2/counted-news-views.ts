@@ -4,6 +4,7 @@ import { registerDerivedCache } from "./snapshot";
 import { residentsRuntime } from "./modules/residents";
 import {
   countedEngagement,
+  countedGroupViewOn,
   countedLean,
   stanceAfterCase,
   standingWith,
@@ -201,6 +202,56 @@ function countedStanceRow(
     .table("countedStances")
     .get(`${groupId}:${topic}`) as unknown as Stance | undefined;
 }
+/** The counted group a household stands in, as the news and crime rows name it (a filled-in household keeps its last group). */
+function householdGroupId(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const ix = store?.householdOf.get(householdId);
+  const h = ix === undefined ? undefined : store!.households[ix];
+  const group = h && h.group >= 0 ? store!.groups[h.group] : undefined;
+  return group ? groupPersonId(group.id) : undefined;
+}
+
+/**
+ * The stance a counted voter holds from what their group has heard or lived
+ * since the opening: the group's row in countedStances, the mean of its
+ * members' moves, so each member holds it (one model, two tiers). None for
+ * anyone not counted.
+ */
+export function countedGroupStance(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): Stance | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const m = store?.countedMember(personId);
+  if (m === undefined) return undefined;
+  const h = store!.households[store!.household[m]!];
+  const group = h && h.group >= 0 ? store!.groups[h.group] : undefined;
+  return group
+    ? countedStanceRow(api, groupPersonId(group.id), question)
+    : undefined;
+}
+
+/**
+ * The stance rows a household's group held when it was filled in: what each
+ * of its adults starts from as a full person, as they held it while counted.
+ */
+export function countedStancesOfHousehold(
+  api: CoreAPI,
+  householdId: string,
+): readonly Stance[] {
+  const id = householdGroupId(api, householdId);
+  if (!id || !api.state.modules.has(VIEWS_MODULE_ID)) return [];
+  return api
+    .moduleState(VIEWS_MODULE_ID)
+    .table("countedStances")
+    .query("byGroup", [id]) as unknown as readonly Stance[];
+}
+
 /** The existing press question reader consumes the groups' heard strength. */
 export function countedNewsConcern(
   api: CoreAPI,
@@ -278,6 +329,79 @@ export function hearCountedNews(
           (prior
             ? (prior.desiredChange === event.desiredChange ? 1 : -1) *
               prior.strength
+            : 0)) *
+        group.count,
+    });
+}
+
+/** One month's victimizations of one counted group, as the crime engine tallied them. */
+export interface CountedCrimeTally {
+  /** The question the crime ties to (`livedQuestion` of the victimization's kind). */
+  readonly question: string;
+  /** The tally row (crime's `tallies` table): what the moved stance cites. */
+  readonly tallyId: string;
+  /** The crime engine's unit: the resident group's id. */
+  readonly groupId: string;
+  /** The crime's kind (burglary, assault ...), for the stance's cause. */
+  readonly type: string;
+  /** Whole victimizations of the group this month, from the owed-share order. */
+  readonly count: number;
+  /** A crime against one person (assault, robbery) or a whole household. */
+  readonly againstPerson: boolean;
+  /** The group's households, by weight, as the crime engine counted them. */
+  readonly households: number;
+}
+
+/**
+ * A counted group lives the crimes the crime engine tallied for it, by the
+ * full victim's rule (the views engine's `onEvent` for a lived condition):
+ * each victim takes it as a reason for the side their own view already
+ * holds on the question the crime ties to, at full size and nearness (it
+ * happened to them). The group's stance is its members' mean, so the
+ * victims move it by the share of the group's counted adults they are: one
+ * person for a crime against a person, the group's adults per household for
+ * one against a household. No member is chosen; a share under one adult is
+ * a small exposure. The stance cites the tally row.
+ */
+export function liveCountedCrime(api: CoreAPI, tally: CountedCrimeTally): void {
+  const question = tally.question;
+  if (tally.count <= 0 || tally.households <= 0) return;
+  const id = groupPersonId(tally.groupId);
+  const group = countedNewsGroups(api).find((row) => row.id === id);
+  if (!group || group.count <= 0) return;
+  const prior = countedStanceRow(api, group.id, question);
+  const current = countedGroupViewOn(api, group.lean, question, prior);
+  if (current === 0) return;
+  const desiredChange = current > 0 ? "enact" : "repeal";
+  const reached = tally.againstPerson
+    ? tally.count
+    : (tally.count * group.count) / tally.households;
+  const stance = stanceAfterCase(api, {
+    view: group,
+    hearer: group,
+    prior,
+    event: { id: `${tally.tallyId}:${tally.type}`, date: api.state.date },
+    topic: question,
+    desiredChange,
+    size: 1,
+    nearness: 1,
+    learnedFrom: tally.tallyId,
+    keepCauses: false,
+    exposure: Math.min(1, reached / group.count),
+  });
+  if (!stance) return;
+  api
+    .moduleState(VIEWS_MODULE_ID)
+    .table("countedStances")
+    .putOwned({
+      ...stance,
+      groupId: group.id,
+      representedCount: group.count,
+      reachedCount: Math.min(group.count, reached),
+      totalChange:
+        ((stance.desiredChange === desiredChange ? 1 : -1) * stance.strength -
+          (prior
+            ? (prior.desiredChange === desiredChange ? 1 : -1) * prior.strength
             : 0)) *
         group.count,
     });

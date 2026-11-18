@@ -110,7 +110,6 @@
   "stopgaps": {
     "collegeDecidedAtGraduation": "SG-SCHOOL-college-decided-at-graduation",
     "collegeStockLedger": "SG-SCHOOL-college-stock-ledger",
-    "equalizedFunding": "SG-SCHOOL-equalized-funding-budget",
     "switchWindow": "SG-SCHOOL-switch-window",
     "classSize": "SG-SCHOOL-class-size-cohort"
   },

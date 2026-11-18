@@ -59,7 +59,7 @@ import {
   handOverContractsAtDeath,
 } from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
-import { recordEstatePaid, sellHome } from "./housing-sale";
+import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {
   CoreAPI,
   CoreModule,
@@ -111,6 +111,48 @@ export function heirsOf(
     if (heirs.length) return { heirs, row };
   }
   return { heirs: [] };
+}
+
+/**
+ * Who takes at the close of probate, from the heirs (or the will's
+ * beneficiaries, each with their weight) the death recorded: one still living takes their share; one who died in the meantime is
+ * represented by their own living descendants, who split that share
+ * (Uniform Probate Code 2-103, "by representation"); a share nobody
+ * represents lapses to the rest. Each taker carries the relation of the
+ * recorded heir they stand for, which the inheritance tax reads.
+ */
+function takersAtClose(
+  api: CoreAPI,
+  recorded: readonly { id: PersonId; weight: number }[],
+  relations: ReadonlyMap<PersonId, string>,
+): { id: PersonId; weight: number; relation: string }[] {
+  const out = new Map<PersonId, { weight: number; relation: string }>();
+  const take = (
+    id: PersonId,
+    weight: number,
+    relation: string,
+    seen: Set<PersonId>,
+  ) => {
+    if (livingKin(api, id)) {
+      const kept = out.get(id);
+      out.set(id, { weight: (kept?.weight ?? 0) + weight, relation });
+      return;
+    }
+    const gone = api.state.people.get(id);
+    if (!gone || seen.has(id)) return;
+    seen.add(id);
+    const lines = [...relationsOf(gone)]
+      .filter(([, r]) => r === "child")
+      .map(([kid]) => kid)
+      .sort();
+    const living = lines.filter(
+      (kid) => livingKin(api, kid) || api.state.people.has(kid),
+    );
+    for (const kid of living) take(kid, weight / living.length, relation, seen);
+  };
+  for (const { id, weight } of recorded)
+    take(id, weight, relations.get(id) ?? "", new Set());
+  return [...out].map(([id, v]) => ({ id, ...v }));
 }
 
 /**
@@ -182,31 +224,69 @@ function treasuryOf(api: CoreAPI, jurisdiction: string): string {
 }
 
 /**
- * Whether the person made a will, from their traits and age: the trait lean
- * toward planning ahead over leaving things be (the shared trait table, at
- * the decision's own weight), plus
- * how much older than `willAgeMidpointYears` they are. Their will leaves
- * their estate to their living family in shares by how close each is.
+ * Whether the person made a will, from their traits and their own stakes:
+ * the trait lean toward planning ahead over leaving things be (the shared
+ * trait table, at the decision's own weight), plus how much they had to
+ * leave, in months of their own living cost (`willStakeWeight` per e-fold),
+ * plus the partner and children they would provide for (`willHeirWeight`
+ * each), less the bother of making one (`willCostPull`). Age shows only
+ * through what a life has built: savings and family. Their will leaves their
+ * estate to their living family in shares by how close each is.
  */
 export function willOf(
   api: CoreAPI,
   person: Readonly<PersonState>,
 ): readonly { id: PersonId; weight: number }[] | null {
-  const p = (key: string) => api.parameter(key);
-  const age =
-    daysBetweenText(person.birthDate, api.state.date) / p("daysPerMeanYear");
   const made = leanedYes(
     api.state,
     person,
     "estates.will",
     "make-will",
     "leave-it",
-    (p("willAgeWeight") * (age - p("willAgeMidpointYears"))) /
-      p("willAgeMidpointYears"),
+    willReasons(api, person).pull,
   );
   if (!made) return null;
   return closenessShares(api, person);
 }
+
+/** The reasons behind `willOf`, kept on the probate row for dev mode's trace. */
+export function willReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): {
+  estateMinor: number;
+  monthlyCostMinor: number;
+  heirs: number;
+  pull: number;
+} {
+  const p = (key: string) => api.parameter(key);
+  const accounts = api.accounts();
+  const estateMinor = Math.max(
+    p("zero"),
+    accounts.balance(accounts.main(person.id)),
+  );
+  const monthlyCostMinor =
+    (person.livingCostDailyMinor * p("daysPerMeanYear")) / p("monthsPerYear");
+  let heirs = p("zero");
+  for (const [id, relation] of relationsOf(person))
+    if (WILL_HEIRS.has(relation) && livingKin(api, id)) heirs += p("one");
+  // A person kept with no living cost of their own (an official outside the
+  // town) has no measure of what their savings would keep them for.
+  const months =
+    monthlyCostMinor > p("zero") ? estateMinor / monthlyCostMinor : p("zero");
+  return {
+    estateMinor,
+    monthlyCostMinor,
+    heirs,
+    pull:
+      p("willStakeWeight") * Math.log(p("one") + months) +
+      p("willHeirWeight") * heirs -
+      p("willCostPull"),
+  };
+}
+
+/** The kin a will provides for first: a partner and children. */
+const WILL_HEIRS = new Set(["partner", "child"]);
 
 /** The living family who would take, each weighted by how close they were to the person. */
 function closenessShares(
@@ -390,17 +470,20 @@ export function settleEstate(
     share: trust ? api.parameter("one") - trust.share : api.parameter("one"),
   };
   if (api.state.modules.has(ESTATES_MODULE_ID)) {
-    // The estate tax is figured on the whole estate as it stood at death.
-    if (trust)
-      api
-        .moduleState(ESTATES_MODULE_ID)
-        .table("probate")
-        .put({
-          id: personId,
-          baseMinor: base,
-          share: probate.share,
-          carry,
-        } as unknown as ModuleRow);
+    // The estate tax is figured on the whole estate as it stood at death,
+    // and the heirs are the kin the law named on that day: a death during
+    // probate does not change who the estate was left to.
+    api
+      .moduleState(ESTATES_MODULE_ID)
+      .table("probate")
+      .put({
+        id: personId,
+        ...(trust ? { baseMinor: base, carry } : {}),
+        share: probate.share,
+        heirs: heirsOf(api, person).heirs,
+        will: willOf(api, person),
+        willReasons: willReasons(api, person),
+      } as unknown as ModuleRow);
     api.moduleCalendar(ESTATES_MODULE_ID).schedule({
       key: `${PROBATE_CLOSES}:${personId}`,
       date: addDays(makeIsoDate(api.state.date), api.parameter("probateDays")),
@@ -481,6 +564,9 @@ export function settleCountedEstate(
   const estateMinor = input.estate.estateMinor;
   if (estateMinor <= 0) return;
   const households = Math.max(1, input.estate.households);
+  // A record that dies in part dies again later under the same person id, so
+  // each death's transfers carry its day (one illness at a time ends in one
+  // death a day, so two settle on one day only if a caller settles one twice).
   const date = api.state.date;
   const source = (citation: string) => ({
     tag: "SOURCED" as const,
@@ -490,7 +576,8 @@ export function settleCountedEstate(
   const apply = (
     tax: DeathTax,
     heirId: PersonId | undefined,
-    paidMinor: number,
+    /** What moved, for every household the settlement stands for. */
+    movedMinor: number,
   ) =>
     lawApplied(api, {
       key: tax.series,
@@ -500,14 +587,14 @@ export function settleCountedEstate(
       count: households,
       engine: ESTATES_MODULE_ID,
       what:
-        paidMinor > 0
+        movedMinor > 0
           ? heirId
             ? "inheritance-taxed"
             : "estate-taxed"
           : heirId
             ? "inheritance-assessed"
             : "estate-assessed",
-      amountMinor: paidMinor * households,
+      amountMinor: movedMinor,
     });
   // The estate tax is figured on the whole estate; each heir bears their share of it.
   const shares = new Map<PersonId, number>(
@@ -530,18 +617,21 @@ export function settleCountedEstate(
       left -= part;
       if (part <= 0) return;
       const moved = countedPayment(api, {
-        id: `estate:${input.deceasedId}:${tax.series}:${tax.jurisdiction}:${h.heirId}`,
+        id: `estate:${input.deceasedId}:${tax.series}:${tax.jurisdiction}:${h.heirId}:${date}`,
         placeId: input.placeId,
         personId: h.heirId,
         otherOwnerId: treasuryOf(api, tax.jurisdiction),
-        amountMinor: part,
+        // The share of the record the death reaches pays, not the record's
+        // whole weight (a part death's heirs live in the households left).
+        amountMinor: Math.round(part * households),
+        whole: true,
         reasonKey: `estate.${tax.series}`,
         source: source(
           `Estate of ${input.deceasedId}, a counted resident: ${tax.lawId}`,
         ),
       });
       paid += moved;
-      shares.set(h.heirId, (shares.get(h.heirId) ?? 0) - moved);
+      shares.set(h.heirId, (shares.get(h.heirId) ?? 0) - moved / households);
     });
     apply(tax, undefined, paid);
   }
@@ -583,11 +673,12 @@ export function settleCountedEstate(
     const moved =
       assessment.amountMinor > 0
         ? countedPayment(api, {
-            id: `estate:${input.deceasedId}:${assessment.series}:${assessment.jurisdiction}:${h.heirId}`,
+            id: `estate:${input.deceasedId}:${assessment.series}:${assessment.jurisdiction}:${h.heirId}:${date}`,
             placeId: input.placeId,
             personId: h.heirId,
             otherOwnerId: treasuryOf(api, assessment.jurisdiction),
-            amountMinor: assessment.amountMinor,
+            amountMinor: Math.round(assessment.amountMinor * households),
+            whole: true,
             reasonKey: `estate.${assessment.series}`,
             source: source(
               `Estate of ${input.deceasedId}, a counted resident: ${assessment.lawId}`,
@@ -616,9 +707,51 @@ interface Plan {
   /** Set when an estate has both a trust and probate: what the first pass paid, so the second pays the rest. */
   readonly carry?: Carry;
   readonly baseMinor?: number | undefined;
+  /** The kin the intestate order named on the day of death, kept on the probate row until it closes. */
+  readonly heirsAtDeath?: readonly PersonId[];
+  /** The will's bequests as of the death (none when no will was made). */
+  readonly willAtDeath?: readonly { id: PersonId; weight: number }[] | null;
   readonly share: number;
   readonly fundedMinor?: number;
   readonly beneficiaries?: readonly { id: PersonId; weight: number }[];
+}
+
+/**
+ * The estate's house is still for sale: probate stays open, keeping the plan
+ * it closes by, and looks again in a month.
+ */
+function keepProbateOpen(
+  api: CoreAPI,
+  personId: PersonId,
+  deathEventId: string,
+  plan: Plan,
+): void {
+  // The heirs, the will and its reasons stay as they stood on the day of
+  // death: a probate held open for a house never reads them again later,
+  // when the estate has grown (World, #9747 07:13Z).
+  const table = api.moduleState(ESTATES_MODULE_ID).table("probate");
+  table.put({
+    ...(table.get(personId) ?? {}),
+    id: personId,
+    share: plan.share,
+    ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
+    ...(plan.carry === undefined ? {} : { carry: plan.carry }),
+  } as unknown as ModuleRow);
+  const month = Math.round(
+    api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"),
+  );
+  api.moduleCalendar(ESTATES_MODULE_ID).schedule({
+    key: `${PROBATE_CLOSES}:${personId}:${api.state.date}`,
+    date: addDays(makeIsoDate(api.state.date), month),
+    kind: PROBATE_CLOSES,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `Probate of the estate of ${personId} after ${deathEventId}, open while its house is for sale.`,
+      estimatedFrom: "daysPerMeanYear / macroMonthsPerYear",
+    },
+    sourceRecordIds: [personId, deathEventId],
+  });
 }
 
 /** Probate closes: the estate passes by the will, or by the law. */
@@ -633,14 +766,19 @@ function distribute(
   const accounts = api.accounts();
   const from = accounts.main(personId);
   const trust = plan.kind === "trust";
-  // Probate's close sells a home whose owners have all died; its surplus joins the estate.
+  // Probate puts a home whose owners have all died on the market; the estate stays open with the house in it until a buyer takes it, and what the buyer paid, after the lender, joins the estate.
   const home = trust ? undefined : homeOfLastOwner(api, person);
-  const sale = home
-    ? sellHome(api, home, "estate.probate-closes", {
-        decedentId: personId,
-        deathEventId,
-      })
-    : undefined;
+  if (home)
+    sellHome(api, home, "estate.probate-closes", {
+      decedentId: personId,
+      deathEventId,
+    });
+  const listed = trust ? undefined : homeSaleOf(api, person.householdId);
+  const sale = listed?.decedentId === personId ? listed : undefined;
+  if (sale?.status === "listed") {
+    keepProbateOpen(api, personId, deathEventId, plan);
+    return [];
+  }
   // The trust's part is what it holds; probate's is what is left in the account.
   const estate = trust
     ? Math.min(plan.fundedMinor ?? 0, accounts.balance(from))
@@ -648,17 +786,55 @@ function distribute(
   if (estate <= api.parameter("zero")) return [];
   api.stopgap(data.stopgapId);
   // A trust's beneficiaries take by its terms; probate follows the will or the law.
-  const will = trust ? null : willOf(api, person);
-  const { heirs, row } =
-    trust || will ? { heirs: [], row: undefined } : heirsOf(api, person);
+  // The will, like the heirs, is read as of the day of death and kept on the probate row; one paid with no wait reads it now.
+  const relations = relationsOf(person);
+  const willRows = trust
+    ? null
+    : plan.heirsAtDeath
+      ? (plan.willAtDeath ?? null)
+      : willOf(api, person);
+  const willTakers = willRows ? takersAtClose(api, willRows, relations) : [];
+  // A will whose beneficiaries are all gone with no one to represent them leaves the estate to the law.
+  const will = willTakers.length ? willTakers : null;
+  for (const t of will ?? []) relations.set(t.id, t.relation);
+  const named = trust || will ? undefined : heirsOf(api, person);
+  const row = named?.row;
+  const represented =
+    trust || will
+      ? []
+      : plan.heirsAtDeath
+        ? takersAtClose(
+            api,
+            plan.heirsAtDeath.map((id) => ({
+              id,
+              weight: api.parameter("one"),
+            })),
+            relations,
+          )
+        : (named?.heirs ?? []).map((id) => ({
+            id,
+            weight: api.parameter("one"),
+            relation: relations.get(id) ?? "",
+          }));
+  // When the heirs of the day of death and all who represent them are gone, the next class living at the close takes.
+  const closing =
+    represented.length || trust || will || plan.heirsAtDeath?.length === 0
+      ? represented
+      : (named?.heirs ?? []).map((id) => ({
+          id,
+          weight: api.parameter("one"),
+          relation: relations.get(id) ?? "",
+        }));
+  const heirs = closing.map((h) => h.id);
+  for (const h of closing) relations.set(h.id, h.relation);
   const treasury =
     trust || will || heirs.length ? undefined : escheatTo(api, person);
   const takers: { id: string; weight: number }[] = trust
     ? [...(plan.beneficiaries ?? [])]
     : will
       ? [...will]
-      : heirs.length
-        ? heirs.map((id) => ({ id, weight: api.parameter("one") }))
+      : closing.length
+        ? closing.map((h) => ({ id: h.id, weight: h.weight }))
         : treasury
           ? [{ id: treasury, weight: api.parameter("one") }]
           : [];
@@ -757,7 +933,6 @@ function distribute(
     if (trust && plan.carry) plan.carry.estateTax[key] = amountMinor;
     net -= amountMinor;
   }
-  const relations = relationsOf(person);
   const total = takers.reduce(
     (n, taker) => n + taker.weight,
     api.parameter("zero"),
@@ -964,7 +1139,14 @@ export const ESTATES_MODULE: CoreModule = {
       .moduleState(ESTATES_MODULE_ID)
       .table("probate")
       .get(personId) as unknown as
-      { baseMinor: number; share: number; carry: Carry } | undefined;
+      | {
+          baseMinor?: number;
+          share: number;
+          carry?: Carry;
+          heirs: readonly PersonId[];
+          will?: readonly { id: PersonId; weight: number }[] | null;
+        }
+      | undefined;
     distribute(
       api,
       personId,
@@ -974,7 +1156,9 @@ export const ESTATES_MODULE: CoreModule = {
             kind: "probate",
             baseMinor: kept.baseMinor,
             share: kept.share,
-            carry: kept.carry,
+            ...(kept.carry ? { carry: kept.carry } : {}),
+            heirsAtDeath: kept.heirs,
+            willAtDeath: kept.will ?? null,
           }
         : { kind: "probate", share: api.parameter("one") },
     );

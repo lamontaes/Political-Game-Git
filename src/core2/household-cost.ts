@@ -22,6 +22,12 @@ export interface HouseholdCostInput {
   readonly rent: HudRentRow | null | undefined;
   /** The basket for the whole household, when the caller costs it differently (a group-quarters room). */
   readonly everydayMonthlyMinor?: number;
+  /**
+   * The household's pay in a year, for a household that spends by its pay (an
+   * official's, with no other writer of what they buy). Left out, the cost is
+   * the region's basket for the size, as for every town household today.
+   */
+  readonly annualPayMinor?: number;
   /** Reads a registered parameter (`minorPerDollar`, `monthsPerYear`, `daysPerMeanYear`). */
   readonly parameter: (key: string) => number;
 }
@@ -42,10 +48,27 @@ export function householdMonthlyCostMinor(i: HouseholdCostInput): number {
   return everyday + shelter;
 }
 
-/** The household's cost a day, rounded to a whole minor unit. */
+/**
+ * The household's cost a day, rounded to a whole minor unit. Given its pay, the
+ * larger of the basket and what the Consumer Expenditure Survey's curve of
+ * spending against income says a household at that pay spends (a smooth power,
+ * no step), never more than most of the pay itself: the curve runs above
+ * income at low pay because those households draw on transfers.
+ */
 export function householdDailyCostMinor(i: HouseholdCostInput): number {
-  return Math.round(
-    (householdMonthlyCostMinor(i) * i.parameter("monthsPerYear")) /
-      i.parameter("daysPerMeanYear"),
-  );
+  const p = i.parameter;
+  const basketDaily =
+    (householdMonthlyCostMinor(i) * p("monthsPerYear")) / p("daysPerMeanYear");
+  if (i.annualPayMinor === undefined) return Math.round(basketDaily);
+  const payUsd = Math.max(i.annualPayMinor, 0) / p("minorPerDollar");
+  const curveDaily =
+    (p("householdSpendingAtReferencePayUsd") *
+      p("minorPerDollar") *
+      (payUsd / p("householdSpendingReferencePayUsd")) **
+        p("householdSpendingPayElasticity")) /
+    p("daysPerMeanYear");
+  const ceilingDaily =
+    (i.annualPayMinor * p("householdSpendingMostOfPayShare")) /
+    p("daysPerMeanYear");
+  return Math.round(Math.max(basketDaily, Math.min(curveDaily, ceilingDaily)));
 }

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Each year: full people (and what keeps them full), seconds, heap after collection, peak RSS.
 // node --expose-gc --max-old-space-size=8000 --import tsx scripts/dev-tests/memory-fullyears.ts <seed> <placeKey> <years> <label>
-// CORE2_FAST_FORWARD=1 turns on the campaign stride (development only).
 import { appendFileSync } from "node:fs";
 // races.jsonl: RACES_OUT=<file> appends every race winner each year.
 import { buildBenchWorld } from "../../src/bench/world";
@@ -19,9 +18,7 @@ import { residentCounts } from "../../src/core2/modules/residents";
 import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
 import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
 import { stableHash } from "../../src/core2/kernel/ids";
-import { setFastForward } from "../../src/core2/fast-forward";
 setBookkeeping(false);
-if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
 const [seed = "mont1", key = "5046000", years = "20", label = "x"] =
   process.argv.slice(2);
 const w = buildBenchWorld(seed, gameStartDate(), {

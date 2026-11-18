@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Found by the Dev Tester, Nov 8 night.
 
 Nov 11 (cause finder for Fable B): not reproduced. On main d64255aa the item's own draws read 43.7 and 38.4 percent at the opening (36 and 53 after a year). Townsend, Delaware reads 41.1. I propose dropping the item as done by main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

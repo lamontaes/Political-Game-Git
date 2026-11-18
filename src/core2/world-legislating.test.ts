@@ -28,16 +28,17 @@ import {
   openWorldLegislating,
   legislativeSessionsOf,
   sessionsOf,
-  answerIn,
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
-const seed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
+// Pinned (pinned-tests): the places come from this seed, never the clock, so
+// a red names its seed and replays. GOLDEN_PATH_SEED draws others.
+const seed = process.env.GOLDEN_PATH_SEED || "e3cece3601bf55d3";
+process.stdout.write(`WORLD-LEGISLATING seed ${seed}\n`);
 // Places whose legislature sits in 2026 after the start.
 const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
@@ -63,6 +64,9 @@ describe("M3-10 other governments legislate", () => {
       if (!places.length) continue;
       const key = pick(places, `place:${attempt}`).key;
       tried.push(`${state} ${key}`);
+      process.stdout.write(
+        `WORLD-LEGISLATING seed ${seed} attempt ${attempt}: ${state} ${key}\n`,
+      );
       const core = createLifeCore(
         buildPopulation({
           seed,
@@ -72,7 +76,7 @@ describe("M3-10 other governments legislate", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -286,7 +290,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -369,7 +373,7 @@ describe("M3-10 other governments legislate", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -486,7 +490,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -582,7 +586,7 @@ describe("a session already over when the world opens", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);

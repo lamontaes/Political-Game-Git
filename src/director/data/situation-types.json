@@ -23,7 +23,8 @@
     "constituent": "A resident of the subject's district with a recorded problem (a lost job, an eviction, a serious illness).",
     "opponent": "The other candidate the subject's contest record names.",
     "volunteer": "A person the subject's campaign record lists as a volunteer.",
-    "bill-sponsor": "The member who sponsored the bill the cause's record names."
+    "bill-sponsor": "The member who sponsored the bill the cause's record names.",
+    "emergency-lead": "The state cabinet head who opens a governor's emergency briefing: the first holder of a post in the map for the disaster's incident type (data/executive/emergency.json). None, and the scene is not staged."
   },
   "settings": {
     "home": "The subject's household home.",
@@ -55,7 +56,7 @@
     "calm": "Settled and unhurried.",
     "contrite": "Sorry for what they did.",
     "curious": "Wanting to know more.",
-    "eager": "Keen for what is starting.",
+    "eager": "Eager for what is starting.",
     "glad": "Pleased by what is happening.",
     "grieving": "Mourning someone close.",
     "guarded": "Holding back, wary of the other.",
@@ -70,7 +71,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, word of a rival's paid message passed on by someone it reached, a rival filing against them, a petition to recall them) that are met the same day, at home or, for an officeholder, at the office or in the chamber (the evening before a roll call), by phone or in town at a petition's table (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, word of a rival's paid message passed on by someone it reached, a rival filing against them, a petition to recall them) that are met the same day, at home or, for an officeholder, at the office or in the chamber (the evening before a roll call), by phone, in town at a petition's table, or at the venue where the record happened (the count of their own race on election night, the clerk's counter where they filed) (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -78,14 +79,12 @@
       "adult": 4
     },
     "trailingDays": 365,
-    "repeatDays": 30,
-    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
     "seasonCap": {
       "value": 6,
       "days": 91,
       "tag": "TUNABLE",
       "spread": [3, 12],
-      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3)."
+      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3). The player's own asks (a type that is playerAsks and caused only by an event of the player's act: bill-sign-on, vote-sought, serve-sought) are not counted or held: the record limits them (scheduling.ts pressedByPlayer; stages of a bill, Nov 14)."
     },
     "openDays": {
       "at-cause": 7,
@@ -128,10 +127,20 @@
       "cause:event:rival-filed",
       "cause:event:party-asked",
       "cause:event:vote-ahead",
+      "cause:event:bill-held-in-committee",
+      "cause:event:serve-asked",
       "cause:event:recall-petition",
-      "cause:event:job-offered"
+      "cause:event:job-offered",
+      "cause:event:sign-on-asked"
     ],
-    "ownRecordSettings": ["home", "office", "chamber", "phone", "public"],
+    "ownRecordSettings": [
+      "home",
+      "office",
+      "chamber",
+      "phone",
+      "public",
+      "venue"
+    ],
     "metWhereYouAre": ["circumstance:"]
   },
   "types": [
@@ -490,7 +499,7 @@
       "key": "apology",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1195,6 +1204,7 @@
       ],
       "setting": ["public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -1255,6 +1265,7 @@
       ],
       "setting": ["home", "public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -1287,6 +1298,61 @@
       "purpose": "proposal-ask",
       "asker": "proposing",
       "asked": "proposed-to",
+      "stakes": ["home"]
+    },
+    {
+      "key": "move-in",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "roles": [
+        {
+          "key": "asking",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "tell", "promise", "confess"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "asked",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "request", "thank"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "next-together",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.move-in-asked",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.move-in-asked",
+          "bind": {
+            "asking": "counterpart",
+            "asked": "subject"
+          },
+          "opener": "asking",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "move-in-ask",
+      "asker": "asking",
+      "asked": "asked",
       "stakes": ["home"]
     },
     {
@@ -1599,7 +1665,7 @@
       "key": "care",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1626,11 +1692,11 @@
         {
           "match": {
             "label": "feeling:event:health.serious-illness",
-            "counterpart": "none"
+            "counterpart": "some"
           },
           "bind": {
-            "cared-for": "subject",
-            "caregiver": "kin"
+            "cared-for": "counterpart",
+            "caregiver": "subject"
           },
           "opener": "cared-for"
         }
@@ -1752,7 +1818,12 @@
             "label": "feeling:event:justice.accused",
             "selfNamed": true,
             "counterpart": "some",
-            "causeFacts": [{ "key": "accuserId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "accuserId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "justice",
           "causeRecord": "justice.accused",
@@ -1768,7 +1839,7 @@
             "label": "circumstance:bribe-accused"
           },
           "causeEngine": "circumstance",
-          "causeRecord": "scandal.reported",
+          "causeRecord": "news.read",
           "sceneKey": "bribe-reported",
           "bind": {
             "accuser": "counterpart",
@@ -2308,7 +2379,6 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
-      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2880,7 +2950,7 @@
       "stakes": ["job", "years"]
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "vote-asked",
       "receive": {
         "age": "any",
@@ -3106,7 +3176,7 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "ask-vote",
       "playerAsks": true,
       "asker": "colleague",
@@ -3125,7 +3195,15 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "plea", "bargain", "press", "thank", "accept"],
+          "moves": [
+            "request",
+            "plea",
+            "bargain",
+            "press",
+            "thank",
+            "defer",
+            "accept"
+          ],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
@@ -3156,6 +3234,67 @@
       "tag": {
         "key": "vote-wanted",
         "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "serve-sought",
+      "note": "The player asks someone to serve: today a governor candidate asks one of the people offered to run as their running mate (brief J, Nov 14). The serve-asks engine keeps the ask and reads where the person stands from their record (willingness.json); the scene is the ask, their answer, and the player's follow. Only the ending seats anyone: serving names them on the ticket, turned-down keeps the no with its reason and date, and the seat stays open.",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "purpose": "ask-to-serve",
+      "playerAsks": true,
+      "eachCause": true,
+      "asker": "prospect",
+      "asked": "you",
+      "stakes": ["office", "race", "tie"],
+      "roles": [
+        {
+          "key": "prospect",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "relent", "bargain"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "press", "thank", "accept", "promise", "refuse"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["office", "other-home", "home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:serve-asked",
+            "causeFacts": [
+              {
+                "key": "askerId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "serve-asks",
+          "causeRecord": "serve-asked",
+          "bind": {
+            "prospect": "counterpart",
+            "you": "subject"
+          },
+          "opener": "you",
+          "setting": ["office", "other-home", "home"]
+        }
+      ],
+      "tag": {
+        "key": "serve-asked",
+        "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
     },
@@ -3442,6 +3581,55 @@
       }
     },
     {
+      "key": "emergency-briefing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
+      "eachCause": true,
+      "openDecision": true,
+      "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
+      "roles": [
+        {
+          "key": "briefer",
+          "fill": "emergency-lead",
+          "count": "one",
+          "moves": ["greet", "request", "answer", "warn", "thank"],
+          "wants": ["follow-rules"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "ask"],
+          "wants": ["commit"],
+          "bearing": "steady"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:executive.emergency-offered",
+            "selfNamed": true
+          },
+          "causeEngine": "executive",
+          "causeRecord": "executive.emergency-offered",
+          "bind": { "you": "subject" },
+          "opener": "briefer"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      },
+      "purpose": "emergency-briefing",
+      "asker": "briefer",
+      "asked": "you",
+      "stakes": ["disaster", "emergency"]
+    },
+    {
       "key": "party-recruit",
       "receive": {
         "age": "any",
@@ -3509,6 +3697,70 @@
       "asker": "chair",
       "asked": "you",
       "stakes": ["office", "party", "race"]
+    },
+    {
+      "key": "party-welcome",
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "any"
+      },
+      "note": "A person joins a party (the party-joined record names them, the party and its leader): the leader welcomes them at the party's office and asks whether they can count on them to pitch in. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
+      "roles": [
+        {
+          "key": "leader",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["engage", "commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "member",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:party-joined",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "parties",
+          "causeRecord": "party-joined",
+          "bind": {
+            "leader": "counterpart",
+            "member": "subject"
+          },
+          "opener": "leader",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "welcomed",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "party-welcome",
+      "asker": "leader",
+      "asked": "member",
+      "stakes": ["party"]
     },
     {
       "key": "office-hours",
@@ -3796,7 +4048,13 @@
         {
           "match": {
             "label": "cause:event:debate",
-            "selfNamed": true
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "stood",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "debate",
@@ -3854,6 +4112,8 @@
       ],
       "setting": ["office", "phone"],
       "timing": "at-cause",
+      "stopsDay": true,
+      "stopSwitch": "desk",
       "causes": [
         {
           "match": {
@@ -3901,7 +4161,7 @@
       }
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "section-bargain",
       "receive": {
         "age": "any",
@@ -4022,6 +4282,68 @@
       }
     },
     {
+      "key": "hold-chair-sought",
+      "note": "The player is the sponsor of a bill the committee chair held without a hearing, and asks the chair to hear it. The chair answers from the committee record's own reasons (the chair's stand on the bill, their temperament and a close co-sponsor's pull), and the ask adds only a favor, worth more the closer the two are. An agree sets the hearing through the same reply the other direction uses; a refusal leaves the hold, and the chair says the reason the record holds.",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "repeatsBy": "bill",
+      "purpose": "hearing-ask",
+      "playerAsks": true,
+      "asker": "chair",
+      "asked": "sponsor",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "cause-named",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "sponsor",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "plea", "press", "threaten", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        }
+      ],
+
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-held-in-committee",
+            "causeFacts": [
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              },
+              { "key": "firstChamber", "equals": ["yes"] }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-held-in-committee",
+          "bind": {
+            "chair": "cause-named",
+            "sponsor": "subject"
+          },
+          "opener": "sponsor"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "new-baby",
       "receive": {
         "age": "any",
@@ -4049,6 +4371,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -4553,6 +4876,59 @@
       }
     },
     {
+      "key": "hearing-witness",
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "serving"
+      },
+      "note": "A resident testified at a committee's hearing on a bill (the legislature's committee-hearing record names the witnesses, each one's side and what the bill reaches in their own life: their job, their lease or mortgage, a child at home, their own age, or only a view). On the way out one of them catches the player, the bill's sponsor or a member of the committee, and says what the bill would do to them, never a figure about the world. The player can thank them, ask what it would really mean, tell them they see it differently, or brush it off. Every reply is time on their tie, which their vote reads; disagreeing or brushing them off strains it.",
+      "purpose": "witness-stake",
+      "asker": "witness",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "witness",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "answer", "press", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "ask", "disagree", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:hearing-witness"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "committee-hearing",
+          "bind": {
+            "witness": "counterpart",
+            "you": "subject"
+          },
+          "opener": "witness",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "moving-goodbye",
       "receive": {
         "age": "any",
@@ -4602,6 +4978,102 @@
       "tag": {
         "key": "moving-goodbye",
         "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "study-formed",
+      "note": "The body formed a study committee on a bill it could not settle (the legislature's study-formed record: the sponsor chairs it, and its members are the opponents nearest to changing their vote). The chair tells a member what it is charged with and when it reports, or a member asks the player, who chairs it, how it should begin. The player can agree to serve, say a study is only a delay, ask who sits on it and when it reports, or say nothing much.",
+      "purpose": "study-formed",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:study-formed-member"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "study-formed",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "colleague-word",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "study-reported",
+      "note": "A study committee reached its sunset and reported (the legislature's study-reported record: the members' mean position on the bill, given to the body by the chair as a speech). The chair tells a member what the committee found and, from the member's stance record, whether the speech moved them; or a member brings the finding to the player, who chairs it. The player can agree, disagree, ask what moved the finding, or say nothing much.",
+      "purpose": "study-reported",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:study-reported-member"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "study-reported",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "colleague-word",
+        "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
     },
@@ -4858,6 +5330,54 @@
       "stakes": ["race", "outlet", "opponent"]
     },
     {
+      "key": "endorsement-ask",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
+      "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
+      "roles": [
+        {
+          "key": "candidate",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "request", "tell", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "stall"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:endorsement-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "endorsement-asked",
+          "bind": { "candidate": "counterpart", "you": "subject" },
+          "opener": "candidate",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-endorsement",
+      "asker": "candidate",
+      "asked": "you",
+      "stakes": ["race", "tie"]
+    },
+    {
       "key": "volunteer-offer",
       "receive": {
         "age": "any",
@@ -4933,10 +5453,10 @@
       "key": "manager-offer",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
-      "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
+      "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. Only the player's yes puts them on the campaign's staff, where the cast and election night read them (answerOffer); a no or a walk away leaves them off, and a world candidate takes the help without a scene. The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
       "roles": [
         {
           "key": "helper",
@@ -4963,6 +5483,7 @@
           "bearing": "curious"
         }
       ],
+      "stopsDay": true,
       "setting": ["home"],
       "timing": "at-cause",
       "causes": [
@@ -5105,6 +5626,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "liveWhile": "contest-open",
       "causes": [
         {
           "match": {
@@ -5136,6 +5658,80 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent", "views"]
+    },
+    {
+      "key": "petition-short",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "note": "A filed player's petition is behind what the days left can still close, and someone who would really tell them says so: the campaigns engine's petition-short record (written once per filing, on the last day a canvass shift a day can still close the gap: to the count the office requires when the clerk tells, to what the campaign aims to gather when a helper does) names the candidate and the one who tells, the clerk who took the filing or else a helper on the campaign. The player's answer is the pause; a yes (going-out) takes their canvass day, anything else changes nothing (OWNER-DECISIONS Oct 14: the engine offers, the player decides).",
+      "roles": [
+        {
+          "key": "teller",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "tell", "answer", "thank", "press", "accept"],
+          "wants": ["help-others"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["venue", "home"],
+      "timing": "at-cause",
+      "liveWhile": "contest-open",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:petition-short",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["clerk"] }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "petition-short",
+          "setting": ["venue"],
+          "bind": { "teller": "counterpart", "you": "subject" },
+          "opener": "teller",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:petition-short",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["helper"] }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "petition-short",
+          "setting": ["home"],
+          "bind": { "teller": "counterpart", "you": "subject" },
+          "opener": "teller",
+          "opening": "tell"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "petition-short",
+      "asker": "teller",
+      "asked": "you",
+      "stakes": ["race", "petition"],
+      "stopsDay": true
     },
     {
       "key": "budget-cut",
@@ -5412,6 +6008,67 @@
       "asker": "officiant",
       "asked": "you",
       "stakes": ["office", "oath"]
+    },
+    {
+      "key": "bill-sign-on",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
+      "note": "The player drafts a bill and goes to a colleague they know to sign on as a co-sponsor (brief V, stage 2). The colleague answers from where they stand on the bill and what a favor to the player is worth to them, never by a roll; a yes puts their name on the bill, which the committee chair weighs in deciding to hear it (legislature.ts askToSignOn, answerSignOn, chairHears).",
+      "eachCause": true,
+      "purpose": "cosponsor-ask",
+      "playerAsks": true,
+      "asker": "colleague",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "colleague",
+          "fill": "members",
+          "count": "one",
+          "moves": ["agree", "stall", "refuse", "relent", "accept"],
+          "wants": ["keep-same"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "plea", "press", "thank", "defer", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:sign-on-asked",
+            "causeFacts": [
+              {
+                "key": "askerId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "sign-on-asked",
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
+          "opener": "you",
+          "setting": ["office", "chamber", "phone"]
+        }
+      ],
+      "tag": {
+        "key": "bill-sign-on",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

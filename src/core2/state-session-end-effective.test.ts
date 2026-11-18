@@ -222,7 +222,7 @@ it(`a bill held on the governor's desk takes effect from the session it passed i
     }),
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openRecord(core);

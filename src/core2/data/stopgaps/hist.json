@@ -4,7 +4,7 @@
     "kind": "partial-model",
     "file": "src/core2/past-work.ts",
     "line": 175,
-    "whatItFakes": "The working life before the start runs in the person's day-one town, against its businesses' day-one size and going pay and the nation's unemployment rate; a spell before a person's move into the county runs where they lived then with no employer named (the world keeps none there), and officials living outside the town are not run.",
+    "whatItFakes": "The working life before the start runs in the person's day-one town, against its businesses' day-one size and going pay and the nation's unemployment rate; a spell before a person's move into the county runs where they lived then, at an employer named for that place from the seed (src/core2/places-elsewhere.ts, an estimate) since the world keeps none there, and officials living outside the town are not run.",
     "why": "Moves before the start, past business sizes and the regional series are not yet simulated before the start; the unit that runs them replaces each part.",
     "addedBy": "history-past-work (Claude Opus)",
     "addedAt": "2026-10-28",
@@ -110,17 +110,6 @@
     "status": "open"
   },
   {
-    "id": "SG-HIST-birthplace-is-home",
-    "kind": "assumed-data",
-    "file": "src/core2/opening-people.ts",
-    "whatItFakes": "Every person the opening makes is given a birthplace fact naming the town they live in now (no caller passes a birthplace), so the fact never names anywhere else: 0 of 476 residents in Portsmouth NH, Selma NC and Woodlawn KY (seeds lrborn01 to 03) were born elsewhere by it. Readers that tell a birthplace (the card, a conversation) take the moves pass's residence on the birth date first, so a person brought to the county is born where they came from.",
-    "why": "The opening runs before the past's moves, which decide who came from elsewhere; the card told 'born in' the town and then 'moved to' it (Fable A, Nov 13).",
-    "addedBy": "opus-lr (Life records builder)",
-    "addedAt": "2026-11-13",
-    "replacement": "Write the birthplace fact from the moves pass (the residence on the birth date) when a person's past is opened, by the ACS share born in their state of residence (B05002) for those with no parent elsewhere, and drop the opening's default.",
-    "status": "open"
-  },
-  {
     "id": "SG-HIST-past-hospital-age-only",
     "kind": "partial-model",
     "file": "src/core2/past-health.ts",
@@ -130,6 +119,149 @@
     "addedBy": "opus-5234 (core-life-record-part-6)",
     "addedAt": "2026-11-11",
     "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-housing-past-todays-households",
+    "kind": "partial-model",
+    "file": "src/core2/housing-past.ts",
+    "whatItFakes": "The town's rents and home values before the start are read from the households living there on day one: a household that lived in the town and left before the start is not in the world, so it is in no past figure, and a home's earlier owners or tenants are not told. Rents before the start move with the nation's pay (the economy pass's months) and the vacancy factor is one, since the housing stock keeps no history; a rent law in force before the start does not cap them.",
+    "why": "Owner, Nov 13, 2026: the past is simulated so the present makes sense, general, with no depth (Oct 28). The people and moves passes write only the people who live in the world on day one.",
+    "addedBy": "Account lead T45 (Claude)",
+    "addedAt": "2026-11-14",
+    "replacement": "A coarse count of the households that left the town before the start, with their rents and homes, from the moves engine's leaving rate, so the past town holds the people who left as well as those who stayed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-voters",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century counts each state on 100 voters spaced evenly along the lean order at a presidential year's typical readiness, not on people of the state in that year.",
+    "why": "The town's own people of 1925 to 2024 are not in the world, so the town's counted sample cannot stand for each state as it does for places counted from afar in play.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The people of each decade from the population history once it runs back (history-economy and history-places units, #9747 plan points 4 and 6).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-first-president",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The President in office in January 1925 is of the side the country's own starting shift leans to; the century's first election is 1928.",
+    "why": "The century starts in 1925 with no election before it to say who held the office.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Run the 1924 election from the same starting leans as the century's first step.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-steady-economy",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century has no economic cycle yet, so a President's approval in the century stands at the neutral point: only incumbency, experience, the party's time in the White House, the midterm and each place's carried lean move the century's races. (The approval engine opens a term at the winner's share and moves it only by the economy, so without one the share would hold for four years: an Electoral College winner with a minority of the vote weighed on their party every term, and the carried leans walked toward the other party.)",
+    "why": "The economy before day one is the published series plus one offset (macro-model.ts), which the owner's ruling of Nov 17 removes; the country tier is not yet run back from 1925.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The country tier run coarse from 1925, feeding the century's approval through national-opinion.ts's own rule (History lane plan point 4, with World B).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-two-terms",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A President the century elected twice does not run again in any year, including before the Twenty-Second Amendment (1951), when it was custom.",
+    "why": "A named-only President of the century has no health, age or ambition record to decide a third run.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "A President's own run decision from their record (age, health, standing) once past Presidents are filled in on open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-nominees",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "In an open presidential race both century nominees count as experienced candidates (have held elected office), and a sitting President's challenger counts as a typical one; nominees are named-only records with no primary.",
+    "why": "The century's Congress, governors and the parties' primaries are not run yet, so no record says who held office before a nomination.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Nominees from the century's own governors and senators once the history-congress and history-states units run them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-contingent",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A century presidential election where no ticket wins a majority of the electors leaves the office with the sitting President's side.",
+    "why": "The century's House is not counted yet, so the House's choice by state delegation (amend. XII) cannot be read.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's House by state delegation, from the history-congress unit.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-apportionment",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Every century presidential election uses the 2020 apportionment's electors and each state's eligible voters today.",
+    "why": "The century runs on today's people; no state's population by decade is simulated.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each state's people by decade from the population history, and electors from each census's apportionment.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-district-leans",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A House district's lean in the century carries only its own House results, not the presidential or Senate results its people also cast; a state's lean carries the presidential and Senate results.",
+    "why": "The century counts a state's presidential and Senate races as one place, not by district or county, so no district's share of those races exists.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "World B's leans per counted place (carryLean), with the century counting the presidency and the Senate by county and district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-parties",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed.",
+    "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's parties (PR 7, history-parties): each party's record with its founding, stances and notable people.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-delegate-terms",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century elects every House seat, delegates included, every second year, including Puerto Rico's Resident Commissioner, whose term is four years.",
+    "why": "The roster keys a delegate's seat like any district; the term length is not read in the century yet.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each seat's term from the offices data (offices-state.ts REPRESENTATION termYears).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-uncounted-seats",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A seat in Congress whose place has no counted vote on record (a territory's delegate with no two-party race) is never elected in the century: its 1925 holder's side keeps it to day one, as play does not run such a race either (voting.ts countedPlace).",
+    "why": "The count needs a place's eligible voters and lean; a territory with no presidential vote and no two-party delegate race has neither on record.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "The territory's people counted from its own population (the people engine's counts), so its delegate's races run in the century and in play.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-tickets",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "In the century every partisan statewide officer is elected in a race of their own, including a lieutenant governor a state elects on the governor's ticket.",
+    "why": "The century elects each office from the state-offices research's cycle; the ticket rule (which offices run jointly) is read by play's elections, not yet by the century.",
+    "addedBy": "History lane (claude/history-states)",
+    "addedAt": "2026-11-17",
+    "replacement": "The ticket rule read in the century: a joint ticket's offices take the governor's race.",
     "status": "open"
   }
 ]

@@ -5,10 +5,10 @@ area: laws
 kind: feature
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9246
 after:
 blocked-on:
 lead: laws-effects

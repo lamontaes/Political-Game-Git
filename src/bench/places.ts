@@ -3,9 +3,10 @@
 import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { properName } from "../director/words";
+import { organizationName } from "../director/words";
 import { backdropStaging } from "./staging";
 import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { isOnShift } from "./shift";
@@ -27,35 +28,12 @@ const SCHOOLS = new Set([
   "service:public-school",
   "service:private-school",
 ]);
-/**
- * Places anyone may walk into: where a player with no job, school or friends
- * still has somewhere to go. Listed after the places the player has a reason
- * for, so Travel always lists somewhere (owner, Oct 27: "Travel always lists
- * where the player can go, with what is open now").
- */
-const PUBLIC_PLACES = new Set([
-  "diner",
-  "diner-counter",
-  "coffee-shop",
-  "tavern",
-  "grocery-store",
-  "general-store",
-  "store",
-  "gas-station-store",
-  "hardware-store-interior",
-  "pharmacy-counter",
-  "barbershop",
-  "public-library",
-  "post-office",
-  "church-sanctuary",
-  "church-exterior",
-  "park",
-  "farmers-market",
-]);
-// Engineering count: public places listed when the player's own reasons are few.
-const PUBLIC_FILL = 9;
+// Engineering count: the town's biggest workplaces listed after the places tied to the player.
+const BIGGEST_LISTED = 9;
 /** Compulsory schooling ends by 18 in most states; high school runs through 18. */
 const SCHOOL_AGE_UNDER = 19;
+/** The ways a place is tied to the player's work, closest first. */
+const WORK_TIES = ["work", "family", "known"] as const;
 
 /**
  * The town's pictured places the player has a reason to go: where they,
@@ -68,6 +46,85 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** The levels of a body that meets at its town's or county's own office. */
+const LOCAL_BODIES = new Set([
+  "city",
+  "town",
+  "village",
+  "township",
+  "borough",
+  "county",
+]);
+
+/**
+ * The town's and county's offices the player has business at, by the
+ * government's name (the office record names it; its organization carries
+ * the same name, and may sit in the town's own jurisdiction rather than the
+ * census place the player lives in, as a New England town does), each with
+ * the records that are the reasons: the seat they hold on its body ("seat"),
+ * their own body meeting today ("ownMeeting"), or another body's meeting
+ * today ("meeting").
+ */
+type CivicReason = {
+  kind: "seat" | "ownMeeting" | "meeting";
+  recordId: string;
+};
+function civicBusiness(
+  core: CoreState,
+  playerId: string,
+): Map<string, CivicReason[]> {
+  const api = coreAPI(core);
+  const business = new Map<string, CivicReason[]>();
+  const seats = townSeats(api).filter(({ office }) => {
+    return !!office.governmentName && LOCAL_BODIES.has(office.level);
+  });
+  // The bodies the player sits on.
+  const sitsOn = new Set<string>();
+  for (const { office, seat, holder } of seats) {
+    if (holder?.personId !== playerId) continue;
+    sitsOn.add(office.id);
+    const government = office.governmentName!.toLowerCase();
+    const reasons = business.get(government) ?? [];
+    reasons.push({ kind: "seat", recordId: seat.id });
+    business.set(government, reasons);
+  }
+  // A body that meets today: for its own member, "your board meets today".
+  const counted = new Set<string>();
+  for (const { office } of seats) {
+    if (counted.has(office.id) || office.seats <= 1) continue;
+    counted.add(office.id);
+    const meeting = upcomingMeeting(api, office.id);
+    if (!meeting || meeting.date !== core.date) continue;
+    const government = office.governmentName!.toLowerCase();
+    const reasons = business.get(government) ?? [];
+    reasons.push({
+      kind: sitsOn.has(office.id) ? "ownMeeting" : "meeting",
+      recordId: `${office.id}:${meeting.date}`,
+    });
+    business.set(government, reasons);
+  }
+  return business;
+}
+
+/**
+ * Why a place is on Travel's list, each kind worded by its control label
+ * (`travel.reasons` in src/bench/data/controls.json): a tie to the
+ * player, civic business, or, for a place with no tie, one of the town's
+ * biggest workplaces ("large").
+ */
+type PlaceReason = {
+  kind:
+    | CivicReason["kind"]
+    | (typeof WORK_TIES)[number]
+    | "study"
+    | "studySelf"
+    | "action"
+    | "serve"
+    | "member"
+    | "large";
+  recordId: string;
+};
+
 /** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
 const PARTY_OFFICE = "membership:political-party";
 
@@ -105,100 +162,140 @@ export function townPlaces(
       birth !== undefined && ageOnDate(birth, core.date) < SCHOOL_AGE_UNDER
     );
   });
+  const playerStudies =
+    ageOnDate(player.birthDate, core.date) < SCHOOL_AGE_UNDER;
+  // Where the player has political business by the records
+  // (play-travel-in-a-village-lists-no-town-office): the town's or county's
+  // office, while they hold a seat on its body or its body meets today.
+  // An office listed only for being an office stays out (owner, Oct 26).
+  const civic = civicBusiness(core, playerId);
   const official = coreAPI(core)
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
     .query("byPerson", [playerId])
     .some((row) => (row as { status?: string }).status === "serving");
-  return (
-    [...core.organizations.values()]
-      .filter((org) => org.placeId === player.placeId)
-      .flatMap((org) => {
-        const place = orgPlace(core, org.id);
-        if (!place || !hasBackdrop(place)) return [];
-        const { full, counted } = staffOf(core, org.id);
-        const known = full.filter((id) => player.knownIds.has(id));
-        const actions = offers
-          .filter((offer) => offer.targetId === org.id)
-          .map((offer) => offer.actionId);
-        const reasons = [
-          // "You work here" only where the player works; a relative's
-          // workplace says so.
-          ...(ownWork.has(org.id)
-            ? [
-                {
-                  kind:
-                    ownJob === org.id ? ("work" as const) : ("family" as const),
-                  recordId: org.id,
-                },
-              ]
-            : []),
-          ...(studying && SCHOOLS.has(org.classification ?? "")
-            ? [{ kind: "study" as const, recordId: org.id }]
-            : []),
-          ...known.map((id) => ({ kind: "known" as const, recordId: id })),
-          ...actions.map((actionId) => ({
-            kind: "action" as const,
-            recordId: actionId,
-          })),
-          ...(official && STATE_OFFICES.has(org.classification ?? "")
-            ? [{ kind: "serve" as const, recordId: org.id }]
-            : []),
-          // The office of a party the player belongs to (their membership record).
-          ...(core.memberships.has(`${playerId}:${org.id}`) &&
-          org.classification === PARTY_OFFICE
-            ? [{ kind: "member" as const, recordId: org.id }]
-            : []),
-        ];
-        const open = PUBLIC_PLACES.has(place);
-        if (!reasons.length && !open) return [];
-        // Who is at work there now, by their own work spans.
-        const here = full
-          .filter((id) => id !== playerId)
-          .filter((id) => isOnShift(core, id, minute, org.id));
-        return [
-          {
-            organizationId: org.id,
-            name: properName(org.name),
-            place,
-            staff: full.length + counted.length,
-            known: known.map((id) => {
-              const row = core.people.get(id)!;
-              return {
-                personId: id,
-                name: `${row.givenName} ${row.familyName}`,
-              };
-            }),
-            // What the player can do there right now: the core's own offers.
-            actions,
-            reasons,
-            presentNames: here.slice(0, PRESENT_NAMED).map((id) => {
-              const row = core.people.get(id)!;
-              return `${row.givenName} ${row.familyName}`;
-            }),
-            presentCount: here.length,
-            presentation: { imageUrl: backdropFor(core, place, minute).url },
-          },
-        ];
-      })
-      .sort(
-        (a, b) =>
-          Number(b.reasons.length > 0) - Number(a.reasons.length > 0) ||
-          b.known.length - a.known.length ||
-          b.actions.length - a.actions.length ||
-          Number(b.presentCount > 0) - Number(a.presentCount > 0) ||
-          b.staff - a.staff ||
-          a.name.localeCompare(b.name),
-      )
-      // Every place with a reason, then public places until the list has some.
-      .filter(
-        (row, at, all) =>
-          row.reasons.length > 0 ||
-          at <
-            Math.max(PUBLIC_FILL, all.filter((r) => r.reasons.length).length),
-      )
-      .slice(0, LISTED)
-  );
+  const rows = [...core.organizations.values()]
+    .filter(
+      (org) =>
+        org.placeId === player.placeId || civic.has(org.name.toLowerCase()),
+    )
+    .flatMap((org) => {
+      const place = orgPlace(core, org.id);
+      if (!place || !hasBackdrop(place)) return [];
+      const { full, counted } = staffOf(core, org.id);
+      const known = full.filter((id) => player.knownIds.has(id));
+      const actions = offers
+        .filter((offer) => offer.targetId === org.id)
+        .map((offer) => offer.actionId);
+      const reasons: PlaceReason[] = [
+        // "You work here" only where the player works; a relative's
+        // workplace says so.
+        ...(ownWork.has(org.id)
+          ? [
+              {
+                kind:
+                  ownJob === org.id ? ("work" as const) : ("family" as const),
+                recordId: org.id,
+              },
+            ]
+          : []),
+        ...(studying && SCHOOLS.has(org.classification ?? "")
+          ? [
+              {
+                kind: playerStudies
+                  ? ("studySelf" as const)
+                  : ("study" as const),
+                recordId: org.id,
+              },
+            ]
+          : []),
+        ...known.map((id) => ({ kind: "known" as const, recordId: id })),
+        ...actions.map((actionId) => ({
+          kind: "action" as const,
+          recordId: actionId,
+        })),
+        ...(official && STATE_OFFICES.has(org.classification ?? "")
+          ? [{ kind: "serve" as const, recordId: org.id }]
+          : []),
+        ...(civic.get(org.name.toLowerCase()) ?? []),
+        // The office of a party the player belongs to (their membership record).
+        ...(core.memberships.has(`${playerId}:${org.id}`) &&
+        org.classification === PARTY_OFFICE
+          ? [{ kind: "member" as const, recordId: org.id }]
+          : []),
+      ];
+      // A place with no tie to the player is listed only as one of the
+      // town's biggest workplaces, picked below from the records.
+      // One work tie, the closest: you, then your family, then people you know.
+      const closest = WORK_TIES.find((kind) =>
+        reasons.some((r) => r.kind === kind),
+      );
+      const listed = reasons.filter(
+        (r) =>
+          !(WORK_TIES as readonly string[]).includes(r.kind) ||
+          r.kind === closest,
+      );
+      // Who is at work there now, by their own work spans.
+      const here = full
+        .filter((id) => id !== playerId)
+        .filter((id) => isOnShift(core, id, minute, org.id));
+      return [
+        {
+          organizationId: org.id,
+          kindOfWork: org.classification ?? "",
+          name: organizationName(org),
+          place,
+          staff: full.length + counted.length,
+          known: known.map((id) => {
+            const row = core.people.get(id)!;
+            return {
+              personId: id,
+              name: `${row.givenName} ${row.familyName}`,
+            };
+          }),
+          // What the player can do there right now: the core's own offers.
+          actions,
+          reasons: listed,
+          presentNames: here.slice(0, PRESENT_NAMED).map((id) => {
+            const row = core.people.get(id)!;
+            return `${row.givenName} ${row.familyName}`;
+          }),
+          presentCount: here.length,
+          presentation: { imageUrl: backdropFor(core, place, minute).url },
+        },
+      ];
+    });
+  const byStaff = (a: (typeof rows)[number], b: (typeof rows)[number]) =>
+    b.staff - a.staff || a.name.localeCompare(b.name);
+  const tied = rows
+    .filter((row) => row.reasons.length > 0)
+    .sort(
+      (a, b) =>
+        b.known.length - a.known.length ||
+        b.actions.length - a.actions.length ||
+        Number(b.presentCount > 0) - Number(a.presentCount > 0) ||
+        byStaff(a, b),
+    );
+  // Then the town's biggest workplaces across every kind of work: each kind's
+  // largest employer first, then each kind's next, by headcount from the
+  // organization and job records (owner, Nov 16: "places tied to you first,
+  // then the town's biggest workplaces across every kind of work").
+  const kinds = new Map<string, typeof rows>();
+  for (const row of rows.filter((r) => r.reasons.length === 0).sort(byStaff))
+    kinds.set(row.kindOfWork, [...(kinds.get(row.kindOfWork) ?? []), row]);
+  const queues = [...kinds.values()].sort((a, b) => byStaff(a[0]!, b[0]!));
+  const biggest: typeof rows = [];
+  for (let round = 0; biggest.length < BIGGEST_LISTED; round += 1) {
+    const next = queues.map((queue) => queue[round]).filter((r) => !!r);
+    if (!next.length) break;
+    for (const row of next)
+      if (biggest.length < BIGGEST_LISTED)
+        biggest.push({
+          ...row,
+          reasons: [{ kind: "large", recordId: row.organizationId }],
+        });
+  }
+  return [...tied, ...biggest].slice(0, LISTED);
 }
 
 /**
@@ -252,7 +349,7 @@ export function visitPlace(
   const backdrop = backdropFor(core, place, minute);
   return {
     organizationId,
-    name: properName(org.name),
+    name: organizationName(org),
     place,
     backdrop,
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),

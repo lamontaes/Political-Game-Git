@@ -89,7 +89,7 @@ function runPlace(attempt: number): PlaceRun | null {
   // Payroll withholds the law in force from every paycheck, as in play, so
   // what a donor has to give from is their pay after those taxes.
   openBudgets(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

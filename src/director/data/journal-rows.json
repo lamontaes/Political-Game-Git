@@ -655,6 +655,16 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "scene-ending:view-promise",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:side-word-for",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "scene-ending:favor-owed",
       "turn": false,
       "entry": "story"
@@ -673,6 +683,18 @@
       "kindPrefix": "scene-ending:meeting-set",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:petition-going-out",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "scene-ending:petition-not-today",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     },
     {
       "kindPrefix": "scene-ending:story-runs",
@@ -706,10 +728,7 @@
     }
   ],
   "lookBacks": {
-    "memorable": [
-      "journal.memoir-hook.ill-never-forget-it",
-      "journal.memoir-hook.ill-never-forget-that"
-    ],
+    "memorable": [],
     "youngOnly": ["journal.memoir-hook.i-never-knew"],
     "turning": ["journal.memoir-hook.that-was-a-turning-point"]
   },

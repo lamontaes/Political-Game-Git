@@ -60,7 +60,7 @@ interface Move {
   readonly stance: Stance;
   readonly today: readonly (Stance["causes"][number] & {
     readonly knewSource: boolean;
-    /** They hold, from reading it, which outlet printed the story: what the director's bring-it-up lists. */
+    /** They hold, from reading it, which outlet printed the story (news:<story>:outlet): what the director's bring-it-up lists. */
     readonly rememberedPrint: boolean;
   })[];
   readonly viewNow: number;
@@ -89,7 +89,10 @@ registerStanceListener((api, personId, topic) => {
   const stance = api
     .moduleState(VIEWS_MODULE_ID)
     .table("stances")
-    .get(`${personId}:${topic}`) as unknown as Stance;
+    .get(`${personId}:${topic}`) as unknown as Stance | undefined;
+  // A change in the reader's own life moves their view with no story heard
+  // (no stance row); this test follows only what reading moves.
+  if (!stance) return;
   const view = viewOf(api, personId);
   const last = SIGNED.get(api.state) ?? new Map<string, number>();
   SIGNED.set(api.state, last);
@@ -108,17 +111,15 @@ registerStanceListener((api, personId, topic) => {
         ...cause,
         knewSource:
           !!cause.learnedFrom && !!api.knows(personId, cause.learnedFrom),
-        rememberedPrint: [
-          ...((api.state as CoreState).knowledgeByPerson
-            .get(personId)
-            ?.values() ?? []),
-        ].some(
-          (fact) =>
-            fact.key.startsWith("printed:") &&
-            fact.key.endsWith(":story") &&
-            fact.value === storyOfReadEvent(cause.eventId) &&
-            fact.access === "perceived",
-        ),
+        rememberedPrint: (() => {
+          const storyId = storyOfReadEvent(cause.eventId);
+          const fact = storyId
+            ? (api.state as CoreState).knowledgeByPerson
+                .get(personId)
+                ?.get(`${newsKey(storyId)}:outlet`)
+            : undefined;
+          return !!fact && fact.access === "perceived";
+        })(),
       })),
     viewNow: view ? viewOn(api, personId, topic, view.lean) : 0,
   });

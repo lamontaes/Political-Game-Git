@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 Oct 28 (claude pool worker): not reproduced on main. `GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` (St. Johnsbury, Vermont) reports "ALIVE pay reaches a spendable account: 609 paychecks reached their workers". Something merged since the item was filed (the arrears sweep or the fill-in living cost) closed it, or the check's list of people differs now. Left open for the CTO or a merger to close as done-by-main.
 Nov 10 (Fable): not reproduced again. The same command with the same seed and place on main cb25bfa5c8 reported "ALIVE pay reaches a spendable account: 90 paychecks reached their workers". That is twice on main, twelve days apart. By this item's own Done when, it is the CTO's to drop as done by main.
 Nov 11 (cause finder for Fable B): reran on main d64255aa. The named seed and place were ALIVE (127 paychecks, 148 seconds), and one fresh draw, La Moille, Illinois (1741794, seed 7162b231ee22aadc55534054f385594bcd128058), was ALIVE (25 paychecks). Three passes on the named seed over two weeks; I propose dropping it as done by main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

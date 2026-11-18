@@ -37,7 +37,6 @@ import {
   coreStateJurisdiction,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
@@ -70,6 +69,7 @@ import type {
   Source,
 } from "../types";
 import { placeStateKey } from "../place-map";
+import { ageOfMajority } from "../age-of-majority";
 import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
@@ -158,6 +158,8 @@ interface Pull {
   openingNet?: number;
   /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
   openingMonths?: number;
+  /** The age band they were ranked in at the opening, whose own pace set their months to go. */
+  openingBand?: string;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -587,28 +589,6 @@ function diminishing(api: CoreAPI, n: number): number {
   return n > api.parameter("zero") ? (1 - d ** n) / (1 - d) : 0;
 }
 
-/** The ages of majority the research table records, by state or territory. */
-const MAJORITY = majority.places as Record<string, { age: number }>;
-/** The age most places set, for a place the table cannot be read for. */
-const USUAL_MAJORITY = (() => {
-  const counts = new Map<number, number>();
-  for (const row of Object.values(MAJORITY))
-    counts.set(row.age, (counts.get(row.age) ?? 0) + 1);
-  return [...counts].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0]![0];
-})();
-const majorityByPlace = new Map<string, number>();
-
-/** The age at which a parent's authority ends where a person lives, from the place's records. */
-function ageOfMajority(placeId: string): number {
-  let age = majorityByPlace.get(placeId);
-  if (age === undefined) {
-    const state = placeStateKey(placeId)?.replace(/^US-/, "");
-    age = (state ? MAJORITY[state]?.age : undefined) ?? USUAL_MAJORITY;
-    majorityByPlace.set(placeId, age);
-  }
-  return age;
-}
-
 /** Whether a person decides for themselves where they live: they are of age where they live. */
 function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
   return ageOf(api, person) >= ageOfMajority(person.placeId);
@@ -619,11 +599,10 @@ function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
  * or a nursing-home room): an institution admits and discharges them, so no
  * household's pull to leave moves them, full or counted alike.
  */
-function inGroupQuarters(
+export function inGroupQuarters(
   core: CoreState,
   person: Readonly<PersonState>,
 ): boolean {
-  // stopgapId: SG-GQ-no-turnover
   return core.households.get(person.householdId)?.quarters !== undefined;
 }
 
@@ -1253,11 +1232,15 @@ function accumulate(
 
 /**
  * Where each adult in town already is in their thinking about moving at the
- * opening, from their records: the town's adults ordered by how hard their
- * records push them out over what holds them, spread evenly over the way to
- * leaving, so departures run steadily from the first month (a town that has
- * been running for years) and the first to go are the ones their records
- * push hardest. Equal records stand at the same place.
+ * opening, from their records. Within each age band the adults are ordered by
+ * how hard their records push them out over what holds them, and spread
+ * evenly over the way to leaving at that band's own pace: the band's share
+ * that leaves in a month follows the band's rate (age sets how many), and the
+ * first of a band to go are the ones their records push hardest (records
+ * decide who). Ranking the whole town at once would send the most pushed
+ * first whatever their age, so an old town's first months would be the
+ * oldest adults leaving, and age would not move the count. Equal records in
+ * a band stand at the same place.
  */
 function openingPulls(
   api: CoreAPI,
@@ -1277,44 +1260,58 @@ function openingPulls(
         (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
         m(api, "movesLifeStageScale") *
         (net.factor / (typical.get(band) ?? net.factor));
-      return { person, ...net, gain };
-    })
-    .sort((a, b) => a.net - b.net);
-  const meanGain =
-    rows.reduce((total, row) => total + row.gain, zero) / (rows.length || one);
+      return { person, band, ...net, gain };
+    });
+  const byBand = new Map<string, typeof rows>();
+  for (const row of rows)
+    byBand.set(row.band, [...(byBand.get(row.band) ?? []), row]);
   const stay = m(api, "movesStayPull");
-  let start = zero;
-  while (start < rows.length) {
-    let end = start;
-    while (end + one < rows.length && rows[end + one]!.net === rows[start]!.net)
-      end += one;
-    // The middle of the run of equal records, as a share of the town.
-    const at = ((start + end) / 2 + one / 2) / rows.length;
-    for (let index = start; index <= end; index += one) {
-      const row = rows[index]!;
-      const pull = pullOf(api, row.person);
-      // The months to go are spread evenly with the records' push (the most
-      // pushed go first), the town's departures a year running at the rate
-      // its adults' ages give; the pull left to build is the months to go at
-      // this person's own pace, so a fast builder is not also nearer the bar.
-      const toGo = (one - at) * (row.gain / meanGain);
-      const opening = Math.max(zero, one - toGo) * stay;
-      pull.value += opening;
-      pull.causes = { ...pull.causes, opening };
-      pull.reads = {
-        ...pull.reads,
-        ...row.pushes.reads,
-        opening: Object.keys(row.pushes.parts)
-          .concat(
-            Object.keys(holdsOf(api, row.person)).map((key) => `hold:${key}`),
-          )
-          .sort(),
-      };
-      pull.openingNet = row.net;
-      pull.openingMonths = (one - at) / meanGain;
-      savePull(api, pull);
+  for (const [, members] of [...byBand].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    members.sort(
+      (a, b) => a.net - b.net || a.person.id.localeCompare(b.person.id),
+    );
+    const meanGain =
+      members.reduce((total, row) => total + row.gain, zero) /
+      (members.length || one);
+    let start = zero;
+    while (start < members.length) {
+      let end = start;
+      while (
+        end + one < members.length &&
+        members[end + one]!.net === members[start]!.net
+      )
+        end += one;
+      // The middle of the run of equal records, as a share of the band.
+      const at = ((start + end) / 2 + one / 2) / members.length;
+      for (let index = start; index <= end; index += one) {
+        const row = members[index]!;
+        const pull = pullOf(api, row.person);
+        // The months to go are spread evenly with the records' push (the most
+        // pushed go first) at the band's own pace; the pull left to build is
+        // the months to go at this person's own pace, so a fast builder is
+        // not also nearer the bar.
+        const toGo = (one - at) * (row.gain / meanGain);
+        const opening = Math.max(zero, one - toGo) * stay;
+        pull.value += opening;
+        pull.causes = { ...pull.causes, opening };
+        pull.reads = {
+          ...pull.reads,
+          ...row.pushes.reads,
+          opening: Object.keys(row.pushes.parts)
+            .concat(
+              Object.keys(holdsOf(api, row.person)).map((key) => `hold:${key}`),
+            )
+            .sort(),
+        };
+        pull.openingNet = row.net;
+        pull.openingMonths = (one - at) / meanGain;
+        pull.openingBand = row.band;
+        savePull(api, pull);
+      }
+      start = end + one;
     }
-    start = end + one;
   }
 }
 

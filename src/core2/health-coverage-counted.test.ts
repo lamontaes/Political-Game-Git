@@ -91,13 +91,13 @@ function playToJune(drawSeed: string) {
         .rows() as unknown as CoverageRow[]
     ).filter((row) => row.to === null);
   const medicareAge = api.parameter("healthMedicareAge");
-  const underMedicare = (householdId: string) =>
+  /** The household's people under the Medicare age on a day: the day a premium was set, for a premium's shape. */
+  const underMedicare = (householdId: string, on: string) =>
     (core.households.get(householdId)?.memberIds ?? []).filter((id) => {
       const person = core.people.get(id);
       return (
         person?.alive &&
-        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
-          medicareAge
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(on)) < medicareAge
       );
     }).length;
   const paidInFull = (row: { lastDueMinor: number; lastPaidMinor: number }) =>
@@ -193,7 +193,9 @@ it(`a counted household pays the premium a full household of its shape pays, and
   const twinOf = (covered: number) =>
     paidFull.find(
       (f) =>
-        underMedicare(f.householdId) === covered &&
+        // Ages on the payday, when the review set the premium: a member who
+        // turned 65 later in the month was still on the plan that day.
+        underMedicare(f.householdId, lastPayday) === covered &&
         posted.has(`premium:${f.personId}:${lastPayday}`),
     );
   const named = paidCounted.find(
@@ -315,15 +317,39 @@ it(`a counted household pays the premium a full household of its shape pays, and
     `${where}: households handed a policy that still hold one on the 1st`,
   ).toBeGreaterThan(0);
   let inFull = 0;
+  /** Households whose policy covers fewer people on the 1st than the counted record did. */
+  const reshaped: string[] = [];
   for (const h of continuing) {
     const row = h.row;
     const posting = posted.get(`premium:${row.personId}:${nextPayday}`);
     const label = `${where} ${row.id}`;
-    // The premium due is the counted household's, to the minor unit.
-    expect(row.lastDueMinor, `${label}: premium due`).toBe(
-      h.record.premiumMonthlyMinor,
-    );
-    expect(row.premiumMonthlyMinor, label).toBe(h.record.premiumMonthlyMinor);
+    // The premium due is the counted household's, to the minor unit, unless
+    // the review on the 1st changed who is on the policy: a member who turned
+    // 65 since the last review is on Medicare now, and the household pays for
+    // the people still on the plan (one adult: the single premium).
+    const onPlan = h.members.filter(
+      (id) =>
+        ageOnDate(
+          makeIsoDate(core.people.get(id)!.birthDate),
+          makeIsoDate(nextPayday),
+        ) < medicareAge,
+    ).length;
+    const sameShape = onPlan === h.record.covered;
+    const due = sameShape
+      ? h.record.premiumMonthlyMinor
+      : Math.round(
+          (api.parameter(
+            onPlan > 1
+              ? "healthWorkerContributionFamilyAnnualUsd"
+              : "healthWorkerContributionSingleAnnualUsd",
+          ) *
+            api.parameter("minorPerDollar")) /
+            api.parameter("monthsPerYear"),
+        );
+    if (!sameShape)
+      reshaped.push(`${row.id}: ${h.record.covered} to ${onPlan}`);
+    expect(row.lastDueMinor, `${label}: premium due`).toBe(due);
+    expect(row.premiumMonthlyMinor, label).toBe(due);
     // It pays what it holds, up to that, by one journal record; a household
     // that pays in full pays what the counted household paid for one.
     expect(row.lastPaidMinor, label).toBeLessThanOrEqual(row.lastDueMinor);
@@ -334,7 +360,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
     expect(posting, `${label}: premium on ${nextPayday}`).toBeDefined();
     expect(row.lastJournalId, label).toBe(posting!.journalId);
     expect(posting!.paidMinor, label).toBe(row.lastPaidMinor);
-    if (row.lastPaidMinor === row.lastDueMinor) {
+    if (row.lastPaidMinor === row.lastDueMinor && sameShape) {
       inFull++;
       expect(
         posting!.paidMinor,
@@ -370,6 +396,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
       filledIn: handed.length,
       stillInForce: continuing.length,
       paidInFullAfterFillIn: inFull,
+      reshapedOnTheFirst: reshaped,
       handedOverEntries: continuing.map(
         (h) =>
           posted.get(`premium:${h.record.holderId}:${nextPayday}`)?.journalId ??

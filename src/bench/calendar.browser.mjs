@@ -1,7 +1,7 @@
 /* global getComputedStyle, process, URL, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -91,6 +91,29 @@ try {
     firstOther === -1 || lines.slice(firstOther).every((l) => !l.own),
     "the player's own dates come first",
   );
+  // Each thing is named on its day (owner: "events on their days, one worded
+  // line each naming who and what"): a day with things on it shows their lines,
+  // each one a line of the day's own words.
+  const named = await page.locator(".month .day").evaluateAll((days) =>
+    days
+      .filter((day) => day.getAttribute("aria-label").includes(". "))
+      .map((day) => ({
+        date: day.dataset.date,
+        label: day.getAttribute("aria-label"),
+        lines: [...day.querySelectorAll(".mark .what")].map(
+          (w) => w.textContent,
+        ),
+      })),
+  );
+  assert.ok(named.length, "no day of the month has anything on it");
+  for (const day of named) {
+    assert.ok(day.lines.length, `${day.date}: its things are not named on it`);
+    for (const line of day.lines)
+      assert.ok(
+        day.label.includes(line),
+        `${day.date}: "${line}" is not its own`,
+      );
+  }
   // Nothing scrolls as a page: the three parts sit inside the panel.
   const bodyBox = await page.locator("#sheet-body").boundingBox();
   for (const part of [".calendar-month", ".calendar-day", ".calendar-side"]) {
@@ -175,7 +198,7 @@ try {
   // does not move until it is pressed.
   for (let i = 0; i < 9; i++)
     await page.getByRole("button", { name: "Next month", exact: true }).click();
-  const far = page.locator(".month .day:not(:has(.marks))").nth(10);
+  const far = page.locator(".month .day:not(:has(.mark))").nth(10);
   await far.click();
   const farDate = await page
     .locator(".month .day.selected")
@@ -195,14 +218,14 @@ try {
   for (let i = 0; i < 12; i++) {
     if (
       await page
-        .locator(".month .day:not(.today):not(.past):has(.marks)")
+        .locator(".month .day:not(.today):not(.past):has(.mark)")
         .count()
     )
       break;
     await page.getByRole("button", { name: "Next month", exact: true }).click();
   }
   const marked = page
-    .locator(".month .day:not(.today):not(.past):has(.marks)")
+    .locator(".month .day:not(.today):not(.past):has(.mark)")
     .first();
   assert.ok(
     await marked
@@ -257,6 +280,21 @@ try {
     (await page.locator("#continue").isVisible()) ||
     (await page.locator("#talk").isVisible());
   assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
+  // A stop that holds the clock offers no jump: Go to this day is not drawn while Continue shows.
+  if (
+    (await page.locator("#continue").isVisible()) &&
+    !(await page.locator("#talk").isVisible())
+  ) {
+    await page.locator('.ring[data-tab="calendar"]').click();
+    await page.locator(".calendar-month").waitFor();
+    await page.locator(".month .day:not(.today):not(.past)").first().click();
+    assert.equal(
+      await page.locator(".calendar-day .go-to-day").count(),
+      0,
+      "a stop is open, yet the calendar offers Go to this day",
+    );
+    await page.getByTestId("sheet-close").click();
+  }
   // Week advances seven days, Day one.
   for (let i = 0; i < 8; i++) {
     const answered = await page.evaluate(
@@ -269,11 +307,15 @@ try {
     // Continue: click whichever is on screen when the click lands.
     // A button seen a moment ago can be gone by the click (a scene moves on): a missed click is
     // not a failure, the loop looks again.
-    await page
-      .locator("#talk-leave:visible, #continue:visible")
-      .first()
-      .click({ timeout: 5000 })
-      .catch(() => {});
+    // An open talk is played to its end as a player would (its lines, a
+    // reply, Leave); only Leave or Continue left it open on every try.
+    if (await page.locator("#talk").isVisible()) await finishTalk(page);
+    else
+      await page
+        .locator("#continue:visible")
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
     await settled();
   }
   const week = page.locator("#week");

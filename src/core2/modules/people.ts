@@ -26,15 +26,23 @@ import {
 import {
   CLOSENESS,
   closenessBetween,
-  hoursLost,
+  homeTogether,
+  homeWorkIds,
+  homeUpkeep,
+  knownThroughRecords,
+  metThrough,
   openingClosenessHours,
+  tieHoursLost,
 } from "../closeness";
+import type { ModuleRow } from "../module-data";
 import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  bornIn,
+  hasParentHere,
   pastMovesFor,
   pastMovesHistory,
   pastWorkFor,
@@ -44,6 +52,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   residenceOn,
+  writeChildBirthplaces,
   schoolHistoryFor,
   type HistoryRecord,
   type HistoryWriter,
@@ -60,11 +69,25 @@ import type {
   ActOffer,
   CoreAPI,
   CoreState,
+  OfferRound,
   PersonId,
   PersonState,
   Relationship,
 } from "../types";
+import { OFFER_ROUND_PREDICTION } from "../types";
 import { offer } from "./life";
+import { openPastTerms } from "./offices";
+import { corePlaceByJurisdictionId } from "../place-lookup";
+import { stopgap } from "../stopgaps";
+import {
+  BIRTHPLACE_FACT,
+  birthOrigin,
+  birthplaceSource,
+  bornOutsideId,
+} from "../person-birthplace";
+
+/** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
+const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { coreAPI } from "../state";
 import { pastViewShifts, setPastViewShifts } from "./views";
@@ -78,17 +101,20 @@ function tiePull(
   actor: Readonly<PersonState>,
   otherId: PersonId,
 ): { value: number; sourceIds: string[] } | undefined {
-  const row = api.state.relationships.get(pairKey(actor.id, otherId));
   const other = api.state.people.get(otherId);
-  if (!row || !other) return undefined;
+  if (!other) return undefined;
+  // The tie's whole time (its row and the hours a record says they shared,
+  // such as a body's sittings), lost since the two were last together.
+  const met = metThrough(api.state, actor.id, otherId);
+  if (!met) return undefined;
   const near =
     other.placeId === actor.placeId ||
     (other.countyId !== undefined && other.countyId === actor.countyId);
   return {
     value:
-      hoursLost(api.state, row) *
+      tieHoursLost(api.state, actor.id, otherId) *
       (near ? api.parameter("one") : api.parameter("farKinContactShare")),
-    sourceIds: [row.id],
+    sourceIds: [met.sourceId],
   };
 }
 
@@ -109,6 +135,7 @@ function weeklyContacts(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   tied: readonly PersonId[],
+  round: OfferRound | undefined,
 ): readonly PersonId[] {
   const size = api.parameter("causeHolderWeeklyContacts");
   if (tied.length <= size) return tied;
@@ -136,7 +163,10 @@ function weeklyContacts(
       week,
       ids: new Set(ranked.slice(0, size).map((row) => row.id)),
     };
-    byPerson.set(actor.id, held);
+    // A prediction ranks the ties but leaves the week's first look to the
+    // person's own act, so it is taken at the same moment with bookkeeping
+    // on (which predicts every drive holder daily) and off.
+    if (!round?.get(OFFER_ROUND_PREDICTION)) byPerson.set(actor.id, held);
   }
   const ids = held.ids;
   return tied.filter((id) => ids.has(id));
@@ -190,6 +220,8 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A business's staff in heads and the limit on its outside orders, for dev mode's Businesses.
+export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
 export { lifeOf, type LifeEvent } from "../person-life";
 // A relative's letter and a missed family gathering, for the director's letter scene.
@@ -197,10 +229,18 @@ export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.
 export { HEALTH_RESCUED } from "./rescue";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
+/** A person's school day, read through the people family's entry. */
+export { schoolDayOf } from "./school";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 export { ENCOUNTERS, meetAtMeeting, meetInTalk } from "../encounters";
+/** A speech heard, for the director's scenes of a speech. */
+export {
+  SPEECH_HEARD,
+  SPEECH_OCCASION_ID,
+  SPEECH_OCCASION_KIND,
+} from "./speech";
 // Disputes between two people from layoffs and evictions, for the world that opens them.
 export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
@@ -211,6 +251,8 @@ export { livesElsewhere } from "./moves";
 export { stateUnemployment } from "./counted-moves";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
+/** The people engine's weekly row of each household's time at home (dev mode's trace). */
+const HOME_TIME_TABLE = "home-time";
 const LOOKUP = {
   officeAffordance: "known-office",
   affordances: ["known-office", "public-meeting-place", "known-group"],
@@ -233,7 +275,8 @@ function shareHomeTime(api: CoreAPI): void {
   seeded.set(core as CoreState, true);
   api.stopgap(CLOSENESS.stopgapId);
   for (const household of core.households.values()) {
-    if (household.memberIds.length < p("two")) continue;
+    const rowId = `${HOME_TIME_TABLE}:${household.id}`;
+    const pairs: unknown[] = [];
     const members = household.memberIds
       .map((id) => core.people.get(id))
       .filter(
@@ -273,23 +316,43 @@ function shareHomeTime(api: CoreAPI): void {
             );
           continue;
         }
-        const minutes = p(
-          family
-            ? "householdFamilyMinutesPerDay"
-            : "householdOtherMinutesPerDay",
-        );
+        // The time two housemates share follows both their weeks: the
+        // shorter of their home days, by whether they are family.
+        const together = homeTogether(core as CoreState, a.id, b.id, family);
+        // The work that kept each from home, by record, for the trace.
+        const work = [...homeWorkIds(core, a.id), ...homeWorkIds(core, b.id)];
+        pairs.push({ a: a.id, b: b.id, family, ...together, work });
         api.relationship(
           a.id,
           b.id,
           (family
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
-          (minutes / p("minutesPerHour")) * week,
+          (together.minutesPerDay / p("minutesPerHour")) * week,
           undefined,
-          { cause: ENCOUNTERS.causes.homeTime, sourceId: household.id },
+          { cause: ENCOUNTERS.causes.homeTime, sourceId: rowId },
         );
       }
+    // The week's inputs, one row per household, for dev mode's trace: each
+    // pair's home minutes and the time they shared, and the home's upkeep.
+    if (!opening && members[0])
+      api
+        .moduleState(PEOPLE_MODULE_ID)
+        .table(HOME_TIME_TABLE)
+        .putOwned({
+          id: rowId,
+          householdId: household.id,
+          date: core.date,
+          ...homeUpkeep(core as CoreState, household.id),
+          pairs,
+        } as unknown as ModuleRow);
   }
+  // A household that has ended keeps no row.
+  if (opening) return;
+  const table = api.moduleState(PEOPLE_MODULE_ID).table(HOME_TIME_TABLE);
+  if (table.size > core.households.size)
+    for (const row of table.rows())
+      if (!core.households.has(String(row.householdId))) table.remove(row.id);
 }
 
 /**
@@ -298,35 +361,33 @@ function shareHomeTime(api: CoreAPI): void {
  * age ATUS counts household children to. A grown relative's need follows
  * their health (health.ts `careNeedOf`) and the closeness of the tie.
  */
-const dependentsCache = new WeakMap<
-  Readonly<PersonState>,
-  { date: string; rows: { id: string; need: number }[] }
->();
-
+// Read fresh on every call, never held for the day: a relative who falls ill
+// or a tie that changes during the day changes the answer at once, and a
+// held copy kept by the person's record differed between play and
+// bookkeeping (core-bookkeeping-changes-the-played-year).
 function dependents(
   api: CoreAPI,
   actor: Readonly<PersonState>,
 ): { id: string; need: number }[] {
-  const cached = dependentsCache.get(actor);
-  if (cached?.date === api.state.date) return cached.rows;
-  const p = (key: string) => api.parameter(key);
   const rows: { id: string; need: number }[] = [];
+  const zero = api.parameter("zero");
   const today = makeIsoDate(api.state.date);
   for (const id of actor.familyIds) {
     const other = api.state.people.get(id);
     if (!other?.alive || other.householdId !== actor.householdId) continue;
     const years =
-      daysBetween(makeIsoDate(other.birthDate), today) / p("daysPerMeanYear");
-    const childNeed = p("one") - years / p("householdChildAgeYears");
+      daysBetween(makeIsoDate(other.birthDate), today) /
+      api.parameter("daysPerMeanYear");
+    const childNeed =
+      api.parameter("one") - years / api.parameter("householdChildAgeYears");
     // A child needs care by age. A grown relative needs it by health, and how
     // much of it this person gives follows how close the two are.
     const need =
-      childNeed > p("zero")
+      childNeed > zero
         ? childNeed
         : careNeedOf(api.state, id) * closenessBetween(api.state, actor.id, id);
-    if (need > p("zero")) rows.push({ id, need });
+    if (need > zero) rows.push({ id, need });
   }
-  dependentsCache.set(actor, { date: api.state.date, rows });
   return rows;
 }
 
@@ -359,9 +420,20 @@ function peopleHistory(
 ): void {
   const inside = (date: string) =>
     date >= window.from && date <= window.through;
+  const people = [...api.state.people.values()].filter(
+    (person) => person.tier !== "husk",
+  );
+  // Where each person with no parent in the world was born, before the
+  // moves: one born outside their state is brought from there. A grown
+  // resident the opening's families reached already has theirs.
+  for (const person of people)
+    if (!hasParentHere(api.state, person)) bornWhere(api.state, person);
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
   pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
+  // A child's birthplace is where their parent lived that day, now the
+  // moves are run.
+  writeChildBirthplaces(api.state, people);
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -372,7 +444,7 @@ function peopleHistory(
         id: `person-history:${person.id}:birth`,
         date: makeIsoDate(person.birthDate),
         kind: "person.birth",
-        placeId: residenceOn(api.state, person, person.birthDate).placeId,
+        placeId: bornIn(api.state, person).placeId,
         personIds: [person.id],
         facts: {
           personId: person.id,
@@ -598,6 +670,11 @@ export function partneredForFilledIn(
  * records decide, nothing else).
  */
 export function openWholePast(core: CoreState, personId: PersonId): void {
+  // An official from another place: the earlier terms of their seat, kept on
+  // the offices record by the term their id names (officials.ts seatOfficial),
+  // whether or not they are a full person yet.
+  if (personId.startsWith(OFFICIAL_PREFIX))
+    openPastTerms(coreAPI(core), personId.slice(OFFICIAL_PREFIX.length));
   const person = core.people.get(personId);
   if (!person || !preStartWindowOf(core)) return;
   // A relative living elsewhere is opened the same way, one card at a time;
@@ -645,6 +722,7 @@ function relativesOf(person: Readonly<PersonState>, kind: string): string[] {
 
 /** The passes that write a person's past, each once (moves first: the others place each year where they lived). */
 function writePast(core: CoreState, person: PersonState): void {
+  bornWhere(core, person);
   pastMovesFor(
     core,
     [person],
@@ -660,6 +738,56 @@ function writePast(core: CoreState, person: PersonState): void {
   pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
     prisonTermOf(core, one),
   );
+}
+
+/**
+ * A person opened with no record of where they were born (a resident the
+ * opening's families did not reach, a person an engine made to hold a role)
+ * gets one now, from the same draw a grown resident's opening birthplace
+ * takes (src/core2/person-birthplace.ts): their state's shares of where its
+ * people were born, held to their citizenship. Born outside their state, the
+ * record names that state or abroad, and the moves pass brings them from it;
+ * born in it, the place they live stands for where in the state, because no
+ * family record says where they grew up. An official's roster nativity
+ * already says where they were born, so they keep it.
+ */
+function bornWhere(core: CoreState, person: PersonState): void {
+  const facts = person.pastFacts ?? [];
+  if (
+    facts.some(
+      (row) =>
+        row.kind === "person:birth" ||
+        row.kind === BIRTHPLACE_FACT ||
+        row.kind === "identity:nativity",
+    )
+  )
+    return;
+  const place = corePlaceByJurisdictionId(person.placeId as never);
+  const stateKey = place?.stateJurisdictionKey;
+  const outside = stateKey
+    ? bornOutsideId(
+        birthOrigin({
+          seed: core.seed,
+          personId: person.id,
+          placeKey: place.key,
+          usps: stateKey.slice("US-".length),
+        }),
+      )
+    : undefined;
+  // stopgapId: SG-PEOPLE-role-people-have-no-past (born in their state: the place they live stands for where)
+  if (!outside) stopgap("SG-PEOPLE-role-people-have-no-past");
+  const date = makeIsoDate(person.birthDate);
+  person.pastFacts = [
+    ...facts,
+    {
+      id: `${person.id}:birthplace`,
+      date,
+      kind: BIRTHPLACE_FACT,
+      summary: BIRTHPLACE_FACT,
+      source: birthplaceSource(core.date),
+      facts: { placeId: outside ?? person.placeId },
+    },
+  ];
 }
 
 /**
@@ -681,6 +809,8 @@ export function openStartingCircle(core: CoreState): void {
 
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  // One row per household, replaced each week: what its time at home was made of.
+  state: { schemaVersion: 1, tables: { [HOME_TIME_TABLE]: {} } },
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.
@@ -751,28 +881,45 @@ export const PEOPLE_MODULE: PreStartModule = {
         if (!known.has(kind)) for (const id of rows) ids.add(id);
       return [...ids].map((id) => offer(api, actor, action, id));
     },
-    // Everyone the person knows and has a tie with, plus one person they know
+    // Everyone the person knows and has a tie with (a row, or time a record
+    // says they shared), plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.
     // A person with a cause weighs only the week's shortlist of their ties.
-    "contact-candidate": (api, actor, action) => {
+    "contact-candidate": (api, actor, action, round) => {
       const out: ActOffer[] = [];
       const tied: PersonId[] = [];
       let untied: string | undefined;
       const ties = tiedTo(api, actor.id);
-      for (const id of actor.knownIds) {
+      // Colleagues one knows through a record (a body's sittings) are ties
+      // too, though no row holds them yet (closeness.ts, `knownPeople`).
+      const throughRecords = knownThroughRecords(api.state, actor.id);
+      const candidates = throughRecords.size
+        ? new Set<PersonId>([...throughRecords, ...actor.knownIds])
+        : actor.knownIds;
+      // Of colleagues known only through a record, whose pulls are alike, the
+      // nearest in the record's own order stands for the rest (as the
+      // lowest-id untied person does below), so each member's turn goes to
+      // their own nearest colleague, not everyone's to the lowest id.
+      const standsFor = new Set<number>();
+      for (const id of candidates) {
         if (!api.state.people.get(id)?.alive) continue;
-        const hasTie = ties.has(id);
+        const hasRow = ties.has(id);
         if (
           bookkeeping() &&
-          hasTie !== api.state.relationships.has(pairKey(actor.id, id))
+          hasRow !== api.state.relationships.has(pairKey(actor.id, id))
         )
           throw new Error("A person's kept ties no longer match their ties.");
-        if (hasTie) tied.push(id);
+        if (!hasRow && throughRecords.has(id)) {
+          const pull = tiePull(api, actor, id)?.value ?? api.parameter("zero");
+          if (standsFor.has(pull)) continue;
+          standsFor.add(pull);
+        }
+        if (hasRow || throughRecords.has(id)) tied.push(id);
         else if (untied === undefined || id < untied) untied = id;
       }
       for (const id of actor.drives.size
-        ? weeklyContacts(api, actor, tied)
+        ? weeklyContacts(api, actor, tied, round)
         : tied)
         out.push(offer(api, actor, action, id));
       if (untied !== undefined) out.push(offer(api, actor, action, untied));
@@ -796,6 +943,7 @@ export const PEOPLE_MODULE: PreStartModule = {
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { currentCloseness } from "../closeness";
+export { roomTime } from "../sitting-closeness";
 export { decisionKinds } from "../trait-decision-table";
 export { decisionLean, termOfLean } from "../trait-decisions";
 export type { CashJournalPosting } from "../journal";

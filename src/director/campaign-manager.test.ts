@@ -36,6 +36,7 @@ import {
 } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
+import { purposeScene, replyInScene } from "./purpose-scene";
 import type { PersonId } from "../core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
@@ -135,6 +136,29 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
       expect(weighed.has(id), `${where}: ${id} volunteered unweighed`).toBe(
         true,
       );
+    // The player's yes in the scene is what puts the helper on the staff.
+    {
+      const seen = director.ledger.people.get(me)!;
+      const offered = seen.moments.find((m) => m.causeId === offer!.id);
+      const scheduled = seen.schedule.find((e) => e.momentId === offered?.id);
+      const res = scheduled
+        ? purposeScene(core, director, me, scheduled, {
+            typeKey: "manager-offer",
+          })
+        : null;
+      if (res?.kind === "composed") {
+        const yes = res.scene.talk.tree.replies.findIndex(
+          (r) => r.line.move === "agree",
+        );
+        expect(
+          campaignFor(api, filingId).staffIds,
+          `${where}: ${offer.id} staffed before the player answered`,
+        ).not.toContain(offer.helper);
+        replyInScene(core, director, me, scheduled!, [yes], {
+          typeKey: "manager-offer",
+        });
+      }
+    }
     // One record: the one who offered is on the staff, not the volunteers.
     const campaign = campaignFor(api, filingId);
     expect(campaign.staffIds, `${where}: ${offer.id}`).toContain(offer.helper);

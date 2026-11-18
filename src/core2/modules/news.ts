@@ -543,7 +543,11 @@ function scheduleDeliveries(
       makeIsoDate(story.date),
       atOnce.has(personId) ? 0 : delay,
     );
-    if (date < api.state.date)
+    // A reading day already past is heard on that day; the story's own
+    // subject hears it now. A delivery for today would wait on today's
+    // reading, which has already run when a story is printed in the player's
+    // turn (an interview sat for), so it is never left to the queue.
+    if (date < api.state.date || atOnce.has(personId))
       hear(api, personId, story, "public", story.id, date);
     else
       deliveries(api).put({
@@ -719,7 +723,7 @@ export function createNewsModule(
         const alive = ids.filter((id) => api.state.people.get(id)?.alive);
         const read = (
           id: string,
-          topic: string,
+          topic: string | undefined,
           desiredChange: string | undefined,
           witnessIds: readonly PersonId[],
           facts: Readonly<Record<string, string>>,
@@ -731,12 +735,21 @@ export function createNewsModule(
             personIds: [],
             witnessIds: [...witnessIds],
             placeId: story.placeId,
-            topic,
+            ...(topic ? { topic } : {}),
             desiredChange,
             ...(story.moodImpulse === undefined
               ? {}
               : { moodImpulse: story.moodImpulse }),
-            facts: { ...facts, learnedFrom: newsKey(story.id) },
+            facts: {
+              ...facts,
+              learnedFrom: newsKey(story.id),
+              // What a reader can bring up: which outlet printed this story.
+              // One fact per story read, so a second story from the same
+              // outlet on the same day does not replace the first.
+              ...(story.kind === "press.printed"
+                ? { [`${newsKey(story.id)}:outlet`]: story.outletId }
+                : {}),
+            },
             source: {
               tag: "SOURCED",
               citation: `Story ${story.id}, read by its outlet's followers`,
@@ -752,7 +765,7 @@ export function createNewsModule(
         // condition ties to. A reader with no side on a
         // question has none to strengthen. The readers already hold the
         // story's facts; what they take from reading it is its source, whose
-        // case it was and which outlet printed it (what they can bring up).
+        // case it was and (added by read) which outlet printed it.
         const questions = story.desiredChange
           ? []
           : conditionQuestions(story.facts);
@@ -760,9 +773,7 @@ export function createNewsModule(
           const zero = api.parameter("zero");
           const carried = Object.fromEntries(
             Object.entries(story.facts).filter(
-              ([key]) =>
-                key === VIEWS_SPEAKER_KEY ||
-                (key.startsWith("printed:") && key.endsWith(":story")),
+              ([key]) => key === VIEWS_SPEAKER_KEY,
             ),
           );
           for (const question of questions) {
@@ -791,8 +802,20 @@ export function createNewsModule(
         }
         // A story argues a change on a policy question; a law taking effect
         // is also read and remembered with no side to take, so a reader can
-        // bring up the law in town.
-        if (!story.topic || (!story.desiredChange && !story.facts.lawId))
+        // bring up the law in town, and so is a report of a bribe taken by a
+        // named official (the story names the crime and the official), so the
+        // people who read it can ask the official about it.
+        const reportsBribe = !!story.facts.crimeId && !!story.facts.officialId;
+        // A story of a national public event (the President's address, a
+        // nomination, the month's approval) is read with no side too, so a
+        // reader can bring it up later: its record is the nation's, by the
+        // level the wire read from the record's own fields (press-desk.ts).
+        const national = story.facts.wireLevel === "nation";
+        if (
+          !national &&
+          (!story.topic ||
+            (!story.desiredChange && !story.facts.lawId && !reportsBribe))
+        )
           continue;
         const event = read(
           `${NEWS_READ}:${story.id}:${api.state.date}`,

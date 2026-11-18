@@ -48,6 +48,7 @@ import type {
   Source,
 } from "../types";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+export { SCANDAL_REPORTED } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
 import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
@@ -1923,4 +1924,48 @@ export const JUSTICE_MODULE: CoreModule = {
 export function openJustice(core: CoreState): void {
   if (!core.modules.has(JUSTICE_MODULE_ID))
     registerModule(core, JUSTICE_MODULE);
+}
+
+/**
+ * A person's side of a bribery case, from the case's first crime in the
+ * corruption engine's record: `took` when they are the official who took it,
+ * `paid` when they offered it and it was taken, `offered` when they offered
+ * it and it was refused. Undefined when the case or its crime is not on
+ * record. Read-only; the words say the offense from it ("taking bribes",
+ * "offering a bribe"), never one word for every defendant.
+ */
+export function bribeRoleOf(
+  api: CoreAPI,
+  caseId: string,
+  personId: PersonId,
+): "took" | "paid" | "offered" | undefined {
+  const row = table(api, "cases").get(caseId) as unknown as
+    Pick<CaseRow, "crimeIds"> | undefined;
+  const crimeId = row?.crimeIds[zero(api)];
+  if (!crimeId || !api.state.modules.has(CORRUPTION_MODULE_ID))
+    return undefined;
+  const crime = api
+    .moduleState(CORRUPTION_MODULE_ID)
+    .table("crimes")
+    .get(crimeId) as unknown as CrimeRecord | undefined;
+  if (!crime) return undefined;
+  if (crime.officialId === personId) return "took";
+  return crime.taken ? "paid" : "offered";
+}
+
+/** The official a bribery case's offer went to, when it was refused (they reported it). */
+export function bribeRefusedBy(
+  api: CoreAPI,
+  caseId: string,
+): PersonId | undefined {
+  const row = table(api, "cases").get(caseId) as unknown as
+    Pick<CaseRow, "crimeIds"> | undefined;
+  const crimeId = row?.crimeIds[zero(api)];
+  if (!crimeId || !api.state.modules.has(CORRUPTION_MODULE_ID))
+    return undefined;
+  const crime = api
+    .moduleState(CORRUPTION_MODULE_ID)
+    .table("crimes")
+    .get(crimeId) as unknown as CrimeRecord | undefined;
+  return crime && !crime.taken ? crime.officialId : undefined;
 }

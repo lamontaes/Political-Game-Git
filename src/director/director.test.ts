@@ -481,8 +481,10 @@ describe("story director on the new core", () => {
     const ids = new Set(DIRECTOR_STOPGAPS.map((row) => row.id));
     for (const row of Object.values(DEFAULT_DIRECTOR_DATA.parameters)) {
       expect(["SOURCED", "ESTIMATED", "TUNABLE"]).toContain(row.tag);
+      // A tuned number carries its check range and its spread; a stopgap id is
+      // only for a number that is still a stand-in.
       if (row.tag === "TUNABLE")
-        expect(row.stopgapId && row.checkRange).toBeTruthy();
+        expect(row.checkRange && row.spread).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
     // A resolved row says how it was resolved; the rest stay open.
@@ -723,16 +725,13 @@ describe("story director on the new core", () => {
     )!;
     const staged = book.schedule.find((row) => row.momentId === moment.id)!;
     const options = { mode: "live", interruptImpact: 0.5 };
-    // A later cause of the same type, past the repeat window but within the
-    // season, so only the season's cap can hold it back.
+    // A later cause of the same type, a day on and within the season, with a
+    // record of its own, so only the season's cap can hold it back.
     const later = (n: number) => ({
       ...moment,
       id: `${moment.id}:season-${n}`,
       causeId: `${moment.causeId}:season-${n}`,
-      date: addDays(
-        makeIsoDate(moment.date),
-        SITUATION_LIBRARY.scheduling.repeatDays + 1,
-      ),
+      date: addDays(makeIsoDate(moment.date), 1),
     });
     const capped = {
       ...SITUATION_LIBRARY,
@@ -800,7 +799,8 @@ describe("story director on the new core", () => {
     // Scheduled again, it is not counted twice.
     scheduleMoment(core, book, again, { mode: "live", interruptImpact: 0.5 });
     expect(staged.joined).toHaveLength(1);
-    // A sitting on an earlier day takes nothing in: that scene was played.
+    // A sitting on an earlier day takes nothing in: that scene was played. A
+    // later day's cause with a record of its own is a new scene.
     const later = {
       ...moment,
       id: `${moment.id}:later`,
@@ -811,12 +811,42 @@ describe("story director on the new core", () => {
       scheduleMoment(core, book, later, {
         mode: "live",
         interruptImpact: 0.5,
-      }).bindings,
-    ).toEqual([]);
+      }).bindings.map((row) => row.typeKey),
+    ).toContain("news-arrives");
     expect(staged.joined).toHaveLength(1);
+    // The same record again on a later day (same kind, same facts) is nothing
+    // new: it stages nothing and the held reason says why.
+    // The fixture keeps its cause outside the durable log; edge case by hand,
+    // the record the way the engines write one (kind and facts).
+    core.durableLog.set(moment.causeId, {
+      id: moment.causeId,
+      date: moment.date,
+      kind: "fixture.closed",
+      personIds: [personId],
+      placeId: "place:director-fixture",
+      source: { tag: "ESTIMATED", citation: "test", asOf: moment.date },
+      facts: { employer: "the plant" },
+    } as never);
+    const same = scheduleMoment(
+      core,
+      book,
+      {
+        ...moment,
+        id: `${moment.id}:same`,
+        date: makeIsoDate("2021-01-13"),
+      },
+      { mode: "live", interruptImpact: 0.5 },
+    );
+    expect(same.bindings.map((row) => row.typeKey)).not.toContain(
+      "news-arrives",
+    );
+    expect(same.heldBack).toContainEqual({
+      typeKey: "news-arrives",
+      reason: "nothing-changed",
+    });
   });
 
-  it("stages every cause of a scene about one record's own decision, the same day and within the repeat window", () => {
+  it("stages every cause of a scene about one record's own decision, the same day and the days after", () => {
     // A bribe offered is a scene of its own, however many the same person
     // brings that day or that month (eachCause).
     expect(

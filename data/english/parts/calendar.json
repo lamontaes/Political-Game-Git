@@ -1,13 +1,14 @@
 {
   "schema": "english-parts/1",
   "register": "calendar",
-  "description": "One line per dated thing on the player's calendar, saying who and what in words. Slots are filled from the elections module's contest rows and the family's birth dates; an own part is said of a race the player has filed in.",
+  "description": "One line per dated thing on the player's calendar, saying who and what in words. Slots are filled from the elections module's contest rows and the family's birth dates; an own part is said of a race the player has filed in. A meeting-plan part is said of a meeting the player has chosen to attend, from that meeting's record.",
   "slots": {
     "name": "A family member's full name, from their person record.",
     "office": "The contest's recorded office title.",
     "count": "How many seats of that office share the date, from the contest rows.",
     "body": "A town or county body's recorded office title (its council or board).",
-    "holiday": "A federal holiday's name, from the federal calendar's own record (5 U.S.C. 6103)."
+    "holiday": "A federal holiday's name, from the federal calendar's own record (5 U.S.C. 6103).",
+    "time": "The meeting's start time from its own record, as people say it (\"7 p.m.\")."
   },
   "maxWords": 12,
   "parts": [
@@ -138,6 +139,33 @@
       "origin": "authored",
       "author": "the play-first lane",
       "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.meeting-plan.1",
+      "move": "meeting-plan",
+      "text": "At {time}, you plan to go to the {body} meeting.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.meeting-plan.1.w2",
+      "move": "meeting-plan",
+      "text": "The {body} meeting at {time} is on your day.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.meeting-plan.1.w3",
+      "move": "meeting-plan",
+      "text": "The {body} meets at {time}, and you're going.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "kind": "written"
     },
     {

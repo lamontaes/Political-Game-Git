@@ -1,0 +1,31 @@
+Seed: 8568-litchfield Place: Litchfield, Illinois
+Place: Litchfield, Illinois Seed: 8568-litchfield
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+day-1-tab-6: "Montgomery County budget puts $12.3 million into health and hospitals" -> undefined from undefined
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-1-tab-6: "Montgomery County budget puts $12.3 million into health and hospitals" -> undefined from undefined
+week-2-tab-1: no lead (nothing in print)
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-3: no lead (nothing in print)
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-3-tab-1: no lead (nothing in print)
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-3: no lead (nothing in print)
+week-3-tab-4: no lead (nothing in print)
+week-3-tab-5: no lead (nothing in print)
+week-4-tab-1: no lead (nothing in print)
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-3: no lead (nothing in print)
+week-4-tab-4: no lead (nothing in print)
+week-4-tab-5: no lead (nothing in print)
+Leads 12, pictured 2, federal 0, business 0
+BEFORE: 10 tabs without a lead picture or with a bare column

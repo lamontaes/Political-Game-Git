@@ -1,0 +1,30 @@
+{
+  "about": "Where someone worked before they came to town, in a place the world keeps no employers for (core-life-record-part-3): the kinds of employer common for a person's schooling, in data/business/names.json's kinds, so the employer is named by the same rule as a business in town. One is chosen for the person from the world's seed (who exists, not what anyone decides), the same each time they are opened, and the record marks it as an estimate.",
+  "tag": "TUNABLE",
+  "citation": "The industries that employ most workers at each level of schooling, read from BLS, Employment Projections, Educational attainment for workers 25 years and older by detailed occupation (2023): health care, professional services, finance and insurance lead for a four-year degree; health care support, retail, construction and transportation for some college; retail, food service, manufacturing, construction, transportation and agriculture for none.",
+  "spread": "Any kind of employer in data/business/names.json may stand in for another of the same schooling; the list sets which are common, not how often each is.",
+  "byEducation": {
+    "college": [
+      "professional",
+      "hospital",
+      "bank",
+      "insurance",
+      "regional-office"
+    ],
+    "some-college": [
+      "clinic",
+      "retail",
+      "construction",
+      "information",
+      "trucking"
+    ],
+    "no-college": [
+      "retail",
+      "restaurant",
+      "manufacturing",
+      "construction",
+      "trucking",
+      "farm"
+    ]
+  }
+}

@@ -17,7 +17,8 @@ import type { ItemVetoSelection } from "../state-item-veto";
  * - **Simulate or do.** Whatever the player does not decide, the character
  *   decides by the same rule every other member or executive uses: a member
  *   votes their own position, an executive signs or vetoes from theirs. The
- *   player never abstains because they looked away. Each such act is kept
+ *   player never abstains because they looked away. Adjourn is the one press
+ *   that casts their stated side or abstains (owner, Nov 13). Each such act is kept
  *   (`acts`) as the character's own, with its reasons.
  */
 import { coreAPI, registerModule } from "../state";
@@ -26,11 +27,15 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { signUpToSpeak } from "./meetings";
+import { federalParameter } from "../office-day-federal";
+import { closenessBetween } from "../closeness";
+import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
 import { startPublicJob } from "../public-payroll";
+import { chargeOfficeHours } from "./work";
+import { campaignParameter } from "../campaign-data";
 import { seatPay } from "../office-day-pay";
 import {
   localOfficeKit,
@@ -50,19 +55,30 @@ import {
   castOwnPositionVote,
   chambersOf,
   executiveDecision,
-  floorDateOf,
+  executiveOf,
   executiveItemVeto,
   executiveLean,
-  holdVote,
+  holdFloorDebate,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
+  registerBudgetMeeting,
   registerLegislatureHooks,
   registerMeetingAgendaReader,
+  voteBudgetAtMeeting,
+  registerCommitteeWait,
+  playerSitsOnCommittee,
+  vetoReasons,
   type BillRow,
   type DeskAction,
+  type VetoReason,
 } from "./legislature";
-import { registerMeetingHold } from "./world-legislating";
+import {
+  filesAhead,
+  filingsOwed,
+  registerMeetingHold,
+  voteAtMeeting,
+} from "./world-legislating";
 import {
   nextMeeting as nextOnRule,
   bodyPopulation,
@@ -70,7 +86,7 @@ import {
   type MeetingRule,
 } from "../office-day-calendar";
 // The meeting rule, for readers outside the family.
-export { meetingRule } from "../office-day-calendar";
+export { meetingRule, officeDayParameter } from "../office-day-calendar";
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -82,6 +98,7 @@ import {
 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { headsLocalExecutive } from "../offices-executives";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -99,7 +116,11 @@ registerStopKinds([
   // own bills, any vote where yours could decide it"): a meeting of a body
   // small enough that one seat turns a vote, with a bill on its agenda.
   { kind: "deciding-vote", byDefault: true },
-  { kind: "every-meeting", byDefault: false },
+  // Every meeting and every vote of the player's seat stops them, and the
+  // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
+  // A stop the player switches off leaves them away: absent from that vote,
+  // a bill on the desk waiting for them; nothing is cast or signed for them.
+  { kind: "every-meeting", byDefault: true },
   { kind: "desk", byDefault: true },
 ]);
 export type StopKind = string;
@@ -129,6 +150,19 @@ export interface MeetingRow {
   readonly status: "scheduled" | "in-session" | "adjourned";
   /** The player's stop held the clock at the meeting's hour. */
   readonly playerPresent: boolean;
+  /**
+   * A player who does not sit on the body and marked this meeting to attend:
+   * held at its hour like a member, to speak at public comment and not to vote.
+   */
+  readonly audience?: string;
+  /**
+   * People who said they would come to this meeting with the player (a
+   * friend's ask, src/director/promises.ts): they are there at its hour,
+   * whether or not the player comes, and the public-meeting record names them.
+   */
+  readonly with?: readonly string[];
+  /** The members' filings for this meeting are on its agenda (an empty agenda is posted too). */
+  readonly posted?: boolean;
   readonly citation: string;
 }
 
@@ -138,12 +172,18 @@ export interface OfficeActRow {
   readonly personId: string;
   /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
-  readonly how: "did" | "own-choice";
+  /** absent: the player was not at the vote (detail "stop-off", or "district" for a member of Congress at home). */
+  readonly how: "did" | "own-choice" | "adjourned" | "absent";
   readonly date: string;
   readonly recordId: string;
   /** For the character's own choice: the position it acted on (the engine's own reasons). */
   readonly position: number | null;
   readonly detail: string;
+  /** A veto's reason the player gave, from the reasons the record supports (`vetoReasons`), and the records it rests on. */
+  readonly reason?: VetoReason["key"];
+  readonly reasonRecordIds?: readonly string[];
+  /** How much closer the sponsor and the executive were before a veto than after it: what a reply may give back. */
+  readonly cooled?: number;
 }
 
 export const OFFICE_DAY_MODULE: CoreModule = {
@@ -151,22 +191,42 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      meetings: { indexes: { byOffice: { fields: ["officeId"] } } },
+      meetings: {
+        indexes: {
+          byOffice: { fields: ["officeId"] },
+          // The day's meetings, for the one order they vote in.
+          byDate: { fields: ["date"] },
+        },
+      },
       agendaItems: {},
       stops: {},
+      /** A vote of the player's seat that stopped them, until it is counted: `${billId}|${personId}`. Silent there, they abstain. */
+      voteStops: {},
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
       officeJobs: { indexes: { byPerson: { fields: ["personId"] } } },
       world: {},
       prepared: {},
+      /** Words to come to a meeting not yet posted (a friend's ask): merged into it when it is. */
+      pledges: {},
     },
   },
   onCalendarWork: officeDayCalendar,
   onAfterDay(api) {
     for (const kit of officeActKits()) kit.onAfterDay?.(api);
   },
+  needEvaluators: {
+    // The duty of the seat a person holds: the most that any level's kit says
+    // has come due, zero for someone who holds none.
+    "office-duty": (api, actor) =>
+      officeActKits().reduce(
+        (most, kit) => Math.max(most, kit.duty?.(api, actor.id) ?? 0),
+        api.parameter("zero"),
+      ),
+  },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
+  reasonProviders: {},
   onDay(api) {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
@@ -176,12 +236,30 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     if (payday || seenTerms.get(api.state as CoreState) !== terms) {
       seenTerms.set(api.state as CoreState, terms);
       scheduleOfficeReview(api);
+      holdNewlySeated(api);
     }
-    if (payday) payStipends(api);
+    if (payday) {
+      payStipends(api);
+      for (const kit of officeActKits()) kit.onMonth?.(api);
+    }
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
 };
+/**
+ * A player seated after a meeting's agenda was posted (appointed to a vacant
+ * seat, a term that starts that week) sits at that meeting like any member:
+ * the meetings already on the books for their bodies may now hold them.
+ */
+function holdNewlySeated(api: CoreAPI): void {
+  const player = playerOf(api);
+  if (player === undefined) return;
+  for (const officeId of officeHost.officesOf(api, player))
+    for (const row of meetingsOf(api, officeId)) {
+      if (row.date < api.state.date) break;
+      holdPlayerIfDue(api, row);
+    }
+}
 /**
  * The size of the offices roster the last day read. Saved with the world, so
  * a restored world doesn't read its roster as changed and book a review the
@@ -217,9 +295,13 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  lastGiven: (api, personId, kind) =>
+  lastGiven: (api, personId, kind, recordId) =>
     officeActsOf(api, personId)
-      .filter((row) => row.kind === kind)
+      .filter(
+        (row) =>
+          row.kind === kind &&
+          (recordId === undefined || row.recordId === recordId),
+      )
       .map((row) => row.date)
       .sort()
       .at(-1),
@@ -228,16 +310,29 @@ registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerLegislatureHooks({
-    beforeVote: { name: "own-vote", run: ownVote },
+    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
     onDesk: deskArrived,
   });
+  registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
+  const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
   for (const kit of officeActKits()) {
+    Object.assign(reasons, kit.reasonProviders ?? {});
     Object.assign(providers, kit.providers ?? {});
     Object.assign(handlers, kit.handlers ?? {});
   }
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
+  // The acts read their hours from the core's data, which is fixed when the
+  // core is made: a world that opens the office day is built on
+  // officeDayData, the one builder the played world uses.
+  const missing = officeActKits()
+    .flatMap((kit) => Object.keys(kit.parameters ?? {}))
+    .filter((key) => !(key in core.data.parameters));
+  if (missing.length)
+    throw new Error(
+      `The office day opened on a world built without officeDayData (missing ${missing.join(", ")}).`,
+    );
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
   table(api, "world").put({
@@ -248,7 +343,103 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
   const bodies = new Set(townSeats(api).map((s) => s.office.id));
   for (const officeId of [...bodies].sort())
     scheduleMeeting(api, officeId, api.state.date);
+  openingActs(api);
 }
+
+/**
+ * What each holder of an office had already given when the world opens (owner,
+ * Nov 14, 2026: "the town must be in motion on day one"; skill
+ * day-one-in-motion). A real office-holder is mid-cycle on any day: the last
+ * office hours and the last town hall were some days ago, spread over the
+ * custom's interval, and the yearly address was given in last year's season.
+ * The holders are taken in id order and each is put a share of the way
+ * through the interval (the first near the start of it, the last near the
+ * end), so the town's holders are not all due on one day; nothing is drawn.
+ * The rows are the office-day engine's own act rows, read as the date of the
+ * latest act by what comes due (`dueOf`, the duty need, the address's
+ * season), so a mayor played from day one finds office hours coming round
+ * rather than all of them owed at once. Taken before the warm-up, so the
+ * dates are the build date minus the offset.
+ */
+export function openingActs(api: CoreAPI): void {
+  const today = makeIsoDate(api.state.date);
+  const year = Number(api.state.date.slice(0, 4));
+  // Each serving holder's first day of service: nobody is given an act from
+  // before they held the office, since they did not do it.
+  const since = new Map<string, string>();
+  for (const term of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[]) {
+    if (
+      term.status !== "serving" ||
+      !term.personId ||
+      !api.state.people.has(term.personId)
+    )
+      continue;
+    const from = term.serviceStart ?? term.startDate;
+    const known = since.get(term.personId);
+    if (known === undefined || from < known) since.set(term.personId, from);
+  }
+  const holders = [...since.keys()]
+    .filter((id) => officeHost.officesOf(api, id).length > 0)
+    .sort();
+  const n = holders.length;
+  for (const [kind, parameter] of OPENING_KINDS) {
+    const interval = api.parameter(parameter);
+    holders.forEach((personId, at) => {
+      const ago = Math.floor((interval * (at + 1)) / (n + 1));
+      const date = addDays(today, -ago);
+      if (since.get(personId)! > date) return;
+      keepAct(
+        api,
+        {
+          personId,
+          kind,
+          how: "own-choice",
+          recordId: `${kind}:before-start`,
+          position: null,
+          detail: "before the start",
+        },
+        date,
+      );
+    });
+  }
+  // The yearly address, in last year's season: the executives of the town's
+  // seats, in the season's months in turn, when they held the seat by then.
+  const season = api.parameter("stateOfCityLastMonth");
+  const executives = [
+    ...new Set(
+      townSeats(api)
+        .filter((row) => headsLocalExecutive(row.office.kind))
+        .map((row) => row.holder?.personId)
+        .filter((id): id is string => !!id && api.state.people.has(id)),
+    ),
+  ].sort();
+  executives.forEach((personId, at) => {
+    const month = 1 + (at % season);
+    const date = `${year - 1}-${String(month).padStart(2, "0")}-15`;
+    if (since.get(personId)! > date) return;
+    keepAct(
+      api,
+      {
+        personId,
+        kind: "state-of-the-city",
+        how: "own-choice",
+        recordId: `state-of-the-city:${year - 1}`,
+        position: null,
+        detail: "before the start",
+      },
+      date,
+    );
+  });
+}
+
+/** The acts that come round on an interval, with the parameter that sets it. */
+const OPENING_KINDS: readonly (readonly [string, string])[] = [
+  ["office-hours", "officeHoursIntervalDays"],
+  ["town-hall", "townHallIntervalDays"],
+];
 
 // ---- Stops -------------------------------------------------------------
 
@@ -304,6 +495,8 @@ function scheduleMeeting(api: CoreAPI, officeId: string, after: string): void {
   const notice = dayOffset(next.date, -officeDayParameter("agendaNoticeDays"));
   const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
   const id = meetingId(officeId, next.date);
+  // A meeting held to vote the budget, closing, finds the next regular one already on the books.
+  if (calendar.get(id)) return;
   const work = {
     source: next.rule.source,
     sourceRecordIds: [officeId, next.date],
@@ -359,14 +552,55 @@ export function placeOnAgenda(api: CoreAPI, billId: string): string {
   // A meeting already on the books takes the bill now, and may now hold the player.
   const row = meetingOf(api, meetingId(bill.bodyOfficeId, next.date));
   if (row && row.status === "scheduled") {
+    // In the order placed: the body takes its items in the order they came.
     const placed: MeetingRow = {
       ...row,
-      agenda: [...new Set([...row.agenda, billId])].sort(),
+      agenda: [...new Set([...row.agenda, billId])],
     };
     table(api, "meetings").put(placed as unknown as ModuleRow);
     holdPlayerIfDue(api, placed);
   }
   return next.date;
+}
+
+/** The drafted bills placed for a body's meeting on exactly this day. */
+function placedFor(api: CoreAPI, officeId: string, date: string): string[] {
+  return agendaRows(api)
+    .filter(
+      (row) =>
+        row.officeId === officeId &&
+        row.date === date &&
+        billOf(api, row.id)?.status === "drafted",
+    )
+    .map((row) => row.id)
+    .sort();
+}
+
+const agendaRows = (api: CoreAPI) =>
+  table(api, "agendaItems").rows() as unknown as {
+    id: string;
+    officeId: string;
+    date: string;
+  }[];
+
+/**
+ * The day a body next meets, as the player's calendar and office show it: its
+ * next regular meeting, or a meeting set sooner to vote the budget.
+ */
+export function nextMeetingDate(api: CoreAPI, officeId: string): string | null {
+  const regular = upcomingMeeting(api, officeId)?.date ?? null;
+  const budget = agendaRows(api)
+    .filter(
+      (row) =>
+        row.officeId === officeId &&
+        row.date >= api.state.date &&
+        billOf(api, row.id)?.budgetFor !== undefined &&
+        billOf(api, row.id)?.status === "drafted",
+    )
+    .map((row) => row.date)
+    .sort()[0];
+  if (!budget) return regular;
+  return regular && regular < budget ? regular : budget;
 }
 
 function agendaFor(api: CoreAPI, officeId: string, date: string): string[] {
@@ -393,8 +627,6 @@ function officeDayCalendar(
 ): void {
   if (work.kind === "agenda") return postAgenda(api, work);
   if (work.kind === "meeting") return closeMeeting(api, work);
-  if (work.kind === "desk-own-choice")
-    return deskOwnChoice(api, work.sourceRecordIds[0]!);
   if (work.kind === "office-review") return reviewOfficeJobs(api);
 }
 
@@ -427,8 +659,14 @@ function postAgenda(
 ): void {
   const [officeId, date] = work.sourceRecordIds as [string, string];
   const rule = nextMeeting(api, officeId, dayOffset(date, -1));
-  if (!rule || rule.date !== date) return;
-  const agenda = agendaFor(api, officeId, date);
+  if (!rule) return;
+  // A meeting off the body's rule is the one held to vote the budget: its
+  // agenda is what was placed for that day, at the body's usual hour.
+  const budgetDay = rule.date !== date;
+  const agenda = budgetDay
+    ? placedFor(api, officeId, date)
+    : agendaFor(api, officeId, date);
+  if (budgetDay && !agenda.length) return;
   const row: MeetingRow = {
     id: meetingId(officeId, date),
     officeId,
@@ -439,10 +677,207 @@ function postAgenda(
     takenUp: [],
     status: "scheduled",
     playerPresent: false,
+    // No member files for it: its agenda is posted whole.
+    ...(budgetDay ? { posted: true } : {}),
     citation: rule.rule.source.citation,
   };
-  table(api, "meetings").put(row as unknown as ModuleRow);
-  holdPlayerIfDue(api, row);
+  table(api, "meetings").put(withPledge(api, row) as unknown as ModuleRow);
+  holdPlayerIfDue(api, meetingOf(api, row.id)!);
+}
+
+interface PledgeRow {
+  readonly id: string;
+  /** The player, marked to attend once it is posted. */
+  readonly audience?: string;
+  readonly with: readonly string[];
+}
+
+/** A posted meeting with the words given to come to it before it was posted, which are then spent. */
+function withPledge(api: CoreAPI, row: MeetingRow): MeetingRow {
+  const pledges = table(api, "pledges");
+  const pledge = pledges.get(row.id) as unknown as PledgeRow | undefined;
+  if (!pledge) return row;
+  pledges.remove(row.id);
+  const resident =
+    pledge.audience !== undefined &&
+    !members(api, row.officeId).some(sits(pledge.audience));
+  return {
+    ...row,
+    ...(resident ? { audience: pledge.audience } : {}),
+    with: [...new Set([...(row.with ?? []), ...pledge.with])],
+  };
+}
+
+/**
+ * The player says they will come to a meeting with someone (a friend's ask):
+ * marked to attend it and the other written onto it, now if it is posted
+ * (`attendMeeting`, `comeWith`), else when it is (`withPledge`).
+ */
+export function pledgeToCome(
+  api: CoreAPI,
+  meetingIdValue: string,
+  withId: string,
+): void {
+  // The id says the body and the day (`meetingId`).
+  const date = meetingIdValue.slice(-"YYYY-MM-DD".length);
+  const officeId = meetingIdValue.slice(
+    "meeting:".length,
+    -":YYYY-MM-DD".length,
+  );
+  if (meetingId(officeId, date) !== meetingIdValue) return;
+  const row = meetingOf(api, meetingIdValue);
+  if (row) {
+    if (meetingToAttend(api, officeId, date))
+      attendMeeting(api, officeId, date, true);
+    comeWith(api, meetingIdValue, withId);
+    return;
+  }
+  const pledges = table(api, "pledges");
+  const before = pledges.get(meetingIdValue) as unknown as
+    PledgeRow | undefined;
+  const player = playerOf(api);
+  pledges.put({
+    id: meetingIdValue,
+    ...(player !== undefined ? { audience: player } : {}),
+    with: [...new Set([...(before?.with ?? []), withId])],
+  } as unknown as ModuleRow);
+}
+
+/** Whether the player's clock has reached a meeting's hour (or its day is behind them). */
+function hourReached(api: CoreAPI, row: MeetingRow, player: string): boolean {
+  if (row.date < api.state.date) return true;
+  const frontier = playerClockFrontierV1(api.state as CoreState, player);
+  return (
+    !!frontier &&
+    (frontier.date > row.date ||
+      (frontier.date === row.date && frontier.minuteOfDay >= row.startMinute))
+  );
+}
+
+/**
+ * A posted meeting the player may come to as a resident: one still ahead of
+ * their clock, of a body they do not sit on (a member is held by their own
+ * stops). Public comment is open to anyone (`signUpToSpeak`), so nothing else
+ * is asked. Says whether they have marked it.
+ */
+export function meetingToAttend(
+  api: CoreAPI,
+  officeId: string,
+  date: string,
+): { id: string; marked: boolean; startMinute: number } | null {
+  const player = playerOf(api);
+  const row = meetingOf(api, meetingId(officeId, date));
+  if (
+    player === undefined ||
+    !row ||
+    row.status !== "scheduled" ||
+    snapshotExplicitControlV1(api.state).personId !== player ||
+    members(api, officeId).some(sits(player)) ||
+    hourReached(api, row, player) ||
+    // A meeting whose agenda is filed only on its own day has nothing to show
+    // a resident at its hour: it is not offered.
+    !(row.posted || filesAhead(api, officeId, date))
+  )
+    return null;
+  return {
+    id: row.id,
+    marked: row.audience === player,
+    startMinute: row.startMinute,
+  };
+}
+
+/**
+ * The body's next meeting a resident may still come to, posted or not: the
+ * one the body's rule (or a budget day) sets next, of a body the player does
+ * not sit on. Once its agenda is posted it is the one `meetingToAttend`
+ * offers, which the player marks; before that it is the day on the body's
+ * calendar, by the id the meeting will be posted under.
+ */
+export function meetingAhead(
+  api: CoreAPI,
+  officeId: string,
+): { id: string; date: string; row?: MeetingRow } | null {
+  const player = playerOf(api);
+  const date = nextMeetingDate(api, officeId);
+  if (player === undefined || !date || date < api.state.date) return null;
+  if (members(api, officeId).some(sits(player))) return null;
+  const id = meetingId(officeId, date);
+  const row = meetingOf(api, id);
+  if (!row) return date > api.state.date ? { id, date } : null;
+  return meetingToAttend(api, officeId, date) ? { id, date, row } : null;
+}
+
+/** The meeting with nobody of the player's in its audience, and its hold on them gone. */
+function withoutAudience(row: MeetingRow): MeetingRow {
+  const next: { -readonly [K in keyof MeetingRow]: MeetingRow[K] } = {
+    ...row,
+    playerPresent: false,
+  };
+  delete next.audience;
+  return next;
+}
+
+/**
+ * The player marks a posted meeting to attend, or takes the mark back: marked,
+ * the meeting holds their clock at its hour, and the members' filings wait on
+ * its agenda as they do for a member the player plays (`holdsMemberFilings`).
+ */
+export function attendMeeting(
+  api: CoreAPI,
+  officeId: string,
+  date: string,
+  attend: boolean,
+): MeetingRow {
+  const open = meetingToAttend(api, officeId, date);
+  if (!open) throw new Error("That meeting is not in session.");
+  const row = meetingOf(api, open.id)!;
+  const next: MeetingRow = attend
+    ? { ...row, audience: playerOf(api)! }
+    : withoutAudience(row);
+  table(api, "meetings").put(next as unknown as ModuleRow);
+  if (attend) holdPlayerIfDue(api, next);
+  else releaseHeld(api, next.id);
+  return meetingOf(api, next.id)!;
+}
+
+/**
+ * Someone who said they would come to a posted meeting with the player is
+ * written onto it (a friend's ask): the public-meeting record names them.
+ */
+export function comeWith(
+  api: CoreAPI,
+  meetingIdValue: string,
+  personId: string,
+): MeetingRow | undefined {
+  const row = meetingOf(api, meetingIdValue);
+  if (!row || row.status === "adjourned") return undefined;
+  if (row.with?.includes(personId)) return row;
+  const next: MeetingRow = { ...row, with: [...(row.with ?? []), personId] };
+  table(api, "meetings").put(next as unknown as ModuleRow);
+  return next;
+}
+
+/**
+ * A resident leaves the meeting they came to: the clock goes on and nothing
+ * is voted for their leaving. What they said stays on the record and is heard
+ * when the body takes the item up, at the meeting's close.
+ */
+export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
+  const row = meetingOf(api, meetingIdValue);
+  if (!row || row.audience === undefined || !row.playerPresent)
+    throw new Error("That meeting is not in session.");
+  table(api, "meetings").put(withoutAudience(row) as unknown as ModuleRow);
+  // That they came is on the record with what they said there.
+  keepAct(api, {
+    personId: row.audience,
+    kind: "attend",
+    how: "did",
+    recordId: row.id,
+    position: null,
+    // How many items were before the body when they came.
+    detail: String(row.agenda.length),
+  });
+  releaseHeld(api, row.id);
 }
 
 /**
@@ -455,12 +890,19 @@ function postAgenda(
  */
 function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   if (row.status !== "scheduled" || row.date < api.state.date) return;
+  const player = playerOf(api);
+  if (player !== undefined && members(api, row.officeId).some(sits(player)))
+    // The floor speaks the day the agenda is posted, so a member the player
+    // plays hears it on the morning of the meeting, before the roll (the
+    // same record the state and federal floor day holds the evening before).
+    for (const billId of row.agenda) holdFloorDebate(api, billId, row.officeId);
   const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
   if (held.has(row.id)) return;
-  const player = playerOf(api);
   if (player === undefined) return;
   const body = members(api, row.officeId);
-  if (!body.some(sits(player))) return;
+  const seated = body.some(sits(player));
+  // A resident is held only at a meeting they marked to attend.
+  if (!seated && row.audience !== player) return;
   if (snapshotExplicitControlV1(api.state).personId !== player) return;
   const stops = stopsOf(api, player);
   const ownBill = row.agenda.some((id) => billOf(api, id).sponsorId === player);
@@ -471,6 +913,7 @@ function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   const deciding =
     row.agenda.length > 0 && body.length <= officeDayParameter("decidingSeats");
   const present =
+    !seated ||
     stops["every-meeting"] === true ||
     (ownBill && stops["own-bill-vote"] === true) ||
     (deciding && stops["deciding-vote"] === true);
@@ -517,9 +960,43 @@ function closeMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   scheduleMeeting(api, officeId, date);
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") return;
+  earlierMeetingsVote(api, row);
+  voteLeft(api, row);
+}
+
+/** Every item the meeting has not taken up is voted, each member their own position, and it adjourns. */
+function voteLeft(api: CoreAPI, row: MeetingRow): void {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
-  for (const billId of left) holdVote(api, billId);
+  for (const billId of left) voteItem(api, billId);
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
+}
+
+/** Of two meetings the same day, the one whose hour comes first (then by id). */
+const meetsFirst = (a: MeetingRow, b: MeetingRow) =>
+  a.startMinute - b.startMinute || a.id.localeCompare(b.id);
+
+/**
+ * Before a body votes at its meeting, every other body's meeting of the same
+ * day whose hour comes first has voted. A law one body passes that day stands
+ * when the next weighs its own, in the same order whether the player's clock
+ * is held at one of the meetings or at none. A meeting the player is still at
+ * waits for them, and one whose members have yet to file waits for its filing.
+ */
+function earlierMeetingsVote(api: CoreAPI, row: MeetingRow): void {
+  const earlier = (
+    table(api, "meetings").query("byDate", [
+      row.date,
+    ]) as unknown as MeetingRow[]
+  )
+    .filter(
+      (other) =>
+        other.status !== "adjourned" &&
+        !other.playerPresent &&
+        meetsFirst(other, row) < 0 &&
+        !filingsOwed(api, other.officeId, other.date),
+    )
+    .sort(meetsFirst);
+  for (const other of earlier) voteLeft(api, meetingOf(api, other.id)!);
 }
 
 function finish(api: CoreAPI, row: MeetingRow): void {
@@ -529,9 +1006,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
     id: `meeting-held:${row.id}`,
     date: api.state.date,
     kind: "public-meeting",
-    personIds: members(api, row.officeId).flatMap((m) =>
-      m.personId ? [m.personId] : [],
-    ),
+    personIds: [
+      ...members(api, row.officeId).flatMap((m) =>
+        m.personId ? [m.personId] : [],
+      ),
+      ...(row.with ?? []),
+    ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -544,6 +1024,8 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // Who came with the player's word to come (a friend's ask).
+      ...(row.with?.length ? { with: row.with.join(",") } : {}),
       // A sitting that runs past the hour a town body meets in the evening
       // keeps its members from home that evening.
       evening: String(
@@ -569,14 +1051,18 @@ export function meetingsOf(api: CoreAPI, officeId: string): MeetingRow[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-/** The meeting holding the player's clock, if any. */
+/** The meeting holding the player's clock, if any: of two the same day, the one whose hour comes first. */
 export function meetingInProgress(api: CoreAPI): MeetingRow | undefined {
-  return (table(api, "meetings").rows() as unknown as MeetingRow[]).find(
-    (row) =>
-      row.playerPresent &&
-      row.status !== "adjourned" &&
-      row.date === api.state.date,
-  );
+  return (table(api, "meetings").rows() as unknown as MeetingRow[])
+    .filter(
+      (row) =>
+        row.playerPresent &&
+        row.status !== "adjourned" &&
+        row.date === api.state.date,
+    )
+    .sort(
+      (a, b) => a.startMinute - b.startMinute || a.id.localeCompare(b.id),
+    )[0];
 }
 
 /**
@@ -594,12 +1080,15 @@ export function takeUpItem(
     !row ||
     row.status === "adjourned" ||
     !row.playerPresent ||
+    // Someone who came to watch and speak takes nothing up.
+    row.audience !== undefined ||
     row.date !== api.state.date
   )
     throw new Error("That meeting is not in session.");
   if (!row.agenda.includes(billId) || row.takenUp.includes(billId))
     throw new Error("That item is not waiting on this agenda.");
   const player = playerOf(api)!;
+  earlierMeetingsVote(api, row);
   if (vote !== "own") {
     castMemberVote(api, billId, player, vote);
     keepAct(api, {
@@ -611,7 +1100,12 @@ export function takeUpItem(
       detail: vote,
     });
   }
-  const bill = holdVote(api, billId);
+  // Left to the character: the member's own position casts the vote, by the
+  // rule every member's vote follows (`ownVote`).
+  const bill =
+    vote === "own"
+      ? leavingToCharacter(api, [billId], () => voteItem(api, billId))
+      : voteItem(api, billId);
   table(api, "meetings").put({
     ...row,
     status: "in-session",
@@ -653,36 +1147,156 @@ export function speakOnItem(
   });
 }
 
-/** The chair adjourns: any item left is voted with the character's own votes, and the clock moves on. */
+/**
+ * The chair adjourns: each item left is voted on the position the player has
+ * stated on it, and abstained where they have stated none (owner, Nov 13:
+ * "Cast my position, else abstain"); the clock moves on. Every other member
+ * votes their own position.
+ */
 export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const row = meetingOf(api, meetingIdValue);
-  if (!row || row.status === "adjourned")
+  // The player in the audience cannot adjourn the body; they leave (`leaveMeeting`).
+  if (
+    !row ||
+    row.status === "adjourned" ||
+    (row.playerPresent && row.audience !== undefined)
+  )
     throw new Error("That meeting is not in session.");
+  // A meeting set with under a day's notice has no filings yet at its hour
+  // (its members file on the day): the chair cannot close it before them. The
+  // clock goes on, and the meeting votes at its close like any other, in the
+  // day's one order.
+  if (filingsOwed(api, row.officeId, row.date)) {
+    table(api, "meetings").put({
+      ...row,
+      playerPresent: false,
+    } as unknown as ModuleRow);
+    releaseHeld(api, row.id);
+    return meetingOf(api, row.id)!;
+  }
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
-  for (const billId of left) holdVote(api, billId);
+  earlierMeetingsVote(api, row);
+  for (const billId of left) {
+    castStatedOrAbstain(api, billId);
+    voteItem(api, billId);
+  }
+  // The player who sat through it as a member gave it the evening
+  // (office-hours-never-fill-an-officials-day).
+  if (row.playerPresent && row.audience === undefined)
+    chargeOfficeHours(
+      api,
+      playerOf(api)!,
+      campaignParameter("sittingHours"),
+      row.id,
+    );
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
 }
 
+/**
+ * What the player has said about an item at this meeting: the side they spoke
+ * on (public comment), or yes on an ordinance they sponsored. Null where they
+ * have said nothing, which Adjourn does not read from the character's views.
+ */
+function statedPosition(
+  api: CoreAPI,
+  billId: string,
+  player: string,
+): number | null {
+  const bill = billOf(api, billId);
+  const spoke = remarksOn(api, billId).find((r) => r.personId === player);
+  if (spoke && spoke.position !== 0) return spoke.position;
+  return bill.sponsorId === player ? 1 : null;
+}
+
+/** Adjourn's cast for the player on one open item: their stated side, else an abstention. */
+function castStatedOrAbstain(api: CoreAPI, billId: string): void {
+  const player = playerOf(api);
+  const bill = billOf(api, billId);
+  if (
+    !player ||
+    bill.status !== "drafted" ||
+    !chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some(sits(player)),
+    ) ||
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("choices")
+      .get(`${billId}|${player}`)
+  )
+    return;
+  const position = statedPosition(api, billId, player);
+  const vote = position === null ? "abstain" : position > 0 ? "yes" : "no";
+  castMemberVote(api, billId, player, vote);
+  keepAct(api, {
+    personId: player,
+    kind: "vote",
+    how: "adjourned",
+    recordId: billId,
+    position,
+    detail: vote,
+  });
+}
+
 // ---- The character's own choices ---------------------------------------
 
-function keepAct(api: CoreAPI, act: Omit<OfficeActRow, "id" | "date">): void {
+/**
+ * A bill comes to its vote at the meeting: the player's seat is settled by
+ * `ownVote` as the vote is counted (their press, an abstention at a stop they
+ * left unanswered, or absent where their stop was off).
+ */
+function voteItem(api: CoreAPI, billId: string): BillRow {
+  const bill = billOf(api, billId);
+  // The year's budget is adopted at the meeting by the one budget vote, which
+  // reads each member's cast vote: the player's seat is settled here, by the
+  // same rule as any item.
+  if (bill?.budgetFor) {
+    if (bill.status === "drafted") ownVote(api, billId);
+    return voteBudgetAtMeeting(api, billId);
+  }
+  return voteAtMeeting(api, billId);
+}
+
+/** The items the player, at a held meeting, has left to the character while their votes are held. */
+const leftToCharacter = new WeakMap<object, Set<string>>();
+function leavingToCharacter<T>(
+  api: CoreAPI,
+  billIds: readonly string[],
+  vote: () => T,
+): T {
+  const left = leftToCharacter.get(api.state) ?? new Set<string>();
+  leftToCharacter.set(api.state, left);
+  for (const id of billIds) left.add(id);
+  try {
+    return vote();
+  } finally {
+    for (const id of billIds) left.delete(id);
+  }
+}
+
+function keepAct(
+  api: CoreAPI,
+  act: Omit<OfficeActRow, "id" | "date">,
+  date: string = api.state.date,
+): void {
   const row: OfficeActRow = {
     ...act,
     id: `office-act:${act.kind}:${act.recordId}:${act.personId}`,
-    date: api.state.date,
+    date,
   };
   table(api, "acts").put(row as unknown as ModuleRow);
 }
 
 /**
- * Before any vote: a player who sits on the body and has not chosen votes
- * as the character would, from its own position (the rule every member's
- * vote follows). The ordinances members file are filed the day before the
- * meeting and wait on its agenda (`holdsMemberFilings`), so the player's
- * scene sees them first; only a meeting scheduled with less than a day's
- * notice still has its filings voted before the stop.
+ * Before any vote of a body the player sits on (owner's card, Nov 14, 2026,
+ * 02:03Z: "Stop me at every vote"): nothing is cast in the player's name
+ * unless they pressed for it. "Decide for me" at a held meeting casts the
+ * member's own position; a player stopped for the vote who says nothing
+ * abstains (the roll call's rule for a player with no cast vote); a player
+ * whose stop for it was off was not there, and the roll records them absent.
+ * The hook runs at the vote itself (committee-day.json keeps it off a
+ * committee's day), so the floor is never voted a week early.
  */
 function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);
@@ -697,60 +1311,135 @@ function ownVote(api: CoreAPI, billId: string): void {
     )
   )
     return;
+  // The stop for this vote, if one held the player, is spent once the vote is counted.
+  const stopped = table(api, "voteStops").get(`${billId}|${player}`);
+  if (stopped) table(api, "voteStops").remove(`${billId}|${player}`);
   const chosen = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("choices")
     .get(`${billId}|${player}`);
   if (chosen) return;
-  // A local body's meeting the player is held at is where the player votes:
-  // the character never casts it for them. Adjourned unchosen, the roll call
-  // has them abstain (legislature.ts: the player is never voted for).
+  // The player pressed "Decide for me" at the meeting: their member's own position.
+  if (leftToCharacter.get(api.state)?.has(billId)) {
+    const { position, vote } = castOwnPositionVote(api, billId, player);
+    keepAct(api, {
+      personId: player,
+      kind: "vote",
+      how: "own-choice",
+      recordId: billId,
+      position,
+      detail: vote,
+    });
+    return;
+  }
   const placedFor = table(api, "agendaItems").get(billId) as unknown as
     { date: string } | undefined;
+  // Placed for a later meeting, the seat votes on that meeting's day.
+  if (placedFor && placedFor.date > api.state.date) return;
+  // Held at the meeting, or stopped for the floor vote: the vote is theirs to
+  // cast, and unanswered the roll call has them abstain.
   if (
-    placedFor &&
-    meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))?.playerPresent
+    (placedFor &&
+      meetingOf(api, meetingId(bill.bodyOfficeId, placedFor.date))
+        ?.playerPresent) ||
+    stopped
   )
     return;
-  // A member of a legislature is held the evening before the floor vote for their own vote
-  // (the level's floor-vote stop): the character does not cast it for them a week early, on the
-  // committee's day, when the floor is still ahead.
-  const level = bodyReach(api, bill.bodyOfficeId);
-  const stops = api.state.modules.has(OFFICE_DAY_MODULE_ID)
-    ? stopsOf(api, player)
-    : null;
-  const floorDay = floorDateOf(api, billId);
-  if (
-    stops &&
-    floorDay !== null &&
-    floorDay > api.state.date &&
-    ((level === "state" && stops["state-floor-vote"]) ||
-      (level === "federal" && stops["floor-vote"]))
-  )
-    return;
-  const { position, vote } = castOwnPositionVote(api, billId, player);
+  castMemberVote(api, billId, player, "absent");
   keepAct(api, {
     personId: player,
     kind: "vote",
-    how: "own-choice",
+    how: "absent",
     recordId: billId,
-    position,
-    detail: vote,
+    position: null,
+    detail: "stop-off",
   });
 }
 
 /**
- * A body the player sits on, while the player holds the clock: its members'
- * ordinances are filed the day before the meeting and wait on its agenda,
- * for the player's scene to take up (or for the meeting to close).
+ * Every town and county body files its members' ordinances the day before
+ * the meeting, and they wait on its agenda for the meeting to vote them:
+ * the agenda is posted ahead, so the town hears of an item before the vote
+ * whether or not the player is in the room, and a meeting the player sits at
+ * or watches decides as one nobody watches (one path). Only a meeting with
+ * under a day's notice, the first after a world begins among them, files on
+ * its own day.
  */
-function holdsMemberFilings(api: CoreAPI, officeId: string): boolean {
-  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return false;
-  const player = playerOf(api);
+function holdsMemberFilings(api: CoreAPI): boolean {
+  return api.state.modules.has(OFFICE_DAY_MODULE_ID);
+}
+
+/**
+ * A government's budget goes on its body's agenda for the day it is voted, the
+ * fiscal year's first day (budgets.ts), for every body alike: the regular
+ * meeting that day takes it with its other items, and a body with no regular
+ * meeting that day meets that day at its usual hour to vote it. A legislature,
+ * Congress or a body with no
+ * meeting rule votes it from the budgets calendar.
+ */
+function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
+  if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
+  const bill = billOf(api, billId);
+  if (!bill || date <= api.state.date) return;
+  const officeId = bill.bodyOfficeId;
+  // A legislature or Congress sits on its session calendar, not at meetings.
+  const level = bodyReach(api, officeId);
+  if (level === "state" || level === "federal") return;
+  const rule = nextMeeting(api, officeId, dayOffset(date, -1));
+  if (!rule) return;
+  table(api, "agendaItems").put({
+    id: billId,
+    officeId,
+    date,
+  } as unknown as ModuleRow);
+  const id = meetingId(officeId, date);
+  const row = meetingOf(api, id);
+  if (row) {
+    if (row.status !== "scheduled") return;
+    const placed: MeetingRow = {
+      ...row,
+      agenda: [...new Set([...row.agenda, billId])],
+    };
+    table(api, "meetings").put(placed as unknown as ModuleRow);
+    holdPlayerIfDue(api, placed);
+    return;
+  }
+  // The regular meeting that day posts its agenda on its notice day and takes the budget then.
+  if (rule.date === date) return;
+  const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
+  if (calendar.get(id)) return;
+  // A body with no regular meeting that day meets then, like any meeting:
+  // its agenda posted on the notice day (`postAgenda`), the player held at
+  // its hour, and the day's close votes what is left (`closeMeeting`).
+  // stopgapId: SG-OFFICE-budget-meeting-on-the-year-start
+  const work = {
+    source: rule.rule.source,
+    sourceRecordIds: [officeId, date],
+  };
+  const notice = dayOffset(date, -officeDayParameter("agendaNoticeDays"));
+  if (notice <= api.state.date) postAgenda(api, work);
+  else
+    calendar.schedule({
+      ...work,
+      key: `agenda:${id}`,
+      date: notice,
+      kind: "agenda",
+    });
+  calendar.schedule({ ...work, key: id, date, kind: "meeting" });
+}
+
+/**
+ * Whether the budget's meeting votes it: it is on the agenda of a meeting
+ * today that is still sitting, or that meeting has already voted it.
+ */
+function votesBudgetToday(api: CoreAPI, billId: string): boolean {
+  const placed = table(api, "agendaItems").get(billId) as unknown as
+    { officeId: string; date: string } | undefined;
+  if (!placed || placed.date !== api.state.date) return false;
+  const row = meetingOf(api, meetingId(placed.officeId, placed.date));
+  if (!row || !row.agenda.includes(billId)) return false;
   return (
-    player !== undefined &&
-    snapshotExplicitControlV1(api.state).personId === player &&
-    members(api, officeId).some(sits(player))
+    row.status !== "adjourned" || billOf(api, billId)?.status !== "drafted"
   );
 }
 
@@ -759,11 +1448,24 @@ function placeFiled(
   api: CoreAPI,
   officeId: string,
   date: string,
-  billIds: readonly string[],
+  filed: readonly string[],
 ): void {
+  let billIds = filed;
+  // Filed on the meeting's own day (a meeting with under a day's notice, the
+  // first after a world begins among them): the filings come after its hour,
+  // when nobody, the player included, could be told of them, so they wait for
+  // the next meeting whose agenda is not yet posted, like any late item. A
+  // filing the body may not act on (blocked) is never voted, and stays where
+  // it was filed.
+  if (date <= api.state.date && nextMeeting(api, officeId, date)) {
+    const waits = (id: string) => billOf(api, id)?.status === "drafted";
+    for (const billId of billIds) if (waits(billId)) placeOnAgenda(api, billId);
+    billIds = billIds.filter((id) => !waits(id));
+    if (!billIds.length) return;
+  }
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") {
-    for (const billId of billIds) holdVote(api, billId);
+    for (const billId of billIds) voteItem(api, billId);
     return;
   }
   for (const billId of billIds)
@@ -774,12 +1476,26 @@ function placeFiled(
     } as unknown as ModuleRow);
   const placed: MeetingRow = {
     ...row,
-    agenda: [...new Set([...row.agenda, ...billIds])].sort(),
+    posted: true,
+    // In filing order, as an unheld meeting takes them.
+    agenda: [...new Set([...row.agenda, ...billIds])],
   };
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
 }
 registerMeetingHold(holdsMemberFilings, placeFiled);
+registerCommitteeWait((api, bill) => {
+  // Only the player's own body can wait: one indexed read of the player's
+  // seats answers false for every other body before any agenda is read.
+  const player = playerOf(api);
+  if (!player || !officeHost.officesOf(api, player).includes(bill.bodyOfficeId))
+    return false;
+  const placed = table(api, "agendaItems").get(bill.id) as unknown as
+    { date: string } | undefined;
+  return (
+    !!placed && placed.date > api.state.date && playerSitsOnCommittee(api, bill)
+  );
+});
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
 registerMeetingAgendaReader((api, date) =>
@@ -794,53 +1510,47 @@ registerMeetingAgendaReader((api, date) =>
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;
 
-/** A bill reaches the player's desk: unless the desk stops them, the character decides the next day. */
+/**
+ * A bill reaches the player's desk: the desk stops them the next morning. A
+ * player who switched the desk stop off, or does not hold the clock, finds it
+ * waiting; nothing signs or vetoes it for them, and at the deadline their
+ * office's law sets it becomes law unsigned (the legislature engine).
+ */
 function deskArrived(api: CoreAPI, action: DeskAction): void {
   if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
   const player = playerOf(api);
   if (action.status !== "awaiting" || action.executiveId !== player) return;
   const date = dayOffset(api.state.date, 1);
-  if (stopsOf(api, player).desk) {
-    // The desk stops the player the next morning, if they hold the clock;
-    // otherwise it waits until the deadline the office's law sets.
-    if (snapshotExplicitControlV1(api.state).personId !== player) return;
-    const token = api.moduleCalendar(OFFICE_DAY_MODULE_ID).registerStop({
-      recordId: deskStopId(action.bill.id),
-      controlledPersonId: player,
-      at: {
-        date: makeIsoDate(date),
-        minuteOfDay: officeDayParameter("deskMinute"),
-      },
-      kind: "interrupt",
-      reasonKey: "office-day.desk",
-      source: {
-        tag: "SOURCED",
-        citation: `${action.bill.number} passed and is on the desk until ${action.signBy ?? "its deadline"}`,
-        asOf: api.state.date,
-      },
-      hold: true,
-    });
-    const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
-    held.set(deskStopId(action.bill.id), token);
-    tokens.set(api.state, held);
+  if (
+    !stopsOf(api, player).desk ||
+    snapshotExplicitControlV1(api.state).personId !== player
+  )
     return;
-  }
-  api.moduleCalendar(OFFICE_DAY_MODULE_ID).schedule({
-    key: `desk-own-choice:${action.bill.id}`,
-    date,
-    kind: "desk-own-choice",
+  const token = api.moduleCalendar(OFFICE_DAY_MODULE_ID).registerStop({
+    recordId: deskStopId(action.bill.id),
+    controlledPersonId: player,
+    at: {
+      date: makeIsoDate(date),
+      minuteOfDay: officeDayParameter("deskMinute"),
+    },
+    kind: "interrupt",
+    reasonKey: "office-day.desk",
     source: {
       tag: "SOURCED",
-      citation: `${action.bill.number} on the desk; the player left the desk to the character`,
+      citation: `${action.bill.number} passed and is on the desk until ${action.signBy ?? "its deadline"}`,
       asOf: api.state.date,
     },
-    sourceRecordIds: [action.bill.id],
+    hold: true,
   });
+  const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
+  held.set(deskStopId(action.bill.id), token);
+  tokens.set(api.state, held);
 }
 
 /**
- * The character signs or vetoes by the legislature engine's own executive
- * lean: its position and temperament, scaled by how settled the law is.
+ * "Decide for me" pressed at the desk: the character signs or vetoes by the
+ * legislature engine's own executive lean, its position and temperament,
+ * scaled by how settled the law is. Never run without the player's press.
  */
 function deskOwnChoice(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
@@ -859,16 +1569,42 @@ function deskOwnChoice(api: CoreAPI, billId: string): void {
   executiveDecision(api, billId, sign);
 }
 
-/** The player signs or vetoes a bill on their desk themselves. */
+/**
+ * The player signs or vetoes a bill on their desk themselves. A veto carries
+ * the reason they gave, one of the reasons the record supports
+ * (`vetoReasons`; "none" when they gave none), kept on the act for the
+ * sponsor to bring up (Words lead, desk ruling 5), and it cools the tie
+ * between the sponsor and the player as a refused ask on a bill does
+ * (`whipAnswerCloseness`).
+ */
 export function decideDesk(
   api: CoreAPI,
   billId: string,
   sign: boolean,
+  reasonKey: VetoReason["key"] = "none",
 ): BillRow {
   const player = playerOf(api);
   const bill = billOf(api, billId);
   if (!player || bill?.status !== "awaiting-signature")
     throw new Error("No bill is waiting on your desk.");
+  const reason = sign
+    ? undefined
+    : vetoReasons(api, billId, player).find((row) => row.key === reasonKey);
+  if (!sign && !reason)
+    throw new Error(`The record gives no reason "${reasonKey}" to veto it.`);
+  let cooled: number | undefined;
+  if (
+    !sign &&
+    bill.sponsorId !== player &&
+    api.state.people.get(bill.sponsorId)?.alive
+  ) {
+    const before = closenessBetween(api.state, player, bill.sponsorId);
+    const step = -vetoCloseness();
+    const why = { cause: "veto", sourceId: billId, apart: true };
+    api.relationship(bill.sponsorId, player, "contact", step, undefined, why);
+    api.relationship(player, bill.sponsorId, "contact", step, undefined, why);
+    cooled = before - closenessBetween(api.state, player, bill.sponsorId);
+  }
   keepAct(api, {
     personId: player,
     kind: sign ? "sign" : "veto",
@@ -876,10 +1612,28 @@ export function decideDesk(
     recordId: billId,
     position: null,
     detail: sign ? "sign" : "veto",
+    ...(reason
+      ? { reason: reason.key, reasonRecordIds: [...reason.recordIds] }
+      : {}),
+    ...(cooled !== undefined ? { cooled } : {}),
   });
   const decided = executiveDecision(api, billId, sign);
   releaseHeld(api, deskStopId(billId));
   return decided;
+}
+
+/** How far a veto moves the tie between the executive and the sponsor (the whip-answer step, `whipAnswerCloseness`), for what a reply gives back. */
+export function vetoCloseness(): number {
+  return federalParameter("whipAnswerCloseness");
+}
+
+/** The reasons the record supports for the player to give with a veto of a bill on their desk (`vetoReasons`). */
+export function deskVetoReasons(
+  api: CoreAPI,
+  billId: string,
+): readonly VetoReason[] {
+  const player = playerOf(api);
+  return player ? vetoReasons(api, billId, player) : [];
 }
 
 /** The governor strikes appropriation items under the place's law and lets the body weigh overrides. */
@@ -912,20 +1666,25 @@ export function leaveDeskToCharacter(api: CoreAPI, billId: string): BillRow {
   return billOf(api, billId);
 }
 
-/** Bills on the player's desk now. */
-export function deskWaiting(api: CoreAPI): BillRow[] {
+/**
+ * Bills on the player's desk now: each one waits for them whether or not the
+ * desk stop holds them (`heldOnly`: only those holding the clock).
+ */
+export function deskWaiting(api: CoreAPI, heldOnly = false): BillRow[] {
   const player = playerOf(api);
+  if (player === undefined) return [];
   return (
     api
       .moduleState(LEGISLATURE_MODULE_ID)
       .table("bills")
       .rows() as unknown as (BillRow & { signBy?: string })[]
-  ).filter(
-    (b) =>
-      b.status === "awaiting-signature" &&
-      tokens.get(api.state)?.has(deskStopId(b.id)) &&
-      player !== undefined,
-  );
+  ).filter((b) => {
+    if (b.status !== "awaiting-signature") return false;
+    if (tokens.get(api.state)?.has(deskStopId(b.id))) return true;
+    if (heldOnly) return false;
+    const term = executiveOf(api, b.bodyOfficeId).term;
+    return !!term && sits(player)(term);
+  });
 }
 
 const deskStopId = (billId: string) => `desk:${billId}`;
@@ -943,10 +1702,17 @@ export function holdPlayerAt(
     readonly minuteOfDay: number;
     readonly reasonKey: string;
     readonly source: Source;
+    /** The bill whose vote of the player's seat this stop is for. */
+    readonly voteOn?: string;
   },
 ): boolean {
   const player = snapshotExplicitControlV1(api.state).personId;
   if (!player) return false;
+  if (input.voteOn)
+    table(api, "voteStops").put({
+      id: `${input.voteOn}|${player}`,
+      date: input.date,
+    } as unknown as ModuleRow);
   const token = api.moduleCalendar(OFFICE_DAY_MODULE_ID).registerStop({
     recordId: input.recordId,
     controlledPersonId: player,
@@ -1209,16 +1975,21 @@ export {
   heldFederal,
   leaveVoteToCharacter,
   voteOnFloor,
+  federalSeatOf,
+  votesOnPassage,
 } from "../office-day-federal";
 export {
   OFFICE_DAY_STATE_MODULE_ID,
   stateFloorHolds,
+  stateOfficeOf,
   voteOnStateFloor,
 } from "../office-day-state";
 export {
   actOn,
   appointGovernor,
   doEntry,
+  seatCoveringTown,
+  seatPlayerInStateOffice,
   stopKindOf,
   waitingEntries,
 } from "../office-day-state";

@@ -53,6 +53,8 @@ const NO_EMPLOYER_STOPGAP = "SG-LIVES-work-no-employer";
 export const WORK_ELSEWHERE_TABLE = "elsewhere";
 const OUT_OF_LABOR_FORCE_STOPGAP = "SG-LIVES-work-out-of-labor-force";
 const STATE_ROW = "lives-work:state";
+/** The nation's first-review rate, kept in the state row under this key. */
+const NATIONAL_KEY = "national";
 
 const CPS = epop as unknown as {
   ageBands: readonly string[];
@@ -131,8 +133,16 @@ function nationalUnemployment(api: CoreAPI): number | undefined {
 
 /** The month's labor-market conditions by state, read once a month by everyone who reads them. */
 interface WorkConditions {
-  /** A state's (USPS) conditions this month: its mean unemployment over now, and the rise over the last quarter. */
-  of(usps: string | undefined): { meanOverNow: number; rise: number };
+  /**
+   * A state's (USPS) conditions this month: its mean unemployment over now,
+   * the rise over the last quarter, and how much its workers' separations
+   * differ from the nation's (one where no national rate is read).
+   */
+  of(usps: string | undefined): {
+    meanOverNow: number;
+    rise: number;
+    separation: number;
+  };
   /** Keeps the run's reference and recent months. */
   save(): void;
 }
@@ -167,7 +177,16 @@ export function workConditions(api: CoreAPI): WorkConditions {
       Object.entries(stored.recent).map(([key, rows]) => [key, [...rows]]),
     ),
   };
-  const conditions = new Map<string, { meanOverNow: number; rise: number }>();
+  const conditions = new Map<
+    string,
+    { meanOverNow: number; rise: number; separation: number }
+  >();
+  // The nation's rate on the run's first review: the base rates (JOLTS layoffs, CPS spells out of work) are the nation's, so a state is read against it.
+  if (national !== undefined && national > 0)
+    state.reference[NATIONAL_KEY] ??= national;
+  const natRef = state.reference[NATIONAL_KEY];
+  const hundred = p("percent");
+  const odds = (rate: number) => rate / Math.max(hundred - rate, p("one"));
   const value: WorkConditions = {
     of(usps) {
       const key = usps ?? "";
@@ -175,17 +194,24 @@ export function workConditions(api: CoreAPI): WorkConditions {
       if (known) return known;
       const now = (usps ? byState.get(usps) : undefined) ?? national;
       if (now === undefined || now <= 0) {
-        const flat = { meanOverNow: p("one"), rise: p("zero") };
+        const flat = {
+          meanOverNow: p("one"),
+          rise: p("zero"),
+          separation: p("one"),
+        };
         conditions.set(key, flat);
         return flat;
       }
       state.reference[key] ??= now;
       const recent = [...(state.recent[key] ?? []), now].slice(-4);
       state.recent[key] = recent;
+      // The base layoff rate (JOLTS) is the nation's, which holds the nation's own rate where nothing changes (separations over finds is the odds of being out of work). A state that opens above or below the nation's rate loses work more or less often in the ratio of its odds to the nation's, so its rate holds near where it opened; its own events move it from there through the rise and the mean.
+      const ref = state.reference[key]!;
       const row = {
-        meanOverNow: state.reference[key]! / now,
+        meanOverNow: ref / now,
         // The rise over the last quarter, as the pre-start run reads it.
         rise: Math.max(p("zero"), now - recent[0]!),
+        separation: natRef === undefined ? p("one") : odds(ref) / odds(natRef),
       };
       conditions.set(key, row);
       return row;
@@ -202,7 +228,7 @@ export function workConditions(api: CoreAPI): WorkConditions {
 export function regionalConditions(
   api: CoreAPI,
   placeId: string,
-): { meanOverNow: number; rise: number } {
+): { meanOverNow: number; rise: number; separation: number } {
   return workConditions(api).of(uspsOf(placeId));
 }
 
@@ -378,7 +404,9 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
           );
       } else if (row.status === "employed") {
         row.layoffPull +=
-          layoffPerQuarter(api, at.rise, leans.layoffLean, ageFactor) * month;
+          layoffPerQuarter(api, at.rise, leans.layoffLean, ageFactor) *
+          at.separation *
+          month;
         row.quitPull +=
           quitPerQuarter(
             api,

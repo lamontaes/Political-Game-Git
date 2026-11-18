@@ -10,9 +10,9 @@
     "last": "last"
   },
   "order": {
-    "about": "The four replies are shown in this order. A candidate who carries a talk on (the trait engine's conversation.reply-reach decision) sees the answers that say more first; one who keeps it short sees the brief ones first.",
-    "carryOn": ["further", "turn", "plain", "brief"],
-    "keepShort": ["brief", "plain", "turn", "further"]
+    "about": "The replies are shown in this order (`other` is the side of the question the record does not hold, `plain` the side it does, `brief` the way not to answer). A candidate who carries a talk on (the trait engine's conversation.reply-reach decision) sees the answers that say more first; one who keeps it short sees the brief ones first.",
+    "carryOn": ["further", "turn", "plain", "other", "brief"],
+    "keepShort": ["brief", "plain", "other", "turn", "further"]
   },
   "kinds": {
     "interview": {

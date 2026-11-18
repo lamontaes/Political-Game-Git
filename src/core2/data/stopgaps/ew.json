@@ -10,7 +10,7 @@
     "addedAt": "2026-10-20",
     "replacement": "Once the coverage record is on main, the coverage decision reads webFactorFor(\"health.uninsured-pct\", subject) with the moderators already in links.json (unemployment by sex and age), and medical debt reads the coverage record.",
     "status": "resolved",
-    "resolution": "The coverage review (modules/coverage.ts, holdersToday) reads the web's factor for health.uninsured-pct for each worker's age and sex, full and counted alike, so the running uninsured-share links (unemployment, Medicaid expansion, the work requirement) change who holds an employer plan, by coverage record; proved by src/core2/coverage-web.test.ts. The medical-debt link and the marriage-equality link are registered on their own in SG-EW-HEALTH-medical-debt-reader."
+    "resolution": "The coverage review (modules/coverage.ts, holdersToday) reads the web's factor for health.uninsured-pct for each worker's age and sex, full and counted alike, so the running uninsured-share links (unemployment, Medicaid expansion, the work requirement) change who holds an employer plan, by coverage record; proved then by a test since deleted. Nov 16, 2026: the coverage review no longer reads that factor, because the share it ranks is of workers who still have a job, so the unemployment link took plans from workers who kept their jobs on top of the plans the lost jobs already ended (counted twice); the Medicaid links are carried by the law reach's coverage records. The medical-debt link and the marriage-equality link are registered on their own in SG-EW-HEALTH-medical-debt-reader."
   },
   {
     "id": "SG-EW-HEALTH-medical-debt-reader",

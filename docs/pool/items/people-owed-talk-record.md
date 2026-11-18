@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/pool-people-owed-talk-record
 pr: #8429
 blocked-on:
@@ -19,6 +19,7 @@ root: design-life-record
 checked: fable 2026-11-11
 claimed-at: 2026-11-11T05:23:56.072Z
 branch: claude/pool-people-owed-talk-record
+merged-at: 2026-11-15T23:11:08.410Z
 ---
 
 **What.** A reply such as "Give me tonight. Sunday we sit down with the bills." already records that a talk is owed: the reply's own record names who is owed, about what and by which day. But nothing reads that. Neither person keeps it, nothing can ask "is a talk with this person owed and overdue?", and nothing tells whether the two talked since. This item makes both people remember the owed talk and gives the director one read that says whether it came due unkept. Seen: a talk the player or a relative put off, coming due on the promised day. Feeds: scene-owed-talk-comes-due

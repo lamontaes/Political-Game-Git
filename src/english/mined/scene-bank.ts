@@ -25,6 +25,8 @@ interface Use {
   stages?: string[];
   /** The settings a line can be said in ("home" for "has been waiting for you to get home"); none, any. */
   settings?: string[];
+  /** Facts or marks a line is said only with ("evening" for "The day is done.", a ballot for "I voted for"), though it names none. */
+  requiresFacts?: string[];
 }
 interface MinedPart extends BankPart<Use> {
   /** The manner the wording carries, for the speaker's trait pulls. */
@@ -69,6 +71,7 @@ function variants(bank: Bank, subject: string, role: string, staged = false) {
           : {}),
       ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
       ...(use?.settings ? { settings: use.settings } : {}),
+      ...(use?.requiresFacts ? { requiresFacts: use.requiresFacts } : {}),
     };
   });
 }
@@ -150,6 +153,13 @@ export function bringWordsFromBank(
       // Each line names the bill's form (its choice: an act, an ordinance).
       passed: variants(bank, "your-bill", "passed", true),
       failed: variants(bank, "your-bill", "failed", true),
+    },
+    // A race's result as read in the paper: its choice says whether the line
+    // names the winner ("named") or leaves the name to the line after it.
+    election: variants(bank, "election", "result", true),
+    lean: {
+      with: variants(bank, "lean", "with"),
+      against: variants(bank, "lean", "against"),
     },
   };
 }

@@ -241,12 +241,12 @@ describe("English part banks", () => {
 // that plays later falls to a piece that names no day.
 describe("relative days in scene narration", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
-  type Use = { step?: string; requiresFacts?: string[] };
+  type Use = { step?: string; requiresFacts?: string[]; onlyWhen?: string[] };
   it("says today, tonight, tomorrow or yesterday only with the fact that makes it true", () => {
     const wrong: string[] = [];
     for (const part of sceneTalk.parts as (Part & { uses: Use[] })[])
       for (const use of part.uses.filter((row) => row.step === "narrate")) {
-        const needs = use.requiresFacts ?? [];
+        const needs = [...(use.requiresFacts ?? []), ...(use.onlyWhen ?? [])];
         if (
           /\b(?:today|tonight|this (?:morning|afternoon|evening))\b/i.test(
             part.text,
@@ -295,23 +295,19 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-confront.not-after-tonight-you-re-not",
   "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
   "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
-  "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
-  "scene-talk.follow-press.then-send-another-one-tonight",
   "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
   "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
   "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
-  "scene-talk.follow-thank.i-ll-write-them-down-for-you-tonight",
-  "scene-talk.follow-thank.i-ll-write-it-tonight",
-  "scene-talk.reply-offer.my-office-will-give-you-the-name-and-the-number-tonight",
   "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
   "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
   "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
   "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
-  "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
+  // The bill's vote that evening, from its floor date (rule 22).
+  "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
 describe("the time of day in scene talk", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;

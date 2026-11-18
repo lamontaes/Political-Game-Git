@@ -145,26 +145,12 @@ sha512-verified release zip, when the player quits.
 
 ## Proof
 
-- `scripts/continuity-test.mjs` launches two actually packaged builds
-  against one isolated profile and proves installed A → saved life →
-  installed B → same life across the whole supported state matrix:
-  identity, Journal (real surface), calendar (day surface + saved
-  moment), people rail, money/resources (payload digest — accepted main
-  has no money HUD), history (action sequence + byte-identical payload
-  sha256), appearance identity where a character surface renders, save
-  generation unmoved, zero off-origin requests. States accepted main
-  does not persist are DISCLOSED as boundaries rather than faked
-  (pins are shell-session state; no wardrobe choice exists on main).
-- `scripts/save-integrity-test.mjs` proves the existing repository
-  semantics in the installed app: a hard-killed session's save stays
-  recoverable; a corrupt record and a newer-schema (downgrade) record
-  are refused but their bytes are preserved — never silently deleted —
-  and the healthy life continues beside them. No second save-version
-  system exists.
-- `scripts/transfer-test.mjs` launches a packaged build, keeps a life,
-  exports the portable file, imports it as a new slot, and checks that
-  both lives remain. Unit tests cover malformed/newer/candidate
-  refusals and two-life plus repeated-import slot identity.
+- `tests/play-api-host-save.test.mjs` starts the play server's host as
+  the app does, plays a life two days, stops the host as quitting the app
+  does, starts a new one on the same save folder, and checks that the
+  title offers that life and loads it to the same player, day and card.
+  The app keeps its saves in `saves` under its user data folder
+  (`main.mjs`); the save itself is `src/core2/saves.ts`.
 - `scripts/smoke-test.mjs --app <exe> [--shell]` is the bounded per-OS
   runtime proof (launch → new life → keep → relaunch → continue;
   `--shell` adds resize, fullscreen on/off, minimize/restore, clean
@@ -172,9 +158,6 @@ sha512-verified release zip, when the player quits.
   against the client INSTALLED by the real NSIS installer.
 
 ```bash
-node scripts/continuity-test.mjs --app-a <A executable> --app-b <B executable>
-node scripts/save-integrity-test.mjs --app <executable>
-node scripts/transfer-test.mjs --app <executable>
 node scripts/smoke-test.mjs --app <executable> --shell
 ```
 

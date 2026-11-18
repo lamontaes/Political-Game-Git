@@ -8,6 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { FEE_LEVEL_SERIES } from "../fee-levels";
 import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type {
@@ -21,7 +22,11 @@ import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { tableTraceOn } from "../module-state";
-import { POLICY_QUESTIONS, POLICY_SERIES_BY_LEVEL } from "../policy-answers";
+import {
+  POLICY_QUESTIONS,
+  POLICY_SERIES_BY_LEVEL,
+  policySeriesAtLevel,
+} from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import {
   holdPublicPay,
@@ -29,6 +34,7 @@ import {
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
+import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
 import {
   socialSecurityAgesFrom,
@@ -60,8 +66,11 @@ import {
  */
 export { webReach, webFactorFor } from "../outcome-web-reach";
 // The town's modeled people (named and counted), for the screens.
-export { townFacts } from "../law-reach/group-b-people";
+export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
+/** Who a law reached, by key, for the speeches that say what a law did. */
+export { reachedBy, reachOn } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
+export { veteransIncomeByHousehold } from "../law-reach/group-b-veterans";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
 export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
@@ -73,8 +82,11 @@ export { WEB_LINKS } from "../outcome-web-model";
  */
 export {
   ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
+  MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
+  payMedicareLinePart,
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
@@ -868,6 +880,82 @@ export function questionSettled(
   return same ? { lawId: latest.id, why: "restates-in-force" } : null;
 }
 
+const FEDERAL_ANSWERS = (
+  federalAnswers as unknown as {
+    questions: Record<string, { answer: string }>;
+  }
+).questions;
+
+/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
+export function answerIn(
+  api: CoreAPI,
+  stateKey: string,
+  question: string,
+  /** Count acts already enacted that haven't taken effect yet. */
+  enacted = false,
+): number | null {
+  const rows = lawRows(api, question, stateKey)
+    .filter((r) => enacted || r.effectiveDate <= api.state.date)
+    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
+  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
+  const answer =
+    stateKey === "US"
+      ? FEDERAL_ANSWERS[policySeriesAtLevel(question, "federal")]?.answer
+      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
+  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
+}
+
+/** A jurisdiction's own latest enacted row on a question, whether or not it has taken effect yet. */
+function ownRow(
+  api: CoreAPI,
+  jurisdiction: string,
+  question: string,
+): number | null {
+  const row = [...lawRows(api, question, jurisdiction)].sort((a, b) =>
+    b.effectiveDate.localeCompare(a.effectiveDate),
+  )[0];
+  return row ? (row.value === 1 ? 1 : -1) : null;
+}
+
+/**
+ * Whether a policy is law for the town at any level as enacted, an act
+ * waiting on its effective date included (the state's recorded starting
+ * answer counting until a state act replaces it).
+ */
+function inForceForTown(api: CoreAPI, question: string): boolean {
+  const chain = lawChain(api);
+  return chain.levels.some(({ level, jurisdiction }) =>
+    level === "state"
+      ? answerIn(api, jurisdiction, question, true) === 1
+      : ownRow(api, jurisdiction, question) === 1,
+  );
+}
+
+/**
+ * Whether a body's law needs the change a bill or a section pointing this
+ * way would make: a policy wanted where it isn't law, or wanted gone where
+ * it is. Nothing to undo where no law stands. One rule for every member's
+ * filing and for every section a member trades for or moves as an amendment.
+ * A state or Congress reads its own answer in force, its recorded starting
+ * answer counted. A town, county or township body enacts only what is not
+ * already law for the town at any level, and repeals only a rule of its own.
+ */
+export function lawNeedsChange(
+  api: CoreAPI,
+  level: "federal" | "state" | "city",
+  jurisdiction: string,
+  question: string,
+  direction: number,
+): boolean {
+  if (level !== "city") {
+    const now = answerIn(api, jurisdiction, question, true);
+    return direction > 0 ? now !== 1 : now === 1;
+  }
+  return direction > 0
+    ? !inForceForTown(api, question)
+    : ownRow(api, jurisdiction, question) === 1;
+}
+
 /**
  * An enacted law: a new dated row at its level, read by `lawInForce` from its
  * effective date like any starting row, and put on the calendar so it takes
@@ -1118,6 +1206,7 @@ export function lawHere(
   date: string = api.state.date,
   series: readonly string[] = [
     ...AMOUNT_SERIES,
+    ...FEE_LEVEL_SERIES,
     ...Object.keys(POLICY_QUESTIONS),
   ],
 ): readonly LawInForceAnswer[] {
@@ -1281,10 +1370,16 @@ export {
 } from "./corruption";
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { policyAuthority } from "../policy-authority";
+export { policyAuthority, type PolicyLevel } from "../policy-authority";
 export { stateActEffectiveDate } from "../state-effective-date";
-export { policySeriesAtLevel } from "../policy-answers";
+export { labelOfAnotherAtLevel, policySeriesAtLevel } from "../policy-answers";
 export type { LawRowInput } from "../laws-starting";
 export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
 export { termReadPlaces } from "../term-read";
 export { countryTermRead } from "../term-read";
+export {
+  areasAnswered,
+  jurisdictionTermRead,
+  questionAnswersArea,
+  topicsAnsweringArea,
+} from "../term-read";
