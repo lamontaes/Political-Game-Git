@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/story-address-reaches-beyond-the-house
+pr: 10137
 after:
 blocked-on:
 lead: story
