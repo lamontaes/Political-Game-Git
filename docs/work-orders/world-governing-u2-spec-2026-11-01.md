@@ -380,7 +380,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - `votesAreTownNews` (officials.ts:1717-1725) is unchanged, so its two-argument test calls stay valid. The critic wanted `votesAreTownNews` to call `bodyJurisdiction`. That would make officials.ts import legislature.ts, which imports officials.ts. So the gate comes from the one caller as an option instead.
 - **Today:** no change.
 - **Tests:**
-  - src/director/journal-bill-names.test.ts:145-161, journal-relative-acts.test.ts:94-103, ask-before-the-roll.test.ts:271
+  - src/director/journal-bill-names.test.ts (removed):145-161, journal-relative-acts.test.ts:94-103, ask-before-the-roll.test.ts:271
   - record-vote-per-question.test.ts:108-119, :266-283, :433, :458
   - record.test.ts:416-436
 - **Proof:** in the edge fixture, the outside roll call emits no `office.voted` except for the one member put in `focusPersonIds`, and no `vote-recorded`. Its record rows exist under that body.
