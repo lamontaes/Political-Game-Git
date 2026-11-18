@@ -1248,6 +1248,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Both cases needed the desk-visit scene (the sponsor or the group against a bill coming in to the executive) to compose; its lines are deleted and it is skipped unworded."
+    },
+    {
+      "old": "src/director/diploma-home-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed someone at home to mark a graduation the day after; the scene's lines are deleted, so no drawn place played it."
     }
   ]
 }
