@@ -42,7 +42,6 @@ const CUT_PURPOSES = new Set<string>([
   "first-day",
   "last-day",
   "date",
-  "breakup",
   "betrayal",
   "rescue",
   "prison-visit",
