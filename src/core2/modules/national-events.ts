@@ -536,3 +536,12 @@ export function openNationalEvents(core: CoreState): void {
   if (!core.modules.has(NATIONAL_EVENTS_MODULE_ID))
     registerModule(core, NATIONAL_EVENTS_MODULE);
 }
+
+// The town's own disasters, for dev mode's town-disasters view (the family's entry is this file).
+export {
+  causeDamagingDisaster,
+  causeDisaster,
+  DISASTERS_MODULE_ID,
+  townDisasters,
+} from "./disasters";
+export { hazardOfIncident, type Hazard } from "./climate";

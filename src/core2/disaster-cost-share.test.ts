@@ -10,7 +10,8 @@ import declarations from "./data/disasters/declarations.json" with { type: "json
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { disasterAssistancePaid } from "./modules/disasters";
+import { causeDisaster, disasterAssistancePaid } from "./modules/disasters";
+import { hazardOfIncident, RECORD_END, type Hazard } from "./modules/climate";
 import { enactLaw, lawChain } from "./modules/laws";
 import {
   countyGeoidsForPlace,
@@ -28,7 +29,9 @@ interface Candidate {
   name: string;
   state: string;
   disaster: number;
-  declared: string;
+  hazard: Hazard;
+  /** Days from the disaster's start to its declaration. */
+  lag: number;
 }
 
 /** A town's name as the FEMA records key it: "Iaeger town" is "iaeger". */
@@ -60,10 +63,11 @@ function candidates(): Candidate[] {
       )
     )
       continue;
-    for (const [, declared, , , number] of byCounty[county[0]!] ?? [])
+    for (const [begins, declared, type, , number] of byCounty[county[0]!] ?? [])
       if (
-        declared >= "2025-01-25" &&
-        declared <= "2025-12-31" &&
+        begins >= "2000-01-01" &&
+        begins <= RECORD_END &&
+        hazardOfIncident(declarations.types[type] ?? "") &&
         (pa[`${county[0]}|${number}`]?.towns[recordName(p.sourceName)] ?? 0) > 0
       )
         out.push({
@@ -71,7 +75,10 @@ function candidates(): Candidate[] {
           name: p.sourceName,
           state: p.stateUsps,
           disaster: number,
-          declared,
+          hazard: hazardOfIncident(declarations.types[type] ?? "")!,
+          lag: Math.round(
+            (Date.parse(declared) - Date.parse(begins)) / 86_400_000,
+          ),
         });
   }
   return out;
@@ -119,17 +126,33 @@ it(
           measureId: "disaster-cost-share-test",
           citation: "Test: states share disaster costs",
         });
-        // Public assistance is paid on the declaration date; stop the day after.
-        const end = addDays(makeIsoDate(picked.declared), 1);
+        // The county's exposure makes the recorded disaster in each world; public assistance is
+        // paid on its declaration date, so stop the day after.
+        const made = causeDisaster(api, picked.hazard, picked.disaster);
+        const same = causeDisaster(
+          coreAPI(control),
+          picked.hazard,
+          picked.disaster,
+        );
+        if (!made || !same || made.number !== same.number) {
+          tried.push(
+            `${picked.name}, ${picked.state} (${picked.key}): no ${picked.hazard} disaster ${picked.disaster} to cause`,
+          );
+          continue;
+        }
+        const end = addDays(makeIsoDate(made.declared), 1);
         advanceCore(lawWorld, end);
         advanceCore(control, end);
         const sum = (core: typeof control) =>
           disasterAssistancePaid(coreAPI(core))
-            // Public assistance goes to governments; household aid (paid to the residents' account) is individual assistance the law does not touch.
+            // Public assistance goes to governments (a payment to an organization's own id); household aid
+            // (paid to a household's account, a counted group's or a named head's) is individual assistance the law does not touch.
             .filter(
               (r) =>
-                r.disaster === picked.disaster &&
-                !r.orgId.startsWith("cash:residents:"),
+                r.disaster === made.number &&
+                core.organizations
+                  .get(r.orgId as never)
+                  ?.classification?.startsWith("service:") === true,
             )
             .reduce((n, r) => n + r.cents, 0);
         const withLaw = sum(lawWorld),
