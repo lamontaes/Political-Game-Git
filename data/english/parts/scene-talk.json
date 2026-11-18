@@ -24826,10 +24826,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-needed-to-hear-that-we-ve-been-asking-child-what-office-will-mean",
+      "key": "scene-talk.follow-thank.i-needed-to-hear-that-we-ve-been-telling-child-what-running-for-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I needed to hear that. We've been asking {child} what {office} will mean.",
+      "text": "I needed to hear that. We've been telling {child} what running for {office} will mean.",
       "uses": [
         {
           "subject": "scene",
@@ -24904,10 +24904,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-d-rather-not-talk-about-office-right-now",
+      "key": "scene-talk.reply-deflect.i-d-rather-not-talk-about-running-for-office-right-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I'd rather not talk about {office} right now.",
+      "text": "I'd rather not talk about running for {office} right now.",
       "uses": [
         {
           "subject": "scene",
@@ -24929,10 +24929,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.that-s-a-longer-talk-about-office-than-i-can-have-right-now",
+      "key": "scene-talk.reply-deflect.running-for-office-is-a-longer-talk-than-i-can-have-right-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "That's a longer talk about {office} than I can have right now.",
+      "text": "Running for {office} is a longer talk than I can have right now.",
       "uses": [
         {
           "subject": "scene",
@@ -24980,10 +24980,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.please-just-tell-me-where-child-fits-in-office",
+      "key": "scene-talk.follow-plea.please-just-tell-me-where-child-fits-if-you-run-for-office",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Please, just tell me where {child} fits in {office}.",
+      "text": "Please, just tell me where {child} fits if you run for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -25006,10 +25006,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-should-have-told-you-about-office-before-it-got-around",
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-should-have-told-you-i-was-running-for-office-before-it-go",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. I should have told you about {office} before it got around.",
+      "text": "I'm sorry. I should have told you I was running for {office} before it got around.",
       "uses": [
         {
           "subject": "scene",
