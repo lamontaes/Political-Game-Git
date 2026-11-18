@@ -1,6 +1,6 @@
 {
   "schema": "scene-patterns/1",
-  "asOf": "2026-11-17",
+  "asOf": "2026-11-18",
   "about": "Scene patterns drawn from real political lives. Real lives calibrate only: no real name, words or event ships. Roles and settings are slots the director fills from the world's records. Gates are yes-or-no facts that may gate; weights are amounts that only weight the pick. unlocks, extends and mergesWith hold pattern ids (A = bank 1, B = bank 2, C = bank 3), kind: (a scene kind the game has today), class: (a row in docs/design/scenes/scene-catalog), later: (a kind the inventory marks needed later). Bank 3 patterns also carry alsoStages (other stages where their gates can hold; stage is the home tab) and needs (mechanics they lean on that the game lacks or only partly has, keyed to the needs list). No pattern is locked to one stage: the director may blend parts of several patterns that fit the same player into one scene (mergesWith).",
   "stages": [
     {
@@ -219,7 +219,8 @@
     "bank2": 55,
     "bank2NewPeople": 65,
     "bank3": 49,
-    "bank3People": 15
+    "bank3People": 15,
+    "bank4": 1
   },
   "needs": [
     {
@@ -10925,6 +10926,130 @@
       "ifNo": "Staying quiet writes that you said nothing, and both sides take it as a side.",
       "alsoStages": ["the-work", "running-again"],
       "needs": ["grudge", "allies-turning"]
+    },
+    {
+      "id": "A47",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "first-days"],
+      "title": "The first word on the address",
+      "roles": [
+        {
+          "slot": "the speaker",
+          "fill": "whoever is around the player with a stand on the address: kin or a housemate at home; a neighbor; a coworker the next morning; a regular where people gather (the barber, the diner counter, a morning coffee group, a church's fellowship hour); a local party officer; rarely a stranger, and only where talking to strangers is normal in that setting. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the address",
+          "fill": "the President's address on record that day: the inaugural on day 0, later any big address"
+        },
+        {
+          "slot": "the point",
+          "fill": "one point of {the address} from its record: what the President promised, warned about or claimed, and which side the President took"
+        },
+        {
+          "slot": "their reason",
+          "fill": "the record from {the speaker}'s own life that gives them a stand: their job and employer, their rent or mortgage, a relative it touches, a story they read, their party"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever {the speaker} and the player are when it comes up, by the record: home the evening it aired, the place {the speaker} gathers with regulars, work the next morning, or out in public, a park bench or a bus stop. People who watched it together bring it up sooner."
+      },
+      "gates": [
+        "{the speaker} holds {the address} on record, having watched it or heard of it from someone or the news.",
+        "{the speaker} has a stand on {the point}.",
+        "{the speaker} and the player are in the same place on record within a week of {the address}.",
+        "{the speaker} has not raised {the point} with the player before."
+      ],
+      "weights": [
+        "How much {the point} touches {the speaker}'s life ({their reason}).",
+        "How engaged in politics {the speaker} is.",
+        "Whether the people present mostly agree: people bring politics up more among those who share their views, and hold back at work and with family when they don't.",
+        "The setting's habits: home and regulars' places more, work and strangers less.",
+        "Traits that speak up."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the speaker} is a local party officer or someone deep in politics",
+          "then": "They end on the party's next meeting or a rally, with the time and place on record, and the player can go."
+        },
+        {
+          "by": "record",
+          "when": "{the point} touches the player's own record (their job, their rent, their family)",
+          "then": "{the speaker} asks what the player thinks anyone should do about it, the first nudge toward doing something."
+        },
+        {
+          "by": "record",
+          "when": "{the speaker} and the player disagree and the setting is work",
+          "then": "{the speaker} drops it fast. The disagreement is recorded on the tie, and it colors the next talk."
+        },
+        {
+          "by": "household",
+          "when": "they watched {the address} together at home",
+          "then": "It can be one line, praise or scorn, with no question at the end. It's the intro, and it tells the player who this person is."
+        }
+      ],
+      "unlocks": ["A13", "A06", "A16", "kind:bring-it-up"],
+      "extends": ["kind:news-talk"],
+      "mergesWith": ["A11", "A04"],
+      "sources": [
+        {
+          "person": "Katherine Cramer's rural Wisconsin study",
+          "life": "She sat in on morning coffee groups at gas stations and cafes, and in churches, where regulars, mostly retired or working men, plus a women's lunch group, talked politics as part of who they were and what they felt their places were owed.",
+          "urls": [
+            "https://www.christiancentury.org/article/political-scientist-tries-understand-states-rural-residents",
+            "https://www.scientificamerican.com/article/trump-s-victory-and-the-politics-of-resentment/"
+          ]
+        },
+        {
+          "person": "Melissa Harris-Perry (Harris-Lacewell)",
+          "life": "Her study of barbershops and churches found political ideas form in everyday talk among neighbors and local figures, and most of it is about life, not about presidents and senators.",
+          "urls": [
+            "https://press.princeton.edu/books/paperback/9780691126098/barbershops-bibles-and-bet",
+            "https://historynet.com/dialogue-barbershops-bibles-americas-racial-divide/"
+          ]
+        },
+        {
+          "person": "Pew Research Center surveys, 2018 and 2024",
+          "life": "Most adults say politics comes up a little with family and friends, about one in five a lot. Families that agree talk more, and about two in five families avoid it.",
+          "urls": [
+            "https://www.pewresearch.org/politics/2018/11/20/most-say-their-family-is-ok-with-discussing-politics-but-it-helps-if-the-family-agrees/",
+            "https://www.pewresearch.org/short-reads/2024/07/02/whats-new-with-you-what-americans-talk-about-with-family-and-friends/"
+          ]
+        },
+        {
+          "person": "A Penn State poll",
+          "life": "Only about one in six adults feel comfortable talking politics with anyone, and people hold back most at work and around family.",
+          "urls": [
+            "https://laist.com/news/politics/poll-a-majority-of-americans-embrace-democracy-but-most-self-censor-their-political-speech"
+          ]
+        },
+        {
+          "person": "Rochester barbershop, Jan. 2017",
+          "life": "A barber watched the inauguration on the shop TV and said he hoped the new President would deliver what he promised. A customer worried about who was and wasn't in the crowd.",
+          "urls": [
+            "https://www.wxxinews.org/government/2017-01-20/local-people-react-to-the-inauguration-of-a-new-president"
+          ]
+        },
+        {
+          "person": "Diners in Old Bridge, New Jersey, and Hamilton, Montana, Jan. 2025",
+          "life": "Residents watched the address together at the diner. One said the talk of unity struck a chord; a server wanted to see action; a man in Montana was glad it mentioned God.",
+          "urls": [
+            "https://www.cbsnews.com/newyork/news/new-jersey-trump-inauguration",
+            "https://www.npr.org/transcripts/510828590"
+          ]
+        }
+      ],
+      "bank": 4,
+      "beat": null,
+      "moment": "{the speaker} brings up {the point}: what the President said, and where they stand on it, from {their reason}. It can be one line, praise or scorn, and it doesn't have to end in a question. It doubles as the player's first look at the world: who this person is, what they do, what's going on in town.",
+      "choices": [
+        "agree with them",
+        "disagree, with the other side of the point",
+        "ask what it means for them",
+        "let it go"
+      ],
+      "ifNo": "Letting it go writes no stand for the player, and the point waits for another day. If the news keeps {the point} alive, someone else raises it. A reply writes the player's first stand on that question, the told record, and time on the tie, so the next talk says something else."
     }
   ]
 }
