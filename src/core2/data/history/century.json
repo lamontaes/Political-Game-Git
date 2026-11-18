@@ -87,11 +87,11 @@
       "spread": [0.3, 0.8]
     },
     "centuryFoundingCost": {
-      "value": 0.5,
+      "value": 0.26,
       "tag": "TUNABLE",
       "role": "coefficient",
-      "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once so drawn worlds differ in how many parties they found, from none to several; never a target count.",
-      "spread": [0.3, 1.2]
+      "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once, after the unreached share became a sliding scale (the steady pressure is twice the unreached share, and the fitted party positions put it near 0.26, so a cost near it lets worlds differ in whether and when they found one); never a target count.",
+      "spread": [0.15, 0.6]
     },
     "centuryPartyLeanScale": {
       "value": 1.6,
