@@ -4,7 +4,11 @@ import { seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import {
+  billCatalog,
+  catalogLevelOf,
+  provisionFor,
+} from "../core2/bill-catalog";
 import { personLean } from "../core2/campaign-views";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -83,14 +87,41 @@ it(`a donor's ask reads the donor's side, the player's side, the bill's stage, t
       passed.push(`${place.name} (no body's race open in the year)`);
       continue;
     }
-    // Bills before the body, so a donor has one to raise (a town's own come and go).
+    // Bills before the body, so a donor has one to raise (a town's own come and
+    // go): from the catalog the body drafts from (a township's is the town's,
+    // as the bench's bill menu reads it), on questions someone in town holds a
+    // view on, since a donor raises only a bill they care about (`donorsBill`).
     const sponsor = members(api, race.officeId)[0]!;
-    for (const policy of billCatalog(
-      api,
-      race.level as "city" | "county" | "state",
-    )
+    const town = lawChain(api).townPlaceId;
+    const residents = [...core.people.values()].filter(
+      (p) => p.alive && p.placeId === town,
+    );
+    const heldInTown = (policyId: string) => {
+      const stance = provisionStance(
+        api,
+        provisionFor({ policyId, operation: "enact" }),
+      );
+      return (
+        !!stance &&
+        residents.some(
+          (p) =>
+            viewOn(
+              api,
+              p.id as PersonId,
+              stance.question,
+              personLean(core.people, p, townLean(api)),
+            ) !== P.zero,
+        )
+      );
+    };
+    for (const policy of billCatalog(api, catalogLevelOf(race.level))
       .flatMap((subject) => subject.topics.flatMap((t) => t.policies))
-      .filter((row) => row.kind === "policy-question" && row.authority.allowed)
+      .filter(
+        (row) =>
+          row.kind === "policy-question" &&
+          row.authority.allowed &&
+          heldInTown(row.id),
+      )
       .slice(0, 6))
       draftBill(api, {
         bodyOfficeId: race.officeId,
@@ -99,7 +130,6 @@ it(`a donor's ask reads the donor's side, the player's side, the bill's stage, t
       });
     // A sitting member of the body files again, else a resident of the town.
     const clerkId = filingClerkFor(api, race.id)?.personId;
-    const town = lawChain(api).townPlaceId;
     const tried = [
       ...members(api, race.officeId)
         .map((term) => core.people.get(memberKey(term) as PersonId))
