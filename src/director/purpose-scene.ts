@@ -146,7 +146,7 @@ import { bargainFacts } from "./bargain-facts";
 import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
-import { meetingFacts } from "./meeting-facts";
+import { meetingFacts, nextMeetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
@@ -2045,6 +2045,28 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // A party's ask that the player run (candidacy.ts writeAsk): the party the
+  // record names, as the welcome says it, and the day filing closes, said as a day.
+  if (record?.kind === "party-asked") {
+    if (typeof said.party === "string" && said.party)
+      facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    if (typeof said.filingDeadline === "string" && said.filingDeadline)
+      facts.deadline = {
+        text: spokenDate(said.filingDeadline, core.date),
+        sourceRecordIds: [moment.causeId],
+      };
+  }
+  // A cause's invitation (a `cause.shared` record): the town body's next posted
+  // meeting, where the office-day engine has one, said as the meeting scenes say it.
+  if (type.purpose === "join-cause")
+    for (const key of ["meeting", "meeting-when"]) {
+      const held = nextMeetingFacts(core)[key];
+      if (held)
+        facts[key] = {
+          text: held.text,
+          sourceRecordIds: [...held.sourceRecordIds, moment.causeId],
+        };
+    }
   // Joining a party: the party the record names, by its name.
   if (type.purpose === "party-welcome" && typeof said.party === "string") {
     facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };

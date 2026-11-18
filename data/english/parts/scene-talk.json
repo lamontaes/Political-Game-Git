@@ -176,7 +176,8 @@
     "gift-weight": "How a donor's gift ranks among the campaign's gifts, in words and never a figure (\"the biggest check you've had\"), from the campaign's gift rows.",
     "your-side": "Which side of a bill the listener's own recorded view puts them on, \"for\" or \"against\", from the views engine.",
     "bill-stage": "Where a bill is, as people say it after \"is\" (\"just filed\", \"held up in committee\"), from the committee and floor records.",
-    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record."
+    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record.",
+    "meeting": "The town body whose next posted meeting the invitation is to, as its record names it (City Council), from the office-day engine's meeting record."
   },
   "maxWords": 70,
   "parts": [
@@ -26761,10 +26762,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-ve-been-giving-my-time-to-cause-i-d-like-you-to-come-along",
+      "key": "scene-talk.state-request.i-ve-been-pushing-for-cause-i-d-like-you-to-come-along",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've been giving my time to {cause}. I'd like you to come along.",
+      "text": "I've been pushing for {cause}. I'd like you to come along.",
       "uses": [
         {
           "subject": "scene",
@@ -26786,10 +26787,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.some-of-us-are-doing-something-about-cause-i-want-you-with-us",
+      "key": "scene-talk.state-request.some-of-us-are-pushing-for-cause-i-want-you-with-us",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Some of us are doing something about {cause}. I want you with us.",
+      "text": "Some of us are pushing for {cause}. I want you with us.",
       "uses": [
         {
           "subject": "scene",
@@ -26811,10 +26812,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.cause-matters-to-me-more-every-week-come-and-see-why",
+      "key": "scene-talk.state-request.i-keep-talking-about-cause-will-you-come-out-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{cause} matters to me more every week. Come and see why.",
+      "text": "I keep talking about {cause}. Will you come out with me?",
       "uses": [
         {
           "subject": "scene",
@@ -26836,10 +26837,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-come-out-with-me-for-cause-it-would-mean-a-lot",
+      "key": "scene-talk.state-request.will-you-come-out-with-me-on-cause-it-would-mean-a-lot",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you come out with me for {cause}? It would mean a lot.",
+      "text": "Will you come out with me on {cause}? It would mean a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -26849,6 +26850,106 @@
           "purpose": "join-cause",
           "key": "favor-asked",
           "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-meeting-meets-meeting-when-and-i-m-speaking-up-about-cause-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {meeting} meets {meeting-when}, and I'm speaking up about {cause}. Come with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-going-to-the-meeting-meeting-meeting-when-to-push-for-cause-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going to the {meeting} meeting {meeting-when} to push for {cause}. Come with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-meeting-meets-meeting-when-i-ll-be-there-about-cause-will-you-come",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {meeting} meets {meeting-when}. I'll be there about {cause}. Will you come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.come-with-me-to-the-meeting-meeting-meeting-when-it-s-about-cause",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Come with me to the {meeting} meeting {meeting-when}. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
         }
       ],
       "bearing": "hopeful",
@@ -26886,10 +26987,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.come-where-and-to-do-what-for-cause",
+      "key": "scene-talk.reply-ask.come-where",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Come where, and to do what for {cause}?",
+      "text": "Come where?",
       "uses": [
         {
           "subject": "scene",
@@ -26911,10 +27012,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-me-being-there-change-for-cause",
+      "key": "scene-talk.reply-ask.to-do-what",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would me being there change for {cause}?",
+      "text": "To do what?",
       "uses": [
         {
           "subject": "scene",
@@ -26952,6 +27053,56 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-do-at-the-meeting-meeting",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I do at the {meeting} meeting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-i-have-to-say-anything-at-the-meeting-meeting",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do I have to say anything at the {meeting} meeting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27011,10 +27162,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-come-i-care-about-cause-too",
+      "key": "scene-talk.reply-agree.i-ll-be-there",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll come. I care about {cause} too.",
+      "text": "I'll be there.",
       "uses": [
         {
           "subject": "scene",
@@ -27036,10 +27187,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-want-to-hear-about-cause-firsthand",
+      "key": "scene-talk.reply-agree.i-ll-come-i-d-like-to-hear-more-about-cause",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I want to hear about {cause} firsthand.",
+      "text": "I'll come. I'd like to hear more about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -27061,10 +27212,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-glad-somebody-is-working-on-cause-it-can-t-be-me",
+      "key": "scene-talk.reply-agree.i-ll-be-at-the-meeting-meeting",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-glad-you-re-pushing-for-cause-it-can-t-be-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm glad somebody is working on {cause}. It can't be me.",
+      "text": "I'm glad you're pushing for {cause}. It can't be me.",
       "uses": [
         {
           "subject": "scene",
@@ -27086,10 +27262,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-give-the-time-that-cause-needs-i-m-sorry",
+      "key": "scene-talk.reply-decline.i-can-t-spend-the-time-on-cause-i-m-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't give the time that {cause} needs. I'm sorry.",
+      "text": "I can't spend the time on {cause}. I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -27161,31 +27337,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-won-t-promise-anything-on-cause-that-i-can-t-give-let-me-look-at-my-week",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I won't promise anything on {cause} that I can't give. Let me look at my week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.can-i-get-back-to-you-on-cause",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -27249,6 +27400,31 @@
           "purpose": "join-cause",
           "key": "favor-asked",
           "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-if-i-m-free-meeting-when",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see if I'm free {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
         }
       ],
       "bearing": "anxious",
@@ -27336,10 +27512,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.come-stand-with-people-from-place-that-s-all-i-m-asking",
+      "key": "scene-talk.follow-answer.just-come-once",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Come stand with people from {place}. That's all I'm asking.",
+      "text": "Just come once.",
       "uses": [
         {
           "subject": "scene",
@@ -27348,7 +27524,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["cause"]
         }
       ],
       "bearing": "calm",
@@ -27361,10 +27537,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.show-up-and-listen-people-in-place-will-see-you-there",
+      "key": "scene-talk.follow-answer.come-and-listen",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Show up and listen. People in {place} will see you there.",
+      "text": "Come and listen.",
       "uses": [
         {
           "subject": "scene",
@@ -27373,7 +27549,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["cause"]
         }
       ],
       "bearing": "warm",
@@ -27386,10 +27562,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.come-once-and-see-what-we-do-about-cause-then-you-decide",
+      "key": "scene-talk.follow-answer.come-and-see",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Come once and see what we do about {cause}. Then you decide.",
+      "text": "Come and see.",
       "uses": [
         {
           "subject": "scene",
@@ -27411,10 +27587,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-i-need-people-who-will-be-seen-that-is-how-cause-gets-noticed",
+      "key": "scene-talk.follow-answer.we-re-pushing-for-cause-come-see-how",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Mostly I need people who will be seen. That is how {cause} gets noticed.",
+      "text": "We're pushing for {cause}. Come see how.",
       "uses": [
         {
           "subject": "scene",
@@ -27436,44 +27612,19 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-knew-you-d-come-that-helps-cause",
-      "move": "follow-thank",
+      "key": "scene-talk.follow-answer.come-once-and-listen-it-s-meeting-when",
+      "move": "follow-answer",
       "kind": "spoken",
-      "text": "I knew you'd come. That helps {cause}.",
+      "text": "Come once and listen. It's {meeting-when}.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "thank",
+          "move": "answer",
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-means-a-lot-to-me-place-needs-people-like-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That means a lot to me. {place} needs people like you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["meeting-when"]
         }
       ],
       "bearing": "warm",
@@ -27481,7 +27632,32 @@
       "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "thank",
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-d-only-sit-and-listen-at-the-meeting-meeting",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You'd only sit and listen at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
         "key": "favor-asked"
       }
     },
@@ -27511,10 +27687,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-means-a-lot-to-me-and-to-everyone-working-on-cause",
+      "key": "scene-talk.follow-thank.glad-you-ll-come",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That means a lot to me, and to everyone working on {cause}.",
+      "text": "Glad you'll come.",
       "uses": [
         {
           "subject": "scene",
@@ -27536,10 +27712,60 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.one-visit-is-all-i-m-asking-people-in-place-would-notice-you-there",
+      "key": "scene-talk.follow-thank.i-knew-you-d-care-about-cause",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I knew you'd care about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-s-meeting-when",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.one-visit-only",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "One visit is all I'm asking. People in {place} would notice you there.",
+      "text": "One visit only.",
       "uses": [
         {
           "subject": "scene",
@@ -27548,7 +27774,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["cause"]
         }
       ],
       "bearing": "hopeful",
@@ -27561,10 +27787,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.then-come-once-just-to-hear-cause-out",
+      "key": "scene-talk.follow-press.come-once",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Then come once, just to hear {cause} out.",
+      "text": "Come once.",
       "uses": [
         {
           "subject": "scene",
@@ -27586,10 +27812,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.think-about-what-happens-to-cause-if-nobody-shows-up",
+      "key": "scene-talk.follow-press.think-about-who-speaks-on-cause-if-nobody-does",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Think about what happens to {cause} if nobody shows up.",
+      "text": "Think about who speaks on {cause} if nobody does.",
       "uses": [
         {
           "subject": "scene",
@@ -27611,10 +27837,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-the-door-stays-open-on-cause",
+      "key": "scene-talk.follow-press.just-come-once-it-s-meeting-when",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just come once. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. The door stays open on {cause}.",
+      "text": "Alright. I understand.",
       "uses": [
         {
           "subject": "scene",
@@ -27636,10 +27887,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-you-re-still-welcome-with-the-people-working-on-cause",
+      "key": "scene-talk.follow-accept.welcome-anytime",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. You're still welcome with the people working on {cause}.",
+      "text": "Welcome anytime.",
       "uses": [
         {
           "subject": "scene",
@@ -27661,10 +27912,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-understand",
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-keep-pushing-for-cause",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I understand.",
+      "text": "That's fair. I'll keep pushing for {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -27712,10 +27963,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-that-s-one-more-person-for-cause",
+      "key": "scene-talk.close-thank.thank-you-that-s-one-more-voice-on-cause",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you. That's one more person for {cause}.",
+      "text": "Thank you. That's one more voice on {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -27738,10 +27989,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-send-you-what-you-need-for-cause",
+      "key": "scene-talk.close-thank.see-you-meeting-when",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll send you what you need for {cause}.",
+      "text": "See you {meeting-when}.",
       "uses": [
         {
           "subject": "scene",
@@ -27750,7 +28001,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["cause"],
+          "requiresFacts": ["meeting-when"],
           "outcome": "resolved"
         }
       ],
@@ -27764,10 +28015,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-let-the-others-working-on-cause-know-you-re-coming",
+      "key": "scene-talk.close-promise.count-on-it",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll let the others working on {cause} know you're coming.",
+      "text": "Count on it.",
       "uses": [
         {
           "subject": "scene",
@@ -27790,10 +28041,36 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.understood-the-door-stays-open-on-cause",
+      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-at-the-meeting-meeting",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll save you a seat at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-offense-taken",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Understood. The door stays open on {cause}.",
+      "text": "No offense taken.",
       "uses": [
         {
           "subject": "scene",
@@ -27816,10 +28093,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.that-s-fine-i-ll-keep-working-on-cause-anyway",
+      "key": "scene-talk.close-accept.that-s-fine-i-ll-keep-pushing-for-cause",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "That's fine. I'll keep working on {cause} anyway.",
+      "text": "That's fine. I'll keep pushing for {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -27842,10 +28119,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-there-s-room-for-you-on-cause",
+      "key": "scene-talk.close-press.think-about-it",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about it. There's room for you on {cause}.",
+      "text": "Think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -27868,10 +28145,36 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-i-ll-check-in-with-you-later-about-cause",
+      "key": "scene-talk.close-press.think-about-it-it-s-meeting-when",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on. I'll check in with you later about {cause}.",
+      "text": "Go on.",
       "uses": [
         {
           "subject": "scene",
@@ -27894,10 +28197,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.of-course-come-find-me-about-cause-when-you-can",
+      "key": "scene-talk.close-accept.another-time",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Of course. Come find me about {cause} when you can.",
+      "text": "Another time.",
       "uses": [
         {
           "subject": "scene",
@@ -27919,10 +28222,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.of-course-i-ll-leave-the-invitation-open-for-cause",
+      "key": "scene-talk.close-accept.whenever-you-can",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Of course. I'll leave the invitation open for {cause}.",
+      "text": "Whenever you can.",
       "uses": [
         {
           "subject": "scene",
@@ -28185,6 +28488,106 @@
         }
       ],
       "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-has-no-one-in-the-office-race-would-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party has no one in the {office} race. Would you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-here-for-the-party-party-we-d-like-you-to-run-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm here for the {party} Party. We'd like you to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-from-the-party-party-has-filed-for-office-i-came-to-ask-if-you-would",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody from the {party} Party has filed for {office}. I came to ask if you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-needs-a-candidate-for-office-and-you-re-who-we-thought-of",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party needs a candidate for {office}, and you're who we thought of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -28744,10 +29147,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-it-s-your-time-and-your-name-we-d-bring-people-from-place-to-help",
+      "key": "scene-talk.follow-answer.we-d-bring-volunteers-to-help-we-ve-done-it-in-place-before",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Mostly it's your time and your name. We'd bring people from {place} to help.",
+      "text": "We'd bring volunteers to help. We've done it in {place} before.",
       "uses": [
         {
           "subject": "scene",
@@ -28794,10 +29197,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.wonderful-i-ll-let-the-others-in-place-know",
+      "key": "scene-talk.follow-thank.good-the-party-party-will-stand-behind-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Wonderful. I'll let the others in {place} know.",
+      "text": "Good. The {party} Party will stand behind you.",
       "uses": [
         {
           "subject": "scene",
@@ -28806,7 +29209,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["party"]
         }
       ],
       "bearing": "warm",
@@ -28819,10 +29222,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-hoped-you-d-say-yes-place-deserves-a-real-race",
+      "key": "scene-talk.follow-thank.good-filing-closes-deadline-so-we-start-now",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I hoped you'd say yes. {place} deserves a real race.",
+      "text": "Good. Filing closes {deadline}, so we start now.",
       "uses": [
         {
           "subject": "scene",
@@ -28831,7 +29234,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "glad",
@@ -28840,6 +29243,56 @@
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.filing-for-office-closes-deadline",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing for {office} closes {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-have-until-deadline-to-file-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You have until {deadline} to file for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
         "key": "run-asked"
       }
     },
@@ -28894,31 +29347,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.take-a-day-then-i-d-hate-to-see-no-one-run-for-us-in-place",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Take a day, then. I'd hate to see no one run for us in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "run-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-understand-the-offer-for-office-stands-while-filing-is-open",
       "move": "follow-accept",
       "kind": "spoken",
@@ -28944,10 +29372,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fine-people-in-place-are-lucky-to-have-you-either-way",
+      "key": "scene-talk.follow-accept.that-s-fine-the-offer-stands-until-deadline",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fine. People in {place} are lucky to have you either way.",
+      "text": "That's fine. The offer stands until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -28956,7 +29384,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "calm",
@@ -28969,10 +29397,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-ll-look-for-someone-else-in-place-but-the-offer-stands",
+      "key": "scene-talk.follow-accept.then-i-ll-ask-someone-else-for-the-party-party-but-the-offer-stands",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll look for someone else in {place}, but the offer stands.",
+      "text": "Then I'll ask someone else for the {party} Party, but the offer stands.",
       "uses": [
         {
           "subject": "scene",
@@ -28981,7 +29409,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["party"]
         }
       ],
       "bearing": "warm",
@@ -29020,10 +29448,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-tell-the-others-in-place-you-re-running",
+      "key": "scene-talk.close-thank.i-ll-tell-the-party-party-you-re-running",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll tell the others in {place} you're running.",
+      "text": "I'll tell the {party} Party you're running.",
       "uses": [
         {
           "subject": "scene",
@@ -29032,7 +29460,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"],
+          "requiresFacts": ["party"],
           "outcome": "resolved"
         }
       ],
@@ -29150,10 +29578,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.take-your-time-but-call-me-before-filing-closes-for-office",
+      "key": "scene-talk.close-accept.take-your-time-but-call-me-before-deadline",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Take your time, but call me before filing closes for {office}.",
+      "text": "Take your time, but call me before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -29162,7 +29590,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["deadline"],
           "outcome": "open"
         }
       ],
@@ -29201,10 +29629,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.of-course-i-ll-be-around-if-you-decide-to-run-in-place",
+      "key": "scene-talk.close-accept.of-course-i-ll-be-around-if-you-decide-to-run-for-office",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Of course. I'll be around if you decide to run in {place}.",
+      "text": "Of course. I'll be around if you decide to run for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -29213,7 +29641,7 @@
           "role": "asker",
           "purpose": "ask-to-run",
           "key": "run-asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "warm",
@@ -29451,10 +29879,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.there-s-always-work-at-the-party-party-can-i-put-you-down-for-something",
+      "key": "scene-talk.state-request.there-s-always-work-in-the-party-party-can-i-put-you-down-for-something",
       "move": "state-request",
       "kind": "spoken",
-      "text": "There's always work at the {party} Party. Can I put you down for something?",
+      "text": "There's always work in the {party} Party. Can I put you down for something?",
       "uses": [
         {
           "subject": "scene",
@@ -29926,10 +30354,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-place-needs-people-like-you",
+      "key": "scene-talk.follow-thank.wonderful",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's what I like to hear. {place} needs people like you.",
+      "text": "Wonderful.",
       "uses": [
         {
           "subject": "scene",
@@ -29938,7 +30366,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["party"]
         }
       ],
       "bearing": "warm",
@@ -29951,10 +30379,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.even-one-evening-before-the-next-election-would-help-place",
+      "key": "scene-talk.follow-press.just-one-evening",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Even one evening before the next election would help {place}.",
+      "text": "Just one evening?",
       "uses": [
         {
           "subject": "scene",
@@ -29963,7 +30391,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["party"]
         }
       ],
       "bearing": "hopeful",
@@ -30101,10 +30529,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-rush-the-office-in-place-is-open-to-you",
+      "key": "scene-talk.follow-accept.no-rush",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No rush. The office in {place} is open to you.",
+      "text": "No rush.",
       "uses": [
         {
           "subject": "scene",
@@ -30113,7 +30541,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["party"]
         }
       ],
       "bearing": "warm",
@@ -30302,10 +30730,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.good-to-have-you-in-place-i-ll-be-in-touch",
+      "key": "scene-talk.close-thank.good-to-have-you-in-the-party-party-i-ll-be-in-touch",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Good to have you in {place}. I'll be in touch.",
+      "text": "Good to have you in the {party} Party. I'll be in touch.",
       "uses": [
         {
           "subject": "scene",
@@ -30314,7 +30742,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"],
+          "requiresFacts": ["party"],
           "outcome": "resolved"
         }
       ],
@@ -30354,10 +30782,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-we-ll-still-be-here-in-place",
+      "key": "scene-talk.close-accept.that-s-fine",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. We'll still be here in {place}.",
+      "text": "That's fine.",
       "uses": [
         {
           "subject": "scene",
@@ -30366,7 +30794,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"],
+          "requiresFacts": ["party"],
           "outcome": "refused"
         }
       ],
@@ -30406,10 +30834,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-it-over-we-ll-need-people-soon-in-place",
+      "key": "scene-talk.close-press.think-it-over",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think it over. We'll need people soon in {place}.",
+      "text": "Think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -30418,7 +30846,7 @@
           "role": "asker",
           "purpose": "party-welcome",
           "key": "welcomed",
-          "requiresFacts": ["place"],
+          "requiresFacts": ["party"],
           "outcome": "open"
         }
       ],

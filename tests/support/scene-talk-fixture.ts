@@ -107,6 +107,8 @@ export const facts: Record<string, Fact> = {
   nays: fact("2"),
   roll: fact("yes"),
   deadline: fact("January 30"),
+  meeting: fact("the town council"),
+  "meeting-when": fact("tomorrow night"),
   years: fact("six"),
   home: fact("apartment"),
   rent: fact("$900 a month"),
