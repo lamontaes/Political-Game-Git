@@ -653,7 +653,7 @@ const amountUnit = (unit) =>
           : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 // Engineering height of a party page's facts and positions, taken from the seats' pager.
-const PARTY_FACTS_PX = 330;
+const PARTY_FACTS_PX = 225;
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
