@@ -173495,10 +173495,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-hear-you-and-i-m-still-not-promising-my-vote-on-bill",
+      "key": "scene-talk.reply-refuse.you-ve-made-your-case-and-i-m-still-not-promising-my-vote-on-bill",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I hear you, and I'm still not promising my vote on {bill}.",
+      "text": "You've made your case, and I'm still not promising my vote on {bill}.",
       "uses": [
         {
           "subject": "scene",
