@@ -69,11 +69,6 @@ interface Line {
   text: string;
   sourceRecordIds: string[];
 }
-interface Talk {
-  lines: Line[];
-  choices: { key: string; text: string }[];
-}
-
 const ask = async (method: string, path: string) => {
   const reply = await benchRequest(method, new URL(path, "http://bench"), {
     developer: true,
