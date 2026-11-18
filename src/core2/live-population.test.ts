@@ -29,13 +29,36 @@ it.each([0, 1, 2])(
   { timeout: 1_800_000 },
   (draw) => {
     setBookkeeping(false);
-    const place = drawPlace(seed, `live-population:${draw}`);
-    const where = `${place.name}, ${place.state} (${place.key}), run seed ${seed}, place seed ${place.seed}`;
-    process.stdout.write(`live-population: ${where}\n`);
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
+    // A place where every adult lives in group quarters has no one to play:
+    // name it, pass over it and draw the next, at most twelve times.
+    const passed: string[] = [];
+    let drawn: ReturnType<typeof drawPlace> | undefined;
+    let world: ReturnType<typeof buildBenchWorld> | undefined;
+    for (let attempt = 0; attempt < 12 && !world; attempt += 1) {
+      const place = drawPlace(
+        seed,
+        attempt === 0
+          ? `live-population:${draw}`
+          : `live-population:${draw}:${attempt}`,
+      );
+      process.stdout.write(
+        `live-population: ${place.name}, ${place.state} (${place.key}), run seed ${seed}, place seed ${place.seed}\n`,
+      );
+      try {
+        world = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        drawn = place;
+      } catch (error) {
+        if ((error as Error).name !== "NoPlayerHereError") throw error;
+        passed.push(`${place.name} (${place.key}): no one to play`);
+      }
+    }
+    if (!world || !drawn)
+      throw new Error(`no drawn place had a player: ${passed.join("; ")}`);
+    const place = drawn;
+    const where = `${place.name}, ${place.state} (${place.key}), run seed ${seed}, place seed ${place.seed}${passed.length ? `, passed over ${passed.join("; ")}` : ""}`;
     const core = world.core;
     const api = coreAPI(core);
     const before = townPopulation(api);
