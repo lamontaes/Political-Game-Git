@@ -28248,10 +28248,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-want",
+      "key": "scene-talk.follow-ask.any-thoughts",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What do you want?",
+      "text": "Any thoughts?",
       "uses": [
         {
           "subject": "scene",
@@ -28377,10 +28377,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-cook-for-you",
+      "key": "scene-talk.close-promise.i-ll-cook",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll cook for you.",
+      "text": "I'll cook.",
       "uses": [
         {
           "subject": "scene",
@@ -29782,10 +29782,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.it-s-not-the-end",
+      "key": "scene-talk.follow-comfort.not-the-end",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "It's not the end.",
+      "text": "Not the end.",
       "uses": [
         {
           "subject": "scene",
