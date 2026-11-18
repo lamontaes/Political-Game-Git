@@ -130,4 +130,5 @@ Read each file here when its moment comes:
 - `references/lessons.md`: when a words pull request is sent back, a line never plays, or a talk-box or scene-reply test goes red.
 - `references/prompt.md`: when you start or hand over the Story session.
 - `references/speech-planner.md`: when you add or change a speech, an address or a speech's wording.
+- `references/words-reads.md`: before a change to anything a player reads joins a train or main: the read as played in drawn places, what the builder sends for it, and the numbered read rules (30 to 61) (folded from #9091).
 - `references/term-read.md`: when you read a term by policy area, an address's kind, or a town's strikes, protests and rallies.
