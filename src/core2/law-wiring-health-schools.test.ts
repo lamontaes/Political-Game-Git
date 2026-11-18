@@ -150,15 +150,19 @@ function levelsSayingYes(api: CoreAPI, key: string) {
 }
 
 /**
- * The latest row at each level of the town's chain, whatever its effective
- * date, says yes. The played world legislates on its own: a bill it has
+ * Each level of the town's chain where the law says yes now, or will by a bill
+ * already passed. The played world legislates on its own: a bill it has
  * already passed takes effect on its date, whatever the test did before it.
+ * A level whose row in force says yes holds it until its own later repeal
+ * takes effect, so it holds yes today even when that repeal is already passed.
  */
 function levelsHoldingYes(api: CoreAPI, key: string) {
   return lawChain(api).levels.flatMap(({ level, jurisdiction }) => {
     const latest = latestAt(api, key, jurisdiction);
-    return latest?.value === 1
-      ? [{ level, jurisdiction, effectiveDate: latest.effectiveDate }]
+    if (latest?.value === 1)
+      return [{ level, jurisdiction, effectiveDate: latest.effectiveDate }];
+    return latestAt(api, key, jurisdiction, api.state.date)?.value === 1
+      ? [{ level, jurisdiction, effectiveDate: api.state.date }]
       : [];
   });
 }
@@ -760,19 +764,17 @@ function play(where: string, seed: string, core: CoreState): void {
       members(snapHousehold?.targetId ?? "").includes(id),
     ),
   );
-  const workRow = appliedOn(api, ASSIST_WORK).find(
-    (r) => r.target === "person",
-  );
-  record(
-    ASSIST_WORK,
-    workRow,
-    moneyTo("benefit|snap-baseline", (id) => id === workRow?.targetId) ??
-      moneyTo(
-        "benefit|budget-line:welfareAndMedicaid",
-        (id) => id === workRow?.targetId,
-      ) ??
-      moneyTo(`ended|snap-baseline`, (id) => id === workRow?.targetId),
-  );
+  // The first person the requirement bound whose benefit the journal paid or
+  // ended: a bound person with no benefit on the books has no money to follow.
+  const workMoney = (id: string) =>
+    moneyTo("benefit|snap-baseline", (who) => who === id) ??
+    moneyTo("benefit|budget-line:welfareAndMedicaid", (who) => who === id) ??
+    moneyTo("ended|snap-baseline", (who) => who === id);
+  const workRow =
+    appliedOn(api, ASSIST_WORK).find(
+      (r) => r.target === "person" && workMoney(r.targetId) !== null,
+    ) ?? appliedOn(api, ASSIST_WORK).find((r) => r.target === "person");
+  record(ASSIST_WORK, workRow, workRow ? workMoney(workRow.targetId) : null);
   const prekHousehold = prek.find(
     (r) =>
       r.target === "household" &&

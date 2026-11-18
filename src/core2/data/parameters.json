@@ -5781,26 +5781,92 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "healthWorkerContributionSingleAnnualUsd": {
-    "value": 1368,
+  "healthWorkerPremiumShareSingle": {
+    "value": 0.16,
+    "role": "coefficient",
     "tag": "SOURCED",
-    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with single coverage contributed an average of $1,368 a year (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: how a plan's cost is split between worker and employer. The premium itself is the world's (modules/coverage.ts setRate)."
   },
-  "healthWorkerContributionFamilyAnnualUsd": {
-    "value": 6296,
+  "healthWorkerPremiumShareFamily": {
+    "value": 0.25,
+    "role": "coefficient",
     "tag": "SOURCED",
-    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with family coverage contributed an average of $6,296 a year, out of an average family premium of $25,572 (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: the worker's part of each covered person's rate when the policy covers more than one person."
   },
-  "healthEmployerPolicyholderShare": {
-    "value": 0.55,
-    "tag": "ESTIMATED",
-    "citation": "The share of employed working-age adults who hold an employer plan in their own name. Not read directly from any table.",
-    "estimatedFrom": "The Census Bureau's Health Insurance Coverage in the United States: 2023 (P60-284) puts employment-based coverage at 53.7 percent of the whole population, dependents included, and the KFF 2024 survey shows most covered workers also cover family members; about half to two thirds of employed adults holding their own plan fits both. Assigned by rank (larger employers and higher pay first), never a roll.",
+  "healthPlanLoad": {
+    "value": 1.176,
+    "role": "law",
+    "tag": "SOURCED",
+    "citation": "45 CFR 158.210(a) (https://www.law.cornell.edu/cfr/text/45/158.210, fetched 2026-11-17): in the large group market \"an issuer must provide a rebate to enrollees if the issuer has an MLR of less than 85 percent\"; (b) small group, 80 percent. A premium that pays 85 percent of itself in claims is the claims times 1/0.85.",
     "spread": {
-      "low": 0.45,
-      "high": 0.65,
-      "unit": "share of employed working-age adults",
-      "citation": "The Census Bureau's 2023 employment-based coverage rate and the KFF 2024 survey's mix of single and family coverage bound it; nothing measures the share directly."
+      "low": 1.176,
+      "high": 1.25,
+      "unit": "premium over claims",
+      "citation": "Same section: 85 percent (large group) to 80 percent (small group)."
+    }
+  },
+  "healthOfferSizeWeight": {
+    "value": 0.9,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: firms with 200 or more workers, 98% offer coverage, \"versus 53% of small firms (3-199 workers)\"; \"93% of firms with 50 or more workers offer health benefits.\"",
+    "estimatedFrom": "The log-odds of offering rise from 0.12 (53 percent, small firms, most of them under ten workers) to 3.9 (98 percent, firms of 200 or more) over about 4.1 natural logs of staff: 0.9 a log. A strength: how much an employer's size moves its offer. It sets no share of workers.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "log-odds of an offer per natural log of staff",
+      "citation": "The survey gives three size points, not a curve; the slope between any two of them lies in this range."
+    }
+  },
+  "healthOfferPayWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: workers at firms with a large share of lower-wage workers are \"less likely to be covered by their own firm than workers at firms with a smaller share\" (50% versus 64%).",
+    "estimatedFrom": "64 against 50 percent is 0.58 log-odds; firms with many lower-wage workers pay roughly half what others do (about 0.6 natural logs), so about one log-odds a log of pay over the plan's cost. A strength: how much a job's pay against the plan's cost moves the offer.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "log-odds of an offer per natural log of pay over the plan's cost to the employer",
+      "citation": "The survey reports the two coverage shares, not the pay gap between the two kinds of firm; the range covers a pay gap of a third to two thirds."
+    }
+  },
+  "healthOfferBaseline": {
+    "value": -3.75,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: at firms that offer coverage \"an average of 81% of workers are eligible\"; firms with 200 or more workers, 98% offer, small firms 53%.",
+    "estimatedFrom": "Fitted once, Nov 17, 2026, at eight drawn places (draw purpose lives-coverage-fit, seeds a1 to h8, opening day): the baseline at which the mean of the places' offered shares of workers is about 0.72 (most workers work where a plan is offered, and 81 percent of those are eligible). At -4 the mean was 0.68 and at -3 it was 0.84. The places ranged from 0.4 to 0.94 at the fitted value: the baseline is the formula's zero point, and no place is pulled to the mean.",
+    "spread": {
+      "low": -4.5,
+      "high": -3,
+      "unit": "log-odds of an offer before staff and pay",
+      "citation": "The same eight places: -4.5 gave a mean offered share of 0.59 and -3 gave 0.84."
+    }
+  },
+  "healthTakeBurdenTolerance": {
+    "value": 0.026,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"Among eligible workers, 75% take up the firm's offer.\"",
+    "estimatedFrom": "Fitted once, Nov 17, 2026, at the same eight drawn places: the worker's part of the premium for each person covered, as a share of pay, at which take-up is even odds; 0.025 gave a mean take-up of 0.744 and 0.03 gave 0.777. The world's own premiums and pay then move each worker's take-up.",
+    "spread": {
+      "low": 0.015,
+      "high": 0.04,
+      "unit": "share of pay, for each person covered",
+      "citation": "The same eight places: 0.015 gave a mean take-up of 0.64 and 0.04 gave 0.82."
+    }
+  },
+  "healthTakeBurdenWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "How strongly a worker's take-up falls as their part of the premium rises against their pay: log-odds a natural log of the burden. No source fetched yet; checked against the spread below.",
+    "spread": {
+      "low": 0.3,
+      "high": 2,
+      "unit": "log-odds of taking the plan per natural log of tolerance over burden",
+      "citation": "TUNABLE: at 0.3 a doubled premium costs a few points of take-up, at 2 it costs tens of points; the KFF 2024 take-up of 75 percent among eligible workers bounds neither end."
     }
   },
   "healthMedicareAge": {
@@ -5944,6 +6010,19 @@
       "unit": "weight",
       "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
+  },
+  "traitWeightCandidacyAnnounce": {
+    "role": "coefficient",
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How strongly temperament moves a runner who has decided to run to say so before filing opens rather than wait for the counter. Read at the strength fitted for the decision to run (traitWeightCandidacyRun), the same people's same disposition one step later: those who speak out and take risks say so early. Checked against the spread of that fit.",
+    "spread": {
+      "low": 0.11,
+      "high": 0.23,
+      "unit": "weight",
+      "citation": "traitWeightCandidacyRun's spread across its fitted places."
+    },
+    "stopgapId": "SG-P15-candidacy-weights"
   },
   "traitWeightCandidacyRun": {
     "value": 0.2,
