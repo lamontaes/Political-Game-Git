@@ -35,4 +35,4 @@ checked: m3 2026-11-14
 
 **Files.** src/director/conversation.ts,src/director/scene.ts,src/core2/modules/press.ts,src/director/outlet-telling.test.ts
 
-**Notes.** Nov 15: not done at #9352's fold. Seen again at Salado, Texas (4864268), seed review1:2: a reporter at KZBY said "I've been working at Kzby." through `employerWords` and `properName`; fixed by saying an outlet's name through `businessNameSaid` (src/director/words.ts), which keeps a media organization's name as its record has it, the one place `organizationName` and every employer line read (pinned in src/director/outlet-name-said.test.ts).
+**Notes.** Nov 15: not done at #9352's fold. Seen again at Salado, Texas (4864268), seed review1:2: a reporter at KZBY said "I've been working at Kzby." through `employerWords` and `properName`; fixed by saying an outlet's name through `businessNameSaid` (src/director/words.ts), which keeps a media organization's name as its record has it, the one place `organizationName` and every employer line read (pinned in src/director/outlet-name-said.test.ts (removed)).
