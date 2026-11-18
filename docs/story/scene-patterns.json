@@ -222,7 +222,8 @@
     "bank3People": 15,
     "bank4": 1,
     "bank5": 8,
-    "bank6": 8
+    "bank6": 8,
+    "bank7": 12
   },
   "needs": [
     {
@@ -12261,6 +12262,11 @@
           "by": "record",
           "when": "the one who asks needs help and has been helped before",
           "then": "The player's patience is written; a deep tie forms."
+        },
+        {
+          "by": "record",
+          "when": "the first date goes well and one asks the other to a family meal",
+          "then": "The invitation is written on the tie; the answer sets whether the other is brought into the household's circle."
         }
       ],
       "unlocks": ["kind:proposal", "kind:move-in", "kind:reach-out", "B6-06"],
@@ -12292,6 +12298,13 @@
           "person": "Tate Osten and Bernice Leatherwood",
           "life": "The neighbor's first move was a knock at the door and a gift; the friendship grew from there.",
           "urls": ["https://wdet.org/?p=24530"]
+        },
+        {
+          "person": "Octavius Humphries and Seth Smiley",
+          "life": "Two men met online and had a first date on Christmas Eve despite a gap in age. He called it amazing, and afterward the other invited him to Christmas dinner with his mother, saying no one should be alone on Christmas.",
+          "urls": [
+            "https://www.kunc.org/2015-12-25/a-couples-love-blooms-at-christmas"
+          ]
         }
       ],
       "moment": "{the one who asks} asks the player along, and the answer is the first test of the tie.",
@@ -12365,6 +12378,11 @@
           "by": "record",
           "when": "the player holds an office",
           "then": "The news and what the player does for the family is on the town's record."
+        },
+        {
+          "by": "record",
+          "when": "relatives, neighbors or friends offer to share the care of the baby",
+          "then": "The new parent has more rest and less isolation on the household record, and the helpers earn a favor owed; if nobody offers, the isolation is written."
         }
       ],
       "unlocks": ["kind:new-baby", "kind:care", "kind:funeral", "B5-04"],
@@ -12383,6 +12401,13 @@
           "life": "A baby born at about 28 weeks in the Davenport, Iowa, area. Staff limited visitors, so only Kelly's mother was at the birth. A prayer chain started by a grandmother helped, the baby avoided intensive care, and he went home after two days.",
           "urls": [
             "https://archive.storycorps.org/interviews/birth-of-onyx-houston-paone/"
+          ]
+        },
+        {
+          "person": "Mbendjele families, as reported by researchers",
+          "life": "A study of hunter-gatherers in Congo found babies had about eight regular hands-on caregivers besides their mothers, with help arriving within seconds of a cry. Researchers argue that parents without that circle, mostly in Western homes, face more isolation and postpartum depression.",
+          "urls": [
+            "https://www.nhpr.org/2023-12-01/bringing-up-a-baby-can-be-a-tough-and-lonely-job-heres-a-solution-alloparents"
           ]
         }
       ],
@@ -12574,6 +12599,11 @@
           "by": "record",
           "when": "the player holds an office",
           "then": "The break is a past a rival may use."
+        },
+        {
+          "by": "record",
+          "when": "the accusation is made in writing or in private, before anyone asks the player's side",
+          "then": "The player decides whether to answer in writing, ask a third person how the conclusion was reached, or let it stand; the unanswered paper is read later."
         }
       ],
       "unlocks": ["B5-06", "kind:reconciliation", "kind:apology", "C25"],
@@ -12592,6 +12622,13 @@
           "life": "A security guard first praised for clearing people from a bomb at the 1996 Atlanta Olympics was named the FBI's suspect. Papers ran headlines and crews camped at his door, where he lived with his mother. His friend and attorney stood by him; he was cleared but said it could not restore his name.",
           "urls": [
             "https://www.wunc.org/2026-07-24/he-was-falsely-accused-in-the-1996-atlanta-olympics-bombing-how-it-changed-his-life"
+          ]
+        },
+        {
+          "person": "A worker writing to a business columnist",
+          "life": "A worker was accused without being asked for their side, lost a bonus and was told to sign a final write-up; supervisors then acted as if nothing happened. The columnist advised signing for receipt only, sending a calm written reply and asking a supervisor not involved how the conclusion was reached.",
+          "urls": [
+            "https://www.cbsnews.com/news/i-was-falsely-accused-at-work-now-what"
           ]
         }
       ],
@@ -12843,6 +12880,1305 @@
       "ifNo": "Saying nothing writes a refusal; {the resident} tells neighbors and {the reporter} prints that the player declined.",
       "situationKeys": ["constituent-stop", "press-interview"],
       "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B7-01",
+      "stage": "the-work",
+      "otherStages": ["first-term", "first-days"],
+      "title": "Are you still with us",
+      "roles": [
+        {
+          "slot": "the colleague",
+          "fill": "a member of the body who counted on the player's vote, by what they are to the player: a floor manager, the sponsor, a caucus whip or a neighbor in the next seat. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "chamber leader",
+          "fill": "whoever on the record runs the count for the player's side, said with the post"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The player's desk, the colleague's office, the floor before the roll, or the phone the morning of the vote."
+      },
+      "gates": [
+        "The vote record shows the player gave {the colleague} a word to vote a certain way, or the colleague counted the player's vote in on the record.",
+        "A vote on that matter is still ahead on {the body}'s calendar, or a repeat vote after a veto or a failed first try is.",
+        "{the colleague} has a stake in the outcome on the bill record: sponsor, manager, or a member whose own promise depends on it."
+      ],
+      "weights": [
+        "How long and how close {the colleague} and the player have been.",
+        "How much the player's side needs the vote to hold.",
+        "Whether the player has since heard from the other side, from the governor's office or from voters.",
+        "Whether the player has told {chamber leader} of any doubt.",
+        "Whether the player's earlier word was said plainly or left loose."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player confirms and the vote is cast as promised",
+          "then": "The promise on the record is kept, the favor owed to the player grows and {the colleague} says so at the next talk."
+        },
+        {
+          "by": "record",
+          "when": "the player says they are unsure and tells {the colleague} first",
+          "then": "The doubt is on the record before the vote; the tie takes a strain but not a break, and {the colleague} can still bargain."
+        },
+        {
+          "by": "record",
+          "when": "the player changes the vote without a word to anyone",
+          "then": "The broken promise is written when the roll is called; {chamber leader} and {the colleague} hear it from the floor, not from the player, and the tie falls hard."
+        },
+        {
+          "by": "record",
+          "when": "the other side or the governor's office is also working the player",
+          "then": "The talk turns on who the player answers to; the player's answer is read later by both sides."
+        },
+        {
+          "by": "record",
+          "when": "{the colleague} presses with a favor owed or a threat to a bill of the player's",
+          "then": "The pressure is written on the tie; the player's reply sets whether it is remembered as a plea or a threat."
+        }
+      ],
+      "unlocks": [
+        "C03",
+        "kind:bill-carry",
+        "kind:lobby-remembers",
+        "kind:section-bargain"
+      ],
+      "extends": ["kind:vote-confirmed", "C03"],
+      "mergesWith": ["C03", "B44"],
+      "sources": [
+        {
+          "person": "Linda Joy Sullivan and the Vermont House leadership",
+          "life": "In 2020 the Vermont House fell one vote short of overriding a governor's veto of a paid leave bill. Leaders said the member had signaled support the week before and was unsure on the morning of the vote while meeting the governor's staff; she said she had only been asking questions and never committed. Leaders called it a breach of trust.",
+          "urls": [
+            "https://www.sevendaysvt.com/news/democratic-leaders-blame-squirrelly-legislator-for-override-fail-29604481/"
+          ]
+        },
+        {
+          "person": "The Texas Senate Democrats of 2019",
+          "life": "Twelve senators held together for months to block a governor's appointee that needed a large majority, checking attendance all session and refusing to be called in one by one. The governor's office pressed them individually, and at the end of the session he vetoed several bills of the same senators; some suspected retaliation, others did not.",
+          "urls": [
+            "https://www.texastribune.org/2019/05/29/texas-senate-democrats-block-whitley-governor-veto-bills"
+          ]
+        },
+        {
+          "person": "Bill Doyle and the Vermont Senate",
+          "life": "A senator of 89 asked the morning after a vote to reverse his position on a paid sick leave bill and an amendment, saying he had misunderstood. With the governor out of state and the margin thin, the other side delayed the revote until every member was in the room; observers did not know who had reached him.",
+          "urls": [
+            "https://vtdigger.org/2016/02/04/doyle-triggers-senate-revote-next-week-on-paid-sick-leave/"
+          ]
+        }
+      ],
+      "moment": "{the colleague} comes to be sure the player's vote is still theirs before the roll is called, and the player has to say yes, no, or not sure.",
+      "choices": [
+        "say yes plainly and mean it",
+        "say you are unsure and why, before the vote",
+        "ask what the colleague will do in return",
+        "say your vote is your own and leave it there"
+      ],
+      "ifNo": "Going quiet reads as a yes to the colleague and a maybe to everyone else; a changed vote with no warning is written as a broken promise and is said back at the next talk.",
+      "situationKeys": ["vote-confirmed"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-02",
+      "stage": "the-work",
+      "otherStages": ["first-term", "involvement"],
+      "title": "Will you carry it",
+      "roles": [
+        {
+          "slot": "the member",
+          "fill": "a member of the body, or of the chamber across the hall, who wrote a bill and needs a name on it in the room it must pass through next. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "committee chair",
+          "fill": "whoever chairs the committee the bill would go to, said with years in the gavel"
+        },
+        {
+          "slot": "chamber leader",
+          "fill": "the head of the player's chamber or caucus, who decides who is heard"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The player's office, a hallway outside the chamber, or a phone call on the day the bill is dropped."
+      },
+      "gates": [
+        "The bill record shows a bill {the member} wrote that has no sponsor yet in the player's chamber, or a draft left by a member who has left the body.",
+        "The player holds a seat where the bill must be heard.",
+        "{the member} and the player are tied on the record by a shared committee, party, district interest or an old favor."
+      ],
+      "weights": [
+        "How much the player's own seat and party help the bill get a hearing.",
+        "Whether the bill touches the player's district.",
+        "How many bills the player already carries.",
+        "Whether {the member} has carried one for the player.",
+        "Whether {chamber leader} would hold the bill against the one who carries it."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player agrees to carry it",
+          "then": "The player's name goes on the bill record as its sponsor in the room, and the player now speaks for it in committee and on the floor."
+        },
+        {
+          "by": "record",
+          "when": "the player agrees on the condition of a change to the text",
+          "then": "The talk becomes a bargain over the bill's words; the change lands on the bill record and {the member} owes a favor."
+        },
+        {
+          "by": "record",
+          "when": "the player declines",
+          "then": "The bill may find another sponsor or stall without one; the tie records who said no, and why."
+        },
+        {
+          "by": "record",
+          "when": "{the member} has left the body",
+          "then": "The bill needs a member to take it over or it does not move at all; the one who takes it is written as its author."
+        },
+        {
+          "by": "record",
+          "when": "{chamber leader} signals the bill will be held",
+          "then": "The player learns that carrying it costs standing; the cost is read in the next committee assignment."
+        }
+      ],
+      "unlocks": ["kind:bill-sign-on", "kind:bill-held-chair", "C04", "A45"],
+      "extends": ["kind:bill-carry", "A42"],
+      "mergesWith": ["A42", "B46", "B7-03"],
+      "sources": [
+        {
+          "person": "Antonio Delgado, Tom O'Halleran and Lucy McBath",
+          "life": "Members who got bills signed into law pointed to partners across the aisle and in the other chamber: a nearly unanimous home-state group behind one court bill, a Senate committee chairman who carried a companion, a lead cosponsor of the other party. One said to start with the bipartisan bill and work with people.",
+          "urls": [
+            "https://rollcall.com/2019/09/09/how-a-handful-of-vulnerable-incumbents-got-bills-signed-into-law/"
+          ]
+        },
+        {
+          "person": "Suzan DelBene and Maria Cantwell",
+          "life": "A House member picked a Senate partner for her smart-cities bill because they shared the issue, constituents and a tech background, and because the home state was already a model. She said the choice depends on the topic and on who has shown interest.",
+          "urls": [
+            "https://www.quorum.us/behind-the-desk/representative-delbene-bringing-stakeholders-table-crafting-legislation/"
+          ]
+        },
+        {
+          "person": "Chris Micheli on the California rules",
+          "life": "When a bill's author leaves the legislature the bill stalls unless a current member or a committee is approved by the rules committee to take it over. Without that step the chamber may not act on it.",
+          "urls": [
+            "https://californiaglobe.com/articles/what-happens-to-bills-authored-by-a-former-member-of-the-california-legislature/"
+          ]
+        },
+        {
+          "person": "Teresa Benitez-Thompson, Nicole Cannizzaro and other Nevada legislators",
+          "life": "After two lawmakers resigned, their unfiled bill requests were claimed one by one by sitting members in both chambers, and a committee took one; several requests, including a large health idea, found no sponsor and were expected to die.",
+          "urls": [
+            "https://thenevadaindependent.com/article/sprinklecare-medicaid-buy-in-among-bill-ideas-from-resigned-lawmakers-not-likely-to-advance"
+          ]
+        }
+      ],
+      "moment": "{the member} asks the player to put their own name on a bill and carry it in the room where it has to pass.",
+      "choices": [
+        "agree and take it as your own",
+        "agree if the text changes",
+        "say you cannot carry it and name who could",
+        "say no and give the reason"
+      ],
+      "ifNo": "A no leaves the bill without a name in the room; {the member} remembers who they asked first, and the bill may die with no sponsor.",
+      "situationKeys": ["bill-carry"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-03",
+      "stage": "the-work",
+      "otherStages": ["first-term", "first-days"],
+      "title": "Your name beside mine",
+      "roles": [
+        {
+          "slot": "the colleague",
+          "fill": "a member of the body the player knows, who might lend their name as co-sponsor, said with what they are to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "committee chair",
+          "fill": "the chair who will decide whether the bill is heard, said with years in the gavel"
+        },
+        {
+          "slot": "cause group",
+          "fill": "an outside group whose members care about the bill, if any"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The colleague's office, the chamber lobby before the session, or the phone while the bill is still a draft."
+      },
+      "gates": [
+        "The bill record shows a bill the player drafted and has not yet filed, or has filed with room for co-sponsors.",
+        "{the colleague} sits in the body and is tied to the player on the record.",
+        "{the colleague} has a stance on the bill's subject on the stance record."
+      ],
+      "weights": [
+        "How close {the colleague} stands to the bill's subject.",
+        "What a favor to the player is worth to {the colleague}.",
+        "Whether {the colleague} sits in the other party or the other chamber.",
+        "Whether {committee chair} counts co-sponsors when deciding to hear the bill.",
+        "Whether the player has put a name on a bill for {the colleague}."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the colleague} says yes",
+          "then": "Their name goes on the bill record, and {committee chair} weighs it when deciding whether to hear the bill."
+        },
+        {
+          "by": "record",
+          "when": "{the colleague} says yes if a part of the bill changes",
+          "then": "A bargain over the text begins; if the player agrees, the change is written and the name goes on."
+        },
+        {
+          "by": "record",
+          "when": "{the colleague} says not yet",
+          "then": "The ask is kept open on the record with a day to talk again; the player's wait is read as patience or as pressure."
+        },
+        {
+          "by": "record",
+          "when": "{the colleague} refuses",
+          "then": "The refusal is written on the tie with its reason; the colleague may say it at the next vote."
+        },
+        {
+          "by": "record",
+          "when": "the colleague is of the other party",
+          "then": "A yes is read in both caucuses, and the bill gains weight with the chair and loses it with the player's own side."
+        }
+      ],
+      "unlocks": [
+        "kind:bill-held-chair",
+        "kind:hold-chair-sought",
+        "kind:vote-confirmed",
+        "A45"
+      ],
+      "extends": ["kind:bill-sign-on", "A42"],
+      "mergesWith": ["B7-02", "B7-05"],
+      "sources": [
+        {
+          "person": "Kirsten Gillibrand, Chuck Grassley and Joni Ernst",
+          "life": "After years of work on a military justice bill, a Democrat and two Republicans announced a large cosponsor list that crossed the aisle, and a prosecutors' group said one Republican's support would pull more along.",
+          "urls": [
+            "https://www.military.com/daily-news/2021/05/14/after-8-years-of-effort-senate-has-votes-it-needs-overhaul-military-sexual-assault-prosecutions.html"
+          ]
+        },
+        {
+          "person": "Tom O'Halleran, Antonio Delgado and others",
+          "life": "Members who passed bills described signing up nearly a whole state delegation, or building a committee and freshman group from both parties early, and advised finding common ground first.",
+          "urls": [
+            "https://rollcall.com/2019/09/09/how-a-handful-of-vulnerable-incumbents-got-bills-signed-into-law/"
+          ]
+        },
+        {
+          "person": "Suzan DelBene",
+          "life": "She picked a Senate companion partner because of shared issue, constituents and background, saying the partner depends on who has shown interest in the topic.",
+          "urls": [
+            "https://www.quorum.us/behind-the-desk/representative-delbene-bringing-stakeholders-table-crafting-legislation/"
+          ]
+        }
+      ],
+      "moment": "The player has a draft and goes to a colleague to ask them to sign on as co-sponsor.",
+      "choices": [
+        "ask plainly and say what the bill does",
+        "offer to change a part to win the name",
+        "offer your own name on their bill in return",
+        "wait until the colleague asks you"
+      ],
+      "ifNo": "A refusal or a put-off leaves the bill with fewer names; the chair counts them, and the player knows who was asked and said no.",
+      "situationKeys": ["bill-sign-on"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-04",
+      "stage": "the-work",
+      "otherStages": ["first-term"],
+      "title": "One section for one vote",
+      "roles": [
+        {
+          "slot": "the member",
+          "fill": "a member of the body whose vote the bill needs and who wants one section changed, kept or cut, said with what they are to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "the sponsor",
+          "fill": "whoever on the bill record carries the bill: the player, or someone the player works with"
+        },
+        {
+          "slot": "cause group",
+          "fill": "a group that would feel the section, in the member's district, if any"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The chamber floor while an amendment is pending, the member's office, or a corridor late in the night."
+      },
+      "gates": [
+        "The bill record shows an amendment on a section of the bill, moved by {the member}, that trades on the member's vote.",
+        "The bill is before {the body} and the vote is still ahead.",
+        "{the member} and the player are both members of {the body}."
+      ],
+      "weights": [
+        "How close the vote is on the stance record.",
+        "How much the section matters to {the member}'s district or promises.",
+        "Whether the section matters to the sponsor's own backers.",
+        "Whether {the member} has given a word to anyone else.",
+        "How long the debate has run."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player agrees to the change",
+          "then": "The amendment goes on the bill record and the member's vote is marked for; the sponsor's backers hear what was given up."
+        },
+        {
+          "by": "record",
+          "when": "the player bargains for a different change",
+          "then": "A new amendment is written; the member's reaction is read from their stance and temperament."
+        },
+        {
+          "by": "record",
+          "when": "the player refuses",
+          "then": "The member holds the vote back or votes against; the refusal is on the tie."
+        },
+        {
+          "by": "record",
+          "when": "a promise of a later vote or a later bill is offered in place of the section",
+          "then": "The promise is written on the record with its date; if it is not kept the tie takes a hit and the member says it."
+        },
+        {
+          "by": "record",
+          "when": "the section is traded away for an unrelated item from another bill",
+          "then": "The trade is written on both bills and the people reached by the lost section are named in later talk."
+        }
+      ],
+      "unlocks": ["kind:vote-confirmed", "kind:lobby-remembers", "C05", "C01"],
+      "extends": ["kind:section-bargain", "C05"],
+      "mergesWith": ["B44", "C03"],
+      "sources": [
+        {
+          "person": "Josh Brecheen",
+          "life": "A member of the House committee wanted the end of certain tax credits moved sooner and a work rule started earlier. He moved from no to present after leaders and the White House agreed to work on both, without changing the bill text, and said he still wanted changes before a floor vote.",
+          "urls": [
+            "https://gaylordnews.net/9407/news/politics/one-big-beautiful-bill-advances-after-brecheen-flips"
+          ]
+        },
+        {
+          "person": "Valoree Swanson and Drew Springer",
+          "life": "In a Texas House budget debate late at night, one member withdrew an amendment on public restrooms and the House adopted another member's amendment on a health provider's funding. Critics called it a backroom deal; the trade ended a long debate.",
+          "urls": [
+            "https://www.sacurrent.com/news/texas-lawmakers-drop-anti-trans-amendment-in-exchange-for-defunding-planned-parenthood-3436804/"
+          ]
+        },
+        {
+          "person": "Warren Davidson, Chip Roy and others",
+          "life": "Holdouts on a big bill were offered promises of later fixes by executive action or a later bill. One switched to support while calling the bill imperfect; another waited for details on what a later package could hold.",
+          "urls": [
+            "https://rollcall.com/2025/07/02/vibe-shift-in-house-as-trump-gop-leaders-begin-to-flip-votes/"
+          ]
+        }
+      ],
+      "moment": "{the member} will give the bill a vote if one section changes, and the player has until the roll to answer.",
+      "choices": [
+        "give the section and take the vote",
+        "offer a different change",
+        "hold the section and risk the vote",
+        "offer a promise for a later bill"
+      ],
+      "ifNo": "Holding the section loses the member's vote on this bill; the refusal is remembered and the member may want more next time.",
+      "situationKeys": ["section-bargain"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-05",
+      "stage": "the-work",
+      "otherStages": ["first-term", "crisis"],
+      "title": "Held in committee",
+      "roles": [
+        {
+          "slot": "the sponsor",
+          "fill": "whoever on the bill record wrote the bill that is stuck: the player, or a colleague who comes to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "committee chair",
+          "fill": "the chair who decides whether the bill is heard, said with years in the gavel"
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "chamber leader",
+          "fill": "the head of the chamber or majority who promised or can overrule the chair"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The chair's office, a hall outside the committee room, or the phone as the deadline for hearings nears."
+      },
+      "gates": [
+        "The committee record shows a bill held without a hearing by {committee chair}.",
+        "The calendar shows a deadline after which the bill cannot move this session, or it is still before the committee's first chance.",
+        "The player is the chair or the sponsor on the bill record."
+      ],
+      "weights": [
+        "How near the deadline is.",
+        "How close the chair and the sponsor are, and whether a close co-sponsor of the chair's is on the bill.",
+        "The chair's own stand on the bill and how they like to run the committee.",
+        "Whether {chamber leader} promised a hearing.",
+        "How many people outside have asked for the hearing."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player is the sponsor and the chair agrees to hear it",
+          "then": "The hearing is set on the committee record through the same reply the other seat uses."
+        },
+        {
+          "by": "record",
+          "when": "the player is the sponsor and the chair refuses",
+          "then": "The hold stays, and the chair says the reason the record holds; the sponsor decides whether to appeal to {chamber leader} or find a different vehicle."
+        },
+        {
+          "by": "record",
+          "when": "the player is the chair and the sponsor asks",
+          "then": "The player answers from their own stand on the bill; a yes sets the hearing and a no leaves the hold, and the sponsor remembers."
+        },
+        {
+          "by": "record",
+          "when": "the chair says the hold is to give time to fix the bill",
+          "then": "The sponsor must agree to changes; a next-session version is written with the chair's name or a promise."
+        },
+        {
+          "by": "record",
+          "when": "the chamber leader had promised the hearing",
+          "then": "The broken or kept promise is written; the sponsor tries the leader or another committee."
+        }
+      ],
+      "unlocks": ["kind:section-bargain", "kind:floor-debate", "C01", "C05"],
+      "extends": [
+        "kind:bill-held-chair",
+        "kind:hold-chair-sought",
+        "C01",
+        "C05"
+      ],
+      "mergesWith": ["B47", "A45", "B7-03"],
+      "sources": [
+        {
+          "person": "Laura Friedman, Shirley Weber and Reggie Jones-Sawyer",
+          "life": "Under a new California rule, committee chairs decided whether a bill was heard at all, and some died with no hearing. One author said it was the first refusal in over six years and called it a one-person decision; one chair said skipping the hearing gave supporters time to fix problems before the committee could kill it.",
+          "urls": [
+            "https://calmatters.org/politics/2019/04/california-legislators-killing-bills-committee-democrats/"
+          ]
+        },
+        {
+          "person": "Steve Hobbs, Mike Padden and Rodney Tom",
+          "life": "A Washington Senate chair pulled a hearing on a bill he had said he would schedule, citing federal funding risk and lawsuits and saying he never supported it. The sponsor said the majority leader had promised a hearing and he would give the leader a chance to keep the word; a Democrat suggested moving it to a committee the sponsor chaired.",
+          "urls": [
+            "https://www.spokesman.com/stories/2013/feb/08/wa-lege-day-26-parity-bill-hearing-canceled"
+          ]
+        },
+        {
+          "person": "Milo Smith and Chuck Moseley",
+          "life": "An Indiana committee chair refused to promise a vote on a redistricting reform bill that dozens had come to support. He called it unfinished and said work was needed; a member of the other party said amendments could be made on the floors, and the deadline was days away.",
+          "urls": [
+            "https://www.ipm.org/2019-10-30/committee-chair-blocks-vote-redistricting-reform-114365"
+          ]
+        }
+      ],
+      "moment": "A bill is held without a hearing, and the sponsor and the chair, which may be the player on either side, have to talk before the deadline.",
+      "choices": [
+        "ask for the hearing and say what you will change",
+        "ask what the chair would need to move it",
+        "grant the hearing and say what you want in return",
+        "say no and give the real reason"
+      ],
+      "ifNo": "A hold with no hearing lets the deadline pass; the bill dies in committee, and the sponsor reads the reason or the silence as the chair's answer.",
+      "situationKeys": ["bill-held-chair", "hold-chair-sought"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-06",
+      "stage": "the-work",
+      "otherStages": ["first-term", "first-days"],
+      "title": "Before the roll is called",
+      "roles": [
+        {
+          "slot": "the speaker",
+          "fill": "a member of the body recognized to speak for or against the bill, said with what they are to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "chamber leader",
+          "fill": "the presiding officer who recognizes members, said with the post"
+        },
+        {
+          "slot": "the sponsor",
+          "fill": "whoever carries the bill on the record"
+        }
+      ],
+      "setting": {
+        "fixed": true,
+        "text": "The floor of the body's chamber, with the player in their own seat, as the bill is called for debate and the speaker addresses the chair."
+      },
+      "gates": [
+        "The bill record shows a bill on the floor with debate open and the roll not yet called.",
+        "The player is a member of {the body} with a seat in the room.",
+        "{the speaker} has been recognized by {chamber leader} and holds a stance on the bill on the stance record."
+      ],
+      "weights": [
+        "How far apart the speaker and the player stand on the bill.",
+        "How close the vote is on the stance record.",
+        "Whether the player's district holds people the bill reaches.",
+        "Whether the debate has run long and members want it over.",
+        "How the speaker usually carries themselves in debate."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player stands with the speaker",
+          "then": "The player's stand is read into the debate record and by the speaker, who thanks them; the player's vote is now said aloud."
+        },
+        {
+          "by": "record",
+          "when": "the player says they see it differently",
+          "then": "The player's reasons go into the debate and the speaker answers; the exchange is read by members still deciding."
+        },
+        {
+          "by": "record",
+          "when": "the player asks the speaker to yield for a question",
+          "then": "The question is heard by the whole chamber; the speaker's answer is read as dodging or plain."
+        },
+        {
+          "by": "record",
+          "when": "the player says nothing",
+          "then": "The silence is written; members who counted the player on either side adjust."
+        },
+        {
+          "by": "record",
+          "when": "the speaker's words turn personal",
+          "then": "The chair or the presiding officer calls for decorum; the member who answers well or badly is read by the press."
+        }
+      ],
+      "unlocks": ["kind:vote-confirmed", "kind:press-interview", "B44", "B46"],
+      "extends": ["kind:floor-debate", "B44"],
+      "mergesWith": ["B46", "B44", "C05"],
+      "sources": [
+        {
+          "person": "Josie Raymond",
+          "life": "On the Kentucky House floor a member addressed the Speaker and her colleagues against a symbolic gun bill, argued time was better spent on gun violence, cited a school shooting, and said she would vote no.",
+          "urls": ["https://www.alternet.org/this-is-lunacy-kentucky-democrat"]
+        },
+        {
+          "person": "Brianna Titone and Scott Bottoms",
+          "life": "During debate in the Colorado House on a resolution about an amendment to the constitution, a member offered a limiting amendment and was told to keep remarks respectful. The next day another member answered on the floor, saying she was a colleague whether or not people accepted her; some opponents thanked her, the amendment failed and the resolution passed.",
+          "urls": [
+            "https://www.cbsnews.com/amp/colorado/news/colorados-first-transgender-representative-responds-comments-house-floor"
+          ]
+        },
+        {
+          "person": "Dave Williams and Joe Salazar",
+          "life": "A Colorado House member used the floor's morning announcements to object to a colleague's remark, made at a forum, about his identity during a sanctuary debate. Chamber rules kept him from naming the colleague, who did not answer on the floor, and he closed by urging members to disagree without personal attacks.",
+          "urls": [
+            "https://www.coloradopolitics.com/2017/02/15/dave-williams-lambastes-joe-salazar-for-calling-him-half-latino-in-sanctuary-policy-debate-3eab762d-1463-519d-80bb-b501f08786b7"
+          ]
+        }
+      ],
+      "moment": "{the speaker} argues the bill in front of the chamber, and the player decides whether to stand with them, answer them, or sit still.",
+      "choices": [
+        "stand with the speaker and say why",
+        "say you see it differently and give a reason",
+        "ask the speaker to yield for a question",
+        "say nothing and keep your seat"
+      ],
+      "ifNo": "Saying nothing lets the speaker's words stand as the room's; members who needed to hear from the player read the quiet as a no.",
+      "situationKeys": ["floor-debate"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-07",
+      "stage": "the-work",
+      "otherStages": ["first-term", "involvement"],
+      "title": "The witness in the hall",
+      "roles": [
+        {
+          "slot": "the witness",
+          "fill": "a resident who testified at the hearing and is tied to the bill by their own life: a job, a lease or loan, a child at home, an age, a loss, or only a view. Introduced the first time with a full name and what the bill would do to them."
+        },
+        {
+          "slot": "committee chair",
+          "fill": "the chair who ran the hearing, said with years in the gavel"
+        },
+        {
+          "slot": "the sponsor",
+          "fill": "whoever carries the bill on the record, who may be the player"
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The hallway or the steps outside the hearing room, as the witness leaves; or the player's office door if the witness waits."
+      },
+      "gates": [
+        "The committee record shows a hearing held on the bill and {the witness} named as a witness with a side.",
+        "The player is a member of the committee, the bill's sponsor, or the member the witness is in the district of.",
+        "The witness record shows what the bill reaches in {the witness}'s own life."
+      ],
+      "weights": [
+        "How much of {the witness}'s own life the bill reaches.",
+        "How long the hearing ran and how late it was.",
+        "Whether the witness is in the player's district.",
+        "Whether the witness came with a group.",
+        "Whether the player agrees with the witness's side."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player thanks the witness and listens",
+          "then": "Time spent on the tie is written; the witness's story goes into what the player knows of the bill."
+        },
+        {
+          "by": "record",
+          "when": "the player asks what the bill would really mean for the witness",
+          "then": "The witness answers in their own life, never a figure about the world; the player's view of the bill may move."
+        },
+        {
+          "by": "record",
+          "when": "the player tells the witness they see it differently",
+          "then": "The tie is strained; the witness tells others in their group."
+        },
+        {
+          "by": "record",
+          "when": "the player brushes the witness off",
+          "then": "The witness is hurt and tells it to others, and a later talk or a vote reads the brush-off."
+        },
+        {
+          "by": "record",
+          "when": "the witness is on the player's own side",
+          "then": "The witness asks what happens next and the player's answer is held as a promise."
+        }
+      ],
+      "unlocks": [
+        "kind:constituent-stop",
+        "kind:vote-confirmed",
+        "B7-06",
+        "B7-04"
+      ],
+      "extends": ["kind:hearing-witness", "B46"],
+      "mergesWith": ["B6-08", "B7-05"],
+      "sources": [
+        {
+          "person": "Stephen Chukumba",
+          "life": "A father drove to a statehouse to testify for a shield law protecting care for his son, compared his son's care to his late wife's cancer treatment, and asked the committee to advance the bill. The room applauded and several people thanked him afterward; the committee advanced the bill.",
+          "urls": [
+            "https://stephenthedad.substack.com/p/standing-up-testimony-confrontation"
+          ]
+        },
+        {
+          "person": "A Texas family of three",
+          "life": "A seven-year-old girl and her parents testified in an almost eleven-hour Senate hearing against a bathroom bill, together for about six minutes. The committee gave a short thanks, the child's nerves gave way afterward, and the committee voted the bill out hours later, after the family had left.",
+          "urls": [
+            "https://www.texastribune.org/2017/07/22/transgender-girl-gets-her-two-minutes-bathroom-bill"
+          ]
+        },
+        {
+          "person": "Adrienne Sloan and Kyle Berndt",
+          "life": "A daughter told a Minnesota committee that surveillance video showed her father's death in an assisted living home and urged the bill, while an industry group's speaker said it was unclear whether facilities could meet its rules. The sponsors of the bills in both chambers spoke after.",
+          "urls": [
+            "https://fox9.com/news/lawmakers-blast-no-lift-policies-assisted-living-veterans-death-march-18"
+          ]
+        }
+      ],
+      "moment": "A resident who testified catches the player in the hall and says what the bill would do to them.",
+      "choices": [
+        "thank them and stay to listen",
+        "ask what it would really mean for them",
+        "say you see it differently and why",
+        "say you are late and leave"
+      ],
+      "ifNo": "Brushing the witness off leaves a story told to others; the tie strains, and the player's vote is read against it.",
+      "situationKeys": ["hearing-witness"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-08",
+      "stage": "the-work",
+      "otherStages": ["first-term"],
+      "title": "Send it to study",
+      "roles": [
+        {
+          "slot": "the speaker",
+          "fill": "the chair of the body, or the sponsor, who tells the player what the study is charged with, said with the post. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "the sponsor",
+          "fill": "whoever carries the bill on the record, who may chair the study"
+        },
+        {
+          "slot": "cause group",
+          "fill": "a group that wants the bill passed now, if any"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The chamber after the vote to form the study, or the chair's office as the study's first meeting is set."
+      },
+      "gates": [
+        "The bill record shows a bill the body could not settle and sent to a study committee.",
+        "The study record names its members and a date by which it must report.",
+        "The player sits on the study, chairs it, or is a member of the body whose vote it is meant to move."
+      ],
+      "weights": [
+        "How divided the body is on the bill.",
+        "How much the sponsor wants the bill passed this session.",
+        "Whether the study's members are the opponents nearest to changing their vote.",
+        "Whether {cause group} is pressing for action.",
+        "Whether the study has a firm date or an open one."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player agrees to serve",
+          "then": "The player's name goes on the study record; the talk turns on how it should begin and who it will hear."
+        },
+        {
+          "by": "record",
+          "when": "the player says a study is only a delay",
+          "then": "The plain word is written on the tie; the sponsor decides whether to answer or push for a vote."
+        },
+        {
+          "by": "record",
+          "when": "the player asks who sits on it and when it reports",
+          "then": "The date and the members are read from the study record; the player's trust in it rises or falls with them."
+        },
+        {
+          "by": "record",
+          "when": "the player says nothing much",
+          "then": "The study goes forward without the player's mark on it."
+        },
+        {
+          "by": "record",
+          "when": "the study is formed over the sponsor's wishes",
+          "then": "The sponsor says the study was a polite way to bury the bill; if a deadline passes the bill and the study both lapse."
+        }
+      ],
+      "unlocks": ["B7-09", "kind:study-reported", "kind:floor-debate"],
+      "extends": ["kind:study-formed", "C05"],
+      "mergesWith": ["B7-09", "B7-05"],
+      "sources": [
+        {
+          "person": "Rusty Crowe and Steve Dickerson",
+          "life": "A Tennessee committee chair proposed a summer study on a medical marijuana bill, saying the committee lacked time to weigh it, and delayed action a year. The sponsor wanted to keep pushing, deferred to the chair, and urged lawmakers not to penalize seriously ill patients.",
+          "urls": [
+            "https://www.governing.com/archive/Medical-Marijuana-Bill-Dead-in-Tennessee-Til-2016.html"
+          ]
+        },
+        {
+          "person": "Rob Roberson and Daryl Porter",
+          "life": "A Mississippi school voucher bill that its author said he filed mainly to start a discussion was amended into a study committee; when leaders did not call it up by the deadline it died and so did the study. One member said opponents wanted it to die.",
+          "urls": [
+            "https://ourtupelo.com/house-leaders-kill-school-voucher-bill-without-vote/"
+          ]
+        },
+        {
+          "person": "Keith Murphy",
+          "life": "An Indiana sponsor whose bill defining an employee went to an interim study committee said that was a polite way to bury it, since he saw no real purpose in studying it, and hoped for better luck the next year.",
+          "urls": [
+            "https://www.workcompcentral.com/news/article/id/64148532c1b081cada52fb79f272b911c14c156e"
+          ]
+        },
+        {
+          "person": "Bob Stephens and the Springfield council",
+          "life": "A city council voted to postpone an ordinance on discrimination after weeks of debate and the mayor said a task force would be appointed to work toward a compromise, which would take some time.",
+          "urls": [
+            "https://www.kbia.org/politics/2012-08-28/springfield-council-tables-ordinance-changes"
+          ]
+        }
+      ],
+      "moment": "The body sends a bill it could not settle to a study, and the player is told what it will do and when it reports.",
+      "choices": [
+        "agree to serve and say what it should hear",
+        "say a study is only a delay",
+        "ask who sits on it and when it reports",
+        "say nothing much"
+      ],
+      "ifNo": "A study with no one pressing it lapses with the deadline; the bill is read as buried, and the sponsor remembers who let it.",
+      "situationKeys": ["study-formed"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-09",
+      "stage": "the-work",
+      "otherStages": ["first-term"],
+      "title": "What the study found",
+      "roles": [
+        {
+          "slot": "the speaker",
+          "fill": "the chair of the study, or a member who brings its finding to the player, said with the post. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "the sponsor",
+          "fill": "whoever carries the bill on the record, who may chair the study"
+        },
+        {
+          "slot": "the other side",
+          "fill": "members and groups who did not take part in the study, if any"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The chamber when the chair reads the report, or a hallway after it, or a meeting called to take public comment on it."
+      },
+      "gates": [
+        "The study record shows a study committee that has reached its date and reported.",
+        "The report record holds the members' position on the bill and the options they offered.",
+        "The player is a member of the body, or chaired the study."
+      ],
+      "weights": [
+        "How far the study's finding is from where the player stood.",
+        "Whether the report was written by one side only.",
+        "Whether the other side had any say in it.",
+        "How near the next session is.",
+        "Whether the player's own stance record moved with the finding."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the finding moves the player",
+          "then": "The player's stance record shifts and a bill draft may follow."
+        },
+        {
+          "by": "record",
+          "when": "the player disagrees with the finding",
+          "then": "The reasons go on the record; the speaker answers from the study's own reasons."
+        },
+        {
+          "by": "record",
+          "when": "the player asks what moved the finding",
+          "then": "The answer names who the study heard and what was left out."
+        },
+        {
+          "by": "record",
+          "when": "the report was written by one side and the other side objects",
+          "then": "A second report or a statement is written; the body reads two accounts."
+        },
+        {
+          "by": "record",
+          "when": "the administration or the office the report names says it needs time",
+          "then": "The player hears that action will wait; the delay is read by the people who pressed for it."
+        }
+      ],
+      "unlocks": ["kind:floor-debate", "kind:hearing-witness", "B7-04"],
+      "extends": ["kind:study-reported", "B7-08"],
+      "mergesWith": ["B7-08", "B7-06"],
+      "sources": [
+        {
+          "person": "Kim Abbott and the Montana committee",
+          "life": "A select committee run by the majority put out a report with ten possible bills, saying they were options and not the endorsed view of each member. The minority leader said her side was not asked to take part, and the majority's bill drafts were ready before the new session.",
+          "urls": [
+            "https://montanafreepress.org/2022/12/16/select-committee-offers-legislative-recommendations-in-montana-court-conflict/"
+          ]
+        },
+        {
+          "person": "Suzie Price and the Long Beach council",
+          "life": "A city task force had not finished, and its only paper was a list of over forty topics from a canceled meeting. The council unanimously gave it a date to finish; a patient group groaned at the delay, a task force member welcomed the fixed date.",
+          "urls": [
+            "https://lbpost.com/news/action-on-medical-cannabis-pushed-to-september-as-city-council-awaits-task-force-recommendations-3/"
+          ]
+        },
+        {
+          "person": "Will Stapp, Sara Hannan and Aimee Devaris",
+          "life": "A pay study that came a year late found state wages below the state's own target for most job groups. Finance committee members were frustrated by the delay and the lowered standard; the personnel director said a new review would take at least a year and could not give cost figures.",
+          "urls": [
+            "https://www.juneauindependent.com/post/studying-the-study-vexed-lawmakers-told-it-will-take-at-least-a-year-to-assess-report-calling-sta"
+          ]
+        },
+        {
+          "person": "A Vermont commentator on an inactive study committee",
+          "life": "A Senate study committee created to look at lobbying by groups that receive state money left no sign it ever met, heard witnesses or filed a report; the resolution had set no deadline or penalty.",
+          "urls": [
+            "https://thevpo.org/2022/03/29/the-study-committee-that-never-was"
+          ]
+        }
+      ],
+      "moment": "The study reports, and the player is told what it found and asked what they make of it.",
+      "choices": [
+        "say the finding moves you",
+        "say you disagree and give the reason",
+        "ask what moved the finding",
+        "say nothing much"
+      ],
+      "ifNo": "A report no one answers sits on the shelf; the people who pressed for it hear nothing, and the next session starts where it began.",
+      "situationKeys": ["study-reported"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-10",
+      "stage": "the-work",
+      "otherStages": ["first-term", "running-again"],
+      "title": "The group remembers",
+      "roles": [
+        {
+          "slot": "the lobbyist",
+          "fill": "the person who speaks for a group that made its case to the player on a bill, said with the group they speak for. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "cause group",
+          "fill": "the group, trade or union the lobbyist speaks for"
+        },
+        {
+          "slot": "donor",
+          "fill": "someone who gives to the player's campaign and belongs to the group, if any"
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The player's office, the lobby or corridor outside the chamber, or a fundraiser or lunch the group is at."
+      },
+      "gates": [
+        "The lobbying record shows {the lobbyist} met the player on a bill.",
+        "The vote record shows the player voted the other way from the group's ask.",
+        "{the lobbyist} still has a way to reach the player: a meeting, a call, or a donor on the record."
+      ],
+      "weights": [
+        "How much the group gave the player before.",
+        "How much of the player's district belongs to the group.",
+        "How warmly the lobbyist and the player have dealt before.",
+        "How close the next election is.",
+        "How the lobbyist tends to say a hard thing, in a hint or out loud."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the lobbyist hints that the group will remember",
+          "then": "The hint is written on the tie; the player decides whether to hear it as a warning or a courtesy."
+        },
+        {
+          "by": "record",
+          "when": "the lobbyist says it plainly",
+          "then": "The warning is written as a threat on the record and the player's reply is read later by the group and by the press."
+        },
+        {
+          "by": "record",
+          "when": "the player explains the vote",
+          "then": "The group may keep dealing with the player on other bills; if it does not, the explanation is said by others."
+        },
+        {
+          "by": "record",
+          "when": "the player refuses to be moved",
+          "then": "The group's giving and its endorsement follow what it decides; the donor tie is read when the next race opens."
+        },
+        {
+          "by": "record",
+          "when": "the group has a donor in the player's campaign",
+          "then": "The donor's words and gifts after the vote are read as the group's answer."
+        }
+      ],
+      "unlocks": [
+        "kind:bribe-pressed",
+        "kind:vote-confirmed",
+        "C02",
+        "kind:press-interview"
+      ],
+      "extends": ["kind:lobby-remembers", "C02"],
+      "mergesWith": ["C02", "B53"],
+      "sources": [
+        {
+          "person": "Cristina Antelo, Stewart Verdery and other lobbyists",
+          "life": "After a vote on certifying an election, many companies froze donations to members who voted no. Lobbyists then told clients to rebuild ties because the members might hold leadership and committee posts, and said a blanket refusal could not last; aides to some members reportedly weighed banning lobbyists who had stopped giving.",
+          "urls": ["https://popular.info/p/corporate-lobbyists-bite-back"]
+        },
+        {
+          "person": "The American Clean Power Association and others",
+          "life": "One energy group would not give to members who voted against certification and another suspended giving and would review it from time to time, while a business chamber said it would not judge on that vote alone and a chemistry council reviewed members case by case.",
+          "urls": [
+            "https://www.eenews.net/articles/energy-groups-keep-boycott-of-lawmakers-who-fought-biden-win/"
+          ]
+        },
+        {
+          "person": "Public Citizen's report on voting laws",
+          "life": "Companies and trade groups gave tens of millions to state lawmakers who backed voting restrictions, and most firms that had changed giving after January 6 still gave to them. Two chairs of the legislature received money from some of the firms and did not respond; company chiefs said the right to vote was sacred without promising any action.",
+          "urls": [
+            "https://fortune.com/2021/04/05/voting-restrictions-georgia-voting-law-ga-company-donations-att-comcast-walmart-verizon-gm-pfizer/"
+          ]
+        },
+        {
+          "person": "Larry Agran",
+          "life": "On a California city council the one member who voted against hiring a special counsel over a development said it was an election-season attack and tried to show developer contributions to his colleagues; the majority blocked his presentation, and a lobbyist's email had urged developers to keep gifts under a legal limit.",
+          "urls": [
+            "https://voiceofoc.org/2014/10/irvine-to-probe-votes-by-city-commissioners/"
+          ]
+        }
+      ],
+      "moment": "Two days after the vote, {the lobbyist} finds the player to say the group has not forgotten.",
+      "choices": [
+        "thank them for the warning and explain the vote",
+        "say the vote was your own and stand on it",
+        "ask what the group wants for next time",
+        "end the talk and walk away"
+      ],
+      "ifNo": "Walking off leaves the hint unanswered; the group acts on its own read, and the next race shows whether it gave less.",
+      "situationKeys": ["lobby-remembers"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-11",
+      "stage": "the-work",
+      "otherStages": ["crisis", "first-term"],
+      "title": "No, and then again",
+      "roles": [
+        {
+          "slot": "the offerer",
+          "fill": "the person whose offer the official turned down, who comes back: a donor, a lobbyist, a campaign worker or a fellow member. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the staffer",
+          "fill": "a member of the player's staff who knows of the first offer, said with the job"
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "the clerk",
+          "fill": "the official who takes ethics reports, by the title the place uses"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "A parked car, a corner of a lobby, a late call, or a lunch the offerer asked for."
+      },
+      "gates": [
+        "The corruption record shows an offer to the player that the player refused.",
+        "{the offerer} has a stake on the bill or contract record that the offer was about.",
+        "{the offerer} still has a way to reach the player."
+      ],
+      "weights": [
+        "How much {the offerer} stands to gain or lose.",
+        "How the offerer's temper runs, veiled or open.",
+        "Whether the player's household is in money trouble.",
+        "Whether {the staffer} knows of the first offer.",
+        "How long since the first refusal."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player holds the line",
+          "then": "The second refusal is written on the corruption record and the pressure may grow, or stop."
+        },
+        {
+          "by": "record",
+          "when": "the player says they will report it",
+          "then": "The record shows the player's word; {the clerk} or an investigator is told, and the offerer's tie is cut."
+        },
+        {
+          "by": "record",
+          "when": "the player puts the talk off",
+          "then": "The delay is written; if it is read as a maybe, the offerer comes back a third time."
+        },
+        {
+          "by": "record",
+          "when": "the offerer threatens the player's bills, posts or campaign",
+          "then": "The threat is written as a pressure on the tie; the player's reply is read by whoever later reviews the record."
+        },
+        {
+          "by": "record",
+          "when": "the player is in money trouble and the offer lands on it",
+          "then": "The talk turns on need; the player's answer is the one that is written, and no figure is said aloud."
+        }
+      ],
+      "unlocks": ["kind:press-interview", "C13", "C12", "kind:office-doubt"],
+      "extends": ["kind:bribe-pressed", "C13"],
+      "mergesWith": ["C13", "C12"],
+      "sources": [
+        {
+          "person": "Derrick Smith",
+          "life": "An Illinois legislator was recorded in a government sting turning down cash from an informant several times before he took it, in exchange for a letter backing a grant application; his lawyer argued entrapment from the repeated offers and the jury convicted him.",
+          "urls": [
+            "https://www.kvpr.org/2014-06-10/illinois-lawmaker-found-guilty-of-accepting-7-000-payoff"
+          ]
+        },
+        {
+          "person": "An unnamed Ohio representative and Larry Householder",
+          "life": "A member who voted no on a bill was allegedly texted by the speaker, warned by a lobbyist that members who vote against him lose posts and funds, and then offered through an intermediary a pass on the vote if he deleted the texts. He told the FBI. These are prosecutors' claims, not proven facts.",
+          "urls": ["https://bgindependentmedia.org/?p=42932"]
+        },
+        {
+          "person": "Jon Woods and Micah Neal",
+          "life": "A former Arkansas legislator testified that a senator came back a few days after their first talk about making money with a plan to take a share of grant money steered to two groups; the account is of a man who went along, not one who refused.",
+          "urls": [
+            "https://www.arkansasonline.com/news/2018/apr/12/woods-accounts-negative-u-s-says-201804/"
+          ]
+        },
+        {
+          "person": "Larry Inman",
+          "life": "A Michigan representative was charged after prosecutors said texts show he pressed a union to gather money from other unions to sway colleagues on a wage law vote. He denied it, and the speaker removed him from his posts and asked him to step down.",
+          "urls": [
+            "https://www.wkar.org/politics-government/2019-05-16/michigan-lawmaker-denies-cash-for-vote-scheme-wont-quit"
+          ]
+        }
+      ],
+      "moment": "The person whose offer the player refused comes back, pressing harder, and the player has to say what they will do.",
+      "choices": [
+        "hold the line and say no again",
+        "say you will report it",
+        "say you will think and put off the talk",
+        "end the talk and walk out"
+      ],
+      "ifNo": "Putting the talk off lets the offerer treat it as open; a third approach is harder, and what the player said is on the record.",
+      "situationKeys": ["bribe-pressed"],
+      "bank": 7,
+      "beat": null
+    },
+    {
+      "id": "B7-12",
+      "stage": "the-work",
+      "otherStages": ["first-term", "running-again"],
+      "title": "Is the job worth it",
+      "roles": [
+        {
+          "slot": "household member",
+          "fill": "someone who lives with the player and saw the crowd, the news or the meeting night: a partner, parent or grown child, said with what they are to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the crowd",
+          "fill": "the people at the strike or protest against the town's term, as the civic record shows them: a union, a neighborhood group, or residents"
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        }
+      ],
+      "setting": {
+        "fixed": true,
+        "text": "At home, the evening or the morning after a strike or protest against the town's term: the kitchen table, the doorway, or a late call."
+      },
+      "gates": [
+        "The civic record shows a strike or protest against the town's term in recent days.",
+        "{household member} lives with the player on the household record.",
+        "The player holds an office on {the body}."
+      ],
+      "weights": [
+        "How large and how angry the crowd was.",
+        "How often the player is away at night.",
+        "Whether the pay of the office is low.",
+        "Whether a child is in the house.",
+        "How the household has felt about the job before."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player says why they hold the job",
+          "then": "The household hears the reason; the tie warms if the reason is plain, and cools if it sounds like a speech."
+        },
+        {
+          "by": "record",
+          "when": "the player says it looks worse than it is",
+          "then": "The household reads the answer against what they saw; the gap is remembered."
+        },
+        {
+          "by": "record",
+          "when": "the player promises time at home",
+          "then": "The promise is written on the household record and kept or broken by later nights."
+        },
+        {
+          "by": "record",
+          "when": "the player puts the talk off",
+          "then": "The question stays open and is asked again after the next night meeting."
+        },
+        {
+          "by": "record",
+          "when": "the household backs the job",
+          "then": "The support is written as a favor owed and may be said at the next race."
+        }
+      ],
+      "unlocks": ["B6-07", "kind:family-absence", "C24", "C41"],
+      "extends": ["kind:office-doubt", "C24", "C41"],
+      "mergesWith": ["B6-07", "C11"],
+      "sources": [
+        {
+          "person": "Allie Herkenroder",
+          "life": "A Flint council president resigned because her health had suffered from the council's climate; she said meetings brought severe anxiety, she held back the news so as not to disrupt the budget vote, and her top priority became caring for herself with her family behind her.",
+          "urls": ["https://www.eastvillagemagazine.org/?p=38277"]
+        },
+        {
+          "person": "Greg Scott, Aaron Pilkington and others",
+          "life": "Young state legislators said the job strained family life: one said his wife was pushing him to step away and he was thinking of leaving at 38, and another asked why he should put his family at risk. Events had to be planned and people were met at restaurants instead of at home.",
+          "urls": [
+            "https://futurecaucus.org/after-minnesota-shootings-young-lawmakers-ask-is-it-worth-it/"
+          ]
+        },
+        {
+          "person": "Jim Matheson and Judy Nadler",
+          "life": "A congressman and a former mayor said office strains families, that most members feel they spend too little time at home, and that one mayor moved her children to another school after a controversial vote. Both said the strain can strengthen or damage a family and the rewards were real.",
+          "urls": [
+            "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
+          ]
+        },
+        {
+          "person": "Debbie Walsh and Liuba Grechen Shirley",
+          "life": "A Rutgers researcher said local and legislative seats are often part-time and low-paid but feel full-time, hard on parents of young children; a founder of a mothers' group said campaign funds for child care open the door for more mothers.",
+          "urls": [
+            "https://www.yahoo.com/news/articles/threat-political-violence-keeping-parents-143430653.html"
+          ]
+        }
+      ],
+      "moment": "The day after a crowd turns out against the town, {household member} asks whether the job is worth it.",
+      "choices": [
+        "say why you hold the job and what it has done",
+        "say it looks worse than it is",
+        "promise time at home and name a night",
+        "say you cannot talk about it tonight"
+      ],
+      "ifNo": "Putting it off leaves the question to sit; {household member} asks again after the next night away, and a rival may use the quiet later.",
+      "situationKeys": ["office-doubt"],
+      "bank": 7,
       "beat": null
     }
   ]
