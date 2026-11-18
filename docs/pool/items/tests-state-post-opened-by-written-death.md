@@ -32,6 +32,6 @@ effort: medium
 
 **Waits on.** nothing.
 
-**Files.** src/director/post-ask-drawn-refuses.test.ts, src/core2/governor-pick-from-the-state.test.ts
+**Files.** src/core2/governor-pick-from-the-state.test.ts
 
 **Notes.** Filed by hand by the civic roles builder on the Account lead's ruling of Nov 15, 10:44Z.
