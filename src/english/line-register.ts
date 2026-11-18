@@ -274,6 +274,9 @@ function saysNothing(piece: RawPiece, bank: string): boolean {
 let cached: RegisteredLine[] | undefined;
 
 /** Every bank piece, registered (read once: the banks do not change while the game runs). */
+/** Every bank the register reads, by file name, lines or none: the cut (owner, Nov 17) left banks empty, and an empty bank is still a bank. */
+export const bankNames = (): string[] => Object.keys(BANKS).sort();
+
 export function bankLines(): RegisteredLine[] {
   return (cached ??= readBankLines());
 }
