@@ -821,6 +821,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "closenessTrustLostShare": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "The share of the hours a tie stands on today that trust lost takes (a lie found out, a promise broken): a close tie loses more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15). Read by the director's endingStrain trust-lost row and the promises engine's broken promise (people-broken-promise-costs-share-of-tie, Nov 16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share of the tie",
+      "citation": "From memory: the spread the Account lead's ruling of Nov 15 checks it against; no study gives a share."
+    },
+    "role": "coefficient",
+    "estimatedFrom": "From memory, not measured: DePaulo and Kashy (1998) give the direction only (people lie less to those they are close to and are more uncomfortable doing it), and no study read gives the share of a tie that trust lost takes. A quarter is the middle of the spread the Account lead's ruling of Nov 15 checks it against. Sizing it from the record (what the lies and broken promises in played worlds actually do to ties) is item people-trust-lost-share-sized-from-the-record, the lying thread's."
+  },
   "circleRetentionShareOverSpan": {
     "value": 0.48,
     "tag": "SOURCED",
@@ -5080,6 +5093,27 @@
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
   },
+  "driveAttackedImpulse": {
+    "value": 0.3,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "A public attack on one's name by a rival's ad, sized like the loss of a stake that is not one's livelihood: the Social Readjustment Rating Scale's 'Foreclosure of mortgage or loan' is 30 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218). Only the strength of the push is set here; whether the one attacked holds a grudge, takes up a cause or carries on is their own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.20 to 0.47"
+  },
+  "driveBillVetoedImpulse": {
+    "value": 0.3,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "A sponsor's bill vetoed, sized below losing a job: the Social Readjustment Rating Scale's 'Foreclosure of mortgage or loan' is 30 life-change units, the nearest item for a lost stake that is not a person's livelihood (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218). Only the strength of the push is set here; whether the sponsor holds a grudge, takes up a cause or carries on is their own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.20 to 0.47"
+  },
+  "driveRaceLostImpulse": {
+    "value": 0.47,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Losing a public race, sized like losing a job: the Social Readjustment Rating Scale's 'Fired at work' is 47 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218); it has no item for a lost election. Only the strength of the push is set here; whether a loser holds a grudge, takes up a cause or carries on is each person's own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.30 ('Foreclosure of mortgage or loan') to 0.47 ('Fired at work')"
+  },
   "driveHomeLostImpulse": {
     "value": 0.47,
     "tag": "ESTIMATED",
@@ -6099,6 +6133,19 @@
       "unit": "score per unit of stress",
       "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
     }
+  },
+  "hardshipWeightPeoplePart": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much the stress a layoff, an eviction or a missed payment left on a couple speeds their pull to part, per unit of stress, on the log scale of the parting pace (partnerships.ts, the couple's mean of both partners' hardship). The direction is sourced: the divorce hazard rises after a spouse's job displacement (Charles and Stephens 2004, Job Displacement, Disability, and Divorce, Journal of Labor Economics 22(2):489-522, PSID; NBER w8578, https://www.nber.org/papers/w8578), for layoffs and not for plant closings. The size here is a starting value: the paper's effect size was not read in this change.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "log hazard of parting per unit of stress",
+      "citation": "Checked range around the starting value, below the move weight's (0.6, Huttunen, Moen and Salvanes 2018) because a layoff moves a household's parting less than its leaving in the studies named; to be replaced by the effect size in Charles and Stephens 2004's tables."
+    },
+    "stopgapId": "SG-LIVES-part-hardship-weight"
   },
   "traitWeightVotingTurnout": {
     "value": 0.79,
@@ -7553,18 +7600,6 @@
       "high": 0.2,
       "unit": "share of the published tuition",
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
-    }
-  },
-  "worldBaseRateMortalitySpreadShare": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
-    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
-    "spread": {
-      "low": 0.02,
-      "high": 0.08,
-      "unit": "share of the published rate",
-      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
     }
   },
   "worldBaseRateNatalitySpreadShare": {

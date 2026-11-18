@@ -41,7 +41,7 @@ import {
 import {
   ELECTIONS_MODULE_ID,
   petitionCirculating,
-  standing,
+  campaigning,
   type ContestRow,
   raceAhead,
   type FilingRow,
@@ -270,7 +270,7 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
     filing.contestId,
   ) as unknown as ContestRow;
   const open =
-    standing(filing) &&
+    campaigning(filing) &&
     raceLive(api, filing) &&
     (world
       ? !!api.state.people.get(filing.personId)?.alive &&
@@ -564,7 +564,7 @@ export function contestStanding(
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
       .query("byContest", [contestId]) as unknown as FilingRow[]
-  ).filter(standing);
+  ).filter(campaigning);
   const electionDate = (
     api
       .moduleState(ELECTIONS_MODULE_ID)
@@ -577,7 +577,8 @@ export function contestStanding(
     // what people remember of them (their warmth), never as this race's
     // standing.
     const inCampaign = (date: string) =>
-      date >= filing.filedOn && (!electionDate || date <= electionDate);
+      date >= (filing.announcedOn ?? filing.filedOn) &&
+      (!electionDate || date <= electionDate);
     const rows = (
       api
         .moduleState(CAMPAIGNS_MODULE_ID)

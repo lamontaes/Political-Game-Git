@@ -33,11 +33,21 @@ import {
   presidentElection,
 } from "../../core2/modules/national-opinion";
 import {
+  centuryLegislatures,
   centuryOf,
+  partyKeyIssues,
   centuryPresidency,
+  centuryRace,
+  centurySeatRace,
   historyMode,
+  PARTIES_MODULE_ID,
+  statePlaces,
+  stateRightShare,
+  type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { openingRentals } from "../../core2/modules/housing";
+import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
@@ -278,6 +288,175 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         : "today's real record (the world chose it)",
     ),
     row(
+      "town.legislature",
+      "The state legislature on day one",
+      historyMode(core.seed) === "century"
+        ? (() => {
+            // The town's state's chambers, counted seat by seat; every other state's chambers
+            // as results (electorate-century.ts congressElections).
+            const chambers = new Map<string, { r: number; d: number }>();
+            const control = { r: 0, d: 0 };
+            const all = new Map<string, { r: number; d: number }>();
+            for (const seat of centuryLegislatures(
+              core.seed,
+              core.startedAt,
+            ).values()) {
+              const key = `${seat.stateKey}:${seat.rosterChamber}`;
+              const count = all.get(key) ?? { r: 0, d: 0 };
+              if (seat.side > 0) count.r += 1;
+              else count.d += 1;
+              all.set(key, count);
+              if (seat.hidden) continue;
+              chambers.set(seat.rosterChamber ?? "legislature", count);
+            }
+            for (const count of all.values())
+              if (count.r > count.d) control.r += 1;
+              else if (count.d > count.r) control.d += 1;
+            const name = (chamber: string) =>
+              chamber === "upper"
+                ? "upper chamber"
+                : chamber === "lower"
+                  ? "lower chamber"
+                  : "one chamber";
+            const mine = [...chambers]
+              .map(([chamber, c]) => `${name(chamber)} ${c.r} R, ${c.d} D`)
+              .join("; ");
+            return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
+          })()
+        : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.stateLean",
+      "Your state on day one",
+      (() => {
+        // The state as play's counts read it: its counted places' vote-weighted lean.
+        const town = coreAPI(core)
+          .moduleState("core2-offices-v1")
+          .table("loaded")
+          .get("town") as unknown as { stateKey: string } | undefined;
+        const usps = town?.stateKey.slice(3) ?? "";
+        const share = stateRightShare(usps, core.seed);
+        const places = statePlaces(usps, core.seed);
+        return share === null
+          ? "no counted places"
+          : `${pct(share)} Republican across its ${places.length} counted places (${historyMode(core.seed) === "century" ? "the century's last count in the state" : "its 2024 presidential vote and this world's swing"})`;
+      })(),
+    ),
+    row(
+      "town.rentalVacancy",
+      "Your town's empty rentals on day one",
+      (() => {
+        // The town's own past: the leases its renters signed in the last year,
+        // each leaving a unit empty between tenants (housing-past.ts openingVacancy).
+        const town = core.placeMetadata?.housingTown;
+        const api = coreAPI(core);
+        const rentals = town ? openingRentals(api, town) : undefined;
+        if (!rentals) return "no rental homes here";
+        return `${Math.round(rentals.vacant)} of ${Math.round(rentals.units)} rentals empty (${pct(rentals.vacant / Math.max(1, rentals.units))}), from the ${Math.round(rentals.signed)} leases its ${Math.round(rentals.renters)} renting households signed in the last year, each leaving a home empty about ${api.parameter("rentalVacantMonths")} months`;
+      })(),
+    ),
+    row(
+      "town.districtLeans",
+      "Where the town's districts lean on day one",
+      (() => {
+        // Each district seat covering the town, at the lean its official reads (officials.ts seatLean).
+        const api = coreAPI(core);
+        const bySeat = new Map(allOfficials(api).map((o) => [o.seatId, o]));
+        const lines = townSeats(api)
+          .filter(
+            (s) =>
+              s.office.kind === "us-house" ||
+              s.office.kind.startsWith("legislature-"),
+          )
+          .map((s) => bySeat.get(s.seat.id))
+          .filter((o): o is NonNullable<typeof o> => o !== undefined)
+          .map(
+            (o) =>
+              `${o.body}${o.district === null ? "" : ` district ${o.district}`}: ${pct((o.districtLean + 1) / 2)} Republican (${o.leanSource})`,
+          );
+        return lines.length
+          ? lines.join("; ")
+          : "no district seat covers the town";
+      })(),
+    ),
+    row(
+      "town.partyTies",
+      "The town's party ties on day one",
+      (() => {
+        // Every adult's tie, as the parties engine keeps it (parties.ts openParties).
+        const api = coreAPI(core);
+        if (!core.modules.has(PARTIES_MODULE_ID)) return "no parties here";
+        const names = new Map(
+          (
+            api
+              .moduleState(PARTIES_MODULE_ID)
+              .table("parties")
+              .rows() as unknown as {
+              id: string;
+              name: string;
+            }[]
+          ).map((row) => [row.id, row.name]),
+        );
+        const ties = (
+          api
+            .moduleState(PARTIES_MODULE_ID)
+            .table("ties")
+            .rows() as unknown as TieRow[]
+        ).filter((t) => t.personId !== core.playerId);
+        if (!ties.length) return "no adult ties yet";
+        const counts = new Map<string, number>();
+        for (const t of ties) {
+          const label =
+            t.tie === "party"
+              ? (names.get(t.partyId ?? "") ?? "a party")
+              : t.tie === "independent"
+                ? "independent"
+                : "no party";
+          counts.set(label, (counts.get(label) ?? 0) + 1);
+        }
+        return [...counts]
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([label, n]) => `${label} ${pct(n / ties.length)}`)
+          .join(", ");
+      })(),
+    ),
+    row(
+      "town.parties",
+      "The parties",
+      historyMode(core.seed) === "century"
+        ? century.parties
+            .map((party) => {
+              const first = party.positions[0]?.position ?? 0;
+              const now = party.positions.at(-1)?.position ?? first;
+              const other =
+                century.parties
+                  .find((p) => p.side !== party.side)
+                  ?.positions.at(-1)?.position ?? 0;
+              const issues = partyKeyIssues(now, other, 3)
+                .map(
+                  (i) =>
+                    `${i.supports ? "for" : "against"} ${i.question.split(".").at(-1)}`,
+                )
+                .join(", ");
+              const won = century.presidencies
+                .filter((p) => p.winnerSide === party.side)
+                .map((p) => p.year);
+              // Its members of Congress as seated (officials-roster.ts drawOfficial).
+              const members = allOfficials(coreAPI(core)).filter(
+                (o) =>
+                  (o.bodyKind === "us-house" || o.bodyKind === "us-senate") &&
+                  !o.independent &&
+                  partySide(o.party) === party.side,
+              );
+              const seated = members.length
+                ? `; its ${members.length} members of Congress stand at ${(members.reduce((a, o) => a + o.ideal, 0) / members.length).toFixed(2)} on average`
+                : "";
+              return `${party.name} (${party.id}): ${party.founded ?? "before 1925"}; stands at ${now.toFixed(2)} (${first.toFixed(2)} in ${party.positions[0]?.year ?? ""})${seated}; ${issues}; won the presidency ${won.length} times${won.length ? ` (last ${won.at(-1)})` : ""}`;
+            })
+            .join("; ")
+        : "today's real parties (the world chose it)",
+    ),
+    row(
       "town.congresses",
       "The century's Congresses",
       historyMode(core.seed) === "century"
@@ -438,6 +617,18 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
   const holder = held.holder;
   const elections = pastElections(api, seatId);
   const last = elections.at(-1);
+  // The race behind the term where the century ran it (electorate-century.ts): its record.
+  const year = last ? Number(last.date.slice(0, 4)) : 0;
+  const century = !last
+    ? undefined
+    : held.office.kind === "president" || held.office.kind === "vice-president"
+      ? centuryRace(core.seed, core.startedAt, year)
+      : centurySeatRace(
+          core.seed,
+          held.office,
+          { id: seatId, district: held.seat.district ?? null },
+          year,
+        );
   return [
     row(
       "office.office",
@@ -466,26 +657,35 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
         : "none",
     ),
     row("office.termsBefore", "Elections won before day one", elections.length),
-    // A race the research records reads its real result as this world
-    // drifts it; any other is drawn inside the office kind's band.
-    last &&
-    raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+    // A race the century ran is its record; under "today", a race the research records reads
+    // its real result as this world drifts it; any other is drawn inside the office kind's band.
+    last && century
       ? row(
-          "office.lastShareRecorded",
+          "office.lastShareCentury",
           "Share of the vote last time",
           `${percent(last.share)} in ${last.date.slice(0, 4)}`,
-          { drawKey: `${seatId}:${last.date}:share` },
+          { recordId: century.id },
         )
-      : row(
-          "office.lastShare",
-          "Share of the vote last time",
-          last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
-          {
-            drawKey: last
-              ? "<seat seed>:<election day>:winner-share"
-              : undefined,
-          },
-        ),
+      : last &&
+          raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+        ? row(
+            "office.lastShareRecorded",
+            "Share of the vote last time",
+            `${percent(last.share)} in ${last.date.slice(0, 4)}`,
+            { drawKey: `${seatId}:${last.date}:share` },
+          )
+        : row(
+            "office.lastShare",
+            "Share of the vote last time",
+            last
+              ? `${percent(last.share)} in ${last.date.slice(0, 4)}`
+              : "none",
+            {
+              drawKey: last
+                ? "<seat seed>:<election day>:winner-share"
+                : undefined,
+            },
+          ),
   ];
 }
 
