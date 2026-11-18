@@ -374,7 +374,11 @@ it(`every other place's chambers, governor and statewide executives sit as named
       (termsBySeat.get(seat.id) ?? [])
         .filter((row) => row.startDate < term!.startDate)
         .sort((a, b) => b.startDate.localeCompare(a.startDate))[0] ?? opened;
-    if (before && term!.party === before.party)
+    // A replaced holder who died after the race is a changed seat: the race
+    // records only the winning party, so a new person takes the term (CTO,
+    // Nov 18 16:48Z; the engine fix is pool item
+    // gov-race-winner-dies-before-seating).
+    if (before && before.endedBy !== "death" && term!.party === before.party)
       expect(term!.identity, `${where}: ${term!.id} re-elected`).toEqual(
         before.identity,
       );

@@ -898,7 +898,15 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       who: who as Readonly<PersonState>,
       monthly: pay.get(who.householdId) ?? null,
     })),
-    ...[...core.husks.keys()].flatMap((id) => {
+    // Another place's holders nobody has opened join the same cohort, so
+    // their episodes already under way on the opening day are booked as
+    // everyone's are (`admitUnbuilt` books the ones seated later).
+    ...[
+      ...core.husks.keys(),
+      ...[...unbuiltHolderEngines()].flatMap((holders) => [
+        ...holders.ids(core),
+      ]),
+    ].flatMap((id) => {
       const who = huskIdentityOf(core, id);
       if (!who) return [];
       const income = huskIncomeOf(core, id);
