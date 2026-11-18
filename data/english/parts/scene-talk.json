@@ -24276,60 +24276,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-want-bill-to-work-and-i-need-to-be-sure-it-does",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I want {bill} to work, and I need to be sure it does.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for", "bill"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.i-m-leaning-toward-a-veto-of-bill-but-i-m-not-there-yet",
       "move": "reply-agree",
       "kind": "spoken",
       "text": "I'm leaning toward a veto of {bill}, but I'm not there yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-don-t-want-to-rush-bill-and-i-won-t",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I don't want to rush {bill}, and I won't.",
       "uses": [
         {
           "subject": "scene",
@@ -24539,56 +24489,6 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "requiresFacts": ["bill", "budget-cost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.i-d-sign-bill-if-people-in-place-could-see-it-working-first",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'd sign {bill} if people in {place} could see it working first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.show-me-how-bill-works-in-place-and-then-we-ll-talk",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Show me how {bill} works in {place}, and then we'll talk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
         }
       ],
       "bearing": "calm",
