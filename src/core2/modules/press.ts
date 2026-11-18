@@ -1316,10 +1316,11 @@ const followCache = new WeakMap<
 /**
  * Each adult's habit, worked out once and kept: a person's engagement and
  * traits do not change after they are built, and the audiences are rebuilt
- * every week and sorted by it.
+ * every week and sorted by it (also the order of the President's address's
+ * live audience, src/director/address-audience.ts).
  */
 const habitScores = new WeakMap<object, Map<string, number>>();
-function habitOf(api: CoreAPI, p: PersonState) {
+export function habitOf(api: CoreAPI, p: PersonState) {
   let scores = habitScores.get(api.state);
   if (!scores) habitScores.set(api.state, (scores = new Map()));
   let score = scores.get(p.id);

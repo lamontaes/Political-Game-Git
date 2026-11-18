@@ -2058,8 +2058,8 @@ function scheduleDay(commitment: WorkSchedule, date: string): number | null {
   );
 }
 
-/** Whether a work commitment has its holder at a shift at this minute of this day. */
-function atWork(
+/** Whether a work commitment has its holder at a shift at this minute of this day (also read by who was home for the President's address, src/director/address-audience.ts). */
+export function atWork(
   commitment: WorkSchedule,
   date: string,
   minute: number,

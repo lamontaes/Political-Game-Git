@@ -12,6 +12,7 @@
  * draws by chance.
  */
 import { recordYearlyAddress } from "./yearly-address";
+import { watchedAtFillIn } from "./address-audience";
 import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
@@ -2248,6 +2249,11 @@ export function createDirector(
         queue.add(notice.relationshipId);
       }
       rateNow(api.state, [notice.actorId, notice.otherId]);
+    },
+    // Someone filled in in the weeks after an address is read for having
+    // watched it, by the rule the town's audience was (address-audience.ts).
+    onFillIn(api, filled) {
+      if (started) watchedAtFillIn(api.state, filled.memberIds);
     },
     onWorkResult(api, receipt) {
       if (!started || !ledger.people.has(receipt.personId)) return;

@@ -1,5 +1,5 @@
 {
-  "about": "When the President's opening address airs, as a clock time in one named zone; the opening day shifts it to the player's own place clock. Read by src/director/address-airing.ts.",
+  "about": "When the President's opening address airs, as a clock time in one named zone; the opening day shifts it to the player's own place clock (read by src/director/address-airing.ts). And the share of a town's people who watch it live (read by src/director/address-audience.ts).",
   "airsAtMinute": {
     "id": "openingAddressAirsEasternMinute",
     "role": "opening",
@@ -9,5 +9,20 @@
     "tag": "ESTIMATED",
     "spread": [1200, 1260],
     "source": "NHPR, Feb 24, 2026, on that year's State of the Union: \"The president is expected to begin at 9 p.m. ET., and if history is any indication, prepare for a long night.\" Joint-session addresses are scheduled for 9 p.m. Eastern; the spread runs from 8 p.m. (early starts) to 9 p.m."
+  },
+  "watchedShare": {
+    "id": "addressWatchedLiveShare",
+    "role": "opening",
+    "value": 0.087,
+    "unit": "share of a place's residents watching the address as it airs",
+    "tag": "SOURCED",
+    "spread": [0.072, 0.102],
+    "source": "Nielsen's average television audience of the last two inaugurations against the resident population: 33.8 million in 2021 (Nielsen, Jan 2021: \"An estimated 33.8 million people tuned in to watch the inauguration of Joe Biden\", 17 networks, about 10 a.m. to 4 p.m. ET) over 331.9 million residents (Census Bureau, Dec 21, 2021: \"the nation's population increased from 331,449,281 to 331,893,745\") is 0.102; 24.6 million in 2025 (AP on Nielsen, Jan 22, 2025: \"An estimated 24.6 million television viewers watched President Donald Trump's second inauguration\", 15 networks, 10:30 a.m. to 7:30 p.m. ET) over about 340 million (Census Bureau, Dec 2024: \"As the nation's population surpasses 340 million\") is 0.072. The value is their mean and the spread runs between them. Nielsen counts viewers aged 2 and up and leaves out streaming, so the share slightly understates who saw it live.",
+    "urls": [
+      "https://www.nielsen.com/news-center/2021/media-advisory-nearly-33-8m-americans-watch-president-joe-bidens-inauguration/",
+      "https://www.clickondetroit.com/entertainment/2025/01/22/estimated-246-million-tv-viewers-watched-inauguration-coverage-smallest-audience-since-2013/",
+      "https://www.census.gov/newsroom/press-releases/2021/2021-population-estimates.html",
+      "https://www.census.gov/newsroom/press-releases/2024/population-estimates-international-migration.html"
+    ]
   }
 }
