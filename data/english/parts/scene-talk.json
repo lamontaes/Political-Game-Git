@@ -23497,6 +23497,5499 @@
         "move": "refuse",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-from-outlet-is-waiting-for-you-with-a-notebook-open-and-a-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} from {outlet} is waiting for you with a notebook open and a question about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-writing-about-story-for-outlet-and-wants-your-side-before-it-run",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is writing about {story} for {outlet} and wants your side before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.outlet-has-sent-name-to-ask-you-about-story-and-name-is-not-leaving-with",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{outlet} has sent {name} to ask you about {story}, and {name} is not leaving without something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-notebook-out-and-a-question-about-story-that-has-been-waiting",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a notebook out and a question about {story} that has been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-with-a-question-about-story-and-the-notebook-is-already-o",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you with a question about {story}, and the notebook is already out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-is-a-reporter-in-your-way-name-wants-to-talk-about-story-and-has-t",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There is a reporter in your way. {name} wants to talk about {story} and has the questions ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-i-m-writing-for-outlet-about-story",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute? I'm writing for {outlet} about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-stopping-i-have-a-few-questions-about-story-for-outlet",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for stopping. I have a few questions about {story} for {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-trying-to-get-everyone-on-story-before-outlet-goes-to-print",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm trying to get everyone on {story} before {outlet} goes to print.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-people-in-place-are-asking-about-story",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute? People in {place} are asking about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-stopping-i-m-working-on-story-and-i-d-like-your-side",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for stopping. I'm working on {story}, and I'd like your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-be-quick-i-m-asking-around-place-about-story",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be quick. I'm asking around {place} about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.where-do-you-stand-on-story-i-d-like-it-on-the-record",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Where do you stand on {story}? I'd like it on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.people-keep-asking-me-about-story-what-do-you-say-to-them",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "People keep asking me about {story}. What do you say to them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-your-answer-on-story-i-want-it-in-your-words-not-mine",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's your answer on {story}? I want it in your words, not mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.outlet-is-running-something-on-story-and-i-want-your-words-in-it-what-s",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} is running something on {story} and I want your words in it. What's your answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-were-part-of-story-and-outlet-wants-to-know-why-what-s-your-answer",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You were part of {story}, and {outlet} wants to know why. What's your answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.readers-of-outlet-want-to-know-where-you-stand-on-story-what-do-i-tell-t",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Readers of {outlet} want to know where you stand on {story}. What do I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-for-bill-why-did-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted for {bill}. Why did you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-yes", "bill", "story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-passed-with-your-vote-and-place-has-questions-what-s-your-reason",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} passed with your vote, and {place} has questions. What's your reason?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-yes", "bill", "story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-against-bill-why-did-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted against {bill}. Why did you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-no", "bill", "story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-failed-with-your-vote-and-place-has-questions-what-s-your-reason",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} failed with your vote, and {place} has questions. What's your reason?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-no", "bill", "story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-tell-you-straight-on-story-i-did-what-i-thought-was-right-for-place",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll tell you straight. On {story}, I did what I thought was right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.here-s-my-answer-on-story-i-did-it-for-place-and-i-d-say-so-to-anyone",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Here's my answer on {story}: I did it for {place}, and I'd say so to anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.print-this-story-took-real-thought-and-i-d-do-it-the-same-way-again",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Print this: {story} took real thought, and I'd do it the same way again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-can-tell-you-why-i-did-what-i-did-on-story-and-place-deserves-to-hear",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I can tell you why I did what I did on {story}, and {place} deserves to hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-a-question-for-the-whole-body-story-wasn-t-mine-alone",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's a question for the whole body. {story} wasn't mine alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-d-do-better-asking-the-people-story-touches-in-place",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You'd do better asking the people {story} touches in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.the-record-on-story-says-more-than-i-could-in-a-minute",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "The record on {story} says more than I could in a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-the-others-who-were-in-the-room-for-story-i-won-t-speak-for-them",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Ask the others who were in the room for {story}. I won't speak for them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-going-to-talk-about-story-right-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not going to talk about {story} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-comment-on-story",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No comment on {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-keeping-story-to-myself-for-now-and-you-can-print-that-i-said-so",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm keeping {story} to myself for now, and you can print that I said so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-ll-get-nothing-from-me-on-story-and-i-d-rather-say-that-plainly",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You'll get nothing from me on {story}, and I'd rather say that plainly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-day-on-story-and-i-ll-call-you-back-with-something-real",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a day on {story} and I'll call you back with something real.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-to-look-at-the-file-on-story-before-i-say-anything-i-can-t-take-b",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need to look at the file on {story} before I say anything I can't take back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-get-the-facts-on-story-straight-first-then-you-ll-have-my-words",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me get the facts on {story} straight first. Then you'll have my words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-like-to-see-what-name-has-on-story-before-i-answer",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd like to see what {name} has on {story} before I answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-had-nothing-to-do-with-story-whatever-people-are-telling-you",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I had nothing to do with {story}, whatever people are telling you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-wasn-t-even-in-the-room-when-story-came-up",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I wasn't even in the room when {story} came up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.whoever-told-you-i-was-behind-story-has-it-backwards",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Whoever told you I was behind {story} has it backwards.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.story-is-the-best-thing-i-ve-done-for-place-and-you-can-quote-me",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "{story} is the best thing I've done for {place}, and you can quote me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.i-d-put-story-up-against-anything-place-has-done-in-years",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I'd put {story} up against anything {place} has done in years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.ask-anyone-in-place-about-story-i-m-proud-of-it",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Ask anyone in {place} about {story}. I'm proud of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-be-somewhere-we-can-talk-about-story-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to be somewhere. We can talk about {story} later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-stay-on-story-right-now-i-m-sorry",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't stay on {story} right now. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-have-time-for-on-story",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I have time for on {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.is-this-about-story-or-is-outlet-after-something-else",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Is this about {story}, or is {outlet} after something else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.are-you-asking-about-story-or-have-you-already-written-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Are you asking about {story}, or have you already written it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-ve-decided-what-story-means-before-i-ve-said-a-word-why-ask-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You've decided what {story} means before I've said a word. Why ask me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.and-what-would-you-say-to-the-people-in-place-who-disagree-about-story",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "And what would you say to the people in {place} who disagree about {story}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-does-story-change-for-the-people-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What does {story} change for the people in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.why-did-you-go-that-way-on-story-when-you-could-have-gone-the-other",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Why did you go that way on {story}, when you could have gone the other?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-quote-you-on-story-as-you-said-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll quote you on {story} as you said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-clear-story-runs-with-your-words-in-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's clear. {story} runs with your words in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-that-it-gives-story-a-side-people-haven-t-heard",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for that. It gives {story} a side people haven't heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-doesn-t-answer-it-what-s-your-position-on-story",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That doesn't answer it. What's your position on {story}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-in-place-are-going-to-ask-again-about-story-what-do-i-tell-them",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People in {place} are going to ask again about {story}. What do I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-can-t-print-a-shrug-on-story-can-you-give-me-one-thing-to-say",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I can't print a shrug on {story}. Can you give me one thing to say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-note-that-you-wouldn-t-say-more-on-story",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll note that you wouldn't say more on {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "boast",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-that-s-what-goes-in-the-story-about-story",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then that's what goes in the story about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "boast",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-story-runs-with-what-i-have",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. {story} runs with what I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "boast",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-about-story-and-what-you-did-place-is-entitled-to-ask",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's about {story}, and what you did. {place} is entitled to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-asking-about-story-because-people-in-place-are-asking-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm asking about {story} because people in {place} are asking me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-your-time-story-will-say-what-you-said",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for your time. {story} will say what you said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-i-ll-get-story-right",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll get {story} right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-the-draft-on-story-before-it-runs",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you the draft on {story} before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-see-story-in-print-the-way-you-said-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll see {story} in print the way you said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-i-ll-write-that-you-declined-to-comment-on-story",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll write that you declined to comment on {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-story-runs-without-your-side",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. {story} runs without your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-story-runs-without-your-side-and-place-will-notice",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then {story} runs without your side, and {place} will notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-you-won-t-say-it-story-runs-with-what-i-have",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If you won't say it, {story} runs with what I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-with-more-questions-about-story",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back with more questions about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.this-isn-t-finished-story-is-still-a-story-and-i-ll-keep-asking",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "This isn't finished. {story} is still a story, and I'll keep asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-story-runs-with-what-i-have-and-you-can-call-me-if-that-changes",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then {story} runs with what I have, and you can call me if that changes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-write-what-i-have-on-story-and-place-can-read-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll write what I have on {story}, and {place} can read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-your-right-story-runs-without-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's your right. {story} runs without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then-i-ll-write-story-with-what-i-have",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then. I'll write {story} with what I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-take-your-word-on-story-for-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll take your word on {story} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-that-s-your-statement-on-story-and-i-ll-print-it-as-given",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then that's your statement on {story}, and I'll print it as given.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-i-ll-put-your-side-of-story-in-the-story",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll put your side of {story} in the story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-helps-story-will-carry-what-you-told-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That helps. {story} will carry what you told me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-braced-to-say-something-about-story",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps into your path, braced to say something about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-carrying-story-around-all-week-and-you-are-the-one-in-fron",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been carrying {story} around all week, and you are the one in front of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-in-the-open-story-is-plainly-on-their-mind",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you in the open. {story} is plainly on their mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-with-outlet-still-folded-in-one-hand-and-story-on-their-m",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you with {outlet} still folded in one hand, and {story} on their mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-read-about-story-in-outlet-and-has-been-waiting-for-a-chance-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has read about {story} in {outlet}, and has been waiting for a chance to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-and-law-is-plainly-the-reason",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps into your path, and {law} is plainly the reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-in-the-open-law-has-changed-something-at-home-and-it-show",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you in the open. {law} has changed something at home, and it shows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-and-the-people-around-you-slow-down-to-listen",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you, and the people around you slow down to listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-straight-at-you-and-whatever-it-is-has-been-building-for-a-wh",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes straight at you, and whatever it is has been building for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-you-work-for-place-don-t-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me. You work for {place}, don't you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-i-ran-into-you-do-you-have-a-minute-for-someone-from-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad I ran into you. Do you have a minute for someone from {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hold-on-i-ve-been-wanting-to-ask-someone-about-story",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hold on. I've been wanting to ask someone about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hold-on-it-s-about-law-and-i-think-you-re-the-one-to-ask",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hold on. It's about {law}, and I think you're the one to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-about-story-and-it-landed-right-in-my-house",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read about {story}, and it landed right in my house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.nobody-asked-us-about-story-it-just-showed-up-and-now-we-live-with-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Nobody asked us about {story}. It just showed up, and now we live with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-don-t-know-who-decided-story-but-my-family-is-the-one-paying-for-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I don't know who decided {story}, but my family is the one paying for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.story-has-made-things-harder-for-us-and-i-want-you-to-know-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{story} has made things harder for us, and I want you to know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-saw-story-in-outlet-you-should-hear-what-that-looks-like-from-my-kitch",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I saw {story} in {outlet}. You should hear what that looks like from my kitchen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.outlet-wrote-about-story-like-it-was-good-news-it-wasn-t-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{outlet} wrote about {story} like it was good news. It wasn't for us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story", "outlet"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.law-is-the-law-now-and-my-house-has-felt-the-difference",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{law} is the law now, and my house has felt the difference.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law", "in-force"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.ever-since-law-things-have-been-different-for-us-and-not-better",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Ever since {law}, things have been different for us, and not better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law", "in-force"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.law-is-coming-and-i-m-scared-of-what-it-does-to-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{law} is coming, and I'm scared of what it does to us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law", "effective"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.they-tell-me-law-starts-effective-do-you-know-what-that-means-for-people",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "They tell me {law} starts {effective}. Do you know what that means for people like me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law", "effective"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.here-s-what-i-did-on-story-and-why-i-did-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Here's what I did on {story}, and why I did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-tell-you-plainly-how-story-came-about-and-where-i-stood",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you plainly how {story} came about, and where I stood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-wish-it-had-gone-differently-on-story-i-ll-tell-you-what-happened",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I wish it had gone differently on {story}. I'll tell you what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-deserve-to-know-how-story-was-decided-let-me-tell-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You deserve to know how {story} was decided. Let me tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-look-into-what-story-did-to-you-and-i-ll-come-back-with-an-answer",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll look into what {story} did to you, and I'll come back with an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-some-time-on-story-i-ll-find-out-what-can-be-done-and-tell-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me some time on {story}. I'll find out what can be done and tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-promise-to-change-story-but-i-will-go-through-it-again-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise to change {story}, but I will go through it again for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.leave-me-your-name-i-ll-take-story-up-and-get-back-to-you-myself",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Leave me your name. I'll take {story} up and get back to you myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.story-wasn-t-decided-at-this-level-i-d-start-where-it-started",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{story} wasn't decided at this level. I'd start where it started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-one-belongs-to-somebody-else-story-came-from-higher-up",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That one belongs to somebody else. {story} came from higher up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-d-get-further-asking-the-people-who-wrote-story-not-me",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You'd get further asking the people who wrote {story}, not me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-didn-t-pick-story-ask-the-ones-who-did",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I didn't pick {story}. Ask the ones who did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.story-came-from-the-people-who-ran-things-before-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "{story} came from the people who ran things before me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.take-it-up-with-whoever-pushed-story-through-it-wasn-t-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "Take it up with whoever pushed {story} through. It wasn't me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-warned-them-about-story-and-nobody-listened",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I warned them about {story}, and nobody listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.if-story-is-a-mess-look-at-the-ones-who-wanted-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "If {story} is a mess, look at the ones who wanted it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-story-will-have-to-wait",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. {story} will have to wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-can-say-on-story-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I can say on {story} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-how-it-feels-from-my-side-of-story",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not how it feels from my side of {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-easy-to-say-story-still-landed-on-us-not-on-you",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's easy to say. {story} still landed on us, not on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-can-explain-story-all-day-it-doesn-t-change-my-house",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You can explain {story} all day. It doesn't change my house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-more-than-i-expected-about-story",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's more than I expected about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-didn-t-know-that-about-story-it-helps-to-hear-it-from-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I didn't know that about {story}. It helps to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-hold-you-to-it-on-story",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll hold you to it on {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-stopping-someone-looking-at-story-is-more-than-i-had",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for stopping. Someone looking at {story} is more than I had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.when-story-isn-t-going-to-wait-while-you-look",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When? {story} isn't going to wait while you look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-an-answer-someone-has-to-answer-for-story",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not an answer. Someone has to answer for {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-who-do-i-ask-about-story-somebody-has-to-know",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then who do I ask about {story}? Somebody has to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["story"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.here-s-what-i-did-on-law-and-why-i-did-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Here's what I did on {law}, and why I did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-tell-you-plainly-how-law-came-about-and-where-i-stood",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you plainly how {law} came about, and where I stood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-wish-it-had-gone-differently-on-law-i-ll-tell-you-what-happened",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I wish it had gone differently on {law}. I'll tell you what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-deserve-to-know-how-law-was-decided-let-me-tell-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You deserve to know how {law} was decided. Let me tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-look-into-what-law-did-to-you-and-i-ll-come-back-with-an-answer",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll look into what {law} did to you, and I'll come back with an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-some-time-on-law-i-ll-find-out-what-can-be-done-and-tell-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me some time on {law}. I'll find out what can be done and tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-promise-to-change-law-but-i-will-go-through-it-again-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise to change {law}, but I will go through it again for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.leave-me-your-name-i-ll-take-law-up-and-get-back-to-you-myself",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Leave me your name. I'll take {law} up and get back to you myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.law-wasn-t-decided-at-this-level-i-d-start-where-it-started",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{law} wasn't decided at this level. I'd start where it started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-one-belongs-to-somebody-else-law-came-from-higher-up",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That one belongs to somebody else. {law} came from higher up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-d-get-further-asking-the-people-who-wrote-law-not-me",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You'd get further asking the people who wrote {law}, not me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-didn-t-pick-law-ask-the-ones-who-did",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I didn't pick {law}. Ask the ones who did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.law-came-from-the-people-who-ran-things-before-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "{law} came from the people who ran things before me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.take-it-up-with-whoever-pushed-law-through-it-wasn-t-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "Take it up with whoever pushed {law} through. It wasn't me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-warned-them-about-law-and-nobody-listened",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I warned them about {law}, and nobody listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.if-law-is-a-mess-look-at-the-ones-who-wanted-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "If {law} is a mess, look at the ones who wanted it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-stay-on-law-right-now-i-m-sorry",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't stay on {law} right now. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-law-will-have-to-wait",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. {law} will have to wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-can-say-on-law-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I can say on {law} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "disagree",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "press",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-how-it-feels-from-my-side-of-law",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not how it feels from my side of {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-easy-to-say-law-still-landed-on-us-not-on-you",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's easy to say. {law} still landed on us, not on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-can-explain-law-all-day-it-doesn-t-change-my-house",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You can explain {law} all day. It doesn't change my house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-more-than-i-expected-about-law",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's more than I expected about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-didn-t-know-that-about-law-it-helps-to-hear-it-from-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I didn't know that about {law}. It helps to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "tell",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-hold-you-to-it-on-law",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll hold you to it on {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-stopping-someone-looking-at-law-is-more-than-i-had",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for stopping. Someone looking at {law} is more than I had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.when-law-isn-t-going-to-wait-while-you-look",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When? {law} isn't going to wait while you look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-an-answer-someone-has-to-answer-for-law",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not an answer. Someone has to answer for {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-who-do-i-ask-about-law-somebody-has-to-know",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then who do I ask about {law}? Somebody has to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "promise",
+          "requiresFacts": ["law"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "deflect",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-be-watching-to-see-what-comes-of-story",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll be watching to see what comes of {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-means-something-i-ll-tell-the-neighbors-you-looked-into-story",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That means something. I'll tell the neighbors you looked into {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-hold-you-to-looking-into-story-i-know-where-to-find-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll hold you to looking into {story}. I know where to find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.then-i-ll-hold-you-to-story-i-ll-be-asking-again",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Then I'll hold you to {story}. I'll be asking again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-story-is-not-yours-alone-i-suppose",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. {story} is not yours alone, I suppose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-take-story-somewhere-else",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll take {story} somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-neighbors-will-hear-how-you-answered-about-story",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The neighbors will hear how you answered about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-who-blamed-someone-else-over-story",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember who blamed someone else over {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.this-isn-t-over-story-is-still-sitting-in-my-house",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "This isn't over. {story} is still sitting in my house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-about-story-people-are-asking-me-too",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back about {story}. People are asking me, too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-nothing-comes-of-story-the-neighbors-will-hear-about-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If nothing comes of {story}, the neighbors will hear about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-going-to-keep-saying-it-story-hurt-us",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm going to keep saying it: {story} hurt us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then-story-will-still-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then. {story} will still be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-hold-you-we-can-finish-about-story-another-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I won't hold you. We can finish about {story} another time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-be-watching-to-see-what-comes-of-law",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll be watching to see what comes of {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-means-something-i-ll-tell-the-neighbors-you-looked-into-law",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That means something. I'll tell the neighbors you looked into {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-hold-you-to-looking-into-law-i-know-where-to-find-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll hold you to looking into {law}. I know where to find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.then-i-ll-hold-you-to-law-i-ll-be-asking-again",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Then I'll hold you to {law}. I'll be asking again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "resolved",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-law-is-not-yours-alone-i-suppose",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. {law} is not yours alone, I suppose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-take-law-somewhere-else",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll take {law} somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-neighbors-will-hear-how-you-answered-about-law",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The neighbors will hear how you answered about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-who-blamed-someone-else-over-law",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember who blamed someone else over {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "refused",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.this-isn-t-over-law-is-still-sitting-in-my-house",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "This isn't over. {law} is still sitting in my house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-about-law-people-are-asking-me-too",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back about {law}. People are asking me, too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-nothing-comes-of-law-the-neighbors-will-hear-about-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If nothing comes of {law}, the neighbors will hear about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-going-to-keep-saying-it-law-hurt-us",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm going to keep saying it: {law} hurt us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then-law-will-still-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then. {law} will still be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-hold-you-we-can-finish-about-law-another-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I won't hold you. We can finish about {law} another time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-record-on-story-says-otherwise-try-that-one-again",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The record on {story} says otherwise. Try that one again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-has-what-happened-on-story-and-it-doesn-t-match-what-you-just-sai",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} has what happened on {story}, and it doesn't match what you just said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "source", "story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-ve-seen-the-papers-on-story-that-isn-t-what-they-show",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I've seen the papers on {story}. That isn't what they show.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.you-re-right-i-wasn-t-straight-with-you-about-story-and-i-ll-say-so",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "You're right. I wasn't straight with you about {story}, and I'll say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confess",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-told-you-something-that-wasn-t-true-about-story-i-m-sorry",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I told you something that wasn't true about {story}. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confess",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-shouldn-t-have-said-that-about-story-here-is-what-really-happened",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I shouldn't have said that about {story}. Here is what really happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confess",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-say-otherwise-about-story",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "I'll quote you on that. Why did you say otherwise about {story}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.that-changes-story-what-made-you-say-it-the-first-time",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "That changes {story}. What made you say it the first time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.why-not-tell-me-the-truth-about-story-at-the-start",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Why not tell me the truth about {story} at the start?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-the-story-on-story-says-you-corrected-yourself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then the story on {story} says you corrected yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-print-what-you-ve-told-me-now-about-story",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll print what you've told me now about {story}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-saying-it-story-runs-with-the-correction",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for saying it. {story} runs with the correction.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confess",
+          "requiresFacts": ["story"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     }
   ]
 }
