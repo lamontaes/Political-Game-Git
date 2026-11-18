@@ -176,7 +176,8 @@
     "gift-weight": "How a donor's gift ranks among the campaign's gifts, in words and never a figure (\"the biggest check you've had\"), from the campaign's gift rows.",
     "your-side": "Which side of a bill the listener's own recorded view puts them on, \"for\" or \"against\", from the views engine.",
     "bill-stage": "Where a bill is, as people say it after \"is\" (\"just filed\", \"held up in committee\"), from the committee and floor records.",
-    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record."
+    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record.",
+    "meeting": "The town body whose next posted meeting the invitation is to, as its record names it (City Council), from the office-day engine's meeting record."
   },
   "maxWords": 70,
   "parts": [
@@ -26608,6 +26609,5588 @@
       "tag": {
         "move": "leave",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-your-eye-and-walks-over",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} catches your eye and walks over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.perfect-timing",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Perfect timing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-been-pushing-for-cause-i-d-like-you-to-come-along",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've been pushing for {cause}. I'd like you to come along.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.some-of-us-are-pushing-for-cause-i-want-you-with-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Some of us are pushing for {cause}. I want you with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-keep-talking-about-cause-will-you-come-out-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I keep talking about {cause}. Will you come out with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-come-out-with-me-on-cause-it-would-mean-a-lot",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you come out with me on {cause}? It would mean a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-meeting-meets-meeting-when-and-i-m-speaking-up-about-cause-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {meeting} meets {meeting-when}, and I'm speaking up about {cause}. Come with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-going-to-the-meeting-meeting-meeting-when-to-push-for-cause-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going to the {meeting} meeting {meeting-when} to push for {cause}. Come with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-meeting-meets-meeting-when-i-ll-be-there-about-cause-will-you-come",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {meeting} meets {meeting-when}. I'll be there about {cause}. Will you come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.come-with-me-to-the-meeting-meeting-meeting-when-it-s-about-cause",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Come with me to the {meeting} meeting {meeting-when}. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-want-from-me-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you want from me on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.come-where",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Come where?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.to-do-what",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "To do what?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-you-re-asking-of-me-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what you're asking of me on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-do-at-the-meeting-meeting",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I do at the {meeting} meeting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-i-have-to-say-anything-at-the-meeting-meeting",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do I have to say anything at the {meeting} meeting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-come",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll come.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-there",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-come-i-d-like-to-hear-about-cause",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll come. I'd like to hear about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-at-the-meeting-meeting",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-glad-you-re-pushing-for-cause-it-can-t-be-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm glad you're pushing for {cause}. It can't be me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-spend-the-time-on-cause-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't spend the time on {cause}. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-for-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-i-get-back-to-you-on-cause",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can I get back to you on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-if-i-m-free-meeting-when",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see if I'm free {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.got-to-run",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Got to run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-come-once",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just come once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.come-and-listen",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Come and listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.come-and-see",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Come and see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-re-pushing-for-cause-come-see-how",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We're pushing for {cause}. Come see how.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.come-once-and-listen-it-s-meeting-when",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Come once and listen. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-d-only-sit-and-listen-at-the-meeting-meeting",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You'd only sit and listen at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-so-glad",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm so glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.glad-you-ll-come",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Glad you'll come.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-knew-you-d-care-about-cause",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I knew you'd care about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-s-meeting-when",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.one-visit-only",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "One visit only.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.come-once",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-who-speaks-on-cause-if-nobody-does",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about who speaks on {cause} if nobody does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-come-once-it-s-meeting-when",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just come once. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.welcome-anytime",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Welcome anytime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-keep-pushing-for-cause",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'll keep pushing for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-there",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-that-s-one-more-voice-on-cause",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's one more voice on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-meeting-when",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.count-on-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Count on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-at-the-meeting-meeting",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll save you a seat at the {meeting} meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-offense-taken",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No offense taken.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-fine-i-ll-keep-pushing-for-cause",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's fine. I'll keep pushing for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-it-s-meeting-when",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.another-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Another time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.whenever-you-can",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Whenever you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-by-the-house-with-something-to-ask",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} has come by the house with something to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-is-a-knock-at-the-door-and-it-is-name",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "There is a knock at the door, and it is {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-your-door-and-asks-if-you-have-a-minute",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} is at your door and asks if you have a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "A word?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-be-brief",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be brief.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.glad-you-re-home",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad you're home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-on-our-side-has-filed-to-run-for-office-i-came-to-ask-if-you-would",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody on our side has filed to run for {office}. I came to ask if you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-need-a-candidate-for-office-and-you-re-who-we-thought-of",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need a candidate for {office}, and you're who we thought of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.our-party-has-no-one-in-the-office-race-would-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Our party has no one in the {office} race. Would you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-here-to-ask-you-to-run-for-office-under-our-name",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm here to ask you to run for {office} under our name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-has-no-one-in-the-office-race-would-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party has no one in the {office} race. Would you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-here-for-the-party-party-we-d-like-you-to-run-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm here for the {party} Party. We'd like you to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-from-the-party-party-has-filed-for-office-i-came-to-ask-if-you-would",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody from the {party} Party has filed for {office}. I came to ask if you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-needs-a-candidate-for-office-and-you-re-who-we-thought-of",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party needs a candidate for {office}, and you're who we thought of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-running-for-office-take",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would running for {office} take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-the-party-put-behind-me-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would the party put behind me for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-expect-from-me-in-the-office-race",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you expect from me in the {office} race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-a-candidate-for-office-get-from-you-and-what-do-you-want-back",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does a candidate for {office} get from you, and what do you want back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-run-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-put-me-down-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Put me down for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-run-for-office-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't run for {office} this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-year",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-flattered-but-running-for-office-isn-t-for-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm flattered, but running for {office} isn't for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-pass",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll pass.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-to-talk-it-over-at-home-before-i-run-for-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need to talk it over at home before I run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-to-think-about-running-for-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days to think about running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.not-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.can-i-answer-you-later-running-for-office-is-a-big-step",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Can I answer you later? Running for {office} is a big step.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-d-better-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd better go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-for-asking",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks for asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-help-with-the-filing-and-the-volunteers-for-the-office-race-the-campaign-is-y",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We help with the filing and the volunteers for the {office} race. The campaign is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-d-run-under-our-name-for-office-and-we-d-stand-behind-you-where-we-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You'd run under our name for {office}, and we'd stand behind you where we can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-starts-with-the-filing-papers-we-know-the-clerks-in-place-and-we-ll-walk-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It starts with the filing papers. We know the clerks in {place}, and we'll walk you through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-d-bring-volunteers-to-help-we-ve-done-it-in-place-before",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'd bring volunteers to help. We've done it in {place} before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-ll-back-you-in-the-race-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We'll back you in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-the-party-party-will-stand-behind-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. The {party} Party will stand behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-filing-closes-deadline-so-we-start-now",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Filing closes {deadline}, so we start now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.filing-for-office-closes-deadline",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing for {office} closes {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-have-until-deadline-to-file-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You have until {deadline} to file for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.filing-is-open-for-office-and-it-won-t-be-open-forever",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing is open for {office}, and it won't be open forever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-nobody-runs-for-office-our-side-has-no-one-on-the-ballot",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If nobody runs for {office}, our side has no one on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-offer-for-office-stands-while-filing-is-open",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The offer for {office} stands while filing is open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fine-the-offer-stands-until-deadline",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fine. The offer stands until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-ask-someone-else-for-the-party-party-but-the-offer-stands",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll ask someone else for the {party} Party, but the offer stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-luck-with-the-filing-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good luck with the filing for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-party-party-you-re-running",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the {party} Party you're running.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["party"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-be-behind-you-for-office-all-the-way",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll be behind you for {office}, all the way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-ll-find-someone-for-office-thank-you-for-hearing-me-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll find someone for {office}. Thank you for hearing me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-soon-about-running-for-office",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me soon about running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.take-your-time-but-call-me-before-deadline",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Take your time, but call me before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["deadline"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.call-me-soon",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Call me soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-i-ll-be-around-if-you-decide-to-run-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. I'll be around if you decide to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-the-party-office-when-you-walk-in",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} is at the party office when you walk in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-into-the-office-and-name-looks-up",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You come into the office, and {name} looks up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-gets-up-to-meet-you-at-the-door-of-the-party-office",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} gets up to meet you at the door of the party office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-in",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.look-who-s-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Look who's here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.glad-you-came",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad you came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.welcome-to-the-party-party-can-we-count-on-you-to-pitch-in",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Welcome to the {party} Party. Can we count on you to pitch in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.most-people-sign-up-with-the-party-party-and-we-never-see-them-again-will-you-be",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Most people sign up with the {party} Party and we never see them again. Will you be different?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-ve-joined-the-party-party-will-you-give-us-some-of-your-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've joined the {party} Party. Will you give us some of your time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.there-s-always-work-in-the-party-party-can-i-put-you-down-for-something",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's always work in the {party} Party. Can I put you down for something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-do-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the party do in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-have-me-do-here-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you have me do here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-does-the-party-spend-its-time-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where does the party spend its time in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-a-new-member-in-place-usually-take-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does a new member in {place} usually take on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.put-me-down",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Put me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-help",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-joined-the-party-party-to-help",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I joined the {party} Party to help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.maybe-later",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Maybe later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-watch-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll watch first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-sure-how-much-time-i-have-to-give-the-party-party",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not sure how much time I have to give the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-off",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-be-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.time-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Time to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-the-party-party",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It means a lot to have you with the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.welcome-aboard",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Welcome aboard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-to-hear",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.wonderful",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Wonderful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-one-evening",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just one evening?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.even-a-couple-of-hours-would-mean-something-to-the-party-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even a couple of hours would mean something to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.one-evening-then",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "One evening, then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-your-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.of-course-come-by-the-party-party-office-whenever-you-like",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Of course. Come by the {party} Party office whenever you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-rush",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No rush.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-office-held-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold {office-held}, and we mean to keep it. Mostly that's knocking on doors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-office-held-most-of-our-work-is-keeping-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold {office-held}. Most of our work is keeping it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.right-now-it-s-the-race-run-race-we-need-people-to-knock-on-doors-and-make-calls",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Right now it's the {race-run} race. We need people to knock on doors and make calls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-have-a-candidate-in-the-race-run-race-that-s-most-of-what-we-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We have a candidate in the {race-run} race. That's most of what we do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-party-party-holds-nothing-here-yet-you-d-be-helping-us-start",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The {party} Party holds nothing here yet. You'd be helping us start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-nothing-here-yet-but-the-party-party-has-to-start-somewhere",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold nothing here yet, but the {party} Party has to start somewhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-welcome-to-the-party-party",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll call you when something comes up. Welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-to-have-you-in-the-party-party-i-ll-be-in-touch",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good to have you in the {party} Party. I'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings-the-party-party-door-stays-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings. The {party} Party door stays open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-fine",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-the-party-party-will-need-people-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. The {party} Party will need people soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.come-by-anytime",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Come by anytime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.drop-in-anytime",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Drop in anytime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-ll-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-drop-in-at-the-party-party-office-anytime",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Drop in at the {party} Party office anytime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-reads-your-filing-for-office-line-by-line",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} reads your filing for {office} line by line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-filing-for-office-is-on-the-counter-in-front-of-name",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Your filing for {office} is on the counter in front of {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-wait-while-name-reads-your-filing-for-office",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You wait while {name} reads your filing for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.let-s-see",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Let's see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.here-we-are",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Here we are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.alright",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.now-the-petition-you-need-signatures-signatures-from-voters-here-and-i-need-them",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Now the petition. You need {signatures} signatures from voters here, and I need them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-law-asks-for-signatures-signatures-bring-them-to-this-counter-by-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The law asks for {signatures} signatures. Bring them to this counter by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.your-name-goes-on-the-ballot-once-i-have-signatures-good-signatures-due-is-the-l",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Your name goes on the ballot once I have {signatures} good signatures. {due} is the last day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-need-one-voter-s-signature-on-your-petition-have-it-to-me-by-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You need one voter's signature on your petition. Have it to me by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["one-signature", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.one-signature-from-a-voter-here-and-that-part-is-done-i-need-it-by-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "One signature from a voter here, and that part is done. I need it by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["one-signature", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.there-s-no-petition-for-this-office-you-re-filed-and-the-vote-is-on-vote-day",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "There's no petition for this office. You're filed, and the vote is on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.this-office-takes-no-petition-your-filing-is-all-i-need-and-the-vote-is-vote-day",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This office takes no petition. Your filing is all I need, and the vote is {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-have-them-in-before-due",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll have them in before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.understood-i-ll-bring-them-by-due",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Understood. I'll bring them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ll-have-them-by-due",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You'll have them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-if-i-come-up-short-by-due",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What if I come up short by {due}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-checks-the-signatures-and-how-long-does-that-take-before-due",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who checks the signatures, and how long does that take before {due}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-i-bring-them-in-a-few-at-a-time-before-due",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can I bring them in a few at a time before {due}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-many-names-just-to-run-for-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That many names, just to run for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-a-lot-to-ask-for-office-who-decided-that",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's a lot to ask for {office}. Who decided that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.why-so-many-for-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Why so many for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-have-work-to-do-before-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I have work to do before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-d-better-start-due-comes-fast",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd better start. {due} comes fast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.understood-i-ll-see-you-by-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Understood. I'll see you by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-i-m-set-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'm set for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.good-then-i-m-in-the-office-race",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. Then I'm in the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-next-in-the-office-race",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens next in the {office} race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-do-i-hear-more-about-the-office-race",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When do I hear more about the {office} race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-then",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-ll-see-you-at-the-vote-on-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'll see you at the vote on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-bring-them-to-this-counter-by-due-nobody-else-s",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Bring them to this counter by {due}, nobody else's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-before-due-and-i-ll-check-each-name",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Before {due}, and I'll check each name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-re-square-remember-that-the-last-day-is-due",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we're square. Remember that the last day is {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.if-you-come-up-short-by-due-your-name-isn-t-on-the-ballot",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If you come up short by {due}, your name isn't on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bring-a-few-extra-by-due-in-case-some-don-t-check-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Bring a few extra by {due}, in case some don't check out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bring-them-in-a-few-at-a-time-if-you-like-all-of-them-by-due",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Bring them in a few at a time if you like. All of them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.the-law-sets-the-number-not-me-i-check-what-s-turned-in-by-due",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "The law sets the number, not me. I check what's turned in by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-don-t-make-the-rule-i-count-what-comes-in-by-due",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I don't make the rule. I count what comes in by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-the-law-not-my-rule-the-last-day-is-due",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That's the law, not my rule. The last day is {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-re-set-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You're set for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-re-all-set-the-vote-is-vote-day",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you're all set. The vote is {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.next-is-the-vote-on-vote-day-until-then-it-s-the-race",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Next is the vote on {vote-day}. Until then, it's the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-vote-is-on-vote-day-that-s-the-next-date-that-matters",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The vote is on {vote-day}. That's the next date that matters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-luck-in-the-office-race",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good luck in the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-call-if-anyone-else-files-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll call if anyone else files for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-let-you-know-if-anyone-files-against-you-for-office",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll let you know if anyone files against you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-the-rule-good-luck-with-the-office-race",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's the rule. Good luck with the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-good-luck-in-the-race-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-wait-until-due-to-bring-them-in",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't wait until {due} to bring them in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.come-back-by-due",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Come back by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-everything-good-luck-in-the-race-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's everything. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "filed"
       }
     }
   ]
