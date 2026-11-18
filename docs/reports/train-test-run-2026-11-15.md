@@ -29,7 +29,7 @@ Each pull request ran its own changed tests when it was folded into the train. T
 - `src/core2/law-wiring-government.test.ts`: a ward charter place, attempt 4, no registrations paid or owed by the county.
 - `src/core2/law-wiring-prices.test.ts`: no drawn place had a builder start a project in 760 days under the gas hookup ban.
 - `src/director/celebration-gathering-scene.test.ts` (removed): the celebration ask has 72 lines against a limit of 45.
-- `src/director/interview-sitting-words.test.ts`: a brief answer reads "Then your record will have to speak" where the test expects "No comment, then."
+- `src/director/interview-sitting-words.test.ts` (removed): a brief answer reads "Then your record will have to speak" where the test expects "No comment, then."
 
 ## Cleared by taking the filing fee out (1 file, confirmed)
 

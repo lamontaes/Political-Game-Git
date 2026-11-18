@@ -1506,6 +1506,18 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the party-recruit scene (a party with no one filed asks a member to run) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/interview-printed.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed an interview to be sat for and printed the same day; the interview sitting's lines are deleted, so none is sat for."
+    },
+    {
+      "old": "src/director/interview-sitting-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its seven cases asserted the interview sitting's questions, moves, answers and close from the bank; those lines are deleted and every case ran on empty text."
     }
   ]
 }

@@ -27,6 +27,6 @@ Sent back 2026-10-20 from PR #5180 (branch claude/political-game-pool-76ksvw): M
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (interview + printed-story rows).
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both pieces are built: src/director/interview-sitting.ts (with src/director/interview-sitting-words.test.ts) stages the interview, and SG-PEOPLE-press-bring-it-up-row is resolved in src/core2/data/stopgaps/people.json with the printed-story row read in src/director/bring-it-up.ts (`printedStoryOf`, line 196). The item's own Notes already say built.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both pieces are built: src/director/interview-sitting.ts (with src/director/interview-sitting-words.test.ts (removed)) stages the interview, and SG-PEOPLE-press-bring-it-up-row is resolved in src/core2/data/stopgaps/people.json with the printed-story row read in src/director/bring-it-up.ts (`printedStoryOf`, line 196). The item's own Notes already say built.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).
