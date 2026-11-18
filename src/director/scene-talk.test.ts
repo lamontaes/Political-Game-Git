@@ -31,7 +31,6 @@ const CUT_PURPOSES = new Set<string>([
   "letter",
   "argument",
   "apology",
-  "reach-out",
   "becoming-friends",
   "celebration",
   "diploma-home",
