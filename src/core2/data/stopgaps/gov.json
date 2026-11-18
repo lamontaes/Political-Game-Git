@@ -1884,6 +1884,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-counted-runner-announces-at-filing",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1596,
+    "whatItFakes": "A runner who is still one of the counted (not yet filled in as a full person) never announces before filing opens; they become known only on the filing day, when they are filled in to file. Only full-person runners weigh announcing early.",
+    "why": "Weighing announcing reads a runner's own ambition, acquaintances and roles, which only a full person has; filling in every counted runner on the weighing day would fill in people the player may never meet, months early.",
+    "addedBy": "Elections lane (playtest crew)",
+    "addedAt": "2026-11-18",
+    "replacement": "Fill a counted runner in on the day they would announce, by weighing announcing for the counted group with the same reasons times its count and filling in the one whose counted record tips them, as filing already does.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",

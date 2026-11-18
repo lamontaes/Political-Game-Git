@@ -5437,7 +5437,11 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
