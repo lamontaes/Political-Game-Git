@@ -69,7 +69,11 @@ import type { TreasuryMonthRow } from "./budgets-treasury";
 import { advanceCore } from "./life";
 import type { MedicalBillRow } from "./medical-bills";
 import { BUDGETS_MODULE_ID, outsideAccountOf } from "./modules/budgets";
-import { COVERAGE_MODULE_ID } from "./modules/coverage";
+import {
+  COVERAGE_MODULE_ID,
+  employerPlansToday,
+  type EmployerPlansSummary,
+} from "./modules/coverage";
 import { medicalDebtOf } from "./modules/credit";
 import { healthReport } from "./modules/health";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
@@ -257,7 +261,11 @@ function play(
   /** Each seller's day of Medicaid care (the town's sellers and the outside account), as the treasuries paid it, by seller and day. */
   care: Map<string, SellerCare>;
   /** The first month billed: each billed place's employer policyholders after the review (full and counted records), by place. */
-  employerPlans: { billed: string; byPlace: Map<string, number> } | null;
+  employerPlans: {
+    billed: string;
+    byPlace: Map<string, number>;
+    ranking: EmployerPlansSummary;
+  } | null;
 } {
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
@@ -268,6 +276,7 @@ function play(
   let employerPlans: {
     billed: string;
     byPlace: Map<string, number>;
+    ranking: EmployerPlansSummary;
   } | null = null;
   let checked = 0;
   for (let month = 0; month < months; month += 1) {
@@ -278,6 +287,7 @@ function play(
     const thisMonth = billsOf(core).filter((row) => row.date === billed);
     employerPlans ??= {
       billed,
+      ranking: employerPlansToday(api)!,
       byPlace: new Map(
         [...new Set(thisMonth.map((row) => row.placeId))].map((placeId) => [
           placeId,
@@ -1079,19 +1089,36 @@ describe("medical bills and medical debt in a played world", () => {
             );
 
             // Medicaid coverage is not an employer plan: the expansion moves
-            // no worker's employer plan, in the town or in a billed place
-            // outside it (the coverage engine reads no Medicaid law into any
-            // plan). The first month billed, before the two worlds' money has
-            // parted, every billed place holds as many policyholders in both.
+            // no worker's employer plan on its own (the coverage engine reads
+            // no Medicaid law into any plan), so the two worlds rank the same
+            // workers for the same plan slots. They part only where the
+            // expansion leaves a household less for its premium and the
+            // holder lets the policy lapse. The ranking then hands that slot
+            // to the next worker in line, who may live in another place, so a
+            // place's count can move either way; what cannot move is the
+            // ranking as a whole: plans held and plans lapsed together fill
+            // the same slots in both worlds.
             const plansThen = withExpansion.employerPlans!;
             const twinPlans = inTwin.employerPlans!;
             expect(twinPlans.billed, where()).toBe(plansThen.billed);
             const firstBilled = plansThen.billed;
-            for (const [placeId, holders] of plansThen.byPlace)
-              expect(
-                twinPlans.byPlace.get(placeId),
-                `${where()}: ${placeId}'s employer policyholders on ${firstBilled} with the expansion (${holders}) and in the twin`,
-              ).toBe(holders);
+            const [rankThen, rankTwin] = [plansThen.ranking, twinPlans.ranking];
+            expect(rankTwin.workers, where()).toBe(rankThen.workers);
+            expect(rankTwin.slots, where()).toBe(rankThen.slots);
+            expect(
+              Math.abs(
+                rankThen.held +
+                  rankThen.lapsed -
+                  (rankTwin.held + rankTwin.lapsed),
+              ),
+              `${where()}: plans held and lapsed on ${firstBilled}, with the expansion (${rankThen.held} and ${rankThen.lapsed}) and in the twin (${rankTwin.held} and ${rankTwin.lapsed})`,
+            ).toBeLessThan(1);
+            expect(
+              Math.abs(rankThen.held - rankTwin.held),
+              `${where()}: plans held on ${firstBilled} differ by no more than the lapsed premiums' difference`,
+            ).toBeLessThanOrEqual(
+              Math.abs(rankThen.lapsed - rankTwin.lapsed) + 1,
+            );
             const outsidePlans = [...plansThen.byPlace]
               .filter(([placeId, holders]) => placeId !== town && holders > 0)
               .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
