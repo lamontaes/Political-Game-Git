@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 156,
+  "judged": 160,
   "no": {
     "00ta9exztsf": {
       "keys": [
@@ -63,19 +63,6 @@
       ],
       "why": "'You've kept at me... once more' restates 'Don't count me either way on {bill} yet.', 'I can't get there on {bill}. I'm sorry.' repeats 'Count me against {bill}', and 'Section {section} is what stops me...' repeats 'Change section {section}...', so three of four rehash."
     },
-    "042zjmj8ox0": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat the agree and not-sold stances, and only the head-home line moves on."
-    },
     "04rknafpc38": {
       "keys": [
         "scene-talk.follow-bargain.i-ll-speak-for-yours-i-won-t-promise-bill-a-vote-back",
@@ -118,19 +105,6 @@
         "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first"
       ],
       "why": "'{bill} has my vote.' repeats the first option, 'Count me against {bill}' restates 'I can't vote for {bill}...', and 'Section {section}... Fix that' restates 'Change section {section}...', so three of four rehash."
-    },
-    "079d84wsybe": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat earlier stances, and only the get-going line moves on."
     },
     "088oq9d80i7": {
       "keys": [
@@ -234,19 +208,6 @@
       ],
       "why": "'You've kept at me... once more' restates 'Don't count me either way on {bill} yet.' and 'I'm a no on {bill}, and I'd rather say it now' repeats 'Count me against {bill}', so two of three rehash and only 'I can't stay on {bill} any longer.' is new."
     },
-    "0kpmeuda8ha": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat earlier stances, and only the head-home line moves on."
-    },
     "0lz4q78og9m": {
       "keys": [
         "scene-talk.follow-plea.i-m-not-asking-you-to-carry-it-one-yes-on-bill",
@@ -261,18 +222,6 @@
         "scene-talk.reply-leave.i-can-t-stay-on-bill-any-longer"
       ],
       "why": "'You've kept at me, and I'll go back to {bill} once more' restates 'Let me read {bill}', 'Count me against {bill}. I won't change that.' restates 'I'm a no on {bill}', and 'If section {section}... I could vote yes' restates the section condition, so three of four rehash."
-    },
-    "0m3luqzkvg2": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
-        "scene-talk.reply-agree.okay-put-me-down-for-office",
-        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
-        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
-        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
-        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
-        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
-      ],
-      "why": "Two of three new replies restate the first options: 'You've got my vote' repeats 'Put me down' and 'My answer's the same' repeats 'I'm not promising'; only the have-to-go line moves on."
     },
     "0mozbn773ag": {
       "keys": [
@@ -361,19 +310,6 @@
       ],
       "why": "'Okay... I'll vote yes' restates 'I owe you that much', 'I can't get there on {bill}. I'm sorry.' restates 'A vote isn't a loan...', and 'Section {section}... Fix that' restates 'I'll take that trade...', so three of four rehash."
     },
-    "0r8lb2inzf2": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I care about cause, you've got my vote' and 'I'm not sold yet' repeat earlier stances, and only the head-home line moves on."
-    },
     "0soy0grra1j": {
       "keys": [
         "scene-talk.follow-plea.it-s-one-vote-and-bill-dies-without-it",
@@ -388,19 +324,6 @@
         "scene-talk.reply-leave.i-can-t-stay-on-bill-any-longer"
       ],
       "why": "'Okay... I'll vote yes' restates '{bill} has my vote.', 'Count me against {bill}. I won't change that.' restates 'I won't work against {bill}', and 'If section {section}... I could vote yes' restates 'Section {section} is what stops me...', so three of four rehash."
-    },
-    "0ti80rh7c1e": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
-      ],
-      "why": "'I'm with you on {cause}.' restates 'I care about {cause}. You've got my vote.' and 'What you said on {cause} didn't change my mind.' restates 'I'm not sold on {cause} yet.', so two of three rehash and only 'I should get going' moves on."
     },
     "0txmi21fs5d": {
       "keys": [
@@ -578,19 +501,6 @@
       ],
       "why": "'You can put me down for {bill}.' restates 'I'm a yes on {bill}' and 'I'm looking hard at {bill}, and I'll tell you when I know.' restates 'Don't count me either way on {bill} yet.', so two of three rehash."
     },
-    "16wa1qkgrcg": {
-      "keys": [
-        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I care about cause, you've got my vote' and 'I'm not sold yet' repeat earlier stances, and only the head-home line moves on."
-    },
     "191d0bi8jgq": {
       "keys": [
         "scene-talk.follow-plea.i-m-counting-on-you-for-bill-don-t-make-me-count-again",
@@ -679,18 +589,6 @@
         "scene-talk.reply-leave.i-ve-said-what-i-can-on-bill-i-have-to-go"
       ],
       "why": "'You've kept at me... once more' restates 'Let me read {bill}...', 'Count me against {bill}. I won't change that.' restates 'A vote isn't a loan...', and 'If section {section}... I could vote yes' restates 'I'll take that trade...', so three of four rehash."
-    },
-    "1co7bt7e0w0": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
-        "scene-talk.reply-agree.okay-put-me-down-for-office",
-        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
-        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
-        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
-        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
-        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
-      ],
-      "why": "'You've got my vote for {office}.' restates 'Okay. Put me down for {office}.' and 'I've heard you out. I'm still deciding my vote for {office}.' restates 'I'll think about my vote for {office}. Come back later.', so two of three rehash and only 'I have to go. Good luck' is new."
     },
     "1e49u1q1s2b": {
       "keys": [
@@ -820,18 +718,6 @@
       ],
       "why": "'You can put me down for {bill}.' repeats 'I'm a yes on {bill}', 'I can't get there on {bill}. I'm sorry.' repeats 'Count me against {bill}', 'Section {section} is what stops me...' repeats 'Change section {section}...', and 'Let me read {bill}...' restates 'Don't count me either way', so all four rehash."
     },
-    "1pbbyisx8pu": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
-        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
-        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
-        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
-        "scene-talk.reply-agree.okay-put-me-down-for-office",
-        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
-        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
-      ],
-      "why": "Two of three new replies restate the first options: 'Okay, put me down' repeats the yes option and 'I'm still deciding my vote' repeats the come-back-later option; only the have-to-go line moves on."
-    },
     "1pmh5vy38mf": {
       "keys": [
         "scene-talk.follow-bargain.i-ll-speak-for-yours-i-won-t-promise-bill-a-vote-back",
@@ -927,16 +813,6 @@
       ],
       "why": "Both new replies restate the first options: 'I don't have a good reason. You have my endorsement' repeats the yes option and 'The answer is no' repeats the not-endorsing option."
     },
-    "1su1d491mol": {
-      "keys": [
-        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
-        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
-        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
-        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
-        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office"
-      ],
-      "why": "The first new reply repeats the first option word for word, which is half the set and the exact rehash the rule forbids; only the come-back line moves on."
-    },
     "1tnap7zhjyt": {
       "keys": [
         "scene-talk.follow-press.is-that-a-no-on-bill-or-a-no-to-me",
@@ -978,19 +854,6 @@
         "scene-talk.reply-leave.i-can-t-stay-on-bill-any-longer"
       ],
       "why": "'Okay... I'll vote yes' restates '{bill} has my vote.', 'I won't work against {bill}' restates 'Count me against {bill}', and 'If section {section}... I could vote yes' restates 'Section {section} is what stops me...', so three of four rehash."
-    },
-    "1vk90fyk5w5": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take-on-cause",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
-      ],
-      "why": "'I care about {cause}. You've got my vote.' repeats 'I'm with you on {cause}.' and 'I'm not sold on {cause} yet.' restates 'didn't change my mind', so two of three rehash and only 'I should get going' is new."
     },
     "1w3ofkhqv6y": {
       "keys": [
@@ -1170,19 +1033,6 @@
       ],
       "why": "'Okay... I'll vote yes' restates 'I owe you that much', 'I won't work against {bill}' restates 'A vote isn't a loan...', and 'If section {section}... I could vote yes' restates 'I'll take that trade...', so three of four rehash."
     },
-    "26u0ijucrn9": {
-      "keys": [
-        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
-        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
-        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
-        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
-        "scene-talk.reply-deflect.let-me-think-about-cause-first",
-        "scene-talk.reply-agree.i-m-with-you-on-cause",
-        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
-        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
-      ],
-      "why": "Two of three new replies restate the first options: 'I'm with you on cause' repeats 'You've got my vote' and 'What you said didn't change my mind' repeats 'I'm not sold yet'."
-    },
     "283h6shwi81": {
       "keys": [
         "scene-talk.follow-plea.i-m-counting-on-you-for-bill-don-t-make-me-count-again",
@@ -1303,5 +1153,5 @@
       "why": "'Okay... I'll vote yes' repeats '{bill} has my vote.', 'I won't work against {bill}' repeats 'I'm a no on {bill}', and 'If section {section}... I could vote yes' repeats the section condition, so three of four rehash."
     }
   },
-  "yesHash": "1xsmtkjdmdh"
+  "yesHash": "05b36hds7ob"
 }

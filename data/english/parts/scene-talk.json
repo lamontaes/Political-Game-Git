@@ -23886,10 +23886,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.it-isn-t-personal-i-m-not-ready-to-commit-in-place",
+      "key": "scene-talk.reply-decline.i-d-rather-hear-the-rest-of-the-field-in-place-before-i-say-yes",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "It isn't personal. I'm not ready to commit in {place}.",
+      "text": "I'd rather hear the rest of the field in {place} before I say yes.",
       "uses": [
         {
           "subject": "scene",
