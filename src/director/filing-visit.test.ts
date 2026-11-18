@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createLifeCore } from "../core2/life";
-import { buildPopulation } from "../core2/population";
 import { saidOffice, describesByRule, spokenOffice } from "./filing-visit";
 import { readFileSync } from "node:fs";
-
-describe("the filing visit", () => {});
 
 // Every filing office in the research is said the way people say it: the
 // note's gloss on whose county or town it is stays unsaid (P1, Richburg,
