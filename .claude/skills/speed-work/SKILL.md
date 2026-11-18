@@ -115,6 +115,7 @@ A change to anything that runs without the player watching (monthly engines, ski
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 17, 02:09Z (#9784): a per-day cost that grows with a bigger set is a hot spot even when the counts are right. Cause: work repeated every day on data that rarely changes. Do it once, or only on change, and post the before and after at the CI guard's place and seed.
+- Nov 18, 05:30Z (#10088, American Fork, Utah): founding by demand took a 35,000-person town from 32 firms to 409 in a month, and a month's play went from about 16 s to 25 to 77 s. Cause: daily firm work scales with the firm count. Keep daily work near the player's focus and batch the rest; do not cap the firms.
 
 ## More in this folder
 
