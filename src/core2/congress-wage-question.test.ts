@@ -72,12 +72,19 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
       citation: "29 USC 218(a) reader fixture, not a vote",
     });
     const records: string[] = [];
-    for (const [question, operation] of [
+    // A world whose history already has Congress saying yes to the rule opens
+    // with the question standing (its starting row, value 1): an enactment then
+    // restates what is in force and changes nothing, so that world starts by
+    // repealing it and the rest of the sequence is the same.
+    const standsAtOpening = legacy().inForce === 1;
+    const sequence = [
+      ...(standsAtOpening ? [[canonical, "repeal"] as const] : []),
       [canonical, "enact"],
       [canonical, "repeal"],
       [canonical, "enact"],
       [canonical, "repeal"],
-    ] as const) {
+    ] as const;
+    for (const [question, operation] of sequence) {
       const effectiveDate = addDays(makeIsoDate(api.state.date), 1);
       const bill = draftBill(api, {
         bodyOfficeId: FEDERAL_HOUSE,
@@ -128,6 +135,7 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
         worldSeed: place.seed,
         body: FEDERAL_HOUSE,
         priorFederal: before.id,
+        questionStoodAtOpening: standsAtOpening,
         records,
         higherStateFixture: stronger.id,
       }),
