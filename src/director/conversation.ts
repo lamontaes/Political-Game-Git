@@ -3680,6 +3680,19 @@ interface PointRules {
     readonly questions: readonly string[];
   };
   readonly back: string;
+  /** The point's four replies and the records they keep (conversation-rules.json addressPoint.replies). */
+  readonly replies: {
+    readonly ask: string;
+    readonly here: string;
+    readonly letGo: string;
+    readonly letGoKey: string;
+    readonly letGoFact: string;
+  };
+  /** The point said in one line, with no question at the end (pattern A47's household branch). */
+  readonly oneLiner: {
+    readonly fact: string;
+    readonly omits: readonly string[];
+  };
   readonly claims: Readonly<
     Record<string, { area: "work" | "money"; says: "worse" | "better" }>
   >;
@@ -3707,6 +3720,14 @@ function pointArea(point: AddressPoint): "work" | "money" | null {
 /** The knowledge key a person keeps of what the player said to them on one of the address's questions. */
 const pointKey = (playerId: PersonId, question: string) =>
   `talk:${playerId}:address-point:${question}`;
+/**
+ * The knowledge key a person keeps of the player letting one of the
+ * address's questions go (a no is a record; CTO, Nov 18): the day it was let
+ * go. It never stands for a stand, so the point stays open (`pointKey` is
+ * not set) and the next raise of that question reads it (`letGoFact`).
+ */
+const letGoKey = (playerId: PersonId, question: string) =>
+  `talk:${playerId}:${POINT_RULES.replies.letGoKey}:${question}`;
 
 /** An employer as a person says it, through the said-as reader: never the market outside the town, a treasury as its government. */
 function employerFact(
@@ -4088,6 +4109,18 @@ function pointSubject(
   // own stand (lead, Nov 13: Kagman, Northern Mariana Islands).
   if (heardNow.has(`${HEARD_QUESTION}${pick.point.question}`))
     mark("point-heard", [eventId]);
+  // A point the player let go on an earlier day is raised again knowing it
+  // (the record `say` kept of the no): its lines may say so, and when.
+  const letGoBefore = core.knowledgeByPerson
+    .get(speakerId)
+    ?.get(letGoKey(listenerId, pick.point.question));
+  if (letGoBefore && letGoBefore.learnedAt !== core.date) {
+    mark(POINT_RULES.replies.letGoFact, [letGoBefore.sourceId]);
+    facts[`${POINT_RULES.replies.letGoFact}-when`] = {
+      text: spokenWhen(letGoBefore.learnedAt, core.date),
+      sourceRecordIds: [letGoBefore.sourceId],
+    };
+  }
   // What the President would do, and the President's side, for a policy
   // point; a year point is something the address said happened. Their own
   // stand, which the words follow.
@@ -4236,6 +4269,8 @@ export function composedLine(
   stage: string,
   momentKey: string,
   recentPartKeys: readonly string[] = [],
+  /** Parts of the line not said (a one-liner's closer). */
+  omit: readonly string[] = [],
 ): Said | null {
   // What is said once in a talk (how long they have held a stand; being
   // glad to hear the player's voice) is not said again in it (lead, Nov 13;
@@ -4264,6 +4299,7 @@ export function composedLine(
     // Oldest first: what the player heard on earlier days, then today, then
     // this talk, so a wording heard longest ago is the one said again.
     said: [...heardOrderFor(speakerId), ...heardNow, ...recentPartKeys],
+    ...(omit.length ? { omit } : {}),
   });
   if (!line) return null;
   const { asks, afterPlain, ...said } = line;
@@ -5387,8 +5423,9 @@ function raiseSubject(
   // Stark's Kitchen myself." then "Right now I'm at work."; item
   // words-everyday-talk-asks-the-same-question): the subject is raised with
   // the facts not yet said, or not at all when none is left.
-  const subject = withoutSaid(conversation, asked);
-  if (!subject) return false;
+  const unsaid = withoutSaid(conversation, asked);
+  if (!unsaid) return false;
+  const subject = oneLinerOf(core, conversation, unsaid);
   // A small question is asked only when the asker has their own answer to
   // give back (lead, Nov 13): a relative with neither work nor a home on
   // record is not asked about.
@@ -5469,6 +5506,10 @@ function raiseSubject(
           subject.stage ?? "default",
           momentKey,
           saidParts(conversation, otherId),
+          // The point said in one line stops before its closer.
+          composedRaise === POINT && subject.facts[POINT_RULES.oneLiner.fact]
+            ? POINT_RULES.oneLiner.omits
+            : [],
         )
       : null;
   const line = said
@@ -5949,6 +5990,61 @@ function carryOn(
       conversation.lies = [];
     } else endConversation(core, conversation, data);
   }
+}
+
+/**
+ * The address's point said in one line, praise or scorn with no question at
+ * the end (pattern A47's household branch: "they watched the address
+ * together at home"), as the fact `oneLiner.fact` on the raise: by the
+ * records, never a roll. A housemate who watched it with the player, at
+ * home (not by phone, not at a workplace the player came to), whose stand on
+ * the point is decided, and whose traits keep talk short (the trait engine's
+ * `conversation.reply-reach` lean, read for the speaker as `replyReach`
+ * reads it for the player) says it and stops; one who carries talk on asks.
+ * The replies after it read the same fact.
+ */
+function oneLinerOf(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  subject: Subject,
+): Subject {
+  const { playerId, otherId } = conversation;
+  const speaker = core.people.get(otherId);
+  if (
+    subject.kind !== POINT ||
+    !speaker ||
+    !subject.facts["stand-decided"] ||
+    conversation.byPhone ||
+    conversation.visitOrganizationId ||
+    !watchedTogether(core, playerId, otherId) ||
+    decisionLean(
+      core,
+      speaker,
+      "conversation.reply-reach",
+      "carry-on",
+      "keep-short",
+    ) >= zero
+  )
+    return subject;
+  return {
+    ...subject,
+    facts: {
+      ...subject.facts,
+      [POINT_RULES.oneLiner.fact]: {
+        text: "yes",
+        // Their stand, and the address the two watched together.
+        sourceRecordIds: [
+          ...new Set([
+            ...subject.facts["stand-decided"].sourceRecordIds,
+            String(
+              core.knowledgeByPerson.get(otherId)?.get(ADDRESS_FACT.event)
+                ?.value ?? otherId,
+            ),
+          ]),
+        ],
+      },
+    },
+  };
 }
 
 /**
@@ -7503,6 +7599,10 @@ function offerChoices(
         !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
       )
         continue;
+      // The point's ask is offered only where its answer is on record:
+      // a reason from their own life, or the town's records they hold.
+      if (last.kind === POINT && !pointAnswerable(last.facts, choiceKey))
+        continue;
       const raises = group.raises;
       const subject = raises ? target(raises) : undefined;
       if (subject && !again) add(choiceKey, group, subject);
@@ -7538,6 +7638,10 @@ function offerChoices(
         "conversation:ack:reply",
       );
   }
+  // The point's ask is one move: asked of their own life where they have a
+  // reason from it, else of the town where they hold its records.
+  if (last.kind === POINT)
+    conversation.choices = onePointAsk(conversation.choices);
   // The other person's last line, by the move it made: a question asks.
   const before = conversation.lines.at(-one);
   conversation.choices = rankChoices(core, playerId, conversation.choices, {
@@ -8423,8 +8527,12 @@ function sayNow(
         sourceId: eventId,
       },
     );
-  // The listener remembers what this talk was about.
-  if (conversation.topics[zero])
+  // The listener remembers what this talk was about, unless the player let
+  // the address's point go: then it is not behind them, and another evening
+  // raises it again (pattern A47: "the point waits for another day").
+  const letGo =
+    last.kind === POINT && !choice.lie && choice.move === POINT_LET_GO;
+  if (conversation.topics[zero] && !letGo)
     api.observe(otherId, {
       key: talkedKey(playerId, conversation.topics[zero]),
       value: conversation.topics[zero],
@@ -8522,6 +8630,16 @@ function sayNow(
   // A reply to the address's point: the other person keeps what the player
   // said on that question, and answers it in words the engine composes.
   if (last.kind === POINT && last.subject.point && !choice.lie) {
+    // Letting it go keeps no stand: the no is its own record, the day it was
+    // let go, and the talk closes on their answer.
+    if (letGo) {
+      tell(eventId, {
+        key: letGoKey(playerId, last.subject.point.question),
+        value: core.date,
+      });
+      answerPoint(core, conversation, data, choice, eventId, true);
+      return conversation;
+    }
     tell(eventId, {
       key: pointKey(playerId, last.subject.point.question),
       value: choice.move,
@@ -8803,9 +8921,11 @@ function sayNow(
 /**
  * The other person's answer to the player's reply on the address's point,
  * once `say` has recorded what the player said on that question (agreed,
- * disagreed, or asked what it would mean here or what they would do
- * instead), keyed by the question, so a later talk reads it: words the
- * engine composes, naming the point; then the talk carries on.
+ * disagreed, or asked what it means for them or here), keyed by the
+ * question, so a later talk reads it: words the engine composes, naming the
+ * point; then the talk carries on. Let go, the answer (under the stage
+ * `let-go`) closes the talk, and with no words for it the player's line
+ * does.
  */
 function answerPoint(
   core: CoreState,
@@ -8813,6 +8933,8 @@ function answerPoint(
   data: ConversationData,
   choice: ConversationChoice,
   eventId: string,
+  /** The player let it go: their answer is the talk's last word. */
+  closes = false,
 ): void {
   const { otherId } = conversation;
   const last = conversation.last!;
@@ -8846,6 +8968,11 @@ function answerPoint(
       ...back,
       sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
     });
+  if (closes) {
+    conversation.choices = [];
+    conversation.lies = [];
+    return;
+  }
   carryOn(core, conversation, data);
 }
 
@@ -8863,19 +8990,38 @@ function pointAnswerable(facts: Facts, choiceKey: string): boolean {
     const fact = facts.state ?? facts["town-figure"];
     return !!fact && !heardNow.has(`${HEARD_FIGURE}${fact.text}`);
   }
-  if (choiceKey === POINT_INSTEAD)
-    return !!facts["stand-decided"] && LIFE_MARKS.some((key) => !!facts[key]);
+  if (choiceKey === POINT_ASK) return LIFE_MARKS.some((key) => !!facts[key]);
   return true;
 }
-/** The marks of a reason from the speaker's own life that a "what would you do instead" answers from. */
+/** The marks of a reason from the speaker's own life that "what does it mean for you" is answered from (./point-reasons). */
 const LIFE_MARKS = [
   "why-work",
   "why-money",
   ...LIFE_REASONS.map((kind) => `why-${kind}`),
 ];
-/** The point's replies that ask: what it means here, what they would do instead (conversation-rules.json replyMoves). */
-const POINT_HERE = "here";
-const POINT_INSTEAD = "instead";
+/**
+ * The point's four replies (CTO, Nov 18, order item 3; pattern A47): agree,
+ * disagree, ask, let it go. Ask is one move (replyMoves: "ask") with two
+ * forms, kept in one engine: `ask` puts "what does it mean for you" to
+ * someone whose point carries a reason from their own life, answered from
+ * that reason; `here` puts "what does it mean here" to someone holding a
+ * town office, answered from the state's law or the town's figure they read
+ * (owner, Nov 12: "how the hell would she know?"). A screen offers one of the
+ * two, `ask` first (`onePointAsk`). The old "what would you do instead"
+ * reply is gone: it asked the same reason and is now `ask`.
+ */
+const POINT_HERE = POINT_RULES.replies.here;
+const POINT_ASK = POINT_RULES.replies.ask;
+/** Letting the point go: the talk closes, no stand is kept, and the no is its own record (`letGoKey`). */
+const POINT_LET_GO = POINT_RULES.replies.letGo;
+
+/** The point's replies with one ask among them: "what does it mean for you" before "what does it mean here". */
+function onePointAsk(
+  choices: readonly ConversationChoice[],
+): ConversationChoice[] {
+  const asks = choices.some((row) => row.move === POINT_ASK);
+  return choices.filter((row) => !(asks && row.move === POINT_HERE));
+}
 
 /** Whether a line's kind is a day's own subject whose replies are answered in composed words (`<kind>-back`). */
 function dayBack(kind: string): boolean {
