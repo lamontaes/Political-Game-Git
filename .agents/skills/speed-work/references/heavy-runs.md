@@ -66,3 +66,6 @@ Done when every row has its `.done` file with an exit code and seconds, its resu
 A background gate script dies if the worker restarts: check its log for `ALLDONE` and rerun what is missing, and keep temporary probe tests out of the tree while a gate is running.
 
 - **A check beside a test run counts as a second heavy run (Nov 17, Lives).** `npm run pool -- --check`, a typecheck (it needs `NODE_OPTIONS=--max-old-space-size=10240`; the default heap dies) or a second vitest started while a vitest batch of played worlds was running took the whole container down, and the batch's results with it. Commit first, then run them one after another; give a vitest batch of played worlds `--maxWorkers=2`.
+## A suite that cannot run whole
+
+When the director suite times out whole and in chunks (55 and 86 minutes, Nov 18), run it one file at a time with a cap (`timeout 480 npx vitest run <file> --reporter=json --outputFile=<dir>/<name>.json`), two loops from both ends of the list that skip a file whose json or lock file exists, and a one-line summary per file. Read failures from the json, never from the terminal.
