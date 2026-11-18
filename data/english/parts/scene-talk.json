@@ -27779,10 +27779,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-sit-this-one-out-mark-me-as-not-voting-on-bill-and-i-ll-say-nothing-against-it",
+      "key": "scene-talk.reply-decline.i-ll-sit-this-one-out-on-bill-and-i-ll-say-nothing-against-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll sit this one out. Mark me as not voting on {bill}, and I'll say nothing against it.",
+      "text": "I'll sit this one out on {bill}, and I'll say nothing against it.",
       "uses": [
         {
           "subject": "scene",
@@ -27815,10 +27815,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-leave-the-floor-when-bill-comes-up-that-s-as-much-as-i-can-give-you",
+      "key": "scene-talk.reply-decline.i-won-t-be-a-yes-on-bill-that-s-as-much-as-i-can-give-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll leave the floor when {bill} comes up. That's as much as I can give you.",
+      "text": "I won't be a yes on {bill}. That's as much as I can give you.",
       "uses": [
         {
           "subject": "scene",
