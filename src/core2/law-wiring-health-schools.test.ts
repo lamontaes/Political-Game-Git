@@ -150,15 +150,19 @@ function levelsSayingYes(api: CoreAPI, key: string) {
 }
 
 /**
- * The latest row at each level of the town's chain, whatever its effective
- * date, says yes. The played world legislates on its own: a bill it has
+ * Each level of the town's chain where the law says yes now, or will by a bill
+ * already passed. The played world legislates on its own: a bill it has
  * already passed takes effect on its date, whatever the test did before it.
+ * A level whose row in force says yes holds it until its own later repeal
+ * takes effect, so it holds yes today even when that repeal is already passed.
  */
 function levelsHoldingYes(api: CoreAPI, key: string) {
   return lawChain(api).levels.flatMap(({ level, jurisdiction }) => {
     const latest = latestAt(api, key, jurisdiction);
-    return latest?.value === 1
-      ? [{ level, jurisdiction, effectiveDate: latest.effectiveDate }]
+    if (latest?.value === 1)
+      return [{ level, jurisdiction, effectiveDate: latest.effectiveDate }];
+    return latestAt(api, key, jurisdiction, api.state.date)?.value === 1
+      ? [{ level, jurisdiction, effectiveDate: api.state.date }]
       : [];
   });
 }
