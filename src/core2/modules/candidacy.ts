@@ -514,6 +514,32 @@ export function countedCandidacyReasons(
 }
 
 /**
+ * Whether a party stands a nominee in a race: its chance of taking the seat,
+ * the normal curve at the seat's Republican two-party lean over the swing
+ * spread, covers what standing one costs (`candidacyPartyStandingCost`). A
+ * seat one side cannot realistically win is left to the other uncontested;
+ * a competitive seat draws both. `side` is 1 for the right and -1 for the
+ * left; `rightShare` the seat's two-party right share.
+ */
+export function partyFieldsNominee(
+  api: CoreAPI,
+  side: number,
+  rightShare: number,
+): boolean {
+  const one = api.parameter("one");
+  const two = api.parameter("two");
+  const rightWins = normalCdf(
+    (rightShare - one / two) / c(api, "candidacySwingSpread"),
+    one,
+    two,
+  );
+  return (
+    (side > 0 ? rightWins : one - rightWins) >=
+    c(api, "candidacyPartyStandingCost")
+  );
+}
+
+/**
  * A challenger's odds against the sitting holder: the chance a swing as large
  * as the holder's last winning lead happens, from the seat's own last race
  * (`seatLastMargin`) and the world's swing spread. An open seat has no holder
