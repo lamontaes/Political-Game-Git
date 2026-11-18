@@ -53,6 +53,8 @@ One line each: what happened, its cause, and what to do.
 - Nov 16, 23:52Z (#9753): eslint failed with `'URL' is not defined` in a browser check. Cause: `no-undef` reads `.mjs` files, this one included. Declare exactly the globals a script uses on its `/* global */` line.
 - Nov 17 (Screens): a check that clicks into the room before the opening talk ends finds the address still speaking. Cause: the opening plays first. The script starts every life with `startLife`, which plays it, and never Skip scene.
 - Nov 17 (Speed): the bench server "at 124% CPU" after a build was `ps` reading a lifetime average. Cause: a misread, not a leak. The script stops the server it started, so nothing is left running.
+- Nov 17, 21:05Z (History, #9976, fixed by #10044): `families` went red on the train after a fold because a dev view imported engine files directly (`appointments.ts`, `electorate-places.ts`, `modules/parties.ts`). Cause: a file reaches another family only through that family's entry files (`tests/guards/families.json`, `entry`). Re-export what you need from the entry (`modules/officials.ts`, `modules/elections.ts`), and run `npx vitest run tests/guards/families.test.ts` before pushing any change that adds an import.
+- Nov 17, 21:50Z (History, #10057): a new row in dev mode's opening view left the whole view empty, and the screenshot timed out waiting for rows. Cause: every row in `src/bench/dev-views/opening.ts` needs its entry under `rows` in `opening-sources.json` (the view says which is missing), and the bench server reads that file once at start. Add the entry, then restart `npm run bench` before the screenshot.
 
 ## More in this folder
 
