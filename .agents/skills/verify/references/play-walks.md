@@ -33,7 +33,7 @@ A new life starts at 18 only; a walk never starts one at another age (Account le
 
 1. Start a fresh bench on the tree you want to read: `npm run bench` (port 3000; `BENCH_PORT` changes it). The bench serves the checkout it was started in. After a change to server code (`src/bench/*.ts`), stop it and start it again; a change to the page (`play.mjs`, `play.css`) needs only a new life.
 2. Run the walk. The world draws its own place; the log's first line names the place and the seed.
-3. To play the same life again, on another tree or after a fix, set `BENCH_SEED` to that seed. Use it for before and after. Never use a seed you chose to say something is seen: the place is drawn (skill `seen-in-game`).
+3. To play the same life again, on another tree or after a fix, set `BENCH_SEED` to that seed. Use it for before and after. Never use a seed you chose to say something is seen: the place is drawn (skill `done-proof`, seen-in-game part).
 4. Read the log top to bottom, as the player would hear it. Open a picture when a line makes you doubt the screen.
 
 One bench and one walk at a time. A walk takes two to five minutes, most of it the world being built.
