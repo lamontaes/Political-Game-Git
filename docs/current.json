@@ -1134,6 +1134,30 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "It played the campaign manager's offer, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/campaign-season.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played a campaign season's scenes, among them the volunteer offer, a kind the cut deleted, from lines written before Nov 15."
+    },
+    {
+      "old": "src/director/care-visit-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the care visit, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/case-help-moves.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played office hours' case help, a kind the cut deleted, and counted its lines."
+    },
+    {
+      "old": "src/director/celebration-gathering-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the celebration and the missing-relative gathering, kinds the cut deleted."
     }
   ]
 }
