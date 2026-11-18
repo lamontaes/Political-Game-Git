@@ -2918,3 +2918,5 @@ export {
 } from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";
+// The director reads the awards a government made (and their bids) through this entry.
+export { awardsOn } from "./contracts";
