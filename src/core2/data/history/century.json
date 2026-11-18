@@ -79,6 +79,13 @@
       "source": "How far a district's eligible voters stand from its chamber's typical (the state's eligible over its districts), as a share either side: each district's multiple is 1 + spread x (2u - 1) for its own seeded unit. Districts hold near equal people by law (Wesberry v. Sanders, 376 U.S. 1 (1964); Reynolds v. Sims, 377 U.S. 533 (1964); a state legislative plan under 10 percent total deviation is presumed valid, Brown v. Thomson, 462 U.S. 835 (1983)), but not equal citizens of voting age, who differ with age and citizenship by district. Generation of who lives where, never an outcome. Not yet sourced: the spread of citizen voting-age population across districts in the Census Bureau's CVAP special tabulation (research item history-district-size-spread).",
       "spread": [0.05, 0.3]
     },
+    "centuryPartyLeanScale": {
+      "value": 1.6,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How the mean of a party's members' seats in Congress (their districts' and states' signed leans, -1 to 1) maps onto the members' left-right scale (DW-NOMINATE's first dimension): a party's position is that mean times this. Fitted once so the 2024 map's House seats put the parties near the 119th Congress's House means (Democrats -0.386, Republicans 0.524, Voteview HS119): the seats Democrats hold average about a third of the way left of even and Republicans' about a quarter right, so the one scale that fits both is about 1.6. A strength, not a target: each world's parties stand where their own seats put them. To be sourced from Voteview's party means by Congress against the districts each party held (research item history-party-position-scale).",
+      "spread": [1.1, 2.2]
+    },
     "centuryCampaignMeansLogSpread": {
       "value": 1.0,
       "tag": "TUNABLE",

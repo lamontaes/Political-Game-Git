@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
 import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
@@ -66,6 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
+import { tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -281,6 +283,43 @@ function drawTalkStrip() {
       : []),
   );
 }
+
+/**
+ * A speech heard on television (the speech's own record says its station and
+ * medium): the speaker's bust on a set over the room, with the station under
+ * their name and Live over it. Anything else clears it.
+ */
+let tvRequest = 0;
+async function drawTv(speech, name, on) {
+  const request = ++tvRequest;
+  const set = $("tv");
+  set.hidden = true;
+  set.replaceChildren();
+  if (!on || on.medium !== "television") return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
+  ).catch(() => undefined);
+  if (!c?.face || request !== tvRequest) return;
+  set.replaceChildren(
+    ...tvSet({
+      live: controls.tv.live,
+      speaker: { personId: speech.speakerId, name, face: c.face },
+      station: on.station,
+      onClick: (person) => showPerson({ personId: person.personId }),
+    }),
+  );
+  set.hidden = false;
+}
+
+// Each Continue clears the set before the next part draws its own, so the
+// narration after a speech is never under it (capture runs before the button's own handler).
+$("talk").addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("#talk-next")) drawTv();
+  },
+  true,
+);
 
 /**
  * That night's news at home, as a toast top right: it fades by itself after
@@ -2336,12 +2375,21 @@ async function campaignParts() {
               words: controls.debate,
               // The day in words ("October 20, 2026"), never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
-              questionLabel: policyLabel,
-              onAnswer: async (answers) => {
+              // Yes: the sitting goes on the record, and the director stages it.
+              onAccept: async () => {
+                await post(
+                  `/api/campaign/debate/accept?${new URLSearchParams({
+                    debateId: debate.id,
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              // No: the debate is held without the player's answers.
+              onDecline: async () => {
                 await post(
                   `/api/campaign/debate?${new URLSearchParams({
                     debateId: debate.id,
-                    answers: JSON.stringify(answers),
+                    answers: "[]",
                   })}`,
                 );
                 reopenTrail(filing.id);
@@ -2562,6 +2610,16 @@ async function showStory(momentId) {
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
+      // The address cuts away from the chamber to the country and to homes:
+      // there it is heard on a set, the speaker on it with Live over them.
+      drawTv(
+        story.speech,
+        story.names[story.speech.speakerId],
+        on ??
+          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
+            ? { medium: "television" }
+            : undefined),
+      );
       fillTalk({
         lines: [
           talkLine({
@@ -7048,6 +7106,8 @@ document.getElementById("front-close")?.addEventListener("click", () => {
   FRONT_OUT[here]?.();
 });
 show("front-close", false);
+// The game's name as the page first prints it; the loading card wears it until the world names a place.
+const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
   // The close X is on every front panel but the title menu itself.
@@ -7573,7 +7633,16 @@ function followBuild(bar, onStory) {
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+    // Every step's line stays: each one the build has passed is listed in order, including any
+    // that finished between two polls, so the card reads as the loading messages, not one line.
+    const box = $("front-status");
+    const last = p.stage === "done" ? STEPS.length : at + 1;
+    box.replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        p.stage === "done" ? -1 : last - 1,
+      ),
+    );
   }, 400);
   return {
     stop() {
@@ -7581,7 +7650,7 @@ function followBuild(bar, onStory) {
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      $("front-status").replaceChildren();
     },
   };
 }
@@ -7594,8 +7663,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   const chosenName = placeKey
     ? $("cr-place-summary-name").textContent.trim()
     : "";
-  if (chosenName)
-    document.querySelector("#front > .title").textContent = chosenName;
+  // Before the world names a place the card wears the game's name, never the last panel's.
+  document.querySelector("#front > .title").textContent =
+    chosenName || GAME_TITLE;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;

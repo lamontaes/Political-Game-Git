@@ -60,7 +60,9 @@ it("records each congressional holder's last share from their own century race, 
   // check opens only the offices (a full played world built twice outran the unit run's limit
   // on GitHub); dev-opening.test.ts checks dev mode's citation of the century race.
   setBookkeeping(false);
-  for (let i = 0; i < 2; i += 1) {
+  const passed: string[] = [];
+  let worlds = 0;
+  for (let i = 0; worlds < 2 && i < 8; i += 1) {
     const place = drawPlace(`${RUN}:${i}`, "past-results");
     const where = `${place.name} (${place.key}), world seed ${place.seed}`;
     const core = createLifeCore(
@@ -109,6 +111,12 @@ it("records each congressional holder's last share from their own century race, 
           );
         }
     }
+    // A territory sends one delegate and no senators: its members of Congress are too few to check.
+    if (congressTerms < 3) {
+      passed.push(`${where}: ${congressTerms} members of Congress seated`);
+      continue;
+    }
+    worlds += 1;
     // Every member of Congress seated as a term holds a seat whose race the century kept.
     expect(raced, `${where}: holders whose century race is kept`).toBe(
       congressTerms,
@@ -118,6 +126,10 @@ it("records each congressional holder's last share from their own century race, 
       `${where}: members of Congress seated`,
     ).toBeGreaterThan(2);
   }
+  expect(
+    worlds,
+    `two drawn worlds with members of Congress to check; passed over: ${passed.join("; ") || "none"}`,
+  ).toBe(2);
 }, 120_000);
 
 it(`under "just like today", records each congressional holder's last share from the real race (${PLACE.name})`, async () => {
