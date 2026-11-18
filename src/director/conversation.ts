@@ -3492,6 +3492,14 @@ export function subjectsBetween(
                 : {}),
             }
           : {}),
+        // A lease, a relative or a story (./point-reasons), by the same
+        // facts the address's point gives it.
+        ...(reason &&
+        (reason.reason === "lease" ||
+          reason.reason === "relative" ||
+          reason.reason === "story")
+          ? lifeReasonFacts(core, speakerId, listenerId, reason)
+          : {}),
         ...(reason
           ? { "has-reason": { text: "yes", sourceRecordIds: reason.recordIds } }
           : {}),
