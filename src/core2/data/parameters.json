@@ -210,6 +210,7 @@
   },
   "votingAge": {
     "value": 18,
+    "role": "law",
     "tag": "SOURCED",
     "citation": "U.S. Constitution, Twenty-sixth Amendment (1971): the right to vote of citizens eighteen years of age or older shall not be denied on account of age."
   },
