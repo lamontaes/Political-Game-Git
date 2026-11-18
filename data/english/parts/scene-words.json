@@ -505,10 +505,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-other.begins-the-doorbell-rings-and-name-stands-on-the-porch",
+      "key": "scene-words.arrival-home-other.begins-the-doorbell-rings-and-name-is-at-the-door",
       "move": "arrival-home-other",
       "kind": "spoken",
-      "text": "{begins}, the doorbell rings, and {name} stands on the porch.",
+      "text": "{begins}, the doorbell rings, and {name} is at the door.",
       "uses": [
         {
           "move": "arrival-home-other",
@@ -549,26 +549,6 @@
       "move": "arrival-home-other",
       "kind": "spoken",
       "text": "{begins}, {name} sits down with you, and the talk turns to {happened}.",
-      "uses": [
-        {
-          "move": "arrival-home-other",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-home-other.begins-name-knocks-about-happened",
-      "move": "arrival-home-other",
-      "kind": "spoken",
-      "text": "{begins}. {name} knocks about {happened}.",
       "uses": [
         {
           "move": "arrival-home-other",
