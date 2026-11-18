@@ -30,6 +30,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
 import {} from "./places";
 import {
+  findAgeFactor,
   findPerQuarter,
   layoffPerQuarter,
   PAST_WORK_SPELL,
@@ -37,7 +38,11 @@ import {
   workAgeFactor,
   workLeans,
 } from "./past";
-import { livesElsewhere, stateUnemployment } from "./modules/people";
+import {
+  livesElsewhere,
+  stateJobFlows,
+  stateUnemployment,
+} from "./modules/people";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import type {
   CoreAPI,
@@ -131,6 +136,15 @@ function nationalUnemployment(api: CoreAPI): number | undefined {
   return row?.unemploymentPct;
 }
 
+/** One state's labor market this month. `ended` and `found` are the country tier's own last step: the share of its jobs firms ended and the share of its seekers who found work (absent where the tier has not stepped). */
+export interface WorkAt {
+  meanOverNow: number;
+  rise: number;
+  separation: number;
+  ended?: number;
+  found?: number;
+}
+
 /** The month's labor-market conditions by state, read once a month by everyone who reads them. */
 interface WorkConditions {
   /**
@@ -138,11 +152,7 @@ interface WorkConditions {
    * the rise over the last quarter, and how much its workers' separations
    * differ from the nation's (one where no national rate is read).
    */
-  of(usps: string | undefined): {
-    meanOverNow: number;
-    rise: number;
-    separation: number;
-  };
+  of(usps: string | undefined): WorkAt;
   /** Keeps the run's reference and recent months. */
   save(): void;
 }
@@ -177,10 +187,8 @@ export function workConditions(api: CoreAPI): WorkConditions {
       Object.entries(stored.recent).map(([key, rows]) => [key, [...rows]]),
     ),
   };
-  const conditions = new Map<
-    string,
-    { meanOverNow: number; rise: number; separation: number }
-  >();
+  const flows = stateJobFlows(api);
+  const conditions = new Map<string, WorkAt>();
   // The nation's rate on the run's first review: the base rates (JOLTS layoffs, CPS spells out of work) are the nation's, so a state is read against it.
   if (national !== undefined && national > 0)
     state.reference[NATIONAL_KEY] ??= national;
@@ -212,6 +220,8 @@ export function workConditions(api: CoreAPI): WorkConditions {
         // The rise over the last quarter, as the pre-start run reads it.
         rise: Math.max(p("zero"), now - recent[0]!),
         separation: natRef === undefined ? p("one") : odds(ref) / odds(natRef),
+        ended: flows.get(key)?.ended,
+        found: flows.get(key)?.found,
       };
       conditions.set(key, row);
       return row;
@@ -225,11 +235,44 @@ export function workConditions(api: CoreAPI): WorkConditions {
 }
 
 /** A place's state conditions this month (see `workConditions`). */
-export function regionalConditions(
-  api: CoreAPI,
-  placeId: string,
-): { meanOverNow: number; rise: number; separation: number } {
+export function regionalConditions(api: CoreAPI, placeId: string): WorkAt {
   return workConditions(api).of(uspsOf(placeId));
+}
+
+/**
+ * A person's pull toward losing work in a month, as a share of one. Where the country tier has stepped, it is the state's own share of jobs its firms ended that month, moved by the person's traits and age; with no tier (a world without the economy engine) the fixed base pace stands (stopgap SG-LABOR-turnover-fixed-rate).
+ */
+export function layoffPullMonth(
+  api: CoreAPI,
+  at: WorkAt,
+  lean: number,
+  ageFactor: number,
+  month: number,
+): number {
+  if (at.ended === undefined)
+    return (
+      layoffPerQuarter(api, at.rise, lean, ageFactor) * at.separation * month
+    );
+  return (
+    at.ended * Math.exp(api.parameter("pastWorkTraitSpread") * lean) * ageFactor
+  );
+}
+
+/** A seeker's pull toward finding work in a month: the state's own share of its seekers who found work that month, moved by their traits and age; the fixed base pace where no tier has stepped. */
+export function findPullMonth(
+  api: CoreAPI,
+  at: WorkAt,
+  lean: number,
+  age: number | undefined,
+  month: number,
+): number {
+  if (at.found === undefined)
+    return findPerQuarter(api, at.meanOverNow, lean, age) * month;
+  return (
+    at.found *
+    (age === undefined ? 1 : findAgeFactor(api, age)) *
+    Math.exp(api.parameter("pastWorkTraitSpread") * lean)
+  );
 }
 
 /** Working, looking, out or retired at an age, from the person's own seeded line against CPS 2024 for that age. */
@@ -403,10 +446,13 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
             "Retired from work elsewhere.",
           );
       } else if (row.status === "employed") {
-        row.layoffPull +=
-          layoffPerQuarter(api, at.rise, leans.layoffLean, ageFactor) *
-          at.separation *
-          month;
+        row.layoffPull += layoffPullMonth(
+          api,
+          at,
+          leans.layoffLean,
+          ageFactor,
+          month,
+        );
         row.quitPull +=
           quitPerQuarter(
             api,
@@ -434,8 +480,7 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
           );
         }
       } else {
-        row.findPull +=
-          findPerQuarter(api, at.meanOverNow, leans.applyLean, age) * month;
+        row.findPull += findPullMonth(api, at, leans.applyLean, age, month);
         if (row.findPull >= p("one")) {
           row.status = "employed";
           row.since = core.date;

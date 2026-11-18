@@ -214,6 +214,7 @@ for (const row of seekerRows) {
 // (3) Every layoff names the cause that decided it.
 const causeValues = [
   "turnoverPull",
+  "letGoPull",
   "target",
   "projected",
   "observedStaff",

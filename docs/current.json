@@ -913,6 +913,54 @@
       "now": ".claude/skills/done-proof/references/played-world-proof.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/core2/data/moves/destinations.json",
+      "now": "src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor)",
+      "when": "2026-11-17",
+      "why": "Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to."
+    },
+    {
+      "old": "data/research/renewal/derive-destinations.py",
+      "now": "nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it",
+      "when": "2026-11-17",
+      "why": "Pins family 29: the file it derived is gone."
+    },
+    {
+      "old": "src/director/data/promise-kinds.json",
+      "now": "src/core2/data/promises/promise-kinds.json (the kinds, windows, answers and parameters) and src/director/data/promise-endings.json (which scene endings keep a promise)",
+      "when": "2026-11-15",
+      "why": "The promise record, its settlement and the tie it moves moved into the promises engine (core2-promises-v1); the director only words it."
+    },
+    {
+      "old": ".agents/skills/labor-market-proof",
+      "now": ".agents/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/labor-market-proof",
+      "now": ".claude/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/owners-words-to-threads",
+      "now": ".agents/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/owners-words-to-threads",
+      "now": ".claude/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/core2/town-turnover.test.ts",
+      "now": "src/core2/employer-keep-review.test.ts",
+      "when": "2026-11-17",
+      "why": "The town's layoffs at a national pace (reviewTurnover) were replaced by each employer's own review of its workers (reviewKeeping); the test of the pace went with it."
     }
   ]
 }
