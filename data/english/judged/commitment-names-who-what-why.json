@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 303,
+  "judged": 293,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -541,5 +541,5 @@
       "why": "'Do you deny it?' — the 'it' of the scandal is never said."
     }
   },
-  "yesHash": "1mfof36tbym"
+  "yesHash": "0ejb6rs3jr3"
 }

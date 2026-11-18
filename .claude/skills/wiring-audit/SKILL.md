@@ -18,7 +18,7 @@ description: >
 
 The lead role itself is `crew-coordinator` (lead-session part) (an Opus lead with at most two helpers, status on the channel every two hours; owner, Oct 20 and Oct 24).
 
-"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`seen-in-game`; dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
+"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`done-proof` (seen-in-game part); dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point
 
@@ -82,6 +82,10 @@ Write one test per item that fails when nothing moved. When several PRs share a 
 Rerun the checker on main after the families merge. Put a before and after played year in two drawn places (seed named) at the top of the report: items that reached people, moved money and moved measures, plus the year's run time. Then the final matrix summary: total, wired, partial, stopgapped. Never say "wired" without the row.
 
 - **A trait reader that exports the wrong shape is silently never loaded** (Small fixes, Nov 8: `facet-affectionate.ts` exported a `TraitPack`, so `generate:trait-effects` skipped it and the trait changed nobody's answer). A reader must export `<name>Effects` as `readonly TraitEffectDeclaration[]`; after adding one, run `npm run generate:trait-effects` and look for the new line in `trait-effects/index.ts`.
+
+- **The matrix script writes unformatted files** (Laws and effects, Nov 17: #10025's `repository` check failed on prettier): after `matrix.ts` and `check.ts` write `docs/reports/law-wiring-matrix.json`, the table and a run file, run `npx prettier --write` on them before pushing. A run of only the rows a change moves (`--only`) added to the earlier runs is enough to move those rows; a full regrade is about 35 seconds a law.
+- **A wiring test raises a line on the government that carries it** (Laws and effects, Nov 17: `law-wiring-health-schools` raised every line on the first city, and at Seymour the city carries no schools line, so the raise landed on a line `schoolsLineAboveBase` skips and the link never fired). Pick the lowest government whose budget has the line (`lineBudget(api, line)`).
+- **`aidReceivedMinor` is one figure for federal and state aid** (Laws and effects, Nov 17, #10041): a county's or town's gain includes the state's larger pass-through, so assert the state's exactly and a county's or town's as relationships (at least the bill's dollars; the gap closes after an undo). It needs a CTO line, category c.
 
 ## More in this folder
 
