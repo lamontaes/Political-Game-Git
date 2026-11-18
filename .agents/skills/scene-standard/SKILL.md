@@ -43,8 +43,9 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 - Read a return visit against the record's state, never as a first visit: a filing still gathering signatures brings its petition, and one already on the ballot comes back with nothing to bring (#7101, Laramie, Wyoming, where a race needs no petition).
 - Read a line shown under a person's name as that person speaking. Narration of their answer ("Ruth agrees to endorse you.") belongs in a summary; the talk box gets their own words by trait and tie (rule 4; the lane's #7111 and #7112).
 - Words are split by role (owner, Nov 10): a builder or reviewer never writes or edits a line under `data/english/parts/`; they list the lines needed on the pull request and Story writes them. A rule the owner gives about a line is a rule in `data/english/line-rules.json` that `npm run words:rules` tests (`words-engine`), not a note in this skill.
-- Add a "Scene standard" row to the PR's Done when table with this evidence; a session that did not build it checks it in the running game (`seen-in-game`).
+- Add a "Scene standard" row to the PR's Done when table with this evidence; a session that did not build it checks it in the running game (`done-proof` (seen-in-game part)).
 - Give the scene its picture in the one list (skill `scene-pictures`): a row in `situationPlaces` per setting it is staged in, or a `wantedScenes` line; a missing picture never holds the scene back (owner, Nov 14).
+- Nov 17 (owner, three times, via the CTO): "I'd rather it start from nothing and build it up correctly." A scene or line that is not working is deleted, never patched or kept to rewrite later, and nobody asks the owner keep-or-cut about old content; the deletion is one pass by the part's `date` (#10063), and the tests that asserted the deleted words go with them.
 
 ## More in this folder
 

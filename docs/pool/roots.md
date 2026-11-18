@@ -7,7 +7,7 @@ The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable
 ## Root causes (the audit)
 
 - `rc1-world-outside-town`: the world outside the player's town is equations and tables, not people run by the same engines. Audit, root cause 1; design `docs/design/country-tier.md`.
-- `rc2-done-from-records`: "done" is measured in records and builders' own tests, not from the player's chair. Audit, root cause 2; rule `.agents/skills/seen-in-game/SKILL.md`.
+- `rc2-done-from-records`: "done" is measured in records and builders' own tests, not from the player's chair. Audit, root cause 2; rule `.agents/skills/done-proof/references/seen-in-game.md`.
 - `rc3-thin-life-record`: a life keeps too little of what happened between people, so the journal, cards and scenes have nothing specific to say. Audit, root cause 3; design `docs/design/life-record.md`.
 - `rc4-hand-written-words`: the words are a pile of hand-written lines picked by weights, and the owner's notes never become rules. Audit, root cause 4; design `docs/design/words-machine.md`.
 - `rc5-full-detail-every-day`: everything is played at full detail every day and kept forever, with one clock speed, which is the speed and memory problem. Audit, root cause 5; design `docs/design/country-tier.md`.
