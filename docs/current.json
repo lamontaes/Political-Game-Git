@@ -1356,6 +1356,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case (two pinned counters) chose an office at the filing counter; the clerk offers no office without the counter lines the cut deleted, so the choice threw. The counter's offers are on the rebuild list."
+    },
+    {
+      "old": "src/director/rescue-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the rescue scene (a rescue asks the player for something) to compose; no narration for it can be worded since the cut."
     }
   ]
 }
