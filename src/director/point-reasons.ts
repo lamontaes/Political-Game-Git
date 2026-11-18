@@ -29,10 +29,12 @@ import { P } from "../core2/parameters";
 import { COLLEGE_STARTED } from "../core2/past-school";
 import { highSchoolEndOf, schoolingEndsOf } from "../core2/past-work";
 import { preStartHistory } from "../core2/pre-start";
+import { registerDerivedCache } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import type { CoreState, PersonId } from "../core2/types";
+import type { Story } from "../core2/modules/news";
 
 type Side = "for" | "against";
 /** What in a household member's records a question touches. */
@@ -69,6 +71,9 @@ export type LifeReason =
       /** The lease, the dwelling it is the rent of, and the income records it was weighed against. */
       readonly recordIds: readonly string[];
       readonly leaseId: string;
+      /** A month's rent and a month's income on the books, in cents (for the trace; never said). */
+      readonly rentMinor: number;
+      readonly incomeMinor: number;
     }
   | {
       readonly reason: "relative";
@@ -94,9 +99,8 @@ export const LIFE_REASONS = ["lease", "relative", "story"] as const;
 /**
  * The household's lease, where its rent takes more than the burden share of
  * what its books say it brings in a month: the lease, its dwelling and the
- * income records. A household with no income on record and a rent to pay is
- * burdened. Null for an owner, a household with no lease, a question the
- * rows do not list, or a side they do not give.
+ * income records. Null for an owner, a household with no lease or no income
+ * on record, a question the rows do not list, or a side they do not give.
  */
 export function leaseReason(
   core: Readonly<CoreState>,
@@ -134,10 +138,15 @@ export function leaseReason(
   const income = householdIncome(api, person.householdId);
   const burden =
     DEFAULT_DIRECTOR_DATA.parameters.directorRentBurdenShare!.value;
-  if (income.minor > P.zero && rent <= income.minor * burden) return null;
+  // A household with no income on its books has no burden to weigh: HUD's
+  // CHAS tables mark its cost burden "not computed" and the Census Bureau
+  // leaves it out of housing cost to income (directorRentBurdenShare).
+  if (income.minor <= P.zero || rent <= income.minor * burden) return null;
   return {
     reason: "lease",
     leaseId: lease.id,
+    rentMinor: rent,
+    incomeMinor: income.minor,
     recordIds: [lease.id, home.recordId, ...income.ids],
   };
 }
@@ -243,26 +252,67 @@ export function storyReason(
 ): Extract<LifeReason, { reason: "story" }> | null {
   const known = core.knowledgeByPerson.get(personId);
   if (!known) return null;
+  const heard = printedHeard(core, personId, known.size);
+  // The newest of those on the question and those on the record it was
+  // raised from.
+  const story = [
+    heard.byTopic.get(question),
+    ...from.map((id) => heard.bySource.get(id)),
+  ]
+    .filter((row): row is Story => !!row)
+    .sort(
+      (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id),
+    )[0];
+  if (!story) return null;
+  return {
+    reason: "story",
+    storyId: story.id,
+    date: story.date,
+    recordIds: [story.id],
+    ...(story.outletId ? { outletId: story.outletId } : {}),
+  };
+}
+
+/** The printed stories a person heard and holds in what they know, the newest by question and by the record each reports. */
+interface Heard {
+  readonly date: string;
+  readonly known: number;
+  readonly byTopic: ReadonlyMap<string, Story>;
+  readonly bySource: ReadonlyMap<string, Story>;
+}
+/**
+ * Read once while the day and what they know stay the same: a stand weighs
+ * every question they hold one on, and each would read the same list again.
+ */
+const heardKept = new WeakMap<CoreState, Map<PersonId, Heard>>();
+registerDerivedCache(heardKept);
+function printedHeard(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  known: number,
+): Heard {
+  let byPerson = heardKept.get(core as CoreState);
+  if (!byPerson) heardKept.set(core as CoreState, (byPerson = new Map()));
+  const kept = byPerson.get(personId);
+  if (kept?.date === core.date && kept.known === known) return kept;
+  const knows = core.knowledgeByPerson.get(personId);
+  const byTopic = new Map<string, Story>();
+  const bySource = new Map<string, Story>();
+  // Newest first, so the first on each key is the newest.
   for (const story of storiesHeard(coreAPI(core as CoreState), personId)) {
-    const reports =
-      story.topic === question ||
-      (!!story.facts.sourceRecordId &&
-        from.includes(story.facts.sourceRecordId));
     if (
-      !reports ||
       !RULES.story.kinds.includes(story.kind) ||
-      !known.has(newsKey(story.id))
+      !knows?.has(newsKey(story.id))
     )
       continue;
-    return {
-      reason: "story",
-      storyId: story.id,
-      date: story.date,
-      recordIds: [story.id],
-      ...(story.outletId ? { outletId: story.outletId } : {}),
-    };
+    if (story.topic && !byTopic.has(story.topic))
+      byTopic.set(story.topic, story);
+    const source = story.facts.sourceRecordId;
+    if (source && !bySource.has(source)) bySource.set(source, story);
   }
-  return null;
+  const heard = { date: core.date, known, byTopic, bySource };
+  byPerson.set(personId, heard);
+  return heard;
 }
 
 /**

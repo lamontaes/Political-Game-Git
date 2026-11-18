@@ -3717,7 +3717,9 @@ function employerFact(
  * decides it. In order: a point on work or pay when they lost a job this year
  * or are looking for one; a point on prices, rent or housing when money is
  * hard for them (the trait engine's hardship stress) or their household is
- * being evicted; else the point they hold the strongest view on; else the
+ * being evicted; then a policy point their lease, someone they live with or
+ * a story they read gives a reason for (./point-reasons, in that order); else
+ * the point they hold the strongest view on; else the
  * President's first point. A point they already talked over with the
  * listener (the record `say` keeps) is behind them, and another is raised.
  */

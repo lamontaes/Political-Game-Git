@@ -34,6 +34,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { storiesHeard } from "../core2/modules/news";
+import { familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -52,6 +53,8 @@ const HARDSHIP = rules.stands.reasonFits.questions;
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 16;
 const POINT = "address-point";
+/** HUD's cost-burden share of income (director parameter). */
+const BURDEN = DEFAULT_DIRECTOR_DATA.parameters.directorRentBurdenShare!.value;
 /** The days the address is still the day's news at home (director parameter). */
 const TALK_DAYS =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressDays!.value;
@@ -141,6 +144,16 @@ it(`a housemate's stand on the address's point can come from their lease, a rela
             core.people.get(speaker)!.householdId,
           );
           expect(lease?.endedAt, here).toBeUndefined();
+          // A month's rent above HUD's burden share of a month's income on
+          // the household's books, and some income to weigh it against.
+          const life = pick.life as Extract<
+            NonNullable<PointPick["life"]>,
+            { reason: "lease" }
+          >;
+          expect(life.incomeMinor, here).toBeGreaterThan(0);
+          expect(life.rentMinor, here).toBeGreaterThan(
+            life.incomeMinor * BURDEN,
+          );
         }
         if (reason === "relative") {
           const relative = core.people.get(record as PersonId);
@@ -185,18 +198,28 @@ it(`a housemate's stand on the address's point can come from their lease, a rela
         found.set(
           reason,
           `${here} on ${pick.point.about}: ${reason} cites ${pick.reasonIds.join(", ")}${
-            reason === "relative"
-              ? ` (${subject!.facts.relative!.text}, ${
-                  Object.keys(subject!.facts).find(
-                    (key) =>
-                      key.startsWith("relative-") &&
-                      !key.endsWith("-he") &&
-                      !key.endsWith("-she") &&
-                      !key.endsWith("-they") &&
-                      key !== "relative-kin",
-                  ) ?? ""
-                })`
-              : ""
+            reason === "lease"
+              ? ` (rent ${(pick.life as { rentMinor: number }).rentMinor} a month on ${(pick.life as { incomeMinor: number }).incomeMinor} of income, cents)`
+              : reason === "relative"
+                ? ` (${subject!.facts.relative!.text}; the speaker's tie ${
+                    familyFactsOf(core.people.get(speaker)!).get(
+                      record as PersonId,
+                    )?.relation ?? "none"
+                  }, the listener's ${
+                    familyFactsOf(core.people.get(listener)!).get(
+                      record as PersonId,
+                    )?.relation ?? "none"
+                  }; ${
+                    Object.keys(subject!.facts).find(
+                      (key) =>
+                        key.startsWith("relative-") &&
+                        !key.endsWith("-he") &&
+                        !key.endsWith("-she") &&
+                        !key.endsWith("-they") &&
+                        key !== "relative-kin",
+                    ) ?? ""
+                  })`
+                : ""
           }`,
         );
       }
