@@ -27581,29 +27581,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-something-to-say-and-the-voice-is-already-raised",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has something to say, and the voice is already raised.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "neighbor-argument",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-comes-up-slowly-and-stops-a-few-steps-away",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -27643,29 +27620,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-here-and-it-took-some-doing",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is here, and it took some doing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ally-return",
-          "key": "routine"
-        }
-      ],
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
