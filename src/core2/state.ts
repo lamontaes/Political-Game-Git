@@ -1,5 +1,8 @@
 import { familyTakesChosenOrigin } from "./family-origin";
-import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
+import {
+  promoteHusk as promoteHuskOfficial,
+  unbuiltHolderOf,
+} from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
@@ -2386,7 +2389,12 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
-  if (!full && core.husks.has(personId)) {
+  // A husk, or another place's holder nobody has opened, is built by the
+  // engine that keeps them.
+  if (
+    !full &&
+    (core.husks.has(personId) || unbuiltHolderOf(core, personId) !== undefined)
+  ) {
     const promoted = promoteHuskOfficial(core, personId);
     if (promoted) return promoted;
   }
