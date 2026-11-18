@@ -218,8 +218,10 @@ import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
 import {
   candidacyModule,
   CANDIDACY_MODULE_ID,
+  partyFieldsNominee,
   registerClosedContestWeighed,
 } from "./candidacy";
+import { historyMode } from "../electorate-century";
 import {
   agreementWith,
   countedStanceProfile,
@@ -2450,6 +2452,15 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   formTickets(api, contest, "filing");
 }
 
+/** A contest's right two-party share: its places' votes-weighted lean, the town's own where none is counted. */
+export function contestRightShare(api: CoreAPI, contest: ContestRow): number {
+  const { places } = basePlaces(api, contest);
+  const votes = places.reduce((s, p) => s + p.votes2024, 0);
+  return votes
+    ? places.reduce((s, p) => s + p.votes2024 * p.rightShare, 0) / votes
+    : (1 + townLean(api)) / 2;
+}
+
 /** Each major party's nominee for a statewide partisan race where none of that side filed. */
 function fileNominees(api: CoreAPI, contest: ContestRow): void {
   const contestId = contest.id;
@@ -2511,8 +2522,13 @@ function fileNominees(api: CoreAPI, contest: ContestRow): void {
     !partisan
   )
     return;
+  // In a century world a party stands its nominee only where its chance in
+  // the seat covers what standing one costs (`partyFieldsNominee`).
+  const century = historyMode(api.state.seed) === "century";
+  const right = century ? contestRightShare(api, contest) : 0.5;
   for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
     if (
+      (!century || partyFieldsNominee(api, partySide(party), right)) &&
       !ballot(api, contestId).some(
         (f) => partySide(f.party ?? null) === partySide(party),
       )
@@ -4813,9 +4829,7 @@ function publicReasons(
   if (byKey.has(key)) return byKey.get(key)!;
   const { places } = basePlaces(api, contest);
   const votes = places.reduce((s, p) => s + p.votes2024, 0);
-  const right = votes
-    ? places.reduce((s, p) => s + p.votes2024 * p.rightShare, 0) / votes
-    : (1 + townLean(api)) / 2;
+  const right = contestRightShare(api, contest);
   const seat = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)
@@ -7195,7 +7209,14 @@ function decide(
             incumbent: false,
           },
         ];
-  const candidates = parties.map((c) =>
+  // In a century world each party stands a nominee where its chance in the
+  // seat covers what standing one costs; a seat one side cannot realistically
+  // win is the other's uncontested. A race always keeps at least one side.
+  const fielded =
+    historyMode(api.state.seed) === "century"
+      ? parties.filter((c) => partyFieldsNominee(api, c.side, lean))
+      : parties;
+  const candidates = (fielded.length ? fielded : parties).map((c) =>
     candidateInputs(api, {
       id: `party:${c.side > 0 ? "R" : "D"}`,
       party: c.party,
