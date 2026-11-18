@@ -1226,7 +1226,7 @@
     "riseBack": "Back to one amount",
     "risePercentNeeded": "Enter a percent above zero to draft this.",
     "riseYearsNeeded": "Enter two years or more to draft this.",
-    "riseDateNeeded": "Pick the day of the first increase to draft this.",
+    "riseDateNeeded": "Pick a day after today for every date, in order, to draft this.",
     "riseNeedsAmount": "Nothing is in force today, so there is no amount to increase by a percent.",
     "askedCarried": "{name} agreed to carry your bill.",
     "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
