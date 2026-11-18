@@ -108,18 +108,22 @@ it("every counted move in a played year, within the state or across states, reco
   }
 }, 600_000);
 
-// A counted household of minors alone that moves out: the monthly weighing
-// skips it (no adult to set a rate) and its group's due movers reach it. Its
-// record must name the group's rate, never an adult's it did not have. Such a
-// household is rare in a town-year (sixty drawn places once held none that
-// moved), so the test builds it from the place's own records (CTO, Nov 18,
-// 02:28Z): real households with minors and adults, one in each of their
-// groups, lose their adults through the counted residents' own death
-// (`removeCountedPerson`), and the year is played until one moves. Up to
-// three places are drawn; each passed over is named.
+// Children whose household loses its last adult do not go on as a household
+// of their own: relatives take them in first, and the state's foster care
+// when there is no kin (CTO, Nov 18, 02:46Z; Lives builds it). So a month
+// after the adults die, the counts hold no household of minors alone, and
+// each of its minors is in a counted household with an adult or has left the
+// household counts (for care). The condition is built from the place's own
+// records (CTO, 02:28Z): real households with minors and adults, one in each
+// of their groups, lose their adults through the counted residents' own death
+// (`removeCountedPerson`). Up to three places are drawn; each passed over is
+// named. (Before Lives' build, such a household joined an under-18 group that
+// is never weighed, and so never moved: counted-groups.ts AGE_BANDS,
+// counted-moves.ts groupPulls.)
 const MINORS_PLACES = 3;
 const MINORS_HOUSEHOLDS = 20;
-it("a counted household of minors alone records its group's rate, and no web or age-set rate it was never weighed by", () => {
+const MINORS_DAYS = 35;
+it("a household left with minors alone is gone a month later, its minors with kin or in care", () => {
   const previousBookkeeping = setBookkeeping(false);
   try {
     const passed: string[] = [];
@@ -137,7 +141,7 @@ it("a counted household of minors alone records its group's rate, and no web or 
       }
       const minor = (m: number) =>
         daysBetweenText(store.born[m]!, core.date) / 365.25 < 18;
-      const made = new Set<string>();
+      const made = new Map<string, string[]>();
       const groups = new Set<number>();
       for (const household of [...store.liveHouseholds()]) {
         if (made.size >= MINORS_HOUSEHOLDS) break;
@@ -146,35 +150,39 @@ it("a counted household of minors alone records its group's rate, and no web or 
         if (!members.some(minor) || members.every(minor)) continue;
         for (const m of members)
           if (!minor(m)) removeCountedPerson(core, store.ids[m]!);
-        made.add(household.id);
+        made.set(
+          household.id,
+          store.countedMembers(household).map((m) => store.ids[m]!),
+        );
         groups.add(household.group);
       }
       if (!made.size) {
         passed.push(`${where} (no counted household with minors and adults)`);
         continue;
       }
-      advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
-      const groupRated = countedMoves(coreAPI(core)).filter(
-        (row) => row.reasons.groupRate !== undefined,
-      );
-      if (!groupRated.length) {
-        passed.push(
-          `${where} (${made.size} households left with minors alone; none moved in a year)`,
-        );
-        continue;
-      }
-      for (const row of groupRated) {
-        expect(row.reasons.groupRate, `${where}: ${row.id}`).toBeGreaterThan(0);
-        expect(row.reasons.lifeStage, `${where}: ${row.id}`).toBeUndefined();
-        expect(row.reasons.web, `${where}: ${row.id}`).toBeUndefined();
+      advanceCore(core, addDays(makeIsoDate(core.date), MINORS_DAYS));
+      const alone: string[] = [];
+      for (const minors of made.values()) {
+        for (const id of minors) {
+          const m = store.countedMember(id);
+          // Out of the household counts: taken into care, or filled in.
+          if (m === undefined) continue;
+          const home = store.households[store.household[m]!]!;
+          const members = store.countedMembers(home);
+          if (members.every(minor)) alone.push(`${id} in ${home.id}`);
+        }
       }
       process.stdout.write(
-        `counted move causes, minors alone: ${where}; ${made.size} households left with minors alone, ${groupRated.length} such moves, e.g. ${groupRated[0]!.id} ${JSON.stringify(groupRated[0]!.reasons)}${passed.length ? `; passed over ${passed.join("; ")}` : ""}\n`,
+        `minors alone: ${where}; ${made.size} households lost their adults; ${MINORS_DAYS} days later ${alone.length} minors still in a household of minors alone${passed.length ? `; passed over ${passed.join("; ")}` : ""}\n`,
       );
+      expect(
+        alone,
+        `${where}: minors still in a household of minors alone ${MINORS_DAYS} days after its adults died`,
+      ).toEqual([]);
       return;
     }
     throw new Error(
-      `no household of minors alone moved at ${MINORS_PLACES} drawn places: ${passed.join("; ")}`,
+      `no drawn place in ${MINORS_PLACES} had a counted household with minors and adults: ${passed.join("; ")}`,
     );
   } finally {
     setBookkeeping(previousBookkeeping);
