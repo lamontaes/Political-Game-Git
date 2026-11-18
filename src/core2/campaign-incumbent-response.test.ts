@@ -28,27 +28,19 @@ import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
-import { openLaws } from "./modules/laws";
-import {
-  OFFICES_MODULE_ID,
-  openOffices,
-  type TermRow,
-} from "./modules/offices";
-import { openRecord } from "./modules/record";
-import { holderOf, openOfficials } from "./modules/officials";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { holderOf } from "./modules/officials";
 import {
   ballot,
   fileCandidacy,
   openContests,
-  openElections,
   petitionCirculating,
   petitionOf,
   type ContestRow,
@@ -62,16 +54,12 @@ import {
   campaignFor,
   campaignTurn,
   commissionPoll,
-  openCampaigns,
   raceReading,
   rivalDay,
   steppedUpOf,
   type PledgeRow,
   type PollRow,
 } from "./modules/campaigns";
-import { openParties } from "./modules/parties";
-import { openPress } from "./modules/press";
-import { viewsModule } from "./modules/views";
 import { advanceToFilingOpen } from "./gov-test-clock";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
@@ -106,27 +94,12 @@ const THREATENED_PLACES = () => drawnPlaces("threatened", 8);
 const WORD_PLACES = () => drawnPlaces("word", 24);
 const COUNTED_PLACES = () => drawnPlaces("counted", 8);
 
-/** A played-world slice: views, laws, offices, elections, campaigns, parties, the record and the press. */
+/** The played world (`buildBenchWorld`, every module, the two-level population) in a drawn place: town seats are held by residents with their own circles, as in play. */
 function world(place: DrawnPlace) {
-  const core = createLifeCore(
-    buildPopulation({
-      seed: place.seed,
-      placeKey: place.key,
-      startedAt: START,
-      minimumPeople: 300,
-    }),
-    { modules: [viewsModule] },
-  );
-  openLaws(core);
-  openOffices(core, place.seed, core.date);
-  // A seat's holder is a named official until someone meets them; holderOf
-  // fills them in as a person only with this module, as the played world does.
-  openOfficials(core);
-  openElections(core);
-  openCampaigns(core);
-  openParties(core);
-  openRecord(core);
-  openPress(core);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
   return {
     core,
     api: coreAPI(core),
