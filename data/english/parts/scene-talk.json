@@ -23524,10 +23524,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.outlet-has-sent-name-to-ask-you-about-story-and-name-is-not-leaving-with",
+      "key": "scene-talk.narrate-narrate.outlet-has-sent-name-to-ask-you-about-story",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{outlet} has sent {name} to ask you about {story}, and they are not leaving without something.",
+      "text": "{outlet} has sent {name} to ask you about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -24428,31 +24428,6 @@
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I had nothing to do with {story}, whatever people are telling you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["story"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "lie",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-wasn-t-even-in-the-room-when-story-came-up",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I wasn't even in the room when {story} came up.",
       "uses": [
         {
           "subject": "scene",
