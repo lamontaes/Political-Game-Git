@@ -29,10 +29,10 @@ checked:
 
 **Rules.** No hand-written player text in code; words come from the banks (`scene-standard`). Talk is dialogue only; people say how it feels and never the figure (owner, `owners-words-to-threads`). The English guards' rules: a question names its subject, no stock phrases, no short reply that says nothing of its own.
 
-**Done when.** A second session, in a drawn place with a housemate of 16 or more on the branch, clicks the housemate on the opening evening and the housemate raises a point of this world's address with a stand and offers two replies; the guards in `tests/guards/english/` and `src/director/conversation-address-talk.test.ts` are green; three drawn worlds' first talks are posted as screenshots on #9750 for the CTO's read.
+**Done when.** A second session, in a drawn place with a housemate of 16 or more on the branch, clicks the housemate on the opening evening and the housemate raises a point of this world's address with a stand and offers two replies; the guards in `tests/guards/english/` and `src/director/conversation-address-talk.test.ts` are green; three drawn worlds' first talks are posted as screenshots on the Story thread for the CTO's read.
 
 **Waits on.** director-address-points-read-the-plan (the engine fix this branch is stacked on).
 
 **Files.** data/english/parts/conversation.json, docs/play-first/shots/opening-evening-lines-2026-11-18/README.md
 
-**Notes.** Nov 18 (Story): the here and instead replies (ask, let it go) are offered only where `pointAnswerable` holds, which a housemate whose reason is their own view does not meet; in five drawn worlds the talk offers agree and disagree, with Say nothing and Leave as the player's way out. The old item words-opening-evening-talk-raises-what-the-president-said (pr #8736, Words lead) covered the engine; this item is the words alone.
+**Notes.** Nov 18 (Story): in five drawn worlds the talk offered agree and disagree only. The two asking replies (what it means here, what they would do instead) are offered only where `pointAnswerable` holds, and no housemate there had a work or money reason. The CTO's four moves (agree, disagree, ask, let it go) and the wider reasons are not built yet: director-address-point-four-replies-by-trait and director-address-point-reasons-lease-relative-story. The old item words-opening-evening-talk-raises-what-the-president-said (Words lead) covered the engine; this item is the words alone.

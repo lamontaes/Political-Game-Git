@@ -171709,10 +171709,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.we-re-done-talking-about-wanted-tonight",
+      "key": "scene-talk.reply-deflect.we-re-done-talking-about-wanted-for-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "We're done talking about {wanted} tonight.",
+      "text": "We're done talking about {wanted} for now.",
       "uses": [
         {
           "subject": "scene",

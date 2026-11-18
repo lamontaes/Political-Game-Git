@@ -37344,10 +37344,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-with.that-s-the-one-part-i-agreed-with",
+      "key": "conversation.address-point-core-with.that-s-the-one-part-of-president-possessive-speech-i-agreed-with",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "That's the one part I agreed with.",
+      "text": "That's the one part of {president-possessive} speech I agreed with.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -37463,10 +37463,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-against.that-s-the-part-i-can-t-go-along-with",
+      "key": "conversation.address-point-core-against.that-s-the-part-of-president-possessive-speech-i-can-t-go-along-with",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "That's the part I can't go along with.",
+      "text": "That's the part of {president-possessive} speech I can't go along with.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -37675,10 +37675,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-year-with.i-ve-seen-that-myself",
+      "key": "conversation.address-point-core-year-with.i-ve-seen-that-myself-right-here-in-place",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "I've seen that myself.",
+      "text": "I've seen that myself, right here in {place}.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -37723,10 +37723,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-year-against.that-s-not-how-it-looks-from-here",
+      "key": "conversation.address-point-core-year-against.that-s-not-how-it-looks-from-place",
       "move": "address-point-core-year-against",
       "kind": "spoken",
-      "text": "That's not how it looks from here.",
+      "text": "That's not how it looks from {place}.",
       "uses": [
         {
           "move": "address-point-core-year-against",
@@ -37747,10 +37747,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-year-against.not-around-here-it-isn-t",
+      "key": "conversation.address-point-core-year-against.not-in-place-it-isn-t",
       "move": "address-point-core-year-against",
       "kind": "spoken",
-      "text": "Not around here, it isn't.",
+      "text": "Not in {place}, it isn't.",
       "uses": [
         {
           "move": "address-point-core-year-against",
@@ -37795,10 +37795,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-year-unsure.maybe-i-can-t-say-i-ve-noticed-either-way",
+      "key": "conversation.address-point-core-year-unsure.maybe-i-can-t-say-i-ve-noticed-it-in-place-either-way",
       "move": "address-point-core-year-unsure",
       "kind": "spoken",
-      "text": "Maybe. I can't say I've noticed either way.",
+      "text": "Maybe. I can't say I've noticed it in {place} either way.",
       "uses": [
         {
           "move": "address-point-core-year-unsure",
@@ -37819,10 +37819,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-year-unsure.i-d-have-to-think-about-whether-that-s-true-for-us",
+      "key": "conversation.address-point-core-year-unsure.i-d-have-to-think-about-whether-that-s-true-in-place",
       "move": "address-point-core-year-unsure",
       "kind": "spoken",
-      "text": "I'd have to think about whether that's true for us.",
+      "text": "I'd have to think about whether that's true in {place}.",
       "uses": [
         {
           "move": "address-point-core-year-unsure",
@@ -38864,10 +38864,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-agree.good-then-it-s-not-just-me",
+      "key": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "Good. Then it's not just me.",
+      "text": "Good. Then it's not just me, {you}.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -38888,10 +38888,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-agree.that-s-two-of-us-then",
+      "key": "conversation.address-point-back-agree.that-s-two-of-us-in-place-then",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "That's two of us, then.",
+      "text": "That's two of us in {place}, then.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -38912,10 +38912,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-agree.good-i-thought-i-was-imagining-it",
+      "key": "conversation.address-point-back-agree.good-i-thought-it-was-only-me-in-place",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "Good. I thought I was imagining it.",
+      "text": "Good. I thought it was only me in {place}.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -39032,10 +39032,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-disagree.you-ll-come-around-or-i-will",
+      "key": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "You'll come around. Or I will.",
+      "text": "You'll come around, {you}. Or I will.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -39056,10 +39056,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-disagree.maybe-you-re-right-it-s-just-how-it-looks-from-here",
+      "key": "conversation.address-point-back-disagree.maybe-you-re-right-you-it-s-just-how-it-looks-from-here",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Maybe you're right. It's just how it looks from here.",
+      "text": "Maybe you're right, {you}. It's just how it looks from here.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -39248,10 +39248,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.i-d-stop-pretending-it-s-fine-for-a-start",
+      "key": "conversation.address-point-back-instead.i-d-stop-pretending-place-is-fine-for-a-start",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I'd stop pretending it's fine, for a start.",
+      "text": "I'd stop pretending {place} is fine, for a start.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39272,10 +39272,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.say-it-straight-for-one-thing",
+      "key": "conversation.address-point-back-instead.i-d-have-president-object-say-it-straight-for-one-thing",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Say it straight, for one thing.",
+      "text": "I'd have {president-object} say it straight, for one thing.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39344,10 +39344,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.i-d-leave-about-alone-and-fix-something-that-s-broken",
+      "key": "conversation.address-point-back-instead.i-d-leave-it-alone-and-fix-what-s-broken-in-place",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I'd leave {about} alone and fix something that's broken.",
+      "text": "I'd leave it alone and fix what's broken in {place}.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39368,10 +39368,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.anything-but-that",
+      "key": "conversation.address-point-back-instead.anything-but-what-president-wants",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Anything but that.",
+      "text": "Anything but what {president} wants.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39392,10 +39392,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.i-don-t-have-one-yet-that-s-the-honest-answer",
+      "key": "conversation.address-point-back-instead.i-don-t-have-an-answer-yet-you-that-s-the-honest-truth",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I don't have one yet. That's the honest answer.",
+      "text": "I don't have an answer yet, {you}. That's the honest truth.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39416,10 +39416,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.ask-me-when-i-ve-made-up-my-mind",
+      "key": "conversation.address-point-back-instead.ask-me-again-once-decider-has-voted",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Ask me when I've made up my mind.",
+      "text": "Ask me again once {decider} has voted.",
       "uses": [
         {
           "move": "address-point-back-instead",
