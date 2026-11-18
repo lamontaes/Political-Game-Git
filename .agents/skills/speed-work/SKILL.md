@@ -115,6 +115,8 @@ A change to anything that runs without the player watching (monthly engines, ski
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 17, 02:09Z (#9784): a per-day cost that grows with a bigger set is a hot spot even when the counts are right. Cause: work repeated every day on data that rarely changes. Do it once, or only on change, and post the before and after at the CI guard's place and seed.
+- Nov 17, 23:40Z (#9921): `paired-performance` read 1.306 on a pull request that had merged the train. Cause: CI measures main against the train plus the pull request. Measure the pull request alone with `node --import tsx scripts/core2-guard/paired.mjs --base <the train commit it merged> --head <its head> --output <a path outside the checkout>`; the place is drawn from the head commit.
+- Nov 17, 23:55Z (#9921): a monthly read over every adult and every question cost 5.2 s a month. Cause: per-question lookups, and a counted group's shared row read again for every member. Work out per-question values once, read a group's row once per group, and prove nothing changed by hashing the written rows before and after.
 
 ## More in this folder
 
