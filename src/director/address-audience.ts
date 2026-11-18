@@ -29,6 +29,7 @@ import airing from "../core2/data/opening/address-airing.json" with { type: "jso
 import { isDemoted } from "../core2/counted-groups";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { atWork } from "../core2/modules/campaigns";
+import { heardOnAir } from "../core2/modules/news";
 import { habitOf } from "../core2/modules/press";
 import { P } from "../core2/parameters";
 import { registerWorldMapPart } from "../core2/snapshot";
@@ -235,24 +236,26 @@ export function watchedAtFillIn(
         return best === null || score > best ? score : best;
       }, null);
     if (lead === null || lead < row.cut) continue;
-    for (const person of home) {
-      if (
-        core.knowledgeByPerson
+    const watched = home.filter(
+      (person) =>
+        !core.knowledgeByPerson
           .get(person.id)
-          ?.has(`event:${row.eventId}:experienced`)
-      )
-        continue;
-      for (const [key, value] of [
-        [`event:${row.eventId}:experienced`, row.eventId],
-        ...Object.entries(record.facts ?? {}),
-      ] as const)
-        api.observe(person.id, {
-          key,
-          value: String(value),
-          learnedAt: row.date as never,
-          sourceId: row.eventId,
-          access: "perceived",
-        });
-    }
+          ?.has(`event:${row.eventId}:experienced`),
+    );
+    for (const person of watched)
+      api.observe(person.id, {
+        key: `event:${row.eventId}:experienced`,
+        value: row.eventId,
+        learnedAt: row.date as never,
+        sourceId: row.eventId,
+        access: "perceived",
+      });
+    // The address's facts, and the story they can pass on at their contacts.
+    heardOnAir(
+      api,
+      record,
+      watched.map((person) => person.id),
+      row.date,
+    );
   }
 }

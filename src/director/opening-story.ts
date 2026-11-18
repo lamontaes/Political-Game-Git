@@ -26,6 +26,7 @@
  */
 import { addressAiring } from "./address-airing";
 import { addressAudience, keepAddressAudience } from "./address-audience";
+import { heardOnAir } from "../core2/modules/news";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
@@ -930,6 +931,9 @@ export function recordOpeningStory(
       ),
     },
   });
+  // Each who watched it holds it as a story to pass on at their contacts.
+  const record = core.durableLog.get(story.id);
+  if (record) heardOnAir(coreAPI(core), record, audience.watcherIds);
   keepAddressAudience(core, story.id, placeId, audience);
   return story;
 }

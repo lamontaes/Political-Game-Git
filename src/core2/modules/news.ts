@@ -423,14 +423,27 @@ function hear(
     sourceId,
     access,
   });
-  api.observe(personId, {
-    key: `${key}:outlet`,
-    value: story.outletId,
-    learnedAt: on,
-    sourceId,
-    access,
-  });
-  for (const [factKey, value] of Object.entries(story.facts))
+  // A record seen on the air came from no outlet (heardOnAir).
+  if (story.outletId)
+    api.observe(personId, {
+      key: `${key}:outlet`,
+      value: story.outletId,
+      learnedAt: on,
+      sourceId,
+      access,
+    });
+  for (const [factKey, value] of Object.entries(story.facts)) {
+    // What a person saw for themselves stays how they know it: a story or a
+    // telling of the same fact later does not replace it (someone who
+    // watched the President's address still watched it when the paper
+    // prints it, and a talk can say so).
+    const held = api.knows(personId, factKey);
+    if (
+      held?.access === "perceived" &&
+      held.value === value &&
+      held.sourceId !== sourceId
+    )
+      continue;
     api.observe(personId, {
       key: factKey,
       value,
@@ -438,6 +451,7 @@ function hear(
       sourceId,
       access,
     });
+  }
   for (const key of Object.keys(story.facts)) {
     const measure = measureOfFactKey(key);
     const row = `${story.placeId}:${measure}`;
@@ -578,6 +592,43 @@ export function printStory(
     return 0;
   stories(api).put(story as unknown as { id: string });
   return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
+}
+
+/**
+ * A public record people saw for themselves as it aired (the President's
+ * address, watched live: src/director/address-audience.ts). Where the press
+ * runs, its reporters decide what is printed, so the record is no outlet's
+ * story and nobody is delivered it; but the people who watched it hold it as
+ * a story of their own, passed on at their real contacts by the one telling
+ * rule (`onRelationshipChange`), as anyone passes on what they heard. Each
+ * hears it on `on`, the day it aired. In a world without the press the
+ * record is already everyone's story (`onEvent`) and this adds nobody twice.
+ */
+export function heardOnAir(
+  api: CoreAPI,
+  record: Readonly<
+    Pick<CoreEventInput, "id" | "kind" | "date" | "placeId" | "facts">
+  >,
+  personIds: readonly PersonId[],
+  on: string = api.state.date,
+): void {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return;
+  let story = stories(api).get(record.id) as unknown as Story | undefined;
+  if (!story) {
+    story = {
+      id: record.id,
+      kind: record.kind,
+      // Seen on the air, not carried by one of the town's outlets.
+      outletId: "",
+      date: record.date,
+      placeId: record.placeId,
+      facts: record.facts ?? {},
+    };
+    stories(api).put(story as unknown as { id: string });
+  }
+  for (const id of personIds)
+    if (api.state.people.has(id))
+      hear(api, id, story, "perceived", record.id, on);
 }
 
 /**
@@ -817,11 +868,31 @@ export function createNewsModule(
             (!story.desiredChange && !story.facts.lawId && !reportsBribe))
         )
           continue;
+        // A reader who saw the record itself (the President's address,
+        // watched live) holds its facts first-hand; a national story that
+        // argues no change adds them nothing to bring up, so their reading is
+        // not recorded as how they know it and they keep having seen it.
+        const record = story.facts.sourceRecordId;
+        const sawIt = (id: PersonId) =>
+          !!record &&
+          Object.entries(story.facts).some(([key, value]) => {
+            const held = api.knows(id, key);
+            return (
+              held?.access === "perceived" &&
+              held.value === value &&
+              held.sourceId === record
+            );
+          });
+        const readers =
+          national && !story.desiredChange
+            ? alive.filter((id) => !sawIt(id))
+            : alive;
+        if (!readers.length) continue;
         const event = read(
           `${NEWS_READ}:${story.id}:${api.state.date}`,
           story.topic,
           story.desiredChange,
-          alive,
+          readers,
           story.facts,
         );
         if (story.desiredChange)
