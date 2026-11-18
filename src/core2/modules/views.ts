@@ -21,12 +21,31 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { isDemoted } from "../counted-groups";
+import {
+  hasStake,
+  LIFE_EVENT_KINDS,
+  questionsReading,
+  stakeShift,
+} from "../life-stake-rule";
+import {
+  countedLifeStake,
+  forgetLife,
+  fullLifeStake,
+  lifeChangesOf,
+  lifeReadPeople,
+} from "../life-stakes";
+
+// Screens read a full person's circumstances through the views engine.
+export { fullLifeStake };
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
+  groupStance,
+  personLean,
   personStance,
+  popularity,
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
@@ -51,6 +70,10 @@ import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
 import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
+import {
+  liveCountedCrime,
+  type CountedCrimeTally,
+} from "../counted-news-views";
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -630,6 +653,8 @@ export function setPastViewShifts(
   personId: PersonId,
   shifts: readonly PastShift[],
 ): void {
+  // A view forms only where the views module keeps it (a small world may run without it).
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
   const held = viewOf(api, personId);
   if (!held) return;
   if (JSON.stringify(held.pastShifts ?? []) === JSON.stringify(shifts)) return;
@@ -874,10 +899,34 @@ export function openingRecord(
 }
 
 /**
- * The person's opening stance on a question: where their lean puts them on its
- * axis, plus their stored opening record (what their faith and degree add
- * beyond the lean, CES 2020 loadings). A question the survey has no item for
- * takes the lean alone.
+ * The person's own stance on a question before what they have heard and
+ * before the country's view of it: where their lean puts them on its axis,
+ * plus their stored opening record (what their faith and degree add beyond
+ * the lean, CES 2020 loadings), plus what their own circumstances add today
+ * (`lifeShift`). A candidate's platform stands here (`StanceReader` in
+ * `src/core2/campaign-stances.ts`): a platform answers to the candidate's
+ * party, record and own life, not to national polls, so rivals of opposite
+ * parties stay apart on the questions most people favor.
+ */
+export function ownOpeningStance(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+  lean: number,
+): number {
+  return (
+    personStance(lean, question) +
+    (openingRecord(api, personId, question)?.total ?? v("zero")) +
+    lifeShift(api, personId, question)
+  );
+}
+
+/**
+ * The person's view of a question before what they have heard: their own
+ * opening (`ownOpeningStance`) plus how popular the question is across their
+ * world's country (`popularity`, the term a counted voter's stance carries
+ * too), so a voter in a race, on a ballot measure and in a poll holds one
+ * view.
  */
 export function openingStance(
   api: CoreAPI,
@@ -886,15 +935,34 @@ export function openingStance(
   lean: number,
 ): number {
   return (
-    personStance(lean, question) +
-    (openingRecord(api, personId, question)?.total ?? v("zero"))
+    ownOpeningStance(api, personId, question, lean) +
+    popularity(question, api.state.seed)
   );
+}
+
+/**
+ * What a full person's own circumstances add to their stance on a question
+ * today (`src/core2/life-stakes.ts`): read from their records each day, so the stance
+ * moves when their life does. Zero for a question no recorded circumstance
+ * bears on.
+ */
+export function lifeShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  if (!hasStake(question)) return v("zero");
+  const person = api.state.people.get(personId);
+  return person
+    ? stakeShift(fullLifeStake(api.state as CoreState, person), question)
+    : v("zero");
 }
 
 /**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
- * question's axis, plus how far what they have heard since has moved them.
+ * question's axis, what their faith, degree and own circumstances add
+ * (`openingStance`), plus how far what they have heard since has moved them.
  */
 export function viewOn(
   api: CoreAPI,
@@ -927,11 +995,63 @@ export function countedStanceProfile(
 ): StanceProfile {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
-  const kept = held.get(voter.id);
-  if (kept) return kept;
-  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
-  held.set(voter.id, out);
-  return out;
+  let kept = held.get(voter.id);
+  if (!kept) {
+    kept = {
+      ...profileFromAverage(voter, api.state.startedAt, api.state.seed),
+      seed: api.state.seed,
+    };
+    held.set(voter.id, kept);
+  }
+  // Their circumstances are read again as their household's record changes.
+  const life = countedLifeStake(api.state as CoreState, voter.id);
+  return life ? { ...kept, life } : kept;
+}
+
+/**
+ * A counted resident's view of one question, -1 to 1: the same read a full
+ * person's view is made from (their lean on the town's scale, the question's
+ * popularity, their life's stake), without making them a full person (one
+ * model, two tiers). `town` is the town's own lean.
+ */
+export function countedViewOn(
+  api: CoreAPI,
+  voter: Pick<
+    PersonState,
+    "id" | "traits" | "householdId" | "birthDate" | "placeId"
+  >,
+  question: string,
+  town: number,
+): number {
+  return groupStance(
+    personLean(api.state.people, voter, town),
+    question,
+    countedStanceProfile(api, voter),
+  );
+}
+
+/**
+ * A counted group's view of one question, -1 to 1, read as a full person's
+ * `viewOn` is: where the group's mean lean puts it on the question's axis,
+ * the question's popularity, and how far what the group has heard or lived
+ * since has moved it (`heard`, its row in countedStances).
+ */
+export function countedGroupViewOn(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+  heard: Stance | undefined,
+): number {
+  return Math.max(
+    -v("one"),
+    Math.min(
+      v("one"),
+      personStance(lean, question) +
+        popularity(question, api.state.seed) +
+        v("stanceViewWeight") *
+          (heard ? direction(heard.desiredChange) * heard.strength : v("zero")),
+    ),
+  );
 }
 
 /**
@@ -1100,6 +1220,65 @@ export function stanceAfterCase(
   };
 }
 
+/**
+ * Tell a full person's stance that their life changed: each question a
+ * changed circumstance bears on moved for them today, so the engines that act
+ * on the day a stance moves (`stance-listeners`) act on it.
+ */
+function tellLifeChange(api: CoreAPI, personId: PersonId): void {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  if (!person || !person.alive || isDemoted(person)) {
+    forgetLife(core, personId);
+    return;
+  }
+  if (!viewOf(api, personId)) return;
+  for (const question of questionsReading(lifeChangesOf(core, person)))
+    stanceMoved(api, personId, question);
+}
+
+/** A life event names its people; a birth or a home bought or lost changes their whole household's circumstances. */
+function tellLifeEvent(api: CoreAPI, event: CoreEventInput): void {
+  const core = api.state as CoreState;
+  const told = new Set<PersonId>();
+  for (const id of event.personIds) {
+    const person = core.people.get(id);
+    for (const member of core.households.get(person?.householdId ?? "")
+      ?.memberIds ?? [id])
+      told.add(member as PersonId);
+  }
+  for (const id of told) tellLifeChange(api, id);
+}
+
+const LIFE_REVIEW = "views-life-review";
+const reviewing = new WeakSet<CoreState>();
+
+/** The first of next month, when everyone whose circumstances were read is read again. */
+function scheduleLifeReview(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const next =
+    addDays(
+      makeIsoDate(`${core.date.slice(0, "YYYY-MM".length)}-01`),
+      32,
+    ).slice(0, "YYYY-MM".length) + "-01";
+  const calendar = api.moduleCalendar(VIEWS_MODULE_ID);
+  const key = `life-review:${next}`;
+  reviewing.add(core);
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date: next,
+    kind: LIFE_REVIEW,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation:
+        "The views engine reads again, each month, the circumstances of every full person it has read (src/core2/data/views/stakes.json, lifeEvents).",
+    },
+    sourceRecordIds: ["views:life-stakes"],
+  });
+}
+
 export const viewsModule: CoreModule = {
   id: VIEWS_MODULE_ID,
   state: {
@@ -1122,8 +1301,16 @@ export const viewsModule: CoreModule = {
       },
     },
   },
+  onCalendarWork(api, work) {
+    if (work.kind !== LIFE_REVIEW) return;
+    for (const id of lifeReadPeople(api.state as CoreState))
+      tellLifeChange(api, id as PersonId);
+    scheduleLifeReview(api);
+  },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
+    if (!reviewing.has(api.state as CoreState)) scheduleLifeReview(api);
+    if (LIFE_EVENT_KINDS.has(event.kind)) tellLifeEvent(api, event);
     // Only an event with a topic and a wanted change carries a stance, or a
     // condition someone lives (their household burglarized): that argues no
     // change, so each person it happened to takes it as a reason for the
@@ -1151,7 +1338,8 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       let desiredChange = event.desiredChange;
       if (lived) {
-        // stopgapId: SG-PEOPLE-counted-victims-lived-crime (a counted group's victimizations are a tally row; its view on the police does not move)
+        // A counted group lives its victimizations through its tally row
+        // (`liveCountedCrime` in src/core2/counted-news-views.ts).
         if (!event.personIds.includes(personId)) continue;
         const current = viewOn(api, personId, lived, view.lean);
         if (current === v("zero")) continue;
@@ -1225,3 +1413,17 @@ export {
   hearCountedNews,
   type CountedNewsAudience,
 } from "../counted-news-views";
+
+/**
+ * A counted group lives the victimizations the crime engine tallied for it
+ * (`liveCountedCrime` in src/core2/counted-news-views.ts), on the question
+ * the full victim's record of that kind ties to.
+ */
+export function liveCountedCrimeTally(
+  api: CoreAPI,
+  eventKind: string,
+  tally: Omit<CountedCrimeTally, "question">,
+): void {
+  const question = livedQuestion(eventKind);
+  if (question) liveCountedCrime(api, { ...tally, question });
+}

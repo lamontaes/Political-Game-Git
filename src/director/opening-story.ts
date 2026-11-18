@@ -24,6 +24,7 @@
  *   carries it to the town and anyone who hears it can bring it up; the whole
  *   opening is kept on the director's ledger for the screens.
  */
+import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
@@ -896,6 +897,9 @@ export function recordOpeningStory(
       [ADDRESS_FACT.president]: story.president.id,
       [ADDRESS_FACT.speaker]: story.president.id,
       [ADDRESS_FACT.kind]: story.speechKind,
+      [ADDRESS_FACT.airsAtMinute]: String(
+        addressAiring(core, core.people.get(playerId)!.placeId).minuteOfDay,
+      ),
       [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.opening]: story.address.openingLine.text,
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,

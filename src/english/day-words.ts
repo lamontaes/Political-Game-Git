@@ -36,19 +36,19 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
-}
-
-/** What is left of the day as a line looking ahead says it ("later", "tomorrow"), by the telling's `dayLeft`. */
-export function dayAheadSaid(
-  left: "later" | "tomorrow" | undefined,
-): string | undefined {
-  return left
-    ? (data.ahead as Readonly<Record<string, string>>)[left]
-    : undefined;
+/**
+ * The day as the opening's landing names it, after "It's": "the evening of
+ * January 20", "late on January 20" (the date with no ordinal; Words lead,
+ * Nov 14), the part by the minute the player lands.
+ */
+export function dayLanding(iso: string, minuteOfDay: number): string {
+  const rows = data.landing.parts;
+  const part =
+    rows.find(
+      (row) => row.upToMinute === null || minuteOfDay < row.upToMinute,
+    ) ?? rows[rows.length - 1]!;
+  const month = data.months[Number(iso.slice(5, 7)) - 1] ?? iso;
+  return part.said.replace("{date}", `${month} ${Number(iso.slice(8, 10))}`);
 }
 
 /**
@@ -88,6 +88,21 @@ export function daySince(recordIso: string, playIso: string): string | null {
 }
 
 /**
+ * The month a record began, said after "since" ("since March", "since last
+ * March", "since March 2023"); never a date.
+ */
+export function sinceMonthSaid(recordIso: string, playIso: string): string {
+  const month = data.months[Number(recordIso.slice(5, 7)) - 1]!;
+  const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
+  if (years <= 0) return month;
+  return (
+    years === 1 ? data.sinceOtherYear.lastYear : data.sinceOtherYear.earlier
+  )
+    .replace("{month}", month)
+    .replace("{year}", recordIso.slice(0, 4));
+}
+
+/**
  * A later day said from the day a scene plays: its weekday within the next
  * six days ("Friday"), else its date ("June 7th"). Null on the same day or
  * an earlier one, so a promise never names a day already here (Fable A, Nov
@@ -106,6 +121,29 @@ export function dayAhead(targetIso: string, playIso: string): string | null {
         new Date(`${targetIso.slice(0, 10)}T00:00:00Z`).getUTCDay()
       ]!
     : dateSaid(targetIso);
+}
+
+/**
+ * A day ahead as said when asking someone along: "tonight" or "today" on the
+ * same day, "tomorrow night" or "tomorrow" on the next (night when the thing
+ * starts in the evening), else "on" and `dayAhead`'s day. Null for a day
+ * already past.
+ */
+export function dayAheadSaid(
+  targetIso: string,
+  playIso: string,
+  evening: boolean,
+): string | null {
+  const day = targetIso.slice(0, 10);
+  const today = playIso.slice(0, 10);
+  if (day === today) return evening ? data.ahead.tonight : data.ahead.today;
+  const next = new Date(Date.parse(`${today}T00:00:00Z`) + 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  if (day === next)
+    return evening ? data.ahead.tomorrowNight : data.ahead.tomorrow;
+  const on = dayAhead(day, today);
+  return on ? data.ahead.on.replace("{day}", on) : null;
 }
 
 /** Whether a later day falls in the calendar month after the day a scene plays. */

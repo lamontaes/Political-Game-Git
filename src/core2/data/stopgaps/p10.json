@@ -42,18 +42,6 @@
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
-    "id": "SG-P10-drive-acts",
-    "kind": "estimated-behavior",
-    "file": "src/core2/data/drives.json",
-    "line": 526,
-    "whatItFakes": "Drive acts (tell someone, join, donate, volunteer, confront, seek standing) with prototype durations and consequences; outcomes beyond money, membership and relationships are not modeled.",
-    "why": "Drives must move people, money and relationships inside the core; full group and civic procedures do not exist yet.",
-    "addedBy": "OPUS-DRIVES",
-    "addedAt": "2026-10-09",
-    "replacement": "Researched Oct 24, 2026: the volunteer act's hours are SOURCED from the American Time Use Survey 2025, Table 1 (BLS): volunteerHours 2.18 hours per participant-day, data/research/people/atus-2025-volunteering.json, read by the volunteer-for-cause act in src/core2/data/drives.json; civic acts already read civicHours from the same row. ATUS has no category for telling someone about a cause, making a donation or a confrontation, so driveShareHours, donateHours and driveConfrontHours stay prototype. The group and civic procedures are people-stopgap-drives-missing-mechanic and people-stopgap-drives-cause-group-spending. Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
-    "status": "open"
-  },
-  {
     "id": "SG-P10-cause-group-founding",
     "kind": "missing-mechanic",
     "file": "src/core2/data/drives.json",

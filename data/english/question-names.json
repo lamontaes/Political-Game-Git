@@ -1,12 +1,13 @@
 {
   "schema": "english-question-names/1",
-  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, written by scripts/words/question-sides.ts: `for` is what a supporter wants done and `against` what an opponent will keep off the books (\"keep higher tariffs off the books\"), and `repeal` what they will undo; both read after \"I want to\" and \"I will\". `today` says how the question stands now, as each side describes it: `without.for` and `without.against` while no law answers it yes, `with.for` and `with.against` once one does. `family` and `pole` type the belief a speaker gives (speech-outline.ts); `number` is `one` or `many`, for the verbs that agree with `about`; `figures` names the measures that bear on the question and the side each helps. `points` groups the wordings of a question that make the same claim, by a short tag (its reason for a side, the today wordings and the bank's belief clauses that restate it): a speech's planner never says two of one group in one paragraph (src/director/speech-outline.ts). A wording in no group makes a claim of its own.",
+  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, edited here as data: `for` is what a supporter wants done and `against` what an opponent will keep off the books (\"keep higher tariffs off the books\"), and `repeal` what they will undo; both read after \"I want to\" and \"I will\". `today` says how the question stands now, as each side describes it: `without.for` and `without.against` while no law answers it yes, `with.for` and `with.against` once one does. `family` and `pole` type the belief a speaker gives (speech-outline.ts); `number` is `one` or `many`, for the verbs that agree with `about`; `figures` names the measures that bear on the question and the side each helps. `points` groups the wordings of a question that make the same claim, by a short tag (its reason for a side, the today wordings and the bank's belief clauses that restate it): a speech's planner never says two of one group in one paragraph (src/director/speech-outline.ts). A wording in no group makes a claim of its own.",
   "origin": "authored",
   "author": "Claude Code, pool session",
   "date": "2026-10-16",
   "names": {
     "us-policy-positions:transportation-infrastructure.fare-free-transit": {
       "about": "free fares on public transit",
+      "said": "bus fares",
       "to": "make public transit free to ride",
       "for": "make public transit free to ride",
       "against": "say no to free fares on public transit",
@@ -61,6 +62,7 @@
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
       "about": "a mileage fee in place of the fuel tax",
+      "said": "the gas tax",
       "to": "replace the fuel tax with a mileage fee",
       "for": "replace the fuel tax with a mileage fee",
       "against": "say no to a mileage fee in place of the fuel tax",
@@ -120,6 +122,7 @@
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
       "about": "public broadband",
+      "said": "internet service",
       "to": "build public broadband",
       "for": "build public broadband",
       "against": "say no to public broadband",
@@ -174,6 +177,7 @@
     },
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "about": "shifting highway money to transit",
+      "said": "roads and buses",
       "to": "shift highway money to transit",
       "for": "shift highway money to transit",
       "against": "say no to shifting highway money to transit",
@@ -233,6 +237,7 @@
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
       "about": "expanding Medicaid",
+      "said": "Medicaid",
       "to": "expand Medicaid eligibility",
       "for": "expand Medicaid eligibility",
       "against": "say no to expanding Medicaid",
@@ -292,6 +297,7 @@
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
       "about": "a work requirement for Medicaid",
+      "said": "work rules for Medicaid",
       "to": "require work for Medicaid",
       "for": "require work for Medicaid",
       "against": "say no to a work requirement for Medicaid",
@@ -351,6 +357,7 @@
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "about": "a work requirement for assistance",
+      "said": "work rules for assistance",
       "to": "require work for cash assistance",
       "for": "require work for cash assistance",
       "against": "say no to a work requirement for assistance",
@@ -405,6 +412,7 @@
     },
     "us-policy-positions:education.universal-preschool": {
       "about": "universal preschool",
+      "said": "preschool",
       "to": "offer preschool to every child",
       "for": "offer preschool to every child",
       "against": "say no to universal preschool",
@@ -464,6 +472,7 @@
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
       "about": "public money for private schools",
+      "said": "private school money",
       "to": "pay for private schooling with public money",
       "for": "pay for private schooling with public money",
       "against": "say no to public money for private schools",
@@ -523,6 +532,7 @@
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "about": "a higher minimum salary for teachers",
+      "said": "teacher pay",
       "to": "raise the minimum teacher salary",
       "for": "raise the minimum teacher salary",
       "against": "say no to a higher minimum salary for teachers",
@@ -582,6 +592,7 @@
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
       "about": "an income tax",
+      "said": "an income tax",
       "to": "adopt an income tax",
       "for": "adopt an income tax",
       "against": "say no to an income tax",
@@ -636,6 +647,7 @@
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
       "about": "a cap on property tax growth",
+      "said": "property taxes",
       "to": "cap how fast property taxes can grow",
       "for": "cap how fast property taxes can grow",
       "against": "say no to a cap on property tax growth",
@@ -690,6 +702,7 @@
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "about": "taking the sales tax off groceries",
+      "said": "the tax on groceries",
       "to": "exempt groceries from the sales tax",
       "for": "exempt groceries from the sales tax",
       "against": "say no to taking the sales tax off groceries",
@@ -749,6 +762,7 @@
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
       "about": "a graduated income tax",
+      "said": "income taxes",
       "to": "tax higher incomes at higher rates",
       "for": "tax higher incomes at higher rates",
       "against": "say no to a graduated income tax",
@@ -803,6 +817,7 @@
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "about": "a balanced operating budget",
+      "said": "the budget",
       "to": "require a balanced operating budget",
       "for": "require a balanced operating budget",
       "against": "say no to a balanced operating budget",
@@ -857,6 +872,7 @@
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
       "about": "funding pensions on schedule",
+      "said": "the pensions",
       "to": "fund public pensions on schedule",
       "for": "fund public pensions on schedule",
       "against": "say no to funding pensions on schedule",
@@ -911,6 +927,7 @@
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
       "about": "a minimum reserve balance",
+      "said": "the rainy-day fund",
       "to": "require a minimum reserve balance",
       "for": "require a minimum reserve balance",
       "against": "say no to a minimum reserve balance",
@@ -965,6 +982,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "about": "apartments in single-family neighborhoods",
+      "said": "apartments in our neighborhoods",
       "to": "allow apartments in single-family zones",
       "for": "allow apartments in single-family zones",
       "against": "say no to apartments in single-family neighborhoods",
@@ -1024,6 +1042,7 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "about": "an affordable-housing requirement for new buildings",
+      "said": "affordable housing",
       "to": "require affordable units in new buildings",
       "for": "require affordable units in new buildings",
       "against": "say no to an affordable-housing requirement for new buildings",
@@ -1083,6 +1102,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "about": "rent stabilization",
+      "said": "rents",
       "to": "limit how much rents can rise",
       "for": "limit how much rents can rise",
       "against": "say no to rent stabilization",
@@ -1142,6 +1162,7 @@
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "about": "a lawyer for tenants facing eviction",
+      "said": "evictions",
       "to": "guarantee tenants a lawyer in eviction cases",
       "for": "guarantee tenants a lawyer in eviction cases",
       "against": "say no to a lawyer for tenants facing eviction",
@@ -1201,6 +1222,7 @@
     },
     "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
       "about": "a higher federal minimum wage",
+      "said": "the minimum wage",
       "to": "raise the federal minimum wage",
       "for": "raise the federal minimum wage",
       "against": "say no to a higher federal minimum wage",
@@ -1264,6 +1286,7 @@
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "about": "letting cities set their own minimum wage",
+      "said": "who sets the minimum wage",
       "to": "let cities set their own minimum wage",
       "for": "let cities set their own minimum wage",
       "against": "say no to letting cities set their own minimum wage",
@@ -1318,6 +1341,7 @@
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "about": "a higher minimum wage",
+      "said": "the minimum wage",
       "to": "raise the minimum wage",
       "for": "raise the minimum wage",
       "against": "say no to a higher minimum wage",
@@ -1381,6 +1405,7 @@
     },
     "us-policy-positions:labor-workforce.paid-family-leave": {
       "about": "paid family leave",
+      "said": "family leave",
       "to": "give workers paid family leave",
       "for": "give workers paid family leave",
       "against": "say no to paid family leave",
@@ -1435,6 +1460,7 @@
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "about": "collective bargaining for public workers",
+      "said": "public workers' unions",
       "to": "let public workers bargain collectively",
       "for": "let public workers bargain collectively",
       "against": "say no to collective bargaining for public workers",
@@ -1489,6 +1515,7 @@
     },
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "about": "asking about criminal records on state job applications",
+      "said": "hiring people with records",
       "to": "bar state agencies from asking about criminal records on job applications",
       "for": "bar state agencies from asking about criminal records on job applications",
       "against": "say no to asking about criminal records on state job applications",
@@ -1555,6 +1582,7 @@
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "about": "right-to-work rules",
+      "said": "right-to-work",
       "to": "ban required union dues",
       "for": "ban required union dues",
       "against": "say no to right-to-work rules",
@@ -1609,6 +1637,7 @@
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "about": "legal cannabis sales",
+      "said": "marijuana",
       "to": "legalize cannabis sales",
       "for": "legalize cannabis sales",
       "against": "say no to legal cannabis sales",
@@ -1663,6 +1692,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "about": "a cap on consumer loan rates",
+      "said": "payday loans",
       "to": "cap interest rates on consumer loans",
       "for": "cap interest rates on consumer loans",
       "against": "say no to a cap on consumer loan rates",
@@ -1717,6 +1747,7 @@
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
       "about": "banning new gas hookups",
+      "said": "gas hookups",
       "to": "ban new gas hookups",
       "for": "ban new gas hookups",
       "against": "say no to banning new gas hookups",
@@ -1776,6 +1807,7 @@
     },
     "us-policy-positions:environment-energy.allow-retail-electric-choice": {
       "about": "letting customers pick their electricity supplier",
+      "said": "the electric company",
       "to": "let customers pick their electricity supplier",
       "for": "let customers pick their electricity supplier",
       "against": "say no to letting customers pick their electricity supplier",
@@ -1830,6 +1862,7 @@
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "about": "a clean electricity standard",
+      "said": "clean power",
       "to": "require utilities to supply clean electricity",
       "for": "require utilities to supply clean electricity",
       "against": "say no to a clean electricity standard",
@@ -1889,6 +1922,7 @@
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
       "about": "a clean air plan for polluted counties",
+      "said": "the air",
       "to": "require a clean air plan in polluted counties",
       "for": "require a clean air plan in polluted counties",
       "against": "say no to a clean air plan for polluted counties",
@@ -1942,12 +1976,13 @@
       },
       "reasons": {
         "for": "nobody should have to breathe dirty air",
-        "against": "each county can look after its own air"
+        "against": "each county can take care of its own air"
       },
       "again": "the plan"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
       "about": "a bottle deposit",
+      "said": "the bottle deposit",
       "to": "charge a deposit on bottles",
       "for": "charge a deposit on bottles",
       "against": "say no to a bottle deposit",
@@ -2007,6 +2042,7 @@
     },
     "us-policy-positions:environment-energy.price-carbon": {
       "about": "a price on carbon",
+      "said": "a carbon tax",
       "to": "put a price on carbon",
       "for": "put a price on carbon",
       "against": "say no to a price on carbon",
@@ -2070,6 +2106,7 @@
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
       "about": "civilian oversight of the police",
+      "said": "the police",
       "to": "give civilians oversight of the police",
       "for": "give civilians oversight of the police",
       "against": "say no to civilian oversight of the police",
@@ -2143,6 +2180,7 @@
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "about": "working with federal immigration enforcement",
+      "said": "immigration enforcement",
       "to": "partner with federal immigration enforcement",
       "for": "partner with federal immigration enforcement",
       "against": "say no to working with federal immigration enforcement",
@@ -2202,6 +2240,7 @@
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
       "about": "ending cash bail",
+      "said": "bail",
       "to": "end cash bail",
       "for": "end cash bail",
       "against": "say no to ending cash bail",
@@ -2280,6 +2319,7 @@
     },
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
       "about": "restoring the vote after a sentence",
+      "said": "voting after prison",
       "to": "restore the vote once a sentence is served",
       "for": "restore the vote once a sentence is served",
       "against": "say no to restoring the vote after a sentence",
@@ -2348,6 +2388,7 @@
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
       "about": "a higher age for juvenile court",
+      "said": "juvenile court",
       "to": "raise the age for juvenile court",
       "for": "raise the age for juvenile court",
       "against": "say no to a higher age for juvenile court",
@@ -2414,6 +2455,7 @@
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "about": "child access prevention for guns",
+      "said": "kids and guns",
       "to": "require guns to be stored away from children",
       "for": "require guns to be stored away from children",
       "against": "say no to child access prevention for guns",
@@ -2468,6 +2510,7 @@
     },
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "about": "a permit to carry a concealed gun",
+      "said": "concealed carry",
       "to": "require a permit to carry a concealed gun",
       "for": "require a permit to carry a concealed gun",
       "against": "say no to a permit to carry a concealed gun",
@@ -2527,6 +2570,7 @@
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "about": "a higher age to buy a handgun",
+      "said": "the age to buy a handgun",
       "to": "raise the age to buy a handgun",
       "for": "raise the age to buy a handgun",
       "against": "say no to a higher age to buy a handgun",
@@ -2581,6 +2625,7 @@
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "about": "stand-your-ground rules",
+      "said": "stand-your-ground",
       "to": "remove the duty to retreat before using force",
       "for": "remove the duty to retreat before using force",
       "against": "say no to stand-your-ground rules",
@@ -2640,6 +2685,7 @@
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "about": "voting by mail for everyone",
+      "said": "voting by mail",
       "to": "send every voter a mail ballot",
       "for": "send every voter a mail ballot",
       "against": "say no to voting by mail for everyone",
@@ -2694,6 +2740,7 @@
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "about": "automatic voter registration",
+      "said": "voter registration",
       "to": "register eligible voters automatically",
       "for": "register eligible voters automatically",
       "against": "say no to automatic voter registration",
@@ -2748,6 +2795,7 @@
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "about": "independent redistricting",
+      "said": "the district lines",
       "to": "draw district lines with an independent commission",
       "for": "draw district lines with an independent commission",
       "against": "say no to independent redistricting",
@@ -2802,6 +2850,7 @@
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "about": "photo ID to vote",
+      "said": "voter ID",
       "to": "require photo ID to vote",
       "for": "require photo ID to vote",
       "against": "say no to photo ID to vote",
@@ -2856,6 +2905,7 @@
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "about": "same-day voter registration",
+      "said": "registering on election day",
       "to": "let people register and vote on the same day",
       "for": "let people register and vote on the same day",
       "against": "say no to same-day voter registration",
@@ -2910,6 +2960,7 @@
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "about": "a ban on lobbying after leaving office",
+      "said": "lobbying",
       "to": "bar former officials from lobbying",
       "for": "bar former officials from lobbying",
       "against": "say no to a ban on lobbying after leaving office",
@@ -2964,6 +3015,7 @@
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "about": "more local government power",
+      "said": "local control",
       "to": "give local governments more authority",
       "for": "give local governments more authority",
       "against": "say no to more local government power",
@@ -3018,6 +3070,7 @@
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "about": "term limits for legislators",
+      "said": "term limits",
       "to": "limit how long legislators can serve",
       "for": "limit how long legislators can serve",
       "against": "say no to term limits for legislators",
@@ -3072,6 +3125,7 @@
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "about": "a ban on discrimination in housing and work",
+      "said": "discrimination",
       "to": "ban discrimination in housing and at work",
       "for": "ban discrimination in housing and at work",
       "against": "say no to a ban on discrimination in housing and work",
@@ -3126,6 +3180,7 @@
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "about": "dedicated funding for parks",
+      "said": "the parks",
       "to": "set aside money for parks",
       "for": "set aside money for parks",
       "against": "say no to dedicated funding for parks",
@@ -3180,6 +3235,7 @@
     },
     "us-policy-positions:civil-family-community.restrict-abortion": {
       "about": "restricting abortion",
+      "said": "abortion",
       "to": "restrict abortion",
       "for": "restrict abortion",
       "against": "say no to restricting abortion",
@@ -3234,6 +3290,7 @@
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "about": "age checks for social media",
+      "said": "kids on social media",
       "to": "require age checks for social media accounts",
       "for": "require age checks for social media accounts",
       "against": "say no to age checks for social media",
@@ -3288,6 +3345,7 @@
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "about": "limits on government facial recognition",
+      "said": "face scanning",
       "to": "limit how government uses facial recognition",
       "for": "limit how government uses facial recognition",
       "against": "say no to limits on government facial recognition",
@@ -3357,6 +3415,7 @@
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
       "about": "a consumer data privacy law",
+      "said": "privacy",
       "to": "protect consumers' personal data",
       "for": "protect consumers' personal data",
       "against": "say no to a consumer data privacy law",
@@ -3411,6 +3470,7 @@
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
       "about": "limits on pumping groundwater",
+      "said": "the water",
       "to": "limit how much groundwater can be pumped",
       "for": "limit how much groundwater can be pumped",
       "against": "say no to limits on pumping groundwater",
@@ -3470,6 +3530,7 @@
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
       "about": "protecting farmland from development",
+      "said": "farmland",
       "to": "protect farmland from development",
       "for": "protect farmland from development",
       "against": "say no to protecting farmland from development",
@@ -3524,6 +3585,7 @@
     },
     "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
       "about": "raising the debt limit only with spending cuts to match",
+      "said": "the national debt",
       "to": "raise the debt limit only with spending cuts to match",
       "for": "raise the debt limit only with spending cuts to match",
       "against": "say no to raising the debt limit only with spending cuts to match",
@@ -3578,6 +3640,7 @@
     },
     "us-federal-positions:tax.raise-top-income-tax-rate": {
       "about": "a higher top income tax rate",
+      "said": "taxes on the rich",
       "to": "raise the top income tax rate",
       "for": "raise the top income tax rate",
       "against": "say no to a higher top income tax rate",
@@ -3632,6 +3695,7 @@
     },
     "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
       "about": "a cap on consumer loan interest",
+      "said": "interest rates on loans",
       "to": "cap the interest on consumer loans",
       "for": "cap the interest on consumer loans",
       "against": "say no to a cap on consumer loan interest",
@@ -3686,6 +3750,7 @@
     },
     "us-federal-positions:defense.grow-defense-spending": {
       "about": "more defense spending",
+      "said": "the military",
       "to": "grow defense spending",
       "for": "grow defense spending",
       "against": "say no to more defense spending",
@@ -3740,6 +3805,7 @@
     },
     "us-federal-positions:foreign-affairs.increase-foreign-aid": {
       "about": "more foreign aid",
+      "said": "foreign aid",
       "to": "increase foreign aid",
       "for": "increase foreign aid",
       "against": "say no to more foreign aid",
@@ -3794,6 +3860,7 @@
     },
     "us-federal-positions:trade.raise-tariffs": {
       "about": "higher tariffs",
+      "said": "tariffs",
       "to": "raise tariffs",
       "for": "raise tariffs",
       "against": "say no to higher tariffs",
@@ -3857,6 +3924,7 @@
     },
     "us-federal-positions:immigration.admit-more-immigrants": {
       "about": "admitting more immigrants",
+      "said": "immigration",
       "to": "admit more immigrants",
       "for": "admit more immigrants",
       "against": "say no to admitting more immigrants",
@@ -3911,6 +3979,7 @@
     },
     "us-federal-positions:health.medicare-drug-price-negotiation": {
       "about": "Medicare negotiating drug prices",
+      "said": "drug prices",
       "to": "let Medicare negotiate drug prices",
       "for": "let Medicare negotiate drug prices",
       "against": "say no to Medicare negotiating drug prices",
@@ -3970,6 +4039,7 @@
     },
     "us-federal-positions:social-insurance.raise-retirement-age": {
       "about": "a higher retirement age",
+      "said": "the retirement age",
       "to": "raise the retirement age",
       "for": "raise the retirement age",
       "against": "say no to a higher retirement age",
@@ -4024,6 +4094,7 @@
     },
     "us-federal-positions:education.forgive-student-loans": {
       "about": "forgiving student loans",
+      "said": "student loans",
       "to": "forgive student loans",
       "for": "forgive student loans",
       "against": "say no to forgiving student loans",
@@ -4078,6 +4149,7 @@
     },
     "us-federal-positions:housing.vouchers-for-every-eligible-family": {
       "about": "housing vouchers for every family that qualifies",
+      "said": "housing help",
       "to": "give a housing voucher to every family that qualifies",
       "for": "give a housing voucher to every family that qualifies",
       "against": "say no to housing vouchers for every family that qualifies",
@@ -4137,6 +4209,7 @@
     },
     "us-federal-positions:transport-water.expand-passenger-rail": {
       "about": "more passenger rail",
+      "said": "trains",
       "to": "expand passenger rail",
       "for": "expand passenger rail",
       "against": "say no to more passenger rail",
@@ -4191,6 +4264,7 @@
     },
     "us-federal-positions:energy-environment.limit-power-plant-carbon": {
       "about": "limits on power plant carbon",
+      "said": "power plants",
       "to": "limit carbon from power plants",
       "for": "limit carbon from power plants",
       "against": "say no to limits on power plant carbon",
@@ -4250,6 +4324,7 @@
     },
     "us-federal-positions:agriculture.cut-farm-subsidies": {
       "about": "cutting farm subsidies",
+      "said": "farm subsidies",
       "to": "cut farm subsidies",
       "for": "cut farm subsidies",
       "against": "say no to cutting farm subsidies",
@@ -4304,6 +4379,7 @@
     },
     "us-federal-positions:emergencies.states-share-disaster-costs": {
       "about": "states sharing disaster costs",
+      "said": "disaster money",
       "to": "have the states share more of disaster costs",
       "for": "have the states share more of disaster costs",
       "against": "say no to states sharing disaster costs",
@@ -4358,6 +4434,7 @@
     },
     "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
       "about": "shorter mandatory minimum sentences",
+      "said": "prison sentences",
       "to": "reduce mandatory minimum sentences",
       "for": "reduce mandatory minimum sentences",
       "against": "say no to shorter mandatory minimum sentences",
@@ -4425,6 +4502,7 @@
     },
     "us-federal-positions:government.ban-congressional-stock-trading": {
       "about": "a ban on stock trading by members of Congress",
+      "said": "Congress trading stocks",
       "to": "ban members of Congress from trading stocks",
       "for": "ban members of Congress from trading stocks",
       "against": "say no to a ban on stock trading by members of Congress",
@@ -4479,6 +4557,7 @@
     },
     "us-federal-positions:science-communications.national-data-privacy": {
       "about": "a national data privacy law",
+      "said": "privacy",
       "to": "pass a national data privacy law",
       "for": "pass a national data privacy law",
       "against": "say no to a national data privacy law",
@@ -4533,6 +4612,7 @@
     },
     "us-federal-positions:territories-culture.statehood-for-dc": {
       "about": "statehood for the nation's capital",
+      "said": "D.C. statehood",
       "to": "make the nation's capital a state",
       "for": "make the nation's capital a state",
       "against": "say no to statehood for the nation's capital",

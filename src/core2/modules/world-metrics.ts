@@ -14,6 +14,8 @@ import { residentsRuntime } from "./residents";
 import { povertyByPlace } from "../world-poverty";
 import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 import { foldMonthIntoYear } from "../output-numbers";
+import { laborYearBefore } from "../labor-past";
+import { townLaborByPlace } from "./world-panels";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -70,9 +72,6 @@ export function townMetrics(api: CoreAPI) {
     string,
     {
       employed: number;
-      /** Residents who hold a job, wherever it is: the labor force the unemployment rate stands on. */
-      residentsEmployed: number;
-      unemployed: number;
       hourly: number[];
       open: number;
       closedThisMonth: number;
@@ -91,8 +90,6 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         (row = {
           employed: 0,
-          residentsEmployed: 0,
-          unemployed: 0,
           hourly: [],
           open: 0,
           closedThisMonth: 0,
@@ -129,7 +126,6 @@ export function townMetrics(api: CoreAPI) {
     const person = c.people.get(job.personId);
     const home = person ? c.households.get(person.householdId) : undefined;
     earn(home?.placeId, home?.id, job.wageDailyMinor);
-    if (home?.placeId) at(home.placeId).residentsEmployed += 1;
   }
   for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
     const job = rt!.jobs.get(jobId);
@@ -148,7 +144,6 @@ export function townMetrics(api: CoreAPI) {
       home?.id,
       job.wageDailyMinor,
     );
-    if (home && !home.gone) at(home.placeId).residentsEmployed += 1;
   }
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
@@ -165,12 +160,6 @@ export function townMetrics(api: CoreAPI) {
       rt?.store.liveHousehold(row.householdId)?.placeId;
     if (placeId) at(placeId).evictionOrders += 1;
   }
-  for (const table of ["seekers", "countedSeekers"])
-    for (const row of rows(api, "jobs", table) as unknown as {
-      placeId: string;
-      employed: boolean;
-    }[])
-      if (!row.employed) at(row.placeId).unemployed += 1;
   for (const [id, book] of c.finance.businesses) {
     const placeId = placeOf(id);
     if (!placeId) continue;
@@ -229,6 +218,10 @@ export function townMetrics(api: CoreAPI) {
               )),
       );
     }
+  // The town's labor market, one counting rule (townLaborByPlace): the month
+  // row, the rate, the Metrics tab and the paper all read it.
+  const labor = townLaborByPlace(api);
+  for (const placeId of labor.keys()) at(placeId);
   const poverty = povertyByPlace(c);
   const people = peopleAndHomes(c, rt);
   const stock = c.modules.has(HOUSING_MODULE_ID)
@@ -247,6 +240,11 @@ export function townMetrics(api: CoreAPI) {
       const homes = housing?.get(placeId);
       const rent = homes?.rentMinor ?? median(row.rents);
       const here = people.get(placeId);
+      const work = labor.get(placeId) ?? {
+        employed: 0,
+        seekers: 0,
+        openPositions: 0,
+      };
       const homesHeld = stock?.get(`stock:${placeId}`) as
         { rentalUnits: number; vacantRental: number } | undefined;
       const noHome = homeless?.get(placeId) as { homeless: number } | undefined;
@@ -254,13 +252,13 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         date: c.date,
         employed: row.employed,
-        residentsEmployed: row.residentsEmployed,
-        unemployed: row.unemployed,
+        residentsEmployed: work.employed,
+        unemployed: work.seekers,
         unemploymentRate:
           // Residents who are out of work over residents in the labor force:
           // jobs at the town's firms held by commuters are not its residents.
-          row.residentsEmployed + row.unemployed > 0
-            ? row.unemployed / (row.residentsEmployed + row.unemployed)
+          work.employed + work.seekers > 0
+            ? work.seekers / (work.employed + work.seekers)
             : 0,
         medianHourlyMinor: median(row.hourly),
         businessesOpen: row.open,
@@ -301,6 +299,16 @@ export function townMetrics(api: CoreAPI) {
             }
           : {}),
         ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
+        // The town's labor market by one counting rule (townLaborByPlace): a
+        // counted resident stands for the household's weight.
+        ...(hasJobs
+          ? {
+              residentsAtWork: work.employed,
+              residentsLooking: work.seekers,
+              laborForce: work.employed + work.seekers,
+              openPositions: work.openPositions,
+            }
+          : {}),
         ...(hasJobs
           ? { unemploymentClaimsOpen: claimsOpen.get(placeId) ?? 0 }
           : {}),
@@ -367,7 +375,37 @@ export const WORLD_METRICS_MODULE: CoreModule = {
     // figure is on screen before the first monthly row (owner, Nov 5: the
     // Metrics tab is never blank). No year before it is written: nothing
     // kept one.
-    for (const row of townMetrics(api)) foldMonthIntoYear(api, row);
+    const opening = townMetrics(api);
+    for (const row of opening) {
+      // The first reading is a month row too, so a figure's trace inputs
+      // (the labor force a count is out of) are on screen from day one.
+      const id = `metrics:${row.placeId}:${row.date}`;
+      api
+        .moduleState(WORLD_METRICS_MODULE_ID)
+        .table("months")
+        .put({ id, ...row });
+      foldMonthIntoYear(api, row, id);
+    }
+    // A year before the start, from the economy pass's months
+    // (src/core2/labor-past.ts), so last year is beside the first reading.
+    laborYearBefore(
+      api,
+      opening.flatMap((row) =>
+        row.residentsAtWork === undefined ||
+        row.residentsLooking === undefined ||
+        row.openPositions === undefined
+          ? []
+          : [
+              {
+                placeId: row.placeId,
+                residentsAtWork: row.residentsAtWork,
+                residentsLooking: row.residentsLooking,
+                openPositions: row.openPositions,
+                unemploymentRate: row.unemploymentRate,
+              },
+            ],
+      ),
+    );
     schedule(api);
   },
 };

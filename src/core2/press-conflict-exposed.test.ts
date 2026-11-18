@@ -47,6 +47,7 @@ interface Tip {
   readonly reporterId: string;
   readonly dig: number | null;
   readonly run: number | null;
+  readonly exposedId: string | null;
   readonly storyId: string | null;
 }
 
@@ -232,7 +233,7 @@ const run = (attemptSeed: string, log: string[]): Found => {
       const runs = (tip.dig ?? 0) > 0 && (tip.run ?? 0) > 0;
       // Dug and let run is exposed, exactly once; anything less is not.
       expect(mine.length, `${who}: exposures`).toBe(runs ? 1 : 0);
-      expect(!!tip.storyId, who).toBe(runs);
+      expect(!!tip.exposedId, who).toBe(runs);
       if (!runs) continue;
       ran += 1;
       const event = mine[0]!;

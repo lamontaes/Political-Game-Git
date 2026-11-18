@@ -177,4 +177,58 @@ describe("bill names", () => {
     expect(budget?.title).toBe("Budget Ordinance");
     expect(budget?.sections.map((row) => row.key)).toEqual(["police", "parks"]);
   });
+
+  it("names a change to one spending line for that line, so two such bills differ", () => {
+    const form = { kind: "ordinance" };
+    const police = billTitleOf({
+      form,
+      provisions: [{ kind: "budget-line", line: "police", value: 27468165 }],
+    });
+    const parks = billTitleOf({
+      form,
+      provisions: [{ kind: "budget-line", line: "parks", value: -10865890 }],
+    });
+    expect(police?.title).toBe("Police Funding Increase Ordinance");
+    expect(parks?.title).toBe("Parks Funding Reduction Ordinance");
+    // The government's annual budget bill (its record says whose budget) is
+    // the budget, even where it changes exactly one line.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "police", value: 100 }],
+        budgetFor: { governmentId: "government:x", fiscalYear: 2025 },
+      })?.title,
+    ).toBe("Budget Ordinance");
+    // The aid and catch-all lines have names of their own.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "localAid", value: -62134 }],
+      })?.title,
+    ).toBe("Aid to Other Governments Reduction Ordinance");
+    expect(
+      billTitleOf({
+        form,
+        provisions: [
+          { kind: "budget-line", line: "otherPrograms", value: 500 },
+        ],
+      })?.title,
+    ).toBe("Other Programs Funding Increase Ordinance");
+    expect(police?.reverses).toBe(false);
+    expect(parks?.reverses).toBe(true);
+    // A line with no authored name, or a request carried at its enacted
+    // funding, is still the budget.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "interest", value: -62134 }],
+      })?.title,
+    ).toBe("Budget Ordinance");
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "police", value: 0 }],
+      })?.title,
+    ).toBe("Budget Ordinance");
+  });
 });

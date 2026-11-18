@@ -11,11 +11,10 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { budgetInForce, governments } from "./modules/budgets";
 import {
-  billOf,
   draftBill,
   executiveDecision,
   FEDERAL_HOUSE,
-  holdVote,
+  holdEveryChamber,
   memberKey,
   members,
 } from "./modules/legislature";
@@ -61,7 +60,7 @@ it(
             }),
           ],
         });
-        let result = holdVote(api, bill.id);
+        let result = holdEveryChamber(api, bill.id);
         if (result.status === "awaiting-signature")
           result = executiveDecision(api, bill.id, true);
         tried.push(

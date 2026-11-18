@@ -6,9 +6,9 @@ lead: governing
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9145
 blocked-on:
 after: core-group-quarters-population
 source: speed lead, Nov 1, review of core-group-quarters-population
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/voting.ts, src/core2/modules/candidacy.ts, src/core2/campaign-day.ts, src/core2/law-reach/group-a-voting.ts, src/core2/justice-law.ts, src/core2/data/stopgaps/gq.json
 
 **Notes.** Markers: src/core2/modules/voting.ts (countedScale), src/core2/modules/candidacy.ts (countedScreen), src/core2/campaign-day.ts (townHouseholdCount).
+
+Nov 14 (second account, Sonnet): built in PR #9145 on branch claude/project-thread-uh34sg; one decider is incarceratedMayVote; both stopgaps resolved.

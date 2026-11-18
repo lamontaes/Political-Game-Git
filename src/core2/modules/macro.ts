@@ -48,6 +48,8 @@ import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
 import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
+  countryFlows,
+  registerCountryFlowsReader,
   countryMoney,
   countryPartFigures,
   countryPeople,
@@ -58,6 +60,7 @@ import {
   resolveCountryPart,
   stepCountry,
   COUNTRY_SECTORS,
+  type CountryFlow,
   type CountryMonth,
   type CountryPart,
   type CountryPartCounts,
@@ -402,6 +405,25 @@ function writeCountry(api: CoreAPI, tier: CountryTier): void {
 export function countryStates(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
+
+/**
+ * Every state's people and this month's movers by the tier's own rule, read
+ * without moving anyone (counted-moves reads them: the tier is the one holder
+ * of every state's people). Empty before the tier opens.
+ */
+export function countryFlowsNow(api: CoreAPI): {
+  states: readonly CountryState[];
+  flows: readonly CountryFlow[];
+} {
+  if (!countryOpened(api)) return { states: [], flows: [] };
+  const tier = readCountry(api);
+  return {
+    states: tier.states,
+    flows: countryFlows(tier, lawNow(api), rulesOf(api)),
+  };
+}
+
+registerCountryFlowsReader(countryFlowsNow);
 
 /** One state's figures today and at the opening, by FIPS code. */
 export function countryStateNow(api: CoreAPI, fips: string) {
@@ -1176,7 +1198,12 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
  */
 /** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
 export function countryOpened(api: CoreAPI): boolean {
-  return readState(api) !== undefined;
+  // A world built without the economy (the law-reach tests' small worlds) has no tier: the same
+  // test the outside-money reader makes. The game's worlds always install it (modules/world.ts).
+  return (
+    (api.state as CoreState).modules.has(MACRO_MODULE_ID) &&
+    readState(api) !== undefined
+  );
 }
 
 /** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
@@ -1340,3 +1367,6 @@ export function nationalPanel(api: CoreAPI) {
     repricings: snap.tables.repricings,
   };
 }
+
+// Re-exported so the people family reads the tier's flows through this entry (families guard).
+export { COUNTRY_AGE_BANDS, countryFlowsIn } from "../country-model";

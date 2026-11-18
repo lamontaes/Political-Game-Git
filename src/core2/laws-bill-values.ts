@@ -1,5 +1,10 @@
 /** A drafting reader: the law or budget of the government making the bill. */
 import type { CoreAPI } from "./types";
+import {
+  FEE_LEVEL_BASELINE,
+  FEE_LEVEL_UNIT,
+  isFeeLevelSeries,
+} from "./fee-levels";
 import type { LawRowInput } from "./laws-starting";
 import { lawChain, lawInForce } from "./modules/laws";
 import { budgetInForce, governmentOfJurisdiction } from "./modules/budgets";
@@ -70,7 +75,7 @@ export function billValueInForce(
     const government = governmentOfJurisdiction(api, jurisdiction);
     at = answer.levels.findIndex((row) => row.jurisdiction === government?.id);
   }
-  if (at < 0) return { value: null, unit: null, recordId: null, row: null };
+  if (at < 0) return feeBaseline(series, subject);
   const own = answer.levels[at]!;
   let row: LawRowInput | null = null;
   if (answer.doctrine === "additive") {
@@ -94,12 +99,25 @@ export function billValueInForce(
         if (!row || (level.row!.value ?? 0) > (row.value ?? 0)) row = level.row;
     } else row = governing.at(-1)?.row ?? null;
   }
+  if (!row && isFeeLevelSeries(series)) return feeBaseline(series, subject);
   return {
     value: row ? row.value : answer.doctrine === "additive" ? 0 : null,
     unit: row ? (row.unit ?? null) : (subject.unit ?? null),
     recordId: row?.id ?? null,
     row,
   };
+}
+
+/** A fee with no bill is at the schedule its budget assumes. */
+function feeBaseline(series: string, subject: BillSubject): BillValue {
+  return isFeeLevelSeries(series)
+    ? {
+        value: FEE_LEVEL_BASELINE,
+        unit: FEE_LEVEL_UNIT,
+        recordId: null,
+        row: null,
+      }
+    : { value: null, unit: subject.unit ?? null, recordId: null, row: null };
 }
 
 /** The treasury already records both its law key and its office unit key. */

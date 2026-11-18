@@ -23,6 +23,7 @@ import { parameter, type Parameter } from "../parameters";
 import { townWorkplaceWeights } from "../town-employment-mix";
 import { TOWN_WORKPLACES } from "../town-workplaces";
 import { stopgap } from "../stopgaps";
+import { workedToday } from "../job-lifecycle";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -74,6 +75,7 @@ import {
   residentsRuntime,
   type ResidentsRuntime,
   startRegionalWork,
+  loseAwayWork,
   stopRegionalWork,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -98,6 +100,7 @@ import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { knownAmong, meetAtWork } from "../encounters";
+import { creditWorkTime } from "../work-closeness";
 import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
@@ -2325,6 +2328,81 @@ function workerOffers(
   };
 }
 
+/**
+ * A worker's own leaving of a job, the one way it ends and is written: the search ends, the job ends
+ * before its day's work, and the change records who decided it (the worker). The monthly review's
+ * choice to leave and the player's press on Leave this job both come here.
+ */
+function leaveWork(
+  api: CoreAPI,
+  job: JobInput,
+  reasonKey: string,
+  values: Readonly<Record<string, number>>,
+  /** The worker already worked today: the job ends after that shift, which stands and is paid. */
+  afterShift = false,
+): void {
+  store(api).table("seekers").remove(job.personId);
+  endSpell(api, job.personId);
+  api.endJob(job.id, `jobs:left-work:${api.state.date}`, afterShift);
+  record(api, {
+    personId: job.personId,
+    organizationId: job.organizationId,
+    jobId: job.id,
+    kind: "left-work",
+    reasonKey,
+    decidedBy: job.personId,
+    values,
+  });
+}
+
+/**
+ * Why a person's job cannot be left by their own press, or null when it can. A post held by
+ * appointment or by office is left by resigning through the executive or offices engine; a business
+ * owner leaves by closing or selling it.
+ */
+export function jobLeaveBlock(
+  api: CoreAPI,
+  personId: string,
+): "no-job" | "post" | "owner" | null {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return "no-job";
+  const c = core(api);
+  const person = c.people.get(personId);
+  const job = person?.jobId ? c.jobs.get(person.jobId) : undefined;
+  if (!person || !job || job.endsAt !== undefined) return "no-job";
+  if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
+    return "post";
+  if (ownerOf(api, job.organizationId) === personId) return "owner";
+  return null;
+}
+
+/**
+ * The player (or anyone the world does not choose for) leaves their job by their own press. The pay
+ * stops with the job, the employer's need for the role grows by one (it hires to replace them), and
+ * the record is the same left-work change a monthly choice to leave writes, so the household's
+ * scene, the coworkers' farewell and the Journal read it as a job left, never a job lost. No claim
+ * is filed: a quit does not qualify. Returns the change id, or why the job stays.
+ */
+export function quitJob(
+  api: CoreAPI,
+  personId: string,
+): { left: true; id: string } | { left: false; why: string } {
+  const why = jobLeaveBlock(api, personId);
+  if (why) return { left: false, why };
+  const c = core(api);
+  const person = c.people.get(personId)!;
+  const job = c.jobs.get(person.jobId!)!;
+  // Someone who already worked today leaves after that shift: it stands and is paid, and the job's
+  // end date is tomorrow (a job ends before its day's work, so tomorrow is not worked).
+  leaveWork(
+    api,
+    job,
+    jobsData.reasons.leftWork,
+    { hourlyMinor: job.hourlyMinor ?? 0, pressed: 1 },
+    workedToday(c, person),
+  );
+  return { left: true, id: `job-change:${api.state.date}:${job.id}:left-work` };
+}
+
 /** Each worker: stay, look around, or leave work, from pay against the going rate, savings, needs and traits. */
 function reviewWorkers(api: CoreAPI): void {
   const c = core(api);
@@ -2380,20 +2458,12 @@ function reviewWorkers(api: CoreAPI): void {
       if (seeking?.employed) store(api).table("seekers").remove(person.id);
     } else if (chosen === jobsData.actions.leave.id) {
       const retiring = result.selected!.targetId.startsWith("retire:");
-      store(api).table("seekers").remove(person.id);
-      endSpell(api, person.id);
-      api.endJob(job.id, `jobs:left-work:${api.state.date}`);
-      record(api, {
-        personId: person.id,
-        organizationId: job.organizationId,
-        jobId: job.id,
-        kind: "left-work",
-        reasonKey: retiring
-          ? jobsData.reasons.retired
-          : jobsData.reasons.leftWork,
-        decidedBy: person.id,
-        values: { bufferMonths, strain, age },
-      });
+      leaveWork(
+        api,
+        job,
+        retiring ? jobsData.reasons.retired : jobsData.reasons.leftWork,
+        { bufferMonths, strain, age },
+      );
     }
   }
   markUnwiredLaborLinks();
@@ -2564,6 +2634,126 @@ function reviewAbsence(api: CoreAPI): void {
     if (!live.has(row.id)) rows.remove(row.id);
 }
 
+/** The turnover table's row for the lost shares the households have not yet made a whole worker. */
+const AWAY_CARRY = "away-carry";
+
+/** The reason a counted seeker's row carries when their household's away share lost work. */
+export const AWAY_WORK_LOST = "away-work-lost";
+
+/**
+ * The counted households' out-of-town workers (`unplacedWorkers`, workers per
+ * household of the record) lose work by the rule everyone's work is: the
+ * quarterly pull (`layoffPerQuarter`) moved by the rise in the state's
+ * unemployment and the member's age, scaled by the state's own separation
+ * rate. A household's share of away workers is a count, not one person, so it
+ * shrinks by its share times the month's pull (never a roll, never a
+ * threshold): the pool's pay drops with it, and the members it no longer
+ * stands for are idle at the next `reviewCountedEntry`, which weighs looking
+ * for work as it does any jobless member (the regional finds then hire them
+ * back by the one hiring rule). The engine knows where the household lives
+ * and that its workers commute to the place's wider labor market, not which
+ * employer holds them, so the state's conditions are the household's place's.
+ */
+function loseAwayWorkByTurnover(
+  api: CoreAPI,
+  pulls: ModuleTable,
+  month: number,
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const counted = rt.store;
+  const [young, old] = jobsData.workingAge as [number, number];
+  const regional = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
+  const working = new Set<string>();
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
+  }
+  const seekers = store(api).table("countedSeekers");
+  // The shares lost add up through the households in order; each whole worker
+  // is one member out of work and looking, as a regional worker let go is.
+  // The first month starts somewhere along it from the world's seed
+  // (generation of who exists, no roll).
+  let carry =
+    (pulls.get(AWAY_CARRY) as { pull?: number } | undefined)?.pull ??
+    new SeededRng(api.state.seed).fork(`town-turnover:${AWAY_CARRY}`).next();
+  for (const h of counted.liveHouseholds()) {
+    if (!(h.unplacedWorkers > 0) || outsideLaborForce(h.quarters)) continue;
+    // Workers by name in regional work face their own pull above.
+    let regionalHere = 0,
+      ages = 0,
+      adults = 0;
+    for (const m of counted.countedMembers(h)) {
+      if (regional.has(counted.ids[m]!)) regionalHere += 1;
+      const age =
+        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+      if (age >= young && age < old) {
+        ages += age;
+        adults += 1;
+      }
+    }
+    const away = h.unplacedWorkers - regionalHere;
+    if (!(away > 0) || adults === 0) continue;
+    const at = regionalConditions(api, h.placeId);
+    const lost = Math.min(
+      away,
+      away *
+        layoffPerQuarter(
+          api,
+          at.rise,
+          p("zero"),
+          workAgeFactor(api, ages / adults),
+        ) *
+        at.separation *
+        month,
+    );
+    if (!loseAwayWork(c, h, lost)) continue;
+    carry += lost;
+    const free = counted
+      .countedMembers(h)
+      .filter((m) => {
+        const id = counted.ids[m]!;
+        const age =
+          daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+        return (
+          !regional.has(id) &&
+          !working.has(id) &&
+          !seekers.get(id) &&
+          age >= young &&
+          age < old &&
+          !inCustody(api, id)
+        );
+      })
+      .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!));
+    for (const m of free) {
+      if (carry < p("one")) break;
+      carry -= p("one");
+      const id = counted.ids[m]!;
+      seekers.put({
+        id,
+        isSeeker: true,
+        personId: id,
+        placeId: counted.strings[counted.placeIx[m]!]!,
+        employed: false,
+        since: c.date,
+        reasonKey: jobsData.reasons.layoff,
+        referenceHourlyMinor: 0,
+        // Why, by record: the household's away share lost work by the state's layoff pace.
+        reasons: { [AWAY_WORK_LOST]: 1 },
+        // Someone who held an away job knows the wider market already: their search starts where the opening's seekers' do, never from nothing.
+        regionalPull: openingProgress(c, id),
+      } as never);
+    }
+  }
+  pulls.put({ id: AWAY_CARRY, pull: carry } as never);
+}
+
 /**
  * The town's workers are let go at the rate working people are everywhere
  * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
@@ -2616,7 +2806,9 @@ function reviewTurnover(api: CoreAPI): void {
       new SeededRng(api.state.seed).fork(`town-turnover:${job.id}`).next();
     const pull =
       held +
-      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) * month;
+      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) *
+        at.separation *
+        month;
     if (pull < p("one")) {
       pulls.put({ id: job.id, pull } as never);
       continue;
@@ -2650,14 +2842,11 @@ function reviewTurnover(api: CoreAPI): void {
     const held =
       (pulls.get(key) as { pull?: number } | undefined)?.pull ??
       new SeededRng(api.state.seed).fork(`town-turnover:${key}`).next();
+    const here = regionalConditions(api, row.placeId);
     const pull =
       held +
-      layoffPerQuarter(
-        api,
-        regionalConditions(api, row.placeId).rise,
-        p("zero"),
-        workAgeFactor(api, age),
-      ) *
+      layoffPerQuarter(api, here.rise, p("zero"), workAgeFactor(api, age)) *
+        here.separation *
         month;
     if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
       pulls.put({ id: key, pull } as never);
@@ -2687,8 +2876,10 @@ function reviewTurnover(api: CoreAPI): void {
       values: { turnoverPull: pull, regional: 1, counted: 1 },
     });
   }
+  loseAwayWorkByTurnover(api, pulls, month);
   // A job that ended another way keeps no pull.
   const live = new Set([
+    AWAY_CARRY,
     ...jobs.map((job) => job.id),
     ...(store(api).table("regional").rows() as unknown as { id: string }[]).map(
       (row) => `regional:${row.id}`,
@@ -5453,6 +5644,16 @@ export const JOBS_MODULE: CoreModule = {
     } else if (work.kind === "jobs-week") {
       payClaims(api, store(api).table("claims"));
       runWeek(api);
+      // The week's shared shifts grow the ties between known coworkers.
+      creditWorkTime(api, api.state.date, (organizationId) =>
+        knownAmong(
+          api,
+          Math.max(
+            0,
+            staffHeads(core(api), currentJobs(api, organizationId)) - 1,
+          ),
+        ),
+      );
       scheduleWeek(api);
     }
   },
@@ -5512,7 +5713,10 @@ export function registerEmployer(
 }
 // Re-exported so the opening county sample reads them through this entry (families guard).
 export { residentEmploymentRate } from "../opening-employment";
-export { countySectorEmployment } from "../town-employment-mix";
+export {
+  countySectorEmployment,
+  townWorkplaceWeights,
+} from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
 export { openingWorkStatus } from "../jobs-elsewhere";

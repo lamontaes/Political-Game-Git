@@ -15,7 +15,9 @@ import { townSeats } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
+  filingWindowOpens,
   openContests,
+  type ContestRow,
 } from "../core2/modules/elections";
 import { appointmentsIn } from "../core2/modules/executive";
 import { governments } from "../core2/modules/budgets";
@@ -28,6 +30,7 @@ import {
 } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
+import type { CoreAPI, CoreState } from "../core2/types";
 import type { Moment } from "./types";
 
 // The civic roles a scene's type names (clerk, chair, members, press, poll
@@ -56,6 +59,87 @@ const momentFor = (personId: string, causeId: string): Moment =>
     causeKind: "civic-test",
     counterpartIds: [],
   }) as unknown as Moment;
+
+/**
+ * The races a filing is taken for: those open now, else those whose filing
+ * window opens next. A place whose races all fall in one year of four (Puerto
+ * Rico's general election, director-civic-roles-clerk-red-guaynabo) has no
+ * window open in most years, and its clerk is still the one its records name.
+ */
+function contestsToFile(api: CoreAPI): readonly ContestRow[] {
+  const open = openContests(api);
+  if (open.length) return open;
+  const ahead = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  ).filter((c) => filingWindowOpens(c) > api.state.date);
+  const next = ahead.map(filingWindowOpens).sort()[0];
+  return ahead.filter((c) => filingWindowOpens(c) === next);
+}
+
+/** The clerk each race's filing office records name fills the clerk's part, and an appointed one is paid. */
+function checkClerks(core: CoreState, where: string) {
+  const api = coreAPI(core);
+  const contests = contestsToFile(api);
+  expect(contests.length, where).toBeGreaterThan(0);
+  // The person the moment is about is never their own clerk, so take one who holds no clerk's desk.
+  const subject = [...core.people.keys()].find(
+    (id) => !contests.some((c) => filingClerkFor(api, c.id)?.personId === id),
+  )!;
+  let named = 0;
+  let paid = 0;
+  for (const contest of contests) {
+    const clerk = filingClerkFor(api, contest.id);
+    const filled = civicFill(
+      "clerk",
+      core,
+      { ...momentFor(subject, contest.id), date: core.date },
+      new Set(),
+    );
+    if (!clerk) {
+      // No record names one (an election board or commission): no one is invented.
+      expect(filled, `${where}: ${contest.id}`).toEqual([]);
+      continue;
+    }
+    named += 1;
+    const person = core.people.get(clerk.personId);
+    expect(person?.alive, `${where}: ${clerk.recordId}`).toBe(true);
+    expect(filled, `${where}: ${contest.id}`).toEqual([clerk.personId]);
+    if (clerk.basis === "town-appointment") {
+      // The clerk is on the town government's payroll, a job the budget pays.
+      const job = core.jobs.get(
+        `job:public:town:${TOWN_CLERK_POST}:${clerk.personId}`,
+      );
+      expect(job, `${where}: ${clerk.recordId}`).toBeTruthy();
+      expect(job?.endsAt).toBeUndefined();
+      expect(job?.title).toBe(clerk.title);
+      expect(
+        governments(api).some((g) => g.organizationId === job?.organizationId),
+        where,
+      ).toBe(true);
+      paid += 1;
+    }
+  }
+  // A place whose races all file with a state election board names no one;
+  // anywhere with a town or county race, the records name a clerk.
+  if (!named)
+    expect(
+      contests
+        .filter(
+          (c) => c.family === "municipalOffice" || c.family === "countyOffice",
+        )
+        .map((c) => c.id),
+      where,
+    ).toEqual([]);
+  // Where the town appoints a clerk, that clerk is on the town payroll.
+  const appointed = appointmentsIn(api, lawChain(api).townPlaceId).some(
+    (row) => row.post === TOWN_CLERK_POST,
+  );
+  if (appointed && contests.some((c) => c.family === "municipalOffice"))
+    expect(paid, where).toBeGreaterThan(0);
+}
 
 describe(`civic role fills in ${where}`, () => {
   it("fills the poll workers from the voting engine's polling place", () => {
@@ -159,66 +243,7 @@ describe(`civic role fills in ${where}`, () => {
   });
 
   it("fills the clerk with the person the filing office's records name", () => {
-    const contests = openContests(api);
-    expect(contests.length, where).toBeGreaterThan(0);
-    // The person the moment is about is never their own clerk, so take one who holds no clerk's desk.
-    const subject = [...core.people.keys()].find(
-      (id) => !contests.some((c) => filingClerkFor(api, c.id)?.personId === id),
-    )!;
-    let named = 0;
-    let paid = 0;
-    for (const contest of contests) {
-      const clerk = filingClerkFor(api, contest.id);
-      const filled = civicFill(
-        "clerk",
-        core,
-        momentFor(subject, contest.id),
-        new Set(),
-      );
-      if (!clerk) {
-        // No record names one (an election board or commission): no one is invented.
-        expect(filled, `${where}: ${contest.id}`).toEqual([]);
-        continue;
-      }
-      named += 1;
-      const person = core.people.get(clerk.personId);
-      expect(person?.alive, `${where}: ${clerk.recordId}`).toBe(true);
-      expect(filled, `${where}: ${contest.id}`).toEqual([clerk.personId]);
-      if (clerk.basis === "town-appointment") {
-        // The clerk is on the town government's payroll, a job the budget pays.
-        const job = core.jobs.get(
-          `job:public:town:${TOWN_CLERK_POST}:${clerk.personId}`,
-        );
-        expect(job, `${where}: ${clerk.recordId}`).toBeTruthy();
-        expect(job?.endsAt).toBeUndefined();
-        expect(job?.title).toBe(clerk.title);
-        expect(
-          governments(api).some(
-            (g) => g.organizationId === job?.organizationId,
-          ),
-          where,
-        ).toBe(true);
-        paid += 1;
-      }
-    }
-    // A place whose races all file with a state election board names no one;
-    // anywhere with a town or county race, the records name a clerk.
-    if (!named)
-      expect(
-        contests
-          .filter(
-            (c) =>
-              c.family === "municipalOffice" || c.family === "countyOffice",
-          )
-          .map((c) => c.id),
-        where,
-      ).toEqual([]);
-    // Where the town appoints a clerk, that clerk is on the town payroll.
-    const appointed = appointmentsIn(api, lawChain(api).townPlaceId).some(
-      (row) => row.post === TOWN_CLERK_POST,
-    );
-    if (appointed && contests.some((c) => c.family === "municipalOffice"))
-      expect(paid, where).toBeGreaterThan(0);
+    checkClerks(core, where);
   });
 
   it("finds the same clerk from a filing's own record", () => {
@@ -257,3 +282,27 @@ describe(`civic role fills in ${where}`, () => {
       ).toEqual([clerk.personId]);
   });
 }, 1_800_000);
+
+// Pinned (director-civic-roles-clerk-red-guaynabo): Guaynabo, Puerto Rico,
+// where every race falls in the four-yearly general election and no filing
+// window is open when the game starts; and two places with town races. Each
+// is checked on the day the game starts, when the filing offices' clerks are
+// seated.
+describe("the clerk at pinned places", () => {
+  for (const [name, placeKey, seed] of [
+    [
+      "Guaynabo, Puerto Rico",
+      "7232522",
+      "73e19a72fbb274b2811d21a22430d1ed6fbd16eedb99097d96c475b45d4b9bea",
+    ],
+    ["Edgar, Wisconsin", "5522550", "edgar-petition-1"],
+    ["Denver, Pennsylvania", "4218888", "cb7367e1"],
+  ] as const)
+    it(`${name} (${placeKey}), seed ${seed}: the filing office's records name the clerk`, () => {
+      const { core: pinned } = buildBenchWorld(seed, gameStartDate(), {
+        placeKey,
+        twoLevel: true,
+      });
+      checkClerks(pinned, `${name} (${placeKey}), seed ${seed}`);
+    }, 90_000);
+});

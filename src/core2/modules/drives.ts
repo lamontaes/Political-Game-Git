@@ -1421,8 +1421,9 @@ function predict(
   refresh: (actor: PersonState) => unknown,
 ): PredictedChoice {
   refresh(actor as PersonState);
-  const offers = availableActs(core(api), actor.id);
-  // A prediction of the day's act, not a choice: nothing is kept.
+  // A prediction of the day's act, not a choice: nothing is kept, by the
+  // chooser or by the offer providers.
+  const offers = availableActs(core(api), actor.id, true);
   const decision = chooseAct(
     core(api),
     actor.id,

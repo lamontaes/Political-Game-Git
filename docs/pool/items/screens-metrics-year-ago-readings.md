@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-78e8u3
+pr: #9316
 after:
 blocked-on:
 source: stand-in triage Nov 10
@@ -33,3 +33,5 @@ root: rc10-screens-keep-own-facts
 **Waits on.** Nothing.
 
 **Files.** src/bench/metrics.ts, src/core2/modules/world-metrics.ts, src/core2/modules/jobs.ts
+
+**Notes.** Nov 14, Account lead thread "Show last year on the metrics": built on the train. People at work, people looking and jobs open are now kept monthly by `townJobsPanel` (one counting rule, both tiers by weight) in the town's month row and year row, with the year before the start written from the economy pass's months (`src/core2/labor-past.ts`, ESTIMATED, citing the economy history record). The regional engine keeps the months a year back from the latest month Metrics may read, so the state's three figures keep last year after year one. `SG-SCREENS-metrics-no-prior-year` is removed. Still open under `metrics-town-jobs-one-rule`: the unemployment rate's own counting (world-metrics counts residents at work with a counted worker once) and the panel's duplicate; this PR does not claim them.

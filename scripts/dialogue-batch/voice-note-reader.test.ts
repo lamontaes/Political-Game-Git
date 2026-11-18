@@ -4,11 +4,13 @@ import { join } from "node:path";
 import { readGradedBatches, withVoiceGrades } from "./apply-grades";
 import { describe, expect, it } from "vitest";
 import {
+  fullIdsIn,
   placeSaid,
   ratingSaid,
   readBack,
   readVoiceNote,
   ruleSaid,
+  titleSaid,
   type BatchMoment,
 } from "./voice-note-reader";
 
@@ -286,5 +288,209 @@ describe("a batch 2 note in his speaking habits", () => {
 
   it("reads a line he names by saying where it was", () => {
     expect(placeSaid("So it was 8.2.")).toEqual({ moment: 8, line: 2 });
+  });
+});
+
+// The click-through page's batch: moments are scenes, and a line's id is
+// scene.wording.line, or scene.wordingLETTER.line for a door (y agrees, m
+// holds back, n declines), so an id is not the line's place in the array.
+// The note is written here in our own words; it is not one of his.
+describe("a note on the click-through page's batch", () => {
+  const batch = JSON.parse(
+    readFileSync(
+      "scripts/dialogue-batch/fixtures/click-through-sample.json",
+      "utf8",
+    ),
+  ) as { id: string; moments: BatchMoment[] };
+  const lines = batch.moments.flatMap((moment) => moment.lines);
+  const net = (
+    grades: ReturnType<typeof readVoiceNote>["grades"],
+    id: string,
+  ) => {
+    const key = lines.find((line) => line.id === id)!.key;
+    return grades
+      .filter((grade) => grade.key === key)
+      .flatMap((grade) => grade.spans)
+      .reduce((sum, span) => sum + span.strength, 0);
+  };
+
+  it("reads a three-part id, written or spoken, with the answer letter", () => {
+    expect(fullIdsIn("1.1y.3 doesn't make sense")).toEqual(["1.1y.3"]);
+    expect(fullIdsIn("four point one m point five, solid")).toEqual(["4.1m.5"]);
+    expect(fullIdsIn("seven point one point three is awkward")).toEqual([
+      "7.1.3",
+    ]);
+    expect(fullIdsIn("5.2 is fine")).toEqual([]);
+  });
+
+  it("grades the line an id names, not the line at that place in the array", () => {
+    const { grades } = readVoiceNote(
+      "1.1y.3, that doesn't make sense. 4.1m.5, that's solid. 7.1.3 is awkward.",
+      batch.moments,
+    );
+    expect(net(grades, "1.1y.3")).toBe(-1);
+    expect(net(grades, "4.1m.5")).toBeGreaterThan(0);
+    expect(net(grades, "7.1.3")).toBeLessThan(0);
+    // The ids are the batch's own, so every grade row names one.
+    for (const grade of grades)
+      expect(lines.map((line) => line.id)).toContain(grade.id);
+  });
+
+  it("takes 'scene four, wording one' as a place and 'the second one' inside it", () => {
+    expect(placeSaid("Scene four, wording one.")).toEqual({
+      moment: 4,
+      wording: 1,
+    });
+    const { grades } = readVoiceNote(
+      "Scene four, wording one. The second one, I like that a lot.",
+      batch.moments,
+    );
+    // The second line of wording one is 4.1y.2; the same words in 4.1m.2 and
+    // 4.1n.2 are one bank piece, graded once.
+    const key = lines.find((line) => line.id === "4.1y.2")!.key;
+    expect(lines.filter((line) => line.key === key).length).toBeGreaterThan(1);
+    expect(grades.filter((grade) => grade.key === key)).toHaveLength(1);
+    expect(net(grades, "4.1y.2")).toBeGreaterThan(0);
+  });
+
+  it("finds a scene by its title said in part ('the sick door')", () => {
+    const sick = titleSaid("Okay, the sick door.", batch.moments);
+    expect(sick?.moment).toBe(1);
+    // Two scenes share "door": one word is not enough to name a scene.
+    expect(titleSaid("the door", batch.moments)).toBeUndefined();
+    const { grades } = readVoiceNote(
+      "The sick door. The third one, that doesn't make sense.",
+      batch.moments,
+    );
+    expect(net(grades, "1.1y.3")).toBeLessThan(0);
+  });
+
+  it("keeps a rule he states about a line and a rewrite he gives", () => {
+    const { grades, rules } = readVoiceNote(
+      "1.1y.5, awkward. Don't say face from the town at the door. It'd be like, how are you feeling today?",
+      batch.moments,
+    );
+    expect(net(grades, "1.1y.5")).toBeLessThan(0);
+    expect(rules.map((rule) => rule.rule).join(" ")).toMatch(/Don't say face/);
+    // The rule quotes the line it is about; it is a rule, not the line read back.
+    expect(rules.find((rule) => /Don't say face/.test(rule.rule))?.line).toBe(
+      "1.1y.5",
+    );
+    expect(
+      grades.find((grade) => grade.id === "1.1y.5")?.rewrites?.join(" "),
+    ).toMatch(/how are you feeling/);
+  });
+
+  it("keeps every remark it cannot tie to a line, with the scene he was on", () => {
+    const { unplaced, grades } = readVoiceNote(
+      "The sick door. 1.1y.3, that doesn't make sense. Honestly the whole mood of the pacing across these feels off. Scene four, wording one. Nobody talks like that in a real campaign.",
+      batch.moments,
+    );
+    expect(unplaced).toEqual([
+      {
+        remark: "Honestly the whole mood of the pacing across these feels off.",
+        moment: 1,
+        scene: "Signature at a sick door",
+      },
+      {
+        remark: "Nobody talks like that in a real campaign.",
+        moment: 4,
+        scene: "Vote ask, plain door",
+      },
+    ]);
+    // The remarks grade nothing.
+    expect(grades).toHaveLength(1);
+  });
+
+  it("keeps lines that have no bank key apart, one row each", () => {
+    const keyless: BatchMoment[] = [
+      {
+        moment: 1,
+        description: "A text scene",
+        lines: [
+          { id: "1.1.1", key: "", line: "That one isn't ours." },
+          { id: "1.1.2", key: "", line: "Nothing in Nashville changed today." },
+        ],
+      },
+    ];
+    const { grades } = readVoiceNote(
+      "1.1.1, that doesn't make sense. 1.1.2, I like that a lot.",
+      keyless,
+    );
+    expect(grades.map((grade) => [grade.id, grade.key])).toEqual([
+      ["1.1.1", ""],
+      ["1.1.2", ""],
+    ]);
+  });
+
+  it("never swaps two keyless lines of different scenes (the dry run's failing case)", () => {
+    const two: BatchMoment[] = [
+      {
+        moment: 17,
+        description: "Filing counter",
+        lines: [
+          {
+            id: "17.1.4",
+            key: "",
+            line: "That's it. Your name's in for the senate.",
+          },
+        ],
+      },
+      {
+        moment: 19,
+        description: "A law in another state",
+        lines: [
+          {
+            id: "19.1.2",
+            key: "",
+            line: "That one isn't ours. Nothing in Nashville changed.",
+          },
+        ],
+      },
+    ];
+    const { grades } = readVoiceNote(
+      "17.1.4, I like that a lot. 19.1.2, that doesn't make sense.",
+      two,
+    );
+    const net = (id: string) =>
+      grades
+        .find((g) => g.id === id)!
+        .spans.reduce((sum, span) => sum + span.strength, 0);
+    expect(grades).toHaveLength(2);
+    expect(net("17.1.4")).toBe(1);
+    expect(net("19.1.2")).toBe(-1);
+  });
+
+  it("lists a grade on a key that is no bank piece as unplaced, never as a grade", () => {
+    const rows: BatchMoment[] = [
+      {
+        moment: 8,
+        description: "First meeting",
+        lines: [
+          {
+            id: "8.1.4",
+            key: "here-back/tell",
+            line: "Good to meet you, Kevin.",
+          },
+          { id: "8.1.5", key: "real.piece", line: "I work for the neighbors." },
+          { id: "8.1.6", key: "", line: "Continue" },
+        ],
+      },
+    ];
+    const { grades, unplaced } = readVoiceNote(
+      "8.1.4, that's solid. 8.1.5, awkward.",
+      rows,
+      new Set(["real.piece"]),
+    );
+    expect(grades.map((g) => g.key)).toEqual(["real.piece"]);
+    expect(unplaced).toEqual([
+      {
+        remark: "8.1.4, that's solid.",
+        moment: 8,
+        scene: "First meeting",
+        line: "8.1.4",
+        why: '"here-back/tell" is not a bank piece',
+      },
+    ]);
   });
 });

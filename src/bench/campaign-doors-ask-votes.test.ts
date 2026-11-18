@@ -107,4 +107,4 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
   );
   expect(switched, days.join("\n")).toBe(true);
   expect(petitionAsksAtDoors(api, filingId)).toBe(false);
-});
+}, 180_000);

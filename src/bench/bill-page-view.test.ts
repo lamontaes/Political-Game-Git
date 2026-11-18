@@ -6,7 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import {
   castMemberVote,
   FEDERAL_HOUSE,
-  holdVote,
+  holdEveryChamber,
   LEGISLATURE_MODULE_ID,
   bodyOf,
   memberKey,
@@ -78,7 +78,7 @@ describe(`the bill page's view (seed ${seed})`, () => {
       }
       for (const member of seated)
         castMemberVote(api, bill.id, memberKey(member), "yes");
-      holdVote(api, bill.id);
+      holdEveryChamber(api, bill.id);
       const page = billPageView(world.core, bill.id, sponsor);
       expect(page.name.length, draw.name).toBeGreaterThan(0);
       expect(page.sponsor.name.length, draw.name).toBeGreaterThan(0);

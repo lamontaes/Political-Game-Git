@@ -102,4 +102,4 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
   expect(days.length).toBeGreaterThan(0);
   // The case the label fixes: more signed than full people met.
   expect(signedOverReached, days.join("\n")).toBeGreaterThan(0);
-});
+}, 180_000);

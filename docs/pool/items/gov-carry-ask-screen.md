@@ -33,3 +33,5 @@ root: rc7-player-cannot-drive
 **Waits on.** Nothing; an executive asking a member is built (gov-carry-ask-player-decides, done). It meets play-bill-menu-for-mayors-and-governors (open, player as executive) only at the same page; ask that item's session whether the card exists.
 
 **Files.** src/bench/government.ts, src/bench/play.mjs, src/bench/ui/card.mjs, src/core2/modules/legislature.ts, src/core2/data/stopgaps/gov.json
+
+**Notes.** Nov 14 2026, brief O (words-bargain-price-from-the-record): the carry-bill scene's ending now answers the held ask (keepReply, answerCarryInScene; carrying files the bill, declined closes it), and SG-GOV-carry-ask-no-screen is resolved there. What is left here is only a card for an ask whose scene the player never opened.

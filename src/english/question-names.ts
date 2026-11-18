@@ -8,12 +8,15 @@
 import data from "../../data/english/question-names.json" with { type: "json" };
 import yearData from "../../data/english/year-claims.json" with { type: "json" };
 import townData from "../../data/english/town-figures.json" with { type: "json" };
+import complaintData from "../../data/english/today-complaints.json" with { type: "json" };
 
 const NAMES = data.names as Readonly<
   Record<
     string,
     {
       readonly about: string;
+      /** The subject alone, as a person names it after "on" or "about" ("drug prices"); no side taken. */
+      readonly said?: string;
       readonly to: string;
       readonly for?: string;
       readonly against?: string;
@@ -76,6 +79,19 @@ export function questionTodayWordings(
   ];
 }
 
+const COMPLAINTS: ReadonlySet<string> = new Set(complaintData.complaints);
+
+/**
+ * Whether a wording of how the question stands today complains about how
+ * things are (`data/english/today-complaints.json`), as against stating
+ * something the speaker is glad of. A speaker defending what is in force is
+ * asked "Why would we change course, when ..." only with a wording that is not
+ * a complaint.
+ */
+export function questionTodayComplains(text: string): boolean {
+  return COMPLAINTS.has(text);
+}
+
 /** The family of questions that share a real reason on each side, and the pole of it a supporter stands on; null for a question with none. */
 export function questionFamily(
   question: string,
@@ -104,6 +120,18 @@ export function questionSide(
   side: "for" | "against" | "repeal" | "keep",
 ): string | null {
   return NAMES[question]?.[side] ?? null;
+}
+
+/**
+ * The question as a person names its subject in talk, after "on" or "about":
+ * "On drug prices, you and I are too far apart." It names the subject and
+ * takes no side (the side is said as what it does to the speaker). A
+ * question with no such name falls back to `questionAbout`. The one reader
+ * of the `said` field: every spoken use (doors, asking someone to serve,
+ * bargaining, debates, home talk) calls it.
+ */
+export function questionSaid(question: string): string | null {
+  return NAMES[question]?.said ?? NAMES[question]?.about ?? null;
 }
 
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */
@@ -144,7 +172,7 @@ export function questionLaw(question: string): string | null {
   return NAMES[question]?.law ?? null;
 }
 
-/** What a speech calls the question once it has named it ("a clean electricity standard" is "the standard" after): written by scripts/words/question-again-names.ts. */
+/** What a speech calls the question once it has named it ("a clean electricity standard" is "the standard" after): edited as data in data/english/question-names.json. */
 export function questionAgain(question: string): string | null {
   return NAMES[question]?.again ?? null;
 }

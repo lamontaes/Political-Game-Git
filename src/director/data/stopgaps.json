@@ -14,30 +14,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-P13-param-directorInterruptImpact",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "The impact at which a moment takes over the screen.",
-    "why": "A pacing choice by the owner, which no study measures (Oct 16, 2026 research); the marriage anchor is 50 units on both the 1967 scale and its 2021 replication, so the line holds if the scale is updated. Stays TUNABLE against play.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-param-directorScaleHealth",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How much the watched person's own death counts.",
-    "why": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (Oct 16, 2026 research). Stays TUNABLE against play.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
-  },
-  {
     "id": "SG-P13-param-directorWeightTieSociability",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",
@@ -80,18 +56,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-P13-param-directorTies",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "Standing ties for family and a shared home, the partner tie, and the fading discount.",
-    "why": "The partner tie is now scaled from the spouse-to-close-family ratio on the 1967 scale (0.79; 0.57 on the 2021 replication). No source ranks sibling, grandparent, grandchild or shared-home ties or measures the fading discount; they stay the October 8, 2026 design weights until the replay calibration.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
-    "status": "open"
-  },
-  {
     "id": "SG-P13-param-directorHalfLives",
     "kind": "estimated-parameter",
     "file": "src/director/data/director.json",
@@ -102,54 +66,6 @@
     "addedAt": "2026-10-09",
     "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-P13-appraisal-recompute",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 1,
-    "whatItFakes": "The director recomputes each event's feeling with the core's exported appraisal function instead of reading the appraisal the core applied.",
-    "why": "The core keeps only the resulting mood and stress (src/core2/modules/life.ts:319); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "Read the appraisal receipt the core passes with each event.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-tie-day-order",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 970,
-    "whatItFakes": "The director reads each watched person's tie changes once at the end of the day, so their order within the day is lost, although the core now sends a notice for each change.",
-    "why": "Relationship changes emit no event (src/core2/state.ts:561); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A relationship change notice from the core.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-kept-fact-producers",
-    "kind": "missing-producer",
-    "file": "src/director/data/director.json",
-    "line": 950,
-    "whatItFakes": "Favors and promises are kept-fact kinds with no producer, so a favor owed or a promise made is never remembered; lies are recorded.",
-    "why": "The new core has no act or event that records a lie, a favor or a promise.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "Producers in the core's conversation and favor modules, listed in producedBy.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-param-directorAnniversaryHalfDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How fast an anniversary's weight falls away from the date.",
-    "why": "The owner's answer 7. The only measured window is one week and no study calibrates the half-life (Oct 16, 2026 research).",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A calibration against when people recall shared events.",
-    "status": "open"
   },
   {
     "id": "SG-P13-past-fact-estimates",
@@ -164,18 +80,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-P15-memory-forgetting",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How long a watched person keeps every moment in full, and how many older moments they keep one by one.",
-    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-12",
-    "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
-    "status": "open"
   },
   {
     "id": "SG-P15-journal-banks",
@@ -300,30 +204,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORDS-param-directorTalkRecentDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How long ago a recorded event still makes something two people talk about, and lets someone not in the room be asked after.",
-    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks.",
-    "addedBy": "OPUS-WORDS",
-    "addedAt": "2026-10-14",
-    "replacement": "A tested calibration against played talks, or an owner answer.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-param-directorTalkSeenLittleDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How many days since two people last spent time together before one may say they have not seen much of the other.",
-    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks.",
-    "addedBy": "OPUS-WORDS",
-    "addedAt": "2026-10-29",
-    "replacement": "A tested calibration against played household talks, or an owner answer.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-param-directorTalkAddressImpact",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",
@@ -375,18 +255,6 @@
     "resolution": "Ruled by the owner on Oct 16: a person learns that a law changed their money mostly from the news or a feed, not from a person. The law-takes-effect scene is now the reached person's alone, caused by the learned-effect record, which cites the story that reached them (learnedFrom); the teller role and fill are gone, and a person is in the scene only where a conversation record shows one."
   },
   {
-    "id": "SG-DIRECTOR-speech-occasion",
-    "kind": "missing-engine",
-    "file": "src/director/scheduling.ts",
-    "line": 294,
-    "whatItFakes": "What a heard speech was given at (a campaign stop, a meeting remark, a hearing), and how a candidate gave it (a town hall, a campaign speech, a debate), is read from the shape of the speech's record id, because the speech engine's record carries no occasion.",
-    "why": "A mayor's remark at a council meeting was staged as a campaign event. The speech record belongs to the core area.",
-    "addedBy": "words",
-    "addedAt": "2026-10-20",
-    "replacement": "An occasion fact on every speech.heard record, and the campaign act on a candidate's, written by each producer (campaigns, meetings, legislature, parties, press, the governor's address), read here first.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-param-journalRaceCloseMargin",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",
@@ -413,18 +281,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-DIRECTOR-circumstance-weights",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How often a scene from circumstance may come (the days between two), how strongly it orders the journal, and how the cast is weighed (named, witnessed, the player's tie, sociability).",
-    "why": "A pacing choice under the owner's Wildermyth ruling (Oct 26) with no study behind it; set so a played year in a drawn place carries scenes from circumstance about weekly while a quiet stretch carries none.",
-    "addedBy": "director",
-    "addedAt": "2026-10-27",
-    "replacement": "A calibration against the owner's playtests: scenes from circumstance per played month and how many he skips.",
-    "status": "open"
   },
   {
     "id": "SG-WORDS-family-limit-unread",
@@ -455,11 +311,11 @@
     "kind": "missing-hook",
     "file": "src/director/purpose-scene.ts",
     "line": 1,
-    "whatItFakes": "A scene that ends with a favor owed or a promise made writes it on the scene's own record (facts ending and keeps), but no engine reads keeps yet: the favor is not called in and the promise is not held against the player.",
-    "why": "The favor belongs to the legislature's obligations (obligationsOf) and the relationship record, the promise to the campaigns engine's promises; both engines are other leads'. Endings that strain a tie or lose trust are written to closeness now.",
+    "whatItFakes": "A scene ending that keeps a promise or a favor is kept by the director and settled only where data/promise-kinds.json names its kind and the record that settles it: a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
+    "why": "Each kind needs the record that settles it named; some have one in another engine (a filing, a hire, a vote by question in record.ts) and some have no player act yet (reaching a relative or friend, going to a doctor: design-player-reaches-a-relative-or-friend, design-player-goes-to-a-doctor).",
     "addedBy": "Words and director session",
     "addedAt": "2026-10-28",
-    "replacement": "The legislature's keepReply and the campaigns engine read keeps (favor-owed, promise) from scene.reply and record the obligation and the promise; the journal says it from that record.",
+    "replacement": "One row per ending in data/promise-kinds.json, each with the record that settles it, read by src/director/promises.ts; a favor-owed ending is a view of the legislature's obligations row.",
     "status": "open"
   },
   {
@@ -472,18 +328,6 @@
     "addedBy": "Words and director session",
     "addedAt": "2026-10-29",
     "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-eviction-moment-at-fill-in",
-    "kind": "partial-model",
-    "file": "src/director/conversation.ts",
-    "line": 505,
-    "whatItFakes": "A counted household evicted while counted and filled in later (the player meets one of its people) has its eviction case and housing status row, but no director moment labeled feeling:event:housing.eviction, which evictionSubjects reads; so a homeless person the player meets never brings up the eviction or where they are staying, though the records say both. A full household evicted has the moment from the day of its eviction.",
-    "why": "CTO ruling, Nov 1: an evicted counted household stays counted and is filled in only when it comes to matter to the player. The director's moments are written only for watched people as events reach them, so the eviction left no moment for people not yet filled in.",
-    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
-    "addedAt": "2026-11-01",
-    "replacement": "When a household whose housing status row names an eviction case is filled in, the director records the eviction moment from the case (its removedAt and event id event:housing.eviction:<caseId>), or evictionSubjects reads the status row's case when no moment exists. Needs Words (lead: words).",
     "status": "open"
   },
   {
@@ -534,18 +378,6 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "Laws and effects (or the economy lead) start the town's jobs and poverty measures from a settled year, after which the warm-up in src/core2/data/term-read/areas.json is zero and this stopgap is removed.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-public-action-counted-share",
-    "kind": "missing-hook",
-    "file": "src/core2/modules/public-action.ts",
-    "line": 1,
-    "whatItFakes": "A strike, protest or rally is made of the named people who join it, and for the school staff's strike also of the wider town's school staff, counted and asked by the same resident decision. The wider town's renters, jobless and residents are not asked, so a protest over rent or jobs is only its named participants.",
-    "why": "One model, two tiers (owner, Oct 14): a counted group is read with the same rule as a full person times its count, but the join decision (`joinsGroup`) reads a person's views, ties and traits, which a counted group does not keep one by one.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "Ask the counted renters, jobless and residents by the same rule, by their count, as the school staff are, so an action's size includes every counted person who would join.",
     "status": "open"
   },
   {
@@ -601,30 +433,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-mentor-is-officeholder",
-    "kind": "missing-data",
-    "file": "src/director/circumstance.ts",
-    "line": 1,
-    "whatItFakes": "The adviser in the advice scene (the day after a party's chair asks the player to run) is a seated officeholder of that party who lives in the player's town and has held a seat for a year or more, the closest and most sociable of them. The world records no mentorship between two people, so the one who weighs in is chosen by the seat they hold and the party they share, not by a tie that says they mentored the player.",
-    "why": "The mentorship relationship is not an engine's record yet (nothing writes relationship:mentorship in a played year); the party's ask is the real cause and the known officeholders are real people the records name.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A relationship engine row for a mentor, written when an officeholder takes an interest in a newcomer; the circumstance reads it instead of the seat held.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-bribe-accuser-anyone-close",
-    "kind": "missing-data",
-    "file": "src/director/data/circumstances.json",
-    "line": 1,
-    "whatItFakes": "The accusation after the press carries a taken bribe is put by the person with the highest tie and sociability among the official's family, household and acquaintances. The press records who reads a story, but not who among the official's circle did, nor what each of them has at stake, so the one who asks is the closest, not the one with a reason.",
-    "why": "The corruption engine records the report (scandal.reported) and the news engine records readers per story, but the two are not joined to the official's circle.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-address-no-reader",
     "kind": "missing-hook",
     "file": "data/english/parts/address.json",
@@ -673,18 +481,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-WORDS-notice-no-reader",
-    "kind": "missing-hook",
-    "file": "data/english/parts/notice.json",
-    "line": 1,
-    "whatItFakes": "The election notice (\"NOTICE OF ELECTION ...\") sits in a bank that no engine prints.",
-    "why": "No engine prints a public notice of an election. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A notice printed in the paper and posted by the clerk or board of elections for each contest, worded from this piece and the election's records; pool item words-election-notice-printed.",
-    "status": "open"
   },
   {
     "id": "SG-WORDS-param-directorTalkViewImpact",
@@ -809,18 +605,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-homecoming-stay-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/purpose-arcs.json",
-    "line": 1,
-    "whatItFakes": "The homecoming scene's ending (you settled what comes next, by agreeing to a stay or promising to help find work) is written on the reply record as a promise; no engine reads it. The person home from prison is not moved into the household, no job lead is made for them, and the forgiveness asked is not a stance on the tie.",
-    "why": "The household writer (changeHouseholdV1) and the jobs engine exist, but neither has a hook that reads a scene.reply of typeKey return; the justice engine keeps no re-entry record for a named person (housing sought, work with a record). The scene still names the term and what it cost, and a talk put off strains the tie through the closeness writer.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A households-engine hook that reads a scene.reply of typeKey return with the ending settled-what-comes-next and the player's agree move, and moves the person in with changeHouseholdV1; a jobs-engine read of the promise as a referral.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-prison-visit-limits-fixed",
     "kind": "missing-data",
     "file": "src/director/data/purpose-arcs.json",
@@ -877,18 +661,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-meeting-promise-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/purpose-arcs.json",
-    "line": 1,
-    "whatItFakes": "What the player agrees to or promises in the introduction (to show the newcomer around) or the friend's ask (to come along, to do the favor) is written on the reply record as a promise; no engine moves the tie, makes the day's plan or does the favor beyond the contact hours every reply writes.",
-    "why": "The people engine's owed-talk record and the plans of a friend do not exist yet; no hook reads a scene.reply of typeKey first-meeting or becoming-friends.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the two together on the day, and closeness that reads a favor done or declined.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-friend-ask-plan-unrecorded",
     "kind": "missing-data",
     "file": "data/english/parts/scene-talk.json",
@@ -927,18 +699,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-reunion-letter-promise-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/purpose-arcs.json",
-    "line": 1,
-    "whatItFakes": "What the player agrees to or promises in a reunion (to meet again, to look out for work, to mend things) or in a letter (to visit, to write back) is written on the reply record as a promise; no engine makes the visit, the meeting or the next letter beyond the contact hours every reply writes.",
-    "why": "The people engine's owed-talk record and a planned visit do not exist yet; no hook reads a scene.reply of typeKey reunion or letter.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the two together on the day, and kin contact that rises after a kept visit.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-celebration-ask-unrecorded",
     "kind": "missing-data",
     "file": "data/english/parts/scene-talk.json",
@@ -963,18 +723,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-celebration-gathering-promise-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/purpose-arcs.json",
-    "line": 1,
-    "whatItFakes": "What the player agrees to or promises at a celebration (a toast, a picture, a talk, help with work) or after a missed gathering (to call, write or visit the one who was missing) is written on the reply record as a promise; no engine makes the toast, the call or the visit beyond the contact hours every reply writes.",
-    "why": "The people engine's owed-talk record and a planned call or visit do not exist yet; no hook reads a scene.reply of typeKey celebration or gathering-missing.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the player and the missing relative together, and kin contact that rises after a kept call or visit.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-rescue-ask-unrecorded",
     "kind": "missing-data",
     "file": "data/english/parts/scene-talk.json",
@@ -984,30 +732,6 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "A wants record per person, and the health engine's case row (condition, how serious, the care it calls for) that the rescue reads, so the ask is the one the care needs.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-rescue-promise-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/purpose-arcs.json",
-    "line": 1,
-    "whatItFakes": "What the player agrees to or promises after a rescue (to see a doctor, to let the rescuer stay close, to say when they feel ill again) is written on the reply record as a promise; no engine sends the player to a doctor or reads that they said so.",
-    "why": "The health engine keeps no care visits the player can be sent to, and no hook reads a scene.reply of typeKey rescue.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A health-engine care visit the promise books, and a tie that warms when the player keeps it.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-apology-promise-unread",
-    "kind": "missing-hook",
-    "file": "src/director/data/arc-variants.json",
-    "line": 1,
-    "whatItFakes": "What the player promises after a quarrel over a missed payment (to pay on time, to check the bills, to make it right) is written on the reply record as a promise; no engine reads it, so a later missed payment does not count as a broken promise.",
-    "why": "The credit engine keeps no promise to pay on time and no hook reads a scene.reply of typeKey apology.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A credit or people-engine reading that a kept promise warms the tie when the next payments are made, and a broken one strains it.",
     "status": "open"
   },
   {
@@ -1084,6 +808,42 @@
     "addedBy": "Words builder W-C",
     "addedAt": "2026-11-12",
     "replacement": "Weights tuned so no question leads more than half of ten drawn addresses; the half-draws assertion in speech-outline.test.ts turned on.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-rent-talk-first-lease",
+    "kind": "missing-data",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "The rent coming due is read from the lease a household signed when the world was made (`lease:<household>`); a lease signed after a move (`lease:<household>:<date>`) is not found, so a household that moved never talks about its rent.",
+    "why": "The finance engine keeps no index of contracts by household; scanning every contract per talk would break the speed bar. Talk on ordinary days, Nov 12.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "A by-household index of standing bills in the finance engine (or the household record naming its current lease), read here.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-housemate-job-search-unrecorded",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "A jobless housemate says nothing of looking for work: the jobs engine (src/core2/modules/jobs.ts) keeps job offers only for the person the player controls, and a jobless adult out of the labor force has no seeker row, so no application, interview, rejection or benefit paid is on record to tell.",
+    "why": "Talk from what is new on record (lead, Nov 12): a talk is offered only when a record holds something new; the engine keeps none for a housemate's search.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "The jobs engine records each seeker's applications and answers (or benefits paid, from the income engine), and the talk reads the newest as a job-search subject.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-town-change-reach-unread",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "What a government did (a budget line, an ordinance, an address, a town hall) is told as news the speaker heard or read, citing that record, with their stand on its question; whether it reached their own household (a service they use, a tax they pay, a payroll they are on) is not read, so nobody says it touched them.",
+    "why": "The town changing, brought up at home (lead, Nov 12), built on the records the speaker has (the story read, the address heard, the meeting attended); the budget and benefits engines' records of whom a line served are not read by talk yet.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "Talk reads the budget, benefits and tax engines' records of whom a changed line reached, and a speaker it reached gives that as their reason.",
     "status": "open"
   },
   {

@@ -35,3 +35,7 @@ Seen: the porch scene after Knock on doors.
 **Waits on.** The Words lead's design read.
 
 **Files.** src/core2/modules/campaigns.ts (`countedToFill`), src/director/ledger.ts, src/director/doors.ts, src/director/data/director.json
+
+**Notes.**
+
+- Nov 14, door scenes thread (#9102, branch claude/project-thread-9d3ex7), on the Words lead's ruling 62 and its yes of 04:15Z: `doorsKnocked` in src/director/doors.ts now stages, among the day's filled-in doors, one whose resident has a cause on record first (the door families' own variant read through `chooseVariant`: sick, caring, lost a job, rent notice, knows the player, same party), then the strongest stake. Still open here: `countedToFill` in campaigns.ts fills in openers by stance alone, so a counted resident with a life cause never becomes the porch door, and the every-third-outing spacing is unchanged.

@@ -840,9 +840,30 @@ function playWorld(seed: string) {
   const judged = countedAdultsLive
     ? local.filter((c) => ballot(api, String(c.id)).length > 0)
     : [];
-  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  // The ballot-by-ballot detail of a race leaves the books countedBallotRetentionDays
+  // after its election (play runs with bookkeeping off, `dropOldCountedBallots`),
+  // while the result keeps the counted votes: a race past that date is read
+  // from its result, and the ballot record is required for the races whose
+  // detail is still kept.
+  const keptSince = addDays(
+    core.date,
+    -api.parameter("countedBallotRetentionDays"),
+  );
+  const detailKept = (c: { date?: unknown; electionDate?: unknown }) =>
+    String(c.electionDate ?? c.date) >= keptSince;
+  const unkept = judged.filter(
+    (c) => detailKept(c) && !countedOf(String(c.id)),
+  );
   const silent = judged.filter((c) => {
     const kept = countedOf(String(c.id));
+    if (!kept && !detailKept(c)) {
+      const result = resultOf(api, String(c.id));
+      const recorded = Object.values(result?.countedVotes ?? {}).reduce(
+        (n, v) => n + v,
+        0,
+      );
+      return (result?.countedEligible ?? 0) >= 2 && recorded === 0;
+    }
     if (!kept) return true;
     const backing = kept.split.map((row) => row.reduce((n, x) => n + x, 0));
     const chose = backing.some((x) => x > 0);

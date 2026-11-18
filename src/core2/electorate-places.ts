@@ -73,7 +73,12 @@ const CPS = lazyValue(() =>
       group: row.group,
       recordId: row.recordId,
       metrics: Object.fromEntries(
-        ["votedCitizenPercent", "adultPopulation", "citizenAdultPopulation"]
+        [
+          "votedCitizenPercent",
+          "registeredCitizenPercent",
+          "adultPopulation",
+          "citizenAdultPopulation",
+        ]
           .filter((key) => row.metrics[key] !== undefined)
           .map((key) => [key, { value: { ...row.metrics[key]!.value } }]),
       ),
@@ -138,6 +143,26 @@ export function cpsTurnout(
     recordId: row.recordId,
     national: row.geographyName !== name,
   };
+}
+
+/**
+ * The share of a state's citizens registered to vote in November 2024 (CPS
+ * table 4c), for one age band or all ages; the national row where the
+ * survey has no state row.
+ */
+export function cpsRegistered(usps: string, band?: string): number | null {
+  const name = stateName(usps)?.toUpperCase();
+  const find = (geography: string) =>
+    CPS().find(
+      (row) =>
+        row.geographyName === geography &&
+        (band
+          ? row.dimension === "age" && row.group === band
+          : row.dimension === "total"),
+    );
+  const row = (name ? find(name) : undefined) ?? find("UNITED STATES");
+  const registered = row?.metrics.registeredCitizenPercent?.value.value;
+  return registered === undefined ? null : registered / 100;
 }
 
 /** Shares already worked out, per place, state and seed (play only). */

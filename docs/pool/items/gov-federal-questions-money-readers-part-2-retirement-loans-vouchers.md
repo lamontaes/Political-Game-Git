@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-reach/group-a-money.ts, src/core2/data/laws/reach-group-a.json, src/core2/modules/laws.ts, src/core2/modules/budgets.ts
 
 **Notes (Fable's check, Nov 10).** This part also covers the student-loan forgiveness reader that laws-three-yes-no-laws-reach-nobody asked for (proposed drop): a student-loan kind of debt in the credit engine and a reader for forgiveness.
+
+**Notes (laws thread, Nov 15, 2026).** Housing vouchers are built on their own item, laws-housing-vouchers-pay-eligible-renters: the federal Treasury pays the rent above 30 percent of income to every very-low-income renter in town, through the rent-help payers.

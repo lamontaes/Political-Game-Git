@@ -10,6 +10,7 @@ import {
   playerClockFrontierV1,
 } from "../core2/life";
 import type { CoreState, PersonId } from "../core2/types";
+import { dayLanding } from "../english/day-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
 const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
@@ -33,4 +34,27 @@ export function sceneMinute(
   if (!isExplicitlyControlledPersonV1(core, personId)) return undefined;
   const now = playerClockFrontierV1(core as CoreState, personId);
   return now?.date === core.date ? now.minuteOfDay : undefined;
+}
+
+/**
+ * The facts every home-alone arrival line reads, from every caller (the
+ * opening's landing and a later scene at home): the day as it is said after
+ * "It's" (`landing`, "the evening of January 20") and the "evening" mark only
+ * from the evening on, so a line that ends the day ("The day is done.") is
+ * never said at 8 a.m.
+ */
+export function homeAloneDayFacts(
+  date: string,
+  minute: number,
+  sourceRecordId: string,
+): Record<string, { text: string; sourceRecordIds: readonly string[] }> {
+  return {
+    landing: {
+      text: dayLanding(date, minute),
+      sourceRecordIds: [sourceRecordId],
+    },
+    ...(dayParts(minute).includes("evening")
+      ? { evening: { text: "yes", sourceRecordIds: [sourceRecordId] } }
+      : {}),
+  };
 }

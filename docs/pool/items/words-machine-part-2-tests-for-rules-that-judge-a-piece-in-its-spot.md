@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-M4
+pr: 9130
 after:
 blocked-on:
 lead: words
@@ -17,8 +17,8 @@ effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
-claimed-at:
-branch: claude/fable-b3-spot-rule-tests
+claimed-at: 2026-11-14
+branch: claude/project-thread-irab2z
 ---
 
 **What.** Many of the owner's notes are about a line in its place: fine from a friend, wrong from a stranger; fine at a kitchen table, wrong at a podium. Twenty-eight such rules are written down with no test. This part hands a rule the line together with its spot, and writes those tests.
@@ -38,3 +38,4 @@ branch: claude/fable-b3-spot-rule-tests
 **Files.** data/english/line-rules.json, src/english/line-rules.ts, scripts/words/run-rules.ts, data/english/scene-talk-tags.json
 
 **Notes.** Released by next (2026-11-13): no push to claude/fable-b3-spot-rule-tests since 2026-11-11 08:03 UTC, more than twice its 10-hour time box. Continue on branch claude/fable-b3-spot-rule-tests.
+Account lead M4 (2026-11-14): who says a line, to whom and where on every use (src/english/spot-tags.ts); piece-in-context judged rules judged per spot with per-use pulls (pulledUses); promise-only-what-the-speaker-can-do, line-fits-the-roles-in-its-situation and fits-speaker-and-tie narrowed and judged in spot on branch claude/project-thread-irab2z (train PR). Sequence rules stay with part 3.

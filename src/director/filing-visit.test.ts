@@ -9,6 +9,7 @@ import {
   openFilingVisit,
   pickContest,
   saidOffice,
+  describesByRule,
   spokenOffice,
   type FilingCheck,
 } from "./filing-visit";
@@ -161,10 +162,12 @@ describe("the filing visit", () => {
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text)
       .join(" ");
-    // The turndown says where the person must live and where their records
-    // put them, never the filing office's research note.
+    // The turndown says where the person must live and that their records put
+    // them somewhere else; no player lives in another town (nothing moves
+    // them), so the clerk never names a second place. Never the research note.
     expect(told).toMatch(/live in Springfield/);
-    expect(told).toMatch(/has you in Shelbyville/);
+    expect(told).toMatch(/my record has you somewhere else/);
+    expect(told).not.toMatch(/Shelbyville/);
     expect(told).toMatch(/registered voter/);
   });
 
@@ -280,4 +283,22 @@ it("says a choice of office as the kind of place the races are for", () => {
   ).toBe("City clerk");
   expect(saidOffice("City or town clerk", [{ title: "Board" }])).toBeNull();
   expect(saidOffice("Town clerk (party)", [])).toBe("Town clerk");
+});
+
+// An office the research gives as a rule is resolved to its body before it is
+// said (`ruleOfficeBody`); only where the game cannot tell does the rule's own
+// wording stand (Words lead, second reader, Nov 15, South Vienna, Ohio).
+it("marks the offices given as a rule and no others", () => {
+  for (const note of [
+    "Board of elections of the most populous county in the district",
+    "General registrar of the city or county where the town lies",
+  ])
+    expect(describesByRule(spokenOffice(note))).toBe(true);
+  for (const note of [
+    "County board of elections (counter: director)",
+    "Secretary of State (multi-county districts) or the county clerk",
+    "County elections official of the candidate's home county",
+    "Town clerk",
+  ])
+    expect(describesByRule(spokenOffice(note))).toBe(false);
 });

@@ -60,7 +60,7 @@ for (const [name, drawSeed] of [
       adults.filter((v) => v.employerId).map((v) => v.employerId),
     );
     console.log(
-      `${where}: ${adults.length} county adult records, ${active.length} active in a party, ${owners.length} owners of ${employers.size} employers, ${adults.filter((v) => v.civicRoles?.length).length} with civic roles (none recorded: SG-LIVES-civic-roles-not-recorded)`,
+      `${where}: ${adults.length} county adult records, ${active.length} active in a party, ${owners.length} owners of ${employers.size} employers`,
     );
     expect(active.length, where).toBeGreaterThan(0);
     // Every sampled employer has one owner, and an owner owns one.

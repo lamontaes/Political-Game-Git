@@ -33,3 +33,7 @@ root: design-life-record
 **Waits on.** people-owed-talk-record (open).
 
 **Files.** src/director/purpose-scene.ts, src/core2/modules/people.ts, src/core2/modules/kin-contact.ts, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json
+
+**Notes.**
+
+- Nov 14: on branch claude/project-thread-yq65dx the newcomer promise (introduction/took-them-in-hand) is the `show-around` kind, kept by a talk between the two and broken when its window closes; SG-WORDS-meeting-promise-unread removed. The friend-ask, letter-ask, gathering-ask and homecoming promises were cut under the Words lead's ruling 1 (nothing settles them; the yes settles in the scene) and their rows removed; the build waiting on the missing act is design-player-reaches-a-relative-or-friend.

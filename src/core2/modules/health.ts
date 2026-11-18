@@ -1301,6 +1301,19 @@ export function careNeedOf(
   );
 }
 
+/**
+ * The serious illness a person had before they died or now, by its condition
+ * key, or undefined for someone with none on record. Read by the talk that
+ * tells how a relative died, so a house that knew of an illness says it.
+ */
+export function seriousIllnessOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): string | undefined {
+  const found = runtimes.get(state)?.cases.get(personId);
+  return found?.onsetEventId ? found.conditionKey : undefined;
+}
+
 /** Read-only report; inspection writes nothing. */
 export function healthReport(core: Readonly<CoreState>) {
   const row = runtimes.get(core);

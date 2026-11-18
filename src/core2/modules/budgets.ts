@@ -32,7 +32,7 @@ import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "j
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
 import { OFFICES_MODULE_ID } from "./offices";
-import { lawApplied } from "../law-reach/applied";
+import { lawApplied, TREASURY_ORGANIZATION_PREFIX } from "../law-reach/applied";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -95,6 +95,8 @@ import {
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
+export { chargedServicesOf } from "../budgets-service-charges";
+import { isFeeLevelSeries } from "../fee-levels";
 
 export {
   budgetInForce,
@@ -118,6 +120,8 @@ function sittingExecutiveOf(
   api: CoreAPI,
   gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
 ): string | null {
+  // A world without the offices module has no one to name.
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // The offices name a local government by its unit (the treasury's
   // government key), a state by its key and the nation as "US".
@@ -250,6 +254,12 @@ export interface BudgetRow {
   readonly source: string;
   /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
   readonly ledgerId?: string;
+  /**
+   * What a state's or county's receipts scaled its Census base lines by when this budget was written
+   * (`receiptsFactor`; absent means 1). Kept on the row because the factor reads the treasury months of the
+   * year before, which fill in after a budget is adopted: a line's zero is read with the factor it was adopted with.
+   */
+  readonly receiptsFactor?: number;
 }
 
 interface WithholdingRecord {
@@ -459,6 +469,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       taxPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What the country tier's workers had withheld in the month a line first read it, the base its later months are measured against. */
+      tierBases: {},
       /** Each treasury's monthly close: every line's money, where it went. */
       treasuryMonths: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -501,6 +513,8 @@ export const BUDGETS_MODULE: PreStartModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (typeof series === "string" && isFeeLevelSeries(series))
+      syncServiceCharges(api);
     if (event.kind === "budget-line-changed") {
       syncServiceCharges(api);
       const f = event.facts ?? {};
@@ -599,7 +613,7 @@ function government(
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
   // this treasury once the core links them (needs OPUS-CORE).
-  const organizationId = `organization:treasury:${row.id}`;
+  const organizationId = `${TREASURY_ORGANIZATION_PREFIX}${row.id}`;
   const jurisdictionId =
     row.level === "federal"
       ? federalJurisdictionId()
@@ -1199,7 +1213,7 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI, placeId?: string) {
+export function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
   // A home outside the played town is billed by its own place's terms, not
   // the played town's rate and collector (owner, Nov 5: "It should be
@@ -1220,8 +1234,9 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // The state's own cap statute where its row is read; the generic estimate
-  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  // The state's own cap statute where its row is read; the game's estimate
+  // (propertyTaxGrowthCapShare, ESTIMATED with its source and spread) for a
+  // state without one.
   const statute = capped
     ? (
         propertyTaxCaps.states as Record<
@@ -1230,7 +1245,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
         >
       )[lawChain(api).stateKey.slice(3)]
     : undefined;
-  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   const capShare = statute
     ? statute.capShare
     : lawParameters.parameters.propertyTaxGrowthCapShare.value;
@@ -1264,8 +1278,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
  * source. Never the played town's rate or collector.
  */
 function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
-  // stopgapId: SG-WORLD-property-tax-other-places-state-average
-  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
   const usps = placeStateKey(placeId)?.slice(3) ?? "";
   return {
     rate: stateEffectiveRate(usps),
@@ -1445,32 +1457,51 @@ export function baseBudget(
 }
 
 /**
- * What a government collected over the fiscal year before `fy`, over what that
- * year's budget expected: 1 until a whole year of its treasury's months is
- * recorded, and for governments whose receipts are not voted from
- * (SG-GOV-spending-vote-state-county).
+ * What a government collected over the fiscal year before `fy` (its own
+ * receipts, borrowing left out), over the Census base's revenue for that
+ * year: 1 until a whole year of its treasury's months is recorded. The nation,
+ * every state and every county re-budget their revenue from it each year, so
+ * the plan follows what the law in force actually brought in (owner, Nov 12:
+ * budgeted revenue must move; `outside-budgets.ts` does the same for the other
+ * states from the country tier's ledgers). Other governments hold 1.
  */
-function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
-  if (gov.level !== "state" && gov.level !== "county") return 1;
-  api.stopgap("SG-GOV-spending-vote-state-county");
+function collectionsOverBase(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): number {
+  if (
+    gov.level !== "federal" &&
+    gov.level !== "state" &&
+    gov.level !== "county"
+  )
+    return 1;
   const from = `${fy - 1}-${gov.fiscalYearStart}`;
   const to = `${fy}-${gov.fiscalYearStart}`;
-  const planned = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy - 1);
-  if (!planned) return 1;
-  const expected = Object.values(planned.revenueMinor).reduce(
-    (a, v) => a + v,
-    0,
-  );
+  const expected = Object.values(
+    baseBudget(api, gov, fy - 1).revenueMinor,
+  ).reduce((a, v) => a + v, 0);
   let collected = 0;
   let months = 0;
   for (const m of treasuryMonthsOf(api, gov.id))
     if (m.date >= from && m.date < to) {
-      collected += m.collectedMinor;
+      collected += m.collectedMinor - m.borrowedMinor;
       months += 1;
     }
   return months === treasuryMonthsPerYear() && expected > 0
     ? collected / expected
     : 1;
+}
+
+/**
+ * The factor a government's spending follows: what a state or county collected
+ * last fiscal year over its Census base. The nation's spending is voted, not
+ * read from receipts (SG-GOV-spending-vote-state-county), so it holds 1.
+ */
+function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
+  if (gov.level !== "state" && gov.level !== "county") return 1;
+  api.stopgap("SG-GOV-spending-vote-state-county");
+  return collectionsOverBase(api, gov, fy);
 }
 
 function legislatedBudget(
@@ -1491,6 +1522,15 @@ function legislatedBudget(
   // A state or county spends in proportion to what it collected last fiscal
   // year over what its plan expected (a sliding scale, no threshold).
   const receipts = receiptsFactor(api, gov, fy);
+  // Revenue is re-budgeted every year from what the government collected under
+  // the law in force, in the published mix of lines.
+  const collected = collectionsOverBase(api, gov, fy);
+  const revenue = Object.fromEntries(
+    Object.entries(base.revenueMinor).map(([line, v]) => [
+      line,
+      Math.round(v * collected),
+    ]),
+  );
   const spending = Object.fromEntries(
     Object.entries(base.spendingMinor).map(([line, v]) => [
       line,
@@ -1500,7 +1540,12 @@ function legislatedBudget(
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
-  return { ...base, spendingMinor: spending };
+  return {
+    ...base,
+    revenueMinor: revenue,
+    spendingMinor: spending,
+    receiptsFactor: receipts,
+  };
 }
 
 /**
@@ -1622,10 +1667,51 @@ export function lineWithoutBills(
   fy: number,
   line: string,
 ): number {
+  // The row for the year carries the receipts factor it was written with, so the zero is the line as it was
+  // scaled then; today's factor reads treasury months that filled in after the budget was adopted.
+  const row = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (row?.receiptsFactor !== undefined) return lineBase(api, gov, row, line);
   return Math.max(
     0,
     adoptedLine(api, gov, fy, line) -
       (enactedBudgetChanges(api, gov.id)[line] ?? 0),
+  );
+}
+
+/**
+ * A line as the government's receipts scale its Census base, with no bill and no act: the zero a budget row's
+ * line is read against. The factor is the one the row was written with, not today's (see `BudgetRow.receiptsFactor`).
+ */
+function lineBase(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+): number {
+  return Math.round(
+    (baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0) *
+      (budget.receiptsFactor ?? 1),
+  );
+}
+
+/**
+ * A line's spending above what it would be with no budget bill and no act: the budget row's line less
+ * `lineBase`, so every bill the body enacted and every act that amended the line counts. The one reading of
+ * "how far a line stands above its base" (owner rule: one engine per mechanic). Subtracting `baseBudget`
+ * from a line is wrong for a state or county, whose adopted lines are scaled by `receiptsFactor`, which
+ * `baseBudget` leaves out: a line no bill raised read as raised (Whitney, Nevada: 475,182,513 of a county's
+ * housing line), and a factor below one hid a real raise (Fort Carson, Colorado). A guard
+ * (tests/guards/line-extra.test.ts) fails when a reader subtracts it again.
+ */
+export function lineExtra(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+): number {
+  return (
+    (budget.spendingMinor[line] ?? 0) -
+    lineWithoutBills(api, gov, budget.fiscalYear, line)
   );
 }
 
@@ -1937,6 +2023,7 @@ function withhold(
     paidMinor: paid,
     fromAt: receipt.fromAt,
     throughAt: receipt.throughAt,
+    workplaceId: api.state.organizations.get(receipt.organizationId)?.placeId,
   });
 }
 
@@ -1955,6 +2042,8 @@ export function withholdPay(
     readonly throughAt: string;
     /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
     readonly limitToCash?: boolean;
+    /** The place the pay was earned in, when it is known; a worker who lives elsewhere owes its local jurisdictions their nonresident rates. */
+    readonly workplaceId?: string;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1969,7 +2058,16 @@ export function withholdPay(
   );
   const due = withholdingDue(api, person, paid, periodDays);
   const { ytdId, ytd } = due;
-  let lines = due.lines;
+  let lines = [
+    ...due.lines,
+    ...nonresidentLocalLines(
+      api,
+      person.placeId,
+      pay.workplaceId,
+      paid,
+      periodDays,
+    ),
+  ];
   if (pay.limitToCash) {
     const owed = lines.reduce((n, l) => n + l.minor, 0);
     const held = Math.max(
@@ -1990,10 +2088,6 @@ export function withholdPay(
   ) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
-  }
-  if (person.placeId !== lawChain(api).townPlaceId) {
-    // stopgapId: SG-WORLD-withholding-nonresident-local
-    api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
     id: `withholding:${pay.id}`,
@@ -2030,6 +2124,59 @@ export function withholdPay(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * What a worker who lives outside the town owes the town's county, city and
+ * township income taxes for the pay earned in it: each row's nonresident rate
+ * (`terms.nonresidentRate`, a share of the base the row names) in place of its
+ * resident rate. A resident of the town, or pay earned elsewhere, owes none
+ * here; the residence's own law (`withholdingDue`) is read separately.
+ */
+function nonresidentLocalLines(
+  api: CoreAPI,
+  residencePlaceId: string,
+  workplaceId: string | undefined,
+  paidMinor: number,
+  periodDays: number,
+): readonly WithholdingLine[] {
+  const town = lawChain(api).townPlaceId;
+  if (workplaceId !== town || residencePlaceId === town) return [];
+  const answer = lawInForceToday(api, "income-tax");
+  const levels = answer.levels.flatMap((level) => {
+    const rate = level.row?.terms?.nonresidentRate;
+    if (
+      !level.row ||
+      level.setAside ||
+      typeof rate !== "number" ||
+      !(rate > 0) ||
+      (level.level !== "county" &&
+        level.level !== "city" &&
+        level.level !== "township")
+    )
+      return [];
+    return [
+      {
+        ...level,
+        row: {
+          ...level.row,
+          value: rate,
+          unit: "percent-flat",
+        },
+      },
+    ];
+  });
+  if (!levels.length) return [];
+  const none = { ...answer, governing: null, levels: [] };
+  return withholdingFor({
+    paidMinor,
+    periodDays,
+    yearToDateMinor: 0,
+    incomeTax: { ...answer, levels } as typeof answer,
+    socialSecurity: none as typeof answer,
+    medicare: none as typeof answer,
+    index: taxIndexOf(api),
+  });
 }
 
 /**
@@ -2212,8 +2359,14 @@ function postWithholding(
  * new level taxing) counts, never a bigger or smaller paycheck.
  */
 function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
+  // Against the last paycheck of the same kind (a job's payroll, a stipend):
+  // a stipend taxed on other lines than a job's pay is not a law's change.
+  const kind = (r: WithholdingRecord) => r.payrollReceiptId.split(":")[0];
   const earlier = withholdingOf(api, record.personId)
-    .filter((r) => r.id !== record.id && r.date < record.date)
+    .filter(
+      (r) =>
+        r.id !== record.id && r.date < record.date && kind(r) === kind(record),
+    )
     .sort((a, b) => b.date.localeCompare(a.date))[0];
   if (!earlier || record.paidMinor <= 0 || earlier.paidMinor <= 0) return;
   const rows = (r: WithholdingRecord) =>
@@ -2230,12 +2383,18 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
     1 - r.lines.reduce((n, l) => n + l.minor, 0) / r.paidMinor;
   const was = take(earlier);
   if (!(was > 0)) return;
+  const lineShare = (r: WithholdingRecord, of: WithholdingLine) =>
+    (r.lines.find((l) => l.level === of.level && l.tax === of.tax)?.minor ??
+      0) / r.paidMinor;
   landTaxChange(api, {
     personId: record.personId,
     obligationId: record.id,
     lawId: cause.lawId,
     series: cause.tax === "income" ? "income-tax" : `${cause.tax}-tax`,
-    share: (take(record) - was) / was,
+    // The law's own change: what its line took of pay then against now, never
+    // a bigger or smaller take from the other lines (a graduated rate, a
+    // different pay period).
+    share: (lineShare(earlier, cause) - lineShare(record, cause)) / was,
   });
 }
 
@@ -2473,6 +2632,9 @@ export function withholdingOf(
   ]) as unknown as WithholdingRecord[];
 }
 // Re-exported so the opening county sample reads it through this entry (families guard).
-export { medianTransactionBalance } from "../starting-cash";
+export {
+  householdOpeningCash,
+  medianTransactionBalance,
+} from "../starting-cash";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

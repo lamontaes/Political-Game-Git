@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9179
 after:
 blocked-on:
 lead: governing
@@ -35,3 +35,7 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/press.ts, src/core2/campaign-views.ts, data/english/parts/conversation.json
+
+**Notes (Nov 14, split).** Two halves, two builders. The engine half, which questions a reporter asks, is built here: `interviewQuestions` in src/core2/modules/press.ts keeps a question the seat's own body does not decide only as the town's news (the same read the filing panel lists positions from, `contestPositions`); a body with an empty list is asked as before. Test: src/core2/press-questions-seat.test.ts (Lookout Mountain GA 1347336, Chalkhill PA 4212512). The half where the player cannot take a side is built in #9152 (each question offers for, against and decline from the player's own record).
+
+**Not covered (edge).** A body whose `contestPositions` list is empty (no budget kept for it, and a state that lets it decide none of the platform questions) is still asked as before; the engine half does not restrict it.

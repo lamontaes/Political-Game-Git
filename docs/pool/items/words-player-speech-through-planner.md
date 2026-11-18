@@ -33,3 +33,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/director/speech-builder.ts, src/english/speech-stage-words.ts, src/bench/handler.ts, src/director/local-speeches.ts
+
+**Notes.** Evidence (M5, Nov 15, speech reader): `scripts/words/speech-sheets.ts` at three pinned places (Rainelle WV 5466652, Midway UT 4949820, Breathedsville MD 2409400) composed six speeches the player builds in steps; a fresh reviewer read each whole under speech-has-a-core and failed all six: every core step is one short line, a stance with its reason held back or a line of biography, so the speech is four short lines. Every address and two of three campaign speeches from `planSpeech` passed. Report: /mnt/project-files/words-lead/speeches/m5-reader/report.md.

@@ -489,7 +489,9 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
 
 /**
  * A counted household's share of its group's money: the group's account
- * times its people over the group's people.
+ * times its people over the group's people, its people being those of one
+ * real household or, for a record standing for less than one, the people the
+ * record stands for.
  */
 export function householdCash(
   rt: ResidentsRuntime,
@@ -536,8 +538,18 @@ export function householdCashReader(
       };
       groups.set(h.group, group);
     }
+    // One real household's share, and never more than the record's own: a
+    // record that stands for less than one household holds only the part of
+    // the group's money its own people hold, so a household filled in from it
+    // cannot ask for more than the group's fund (Central Falls and the
+    // lender replay, Nov 14: a sole record of weight 0.34 asked three times
+    // the whole fund).
     return group.people > 0
-      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+      ? Math.floor(
+          (group.balance *
+            Math.min(rt.store.countedCount(h), rt.store.weightedCount(h))) /
+            group.people,
+        )
       : 0;
   };
 }
@@ -887,11 +899,11 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       if (!core.organizations.has(id) && !core.people.has(id))
         throw new Error(`Flow owner is not recorded: ${id}`);
     // A flow due on or before the opening date settles on the first simulated
-    // day, except counted wages with earned days by payday: they keep their
-    // calendar, so a payday on the opening day (its period all before it)
-    // passes, and the next one pays the days since the opening.
+    // day, except counted wages from an employer's calendar: they keep it, so
+    // a payday on the opening day (paid before it, in the opening cash)
+    // passes, and the next one pays its whole period.
     let nextAt = makeIsoDate(row.firstAt);
-    if (row.earnedDaysByDue)
+    if (row.kind === "wages" && row.perDayMinorByJob)
       while (nextAt <= core.date)
         nextAt = makeIsoDate(advanceCadence(nextAt, row.cadence));
     if (nextAt <= core.date)
@@ -1166,16 +1178,6 @@ function settle(
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
-  const earnedDays = flow.earnedDaysByDue?.[date];
-  if (earnedDays !== undefined && flow.perDayMinorByJob) {
-    // A payday at the opening pays only the days worked since it.
-    let perDay = 0;
-    for (const value of Object.values(flow.perDayMinorByJob)) perDay += value;
-    base = Math.round(perDay * earnedDays);
-    const rest = { ...flow.earnedDaysByDue };
-    delete rest[date];
-    flow.earnedDaysByDue = rest;
-  }
   if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
@@ -3241,6 +3243,61 @@ export function removeCountedPerson(
 }
 
 /**
+ * A counted person died in `share` of the households their record stands for,
+ * fewer than all (an illness in part of them): one model, two tiers, so what
+ * a whole death does to the record, this does to that share of it. The
+ * record stands for `share` fewer households and the people who lived with
+ * the dead there go to the group's other households (`dieInPart`), their
+ * jobs stand for `share` fewer heads at their employers (a job left with
+ * none ends), and the cash and retirement award of those households leave
+ * with the record's weight. The estate is read before the death, for the
+ * caller to settle for the same share. Returns it, with who outlives them.
+ */
+export function countedPartDeath(
+  core: CoreState,
+  personId: PersonId,
+  share: number,
+):
+  | {
+      readonly estate: NonNullable<ReturnType<typeof countedEstateOf>>;
+      readonly survivors: readonly PersonId[];
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined || !(share > 0)) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  if (share >= store.weightOf(h)) return undefined;
+  const estate = countedEstateOf(core, personId)!;
+  const survivors = store
+    .countedMembers(h)
+    .filter((member) => member !== m)
+    .map((member) => store.ids[member]! as PersonId);
+  // Their jobs stand for `share` fewer heads; one left with none ends.
+  const ended = new Set<string>();
+  const left: { id: string; heads: number }[] = [];
+  for (const job of h.jobs)
+    if (job.personId === personId && job.endsAt === undefined) {
+      const heads = store.headsOfJob(h, job.id) - share;
+      if (heads > HEADS_EPSILON) left.push({ id: job.id, heads });
+      else ended.add(job.id);
+    }
+  dropCountedJobs(rt, ended);
+  h.jobs = h.jobs.filter((row) => !ended.has(row.id));
+  h.workCommitments = h.workCommitments.filter((row) => !ended.has(row.jobId));
+  // The heads are set against the weight the record stood for, then the
+  // record's weight falls by the share (so the default heads fall with it).
+  store.dieInPart(h, share);
+  for (const row of left) {
+    const job = h.jobs.find((candidate) => candidate.id === row.id)!;
+    store.setJobHeads(job, row.heads);
+  }
+  store.touch(h);
+  return { estate, survivors };
+}
+
+/**
  * A counted household whose last member died sells the home it owned: the
  * outside market pays its value times the households the record stands for,
  * the lender is paid first, and the surplus goes to the counted residents of
@@ -3992,6 +4049,21 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
 }
 
 /**
+ * A counted household loses out-of-town workers (the jobs engine's layoff of
+ * the household's away workers): the same writer as an ended regional job
+ * takes them off the household and the place's pool pay. False where there
+ * is nothing to take.
+ */
+export function loseAwayWork(
+  core: CoreState,
+  h: CountedHousehold,
+  workers: number,
+): boolean {
+  const rt = runtimes.get(core);
+  return !!rt && shedUnplacedWorkers(rt, h, workers, core.date);
+}
+
+/**
  * The one writer that takes out-of-town workers off a counted household:
  * `workers` per household of the record, and from the place's pool's pay as
  * many workers as the record stands for, each at the pool's pay per worker.
@@ -4192,6 +4264,36 @@ export function rerateCountedRetirement(
     changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
   }
   return changed;
+}
+
+/**
+ * The counted residents' Social Security awards running now, for the law
+ * reach: each pooled flow's payee, its amount, the retirees it pays and the
+ * line level it was last rated at (`rerateCountedRetirement`).
+ */
+export function countedRetirementAwards(core: CoreState): {
+  readonly flowId: string;
+  readonly payeeId: string;
+  readonly placeId: string;
+  readonly amountMinor: number;
+  readonly retirees: number;
+  readonly level: number;
+}[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "retirement" || flow.endedAt) continue;
+    out.push({
+      flowId: flow.id,
+      payeeId: flow.payeeId,
+      placeId: flow.placeId,
+      amountMinor: flow.amountMinor,
+      retirees: Math.max(1, Object.keys(flow.amountByContract ?? {}).length),
+      level: rt.retirementLevel.get(flow.id) ?? 1,
+    });
+  }
+  return out;
 }
 
 /** The counted households' moves, for the engines outside the people family (the family's entry). */

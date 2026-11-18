@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
-import { NAMED_QUESTIONS, questionAbout, questionTo } from "./question-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+  questionTo,
+} from "./question-names";
 
 /** Every question the bill catalog names, with the catalog's own name. */
 function catalogQuestions(): Map<string, string> {
@@ -69,5 +74,33 @@ describe("spoken names of policy questions", () => {
   it("offers no stand for a question it has no name for", () => {
     expect(questionAbout("fixture:unnamed")).toBeNull();
     expect(questionTo("fixture:unnamed")).toBeNull();
+  });
+
+  it("gives every question the one reader a spoken subject: at most five words, no office word, `about` where none is written", () => {
+    const office =
+      /\b(requirement|standard|authority|eligibility|enforcement|stabilization|negotiation|verification|collective)\b/i;
+    // The Words lead's table holds two names that break its own note
+    // ("immigration enforcement", "the age to buy a handgun" at six words);
+    // they stay as ruled until the lead says otherwise.
+    const asRuled = new Set([
+      "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+    ]);
+    let written = 0;
+    for (const question of NAMED_QUESTIONS) {
+      const said = questionSaid(question);
+      expect(said, question).toBeTruthy();
+      if (said === questionAbout(question)) continue;
+      written += 1;
+      if (asRuled.has(question)) continue;
+      expect(
+        said!.split(/\s+/).length,
+        `${question}: ${said}`,
+      ).toBeLessThanOrEqual(5);
+      expect(said, question).not.toMatch(office);
+    }
+    // The 80 platform questions carry a written name; a local budget line falls back to `about`.
+    expect(written).toBeGreaterThanOrEqual(79);
+    expect(questionSaid("not-a-question")).toBeNull();
   });
 });

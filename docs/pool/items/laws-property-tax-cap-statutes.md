@@ -5,11 +5,11 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5198
-blocked-on: laws-property-tax-cap-statutes-part-1-assessment-limit-states, laws-property-tax-cap-statutes-part-2-levy-limits-close
+blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
 claimed-at:
 after:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic. Take one group of states per PR.
 
 Tried Oct 21 (claude): no state table could be fetched. The Montana legislature's 2020 summary of Lincoln Institute data (archive.legmt.gov/.../property-tax-limits.pdf) gives the types and examples (California the lesser of 2 percent or inflation, Minnesota 15 percent, eighteen states with assessment limits, reset on sale in some, transfer exceptions in California and Florida) but its state-by-state table is check marks that the text layer drops. Lincoln's policy download page states 47 states limit property taxes, 19 with assessment limits in 2024, but the per-state figures sit in the Significant Features of the Property Tax database (lincolninst.edu/research-data/data-toolkits/significant-features-property-tax/topics/property-tax-limits), which would not open. Start from that database (or each state's statute), one group of states per PR. Claim released.
+
+Dropped Nov 14, 2026 (stopgap cluster 15, owner's ruling that the estimate stays as the game's answer): both parts were dropped on Nov 10, so the roll-up has nothing left to wait on. A state with no cap statute row takes the ESTIMATED `propertyTaxGrowthCapShare` (source and spread in reach-group-b-parameters.json); stopgap `SG-GOV-REACH-B-property-tax-bills` and its marker are deleted.

@@ -637,6 +637,40 @@ function closeByChoice(
   return true;
 }
 
+/**
+ * A business that opens after the world did buys what it doesn't buy locally
+ * from outside suppliers, like every opening firm: it takes the supplier
+ * account and cadence of an incumbent's outside-costs flow. Returns whether
+ * an incumbent had one.
+ */
+export function giveOutsideSuppliers(
+  c: CoreState,
+  organizationId: string,
+  incumbentIds: readonly string[],
+): boolean {
+  const supplies = incumbentIds
+    .filter((rid) => rid !== organizationId)
+    .map((rid) => residentsRuntime(c)?.flows.get(`outside-costs:${rid}`))
+    .find((flow) => flow && !flow.endedAt);
+  if (!supplies) return false;
+  addResidentFlow(c, {
+    id: `outside-costs:${organizationId}`,
+    kind: "outside-costs",
+    financeKind: supplies.financeKind,
+    payerId: organizationId,
+    payeeId: supplies.payeeId,
+    residentsId: supplies.residentsId,
+    placeId: supplies.placeId,
+    amountMinor: 0,
+    firstAt: supplies.nextAt,
+    cadence: supplies.cadence,
+    salesReceipt: false,
+    marketAdjusted: false,
+    source: supplies.source,
+  });
+  return true;
+}
+
 function closeOffer(
   close: boolean,
   organizationId: string,
@@ -2238,25 +2272,7 @@ function found(
     source,
   });
   // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
-  const supplies = [...market.incumbents]
-    .map((rid) => residentsRuntime(c)?.flows.get(`outside-costs:${rid}`))
-    .find((flow) => flow && !flow.endedAt);
-  if (supplies)
-    addResidentFlow(c, {
-      id: `outside-costs:${id}`,
-      kind: "outside-costs",
-      financeKind: supplies.financeKind,
-      payerId: id,
-      payeeId: supplies.payeeId,
-      residentsId: supplies.residentsId,
-      placeId: supplies.placeId,
-      amountMinor: 0,
-      firstAt: supplies.nextAt,
-      cadence: supplies.cadence,
-      salesReceipt: false,
-      marketAdjusted: false,
-      source: supplies.source,
-    });
+  giveOutsideSuppliers(c, id, market.incumbents);
   const startup =
     ((annualPayrollMinor + annualOtherCostsMinor) / p("macroMonthsPerYear")) *
     p("businessStartupMonthsOfCosts");

@@ -9,6 +9,9 @@ import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
 import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import bankData from "../../data/english/bill-sections.json" with { type: "json" };
+import enactingClauses from "../core2/data/legislature/enacting-clauses.json" with { type: "json" };
+import billForms from "../core2/data/legislature/bill-forms.json" with { type: "json" };
+import { billTitleOf } from "./bill-names";
 import { storyTopicName } from "./policy-names";
 import {
   amountWords,
@@ -54,6 +57,54 @@ describe("the bill-sections data", () => {
     expect(valueWords(4.5, "percent-flat")).toBe("4.5 percent");
     expect(valueWords(1500, "minor/hour")).toBe("$15 an hour");
     expect(valueWords(31000, "dollars/year")).toBe("$31,000 a year");
+  });
+
+  it("words a rate to at most two decimals, and more only where two would make two rates read the same", () => {
+    expect(valueWords(0.284, "percent-of-home-value")).toBe("0.28 percent");
+    expect(valueWords(8.773, "percent")).toBe("8.77 percent");
+    const rates = (before: number, value: number) =>
+      composeBill({
+        id: "b",
+        number: "2025-1",
+        form: {
+          kind: "ordinance",
+          enactingClause: "Be it ordained by the Town,",
+        },
+        provisions: [
+          { kind: "law-amount", series: "sales-tax", value, unit: "percent" },
+        ],
+        before: [{ value: before, unit: "percent" }],
+      })!.sections[0]!;
+    expect(rates(0.3124, 0.3436)).toContain(
+      "raised from 0.31 percent to 0.34 percent",
+    );
+    expect(rates(0.281, 0.284)).toContain(
+      "raised from 0.281 percent to 0.284 percent",
+    );
+  });
+
+  it("words a law amount as the law in force reads it for the struck side of a Compare view", () => {
+    const made = composeBill({
+      id: "b",
+      number: "2025-1",
+      form: {
+        kind: "ordinance",
+        enactingClause: "Be it ordained by the Town,",
+      },
+      provisions: [
+        {
+          kind: "law-amount",
+          series: "sales-tax",
+          value: 0.284,
+          unit: "percent",
+        },
+      ],
+      before: [{ value: 0.284, unit: "percent" }],
+      standing: true,
+    })!;
+    expect(made.sections[0]).toBe(
+      "Section 1. Be it ordained by the Town, That the local sales tax rate is 0.28 percent.",
+    );
   });
 });
 
@@ -113,6 +164,125 @@ describe("a section reads the record's numbers", () => {
         ],
       })!.sections[0],
     ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
+  });
+  it("an act names itself with a short title read from the same record as every other screen, and a local ordinance has none", () => {
+    const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    const bill = (kind: string) => ({
+      id: "bill:fixture-title",
+      number: "2026-5",
+      form: { kind, enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        { kind: "policy-question", question, value: 1, operation: "enact" },
+      ],
+    });
+    const act = composeBill(bill("act"))!;
+    expect(act.shortTitle, act.title).toMatch(
+      /^This Act may be cited as the \u201C[^\u201D]+\u201D\.$/,
+    );
+    const bill1 = bill("act");
+    expect(act.shortTitle).toContain(
+      billTitleOf({ form: bill1.form, provisions: bill1.provisions })!.title,
+    );
+    expect(act.text[1]).toBe(act.shortTitle);
+    expect(act.text.join(" ")).not.toMatch(/and for other purposes/);
+    const local = composeBill(bill("ordinance"))!;
+    expect(local.shortTitle).toBeNull();
+    expect(local.text.join(" ")).not.toMatch(/may be cited as/);
+  });
+  it("a mixed bill's heading words a repeal from the repeal, never from the purpose of the law it ends", () => {
+    const wage = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    const fare =
+      "us-policy-positions:transportation-infrastructure.fare-free-transit";
+    const made = composeBill({
+      id: "bill:fixture-mixed",
+      number: "2026-6",
+      form: { kind: "act", enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        {
+          kind: "policy-question",
+          question: fare,
+          value: 0,
+          operation: "repeal",
+        },
+        {
+          kind: "policy-question",
+          question: wage,
+          value: 1,
+          operation: "enact",
+        },
+      ],
+    })!;
+    const repeal =
+      BILL_SECTIONS.policies[
+        "transportation-infrastructure.fare-free-transit"
+      ]!;
+    expect(made.title).toContain(`repeal the law on ${repeal.subject}`);
+    expect(made.title).not.toContain(repeal.purpose);
+    expect(made.title).toMatch(/ and to /);
+    expect(made.sections[0]).toContain("is repealed");
+  });
+  it('a heading of three purposes says "to" for each', () => {
+    const q = (k: string) => `us-policy-positions:${k}`;
+    const made = composeBill({
+      id: "bill:fixture-three",
+      number: "2026-8",
+      form: { kind: "act", enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        {
+          kind: "policy-question",
+          question: q("labor-workforce.raise-minimum-wage"),
+          value: 1,
+          operation: "enact",
+        },
+        {
+          kind: "policy-question",
+          question: q("transportation-infrastructure.fare-free-transit"),
+          value: 1,
+          operation: "enact",
+        },
+        {
+          kind: "policy-question",
+          question: q("transportation-infrastructure.public-broadband"),
+          value: 0,
+          operation: "repeal",
+        },
+      ],
+    })!;
+    expect(made.title).toMatch(
+      /^A bill for an act to .+, to .+ and to repeal the law on /,
+    );
+  });
+  it("every body's enacting words join the section's text as one sentence", () => {
+    const clauses = [
+      ...Object.entries(enactingClauses.clauses).map(
+        ([key, row]) => [key, (row as { text: string }).text, "act"] as const,
+      ),
+      ["federal", billForms.federal.enactingClause, "act"] as const,
+      [
+        "local",
+        billForms.local.enactingClause.replace("{body}", "Town Council"),
+        "ordinance",
+      ] as const,
+    ];
+    expect(clauses.length).toBeGreaterThanOrEqual(58);
+    const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    for (const [key, clause, kind] of clauses) {
+      const made = composeBill({
+        id: `bill:fixture-${key}`,
+        number: "2026-7",
+        form: { kind, enactingClause: clause },
+        provisions: [
+          { kind: "policy-question", question, value: 1, operation: "enact" },
+        ],
+      })!;
+      const section = made.sections[0]!;
+      // One sentence after the number: lead-in, then a comma and "That", or a
+      // whole sentence, a colon and the text's own capital.
+      expect(section, key).toMatch(
+        /^Section 1\. [^.:]+(?:, That [a-z][^.:]*|: [A-Z][^.:]*)\.$/,
+      );
+      expect(section, key).not.toMatch(/[,.:;] ?[,.:;]|\. That| That That/);
+    }
   });
   it("edge fixture: two steps on one law state its purpose once", () => {
     // A raise phased in by dated steps (governing phase B): "An ordinance to

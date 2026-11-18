@@ -289,6 +289,22 @@ export function regionMonthFromState(
   };
 }
 
+/**
+ * What the regions' jobs pay in a month for each resident, in the series' own
+ * units (jobs times hourly earnings over people): the figure a state's or the
+ * country's household income is read from. A ratio, so only how it moves is
+ * meaningful; zero when the regions hold no people.
+ */
+export function earnedPerResident(months: readonly RegionMonth[]): number {
+  let earned = 0,
+    people = 0;
+  for (const row of months) {
+    earned += row.jobsThousands * row.hourlyEarnings;
+    people += row.population;
+  }
+  return people > 0 ? earned / people : 0;
+}
+
 /** A state's figures from its regions: jobs summed, unemployment and pay weighted by population. */
 export function stateFigures(
   months: readonly RegionMonth[],
@@ -298,6 +314,7 @@ export function stateFigures(
   unemploymentPct: number;
   hourlyEarnings: number;
   priceLevelPct: number;
+  earnedPerResident: number;
 } {
   const rows = months.filter((row) => row.stateFips === stateFips);
   const weights = rows.map(
@@ -316,5 +333,6 @@ export function stateFigures(
     priceLevelPct:
       rows.reduce((sum, row, i) => sum + row.priceLevelPct * weights[i]!, 0) /
       total,
+    earnedPerResident: earnedPerResident(rows),
   };
 }

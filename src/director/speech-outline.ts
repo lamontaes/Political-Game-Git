@@ -73,11 +73,12 @@ import {
   questionLaw,
   questionReasons,
   questionToday,
+  questionTodayComplains,
   questionTodayWordings,
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
-import { questionSubject, questionTopic } from "../english/policy-names";
+import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -99,6 +100,9 @@ import type { IsoDate } from "../core2/kernel/brands";
 import {
   TERM_AREAS,
   countryTermRead,
+  areasAnswered,
+  questionAnswersArea,
+  topicsAnsweringArea,
   type AreaRead,
 } from "../core2/modules/laws";
 import {
@@ -169,9 +173,6 @@ const OUTLINES = outlineData as unknown as {
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
   /** The measures a line of the budget bears on, read only by a hurt address's answer. */
-  budgetLineTopics: Readonly<Record<string, readonly string[] | string>>;
-  /** The catalog topics whose questions answer each area of the term read. */
-  answerTopics: Readonly<Record<string, readonly string[] | string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
@@ -194,6 +195,7 @@ const OUTLINES = outlineData as unknown as {
       Record<
         string,
         {
+          readonly typical: { readonly value: number };
           readonly moves: readonly string[];
           readonly pull: readonly string[];
         }
@@ -296,7 +298,12 @@ const TOPIC_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   growth: ["growth-up"],
   wages: ["wages-ahead-of-prices", "wages-behind-prices"],
   mortgage: ["mortgage-up", "mortgage-down"],
-  jobs: ["jobs-up"],
+  jobs: ["jobs-up", "jobs-worse", "jobs-better"],
+  // The place's own work, pay and prices (the term read's areas of the same
+  // names) are a governor's or mayor's to tell; the President's year tells
+  // them through the macro claims above, so these facts never reach it.
+  pay: ["pay-worse", "pay-better"],
+  prices: ["prices-worse", "prices-better"],
   // The areas of the term read (src/core2/term-read.ts): each a claim of
   // better or worse since the term began, so bad news in schools, crime,
   // health or rent is told as well as good.
@@ -312,7 +319,9 @@ const GOOD_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   growth: ["growth-up"],
   wages: ["wages-ahead-of-prices"],
   mortgage: ["mortgage-down"],
-  jobs: ["jobs-up"],
+  jobs: ["jobs-up", "jobs-better"],
+  pay: ["pay-better"],
+  prices: ["prices-better"],
   ...Object.fromEntries(AREA_TOPICS.map((area) => [area, [`${area}-better`]])),
 };
 
@@ -943,11 +952,16 @@ export interface PlannedPoint {
  * The shapes a speaker's points take, in the order their traits pull
  * hardest (speech-outlines.json `pointShapes`): the first point takes the
  * first, the next the next, so no two points of a speech share a shape.
- * Ties go by the shape's name.
+ * A shape's pull is read against what its facets sum to in a typical
+ * person (`typical`), so a shape whose facets run high in everyone does not
+ * lead for half of all speakers. Ties go by the shape's name.
  */
 function shapeOrder(person: PersonState): string[] {
   return Object.entries(OUTLINES.pointShapes.shapes)
-    .map(([name, row]) => ({ name, pull: traitSum(person, row.pull) }))
+    .map(([name, row]) => ({
+      name,
+      pull: traitSum(person, row.pull) - row.typical.value,
+    }))
     .sort((a, b) => b.pull - a.pull || a.name.localeCompare(b.name))
     .map((row) => row.name);
 }
@@ -1137,6 +1151,17 @@ function badFacts(country: Country, topic: string): Facts {
   );
 }
 
+/** Whether the bank holds a context piece for a topic, to say it over the speaker's years in office. */
+const CONTEXT_TOPICS: ReadonlySet<string> = new Set(
+  OPENING_SPEECH_BANK.parts
+    .flatMap((part) => part.uses ?? [])
+    .filter((use) => use.role === "context")
+    .flatMap((use) => use.requiresFacts ?? [])
+    .filter((fact) => fact.startsWith("context-"))
+    .map((fact) => fact.slice("context-".length)),
+);
+const bankSaysContext = (topic: string) => CONTEXT_TOPICS.has(topic);
+
 /** The measures that went wrong, each with a fact that says so, the worst first. */
 function conditionsByWorst(country: Country): string[] {
   return [...new Set([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)])]
@@ -1150,27 +1175,26 @@ function conditionsByWorst(country: Country): string[] {
     );
 }
 
-/** The measures a question bears on: its catalog subject's, or a budget line's own (speech-outlines.json `budgetLineTopics`). */
+/** The measures a question bears on: its catalog subject's, or the areas of the term read a budget line bears on (the term read's `answeredBy`). */
 export function questionTopics(question: string): readonly string[] {
-  const line = OUTLINES.budgetLineTopics[question];
   return [
     ...topicsOf(subjectOf(question) ?? ""),
-    ...(Array.isArray(line) ? line : []),
+    ...(question.startsWith("budget-line:") ? areasAnswered(question) : []),
   ];
 }
 
 /**
  * Whether a question answers a condition: a budget line that bears on it, or
  * a question under one of the catalog topics that answer its area
- * (speech-outlines.json `answerTopics`); a measure of the year with no such
- * row is answered by any question of its subjects.
+ * (the term read's `answeredBy`, src/core2/data/term-read/areas.json); a
+ * measure of the year with no such row is answered by any question of its
+ * subjects.
  */
 export function answersCondition(question: string, topic: string): boolean {
-  const line = OUTLINES.budgetLineTopics[question];
-  if (Array.isArray(line)) return line.includes(topic);
-  const topics = OUTLINES.answerTopics[topic];
-  return Array.isArray(topics)
-    ? topics.includes(questionTopic(question) ?? "")
+  if (question.startsWith("budget-line:"))
+    return areasAnswered(question).includes(topic);
+  return topicsAnsweringArea(topic).length
+    ? questionAnswersArea(question, topic)
     : questionTopics(question).includes(topic);
 }
 
@@ -2005,6 +2029,7 @@ export function planSpeech(
   const beliefsHere = new Set<string>();
   // What the points planned so far say, in order.
   const spoken: string[] = [];
+  const shapesUsed = new Set<string>();
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -2063,9 +2088,29 @@ export function planSpeech(
         (text): text is string => !!text,
       ),
     );
+    // The first shape in the speaker's order that the point can open on and no
+    // earlier point of the speech opened on: a shape says something about the
+    // point, so one the point cannot bear stays unpicked (the second reader,
+    // Nov 14). A figure first needs a measure to show; the question first
+    // needs a wording its question can be asked of; and one who defends what
+    // is in force (a supporter of a law in force, an opponent of one not) asks
+    // "Why would we change course, when ..." only of a wording that is not a
+    // complaint.
+    const defends = stand.stance > P.zero === stand.law.inForce;
+    const fits = (name: string) =>
+      name === "figure-first"
+        ? topicOf.has(stand.question)
+        : name === "question-first"
+          ? todays.some((text) => !defends || !questionTodayComplains(text))
+          : todays.length > P.zero;
+    const shape =
+      order.find((name) => fits(name) && !shapesUsed.has(name)) ??
+      order.find(fits) ??
+      order[at % order.length]!;
+    shapesUsed.add(shape);
     return {
       question: stand.question,
-      shape: order[at % order.length]!,
+      shape,
       side,
       today: todays[P.zero] ?? null,
       todays,
@@ -2152,9 +2197,13 @@ export function planSpeech(
    */
   const crisisDraft = (topic: string): Draft => {
     const context = contextFacts(core, topic, country, speaker.serviceStart);
-    const told = context[`context-${topic}`]
-      ? move("context", { topic })
-      : null;
+    // Said over the years only where the bank holds a context piece for the
+    // topic; else the record's one line of it (a place's work, pay and prices
+    // have story-says lines and no context pieces yet), never silence.
+    const told =
+      context[`context-${topic}`] && bankSaysContext(topic)
+        ? move("context", { topic })
+        : null;
     if (told) tagSaid = true;
     return {
       key: `crisis-${topic}`,
@@ -2420,6 +2469,11 @@ export function planSpeech(
                   if (n === undefined) return [];
                   return [
                     [`today${n}`, fact(said, ...cited)],
+                    // A wording that is not a complaint, for a speaker who
+                    // defends what is in force to ask about.
+                    ...(questionTodayComplains(said)
+                      ? []
+                      : [[`today-works${n}`, fact("yes", ...cited)]]),
                     // A condition said in the past takes no "As of right
                     // now" or "For now" opener (round 6).
                     ...(PAST_TENSE.test(said)

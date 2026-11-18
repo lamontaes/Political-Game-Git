@@ -48,7 +48,15 @@ import recallAnswers from "../data/campaigns/recall-answers.json" with { type: "
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
-import { ageInYears, daysBetweenText as daysBetween } from "../kernel/dates";
+import {
+  addMonths,
+  ageInYears,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
+import { nextElectionForSeat } from "../elections-calendar";
+import { ELECTIONS_MODULE_ID } from "./elections";
+
+type OfficeInput = Parameters<typeof nextElectionForSeat>[0]["office"];
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 
@@ -78,6 +86,8 @@ export interface RecallRow {
   readonly namedSigners: readonly string[];
   readonly status: "circulating" | "failed" | "on-ballot" | "kept" | "removed";
   readonly vote: { readonly remove: number; readonly keep: number } | null;
+  /** The day the petition was found short or the election was held: where a state's bar after a failed recall counts from. */
+  readonly decided?: string;
   /** What the member said to the organizer about the petition, in the order said (`keepAnswer`). */
   readonly answers?: readonly RecallAnswer[];
   /** The count on the due day, where the member answered: the signatures and their reasons (`recount`). */
@@ -228,39 +238,125 @@ function stateUsps(api: CoreAPI): string {
   return lawChain(api).stateKey.slice(3);
 }
 
+/** One state's rule on when a petition may be filed, as its statute states it (src/core2/data/campaigns/recall-bars.json). */
 interface RecallBarRow {
-  readonly openingDays: number;
+  readonly openingDays?: number;
+  readonly openingMonths?: number;
+  /** A bar of this fraction of the term at hand: [numerator, denominator]. */
+  readonly openingTermFraction?: readonly [number, number];
   readonly longTermOpeningDays?: number;
   readonly longTermAboveYears?: number;
   readonly closingDays?: number;
+  readonly closingMonths?: number;
   readonly longTermClosingDays?: number;
+  /** A bar that closes a stretch before the seat's next election, or before its incumbent filing deadline. */
+  readonly closingBeforeElection?: {
+    readonly from: "election" | "filing-deadline";
+    readonly months?: number;
+    readonly days?: number;
+    /** Counts back the days a recall election takes after certification as well. */
+    readonly plusRecallElection?: boolean;
+  };
+  /** How long after a recall failed (a petition short, or an election that kept the member) another may not start; absent, the rest of the term. */
+  readonly afterFailed?: { readonly days?: number; readonly months?: number };
+}
+
+const RECALL_BARS = recallBarData.states as unknown as Record<
+  string,
+  RecallBarRow
+>;
+
+/** The state's row of bars as its statute states them, or undefined where no row is read. */
+export function recallBarRowFor(stateUsps: string): RecallBarRow | undefined {
+  return RECALL_BARS[stateUsps];
+}
+
+/** What a state's bars are read against: the term's own dates and, where a bar counts from an election, the seat's next one. */
+export interface RecallClock {
+  readonly since: string;
+  readonly endDate: string | null;
+  readonly termYears?: number;
+  readonly election?: {
+    readonly electionDate: string;
+    readonly filingDeadline: string;
+  } | null;
+  readonly recallElectionDays: number;
 }
 
 /**
- * The state's bars on when a petition may be filed against a member whose
- * term is `termYears` long: days into the term before one may be, and days
- * before its end after which none may be. Null where the state's statute is
- * not read (SG-GOV-recall-bars-national): the national estimate stands.
+ * The dates a state's bars put on a petition against a member: the day it
+ * opens, the day it closes (none where the statute has no closing bar) and
+ * what the state says about a petition after one failed. Every bar is read
+ * against the term's own dates, so a bar of six months is six calendar
+ * months and a fraction of the term is that fraction of this term. Null where
+ * the state has no row: the national estimate stands.
  */
-export function recallBarsFor(
+export function recallWindowFor(
   stateUsps: string,
-  termYears: number | undefined,
-): { openingDays: number; closingDays: number } | null {
-  const row = (recallBarData.states as Record<string, RecallBarRow>)[stateUsps];
+  clock: RecallClock,
+): {
+  opensOn: string;
+  closesOn: string | null;
+  afterFailed: RecallBarRow["afterFailed"] | null;
+} | null {
+  const row = RECALL_BARS[stateUsps];
   if (!row) return null;
-  // stopgapId: SG-GOV-recall-bars-calendar-months (a bar the statute counts in calendar months is stored as a fixed number of days, though six calendar months run 181 to 184 days and two run 59 to 62)
-  // stopgapId: SG-GOV-recall-bars-term-fraction (every term over longTermAboveYears takes one long-term value, though a bar that is a fraction of the term scales with the term: one-fourth of a three-year term is 91 days less than the value taken)
   const long =
-    termYears !== undefined &&
+    clock.termYears !== undefined &&
     row.longTermAboveYears !== undefined &&
-    termYears > row.longTermAboveYears;
-  return {
-    openingDays: long
+    clock.termYears > row.longTermAboveYears;
+  const termDays = clock.endDate
+    ? daysBetween(clock.since, clock.endDate)
+    : Math.round((clock.termYears ?? 0) * 365.25);
+  const openings = [
+    long
       ? (row.longTermOpeningDays ?? row.openingDays)
-      : row.openingDays,
-    closingDays: long
-      ? (row.longTermClosingDays ?? row.closingDays ?? 0)
-      : (row.closingDays ?? 0),
+      : row.openingDays === undefined
+        ? undefined
+        : row.openingDays,
+  ]
+    .filter((d): d is number => d !== undefined)
+    .map((d) => addDays(clock.since, d));
+  if (row.openingMonths !== undefined)
+    openings.push(addMonths(clock.since, row.openingMonths));
+  if (row.openingTermFraction)
+    openings.push(
+      addDays(
+        clock.since,
+        Math.round(
+          (termDays * row.openingTermFraction[0]) / row.openingTermFraction[1],
+        ),
+      ),
+    );
+  const closings: string[] = [];
+  if (clock.endDate) {
+    const days = long
+      ? (row.longTermClosingDays ?? row.closingDays)
+      : row.closingDays;
+    if (days) closings.push(addDays(clock.endDate, -days));
+    if (row.closingMonths)
+      closings.push(addMonths(clock.endDate, -row.closingMonths));
+  }
+  const before = row.closingBeforeElection;
+  if (before && clock.election) {
+    let at: string = (
+      before.from === "election"
+        ? clock.election.electionDate
+        : clock.election.filingDeadline
+    ) as string;
+    if (before.months) at = addMonths(at, -before.months) as string;
+    const days =
+      (before.days ?? 0) +
+      (before.plusRecallElection ? clock.recallElectionDays : 0);
+    if (days) at = addDays(at, -days) as string;
+    closings.push(at);
+  }
+  return {
+    opensOn: openings.reduce((a, b) => (a > b ? a : b), clock.since),
+    closesOn: closings.length
+      ? closings.reduce((a, b) => (a < b ? a : b))
+      : null,
+    afterFailed: row.afterFailed ?? null,
   };
 }
 
@@ -366,49 +462,67 @@ export function recallRule(api: CoreAPI) {
 /**
  * Whether a serving member is open to a recall petition now: past the
  * state's opening bar and before its closing bar for their term, with no
- * petition against them circulating or on the ballot and none that failed or
- * kept them this term.
+ * petition against them circulating or on the ballot, and none that failed
+ * or kept them within the time the state bars another (the rest of the term
+ * where the statute says nothing).
  */
 export function openToRecall(api: CoreAPI, term: TermRow): boolean {
-  // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
-  if (!recallBarsFor(stateUsps(api), undefined))
-    api.stopgap("SG-GOV-recall-bars-national");
   // The term began one term's length before it ends (a term held at the
   // opening records the opening as its start).
-  const years = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(term.officeId) as unknown as { termYears?: number } | undefined
-  )?.termYears;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(term.officeId) as unknown as
+    (OfficeInput & { termYears?: number }) | undefined;
+  const years = office?.termYears ?? undefined;
   const since =
     term.endDate && years
       ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
       : term.startDate;
-  const bars = recallBarsFor(stateUsps(api), years) ?? {
-    openingDays: campaignParameter("recallTermOpeningDays"),
-    closingDays: 0,
-  };
-  if (daysBetween(since, api.state.date) < bars.openingDays) return false;
-  // Some statutes also bar a petition in the last months of the term.
-  if (
-    bars.closingDays &&
-    term.endDate &&
-    daysBetween(api.state.date, term.endDate) <= bars.closingDays
-  )
-    return false;
+  const recallElectionDays = campaignParameter("recallElectionDays");
+  const usps = stateUsps(api);
+  // A bar counted from the seat's next election reads that election off the
+  // office calendar, as the election engine does for the seat's contest.
+  const election = RECALL_BARS[usps]?.closingBeforeElection
+    ? nextElectionForSeat({
+        office: office as OfficeInput,
+        stateKey: lawChain(api).stateKey,
+        placeGeoid: (
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("town")
+            .get("town") as unknown as { geoid: string }
+        ).geoid,
+        termEnd: term.endDate,
+        onDate: api.state.date,
+      })
+    : null;
+  const window = recallWindowFor(usps, {
+    since,
+    endDate: term.endDate,
+    termYears: years,
+    election,
+    recallElectionDays,
+  });
+  const opensOn =
+    window?.opensOn ??
+    addDays(since, campaignParameter("recallTermOpeningDays"));
+  if (api.state.date < opensOn) return false;
+  // Some statutes also bar a petition in the last months of the term, or
+  // before the seat's next election.
+  if (window?.closesOn && api.state.date >= window.closesOn) return false;
   const prior = table(api).query("byTerm", [term.id]) as unknown as RecallRow[];
-  if (
-    prior.some(
-      (r) =>
-        r.status === "circulating" ||
-        r.status === "on-ballot" ||
-        r.status === "failed" ||
-        r.status === "kept",
-    )
-  )
-    return false;
-  return true;
+  return !prior.some((r) => {
+    if (r.status === "circulating" || r.status === "on-ballot") return true;
+    if (r.status !== "failed" && r.status !== "kept") return false;
+    const rule = window?.afterFailed;
+    if (!rule || !r.decided) return true;
+    const again =
+      rule.months !== undefined
+        ? addMonths(r.decided, rule.months)
+        : addDays(r.decided, rule.days ?? 0);
+    return api.state.date < again;
+  });
 }
 
 function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
@@ -921,6 +1035,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     table(api).put({
       ...recall,
       status: enough ? "on-ballot" : "failed",
+      ...(enough ? {} : { decided: api.state.date }),
     } as unknown as ModuleRow);
     announce(api, recall, enough ? "on-ballot" : "failed", {
       signatures: String(recall.signatures),
@@ -978,6 +1093,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     ...recall,
     status: removed ? "removed" : "kept",
     vote: result,
+    decided: api.state.date,
   } as unknown as ModuleRow);
   announce(api, recall, removed ? "removed" : "kept", {
     remove: String(result.remove),

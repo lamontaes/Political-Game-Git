@@ -81,23 +81,33 @@ describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
     expect(net).toBeGreaterThan(0.2);
   });
 
-  it("weighs no retelling for a listener with nobody at home outside the audience, and weighs it for the rest", () => {
+  it("weighs no retelling for a listener with nobody to tell, at home or among their ties outside the audience, and weighs it for the rest", () => {
     // The audience and the speaker: nobody told at home.
     const audience = new Set([
       played.speakerId,
       ...played.retellings.map((row) => row.listenerId),
     ]);
-    const atHome = (row: Retelling) =>
-      (
-        played.core.households.get(
+    // Someone to tell: a household member, or anyone they are tied to
+    // outside it, who was not at the speech.
+    const atHome = (row: Retelling) => {
+      const reachable = (id: string) =>
+        id !== row.listenerId &&
+        !audience.has(id) &&
+        played.core.people.get(id)?.alive;
+      const tied = [
+        ...(played.core.relationshipsByPerson.get(row.listenerId as never) ??
+          []),
+      ].map((key) => {
+        const tie = played.core.relationships.get(key)!;
+        return tie.actorId === row.listenerId ? tie.otherId : tie.actorId;
+      });
+      return [
+        ...(played.core.households.get(
           played.core.people.get(row.listenerId)!.householdId,
-        )?.memberIds ?? []
-      ).some(
-        (id) =>
-          id !== row.listenerId &&
-          !audience.has(id) &&
-          played.core.people.get(id)?.alive,
-      );
+        )?.memberIds ?? []),
+        ...tied,
+      ].some(reachable);
+    };
     const alone = played.retellings.filter((row) => !atHome(row));
     const withSomeone = played.retellings.filter(atHome);
     console.log(

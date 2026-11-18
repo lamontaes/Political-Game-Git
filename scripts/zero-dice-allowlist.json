@@ -115,9 +115,12 @@
     {
       "file": "src/core2/citizenship.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare"
+      "code": "new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether a person at the opening is a citizen: who exists, drawn once from the published citizenship share.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/citizenship.ts",
@@ -143,23 +146,32 @@
     {
       "file": "src/core2/gov-rules/given-name-cohorts.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < 0) return name;"
+      "code": "if (point < 0) return name;",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + person id",
+      "reason": "Which given name a person at the opening carries, from the birth-year cohort name shares: who they are.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/gov-rules/given-name-cohorts.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (rng.next() >= cohortGivenNameShare(sex, birthYear))"
+      "code": "if (rng.next() >= cohortGivenNameShare(sex, birthYear))",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + person id",
+      "reason": "Which given name a person at the opening carries, from the birth-year cohort name shares: who they are.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/gov-rules/person-identity.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
+      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + person id",
+      "reason": "A person at the opening is drawn female, male or nonbinary from the published shares: who they are.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/jobs-elsewhere.ts",
@@ -195,9 +207,12 @@
     {
       "file": "src/core2/nativity.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "new SeededRng(input.seed).fork(`nativity:${input.personId}`).next() < share;"
+      "code": "new SeededRng(input.seed).fork(`nativity:${input.personId}`).next() < share;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether a person at the opening was born in the country, from the published nativity share: who exists.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/officials-identity.ts",
@@ -235,23 +250,32 @@
     {
       "file": "src/core2/opening-kin.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < weight) {"
+      "code": "if (point < weight) {",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The relatives a person at the opening has, whether each has left home and whether their parents stayed together, drawn from published rates: who exists around them.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/opening-kin.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (moveHazard(rates, fromAge, age) < line) return true;"
+      "code": "if (moveHazard(rates, fromAge, age) < line) return true;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The relatives a person at the opening has, whether each has left home and whether their parents stayed together, drawn from published rates: who exists around them.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/opening-kin.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "const apart = r.fork(\"marriage\").next() >= marriageIntact(married);"
+      "code": "const apart = r.fork(\"marriage\").next() >= marriageIntact(married);",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The relatives a person at the opening has, whether each has left home and whether their parents stayed together, drawn from published rates: who exists around them.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/opening-origin.ts",
@@ -278,9 +302,12 @@
     {
       "file": "src/core2/opening-partnership.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < p(\"zero\")) return minimum + i;"
+      "code": "if (point < p(\"zero\")) return minimum + i;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "How many children a couple at the opening has and whether the partners are related, drawn from published rates: who exists, never what they do.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/opening-partnership.ts",
@@ -296,16 +323,22 @@
     {
       "file": "src/core2/opening-partnership.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < p(\"zero\") || !(term > p(\"zero\"))) return count;"
+      "code": "if (point < p(\"zero\") || !(term > p(\"zero\"))) return count;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "How many children a couple at the opening has and whether the partners are related, drawn from published rates: who exists, never what they do.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/opening-partnership.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": ".next() < related"
+      "code": ".next() < related",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "How many children a couple at the opening has and whether the partners are related, drawn from published rates: who exists, never what they do.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/person-names.ts",
@@ -453,23 +486,32 @@
     {
       "file": "src/core2/town-households.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "if (point < 0) return shape;"
+      "code": "if (point < 0) return shape;",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The shape of each household at the opening (size, children, a same-sex couple) drawn from published shares: who exists.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/town-households.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "for (let c = 0; c < children; c += 1)"
+      "code": "for (let c = 0; c < children; c += 1)",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The shape of each household at the opening (size, children, a same-sex couple) drawn from published shares: who exists.",
+      "replacement": "None"
     },
     {
       "file": "src/core2/town-households.ts",
       "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
-      "code": "const sameSex = rng.next() < shareValue(\"sameSexCoupleShare\");"
+      "code": "const sameSex = rng.next() < shareValue(\"sameSexCoupleShare\");",
+      "class": "GENERATION",
+      "keyedBy": "world seed + household id",
+      "reason": "The shape of each household at the opening (size, children, a same-sex couple) drawn from published shares: who exists.",
+      "replacement": "None"
     }
   ]
 }

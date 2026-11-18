@@ -12,7 +12,8 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { governmentUnitsForPlace } from "../core2/reference/government-units";
-import { placeCountyGeoids } from "../core2/place-map";
+import { placeCountyGeoids, placeStateKey } from "../core2/place-map";
+import { originForChosen } from "./whole-figures";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
@@ -302,6 +303,15 @@ export function applyChosenPerson(
   id: string,
   chosen: ChosenPerson,
 ) {
+  // The chosen face's family origin: the family takes it where the drawn
+  // household origin paints no one of that skin tone.
+  const origin = chosen.recipe
+    ? originForChosen(
+        chosen.recipe.person,
+        core.people.get(id)?.looks?.origin,
+        placeStateKey(core.placeMetadata?.placeKey ?? "") ?? "",
+      )
+    : undefined;
   coreAPI(core).chooseIdentityV1(id, {
     givenName: chosen.givenName,
     familyName: chosen.familyName,
@@ -309,6 +319,7 @@ export function applyChosenPerson(
     looks: {
       gender: chosen.gender,
       ...(chosen.recipe ? { recipe: JSON.stringify(chosen.recipe) } : {}),
+      ...(origin ? { origin } : {}),
     },
   });
 }

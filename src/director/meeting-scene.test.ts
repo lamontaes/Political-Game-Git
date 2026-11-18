@@ -272,10 +272,12 @@ it(`a new coworker introduces themselves and asks something from the records (se
       ).toEqual([]);
       for (const row of scene.talk.lines)
         expect(row.text, where).not.toMatch(SLOP);
-      // The one who asks does not say the player's name twice in a line.
+      // The one who asks does not say the player's name twice in a line (as a
+      // whole word: "Sam" is not said in "Sampson's Market").
       for (const row of scene.talk.lines)
         expect(
-          (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
+          (row.text.match(new RegExp(`\\b${player.givenName}\\b`, "g")) ?? [])
+            .length,
           `${where}: ${row.text}`,
         ).toBeLessThanOrEqual(1);
       // A promise settles the introduction and is written on the reply by id.
@@ -287,6 +289,8 @@ it(`a new coworker introduces themselves and asks something from the records (se
       expect(reply?.facts?.causeId, where).toBe(moment.causeId);
       expect(reply?.facts?.ending, where).toBe("took-them-in-hand");
       expect(reply?.facts?.keeps, where).toBe("promise");
+      // The kind of promise and the record that will settle it (promises.ts).
+      expect(reply?.facts?.promise, where).toBe("show-around");
       expect(reply?.personIds, where).toContain(idle.id);
       // A put-off that is pressed strains the tie, on the same cause. Whether
       // it is pressed is the newcomer's own answer, led by their traits (no
@@ -317,10 +321,13 @@ it(`a new coworker introduces themselves and asks something from the records (se
   }
 }, 3_600_000);
 
-it(`a tie that grew asks for an invitation or a favor, from the two people's records (seed ${seed})`, () => {
+it(`a tie that grew asks for an invitation or a favor, from the two people's records (Arab, Alabama, seed s32151)`, () => {
   setBookkeeping(false);
   try {
-    const place = drawPlace(seed, "friend-ask");
+    // Pinned to Arab, Alabama: a town whose council has a meeting ahead, so
+    // the one request a friend makes (come with them to the next town body
+    // meeting, Nov 15) has a meeting to name. One fixed seed, never a draw.
+    const place = drawPlace("s32151", "friend-ask", (key) => key === "0102116");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, director, playerId } = buildBenchWorld(
       place.seed,
@@ -330,10 +337,16 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     const id = playerId as PersonId;
     const player = core.people.get(id)!;
     director.watch(core, id);
+    // The player's clock takes the first day, so the player is the one in
+    // control, as in play: a meeting is offered to a resident only then
+    // (office-day's meetingToAttend).
+    play(core, id, 1);
     const api = coreAPI(core);
     // A townsperson the player has no tie to yet, met as the encounters
     // engine meets a group's members, then time together until the tie turns
-    // (the same cause tie-turns.test.ts reads).
+    // (the same cause tie-turns.test.ts reads). The one request a friend can
+    // make that an engine settles is the next meeting of a town body (the
+    // party line was cut, Nov 15); a friend with nothing to ask is not staged.
     const stranger = [...core.people.values()]
       .filter(
         (row) =>
@@ -345,8 +358,9 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
           !player.familyIds.has(row.id) &&
           !sharedHistory(core, id, row.id as PersonId).length,
       )
-      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-    const otherId = stranger.id as PersonId;
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    expect(stranger, `${where}: no townsperson to meet`).toBeTruthy();
+    const otherId = stranger!.id as PersonId;
     api.meet(id, otherId, {
       placeId: player.placeId,
       sourceId: "fixture-meeting",
@@ -356,9 +370,9 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     const book = director.ledger.people.get(id)!;
     const grew = () =>
       book.threads.get(otherId)?.turns.find((turn) => turn.turn === "grew");
-    for (let days = 0; days < MAX_DAYS && !grew(); days += 1) {
-      api.relationship(id, otherId, "contact", HOURS_A_DAY);
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    for (let days = 0; days < MAX_DAYS && !grew(); days += 2) {
+      api.relationship(id, otherId, "contact", 2 * HOURS_A_DAY);
+      play(core, id, 2);
     }
     const turn = grew();
     expect(turn, `${where}: no grew turn`).toBeTruthy();
@@ -380,17 +394,19 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     expect(scene.askerId, where).toBe(otherId);
     expect(scene.askedId, where).toBe(id);
     const fact = (key: string) => scene.facts.find((row) => row.key === key);
+    // The meeting asked to, from the office-day engine's calendar.
+    expect(fact("meeting")?.recordIds[0], where).toMatch(/^meeting:/);
     // The other's town, said only where it is not the player's.
     expect(!!fact("hometown"), where).toBe(
-      stranger.placeId !== player.placeId &&
-        !!corePlaceByJurisdictionId(stranger.placeId as never),
+      stranger!.placeId !== player.placeId &&
+        !!corePlaceByJurisdictionId(stranger!.placeId as never),
     );
     if (fact("hometown"))
-      expect(fact("hometown")!.recordIds, where).toContain(stranger.placeId);
+      expect(fact("hometown")!.recordIds, where).toContain(stranger!.placeId);
     const root = scene.talk.tree.replies.map((reply) => reply.line);
     expectUpToFourDifferent(root, where);
     for (const row of root)
-      expect(["agree", "promise", "ask", "decline"], where).toContain(row.move);
+      expect(["agree", "ask", "decline"], where).toContain(row.move);
     expect(scene.talk.depth, where).toBeGreaterThan(1);
     expect(
       scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -398,8 +414,8 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     ).toEqual([]);
     for (const row of scene.talk.lines)
       expect(row.text, where).not.toMatch(SLOP);
-    const settled = endsKeeping(scene.talk.tree, "promise")[0];
-    expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+    const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+    expect(settled, `${where}: no path settles in the scene`).toBeTruthy();
     const before = core.relationships.get(
       [...(core.relationshipsByPerson.get(id) ?? [])].find(
         (rid) =>
@@ -414,7 +430,7 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     expect(reply?.facts?.typeKey, where).toBe("becoming-friends");
     expect(reply?.facts?.causeId, where).toBe(moment.causeId);
     expect(reply?.facts?.ending, where).toBe("said-yes-to-friend");
-    expect(reply?.facts?.keeps, where).toBe("promise");
+    expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
     expect(reply?.personIds, where).toContain(otherId);
     // The talk is time together: the tie's last contact is today.
     const tie = core.relationships.get(moment.causeId)!;
@@ -438,7 +454,7 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
   } finally {
     setBookkeeping(true);
   }
-}, 3_600_000);
+}, 120_000);
 
 it(`the shared facts come from the world's own records in drawn places (seed ${seed})`, () => {
   setBookkeeping(false);

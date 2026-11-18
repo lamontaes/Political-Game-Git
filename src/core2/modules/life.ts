@@ -74,6 +74,12 @@ function knownPublicTargets(
         // An office to approach is one with recorded staff, as the look-up
         // that finds it requires (office-directory in modules/people.ts).
         (action.targetKind !== "known-office" || !!row.staff?.length) &&
+        // An association's hall (its building, a town workplace) is a meeting
+        // place for its own members and staff, not for the public.
+        (action.targetKind !== "public-meeting-place" ||
+          row.facts?.meetingAccess !== "members" ||
+          api.state.memberships.has(`${actor.id}:${id}`) ||
+          !!row.staff?.some((held) => held.personId === actor.id)) &&
         api.knows(actor.id, `organization:${id}:public`)
       )
         out.push(offer(api, actor, action, id));

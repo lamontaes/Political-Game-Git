@@ -3,7 +3,13 @@ import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
 import { LOCAL_INSTITUTIONS_TABLE } from "./reference/local-institutions";
-import { stopgap } from "./stopgaps";
+import { seededUnit } from "./seeded";
+import {
+  censusRegionOf,
+  censusRegionStates,
+  type CensusRegion,
+} from "./reference/census-regions";
+import jointUse from "../../data/research/core/shpps-2012-joint-use.json" with { type: "json" };
 import type {
   CoreInput,
   CoreState,
@@ -35,7 +41,6 @@ interface TargetDefinition {
 
 export interface CivicInputsData {
   version: string;
-  stopgapId: string;
   directoryCitation: string;
   directoryScopes: readonly { scope: string; store: string }[];
   directoryColumns: readonly string[];
@@ -55,6 +60,33 @@ export interface CivicInputsData {
     source: string;
   }[];
   requiredAffordances: readonly { id: string; gap: string }[];
+  districtJointUse: {
+    sourceKinds: readonly string[];
+    districtIdLength: number;
+    affordances: readonly string[];
+    citation: string;
+  };
+}
+
+const REGION_STATES = new Set(censusRegionStates());
+
+/**
+ * Whether a school district lets outside groups use its schools under a formal
+ * joint use agreement. Generated with the world for each district, at the
+ * share of districts with one in the place's Census region (CDC SHPPS 2012),
+ * the way the world's other institutions are generated: a fact about what
+ * exists, never a choice in play. Territories take the national share.
+ */
+export function districtHasJointUse(
+  seed: string,
+  districtId: string,
+  stateUsps: string | undefined,
+): boolean {
+  const share =
+    stateUsps && REGION_STATES.has(stateUsps)
+      ? jointUse.byRegion[censusRegionOf(stateUsps) as CensusRegion].share
+      : jointUse.overall.share;
+  return seededUnit(seed, `district-joint-use:${districtId}`) < share;
 }
 
 function stringFacts(
@@ -167,7 +199,6 @@ export function enrichCivicInputs(
   options: CivicInputsOptions = {},
 ): CoreInput {
   const data = options.data ?? DEFAULT_CIVIC_INPUTS_DATA;
-  const marker = stopgap(data.stopgapId);
   const startedAt = makeIsoDate(input.startedAt);
   const directory = options.directory;
   makeIsoDate(directory?.asOf ?? DIRECTORY.rest<{ asOf: string }>().asOf);
@@ -219,7 +250,10 @@ export function enrichCivicInputs(
           throw new Error(
             `Public government fact contradicts the supplied employer: ${organization.id}:${key}`,
           );
-      if (existing.facts?.stopgapId === marker.id && !existing.staff?.length)
+      if (
+        existing.facts?.civicInputsVersion === data.version &&
+        !existing.staff?.length
+      )
         gaps.add(
           `${gapPrefix}${organization.id} has no supplied civic contact-role assignment; no clerk or association contact invented.`,
         );
@@ -294,7 +328,7 @@ export function enrichCivicInputs(
         ...(staffSources.size
           ? { staffAssignmentSource: [...staffSources].join(" ") }
           : {}),
-        stopgapId: marker.id,
+        civicInputsVersion: data.version,
       },
       ...(staff.length ? { staff } : {}),
     });
@@ -335,11 +369,24 @@ export function enrichCivicInputs(
         if (publicById.has(id)) continue;
         const vintage = makeIsoDate(row.asOf);
         const backdated = startedAt < vintage;
+        // A school's rooms are open to outside groups only under its
+        // district's joint use agreement (the district is the first digits
+        // of the school's NCES id).
+        const joint = data.districtJointUse.sourceKinds.includes(row.kind)
+          ? row.sourceId.slice(0, data.districtJointUse.districtIdLength)
+          : undefined;
+        const open =
+          joint !== undefined &&
+          districtHasJointUse(
+            input.seed,
+            joint,
+            place.stateJurisdictionKey?.slice(3),
+          );
         const source: Source = {
           tag: "ESTIMATED",
-          citation: `${data.directoryCitation} ${row.sourceKey}:${row.sourceId}, directory as of ${row.asOf}.`,
+          citation: `${data.directoryCitation} ${row.sourceKey}:${row.sourceId}, directory as of ${row.asOf}.${joint ? ` ${data.districtJointUse.citation}` : ""}`,
           asOf: row.asOf,
-          estimatedFrom: `${backdated ? "Later directory identity used as an opening proxy; historical name and existence are not verified." : "Recorded directory identity; current operation beyond the directory vintage is not verified."} Classification ${definition.id} supplies only a public inquiry destination; no meeting access, room, schedule, membership admission, staffing, or approval inferred.`,
+          estimatedFrom: `${backdated ? "A later directory names it; its name and existence at the start are taken from that listing." : "Recorded directory identity."} Classification ${definition.id}.${joint ? ` District ${joint} ${open ? "has" : "has no"} joint use agreement, generated with the world at its region's share.` : ""}`,
         };
         publicById.set(id, {
           id,
@@ -347,9 +394,20 @@ export function enrichCivicInputs(
           name: row.name,
           kind: definition.kind,
           source,
-          affordances: [...definition.affordances],
+          affordances: [
+            ...definition.affordances,
+            ...(open ? data.districtJointUse.affordances : []),
+          ],
           facts: {
             ...definition.facts,
+            ...(joint
+              ? {
+                  districtId: joint,
+                  meetingAccess: open
+                    ? "district-joint-use-agreement"
+                    : "no-district-joint-use-agreement",
+                }
+              : {}),
             sourceKind: row.kind,
             sourceKey: row.sourceKey,
             sourceId: row.sourceId,
@@ -361,7 +419,7 @@ export function enrichCivicInputs(
               ? "opening-identity-proxy"
               : "directory-identity",
             exactAddress: "not-imported",
-            stopgapId: marker.id,
+            civicInputsVersion: data.version,
           },
         });
       }

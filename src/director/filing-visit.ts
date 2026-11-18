@@ -22,7 +22,7 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate, spokenWhen } from "./words";
+import { spoken, spokenDate, spokenWhen, stateInSentence } from "./words";
 import {
   wordSceneMove,
   type Fact,
@@ -31,7 +31,12 @@ import {
 import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
+import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { placeCounty } from "../core2/place-map";
+import { describesByRule } from "../core2/filing-rule-office";
+
+export { describesByRule };
 
 const zero = P.zero;
 const one = P.one;
@@ -86,6 +91,8 @@ export type FilingAction =
   | { kind: "file"; contestId: string }
   /** A reply in the clerk's scene that is not filing or leaving: its place among the replies offered. */
   | { kind: "say"; contestId: string; index: number }
+  /** The player says they will come back with what the clerk asked for. */
+  | { kind: "return"; contestId: string; index: number }
   | { kind: "done" };
 
 export interface FilingVisit {
@@ -135,6 +142,11 @@ export function openFilingVisit(
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
+  /**
+   * The body the clerk works for, as the records name it, said where the
+   * filing note gives the office only as a rule (`describesByRule`).
+   */
+  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -148,24 +160,31 @@ export function openFilingVisit(
   const greet = back
     ? visitLine(core, visit, "clerk", "greet-back", {
         "filed-office": {
-          text: seatSaid(back.seat),
+          text: seatSaid(back.seat, { asMember: true }),
           sourceRecordIds: [back.filingId],
         },
         ...clerkFact(core, clerkId),
       })
     : visitLine(core, visit, "clerk", "greet-counter", {
-        ...placeFact(core, playerId),
+        ...counterAreaFact(core, playerId, contests),
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
-        ...(filedWith && saidOffice(filedWith, contests)
-          ? {
-              where: {
-                text: titleInSentence(saidOffice(filedWith, contests)!),
-                sourceRecordIds: contests.map((row) => row.id),
-              },
-            }
-          : {}),
+        ...((): Record<string, Fact> => {
+          // The body a person works for, named in the records, is a proper
+          // name ("Franklin County board of elections"), said as it stands.
+          const named = filedWith && clerkBody ? clerkBody : null;
+          const said =
+            named ?? (filedWith ? saidOffice(filedWith, contests) : null);
+          return said
+            ? {
+                where: {
+                  text: named ? said : titleInSentence(said),
+                  sourceRecordIds: contests.map((row) => row.id),
+                },
+              }
+            : {};
+        })(),
         ...clerkFact(core, clerkId),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
@@ -177,7 +196,9 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }),
+          text: seatSaid(contest.seat ?? { title: contest.title }, {
+            asMember: true,
+          }),
           sourceRecordIds: [contest.id],
         },
       },
@@ -282,7 +303,9 @@ export function pickContest(
   });
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
-    ...placeFact(core, visit.playerId),
+    // "In {place}" is the town only for a town's seat filed at another
+    // government's counter (Words lead, Nov 14: "for the senate in Edgar").
+    ...seatPlaceFact(core, visit.playerId, contest),
     ...clerkFact(core, visit.clerkId),
     ...raceFacts(core, contest, ids),
     deadline: {
@@ -298,6 +321,15 @@ export function pickContest(
         }
       : {}),
   };
+  // Where the place's law charges a fee, the clerk's scene tells it with the
+  // race (Words lead, Nov 14), and a candidate who cannot pay it is refused
+  // as the scene's own turn after they say they will file.
+  const feeCheck = checks.find((row) => row.rule === "filing-fee");
+  if (feeCheck) {
+    facts.fee = { text: feeCheck.required, sourceRecordIds: ids };
+    if (!feeCheck.met)
+      facts["fee-short"] = { text: "yes", sourceRecordIds: [visit.playerId] };
+  }
   visit.choices = [];
   visit.picked = { contestId, facts, path: [] };
   // The clerk tells the candidate about the race before the paperwork
@@ -310,7 +342,10 @@ export function pickContest(
   const talk = clerkScene(core, visit);
   if (talk) visit.lines.push(clerkSaid(talk.state));
   // Each rule that stops the filing, in the clerk's words, from its record.
-  const unmet = checks.filter((row) => !row.met);
+  // The fee is not one of them here: the clerk has named it, and refuses for
+  // it only when the player tries to file without it (the scene's own turn),
+  // never before the player has moved.
+  const unmet = checks.filter((row) => !row.met && row.rule !== "filing-fee");
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
@@ -320,7 +355,11 @@ export function pickContest(
     const line = visitLine(core, visit, "clerk", `rule-${check.rule}`, {
       ...facts,
       required: { text: required, sourceRecordIds: ids },
-      actual: { text: actual, sourceRecordIds: [visit.playerId] },
+      // Where the records put them is never said as a place: the player never
+      // lives in another town (nothing moves them), so the clerk says "somewhere else".
+      ...(check.rule === "residency"
+        ? { "no-actual": { text: "yes", sourceRecordIds: [visit.playerId] } }
+        : { actual: { text: actual, sourceRecordIds: [visit.playerId] } }),
     });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
@@ -343,6 +382,21 @@ export function pickContest(
     offerReplies(visit, talk.tree);
   }
   return visit;
+}
+
+/**
+ * The player tried to file and the fee stopped it: the reply they chose is
+ * the scene's own turn, and the clerk's refusal is the scene's answer to it
+ * (`follow` after `agree`, worded only for a candidate short of the fee), so
+ * the refusal follows the player's move and the replies after it, "I'll come
+ * back with it." and leaving, are the scene's next replies.
+ */
+export function refusedAtCounter(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  return followReply(core, visit, visit.choices.indexOf(choice));
 }
 
 /** The clerk's scene at the counter: the `filing-clerk` arc, cast by the records. */
@@ -411,6 +465,13 @@ function offerReplies(visit: FilingVisit, node: TreeNode): void {
         key: "file",
         control: "file" as const,
         action: { kind: "file" as const, contestId },
+      };
+    if (move === "come-back")
+      return {
+        ...base,
+        key: "come-back",
+        control: "leave" as const,
+        action: { kind: "return" as const, contestId, index },
       };
     if (move === "leave")
       return {
@@ -520,7 +581,30 @@ export function filedAtCounter(
   filingId?: string,
 ): FilingVisit {
   const index = visit.choices.indexOf(choice);
-  return followReply(core, visit, index, filingId);
+  const kept = followReply(core, visit, index, filingId);
+  // The fee, where there was one, is paid at the counter: the clerk says so.
+  if (filingId && visit.picked?.facts.fee) {
+    const paid = visitLine(
+      core,
+      kept,
+      "clerk",
+      "filing-fee-paid",
+      visit.picked.facts,
+    );
+    if (paid) kept.lines.push({ speaker: "clerk", ...paid });
+  }
+  return kept;
+}
+
+/** The player says they will come back with the fee: the scene's reply, recorded as every reply is. */
+export function comeBackLater(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  if (choice.action.kind !== "return")
+    throw new Error("Not a way to come back later.");
+  return followReply(core, visit, choice.action.index);
 }
 
 /**
@@ -543,6 +627,72 @@ function placeFact(
   return town
     ? { place: { text: spoken(town), sourceRecordIds: [person!.placeId] } }
     : {};
+}
+
+/**
+ * The area a counter's greeting says it takes filings for ("I take the
+ * filings for {place}"): the town at a town's own counter, the state at a
+ * counter that takes only state and federal races (a Secretary of State), and
+ * the county at a county's (from the place map; none said where the map holds
+ * no county for the town). A
+ * town clerk's line is never put in a state office's mouth (Words lead,
+ * second reader, Nov 14: Vicco and West Point KY).
+ */
+function counterAreaFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contests: readonly FilingContest[],
+): Record<string, Fact> {
+  const levels = contests.map((row) => row.seat?.level ?? "");
+  const above = (level: string) =>
+    level === "county" || level === "state" || level === "federal";
+  if (levels.length === zero || !levels.every(above))
+    return placeFact(core, playerId);
+  const person = core.people.get(playerId);
+  const town = person
+    ? corePlaceByJurisdictionId(person.placeId as never)
+    : null;
+  if (levels.some((level) => level === "county")) {
+    const county = town ? placeCounty(town.key) : null;
+    return county
+      ? {
+          place: {
+            text: county.name,
+            sourceRecordIds: [person!.placeId],
+          },
+        }
+      : {};
+  }
+  const state = town?.withinName;
+  return state
+    ? {
+        place: {
+          text: stateInSentence(state),
+          sourceRecordIds: [person!.placeId],
+        },
+      }
+    : {};
+}
+
+/**
+ * The "in {seat-place}" of a filing line's closer says the town only where a
+ * town's seat is filed at another government's counter (a county or the
+ * state); at the town's own counter, and for any seat above the town, no
+ * place is said (Words lead, Nov 14, rule 100: "Your name's in for mayor.",
+ * "for governor"). The town itself stays `place` for the lines that talk
+ * about the town.
+ */
+function seatPlaceFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contest: FilingContest,
+): Record<string, Fact> {
+  const level = contest.seat?.level;
+  const townsOwn = !level || level === "city" || level === "township";
+  const town = placeFact(core, playerId);
+  return townsOwn && !contest.kind?.startsWith("municipalOffice") && town.place
+    ? { ...town, "seat-place": town.place }
+    : town;
 }
 
 /** The clerk by name, where the filing office's records name one. */
@@ -631,8 +781,8 @@ function raceFacts(
   // "the council"); never the form's title with its parenthesis.
   const record = contest.seat ?? { title: contest.title };
   const facts: Record<string, Fact> = {
-    office: fact(seatSaid(record)),
-    seat: fact(seatSaid(record, { first: false })),
+    office: fact(seatSaid(record, { asMember: true })),
+    seat: fact(seatSaid(record, { first: false, asMember: true })),
   };
   if (contest.electionDate)
     facts.general = fact(spokenDate(contest.electionDate, core.date));
@@ -685,7 +835,7 @@ function raceFacts(
 export function counterNarration(
   core: Readonly<CoreState>,
   visit: FilingVisit,
-  clerk: { title: string; recordId: string },
+  clerk: { title: string; recordId: string; heads?: string },
   /**
    * The player's filing at this counter, when there is one: they are back
    * for another race. Without one, this is their first visit, to ask for the
@@ -727,7 +877,14 @@ export function counterNarration(
     // A title the record capitalizes only at its start ("County clerk") is said
     // in running text as a common noun; one with proper names stays as written.
     post: {
-      text: titleInSentence(clerk.title),
+      text: clerk.heads
+        ? agencyHeadSaid(clerk.heads)
+        : titleInSentence(clerk.title),
+      sourceRecordIds: [clerk.recordId],
+    },
+    // Where the player goes: the clerk's office, or the agency itself.
+    counter: {
+      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };
@@ -735,6 +892,7 @@ export function counterNarration(
     facts.office = {
       text: seatSaid(
         visit.contests[zero]!.seat ?? { title: visit.contests[zero]!.title },
+        { asMember: true },
       ),
       sourceRecordIds: [visit.contests[zero]!.id],
     };

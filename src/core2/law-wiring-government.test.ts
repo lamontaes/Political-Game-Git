@@ -1034,3 +1034,77 @@ describe(`government operations laws are applied by their engines (seed ${seed})
     }
   }, 300_000);
 });
+
+/**
+ * A city's and a county's administration lines fund one employer, the city
+ * government. A raise to the city's line posts an opening, and a county line
+ * change landing before the opening's vacancy wait ends used to rebase the
+ * employer's staffing and withdraw it, so nobody was hired on the raise. Two
+ * pinned places with a city and a county government, each with a world seed
+ * chosen from data (not drawn): the raise is hired on within 98 days.
+ */
+const PINNED_ADMINISTRATION = [
+  // Ada County, Idaho: the raise's opening was withdrawn on day 42 by the county's line (this world seed replays the failure).
+  {
+    key: "1608830",
+    worldSeed: createHash("sha256").update("aa2:ward-place:4").digest("hex"),
+  },
+  // New Castle County, Delaware: a second city and county that fund one employer.
+  {
+    key: "1077580",
+    worldSeed: createHash("sha256").update("aa2:ward-place:0").digest("hex"),
+  },
+];
+
+describe("a raise to the city's administration line is hired on whatever the county's line does", () => {
+  for (const { key, worldSeed } of PINNED_ADMINISTRATION)
+    it(`hires on the raise at place ${key} (world seed ${worldSeed.slice(0, 8)})`, () => {
+      const priorBookkeeping = setBookkeeping(false);
+      try {
+        const core = buildBenchWorld(worldSeed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: key,
+        }).core as CoreState;
+        const api = coreAPI(core);
+        const where = `place ${key}, world seed ${worldSeed}`;
+        const levels = governments(api).map((g) => g.level);
+        expect(levels, `${where}: a city and a county government`).toEqual(
+          expect.arrayContaining(["city", "county"]),
+        );
+        const gov = governments(api).find((g) => g.level === "city")!;
+        const budget = [...budgetsOf(api, gov.id)].sort(
+          (a, b) => b.fiscalYear - a.fiscalYear,
+        )[0];
+        const base = budget?.spendingMinor.administration ?? 0;
+        const staff = Math.max(
+          1,
+          ...townOrganizations(api, "cityGovernment").map(
+            (o) => currentStaff(api, o.id).length,
+          ),
+        );
+        amendBudget(api, {
+          governmentId: gov.id,
+          line: "administration",
+          deltaMinor: Math.max(
+            10_000_000,
+            Math.round(base * 0.3),
+            Math.ceil(base / staff),
+          ),
+          measureId: "law-wiring-government-admin-pinned",
+        });
+        const hired = () =>
+          open(api, ADMIN).find((r) => r.what === "hired-on-budget-line");
+        let days = 0;
+        while (days < 98 && !hired()) {
+          advanceCore(core, next(api, 7));
+          days += 7;
+        }
+        expect(
+          hired(),
+          `${where}: someone hired on the raised administration line within ${days} days`,
+        ).toBeDefined();
+      } finally {
+        setBookkeeping(priorBookkeeping);
+      }
+    }, 600_000);
+});

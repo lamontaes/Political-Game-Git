@@ -94,6 +94,32 @@ describe("the opening address's pieces", () => {
     }
   });
 
+  it("a governor and a mayor have four ways to say each of jobs, pay and prices going wrong, and going right, that never name the place again", () => {
+    // The names budget drops a line that names the state or town again after
+    // the greeting and the close, so a worse line that took {realm-name}
+    // never played (Bee Cave, Texas, seed a7c13e: a bad term told no jobs).
+    for (const subject of ["state-of-the-state", "town-address"])
+      for (const topic of ["jobs", "pay", "prices"])
+        for (const tone of ["worse", "better"]) {
+          const fact = `${topic}-${tone}`;
+          const lines = OPENING_SPEECH_BANK.parts.filter((part) =>
+            part.uses.some(
+              (use) =>
+                use.subject === subject &&
+                use.move === "story-says" &&
+                use.requiresFacts?.includes(fact),
+            ),
+          );
+          expect(
+            lines.length,
+            `${subject} ${fact}: lines that tell it`,
+          ).toBeGreaterThanOrEqual(4);
+          for (const line of lines)
+            if (tone === "worse")
+              expect(line.text, line.key).not.toMatch(/\{realm-name\}/);
+        }
+  });
+
   it('never contract "is" or "has" onto a noun phrase (words lead, round 7)', () => {
     // "'s" for "is" attaches only to a pronoun or to "that", "there", "here",
     // "what" and "who": "Progress on health care's something" is not English.

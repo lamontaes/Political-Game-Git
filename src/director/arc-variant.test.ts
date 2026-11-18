@@ -49,6 +49,13 @@ const TYPES = (situationFile as unknown as { types: PurposeType[] }).types;
 const typeOf = (family: string) =>
   TYPES.find((row) => row.key === family) ??
   TYPES.find((row) => row.purpose === family)!;
+// The families where someone asks the player. The door families (the player
+// asks the resident for a signature or a vote) play the asking tree, composed
+// with the resident's standing in door-variants.test.ts.
+const DOOR_FAMILIES = ["ask-signature", "ask-support"];
+const ASKED_OF_PLAYER = Object.entries(FAMILIES).filter(
+  ([family]) => !DOOR_FAMILIES.includes(family),
+);
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
   const purpose = FAMILIES[family]!.variants[variant]!.purpose;
@@ -129,10 +136,12 @@ const helpFacts: Record<string, Fact> = {
   pay: fact("$6.50"),
   floor: fact("$7.25"),
   relative: fact("Dana"),
-  "read-laid-off": fact("yes"),
   "read-notice-served": fact("yes"),
-  "read-paid-under-floor": fact("yes"),
   "read-household-illness": fact("yes"),
+  "problem-work": fact("yes"),
+  "money-left": fact("running low"),
+  agency: fact("the workforce office"),
+  "respond-in": fact("in seven days"),
 };
 const factsOf = (family: string) =>
   family === "donor-ask"
@@ -196,7 +205,7 @@ describe("a kind with several arcs", () => {
   });
 
   it("composes every variant whole: a setup, a statement, replies, a close, a tree two deep", () => {
-    for (const [family, row] of Object.entries(FAMILIES))
+    for (const [family, row] of ASKED_OF_PLAYER)
       for (const variant of Object.keys(row.variants)) {
         const talk = compose(family, variant);
         const where = `${family}/${variant}`;
@@ -272,7 +281,7 @@ describe("a kind with several arcs", () => {
   }, 300_000);
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
-    for (const [family, row] of Object.entries(FAMILIES)) {
+    for (const [family, row] of ASKED_OF_PLAYER) {
       const names = Object.keys(row.variants);
       const shape = (variant: string) => {
         const talk = compose(family, variant);
@@ -304,13 +313,24 @@ describe("a kind with several arcs", () => {
             `${family}: ${a} and ${b} are one arc in two coats`,
           ).toBe(true);
         }
-      // At least three variants differ in the step or the replies they offer.
+      // The variants differ in the step or the replies they offer. Old
+      // premise: at least three skeletons, which held while constituent-help
+      // had five variants (plain, eviction, sick, lost-job, short-pay) with
+      // their own steps. lost-job and short-pay were deleted as duplicates of
+      // the plain arc worded by the case-help move set (#9394), leaving three
+      // variants of which two share a skeleton, so a floor of three cannot
+      // hold: it is min(3, variants minus 1) until sick has steps of its own
+      // (pool item words-sick-case-help-variant-gets-its-own-steps), when the
+      // floor goes back to one skeleton per variant. The pair check above
+      // still fails when two variants are one arc in two coats.
       const skeletons = new Set(
         names.map(
           (name) => `${shapes.get(name)!.state}|${shapes.get(name)!.replies}`,
         ),
       );
-      expect(skeletons.size, family).toBeGreaterThanOrEqual(3);
+      expect(skeletons.size, family).toBeGreaterThanOrEqual(
+        Math.min(3, names.length - 1),
+      );
     }
   }, 300_000);
 

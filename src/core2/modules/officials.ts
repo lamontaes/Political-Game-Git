@@ -25,6 +25,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
+import { workFromHome } from "../places";
 import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -164,7 +165,7 @@ export const OFFICIALS_MODULE: CoreModule = {
       const winner = event.personIds[0];
       if (winner) tookOffice(api, winner, seatId);
       else {
-        seatUnheldFiller(api, seatId);
+        seatUnheldFiller(api, seatId, event.facts);
         // A holder the offices engine seated by identity alone (a vacancy's filler, a
         // successor) is a person from the day they take the seat, not the first time it is read.
         for (const term of api
@@ -212,10 +213,15 @@ const unheld = (row: OfficialRow) =>
 
 /**
  * The offices engine filled a seat it keeps no term for: the new holder
- * takes the seat as a person, in the party of the one they replace (who
- * leaves it today).
+ * takes the seat as a person. A special election's winner is named by the
+ * record (their party and who they are); an appointee takes the party of the
+ * one they replace (who leaves it today).
  */
-function seatUnheldFiller(api: CoreAPI, seatId: string): void {
+function seatUnheldFiller(
+  api: CoreAPI,
+  seatId: string,
+  facts: Readonly<Record<string, string>> | undefined,
+): void {
   const rows = table(api, "officials").query("bySeat", [
     seatId,
   ]) as unknown as OfficialRow[];
@@ -225,8 +231,11 @@ function seatUnheldFiller(api: CoreAPI, seatId: string): void {
       (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
       a.id.localeCompare(b.id),
   )[rows.length - 1]!;
-  // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
-  api.stopgap("SG-GOV-unheld-filler-party");
+  const elected = facts?.["winnerParty"] !== undefined;
+  if (!elected) {
+    // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
+    api.stopgap("SG-GOV-unheld-filler-party");
+  }
   seatOfficial(api, {
     key: `${seatId}:${api.state.date}`,
     seatId,
@@ -235,10 +244,40 @@ function seatUnheldFiller(api: CoreAPI, seatId: string): void {
     officeKind: last.officeKind,
     stateKey: last.stateKey,
     district: last.district,
-    party: last.party,
-    ...(last.partySource ? { partySource: last.partySource } : {}),
+    party: elected ? facts!["winnerParty"]! : last.party,
+    ...(elected
+      ? { partySource: "elected in a special election" }
+      : last.partySource
+        ? { partySource: last.partySource }
+        : {}),
+    ...(elected
+      ? {
+          identity: {
+            givenName: facts!["winnerGivenName"]!,
+            familyName: facts!["winnerFamilyName"]!,
+            gender: facts!["winnerGender"]!,
+            birthDate: facts!["winnerBirthDate"]!,
+            homeState: facts!["winnerHomeState"]!,
+          },
+        }
+      : {}),
     termYears: last.termYears,
   });
+}
+
+/** The party of the last person who held a seat the offices engine keeps no term for, or null. */
+export function lastUnheldParty(api: CoreAPI, seatId: string): string | null {
+  const rows = (
+    table(api, "officials").query("bySeat", [
+      seatId,
+    ]) as unknown as OfficialRow[]
+  ).filter(unheld);
+  const last = [...rows].sort(
+    (a, b) =>
+      (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
+      a.id.localeCompare(b.id),
+  )[rows.length - 1];
+  return last?.party ?? null;
 }
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
@@ -363,6 +402,10 @@ interface Spec {
   readonly role:
     "sitting-legislator-at-opening" | "executive-officeholder-at-opening";
   readonly legalMinimumAge?: number;
+  /** Who the holder is where a race already named them (a special election's winner). */
+  readonly identity?: TermRow["identity"];
+  /** The town they live in, for someone drawn to a post rather than elected from a place: they hold the work that town's counts show. */
+  readonly home?: { readonly jurisdictionId: string; readonly key: string };
 }
 
 /** Congress is one body however the offices engine files its seats. */
@@ -621,6 +664,12 @@ function constitutionalAge(officeKind: string): number {
   return officeKind === "president" || officeKind === "vice-president" ? 35 : 0;
 }
 
+/** The work a person who lives in the town `homeKey` holds, as a fill-in's `work`. */
+function homeWork(api: CoreAPI, homeKey: string, personId: string) {
+  const work = workFromHome(api.state.seed, homeKey, personId);
+  return work ? { work } : {};
+}
+
 /** What a state asks of a candidate for its legislature or its statewide offices (the filing rules' age). */
 function stateAge(
   spec: Pick<Spec, "bodyKind" | "officeKind" | "stateKey">,
@@ -651,7 +700,7 @@ function seatAll(
   const identities = new Map(
     drafted.map((s) => [
       s.key,
-      s.term?.identity ?? officialIdentity(api, seed, s),
+      s.term?.identity ?? s.identity ?? officialIdentity(api, seed, s),
     ]),
   );
   const minimum = TENURE["minimumAgeAtFirstTerm"]!.value;
@@ -736,7 +785,7 @@ function seatAll(
       givenName: identity.givenName,
       familyName: identity.familyName,
       birthDate: identity.birthDate,
-      placeId: spec.stateKey,
+      placeId: spec.home?.jurisdictionId ?? spec.stateKey,
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
@@ -755,6 +804,10 @@ function seatAll(
     else
       fillInIdentity(api.state as CoreState, {
         ...recorded,
+        // Someone drawn to a post who lives in a town of the state holds the
+        // work that town's counts show, as every person filled in far from
+        // the played town holds theirs.
+        ...(spec.home ? homeWork(api, spec.home.key, personId) : {}),
         source: source(api.state.date),
       });
     if (spec.term)
@@ -939,8 +992,11 @@ function leaders(all: readonly Spec[]): Map<string, string> {
 
 /**
  * Officials who serve together know each other: a state's delegation to
- * Congress and its governor, each chamber's members (a state legislature's
- * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
+ * Congress and its governor, and the executive branch with its head. Their
+ * time together is their shared years of service. A chamber's members (the
+ * party's leader among them) are not tied here: they know each other from
+ * the sittings they share (`sitting-closeness.ts`), counted sitting by
+ * sitting from the chamber's calendar.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const officials = table(api, "officials");
@@ -976,10 +1032,9 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
       sourceId: a.seatId,
     });
   };
-  // A tie needs one of its ends among the added, so only the delegations and
-  // bodies the added rows sit in can make one; the rest are not read.
+  // A tie needs one of its ends among the added, so only the delegations the
+  // added rows sit in can make one; the rest are not read.
   const addedStates = new Set(addedRows.map((row) => row.stateKey));
-  const addedBodies = new Set(addedRows.map((row) => row.body));
   const delegations = groupBy(
     rows.filter(
       (row) =>
@@ -998,41 +1053,6 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
           members[j]!,
           "served together in the state's delegation",
         );
-  const byBody = groupBy(
-    rows.filter((row) => addedBodies.has(row.body)),
-    (row) => row.body,
-  );
-  for (const members of byBody.values()) {
-    const leadersBySide = new Map(
-      members
-        .filter((m) => m.leadership)
-        .map((m) => [partySide(m.party), m] as const),
-    );
-    // The chamber's leaders by id, for a member whose own side has none (an
-    // independent, a one-member side) or who is their side's leader.
-    // A chamber with no designated leader (a nonpartisan legislature) is
-    // led, for who knows whom, by its longest-serving member.
-    const leaders = leadersBySide.size
-      ? [...leadersBySide.values()].sort((a, b) => a.id.localeCompare(b.id))
-      : [...members]
-          .sort(
-            (a, b) =>
-              a.serviceStart.localeCompare(b.serviceStart) ||
-              a.id.localeCompare(b.id),
-          )
-          .slice(0, 1);
-    for (const m of members) {
-      const own = leadersBySide.get(partySide(m.party));
-      const leader =
-        own && own.id !== m.id ? own : leaders.find((l) => l.id !== m.id);
-      // Congress's same-state pairs are already tied as a delegation.
-      const delegation =
-        leader?.stateKey === m.stateKey &&
-        (m.bodyKind === "us-house" || m.bodyKind === "us-senate");
-      if (leader && leader.id !== m.id && !delegation)
-        tie(m, leader, "served in the chamber under their party's leader");
-    }
-  }
   // The executive branch serves under its head: the president for the
   // administration (vice president, cabinet), a state's governor for its
   // other executive officers (lieutenant governor, attorney general, board).
@@ -1207,6 +1227,8 @@ export function seatOfficial(
     readonly serviceStart?: string;
     /** The seat's next election; today plus a term by default. */
     readonly nextElectionYear?: number | null;
+    /** The town they live in, for someone drawn to a post (Spec.home). */
+    readonly home?: { readonly jurisdictionId: string; readonly key: string };
   },
 ): OfficialRow {
   const personId = input.term
@@ -1978,7 +2000,12 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
  * (src/core2/state.ts, fillInIdentity), so the same official comes back the
  * same every time; the roster adds its selection shift (`drawOfficial`).
  */
-function temperamentOf(
+/**
+ * The temperament of a person the world invents for an office (an official,
+ * a cabinet secretary from elsewhere in the state): the opening's one
+ * temperament model, drawn from the world's seed and the person's id.
+ */
+export function temperamentOf(
   core: CoreState,
   personId: string,
   identity: { readonly birthDate: string; readonly gender?: string },

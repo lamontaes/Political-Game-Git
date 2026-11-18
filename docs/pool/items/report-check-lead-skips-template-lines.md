@@ -28,7 +28,7 @@ root: none
 
 **Rules.** The template's line 1 stays exactly as the merge reads it (`Pool item: <id>`); the check changes, not the template.
 
-**Done when.** A second session, in a drawn place it composes a speech for (`node --import tsx scripts/words/speech-outline-proof.ts <seed>`, quoting the place and seed in the body), runs `npm run report:check -- <file>` on a body that opens with the template's line 1 naming a pull request number and a gate line naming file paths, then a plain lead, and sees it pass; and on the same body with a file path in the lead paragraph, sees it fail on that lead line.
+**Done when.** A second session, in a drawn place it composes a speech for (through the speech outline, `src/director/speech-outline.ts`, quoting the place and seed in the body), runs `npm run report:check -- <file>` on a body that opens with the template's line 1 naming a pull request number and a gate line naming file paths, then a plain lead, and sees it pass; and on the same body with a file path in the lead paragraph, sees it fail on that lead line.
 
 **Waits on.** Nothing.
 

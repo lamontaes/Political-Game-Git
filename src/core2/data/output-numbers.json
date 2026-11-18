@@ -705,66 +705,72 @@
     },
     "labor.residents-at-work": {
       "id": "labor.residents-at-work",
-      "owner": "jobs",
+      "owner": "world-metrics",
       "unit": "count",
       "level": "place",
       "denominator": "none",
-      "cadence": "on-change",
+      "cadence": "monthly",
       "source": {
-        "tag": "SOURCED",
-        "citation": "The engine's own records in the played world."
+        "tag": "ESTIMATED",
+        "citation": "The jobs engine's own records in the played world, one counting rule (townJobsPanel) read monthly. The year before the start is estimated from the economy pass's months (src/core2/labor-past.ts)."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "town-jobs:employed",
       "metrics": {
         "section": "city",
         "key": "employed",
-        "unit": "count",
-        "waitsOn": "metrics-town-jobs-one-rule"
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "residentsAtWork"
       }
     },
     "labor.residents-looking": {
       "id": "labor.residents-looking",
-      "owner": "jobs",
+      "owner": "world-metrics",
       "unit": "count",
       "level": "place",
       "denominator": "residents at work plus residents looking for work",
-      "cadence": "on-change",
+      "cadence": "monthly",
       "source": {
-        "tag": "SOURCED",
-        "citation": "The engine's own records in the played world."
+        "tag": "ESTIMATED",
+        "citation": "The jobs engine's own records in the played world, one counting rule (townJobsPanel) read monthly. The year before the start is estimated from the economy pass's months (src/core2/labor-past.ts)."
       },
       "fold": "december",
-      "traceInputs": ["employed", "seekers"],
-      "reader": "town-jobs:seekers",
+      "traceInputs": ["laborForce"],
       "metrics": {
         "section": "city",
         "key": "seekers",
         "unit": "count",
-        "waitsOn": "metrics-town-jobs-one-rule",
         "of": "laborForce"
+      },
+      "kept": {
+        "table": "months",
+        "field": "residentsLooking"
       }
     },
     "labor.open-positions": {
       "id": "labor.open-positions",
-      "owner": "jobs",
+      "owner": "world-metrics",
       "unit": "count",
       "level": "place",
       "denominator": "none",
-      "cadence": "on-change",
+      "cadence": "monthly",
       "source": {
-        "tag": "SOURCED",
-        "citation": "The engine's own records in the played world."
+        "tag": "ESTIMATED",
+        "citation": "The jobs engine's own records in the played world, one counting rule (townJobsPanel) read monthly. The year before the start is estimated from the economy pass's months (src/core2/labor-past.ts)."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "town-jobs:openPositions",
       "metrics": {
         "section": "city",
         "key": "openPositions",
-        "unit": "count",
-        "waitsOn": "metrics-town-jobs-one-rule"
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "openPositions"
       }
     },
     "housing.rental-homes": {

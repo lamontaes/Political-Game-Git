@@ -307,6 +307,25 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "hearing-witness",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
+      "recordKinds": ["committee-hearing"],
+      "recordFacts": ["witnessIds"],
+      "place": "seat",
+      "pool": ["fact:witnessIds"],
+      "where": "pool",
+      "player": "named-in-it",
+      "playerNamed": true,
+      "cast": "a resident who testified at the committee's hearing on a bill, catching the player (its sponsor or a member of the committee) on the way out to say what the bill does to their own life",
+      "typeKey": "hearing-witness",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "receive": {
         "age": "any",
@@ -369,10 +388,10 @@
       "playerNamed": true,
       "afterDays": 1,
       "place": "other-home",
-      "pool": ["party-officeholders"],
+      "pool": ["party-mentor"],
       "where": "same-town",
       "player": "named-in-it",
-      "cast": "the day after a party's chair asked the player to run, a seated officeholder of that party in the player's town who has held a seat for a year or more, who weighs in on whether to run, scored on tie and sociability",
+      "cast": "the day after a party's chair asked the player to run, the seated officeholder of that party who took the player under their wing on the ask (the party mentorship record), who weighs in on whether to run",
       "typeKey": "advice",
       "impactParameter": "directorCircumstanceMeetingImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
@@ -384,15 +403,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["scandal.reported"],
-      "recordFacts": ["officialId"],
-      "playerNamed": true,
-      "afterDays": 1,
+      "recordKinds": ["news.read"],
+      "recordFacts": ["crimeId", "officialId"],
       "place": "public",
-      "pool": ["ties-of-named"],
+      "pool": ["witnessed"],
       "where": "known",
-      "player": "named-in-it",
-      "cast": "the day after the press carried a taken bribe, someone who knows the official (family, household or acquaintance) and read it, who asks to their face whether it is true, scored on tie and sociability",
+      "player": "official-in-it",
+      "cast": "a resident who read the paper's story that the player took a bribe and who knows the player, asking to their face whether it is true, scored on tie and sociability",
       "typeKey": "accusation",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
@@ -588,6 +605,38 @@
       "typeKey": "home-damaged",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceHomeEveryDays"
+    },
+    {
+      "id": "study-formed-member",
+      "recordKinds": ["study-formed"],
+      "playerNamed": true,
+      "afterDays": 1,
+      "lived": true,
+      "place": "seat",
+      "pool": ["study-members"],
+      "where": "pool",
+      "player": "on-study",
+      "cast": "the day after the body formed a study committee on a bill it could not settle (the vote day is the floor's own), its chair, or a fellow member when the player chairs it, telling a member what it is charged with",
+      "typeKey": "study-formed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays",
+      "keepsDays": 14
+    },
+    {
+      "id": "study-reported-member",
+      "recordKinds": ["study-reported"],
+      "playerNamed": true,
+      "lived": true,
+      "place": "seat",
+      "pool": ["study-members"],
+      "where": "pool",
+      "player": "on-study",
+      "cast": "the committee's chair, or a fellow member when the player chairs it, on what the committee found and what the chair's speech to the body moved",
+      "typeKey": "study-reported",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
     }
   ]
 }

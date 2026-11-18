@@ -14,7 +14,7 @@
  */
 import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
-import { spokenDesignation } from "./bill-names";
+import { billTitleOf, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -35,7 +35,12 @@ interface AmountWords {
 }
 interface FormWords {
   title: string;
-  repealTitle: string;
+  /** A repeal's purpose in a heading, `{subject}` the law repealed. */
+  repealPurpose: string;
+  /** The first section when the enacting words are a whole sentence ("... do enact as follows"), not a lead-in to "That". */
+  firstWhole?: string;
+  /** The federal and state form only: a local measure has no short title. */
+  shortTitle?: string;
   first: string;
   further: string;
   repeal: string;
@@ -55,6 +60,8 @@ interface NamesData {
   amounts: Record<string, AmountWords>;
   units: Record<string, string>;
   cited: string;
+  /** A law amount as the law in force reads it: `{subject}` and `{value}` ("the property tax rate is 0.28 percent"). */
+  stands: string;
 }
 export const BILL_SECTIONS = sectionsJson as unknown as NamesData;
 
@@ -63,6 +70,8 @@ export interface BillWordsInput {
   readonly id: string;
   readonly number: string;
   readonly form: { readonly kind: string; readonly enactingClause: string };
+  /** Set on a government's annual budget bill (the bill's own record). */
+  readonly budgetFor?: unknown;
   readonly provisions: readonly {
     readonly kind: string;
     readonly question?: string;
@@ -83,6 +92,11 @@ export interface BillWordsInput {
    * raise from a cut, to say what it was, and to cite the bill that enacted
    * it, said in that bill's own form, or a starting law's recorded statute.
    */
+  /**
+   * Word each law amount as the law in force reads it, not as a change to it: the struck side of a
+   * Compare view, where a section that raised a value to itself would read as a raise by nothing.
+   */
+  readonly standing?: boolean;
   readonly before?: readonly ({
     readonly value: number | null;
     readonly unit?: string | null;
@@ -97,6 +111,8 @@ export interface ComposedBill {
   readonly title: string;
   /** Each section, enacting words first. */
   readonly sections: readonly string[];
+  /** "This Act may be cited as the “Fair Wage Act”." An act's short title, from the bill's own name; none for a local measure or a bill with no name. */
+  readonly shortTitle: string | null;
   /** The closing section on when it takes effect, when the record gives one. */
   readonly effective: string | null;
   /** Title, sections and the closing section, in order: the text of the bill. */
@@ -118,8 +134,16 @@ export const dollars = (minor: number) =>
     minimumFractionDigits: Number.isInteger(minor / 100) ? 0 : 2,
   })}`;
 
-/** A value as its unit says it: "4.5 percent", "$15 an hour". */
-export function valueWords(value: number, unit: string | undefined): string {
+/**
+ * A value as its unit says it: "4.5 percent", "$15 an hour". A rate reads to at most two decimals
+ * (8.773 reads 8.77), the way every screen says it; `places` asks for more where two would make two
+ * different rates read the same.
+ */
+export function valueWords(
+  value: number,
+  unit: string | undefined,
+  places = 2,
+): string {
   const kind = !unit
     ? "percent"
     : unit.startsWith("percent")
@@ -128,7 +152,7 @@ export function valueWords(value: number, unit: string | undefined): string {
   const template = BILL_SECTIONS.units[kind];
   if (!template) return String(value);
   return fill(template, {
-    value,
+    value: kind === "percent" ? Number(value.toFixed(places)) : value,
     dollars: kind === "minor/hour" ? dollars(value) : dollars(value * 100),
   });
 }
@@ -196,12 +220,26 @@ function wordsOf(
     const lower = p.operation
       ? p.operation === "lower"
       : old != null && p.value < old;
+    if (input.standing)
+      return {
+        key: p.series,
+        subject: row.subject,
+        purpose: row.purpose,
+        clause: fill(BILL_SECTIONS.stands, {
+          subject: row.subject,
+          value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
+        }),
+        repeal: false,
+      };
     // The value the law had, in its own unit when the record gives one.
-    const slots = {
+    const slotsAt = (places: number) => ({
       // A section that names no unit takes the law row's, never a default percent.
-      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
-      before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
-    };
+      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined, places),
+      before: old != null ? valueWords(old, was?.unit ?? p.unit, places) : "",
+    });
+    // Two rates that differ only past the second decimal read the same at two: say more of both.
+    let slots = slotsAt(2);
+    if (old != null && slots.before === slots.value) slots = slotsAt(4);
     const words =
       old != null
         ? lower
@@ -254,35 +292,70 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     if (!w) return null;
     words.push(w);
   }
-  const allRepeal = words.every((w) => w.repeal);
   // Two sections on one law (a raise in dated steps) state its purpose once.
-  const purposes = joinWords(
-    [...new Set(words.map((w) => w.purpose))],
-    BILL_SECTIONS.joiners.purposes,
+  // A repeal is worded from the repeal, never from the purpose of the law it
+  // ends, and every repealed law shares the one repeal phrase.
+  const repealed = [
+    ...new Set(words.filter((w) => w.repeal).map((w) => w.subject)),
+  ];
+  const repealPhrase = fill(form.repealPurpose, {
+    subject: joinWords(repealed, BILL_SECTIONS.joiners.subjects),
+  });
+  const headings: string[] = [];
+  for (const w of words) {
+    const said = w.repeal ? repealPhrase : w.purpose;
+    if (!headings.includes(said)) headings.push(said);
+  }
+  // Each purpose after the first carries its own "to" ("to raise X, to raise Y
+  // and to repeal Z"), so a long heading never drops a verb's "to".
+  const title = fill(form.title, {
+    purpose: joinWords(
+      headings.map((h, i) =>
+        i > 0 && i < headings.length - 1 ? `to ${h}` : h,
+      ),
+      BILL_SECTIONS.joiners.purposes,
+    ),
+  });
+  // The enacting words end however the law prescribes them (a comma, a period,
+  // a colon, nothing); the section joins them to its text the one way its
+  // grammar allows: "Be it enacted by X, That the law ..." or, when the words
+  // are a whole sentence, "The people of X do enact as follows: The law ...".
+  const prescribed = properName(
+    input.form.enactingClause.replace(/[,.:;\s]+$/, ""),
   );
-  const title = allRepeal
-    ? fill(form.repealTitle, {
-        subject: joinWords(
-          [...new Set(words.map((w) => w.subject))],
-          BILL_SECTIONS.joiners.subjects,
-        ),
-      })
-    : fill(form.title, { purpose: purposes });
-  const enacting = properName(input.form.enactingClause.replace(/[,\s]+$/, ""));
+  const whole =
+    Boolean(form.firstWhole) && /\b(?:as follows|enacts?)$/i.test(prescribed);
+  const enacting = prescribed;
   const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
   const sections = words.map((w, i) => {
-    const text = fill(i === 0 ? form.first : form.further, {
-      number: i + 1,
-      enacting,
-      text: w.clause,
-    });
+    const text = fill(
+      i > 0 ? form.further : whole ? form.firstWhole! : form.first,
+      {
+        number: i + 1,
+        enacting,
+        text: whole && i === 0 ? upperFirst(w.clause) : w.clause,
+      },
+    );
     // A phase-in's steps each name their own day, so the paper never reads as
     // two changes made at once: the section says when it takes effect.
     const own = input.provisions[i]?.effectiveDate;
-    return dates.size > 1 && own
+    return dates.size > 1 && own && !input.standing
       ? `${text} ${fill(form.effective["section-date"], { number: i + 1, date: spokenDate(own) })}`
       : text;
   });
+  // An act (never a local ordinance) names itself after its heading: the short
+  // title is the bill's own name, read from bill-names.ts like every other screen.
+  const named = form.shortTitle
+    ? billTitleOf({
+        form: input.form,
+        provisions: input.provisions,
+        budgetFor: input.budgetFor,
+      })
+    : null;
+  const shortTitle =
+    named && form.shortTitle
+      ? fill(form.shortTitle, { act: `\u201C${named.title}\u201D` })
+      : null;
   const eff = input.effective;
   const date = eff?.date ?? (dates.size === 1 ? [...dates][0]! : null);
   const effective = eff
@@ -294,9 +367,15 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   return {
     designation: input.number,
     title,
+    shortTitle,
     sections,
     effective,
-    text: [upperFirst(title), ...sections, ...(effective ? [effective] : [])],
+    text: [
+      upperFirst(title),
+      ...(shortTitle ? [shortTitle] : []),
+      ...sections,
+      ...(effective ? [effective] : []),
+    ],
     keys: words.map((w) => w.key),
   };
 }

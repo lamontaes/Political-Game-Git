@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #9381
 blocked-on:
 standard: 2
 model: sonnet
@@ -37,3 +37,5 @@ checked:
 **Files.** src/bench/bill-stage.ts, data/english/bill-sections.json, src/english/bill-sections.ts, src/bench/play.mjs
 
 **Notes.** Filed by F5 while carrying #8457.
+
+**Notes.** Account lead cluster 11, Nov 14, seen again on the percent-a-year bill (Pearl City, Hawaii, seed 28098917-e63b-4362-bc91-939537321d7e, Ordinance 2025-3): the paper prints 0.3124 and 0.3436 percent while the estimate boxes say 0.31% and 0.34%, the card says "in force today" 0.28% where the text says 0.284, and every struck section reads "raised from 0.284 percent to 0.284 percent". The same cause and fix; the fix must hold for a bill with sections by year.

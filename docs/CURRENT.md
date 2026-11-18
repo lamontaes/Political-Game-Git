@@ -120,6 +120,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 
 | Old path | Now | When | Why |
 | --- | --- | --- | --- |
+| `src/core2/fast-forward.ts` | src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The fast clock, part 4: skipped time is counted from the voters in results mode and the campaign-stride switch is deleted. |
+| `scripts/speed-years/fast-forward.ts` | nothing stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The campaign-stride switch it ran with was deleted with the fast clock, part 4. |
 | `src/simulation` | `src/core2` | 2026-10-28 | The old core was deleted (pull request 6659); the new core is the engine. |
 | `src/bench/scene-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the room's people are a strip of busts; the check of painted people in a room has nothing to check. |
 | `src/bench/art-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the painted full-body people left the rooms; their art check went with them. |
@@ -147,3 +149,4 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/director/staff-news-scene.test.ts` | docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce | 2026-11-12 | It played staff-news, deleted by the scene inventory. |
 | `src/director/story-read-scene.test.ts` | docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce | 2026-11-12 | It played story-read, deleted by the scene inventory (bring-it-up reads the same news.read record). |
 | `src/director/testimony-heard.test.ts` | docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce | 2026-11-12 | It played testimony-heard, deleted by the scene inventory (town-hall-question’s arc). |
+| `src/core2/data/elections/municipal-petition-rules.json` | `src/core2/data/elections/petition-rules.json` | 2026-11-14 | Every family of offices now reads its petition rule from one file, computed for the race's own electorate; the municipal rows moved in unchanged. |

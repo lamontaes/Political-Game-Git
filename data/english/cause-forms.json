@@ -1,0 +1,16 @@
+{
+  "about": "How a cause formed by an illness is said: as what the people in it want, not as the illness (Words lead, Nov 15, 2026). Keyed by the health engine's condition key, the part of a cause's topic after its prefix (src/core2/data/health.json topicPrefix). Read by src/english/policy-names.ts (causeTopicSaid). Words only; no sentence. An illness as a relative says it is a different thing, in relative-news-words.json.",
+  "author": "Words lead",
+  "date": "2026-11-15",
+  "illness": {
+    "stroke": "better care after a stroke",
+    "born-very-early": "care for babies born too early",
+    "life-limiting-childhood": "help for families with a very sick child",
+    "substance-use-disorder": "treatment for addiction",
+    "serious-illness": "care for people who are seriously ill",
+    "heart-disease": "care for people with heart disease",
+    "cancer": "cancer care",
+    "copd": "care for people with bad lungs",
+    "diabetes": "care for people with diabetes"
+  }
+}

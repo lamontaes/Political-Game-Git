@@ -24,6 +24,8 @@ import {
   termLimitReached,
 } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-data";
+import { shareValue } from "../shares";
+import { describesByRule, ruleOfficeBody } from "../filing-rule-office";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
@@ -33,15 +35,18 @@ import fallbackData from "../data/elections/filing-fallbacks.json" with { type: 
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
 import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
-import municipalPetitionRules from "../data/elections/municipal-petition-rules.json" with { type: "json" };
+import petitionRules from "../data/elections/petition-rules.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { payGovernmentFee } from "../budgets-treasury";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
+  placeNameWithinState,
   coreStateName,
 } from "../place-lookup";
 import {
@@ -54,7 +59,6 @@ import {
   type OfficeFamily,
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import {
   governorTicketStage,
   OFFICES_MODULE_ID,
@@ -105,7 +109,7 @@ export interface FilingRequirements {
   readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
-  /** Which of these rules came from the fallback data, not the place's own row (SG-GOV-filing-fallbacks). */
+  /** Which of these rules came from the fallback data (an ESTIMATED row in `src/core2/data/elections/filing-fallbacks.json`), not the place's own row. */
   readonly fallbacks: readonly (
     "filedWith" | "minimumAge" | "registeredVoter"
   )[];
@@ -113,23 +117,33 @@ export interface FilingRequirements {
   readonly deadline: string | null;
   /** The signatures the side's petition must hold. */
   readonly petition: PetitionRule;
+  /** The filing fee in minor units the place's law charges this side (zero where its row gives none or a formula). */
+  readonly feeMinor: number;
 }
 
 /** What an estimate from a place's scaled petition rule names as its source. */
 export const SCALED_PETITION_ESTIMATE =
-  "src/core2/data/elections/municipal-petition-rules.json";
+  "src/core2/data/elections/petition-rules.json";
 
-/** How a place's law scales a municipal petition to the town (one row of `municipal-petition-rules.json`). */
+/** How a place's law sizes a petition for the race's own electorate (one row of `petition-rules.json`). */
 export interface PetitionScale {
   readonly share?: number;
-  readonly base?: "registered" | "votes";
-  /** For a votes base, which recorded election: this office's, the same level's, or the town's votes for another kind of office (governor, secretary-of-state, legislature-lower). */
+  readonly base?: "registered" | "votes" | "eligible" | "population";
+  /** For a votes base, which recorded election: this office's, the same level's, or the votes for another kind of office (governor, secretary-of-state, legislature-lower, president, us-house). */
   readonly election?:
     | "office"
     | "level"
     | "governor"
     | "secretary-of-state"
-    | "legislature-lower";
+    | "legislature-lower"
+    | "president"
+    | "us-house";
+  /** A fixed count the law sets; 0 where it asks no petition. */
+  readonly count?: number;
+  /** The base is the candidate's own party's voters. */
+  readonly party?: boolean;
+  /** The base is the votes for the last successful candidate. */
+  readonly winner?: boolean;
   readonly min?: number;
   readonly max?: number;
   readonly orFixed?: number;
@@ -145,16 +159,14 @@ export interface PetitionRule {
   /** Signatures of the district's voters the petition must hold. */
   readonly count: number;
   /**
-   * "scaled" where the law scales the count to the town (a share of its
-   * voters, a floor, a ceiling, or a count by the town's size:
-   * `municipal-petition-rules.json`; the town's count is `petitionSignatures`).
-   * "read" where the place's row gives the count, "none-in-law" where it
-   * says the law asks none (a fee or a declaration instead: no petition).
-   * Otherwise the count is the read counts' median for the family and side:
-   * the row gives a formula ("formula") or nothing ("unread").
+   * "scaled" where the law sizes the count from the race's electorate (a
+   * share of its voters, a floor, a ceiling, a fixed count or a count by the
+   * town's size: `petition-rules.json`; the count is `petitionSignatures`).
+   * "read" where the place's row gives the count, "none-in-law" where the
+   * law asks none (a fee, an endorsement or a declaration instead).
    */
-  readonly basis: "read" | "scaled" | "formula" | "none-in-law" | "unread";
-  /** The law's scale to the town, for a "scaled" rule. */
+  readonly basis: "read" | "scaled" | "none-in-law";
+  /** The law's scale to the race's electorate, for a "scaled" rule. */
   readonly scale?: PetitionScale;
   /** The place's own words for the rule, where its row gives a formula. */
   readonly formula: string | null;
@@ -177,17 +189,20 @@ export interface PetitionRow {
   /** The law's count for the whole district, and how it was read. */
   readonly rule: PetitionRule;
   /**
-   * The count the clerk checks in this world: the rule's count where the town
-   * is the district, the town's share of it where the district reaches past
-   * the town (SG-GOV-petition-town-share).
+   * The count the clerk checks in this world: the rule's count for the
+   * race's own electorate (the town's, the district's or the state's),
+   * gathered in the town and, for a race wider than the town, by paid
+   * circulators across the rest of it (`outsideSigned`).
    */
   readonly needed: number;
   /** The day it was taken out (the filing's day). */
   readonly opened: string;
   /** The last day to hand the petition in. */
   readonly due: string;
-  /** How many have signed; each signature is its own row (`petitionSigners`), so a signature costs one write however long the petition is. */
+  /** How many have signed; each signature in the town is its own row (`petitionSigners`), so a signature costs one write however long the petition is; the signatures gathered outside the town are counted by place (`outsideSigned`). */
   readonly signed: number;
+  /** Signatures paid circulators gathered among a race's counted voters outside the town, by electorate place id (`signOutside`). */
+  readonly outsideSigned?: Readonly<Record<string, number>>;
   /** The clerk's check: the day, the signatures that stood and those struck. */
   readonly check?: {
     readonly on: string;
@@ -208,7 +223,8 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
-    | "district-residency";
+    | "district-residency"
+    | "filing-fee";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -384,82 +400,118 @@ export function filingRequirements(
     petition: petitionRule(
       sideRow(read, sideName),
       family,
-      sideName,
+      stateKey,
       source || "data/research/elections/filing-requirements.json",
-      municipalScale(usps, family, sideName, read),
+      petitionScaleFor(usps, family, sideName, read),
     ),
+    feeMinor: feeOf(sideRow(read, sideName)),
   };
 }
 
 /**
- * The place's scale for a municipal petition, if its law gives one: the
- * side's own row, or the party row where the research file's independent row
- * is not an object (as `sideRow` reads it).
+ * The place's rule in `petition-rules.json` for one family and side, if it
+ * has one: the side's own row, or the party row where the research file's
+ * independent row is not an object (as `sideRow` reads it).
  */
-function municipalScale(
+function petitionScaleFor(
   usps: string,
   family: OfficeFamily,
   sideName: FilingSide,
   read: ReadRequirements | undefined,
 ): PetitionScale | undefined {
-  if (family !== "municipalOffice") return undefined;
   const rows = (
-    municipalPetitionRules.places as unknown as Record<
+    petitionRules.families as unknown as Record<
       string,
-      { party?: PetitionScale; independent?: PetitionScale } | undefined
+      Record<
+        string,
+        { party?: PetitionScale; independent?: PetitionScale } | undefined
+      >
     >
-  )[`US-${usps}`];
+  )[family]?.[`US-${usps}`];
   if (sideName === "party") return rows?.party;
   const own = read?.independent;
-  return own && typeof own === "object" ? rows?.independent : rows?.party;
+  return own && typeof own === "object"
+    ? (rows?.independent ?? rows?.party)
+    : rows?.party;
 }
 
 /**
- * The signatures a "scaled" petition asks of this town: the place's share of
- * its voters: the votes recorded for the office at its last election in this
- * world where the law's base is votes cast and one has been held; otherwise
- * the town's people times the votes-cast share of the population (a
- * presidential year's, so it overstates a local election's); a registered-
- * voters base is the town's eligible voters times the registered share (the
- * world keeps no rolls), held to the law's floor and
- * ceiling, or its fixed count by town size. Never more than the town's
- * voters, and at least one.
+ * The signatures a "scaled" petition asks of a race's own electorate (the
+ * town's voters for a town office; the district's or the state's for a
+ * wider one): the law's fixed count, or its count by town size, or its
+ * share of a base: registered voters (eligible voters times the registered
+ * share, since the world keeps no rolls), eligible voters, residents, or
+ * votes cast (the votes the world recorded for the election the law names,
+ * else for a town the town's people times the votes-cast share of the
+ * population, a presidential year's, so it overstates a local election's).
+ * A party base takes the share of the electorate on the candidate's side; a
+ * winner's base the larger side. Held to the law's floor and ceiling, never
+ * more than the electorate's voters, and at least one.
  */
 export function petitionSignatures(
   scale: PetitionScale,
-  town: {
+  electorate: {
     readonly eligible: number;
     readonly population: number;
-    /** The votes recorded for the office at its last election in this world, where one has been held. */
+    /** The votes recorded for the election the law names, where the world holds them. */
     readonly votesCast?: number;
+    /** The share of the electorate on the candidate's side of the lean order (a party base). */
+    readonly aligned?: number;
+    /** The share of the electorate on the larger side (a winner's base). */
+    readonly winnerShare?: number;
   },
 ): number {
   const tier = scale.byPopulation?.find(
     (t) =>
-      t.belowPopulation === undefined || town.population < t.belowPopulation,
+      t.belowPopulation === undefined ||
+      electorate.population < t.belowPopulation,
   );
   let count: number;
-  if (tier) count = tier.count;
+  if (scale.count !== undefined) count = scale.count;
+  else if (tier) count = tier.count;
   else {
     const registered =
-      town.eligible * campaignParameter("registeredShareOfEligible");
+      electorate.eligible * campaignParameter("registeredShareOfEligible");
     const base =
       scale.base === "votes"
-        ? (town.votesCast ??
-          (town.population > 0
+        ? (electorate.votesCast ??
+          (electorate.population > 0
             ? Math.min(
                 registered,
-                town.population *
+                electorate.population *
                   campaignParameter("localElectorateShareOfPopulation"),
               )
             : registered))
-        : registered;
-    count = Math.ceil(base * (scale.share ?? 0));
+        : scale.base === "eligible"
+          ? electorate.eligible
+          : scale.base === "population"
+            ? electorate.population
+            : registered;
+    const side =
+      (scale.party ? (electorate.aligned ?? shareValue("evenSplit")) : 1) *
+      (scale.winner ? (electorate.winnerShare ?? shareValue("evenSplit")) : 1);
+    count = Math.ceil(base * side * (scale.share ?? 0));
     if (scale.orFixed !== undefined) count = Math.min(count, scale.orFixed);
     if (scale.min !== undefined) count = Math.max(count, scale.min);
     if (scale.max !== undefined) count = Math.min(count, scale.max);
   }
-  return Math.max(1, Math.min(count, Math.floor(town.eligible)));
+  return Math.max(1, Math.min(count, Math.floor(electorate.eligible)));
+}
+
+/** The fee a side's row reads, in minor units: the row's own dollar figure, none where it gives none, a formula, or a petition in its place. */
+function feeOf(side: ReadSide | undefined): number {
+  const fee = side?.feeUSD;
+  // Where the law lets a petition stand in for the fee and the row's own
+  // signature count is the one this candidate already gathers
+  // (`petitionRule`), the petition files them and no fee is charged.
+  if (
+    side?.petitionInLieuOfFee === true &&
+    side.feeAndPetitionBothRequired !== true &&
+    typeof side.signatures === "number" &&
+    side.signatures > 0
+  )
+    return 0;
+  return typeof fee === "number" && fee > 0 ? Math.round(fee * 100) : 0;
 }
 
 /** A side's row as an object, the party side where the independents' is not one. */
@@ -472,47 +524,37 @@ function sideRow(
   return read?.party && typeof read.party === "object" ? read.party : undefined;
 }
 
-/** Each family and side's read signature counts, from every place's row. */
-const readCounts = new Map<string, readonly number[]>();
-function readCountsFor(family: OfficeFamily, sideName: FilingSide) {
-  const key = `${family}|${sideName}`;
-  const held = readCounts.get(key);
-  if (held) return held;
-  const places = (
-    filingRequirementResearch as unknown as {
-      places: Record<string, Record<string, ReadRequirements>>;
-    }
-  ).places;
-  const counts = Object.values(places)
-    .map((row) => sideRow(row?.[family], sideName)?.signatures)
-    .filter((n): n is number => typeof n === "number" && n > 0)
-    .sort((a, b) => a - b);
-  readCounts.set(key, counts);
-  return counts;
-}
-
 /**
  * The signatures one side's petition must hold: the place's read count; none
  * where its row says the law asks none (signatures "where the place requires
  * them", owner, Oct 6, prior-rulings/elections.md R5, restored by the Oct 28
- * ruling that filing is a petition); or where its row gives a formula or
- * nothing, the read counts' median for the family and side ("estimate from
- * similar places and mark it estimated", R5).
+ * ruling that filing is a petition); where its row gives a formula, the
+ * place's rule in `petition-rules.json`, computed for the race's own
+ * electorate (owner, Nov 14: a race needs the number its own law sets).
+ * A place and family with neither is a gap in the data, not a count.
  */
 function petitionRule(
   side: ReadSide | undefined,
   family: OfficeFamily,
-  sideName: FilingSide,
+  stateKey: string,
   source: string,
   scale?: PetitionScale,
 ): PetitionRule {
+  if (scale?.count === 0)
+    return {
+      count: 0,
+      basis: "none-in-law",
+      formula: scale.text,
+      scale,
+      source: `${source} ; read in petition-rules.json (estimate): ${scale.text}`,
+    };
   if (scale)
     return {
       count: typeof side?.signatures === "number" ? side.signatures : 0,
       basis: "scaled",
       formula: scale.text,
       scale,
-      source: `${source} ; scaled to the town by the place's rule in municipal-petition-rules.json (estimate): ${scale.text}`,
+      source: `${source} ; sized for the race's electorate by the place's rule in petition-rules.json (estimate): ${scale.text}`,
     };
   const read = side?.signatures;
   if (typeof read === "number" && read > 0)
@@ -532,19 +574,9 @@ function petitionRule(
     (side?.petitionInLieuOfFee === true || /in lieu/i.test(formula ?? ""))
   )
     return { count: 0, basis: "none-in-law", formula, source };
-  const counts = readCountsFor(family, sideName);
-  const mid = Math.floor(counts.length / 2);
-  const median = counts.length
-    ? counts.length % 2
-      ? counts[mid]!
-      : Math.ceil((counts[mid - 1]! + counts[mid]!) / 2)
-    : 0;
-  return {
-    count: median,
-    basis: formula ? "formula" : "unread",
-    formula,
-    source: `${source} ; estimated: the median of the read ${family} ${sideName} signature counts`,
-  };
+  throw new Error(
+    `No petition rule for ${stateKey} ${family}: add its row to petition-rules.json`,
+  );
 }
 
 /** The minimum age to file where the place's row has none, from `filing-fallbacks.json`. */
@@ -563,19 +595,6 @@ export function filingRulesFor(
     contest.family,
     side,
   );
-  if (stateRules.fallbacks.length) {
-    // stopgapId: SG-GOV-filing-fallbacks
-    api.stopgap("SG-GOV-filing-fallbacks");
-  }
-  // Where the place's row gives a formula or no signature count, the
-  // petition asks the read counts' median (`petitionRule`).
-  if (
-    stateRules.petition.basis === "formula" ||
-    stateRules.petition.basis === "unread"
-  ) {
-    // stopgapId: SG-GOV-petition-count-estimated
-    api.stopgap("SG-GOV-petition-count-estimated");
-  }
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
@@ -596,9 +615,15 @@ export function filingRulesFor(
       : stateRules;
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
-  return contest.electionDate.startsWith("2026-")
+  const dated = contest.electionDate.startsWith("2026-")
     ? rules
     : { ...rules, deadline: null };
+  // An office the data gives as a rule is the body it points to for this
+  // town; where the game cannot know the county, the office without one.
+  const body = describesByRule(dated.filedWith)
+    ? ruleOfficeBody(dated.filedWith, contest.family, town(api).geoid)
+    : null;
+  return body ? { ...dated, filedWith: body } : dated;
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {
@@ -736,7 +761,6 @@ function contestFor(
   }
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
-  noteEstimates(api, dates);
   const row = withFilingLawDeadline(api, {
     ...dates,
     id: `contest:${seat.id}:${dates.electionDate}`,
@@ -766,17 +790,6 @@ function contestFor(
       `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
     ],
   };
-}
-
-/**
- * A contest whose dates rest on an estimate registers it where it runs
- * (the filing lead, SG-GOV-filing-deadline-estimate).
- */
-function noteEstimates(api: CoreAPI, dates: ElectionDates): void {
-  if (dates.sources.includes(FILING_LEAD_SOURCE)) {
-    // stopgapId: SG-GOV-filing-deadline-estimate
-    api.stopgap("SG-GOV-filing-deadline-estimate");
-  }
 }
 
 /**
@@ -811,10 +824,6 @@ export function specialContestFor(
       : stateKey,
     vacancyDate: vacancy?.since ?? api.state.date,
   });
-  if (day.basis === "estimated") {
-    // stopgapId: SG-GOV-special-election-timing
-    api.stopgap("SG-GOV-special-election-timing");
-  }
   const own =
     family === "municipalOffice"
       ? municipalFilingDeadline(stateKey, race.electionDate)
@@ -904,6 +913,13 @@ export function atLargeGroup(
     .filter((row) => row.electionDate === contest.electionDate && atLarge(row))
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
   return group.length > 1 ? group : [contest];
+}
+
+/** Whether the contest's election day is behind us, by its record; false for a contest no longer (or not yet) on record. */
+export function contestPassed(api: CoreAPI, contestId: string): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  return !!contest && contest.electionDate < api.state.date;
 }
 
 /** Contests whose filing is open today, soonest deadline first. */
@@ -1153,6 +1169,15 @@ function birthdayOn(birthDate: string, years: number): string {
   return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
 }
 
+/**
+ * The town's own name, as its clerk says it: "Rienzi", never the state beside
+ * it (a clerk at the town's own counter does not say the state).
+ */
+function townName(api: CoreAPI): string | null {
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  return place ? placeNameWithinState(place) : null;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1220,6 +1245,19 @@ export function checkEligibility(
       actual: filed ? "filed" : "not filed",
       source: "File once (owner, Oct 8)",
     },
+    // The fee the place's law charges, where it charges one: the candidate
+    // must hold it when they file (it is paid at the counter).
+    ...(rules.feeMinor > 0
+      ? [
+          {
+            rule: "filing-fee" as const,
+            met: person.liquidMinor >= rules.feeMinor,
+            required: `$${Math.round(rules.feeMinor / 100).toLocaleString("en-US")}`,
+            actual: `$${Math.max(0, Math.floor(person.liquidMinor / 100)).toLocaleString("en-US")}`,
+            source: rules.source,
+          },
+        ]
+      : []),
     {
       rule: "minimum-age",
       met: age >= rules.minimumAge,
@@ -1240,8 +1278,7 @@ export function checkEligibility(
           ? (stateNameOf(api) ??
             rules.residency ??
             "lives in the area the office serves")
-          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
-              ?.displayName ??
+          : (townName(api) ??
             rules.residency ??
             "lives in the area the office serves"),
       actual: resident
@@ -1347,9 +1384,12 @@ export function fileCandidacy(
     contest,
     input.party ? "party" : "independent",
   );
-  if (unmet.length) return { status: "refused", unmet };
+  if (unmet.length) {
+    return { status: "refused", unmet };
+  }
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
+  payFilingFee(api, input.personId, contest, rules.feeMinor, id);
   const filing: FilingRow = {
     id,
     contestId: input.contestId,
@@ -1366,6 +1406,34 @@ export function fileCandidacy(
   // (the voting engine's check, on the announcement): read it back.
   const kept = table(api, "filings").get(id) as unknown as FilingRow;
   return { status: kept.status, filing: kept };
+}
+
+/**
+ * The filing fee leaves the candidate's cash for the treasury of the
+ * government whose office takes the filing, through the money journal, where
+ * the place's law charges one. A world without budgets has no treasury to pay.
+ */
+function payFilingFee(
+  api: CoreAPI,
+  personId: string,
+  contest: ContestRow,
+  feeMinor: number,
+  filingId: string,
+): void {
+  if (feeMinor <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const level = contest.level === "township" ? "city" : contest.level;
+  const gov =
+    governments(api).find((row) => row.level === level) ??
+    governments(api).find((row) => row.level === "state");
+  if (!gov) return;
+  payGovernmentFee(api, {
+    id: `filing-fee:${filingId}`,
+    personId,
+    governmentId: gov.organizationId,
+    amountMinor: feeMinor,
+    reasonKey: "elections.filing-fee",
+    citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json).`,
+  });
 }
 
 /** The state a place lies in, from the place records. */
@@ -1399,7 +1467,10 @@ export function announce(
       asOf: api.state.date,
       ...(contest.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-filing-deadline-estimate" }),
+        : {
+            estimatedFrom:
+              "The filing deadline is the estimated lead before the first vote (FILING_LEAD_DAYS, the median over the places with a read 2026 row)",
+          }),
     },
     publicRecord: true,
     news: true,
@@ -1693,6 +1764,36 @@ export function signPetition(
   return true;
 }
 
+/**
+ * Add signatures gathered among the counted voters of places outside the town
+ * to a circulating petition (the campaign's paid circulators,
+ * `circulatorShift`), in one write for the shift: counted by place, as a
+ * counted voter is one rule times their count. Returns how many were added.
+ */
+export function signOutside(
+  api: CoreAPI,
+  filingId: string,
+  counts: readonly (readonly [placeId: string, count: number])[],
+): number {
+  if (!petitionCirculating(api, filingId)) return 0;
+  const petition = petitionOf(api, filingId)!;
+  const outsideSigned = { ...(petition.outsideSigned ?? {}) };
+  let added = 0;
+  for (const [placeId, count] of counts) {
+    const n = Math.floor(count);
+    if (n <= 0) continue;
+    outsideSigned[placeId] = (outsideSigned[placeId] ?? 0) + n;
+    added += n;
+  }
+  if (added <= 0) return 0;
+  table(api, "petitions").put({
+    ...petition,
+    signed: petition.signed + added,
+    outsideSigned,
+  } as unknown as ModuleRow);
+  return added;
+}
+
 /** Who has signed a filing's petition, by id. */
 export function petitionSignerIds(
   api: CoreAPI,
@@ -1747,17 +1848,12 @@ export function keepPetitionCheck(
     personIds: api.state.people.has(filing.personId) ? [filing.personId] : [],
     placeId: town(api).townPlaceId,
     source: {
-      tag: petition.rule.basis === "read" ? "SOURCED" : "ESTIMATED",
+      tag: petition.rule.scale ? "ESTIMATED" : "SOURCED",
       citation: petition.rule.source,
       asOf: api.state.date,
-      ...(petition.rule.basis === "read"
-        ? {}
-        : {
-            estimatedFrom:
-              petition.rule.basis === "scaled"
-                ? SCALED_PETITION_ESTIMATE
-                : "SG-GOV-petition-count-estimated",
-          }),
+      ...(petition.rule.scale
+        ? { estimatedFrom: SCALED_PETITION_ESTIMATE }
+        : {}),
     },
     publicRecord: true,
     news: true,

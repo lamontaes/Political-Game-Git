@@ -14,6 +14,7 @@ import type {
   CoreData,
   DecisionResult,
   PersonState,
+  ReasonProvider,
 } from "./types";
 
 export type OfficeOfferProvider = (
@@ -34,6 +35,8 @@ export type OfficeEffectHandler = (
 export interface OfficeActKit {
   readonly id: string;
   readonly onDay?: (api: CoreAPI) => void;
+  /** On the first of each month, with the stipends: what a level does monthly. */
+  readonly onMonth?: (api: CoreAPI) => void;
   readonly onAfterDay?: (api: CoreAPI) => void;
   readonly acts: readonly ActionDefinition[];
   readonly parameters?: CoreData["parameters"];
@@ -41,6 +44,15 @@ export interface OfficeActKit {
   readonly providers?: Readonly<Record<string, OfficeOfferProvider>>;
   /** By effect; an act's `effect` names its handler. */
   readonly handlers?: Readonly<Record<string, OfficeEffectHandler>>;
+  /**
+   * How much of the seat's scheduled work has come due for a holder, from
+   * nothing to one; null where the person holds no seat of this level. The
+   * "duty" need reads it, so the seat's work ranks beside the person's other
+   * needs from their own record.
+   */
+  readonly duty?: (api: CoreAPI, personId: string) => number | null;
+  /** By provider id; an act's reason bindings name them. */
+  readonly reasonProviders?: Readonly<Record<string, ReasonProvider>>;
 }
 
 /** A kind of moment that may stop the player, and whether it does by default. */

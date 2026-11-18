@@ -31,8 +31,11 @@ import { incompatibleOffices } from "../office-incompatibility";
  * jurisdiction (`person.moved-away`), resignation or removal opens a vacancy
  * filled by the office's real rule: a successor in line takes the
  * office; an appointment is made by the appointing authority; a special
- * election is put on the calendar (stand-in until M2's elections:
- * SG-GOV-special-election-appointee).
+ * election is a real race, opened by the engine that counts the seat (the
+ * town's own seats in the voting engine's contests, every other seat in the
+ * world's races). Only a seat no engine can count (a territory's, which has
+ * no counted electorate) is filled on its election day by a stand-in
+ * (SG-GOV-territory-legislature-race).
  */
 import { countedResidents, registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
@@ -314,7 +317,6 @@ export function enforceIncompatibility(
     ) as unknown as OfficeInput;
     const law = incompatibleOffices(previous, office, loaded.stateKey);
     if (!law) continue;
-    if (law.tag === "ESTIMATED") api.stopgap("SG-GOV-dual-office-law");
     table(api, "incompatibilities").put({
       id: `incompatible:${term.id}:${acquired.id}`,
       personId,
@@ -1565,6 +1567,12 @@ function recordFill(
   seat: SeatInput,
   term: TermRow,
   vacancy: VacancyRow,
+  /** A race's winner the record names (a seat with no term of its own): who they are, their party, the count. */
+  elected?: {
+    readonly winnerParty: string;
+    readonly winnerIdentity: TermRow["identity"];
+    readonly resultId: string;
+  },
 ): void {
   const date = api.state.date;
   const id = `took-office:${seat.id}:${date}`;
@@ -1589,6 +1597,17 @@ function recordFill(
       winnerId: term.personId ?? term.id,
       vacancyId: vacancy.id,
       how: term.reached,
+      ...(elected
+        ? {
+            winnerParty: elected.winnerParty,
+            resultId: elected.resultId,
+            winnerGivenName: elected.winnerIdentity.givenName,
+            winnerFamilyName: elected.winnerIdentity.familyName,
+            winnerGender: elected.winnerIdentity.gender,
+            winnerBirthDate: elected.winnerIdentity.birthDate,
+            winnerHomeState: elected.winnerIdentity.homeState,
+          }
+        : {}),
     },
   });
 }
@@ -1736,6 +1755,7 @@ function fillVacancy(
     seatId: seat.id,
     electionDate: scheduled.electionDate!,
     termEnd: previous.endDate,
+    ...(vacancy.unheld ? { unheld: vacancy.unheld } : {}),
   });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
@@ -1761,6 +1781,8 @@ type SpecialElectionOpener = (
     readonly seatId: string;
     readonly electionDate: string;
     readonly termEnd: string | null;
+    /** A seat the offices engine keeps no term for (another state's member of Congress). */
+    readonly unheld?: VacancyRow["unheld"];
   },
 ) => boolean;
 /** Each engine that opens real races for a seat awaiting a special election, by name. */
@@ -1813,6 +1835,7 @@ export function repeatSpecialElection(
     seatId: vacancy.seatId,
     electionDate: next.electionDate,
     termEnd,
+    ...(vacancy.unheld ? { unheld: vacancy.unheld } : {}),
   });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
@@ -1918,6 +1941,45 @@ export function seatWinner(
   return termId;
 }
 
+/**
+ * A special election for a seat the offices engine keeps no term for (another
+ * state's member of Congress) is won: the vacancy is filled, and the record
+ * of the seating names the winner and their party. The officials engine seats
+ * the new member from it.
+ */
+export function unheldVacancyWon(
+  api: CoreAPI,
+  vacancyId: string,
+  winner: {
+    readonly winnerParty: string;
+    readonly winnerIdentity: TermRow["identity"];
+    readonly resultId: string;
+  },
+): void {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (!vacancy?.unheld || vacancy.status === "filled") return;
+  const office = unheldOffice(api, vacancy.unheld);
+  if (!office) return;
+  recordFill(
+    api,
+    office,
+    unheldSeat(office, vacancy.seatId),
+    {
+      id: vacancy.id,
+      personId: null,
+      reached: `elected in a special election ${api.state.date}`,
+    } as unknown as TermRow,
+    vacancy,
+    winner,
+  );
+  table(api, "vacancies").put({
+    ...vacancy,
+    status: "filled",
+    filledBy: vacancy.id,
+  } as unknown as ModuleRow);
+}
+
 /** A special election's winner fills the vacancy. */
 export function vacancyFilled(
   api: CoreAPI,
@@ -1943,8 +2005,8 @@ function officesCalendarWork(
     work.sourceRecordIds[0]!,
   ) as unknown as VacancyRow | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
-  // stopgapId: SG-GOV-special-election-appointee
-  api.stopgap("SG-GOV-special-election-appointee");
+  // stopgapId: SG-GOV-territory-legislature-race (a seat no engine can count, a territory's, is filled on its election day by the best-suited eligible person)
+  api.stopgap("SG-GOV-territory-legislature-race");
   const office = vacancy.unheld
     ? unheldOffice(api, vacancy.unheld)
     : (table(api, "offices").get(vacancy.officeId) as unknown as
@@ -1993,7 +2055,13 @@ function officesCalendarWork(
 }
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
+export {
+  CASES_MODULE_ID,
+  casesOpenFor,
+  handleCase,
+  openCasesOf,
+  type CaseRow,
+} from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";

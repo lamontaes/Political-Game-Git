@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/pool-play-nov8-news-lead-has-no-picture-of-its-story
-pr: #8539
+pr: "#9373"
 after:
 blocked-on:
 standard: 2
@@ -37,3 +37,5 @@ claimed-at: 2026-11-11T03:29:10.910Z
 **Files.** src/bench/ui/news-board.mjs, src/bench/play.mjs, src/bench/story.ts, src/bench/play.css
 
 **Notes.** From the Nov 8 playtest, points P14 and C10 (docs/coordination/playtest/2026-11-08-1.md), their rows in `2026-11-08-1-check.md` (Check B) and the Nov 9 Screens row note ("What is left is the picture slot on the board"). Since that note the board has a picture slot for the lead; what is left is where the picture comes from. The code's own comment gives the reason federal stories have none: "No photo shows the official's own face, which would not match the record; a federal story has none until the art has one without a face." Whether there are stories with a body at all is the Words lead's work and has open items: words-paper-side-stories, words-paper-and-journal-everyday-life, and words-paper-law-and-budget-briefs-read-right (in PR). Other Nov 8 news points and where they stand: P15 (the date, and "News" printed twice) and C8 (which House voted) look fixed on main; P16 is play-nov8-news-opens-on-a-different-paper-each-time (filed Nov 10). Not verified: nothing here was measured in the running game on Nov 10.
+
+Notes (account lead, Nov 15): #9373 carried this item's change. The Done-when row "No panel more than half bare" is NOT met: a paper that printed one story leaves most of its right side empty. It needs more stories: `words-paper-side-stories` and `words-paper-and-journal-everyday-life`. The item stays open until those land; do not mark it done.

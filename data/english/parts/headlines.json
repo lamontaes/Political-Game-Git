@@ -52,7 +52,8 @@
     "winners": "The winners of a race for several seats by full name, from the race's count.",
     "seats": "How many seats a race filled, in words, from the race's count.",
     "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record.",
-    "short": "The winner's last name, or full name where another winner that day shares it, from the person record."
+    "short": "The winner's last name, or full name where another winner that day shares it, from the person record.",
+    "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
   "mining": {
@@ -2142,10 +2143,10 @@
       }
     },
     {
-      "key": "headlines.law.law-now-in-force-in-place",
+      "key": "headlines.law.law-now-in-effect-in-place",
       "move": "law",
       "kind": "written",
-      "text": "{law} now in force in {place}",
+      "text": "{law} now in effect in {place}",
       "uses": [
         {
           "move": "law",
@@ -2729,6 +2730,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.signed.designation-becomes-law-without-name-s-signature",
+      "move": "signed",
+      "kind": "written",
+      "text": "{designation} becomes law without {name}'s signature",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.signed.office-name-lets-designation-become-law-unsigned",
+      "move": "signed",
+      "kind": "written",
+      "text": "{office} {name} lets {designation} become law unsigned",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -7747,12 +7792,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-endorse-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} endorse {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -7768,12 +7836,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-back-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} back {name} for {office}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -8021,10 +8112,10 @@
       }
     },
     {
-      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "key": "headlines.public-action.neighbors-in-place-turn-out-happy-with-how-area-has-gone",
       "move": "public-action",
       "kind": "written",
-      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "text": "Neighbors in {place} turn out, happy with how {area} has gone",
       "uses": [
         {
           "move": "public-action",
@@ -9009,6 +9100,31 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.election-notice.notice-of-election",
+      "move": "election-notice",
+      "kind": "written",
+      "text": "Notice of election",
+      "uses": [
+        {
+          "move": "election-notice",
+          "subject": "headline",
+          "role": "election-notice",
+          "choice": "headline"
+        }
+      ],
+      "source": {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+        "date": "2026-07-01"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "restoredFrom": "notice.election.notice-of-election",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

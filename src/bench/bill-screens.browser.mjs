@@ -97,6 +97,7 @@ try {
     const allowed = rows.filter(
       (o) =>
         o.dataset.value.startsWith("series:") &&
+        o.dataset.blocked !== "true" &&
         !/Not a power|preempts|levy no|restricts/i.test(o.textContent),
     );
     // The sales tax where the body may draft it (the case the merger found), else the first.
@@ -115,7 +116,7 @@ try {
   assert.ok(chosen, "the body has no law amount it may draft");
   console.log("draft card:", chosen);
   assert.ok(chosen.today, "the draft card shows nothing in force today");
-  await page.locator(".draft-card input").fill("2");
+  await page.locator(".draft-card .draft-step input").first().fill("2");
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-filled.png` });
   await page
     .locator(".draft-card button", { hasText: /^Draft$/ })
@@ -223,10 +224,134 @@ try {
       `section ${at + 1} of the bill says when it takes effect`,
     );
   }
-  assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: a phase-in of two dated steps is one bill with both sections",
   );
+  // A phase-in by a percent a year: the percent, the years and the first day; the bill is
+  // one section a year, each the amount before it raised by the percent.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Your office" })
+    .click();
+  await page.locator(".office-board").waitFor();
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
+  // A percent rises from an amount in force above zero: take the first law amount that has one.
+  const found = await page.evaluate(async () => {
+    const out = { raisable: null, empty: null };
+    for (const option of document.querySelectorAll(".draft-card .pick")) {
+      if (
+        !option.dataset.value.startsWith("series:") ||
+        option.dataset.blocked === "true"
+      )
+        continue;
+      option.click();
+      await new Promise((done) => setTimeout(done, 100));
+      const today = document.querySelector(".draft-today")?.textContent ?? "";
+      if (/[1-9]/.test(today)) out.raisable ??= option.dataset.value;
+      else out.empty ??= option.dataset.value;
+    }
+    return out;
+  });
+  assert.ok(found.raisable, "the body has no law amount above zero to raise");
+  // An amount with nothing in force: the button is dark and a line says why.
+  if (found.empty) {
+    await page
+      .locator(`.draft-card .pick[data-value="${found.empty}"]`)
+      .click();
+    assert.equal(
+      await page.locator(".draft-card .draft-rise-toggle").isDisabled(),
+      true,
+      "nothing in force: the percent button is dark",
+    );
+    assert.match(
+      await page.locator(".draft-card .draft-note").first().innerText(),
+      /Nothing is in force today/,
+    );
+    if (SHOTS)
+      await page.screenshot({ path: `${SHOTS}/draft-card-no-amount.png` });
+  }
+  await page
+    .locator(`.draft-card .pick[data-value="${found.raisable}"]`)
+    .click();
+  const closedLabel = await page
+    .locator(".draft-card .draft-rise-toggle")
+    .innerText();
+  await page.locator(".draft-card .draft-rise-toggle").click();
+  assert.notEqual(
+    await page.locator(".draft-card .draft-rise-toggle").innerText(),
+    closedLabel,
+    "open, the button says what pressing it does",
+  );
+  assert.equal(
+    await page.locator(".draft-card .draft-step").first().isVisible(),
+    false,
+    "the amount and step rows give way to the percent row",
+  );
+  const rise = page.locator(".draft-card .draft-rise");
+  // Percent at zero: Draft is dark and a line says what is missing; then one year the same.
+  const draftButton = page
+    .locator(".draft-card button", { hasText: /^Draft$/ })
+    .first();
+  assert.equal(
+    await draftButton.isDisabled(),
+    true,
+    "percent 0: Draft is dark",
+  );
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /percent above zero/,
+  );
+  if (SHOTS)
+    await page.screenshot({ path: `${SHOTS}/draft-card-no-percent.png` });
+  await rise.locator("input[type=number]").first().fill("10");
+  await rise.locator("input[type=number]").nth(1).fill("1");
+  assert.equal(await draftButton.isDisabled(), true, "one year: Draft is dark");
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /two years or more/,
+  );
+  if (SHOTS)
+    await page.screenshot({ path: `${SHOTS}/draft-card-one-year.png` });
+  await rise.locator("input[type=number]").nth(1).fill("2");
+  // No first day yet: Draft stays dark and the line asks for it.
+  assert.equal(await draftButton.isDisabled(), true, "no day: Draft is dark");
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /day of the first increase/,
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-no-day.png` });
+  await rise.locator("input[type=date]").fill(`${years[0]}-01-02`);
+  assert.equal(
+    await draftButton.isDisabled(),
+    false,
+    "all three given: Draft opens",
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-rise.png` });
+  await page
+    .locator(".draft-card button", { hasText: /^Draft$/ })
+    .first()
+    .click();
+  await page.waitForTimeout(2500);
+  await page
+    .locator("#sheet-body button", { hasText: /Read the bill/ })
+    .last()
+    .click();
+  await page.waitForTimeout(1500);
+  const risePaper = await page.locator("#sheet-body").innerText();
+  console.log(
+    "percent-a-year paper:",
+    risePaper.replace(/\s+/g, " ").slice(0, 1800),
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/rise-paper.png` });
+  for (const [at, year] of [years[0], years[1]].entries())
+    assert.match(
+      risePaper,
+      new RegExp(`Section ${at + 1} takes effect on January 2, ${year}`),
+      `section ${at + 1} of the percent-a-year bill says when it takes effect`,
+    );
+  assert.deepEqual(errors, [], "page errors");
+  console.log("ok: a percent a year is one bill with a section a year");
 } finally {
   await browser.close();
 }

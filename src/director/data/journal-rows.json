@@ -655,6 +655,16 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "scene-ending:view-promise",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:side-word-for",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "scene-ending:favor-owed",
       "turn": false,
       "entry": "story"

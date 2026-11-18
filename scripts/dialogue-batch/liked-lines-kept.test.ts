@@ -101,7 +101,7 @@ describe("a line the owner graded good stays in the banks", () => {
     }
   });
 
-  it("keeps a line no scene reads under a registered stopgap for its bank", () => {
+  it("keeps a line no scene reads under a registered stopgap for its bank, or has a reader", () => {
     const stopgaps = JSON.parse(
       readFileSync("src/director/data/stopgaps.json", "utf8"),
     ) as { id: string; status: string }[];
@@ -111,11 +111,22 @@ describe("a line the owner graded good stays in the banks", () => {
       "legislation",
       "minutes",
       "notice",
-    ])
-      if (existsSync(`data/english/parts/${bank}.json`))
+    ]) {
+      if (!existsSync(`data/english/parts/${bank}.json`)) continue;
+      const parts = (
+        JSON.parse(readFileSync(`data/english/parts/${bank}.json`, "utf8")) as {
+          parts: { uses?: unknown[] }[];
+        }
+      ).parts;
+      // A bank an engine reads has a piece with a `uses` entry (the notice
+      // bank is read by the paper's election notice); one nothing reads needs
+      // its registered stopgap.
+      const read = parts.some((part) => (part.uses?.length ?? 0) > 0);
+      if (!read)
         expect(
           stopgaps.find((row) => row.id === `SG-WORDS-${bank}-no-reader`),
           bank,
         ).toBeDefined();
+    }
   });
 });

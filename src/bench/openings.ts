@@ -1,6 +1,10 @@
 import { organizationName } from "../director/words";
 import { coreAPI } from "../core2/state";
-import { JOBS_MODULE_ID, type PositionRow } from "../core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  quitJob,
+  type PositionRow,
+} from "../core2/modules/jobs";
 import type { CoreState } from "../core2/types";
 
 /**
@@ -34,4 +38,12 @@ export function openingsView(core: CoreState, personId: string) {
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
       })),
   };
+}
+
+/**
+ * The player leaves their job by their own press: the jobs engine ends it the way a worker's own
+ * leaving always ends, and the answer says whether it did (`left`) or why the job stays.
+ */
+export function leaveJobAs(core: CoreState, personId: string) {
+  return quitJob(coreAPI(core), personId);
 }

@@ -19,6 +19,7 @@ import type {
   WorkCommitmentInput,
   WorkScheduleSlot,
 } from "./types";
+import { lawInForce } from "./modules/laws";
 import { publicPayFloorHourly } from "./public-pay-floor";
 
 /** Hours a day in a public post's full-time week. */
@@ -29,8 +30,9 @@ function postHoursPerDay(api: CoreAPI): number {
 }
 
 /**
- * The hourly rate a post's budget line can carry: the post's rate, cut to what the line's daily
- * room pays over a full-time day. Zero or less means the line cannot pay the post at all, and
+ * The hourly rate a post's budget line can carry over a full-time day: the post's rate, cut to what
+ * the line's daily room pays (the figure applicants weigh; a line that carries less than a full week
+ * pays the post's own rate for fewer hours, see `startPublicJob`). Zero or less means the line cannot pay the post at all, and
  * `startPublicJob` holds the post unpaid (a hiring decision reads the same figure first).
  */
 export function lineHourlyMinor(
@@ -128,7 +130,7 @@ export function startPublicJob(
     // A post's pay is stated for a full-time week, whatever week the
     // schedule it follows runs.
     const postHoursDaily = postHoursPerDay(api);
-    // stopgapId: SG-GOV-officer-stipend-hours (a post whose line carries less than a full-time week is paid by cutting its hourly rate, not its hours)
+    // What the post's line can pay over a full-time day, as an hourly figure.
     const linePostedHourlyMinor = lineHourlyMinor(
       api,
       input.hourlyMinor,
@@ -136,13 +138,21 @@ export function startPublicJob(
     );
     // A post its line cannot pay at all is held unpaid.
     if (linePostedHourlyMinor <= 0) return null;
+    // A line that carries less than a full-time week at the post's going rate
+    // (a small town's stipend for an attorney or a clerk) pays for fewer hours
+    // at that rate, never a full week at a cut rate: the same pay in total,
+    // and the hourly rate is the post's own.
+    const partTime = linePostedHourlyMinor < input.hourlyMinor;
+    const goingHourlyMinor = partTime
+      ? input.hourlyMinor
+      : linePostedHourlyMinor;
     // A public post is paid at the public pay floor in force the day it is
     // filled, not a month later at the review.
     const postedHourlyMinor = Math.max(
-      linePostedHourlyMinor,
+      goingHourlyMinor,
       publicPayFloorHourly(api, input.employerId, {
-        hourlyMinor: linePostedHourlyMinor,
-        wageDailyMinor: Math.round(linePostedHourlyMinor * postHoursDaily),
+        hourlyMinor: goingHourlyMinor,
+        wageDailyMinor: Math.round(goingHourlyMinor * postHoursDaily),
       }),
     );
     // Payroll pays the hourly rate for the minutes the schedule runs. The
@@ -153,13 +163,65 @@ export function startPublicJob(
       postHoursDaily *
       api.parameter("daysPerWeek") *
       api.parameter("minutesPerHour");
-    const hourlyMinor =
-      commitment.expectedWeeklyMinutes > 0
+    // A part-time post's week is the share of a full-time week its line pays
+    // for. A line that buys less than one sitting of the post (a stipend of a
+    // few dollars a week) is paid for one sitting of the least length, at the
+    // rate that sitting earns the same pay in total, never under the minimum
+    // wage in force: a few hours is a rate, never a cents-an-hour full week.
+    const stipendWeek = (): { minutes: number; hourlyMinor: number } | null => {
+      const bought = Math.round(
+        (statedWeekMinutes * linePostedHourlyMinor) / input.hourlyMinor,
+      );
+      const least = api.parameter("stipendPostMinimumWeeklyMinutes");
+      if (bought >= least)
+        return { minutes: bought, hourlyMinor: postedHourlyMinor };
+      const wage = lawInForce(api, "minimum-wage").value ?? 0;
+      const rate = Math.max(
+        Math.round((postedHourlyMinor * bought) / least),
+        wage,
+        1,
+      );
+      const minutes = Math.round((bought * postedHourlyMinor) / rate);
+      return minutes > 0 ? { minutes, hourlyMinor: rate } : null;
+    };
+    const week = partTime ? stipendWeek() : null;
+    // The days it sits: as few of the template's days as hold it (no day
+    // longer than the template's longest), the first days of the week first.
+    const partTimeSlots = (weekMinutes: number): WorkScheduleSlot[] | null => {
+      const days = [...commitment.slots].sort(
+        (x, y) => x.offsetDays - y.offsetDays,
+      );
+      if (weekMinutes <= 0 || !days.length) return null;
+      const longest = Math.max(...days.map((slot) => slot.minutes));
+      const used = days.slice(
+        0,
+        Math.min(days.length, Math.max(1, Math.ceil(weekMinutes / longest))),
+      );
+      return used.map((slot, at) => ({
+        ...slot,
+        minutes:
+          Math.floor(weekMinutes / used.length) +
+          (at < weekMinutes % used.length ? 1 : 0),
+      }));
+    };
+    if (partTime && !week) return null;
+    const slots = week ? partTimeSlots(week.minutes) : commitment.slots;
+    if (!slots) return null;
+    const expectedWeeklyMinutes = week
+      ? slots.reduce((n, slot) => n + slot.minutes, 0)
+      : commitment.expectedWeeklyMinutes;
+    const hourlyMinor = week
+      ? week.hourlyMinor
+      : commitment.expectedWeeklyMinutes > 0
         ? Math.round(
             (postedHourlyMinor * statedWeekMinutes) /
               commitment.expectedWeeklyMinutes,
           )
         : postedHourlyMinor;
+    // The hours a day the job works: the template's, or the part-time day's.
+    const hoursDaily = week
+      ? slots[0]!.minutes / api.parameter("minutesPerHour")
+      : template.hoursDaily;
     if (hourlyMinor <= 0) return null;
     // The post replaces whatever job they held.
     if (person.jobId && c.jobs.get(person.jobId)?.endsAt === undefined)
@@ -168,16 +230,19 @@ export function startPublicJob(
     const { publicPayAuthorityId: _authority, ...shape } = commitment;
     void _authority;
     const startsAt = addDays(makeIsoDate(api.state.date), 1);
+    const weekKind = week
+      ? "a part-time public-office week sized to its budget line at the post's going rate"
+      : "a full-time public-office week";
+    const commitmentId = `work-commitment:${jobId}`;
+    const calendarIdNew = `payroll-calendar:${jobId}`;
     const source: Source = {
       tag: "ESTIMATED",
       asOf: api.state.date,
       citation: input.citation,
       estimatedFrom: template.id
-        ? `The post's pay; a full-time public-office week, with paydays that follow ${template.id}.`
-        : "The post's pay; a full-time public-office week and the government's biweekly pay calendar.",
+        ? `The post's pay; ${weekKind}, with paydays that follow ${template.id}.`
+        : `The post's pay; ${weekKind} and the government's biweekly pay calendar.`,
     };
-    const commitmentId = `work-commitment:${jobId}`;
-    const calendarIdNew = `payroll-calendar:${jobId}`;
     api.startJob(
       {
         id: jobId,
@@ -185,8 +250,14 @@ export function startPublicJob(
         organizationId: input.employerId,
         title: input.title,
         hourlyMinor,
-        hoursDaily: template.hoursDaily,
-        wageDailyMinor: Math.round(postedHourlyMinor * postHoursDaily),
+        hoursDaily,
+        wageDailyMinor: week
+          ? Math.round(
+              (week.hourlyMinor * week.minutes) /
+                api.parameter("minutesPerHour") /
+                api.parameter("daysPerWeek"),
+            )
+          : Math.round(postedHourlyMinor * postHoursDaily),
         source,
       },
       {
@@ -198,6 +269,8 @@ export function startPublicJob(
         payrollCalendarId: calendarIdNew,
         startsAt,
         endsAt: undefined,
+        slots,
+        expectedWeeklyMinutes,
         hourlyMinor,
         paySource: source,
         scheduleSource: source,

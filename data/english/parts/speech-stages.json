@@ -516,7 +516,7 @@
     {
       "key": "speech-stages.stage-area-better.let-me-say-something-good-about-issue-in-place",
       "move": "stage-area-better",
-      "text": "Let me say something good about {issue} in {place}: it is better than it was, and that is down to the people here.",
+      "text": "Let me say something good about {issue} in {place}: it is better than it was, and that is thanks to the people here.",
       "uses": [
         {
           "move": "stage-area-better",

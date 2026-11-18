@@ -5,10 +5,10 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Account lead T56 (claude-sonnet-5-5)
+pr: 9126
 after: office-vote-cast-for-a-member-the-meeting-did-not-hold
 blocked-on:
 lead: governing
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: "Account lead T51, Nov 14, 2026, building office-vote-cast-for-a-member-the-meeting-did-not-hold (#9109); the lead asked for it filed with measured stop counts"
 checked:
-claimed-at:
+claimed-at: 2026-11-14
 ---
 
 **What.** The owner's card of Nov 14, 2026, 02:03Z ("Stop me at every vote") made every meeting, floor vote and desk stop on by default. The player switches a stop off to be absent from that kind of vote and to leave desk bills waiting. No screen lets a player switch any stop, so every seated player is stopped at everything, and the "Absent: you did not attend" line in Your office never appears in play. Seen: Politics, then Your office (no stops section); `setStops` is reached only from tests.
@@ -47,3 +47,4 @@ A council seat carries most of the weight: a meeting every two weeks, each one a
 **Files.** src/bench/play.mjs, src/bench/handler.ts, src/bench/office.ts, src/bench/data/controls.json
 
 **Notes.**
+Built by Account lead T56 on claude/project-thread-srmz44 (PR onto the train). Council, state and federal switches shipped; the member-of-Congress week choice split out as office-congress-week-at-home-has-no-control.

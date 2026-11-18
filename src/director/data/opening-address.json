@@ -105,6 +105,8 @@
     "wages": 6,
     "growth": 4,
     "jobs": 3,
+    "pay": 10,
+    "prices": 10,
     "rent": 10,
     "crime": 10,
     "schools": 10,

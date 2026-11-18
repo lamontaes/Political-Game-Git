@@ -39,6 +39,7 @@
 import { billMedicalCare, EMPLOYER_PLAN_LEAVES_OUT } from "../medical-bills";
 import { webReach } from "../outcome-web-reach";
 import { coreAPI, registerModule } from "../state";
+import { registerPlanReaders } from "../life-plan-readers";
 import { outsideAccountOf } from "../budgets-treasury";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { gameStartDate } from "../game-start";
@@ -684,6 +685,39 @@ export const COVERAGE_MODULE: CoreModule = {
 declareSnapshotCovered(COVERAGE_MODULE.id);
 // A row names the journal receipt of its last premium, an ended row too; the
 // journal's fold keeps every receipt a row names (decision-detail.ts).
+// The views engine's life term reads who holds a plan (src/core2/life-plan-readers.ts).
+registerPlanReaders({
+  fullPlan: (core, householdId, personId) =>
+    core.modules.has(COVERAGE_MODULE_ID)
+      ? (
+          table(coreAPI(core)).query("byHousehold", [
+            householdId,
+          ]) as unknown as CoverageRow[]
+        ).find((row) => row.personId === personId && row.to === null)?.plan
+      : null,
+  countedCovered: (core, householdId, placeId) => {
+    if (!core.modules.has(COVERAGE_MODULE_ID)) return null;
+    const api = coreAPI(core);
+    return countedPlacesOf(api).has(placeId)
+      ? (countedCoverageOf(api, householdId)?.covered ?? 0)
+      : null;
+  },
+});
+
+/** The places where the coverage engine keeps counted households' plans, kept for the month. */
+const countedPlaces = new WeakMap<
+  object,
+  { month: string; places: Set<string> }
+>();
+function countedPlacesOf(api: CoreAPI): ReadonlySet<string> {
+  const month = api.state.date.slice(0, "YYYY-MM".length);
+  const held = countedPlaces.get(api.state);
+  if (held?.month === month) return held.places;
+  const places = new Set(countedRows(api).map((row) => row.placeId));
+  countedPlaces.set(api.state, { month, places });
+  return places;
+}
+
 registerJournalIdReader((core) =>
   hasModuleState(core, COVERAGE_MODULE_ID)
     ? rows(coreAPI(core)).map((row) => row.lastJournalId)

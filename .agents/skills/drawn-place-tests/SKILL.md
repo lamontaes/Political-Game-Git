@@ -29,6 +29,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 4. **Name every place passed over,** with the date reached and the reason (each refusal's rule, each count that was zero). A reader of the log must be able to tell a thin place from a defect.
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
+   On the train (Nov 13 to 14) the Account lead requires tests that gate a PR to be pinned in the test file to named places and fixed seeds so they are never red by draw; see `pinned-tests`. The CTO reconciles the two. Reading of the history: this skill's tests hunt for faults across the 56 places, so a drawn place is the point; a pinned test only gates a PR on one known case.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
@@ -46,3 +47,11 @@ Print what the place holds before blaming an engine: every candidate for the cas
 ## When the wait is the finding
 
 A long wait can be real: a town whose first race an 18-year-old may enter opens 69 weeks after their birthday. Say so in the pull request. The player's experience of that wait is a question for the owner, never something a test hides.
+
+## A calibration test went red on my change
+
+The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fresh town per run, so one red proves nothing about your change. Replay both sides on the same seeds: run the file with `GOLDEN_PATH_SEED=<40 hex digits>` on your tree, `git stash`, run it again with the same seeds, `git stash pop`, and compare the printed odds. Equal numbers mean the draw was red and your change left the measure alone; numbers that moved mean your change reached what the weight was fitted on (Nov 15: narrowing a town hall's room as well as its question cut the rooms filled by a third and moved the take-part odds from 3.8 to -0.3). Change the part that moved, never the test or the weight. A file takes five to ten minutes: run it in the background and read the output file.
+
+## A name check that matches inside another word
+
+A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.

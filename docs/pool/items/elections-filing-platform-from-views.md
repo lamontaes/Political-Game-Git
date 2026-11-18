@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9140
 after:
 blocked-on:
 source: stand-in triage Nov 10
@@ -33,3 +33,5 @@ root: rc10-screens-keep-own-facts
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/elections.ts, src/bench/play.mjs, src/bench/filing.ts
+
+**Notes.** Nov 14 (Filing counter thread): built in `fileForOffice` (src/bench/government.ts) with the existing `platformFromViews` read, not a second derivation; pinned test src/bench/filing-platform-from-views.test.ts (Lansdowne PA, Plankinton SD). Same PR removes the six other filing-counter stopgap rows (deadline estimate, fallbacks and body name kept as ESTIMATED data; hours kept as an ESTIMATED row; counter replies paged; hover card gone, the clerk says what the office does).

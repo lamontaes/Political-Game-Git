@@ -481,8 +481,10 @@ describe("story director on the new core", () => {
     const ids = new Set(DIRECTOR_STOPGAPS.map((row) => row.id));
     for (const row of Object.values(DEFAULT_DIRECTOR_DATA.parameters)) {
       expect(["SOURCED", "ESTIMATED", "TUNABLE"]).toContain(row.tag);
+      // A tuned number carries its check range and its spread; a stopgap id is
+      // only for a number that is still a stand-in.
       if (row.tag === "TUNABLE")
-        expect(row.stopgapId && row.checkRange).toBeTruthy();
+        expect(row.checkRange && row.spread).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
     // A resolved row says how it was resolved; the rest stay open.
