@@ -2664,7 +2664,7 @@
   {
     "id": "docs-acceptance-rule-seen-in-the-game",
     "verdict": "drop-done",
-    "reason": "The rule is on main: AGENTS.md step 5 ('Done means a second session saw it in the game'), .agents/skills/seen-in-game/SKILL.md, the merged-versus-done flip in scripts/pool/done-on-merge.ts with `pool seen`, and dev mode's bill card (src/bench/ui/dev-bill-card.mjs). Its parts are done except play-dev-trace-answers-why-for-every-record-the-game-names, still open as its own item. What is left is the second session's replay, recorded with `npm run pool -- seen`, not a build.",
+    "reason": "The rule is on main: AGENTS.md step 5 ('Done means a second session saw it in the game'), .agents/skills/done-proof/references/seen-in-game.md, the merged-versus-done flip in scripts/pool/done-on-merge.ts with `pool seen`, and dev mode's bill card (src/bench/ui/dev-bill-card.mjs). Its parts are done except play-dev-trace-answers-why-for-every-record-the-game-names, still open as its own item. What is left is the second session's replay, recorded with `npm run pool -- seen`, not a build.",
     "critical": true
   },
   {
