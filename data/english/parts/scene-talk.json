@@ -171549,10 +171549,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "scene-talk.reply-refuse.then-we-ll-both-be-here-a-long-time-still-no-on-wanted",
+      "key": "scene-talk.reply-refuse.then-we-ll-both-be-here-a-long-time-because-wanted-is-still-no",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Then we'll both be here a long time. Still no on {wanted}.",
+      "text": "Then we'll both be here a long time, because {wanted} is still no.",
       "uses": [
         {
           "subject": "scene",
@@ -171629,10 +171629,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.then-i-m-going-keep-wanted-to-yourself",
+      "key": "scene-talk.reply-leave.then-i-m-leaving-and-wanted-stays-a-no",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Then I'm going. Keep {wanted} to yourself.",
+      "text": "Then I'm leaving, and {wanted} stays a no.",
       "uses": [
         {
           "subject": "scene",
@@ -171866,10 +171866,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.remember-it-however-you-like-wanted-is-no",
+      "key": "scene-talk.reply-refuse.remember-it-however-you-like-but-wanted-is-no",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Remember it however you like. {wanted} is no.",
+      "text": "Remember it however you like, but {wanted} is no.",
       "uses": [
         {
           "subject": "scene",
@@ -171946,10 +171946,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-ll-watch-myself-wanted-is-still-no",
+      "key": "scene-talk.reply-refuse.i-ll-watch-myself-and-the-answer-on-wanted-is-still-no",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I'll watch myself. {wanted} is still no.",
+      "text": "I'll watch myself, and the answer on {wanted} is still no.",
       "uses": [
         {
           "subject": "scene",
