@@ -198,6 +198,7 @@ import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
   businessNameSaid,
+  employerWords,
   properName,
   spoken,
   spokenDate,
@@ -208,7 +209,6 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import { employerInTalk } from "./employer-in-talk";
 import {
-  employerSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
@@ -499,21 +499,6 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return job && org
     ? { job, org, title: jobTitleByKind(job.title, org.name) }
     : null;
-}
-
-/**
- * An employer as the one said-as reader says it, from its record: a
- * government's payroll as the government, a business by its name, and never
- * the outside market that stands in for work out of town (null).
- */
-function employerWords(org: Readonly<OrganizationInput>): string | null {
-  return employerSaidAs({
-    name: businessNameSaid(org),
-    kind: org.kind,
-    outside: !!org.outsideFlow,
-    ...(org.classification ? { classification: org.classification } : {}),
-    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
-  });
 }
 
 /** A person's job and its employer as said, when the employer can be named. */
