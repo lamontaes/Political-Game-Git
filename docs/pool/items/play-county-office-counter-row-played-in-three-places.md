@@ -32,6 +32,6 @@ after:
 
 **Waits on.** Nothing.
 
-**Files.**
+**Files.** src/director/filing-visit.ts, src/bench/filing.ts
 
-**Notes.** Filed by S4 from the Words lead's ruling 3 on #9144.
+**Notes.** Nov 18 (Story): the staged-row test this item cites was deleted on #10063 with the clerk's counter lines (owner, Nov 17); the proof now lives only in the drawn place its Done when names. Filed by S4 from the Words lead's ruling 3 on #9144.
