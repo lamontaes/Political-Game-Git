@@ -40,6 +40,7 @@ import {
   sceneMovesWritten,
   wordSceneMove,
   type Fact,
+  type Placed,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
@@ -122,8 +123,12 @@ interface PurposeArc {
     thanks: string;
     /** The one asked's last word after the player thanks them for a yes, where the purpose has one. */
     thanked?: string;
-    /** The player's second ask after a "not yet" or a no, and what it weighs. */
-    again: { move: string; carries: AskCarries }[];
+    /**
+     * The player's second ask after a "not yet" or a no, and what it weighs;
+     * `secondAsk` marks one offered only when the player asks again after a
+     * not yet (Words lead, Nov 15: deferring to them keeps the ask open).
+     */
+    again: { move: string; carries: AskCarries; secondAsk?: boolean }[];
     /**
      * The answer of one whose price is taken up (`carries: "price"`), and of
      * one asked only to stay out of the room who agrees (`carries:
@@ -230,6 +235,8 @@ export interface SceneTalkLine {
   asks: boolean;
   /** The English engine says the line hands the floor over ("Go ahead."). */
   invites: boolean;
+  /** Why the English engine placed this wording here (dev mode's "why this reply"). */
+  placed?: Placed;
 }
 
 export interface SceneTalkRound {
@@ -261,6 +268,23 @@ export interface TreeNode {
       firmness?: string;
       settles?: "help" | "decline";
     };
+  };
+}
+
+/**
+ * The node a reply leads to as play reaches it. After a lie the tree holds
+ * both outcomes as branches; the one the staged records give is the one
+ * played: "if {name} knows" when the staging holds what catches the lie
+ * (that branch exists only then), otherwise "if not" (scene-talk.ts
+ * lieBranches, the same choice the trait-led path takes).
+ */
+export function playedNode(node: TreeNode): TreeNode {
+  const branches = node.branches;
+  if (!branches?.length) return node;
+  const branch = branches.find((row) => row.knows) ?? branches[zero]!;
+  return {
+    ...branch.node,
+    lines: [...node.lines, ...branch.node.lines],
   };
 }
 
@@ -330,6 +354,8 @@ export interface AskStanding {
   favor: number;
   /** They ask the player one thing before they answer (`asks.first`). */
   asksFirst?: boolean;
+  /** They would say no but no reason of theirs has a line: they stall first, then say the answer is given. */
+  noReason?: boolean;
   /** Their position were the player to leave their own stance unsaid. */
   hedged?: number;
   /**
@@ -717,6 +743,7 @@ export function composeSceneTalk(
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
       invites: worded.invites,
+      ...(worded.placed ? { placed: worded.placed } : {}),
     };
   };
   let unusedGap = "";
@@ -1128,7 +1155,11 @@ export function composeSceneTalk(
             ? [ask.absent ?? ask.relent[zero]!]
             : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero
+        ? [ask.yes]
+        : carried || standing.noReason
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,
@@ -1143,11 +1174,30 @@ export function composeSceneTalk(
     let count = one;
     // A yes is thanked; a not yet or a no is asked again, or let go.
     const yes = first.move === ask.yes;
+    // A second no (asked before and turned down, and nothing carries them
+    // now) is let go, never pressed a third time (Words lead, Nov 15).
+    const secondNo =
+      !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
     const afterLed = new Map<TreeNode, TreeReply>();
+    // On a second ask a plea is offered only where the record holds a time
+    // the player backed them (`read-favor-given`: the player's yes on a bill
+    // of theirs), and pressing only where they lean for it already (Words
+    // lead, Nov 15): asking again with nothing behind it is not offered.
+    const askedAgain = !!facts["asked-before"];
+    const backed = (weighs: AskCarries) =>
+      !askedAgain ||
+      (weighs === "favor"
+        ? !!facts["read-favor-given"]
+        : weighs === "lean"
+          ? standing.lean > zero
+          : true);
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
-      : ask.again) {
-      if (!offered(again.carries)) continue;
+      : secondNo
+        ? ask.again.filter((row) => row.carries === "none" && !row.secondAsk)
+        : ask.again) {
+      if (!offered(again.carries) || !backed(again.carries)) continue;
+      if ("secondAsk" in again && again.secondAsk && !askedAgain) continue;
       const line = mine(
         {
           step: "follow",
@@ -1338,8 +1388,9 @@ export function composeSceneTalk(
       } else gap("follow", ask.middle.ask, first.move);
     }
     // One button is not a choice: a scene whose middle can be worded never
-    // leaves the player a single reply.
-    if (!yes && root.replies.length < two)
+    // leaves the player a single reply, save the thanks for a yes and the
+    // plain close after a second no.
+    if (!yes && !secondNo && root.replies.length < two)
       return {
         kind: "skipped",
         reason: `fewer than two asks after ${first.move} can be worded for ${type.key}`,
@@ -2076,7 +2127,16 @@ export function composeSceneTalk(
       const settled = answers.filter(
         (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
-      const pool = last && settled.length ? settled : answers;
+      // The first exchange never wraps the scene up where the asker has a
+      // question or a push left (owner, Oct 16: "quick resolution. That's
+      // not how normal people talk"); the last round never leaves one hanging.
+      const open = answers.filter((row) => !settled.includes(row));
+      const pool =
+        last && settled.length
+          ? settled
+          : round === one && open.length
+            ? open
+            : answers;
       const [best] = [...pool].sort(
         (a, b) =>
           leanOf(core, b.candidate, askerTraits) -
@@ -2225,7 +2285,8 @@ export function lastAnswerAlong(
   let node: TreeNode | null = tree;
   let last = tree.lines.filter((row) => row.role === "asker").at(-one)?.move;
   for (const index of path) {
-    node = node?.replies[index]?.next ?? null;
+    const next: TreeNode | null = node?.replies[index]?.next ?? null;
+    node = next ? playedNode(next) : null;
     if (!node) break;
     last =
       node.lines.filter((row) => row.role === "asker").at(-one)?.move ?? last;

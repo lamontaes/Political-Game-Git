@@ -28,6 +28,7 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const ATTEMPTS = 6;
 
@@ -58,7 +59,7 @@ function play(seed: string) {
         .map((t) => t.personId!),
     ),
   ].slice(0, 40);
-  const rich = [...core.people.values()]
+  const rich = townResidentsByCash(core, coreAPI(core))
     .filter(
       (person) =>
         person.alive &&
@@ -66,7 +67,6 @@ function play(seed: string) {
         !members.includes(person.id) &&
         alive(person.id),
     )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
     .slice(0, 15);
   // The only forced part is the offers; reports, charges, pleas, trials and
   // sentences are the engines' own.

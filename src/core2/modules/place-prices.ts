@@ -25,11 +25,12 @@ import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { firmCharged } from "../business-charges";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
 import { placeStateKey } from "../place-map";
-import { incomeBandOf } from "./residents";
+import { incomeBandOn } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
@@ -959,12 +960,12 @@ function settle(
     readonly target: AppliedTarget;
     readonly count?: number;
   },
-): void {
+): number {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
-  if (!outside) return;
+  if (!outside) return 0;
   // A sale with no seller in town stays where it was: nothing moves.
-  if (rule.kind === "sale" && !sellers.length) return;
+  if (rule.kind === "sale" && !sellers.length) return 0;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
@@ -1033,10 +1034,12 @@ function settle(
         reasonKey: "price",
         source: rule.source,
       });
-    return;
+    return 0;
   }
+  // What the account owner paid, less what came back: a business's books read it.
+  let net = 0;
   if (refund > 0)
-    transferCash(
+    net -= transferCash(
       api,
       `${sourceId}:refund`,
       outside,
@@ -1047,26 +1050,37 @@ function settle(
   if (pay > 0 && rule.kind === "sale") {
     const parts = splitBy(pay, sellers);
     sellers.forEach((seller, i) => {
-      if (parts[i]! > 0)
+      if (parts[i]! > 0) {
+        const paid = transferCash(
+          api,
+          `${sourceId}:pay:${seller.id}`,
+          accountOwnerId,
+          seller.id,
+          parts[i]!,
+          rule.source,
+        );
+        net += paid;
         saleReceipt(
           api,
           rule,
           `${sourceId}:pay:${seller.id}`,
           seller.id,
           [accountOwnerId],
-          transferCash(
-            api,
-            `${sourceId}:pay:${seller.id}`,
-            accountOwnerId,
-            seller.id,
-            parts[i]!,
-            rule.source,
-          ),
+          paid,
           false,
         );
+      }
     });
   } else if (pay > 0 && to !== accountOwnerId)
-    transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
+    net += transferCash(
+      api,
+      `${sourceId}:pay`,
+      accountOwnerId,
+      to,
+      pay,
+      rule.source,
+    );
+  return net;
 }
 
 /** The statutes the price engine prices, by policy question. */
@@ -1296,6 +1310,30 @@ export function businessEnergyCostYear(
 }
 
 /**
+ * The share of a business's other operating costs the energy price laws in
+ * force today add to its bills: for each statute `readPriceLaws` would price,
+ * the business share of that fuel times the law's price change, the same rule
+ * the monthly settlement charges before the outcome web adjusts it.
+ */
+export function businessEnergyLawShare(api: CoreAPI): number {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return 0;
+  let share = 0;
+  for (const question of PRICE_LAW_QUESTIONS) {
+    const law = lawInForce(api, question);
+    if (law.value !== 1 || !law.governing) continue;
+    const row = energyPriceRule(api, question);
+    if (!row) continue;
+    share +=
+      api.parameter(
+        row.good === "electricity"
+          ? "pricesBusinessElectricityShare"
+          : "pricesBusinessFuelShare",
+      ) * row.value;
+  }
+  return share;
+}
+
+/**
  * What the outcome web adds to a place's use of a good this month. Electricity
  * is the exception that replaces rather than adds: a clean-electricity
  * standard's recorded compliance cost stands in for the price until the web's
@@ -1513,7 +1551,7 @@ function month(api: CoreAPI): void {
   // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
   const bands = new Map<string, ReturnType<typeof webUse>>();
   const useFor = (rule: Rule, payMonthlyMinor: number) => {
-    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const fifth = incomeBandOn(api, payMonthlyMinor * MONTHS);
     const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
     let use = bands.get(key);
     if (!use) {
@@ -1657,7 +1695,7 @@ function month(api: CoreAPI): void {
             share *
             webUse(api, rule, {}).rule.value) /
           MONTHS;
-        settle(
+        const paid = settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,
           rule,
@@ -1669,6 +1707,14 @@ function month(api: CoreAPI): void {
           undefined,
           [],
           { targetId: organizationId, target: "organization" },
+        );
+        const law = lawOf(rule);
+        firmCharged(
+          api,
+          organizationId,
+          "energy-laws",
+          paid,
+          law ? [law.lawId] : [],
         );
       }
   }

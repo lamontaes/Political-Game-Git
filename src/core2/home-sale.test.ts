@@ -6,13 +6,17 @@ import { coreAPI } from "./state";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { sellHome } from "./housing-sale";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
+import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 // A mortgaged owner household that leaves sells its home (replaces
 // SG-P15-moves-owners-stay): in the played world, in a place drawn from all
-// 56, the outside buyer pays the lender off first, the surplus reaches the
-// household, the mortgage ends, and every dollar stays on someone's books.
+// 56, the home goes on the market and stays the household's; when a buyer
+// takes it and pays the household, the lender is paid off first from that
+// money, the surplus stays with the household, the mortgage ends, and every
+// dollar stays on someone's books.
 const seed = process.env.HOME_SALE_SEED ?? randomBytes(8).toString("hex");
 
 it("sells a mortgaged home: payoff first, surplus to the household, mortgage ended", () => {
@@ -61,8 +65,26 @@ it("sells a mortgaged home: payoff first, surplus to the household, mortgage end
       ? core.organizations.get(mortgage.holderId)
       : undefined;
     const before = { books: books(), lender: lender?.liquidMinor ?? 0 };
-    const sale = sellHome(api, householdId, "test.departure");
-    expect(sale, where).toBeTruthy();
+    const listed = sellHome(api, householdId, "test.departure");
+    expect(listed, where).toBeTruthy();
+    // On the market, still the household's: nothing is paid until a buyer takes it.
+    expect(listed!.status, where).toBe("listed");
+    expect(books(), where).toBe(before.books);
+    expect(
+      (
+        housing.table("dwellings").get(`dwelling:${householdId}`) as {
+          tenure: string;
+        }
+      ).tenure,
+      where,
+    ).toBe("listed");
+    // A buyer from outside the town takes it and pays the household.
+    const buyer = townOutsideOf(
+      core.organizations.values(),
+      core.households.get(householdId)!.placeId,
+    )!.id;
+    const sale = buyListedHome(api, listed!.id, buyer);
+    expect(sale.status, where).toBe("sold");
     const payoff = loans.reduce((n, row) => n + row.balanceMinor, 0);
     expect(sale!.owedMinor, where).toBe(payoff);
     // The lender is paid off from the price first, up to what it was owed.

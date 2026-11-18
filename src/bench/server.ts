@@ -1,6 +1,12 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { benchRequest, benchWorld, saveLifeNow, serialize } from "./handler";
+
+// The bench keeps its saves in the player's home folder, which the system
+// never clears (the desktop app uses its own data folder instead).
+process.env.OCD_SAVE_DIR ??= join(homedir(), ".our-civic-duty", "saves");
 import { handleDev } from "./dev-api";
 
 // The developer listener. The play routes live in handler.ts, which the
@@ -24,7 +30,7 @@ const assets = new Map([
 // The approved Kit 12/13 fonts and controls, served from public/.
 const PUBLIC = new URL("../../public/", import.meta.url);
 const publicFile =
-  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png)$/;
+  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png|ui\/kit13\/panel\.png)$/;
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", "http://bench");

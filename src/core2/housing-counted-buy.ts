@@ -1,0 +1,566 @@
+/**
+ * A counted renter household buys a home (pool item world-counted-renters-buy):
+ * the same decision a full renter makes (housing-buy.ts), weighed once a year
+ * on its lease's anniversary month, with the money moved through its group's
+ * accounts. Its means are its own savings: its share of its group's account,
+ * the money that goes with it when it changes groups (`departingCash`), which
+ * its savings weight spreads among households alike in income, age and tenure
+ * (`savingWeight` in counted-money.ts). Short of the down payment for every
+ * household the record stands for, it does not buy (Account lead's rulings,
+ * Nov 14, 2026, from "one model, two tiers" and "no dice").
+ *
+ * A purchase: the household joins its owners' group first, taking its share
+ * with it, and the down payment is paid from there (the renters it leaves
+ * behind pay none of it) to
+ * the seller (a builder's finished new house in town, else a seller leaving
+ * the town, which the outside market stands for), times the households the
+ * record stands for; the town bank lends the rest where its capital has room,
+ * else a holder outside the town does, as at the opening; the rent flow ends;
+ * a `mortgage:<household>` part joins the place's counted mortgage flow for
+ * that holder; the household's home, mortgage and purchase are housing's
+ * records like any owner's; and the place's price
+ * level counts it as a buyer by its weight.
+ */
+import housingData from "./data/housing/housing.json" with { type: "json" };
+import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
+import { countUnmetBuyer, takeHomes } from "./housing-listings";
+import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
+import { countBuyer, placePriceLevel } from "./housing-price-level";
+import { withdrawSavings } from "./modules/budgets";
+import {
+  countedHousingInArrears,
+  countedDeposits,
+  countedPayment,
+  fundOf,
+} from "./counted-money";
+import type { CountedHousehold } from "./counted-groups";
+import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
+import {
+  departingCash,
+  householdIncome,
+  regroupHousehold,
+  residentsRuntime,
+} from "./modules/residents";
+import {
+  addFlowPart,
+  addResidentFlow,
+  endResidentFlow,
+} from "./residents-economy";
+import type { CoreAPI, CoreState, Source } from "./types";
+
+const HOUSING = "housing";
+const table = (api: CoreAPI, name: string) =>
+  api.moduleState(HOUSING).table(name);
+type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
+
+/** A counted renter's home row in housing's dwellings table. */
+interface DwellingRow {
+  tenure?: string;
+  since?: string;
+  basis?: string;
+}
+
+/**
+ * The day a counted renter's lease began: the day it moved into its place
+ * for a lease from the opening, else the day it rented again.
+ */
+export function countedLeaseStart(
+  api: CoreAPI,
+  h: CountedHousehold,
+): string | undefined {
+  const row = table(api, "dwellings").get(`dwelling:${h.id}`) as
+    DwellingRow | undefined;
+  if (row?.tenure !== "rent") return undefined;
+  if (row.basis !== "opening" && row.since) return row.since;
+  return h.since ?? (api.state as CoreState).startedAt;
+}
+
+/**
+ * The counted renters whose lease began in each month of the year, by
+ * "MM", kept for the calendar year it was read in: each month weighs only its
+ * own, so no month reads every counted household. A household that began
+ * renting since the year's read waits for its first anniversary, which falls
+ * in a later year's read.
+ */
+const anniversaries = new WeakMap<
+  CoreState,
+  { year: string; byMonth: Map<string, string[]> }
+>();
+
+function rentersThisMonth(api: CoreAPI, rt: Runtime): string[] {
+  const c = api.state as CoreState;
+  const year = c.date.slice(0, "YYYY".length);
+  let held = anniversaries.get(c);
+  if (held?.year !== year) {
+    const byMonth = new Map<string, string[]>();
+    for (const h of rt.store.liveHouseholds()) {
+      if (h.tenure !== "rent" || h.quarters) continue;
+      const start = countedLeaseStart(api, h);
+      if (!start) continue;
+      const month = start.slice("YYYY-".length, "YYYY-MM".length);
+      const ids = byMonth.get(month) ?? [];
+      ids.push(h.id);
+      byMonth.set(month, ids);
+    }
+    held = { year, byMonth };
+    anniversaries.set(c, held);
+  }
+  return held.byMonth.get(c.date.slice("YYYY-".length, "YYYY-MM".length)) ?? [];
+}
+
+/**
+ * This month's counted renters weigh buying; those that choose to, with the
+ * down payment in their own savings and a loan the bank says yes to, buy.
+ * The housing engine hands in what it reads from the other families: the
+ * home a renter's rent stands for (the same a full renter weighs), the bank's
+ * yes and room, the town's outside market and the ledger's transfer.
+ */
+export interface CountedBuyWorld {
+  readonly valueOf: (placeId: string, rentMinor: number) => number | undefined;
+  readonly bankYes: (paymentMinor: number, incomeMinor: number) => number;
+  readonly mortgageRoom: () =>
+    { bankId: string; roomMinor: number } | undefined;
+  readonly outsideOf: (placeId: string) => string | undefined;
+  readonly transferCash: (
+    id: string,
+    fromOwnerId: string,
+    toOwnerId: string,
+    amountMinor: number,
+    source: Source,
+  ) => number;
+  /** The home a household like this one has: its rent (or what its owned home would rent for), landlord and kind; undefined when it has none here. */
+  readonly homeLike: (householdId: string) =>
+    | {
+        readonly rentMinor: number;
+        readonly landlordId: string;
+        readonly kind?: string;
+        readonly usps?: string;
+        /** For an owned home, its value today less what is owed on it: what a household like its owner brings from selling the home it left. */
+        readonly equityMinor?: number;
+      }
+    | undefined;
+  /** Each part's seller was paid: its sale pays its lender and closes (housing-sale's `closeSales`). */
+  readonly closeSales: (
+    parts: readonly {
+      readonly sellerId: string;
+      readonly homes: number;
+      readonly saleId?: string;
+      readonly paidMinor: number;
+    }[],
+    purchaseId: string,
+  ) => void;
+  /** Begins a counted household's rent (housing-occupancy's `openCountedRent`). */
+  readonly openRent: (
+    h: CountedHousehold,
+    landlordId: string,
+    rentMinor: number,
+    source: Source,
+  ) => string | undefined;
+}
+
+/**
+ * Households that moved into the town since the last review find a home
+ * (SG-WORLD-housing-new-home-buyers retired): each looks for a home like the
+ * town household it was drawn like. It weighs buying it by the same rule a
+ * renter does, with what it brought as its share of its group's account and no
+ * years in a lease; one that does not buy rents it from that home's landlord.
+ * Newcomers to the county's other places, which the housing engine does not
+ * keep, stay as they are.
+ */
+export function settleCountedNewcomers(
+  api: CoreAPI,
+  world: CountedBuyWorld,
+): void {
+  const c = api.state as CoreState;
+  const rt = residentsRuntime(c);
+  if (!rt || !rt.newcomers.length) return;
+  const arrived = rt.newcomers.splice(0);
+  const town = c.placeMetadata?.housingTown;
+  const market = buyMarket(api);
+  if (!rt.funded || !town || !c.modules.has(HOUSING)) return;
+  const homes = table(api, "dwellings");
+  for (const { householdId, likeId } of arrived) {
+    const h = rt.store.liveHousehold(householdId);
+    if (!h || h.placeId !== town || h.tenure !== "other" || h.quarters)
+      continue;
+    if (homes.get(`dwelling:${h.id}`)) continue;
+    const like = world.homeLike(likeId);
+    if (!like || like.rentMinor <= 0) continue;
+    if (
+      market &&
+      weighAndBuy(api, rt, market, world, h, {
+        rentMinor: like.rentMinor,
+        leaseDays: 0,
+        broughtMinor: like.equityMinor ?? 0,
+      })
+    )
+      continue;
+    const source: Source = {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `A household that moved in rents a home like ${likeId}'s, at its rent.`,
+    };
+    if (!world.openRent(h, like.landlordId, like.rentMinor, source)) continue;
+    homes.put({
+      id: `dwelling:${h.id}`,
+      householdId: h.id,
+      tenure: "rent",
+      ...(like.kind ? { kind: like.kind } : {}),
+      ...(like.usps ? { usps: like.usps } : {}),
+      rentMinor: like.rentMinor,
+      since: c.date,
+      basis: "arrival",
+    } as never);
+    h.since = makeIsoDate(c.date);
+    h.tenure = "rent";
+    regroupHousehold(rt, h, c.date);
+  }
+}
+
+export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
+  const c = api.state as CoreState;
+  const rt = residentsRuntime(c);
+  const market = buyMarket(api);
+  if (!rt || !rt.funded || !market || !c.modules.has(HOUSING)) return;
+  const p = (key: string) => api.parameter(key);
+  for (const id of rentersThisMonth(api, rt)) {
+    const h = rt.store.liveHousehold(id);
+    if (!h || h.tenure !== "rent" || h.group < 0) continue;
+    const start = countedLeaseStart(api, h);
+    // A lease of less than a year waits for its first anniversary.
+    if (
+      !start ||
+      daysBetweenText(start, c.date) <
+        p("daysPerMeanYear") * (1 - 1 / p("macroMonthsPerYear"))
+    )
+      continue;
+    const rent = rt.flows.get(`rent:${h.id}`);
+    if (!rent || rent.endedAt || rent.amountMinor <= 0) continue;
+    if (countedHousingInArrears(c, h.id)) continue;
+    weighAndBuy(api, rt, market, world, h, {
+      rentMinor: rent.amountMinor,
+      leaseDays: daysBetweenText(start, c.date),
+    });
+  }
+}
+
+/**
+ * A counted household weighs buying the home its rent stands for, by the
+ * shared rule, with its share of its group's account as its means; it buys
+ * when it chooses to and that share covers the down payment for every
+ * household the record stands for. Returns whether it bought.
+ */
+function weighAndBuy(
+  api: CoreAPI,
+  rt: Runtime,
+  market: NonNullable<ReturnType<typeof buyMarket>>,
+  world: CountedBuyWorld,
+  h: CountedHousehold,
+  home: { rentMinor: number; leaseDays: number; broughtMinor?: number },
+): boolean {
+  const c = api.state as CoreState;
+  const p = (key: string) => api.parameter(key);
+  const today = makeIsoDate(c.date);
+  const members = rt.store.countedMembers(h);
+  const facts = members.map((m) => rt.store.factsOf(m));
+  const head = [...facts].sort(
+    (a, b) =>
+      a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+  )[0];
+  if (!head) return false;
+  const income = householdIncome(rt, h) / p("macroMonthsPerYear");
+  if (income <= 0) return false;
+  const value = world.valueOf(h.placeId, home.rentMinor);
+  const outside = world.outsideOf(h.placeId);
+  if (!value || !outside) return false;
+  const weight = rt.store.weightOf(h);
+  // What it could put down: its own share of its group's account and the savings the bank holds for it, both for every household of the record, as a full renter counts its cash and savings.
+  const share = departingCash(rt, h);
+  const banked = countedDeposits(api, rt, h, rt.store.weightedCount(h));
+  // A newcomer that owned where it came from also brings what it sold that home for, less its loan, for each household.
+  const brought = Math.max(0, Math.floor(home.broughtMinor ?? 0));
+  const weighed = weighHome(api, market, world.bankYes, {
+    headId: head.id,
+    householdId: h.id,
+    valueMinor: value,
+    rentMinor: home.rentMinor,
+    incomeMinor: income,
+    meansMinor: Math.floor((share + banked) / weight) + brought,
+    children: facts.filter(
+      (row) => ageInYears(row.birthDate, today) < p("housingOwnerMinimumAge"),
+    ).length,
+    headAge: ageInYears(head.birthDate, today),
+    leaseYears: home.leaseDays / p("daysPerMeanYear"),
+  });
+  if (!weighed.buy) return false;
+  const down = Math.round(weighed.downMinor);
+  // What it brought, its share and its savings must cover the down payment for every household the record stands for, so the households it leaves behind pay none of it.
+  if (share + banked + Math.min(brought, down) * weight < down * weight)
+    return false;
+  return buy(
+    api,
+    rt,
+    h,
+    {
+      weight,
+      value,
+      down,
+      principal: weighed.principalMinor,
+      rate: market.rate,
+      term: market.term,
+      rentMinor: home.rentMinor,
+      incomeMinor: income,
+      shareMinor: Math.floor(share / weight),
+      bankedMinor: Math.floor(banked / weight),
+      broughtMinor: Math.min(brought, down),
+      leaseMonths:
+        home.leaseDays / (p("daysPerMeanYear") / p("macroMonthsPerYear")),
+      reasons: weighed.reasons,
+      outsideId: outside,
+      market,
+    },
+    world,
+  );
+}
+
+function buy(
+  api: CoreAPI,
+  rt: Runtime,
+  h: CountedHousehold,
+  deal: {
+    weight: number;
+    /** What the home it weighed is worth, for one household. */
+    value: number;
+    down: number;
+    principal: number;
+    rate: number;
+    term: number;
+    rentMinor: number;
+    incomeMinor: number;
+    /** One household's share of its group's account when it weighed buying. */
+    shareMinor: number;
+    /** One household's savings at the bank when it weighed buying. */
+    bankedMinor: number;
+    /** What it brought from the home it sold before moving here, toward the down payment, for one household. */
+    broughtMinor: number;
+    leaseMonths: number;
+    reasons: Record<string, number>;
+    outsideId: string;
+    market: NonNullable<ReturnType<typeof buyMarket>>;
+  },
+  world: CountedBuyWorld,
+): boolean {
+  const c = api.state as CoreState;
+  const { weight } = deal;
+  const stamp = `${h.id}:${c.date}`;
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: c.date,
+    citation: housingData.mortgage.source,
+    estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round((deal.shareMinor + deal.bankedMinor) / 100)} dollars of its own savings, its share of its group's account and its savings at the bank, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
+  };
+  // Only homes for sale that it can afford: a builder's new houses, then homes households put on the market worth no more today than the home it weighed. None, it does not buy this month; the price level still weighs it as a buyer.
+  const taken = takeHomes(api, h.placeId, weight, false, deal.value);
+  if (!taken) {
+    countUnmetBuyer(api, h.placeId, weight, h.id);
+    return false;
+  }
+  // Each part's seller and what it was paid; a part's ids carry its place in the list, as two parts can share a seller.
+  const sellers = taken.map((part, i) => ({
+    ...part,
+    id: part.sellerId,
+    key: `${i}:${part.sellerId}`,
+    // It pays what each home is worth today: the down payment and the loan scale to that price.
+    scale: (part.priceMinor ?? deal.value) / deal.value,
+    downMinor: 0,
+    paidMinor: 0,
+  }));
+  // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
+  const before = h.tenure;
+  h.tenure = "mortgage";
+  regroupHousehold(rt, h, c.date);
+  // The down payment, to each seller for its homes: first what it brought from the home it sold (paid in from the outside market that bought that home), then from the account its share moved to.
+  let downPaid = 0;
+  // Its share pays first; past it, the savings it needs are drawn from the bank into the account its share moved to, just before each payment.
+  let shareLeft = Math.floor(deal.shareMinor * weight);
+  let bankedLeft = countedDeposits(api, rt, h, rt.store.weightedCount(h));
+  for (const seller of sellers) {
+    const amount = Math.round(deal.down * seller.scale * seller.homes);
+    const fromSale = Math.min(
+      amount,
+      Math.min(amount, Math.round(deal.broughtMinor * seller.homes)),
+    );
+    // Money between the outside market and itself is not on the books: the sale pays all the same.
+    const sold =
+      fromSale <= 0
+        ? 0
+        : seller.id === deal.outsideId
+          ? fromSale
+          : world.transferCash(
+              `down-payment-sale:${stamp}:${seller.key}`,
+              deal.outsideId,
+              seller.id,
+              fromSale,
+              source,
+            );
+    const need = amount - sold;
+    const fromShare = Math.min(Math.max(0, need), shareLeft);
+    shareLeft -= fromShare;
+    const draw = Math.min(need - fromShare, bankedLeft);
+    if (draw > 0)
+      bankedLeft -= withdrawSavings(c, api, {
+        id: `down-payment-savings:${stamp}:${seller.key}`,
+        holderId: fundOf(api, rt, h.group),
+        customerAccountId: fundOf(api, rt, h.group),
+        amountMinor: draw,
+        source,
+      });
+    const fromSavings =
+      need > 0
+        ? countedPayment(api, {
+            id: `down-payment:${stamp}:${seller.key}`,
+            placeId: h.placeId,
+            householdId: h.id,
+            otherOwnerId: seller.id,
+            amountMinor: amount - sold,
+            whole: true,
+            reasonKey: "housing.counted-down-payment",
+            source,
+          })
+        : 0;
+    seller.downMinor += sold + fromSavings;
+    seller.paidMinor += sold + fromSavings;
+    downPaid += sold + fromSavings;
+  }
+  if (downPaid <= 0) {
+    // Nothing was paid: it keeps the tenure it had, and its share goes back with it.
+    h.tenure = before;
+    regroupHousehold(rt, h, c.date);
+    return false;
+  }
+  // Each home's loan never exceeds what its down payment actually paid supports at the lender's loan-to-value rule.
+  const share = housingData.mortgage.downPayment.firstTime;
+  const loanOf = (seller: (typeof sellers)[number]) =>
+    Math.min(
+      Math.round(deal.principal * seller.scale * seller.homes),
+      Math.floor((seller.downMinor * (1 - share)) / share),
+    );
+  const loanWanted = sellers.reduce((n, seller) => n + loanOf(seller), 0);
+  // The town bank holds it where its capital has room; otherwise a holder outside the town, as at the opening.
+  const room = world.mortgageRoom();
+  const holderId =
+    room && loanWanted <= room.roomMinor ? room.bankId : deal.outsideId;
+  let lent = 0;
+  for (const seller of sellers) {
+    const amount = loanOf(seller);
+    // Money between the outside market and itself is not on the books: the loan is made all the same.
+    const loaned =
+      holderId === seller.id
+        ? amount
+        : world.transferCash(
+            `mortgage-loan:${stamp}:${seller.key}`,
+            holderId,
+            seller.id,
+            amount,
+            source,
+          );
+    seller.paidMinor += loaned;
+    lent += loaned;
+  }
+  // One household's share of the record's price, loan and payment.
+  const loanEach = Math.floor(lent / weight);
+  const downEach = Math.round(downPaid / weight);
+  const payment = Math.round(monthlyPayment(deal.market, loanEach));
+  // Its rent stops and its mortgage part starts.
+  endResidentFlow(c, `rent:${h.id}`, "purchase");
+  const mortgageId = `${MORTGAGE_PREFIX}${h.id}`;
+  if (loanEach > 0 && payment > 0) {
+    const flowId = countedMortgageFlowId(h.placeId, holderId);
+    if (!addFlowPart(c, flowId, mortgageId, payment)) {
+      const account = rt.input.accounts.find(
+        (row) => row.placeId === h.placeId,
+      )?.accountId;
+      if (account)
+        addResidentFlow(c, {
+          id: flowId,
+          kind: "purchase",
+          financeKind: "household.mortgage",
+          payerId: account,
+          payeeId: holderId,
+          residentsId: account,
+          placeId: h.placeId,
+          amountMinor: payment,
+          firstAt: makeIsoDate(c.date),
+          cadence: { kind: "months", every: 1, day: 1 },
+          salesReceipt: false,
+          marketAdjusted: false,
+          amountByContract: { [mortgageId]: payment },
+          source,
+        });
+    }
+    table(api, "mortgages").put({
+      id: mortgageId,
+      householdId: h.id,
+      holderId,
+      boughtYear: Number(c.date.slice(0, "YYYY".length)),
+      rate: deal.rate,
+      originalMinor: loanEach,
+      balanceMinor: loanEach,
+      paymentMinor: payment,
+      monthsLeft: deal.term,
+    } as never);
+  }
+  const level = placePriceLevel(api, h.placeId);
+  table(api, "purchases").put({
+    id: `purchase:${stamp}`,
+    householdId: h.id,
+    buyerId: rt.store.ids[rt.store.countedMembers(h)[0]!]!,
+    counted: true,
+    weight,
+    date: c.date,
+    priceMinor: downEach + loanEach,
+    downMinor: downEach,
+    loanMinor: loanEach,
+    holderId,
+    sellerIds: [...new Set(sellers.map((row) => row.id))],
+    // The households' sales whose homes it bought.
+    ...(sellers.some((row) => row.saleId)
+      ? {
+          saleIds: sellers.flatMap((row) => (row.saleId ? [row.saleId] : [])),
+        }
+      : {}),
+    rate: deal.rate,
+    rentBeforeMinor: deal.rentMinor,
+    monthlyIncomeMinor: Math.round(deal.incomeMinor),
+    savingsMinor: deal.shareMinor + deal.bankedMinor,
+    ...(deal.broughtMinor > 0 ? { broughtMinor: deal.broughtMinor } : {}),
+    leaseMonths: Math.round(deal.leaseMonths),
+    // What decided it: each reason's contribution to the buy option.
+    reasons: deal.reasons,
+  } as never);
+  // Each seller was paid its part: its sale pays its lender and closes.
+  world.closeSales(sellers, `purchase:${stamp}`);
+  table(api, "dwellings").put({
+    id: `dwelling:${h.id}`,
+    householdId: h.id,
+    tenure: "own",
+    // A first home bought here is a house (the seller's unit kind isn't recorded yet).
+    kind: "house",
+    valueMinor: downEach + loanEach,
+    // The place's price level the price stands at, so the home's value moves with it (the one value rule).
+    ...(level ? { priceLevel: level.now } : {}),
+    loanHolderId: loanEach > 0 ? holderId : "",
+    since: c.date,
+    basis: "purchase",
+  } as never);
+  // It moved into its new home today, and now keeps company with the town's owners.
+  h.since = makeIsoDate(c.date);
+  if (loanEach <= 0) {
+    // Bought outright: it keeps company with the owners who owe nothing.
+    h.tenure = "other";
+    regroupHousehold(rt, h, c.date);
+  }
+  countBuyer(api, h.placeId, weight);
+  return true;
+}

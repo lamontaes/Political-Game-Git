@@ -35,7 +35,7 @@
     "ask-vote": {
       "state": "request",
       "asks": {
-        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing.",
+        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -57,6 +57,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",
@@ -155,7 +160,11 @@
           "keeps": "none",
           "when": {}
         }
-      ]
+      ],
+      "follow": {
+        "accept": ["thank"],
+        "press": ["accept"]
+      }
     },
     "confirm-vote": {
       "state": "ask",
@@ -1071,8 +1080,69 @@
         }
       ]
     },
+    "emergency-briefing": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "leave"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "warn"],
+        "ask": ["answer"]
+      },
+      "again": {
+        "answer": ["agree", "decline"],
+        "warn": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "declared",
+          "label": "You declared the emergency",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "let-pass",
+          "label": "You let it pass",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "hearing-ask": {
       "state": "request",
+      "asks": {
+        "note": "Where the player is the sponsor and asks the chair of the committee that held the bill: the chair says yes only if their own stand already reaches a hearing, not yet if a favor would carry them, no otherwise, and the no gives the reason the committee record holds. Asked again: a plea carries them where the favor would, pressing holds them where they stood, and letting it go wins nothing.",
+        "yes": "agree",
+        "carried": "stall",
+        "no": "refuse",
+        "relent": ["relent", "agree"],
+        "thanks": "thank",
+        "again": [
+          {
+            "move": "plea",
+            "carries": "favor"
+          },
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
+        ],
+        "paid": "accept",
+        "absent": "decline"
+      },
       "replies": ["agree", "refuse", "bargain", "stall"],
       "endings": [
         {
@@ -1223,17 +1293,17 @@
     },
     "scandal-comment": {
       "state": "ask",
-      "replies": ["confess", "deny", "refuse", "confront", "lie"],
+      "replies": ["confess", "refuse", "confront", "lie"],
       "follow": {
         "confess": ["ask", "thank"],
-        "deny": ["press", "accept"],
         "refuse": ["accept", "press"],
-        "confront": ["answer"]
+        "confront": ["answer"],
+        "answer": ["accept"]
       },
       "again": {
         "ask": ["answer", "refuse", "leave"],
-        "press": ["deny", "confess", "leave"],
-        "answer": ["confess", "deny", "leave"],
+        "press": ["confess", "leave"],
+        "answer": ["confess", "lie", "refuse"],
         "confront": ["deflect", "confess", "leave"]
       },
       "endings": [
@@ -1243,14 +1313,6 @@
           "keeps": "story-runs",
           "when": {
             "anyReply": ["confess"]
-          }
-        },
-        {
-          "id": "denial-printed",
-          "label": "Story runs with your denial",
-          "keeps": "story-runs",
-          "when": {
-            "anyReply": ["deny"]
           }
         },
         {
@@ -2238,22 +2300,15 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": [
-        "tell-running",
-        "tell-race",
-        "tell-duty",
-        "tell-deadline",
-        "tell-filing-fee"
-      ],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept", "refuse"],
+        "agree": ["accept"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"],
-        "refuse": ["come-back", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
         {
@@ -2602,25 +2657,33 @@
         "tell-reason": ["agree", "decline", "stall"],
         "tell-need": ["agree", "decline", "stall"]
       },
-      "again": { "press": ["agree", "relent", "refuse", "deflect"] },
+      "again": {
+        "press": ["agree", "relent", "refuse", "deflect"]
+      },
       "endings": [
         {
           "id": "endorsed",
           "label": "You gave them your endorsement",
           "keeps": "none",
-          "when": { "reply": ["agree", "relent"] }
+          "when": {
+            "reply": ["agree", "relent"]
+          }
         },
         {
           "id": "refused",
           "label": "You said no",
           "keeps": "relationship-strained",
-          "when": { "reply": ["decline", "refuse"] }
+          "when": {
+            "reply": ["decline", "refuse"]
+          }
         },
         {
           "id": "thinking",
           "label": "You said you would think about it",
           "keeps": "none",
-          "when": { "reply": ["stall", "deflect"] }
+          "when": {
+            "reply": ["stall", "deflect"]
+          }
         },
         {
           "id": "left-there",
@@ -2749,6 +2812,44 @@
           "keeps": "none",
           "when": {
             "reply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "petition-short": {
+      "state": "tell",
+      "replies": ["ask", "promise", "deflect"],
+      "follow": {
+        "ask": ["answer"],
+        "promise": ["thank"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["promise", "deflect", "leave"],
+        "press": ["promise", "deflect", "leave"],
+        "thank": ["leave"]
+      },
+      "endings": [
+        {
+          "id": "going-out",
+          "label": "You'll go out and get names",
+          "keeps": "petition-going-out",
+          "when": {
+            "reply": ["promise"]
+          }
+        },
+        {
+          "id": "not-today",
+          "label": "You let it wait",
+          "keeps": "petition-not-today",
+          "when": {
+            "reply": ["deflect"]
           }
         },
         {
@@ -4347,7 +4448,7 @@
     "cosponsor-ask": {
       "state": "request",
       "asks": {
-        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it.",
+        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -4362,6 +4463,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",

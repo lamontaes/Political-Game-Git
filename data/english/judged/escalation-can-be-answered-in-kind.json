@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 171,
+  "judged": 162,
   "no": {
     "00jwepcdcwk": {
       "keys": [
@@ -65,15 +65,6 @@
         "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
       ],
       "why": "The replies only apologize, deny, or end the talk, and none answers the challenge in kind."
-    },
-    "0n73d5iwm8y": {
-      "keys": [
-        "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "The replies give in, defer or stall; none answers the pressure firmly."
     },
     "0o743fqwqo6": {
       "keys": [
@@ -192,5 +183,5 @@
       "why": "A concession, a question and a pause; none pushes back."
     }
   },
-  "yesHash": "1snip0k18qg"
+  "yesHash": "21zahwy318i"
 }

@@ -21,7 +21,6 @@ import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
@@ -64,8 +63,11 @@ interface StockRow {
   backfilled?: boolean;
   openingHomeValueMinor: number;
   openingRentMinor: number;
+  /** The price index at the opening; 0 until the economy has kept its first month, which is then the base. */
   openingPriceLevel: number;
   zoning: Zoning;
+  /** Homes offered this month for the home price level (housing-price-level.ts). */
+  priceOffered?: number;
 }
 
 interface ProjectRow {
@@ -136,7 +138,11 @@ export function publishedPermitRates(usps: string): {
   );
 }
 
-/** A place's homes at the opening: renters' units at the national rental vacancy. */
+/**
+ * A place's homes at the opening: renters' units at the national rental vacancy, until the housing
+ * past sets the vacant units from the town's own leases (housing-past.ts `openingVacancy`); a world
+ * that runs no housing past keeps this.
+ */
 export function openStock(
   stock: ModuleTable,
   placeId: string,
@@ -145,6 +151,7 @@ export function openStock(
   rentMinor: number,
   priceLevel: number,
 ): void {
+  // stopgapId: SG-HIST-opening-vacancy-without-past
   const units = Math.round(renters / (1 - construction.vacancy.rental));
   stock.put({
     id: `stock:${placeId}`,
@@ -194,8 +201,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Only full renters buy; counted renters and households moving in don't yet.
-  stopgap("SG-WORLD-housing-new-home-buyers");
+  // Renters in town buy (full ones, and counted ones on their lease anniversary), and so do counted households moving in.
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
   ).find(
@@ -279,13 +285,17 @@ export function buildMonth(
         ? row.openingHomeValueMinor
         : input.homeValueMinor,
     openingRentMinor =
-      row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor;
+      row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor,
+    // The economy keeps its first month after the opening, so the first
+    // month built in is the price base, the same as the home value's.
+    openingPriceLevel =
+      row.openingPriceLevel > 0 ? row.openingPriceLevel : input.priceLevel;
   const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
   const rates = permitRates(input.usps, c.seed);
   const perMonth = residentsOf(c, input.placeId) / 1000 / MONTHS;
-  const priceLevel = input.priceLevel / row.openingPriceLevel;
+  const priceLevel = input.priceLevel / openingPriceLevel;
   // Houses: today's value against today's cost, relative to the opening's.
   const singleCost =
     priceLevel *
@@ -525,6 +535,7 @@ export function buildMonth(
     ...row,
     openingHomeValueMinor,
     openingRentMinor,
+    openingPriceLevel,
     carrySingle,
     carryMulti,
     ...(input.backfill ? { backfilled: true } : {}),
@@ -570,7 +581,12 @@ export function buildMonth(
             rentalUnits: now.rentalUnits + project.units,
             vacantRental: now.vacantRental + project.units,
           }
-        : { ...now, newHomesForSale: now.newHomesForSale + project.units },
+        : {
+            ...now,
+            newHomesForSale: now.newHomesForSale + project.units,
+            // New homes finished for sale are homes offered this month (the price level's step reads it).
+            priceOffered: (now.priceOffered ?? 0) + project.units,
+          },
     );
     onFinish(finished);
   }

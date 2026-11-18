@@ -33,7 +33,7 @@ import {
   remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
 } from "../death-cause";
-import { incomeBandOf } from "../counted-income-fifth";
+import { incomeBandOn } from "../counted-income-fifth";
 import {
   combineOwn,
   coverageSpellsNow,
@@ -442,6 +442,8 @@ function assignPerson(
   from: ReturnType<typeof makeIsoDate>,
   /** Housing already weighing on them when filled in (a counted household without a home). */
   housing?: { status: HousingStatus; evictedOn?: string },
+  /** The opening cohort: episodes already under way on the opening day (scheduleOnset). */
+  lookback = false,
 ) {
   const p = (key: string) => api.parameter(key);
   const line = resilienceLine(api, data, person.id);
@@ -480,7 +482,7 @@ function assignPerson(
       ? { evictedOn: makeIsoDate(housing.evictedOn) }
       : {}),
   });
-  scheduleOnset(api, data, row, person, from);
+  scheduleOnset(api, data, row, person, from, lookback);
 }
 
 /**
@@ -519,12 +521,9 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const own =
       [...plan.own].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
-    // This world's life table: the published hazard times its mortality
-    // factor, the same one counted people die by (one model, two tiers).
-    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web * own * world),
+      micros: Math.round(plan.micros * housing * evicted * web * own),
     };
   });
 }
@@ -536,8 +535,10 @@ function scheduleOnset(
   row: HealthRuntime,
   person: Readonly<PersonState>,
   from: Day,
+  /** The opening: strain has been building for as long as an episode runs, so those whose course is under way are already ill. */
+  lookback = false,
 ) {
-  const plan = row.plans.get(person.id);
+  let plan = row.plans.get(person.id);
   if (!plan) return;
   const found = row.cases.get(person.id);
   // An illness that has begun runs its course.
@@ -546,11 +547,34 @@ function scheduleOnset(
   row.cases.delete(person.id);
   const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
   if (horizon <= from) return;
-  const multipliers = segments(api, plan);
+  let multipliers = segments(api, plan);
   // Their conscientiousness, read now, sets how fast strain builds; the
   // illness's severity below stays the conditions' own.
   const factor = hazardFactor(api, data, row, person);
   api.stopgap(data.traitStopgapId);
+  let searchFrom = from;
+  if (lookback) {
+    // A real place on its opening day has episodes in progress: strain was
+    // already building, and an episode that began within the days its course
+    // runs is still under way. Exposure starts that many days back (never
+    // before the birth); a crossing since then is an episode begun in the
+    // past, not one that begins tomorrow. No dice: the same threshold and
+    // the same hazard, counted from earlier. (The counted tier's opening
+    // looks back the same way, births-counted `openingIll`.)
+    const course = remainingDaysAfterOnset({
+      age: exactAge(api, person.birthDate, from),
+      severity:
+        Math.max(...multipliers.map((segment) => segment.micros)) /
+        MULTIPLIER_ONE,
+      covered: null,
+    });
+    const born = makeIsoDate(person.birthDate);
+    const back = addDays(from, -course);
+    plan = { ...plan, from: back < born ? born : back };
+    row.plans.set(person.id, plan);
+    multipliers = segments(api, plan);
+    searchFrom = plan.from;
+  }
   const onset = firstThresholdDay(
     {
       birthDate: makeIsoDate(person.birthDate),
@@ -562,10 +586,36 @@ function scheduleOnset(
       })),
     },
     plan.threshold,
-    from,
+    searchFrom,
     horizon,
   );
   if (!onset) return;
+  const severity =
+    Math.max(...multipliers.map((segment) => segment.micros)) / MULTIPLIER_ONE;
+  if (lookback && onset < from) {
+    // Already ill on the opening day: the onset is in the past and the death
+    // falls due when its course ends, as it does for an illness begun in play.
+    const ends = addDays(
+      onset,
+      remainingDaysAfterOnset({
+        age: exactAge(api, person.birthDate, onset),
+        severity,
+        covered: null,
+      }),
+    );
+    const deathDate = ends > from ? ends : addDays(from, api.parameter("one"));
+    row.cases.set(person.id, {
+      personId: person.id,
+      conditions: row.conditionsByPerson.get(person.id) ?? [],
+      ...(plan.conditionKey ? { conditionKey: plan.conditionKey } : {}),
+      severity,
+      onsetDate: onset,
+      onsetEventId: `${data.onsetEventKind}:${person.id}:${onset}`,
+      deathDate,
+    });
+    index(row.deathsByDate, deathDate, person.id);
+    return;
+  }
   // A crossing on the day it is computed is heard on the next simulated day.
   const due = onset <= from ? addDays(from, api.parameter("one")) : onset;
   row.cases.set(person.id, {
@@ -638,7 +688,7 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       monthly == null ||
       api.state.households.get(person.householdId)?.quarters !== undefined
         ? undefined
-        : incomeBandOf(monthly * p("monthsPerYear"));
+        : incomeBandOn(api, monthly * p("monthsPerYear"));
     plan.fifth = fifth;
     const age = Math.floor(exactAge(api, person.birthDate, today));
     const mine = spells?.get(id);
@@ -876,6 +926,8 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       person,
       assignments.get(person.id as EntityId) ?? [],
       start,
+      undefined,
+      true,
     );
   row.seenPeople = api.state.people.size;
   row.initialized = true;
@@ -1404,3 +1456,7 @@ export function healthHazardOf(
     fifth: plan.fifth,
   };
 }
+
+// Re-exported so other engine families read the coverage engine's bills through this entry (families guard).
+export { COVERAGE_MODULE_ID } from "../coverage-module-id";
+export type { MedicalBillRow } from "../medical-bills";

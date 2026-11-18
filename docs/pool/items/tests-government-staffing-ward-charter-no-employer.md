@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
 pr: #8790
@@ -19,6 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked:
 claimed-at: 2026-11-11T09:43:46.932Z
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
+merged-at: 2026-11-15T22:56:36.310Z
 ---
 
 **What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known. Guards: a raised administration staffing line pays an employer in a ward-charter town, on the budget the player reads.

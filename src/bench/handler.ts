@@ -12,10 +12,12 @@ import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { fillInCount, personOrFillIn } from "../core2/state";
 import {
+  parseSave,
   registerCommand,
   replaySave,
   saveGame,
   type Game,
+  type SaveCover,
   type SaveCommand,
   type SaveV1,
 } from "../core2/saves";
@@ -23,7 +25,13 @@ import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
-import { writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -47,6 +55,7 @@ import {
   runningMateAsked,
   runningMatePicked,
   playerRecord,
+  debateAccept,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -66,7 +75,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { leaveJobAs, openingsView } from "./openings";
+import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
@@ -131,6 +140,9 @@ import {
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
+
+/** When this game was opened, so the title's paintings and New game's people differ each launch. */
+const TITLE_LAUNCH = String(Date.now());
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -141,11 +153,13 @@ import {
   creatorTowns,
   creatorRandomPlace,
   drawBirthday,
+  drawCharacter,
   drawName,
   readChosenPerson,
 } from "./creator";
 import {
   appearanceRows,
+  pickAppearance,
   drawnAppearance,
   lookForGender,
   moveAppearance,
@@ -167,6 +181,7 @@ import {
 import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
+  announceForOffice,
   fileForOffice,
   governmentView,
   joinPartyAs,
@@ -219,6 +234,8 @@ interface ServerState {
   marker: DevMode | undefined;
   /** The life as a save (saves.ts): the recipe and every request the player made. */
   life: Game | undefined;
+  /** The life's save file, by id (savePath). */
+  lifeId: string | undefined;
 }
 const state: ServerState = {
   core: undefined,
@@ -239,10 +256,31 @@ const state: ServerState = {
   opening: undefined,
   marker: undefined,
   life: undefined,
+  lifeId: undefined,
 };
 /** What the server holds before any life, for a replay to start from. */
 const EMPTY_STATE: ServerState = { ...state };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+/**
+ * The minute of day the player's clock, the light behind them and a scene's
+ * opener all read. The opening day is that evening at home, when the household
+ * gets home, so the clock is never at the midnight it starts the day from
+ * (owner, Nov 16: "the timing is completely messed up"): the player's own
+ * minute, raised to the arrival minute on the opening day.
+ */
+function shownMinute(): number | undefined {
+  const minute = state.player?.packet?.at.minuteOfDay;
+  const current = state.core;
+  if (
+    !current ||
+    !state.player?.personId ||
+    state.director?.ledger.opening?.date !== current.date
+  )
+    return minute;
+  const arrival = openingArrivalMinute(current, state.player.personId);
+  return Math.max(minute ?? arrival, arrival);
+}
+
 function sceneNow(current: CoreState, id: string) {
   const playing = state.player?.personId === id;
   const openingDay =
@@ -390,7 +428,19 @@ export function benchWorld() {
     director: state.director,
     player: state.player,
     placeId: state.placeId,
+    nightsWatched: state.nightsWatched,
+    canvassedOn: state.canvassedOn,
   };
+}
+
+/**
+ * A new world is a new life: the election nights the last life watched and the mornings it
+ * canvassed are that life's, keyed by person and race, and a world built again from the same
+ * seed has the same people and races. Kept, they hid the new life's own election night.
+ */
+function forgetLastLife(): void {
+  state.nightsWatched = new Set<string>();
+  state.canvassedOn = new Set<string>();
 }
 
 /** What the handler sends back: a status, headers and a body. */
@@ -481,6 +531,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(world.core, world.director);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
@@ -730,11 +781,23 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" && url.pathname === "/api/talk/say",
     run: async ({ url, send }) => {
       if (!state.conversation) throw new Error("No conversation is open.");
-      state.conversation = say(
-        requireCore(),
-        state.conversation,
-        url.searchParams.get("key") ?? "",
-      );
+      try {
+        state.conversation = say(
+          requireCore(),
+          state.conversation,
+          url.searchParams.get("key") ?? "",
+        );
+      } catch (error) {
+        // A press of a reply the talk has already moved past (a second press
+        // that was in flight with the first, or a button from an older beat) is
+        // answered with the talk as it stands now: nothing is said twice and
+        // nothing is lost. The engine still refuses the stale key.
+        if (
+          !(error instanceof Error) ||
+          !/^Not an offered line/.test(error.message)
+        )
+          throw error;
+      }
       send(200, talkView(state.conversation));
       return;
     },
@@ -864,7 +927,21 @@ const ROUTES: readonly Route[] = [
       const gender = q.get("gender") ?? "";
       const route = url.pathname.slice("/api/creator/".length);
       if (route === "name") send(200, drawName(seed, draw, gender));
-      else if (route === "birthday") {
+      else if (route === "character") {
+        const character = drawCharacter(seed, draw);
+        const recipe = lookForGender(
+          drawnAppearance(character.gender, seed, draw),
+          character.gender,
+        );
+        send(200, {
+          ...character,
+          look: {
+            recipe,
+            rows: appearanceRows(recipe, character.gender),
+            faces: lookFaces(recipe),
+          },
+        });
+      } else if (route === "birthday") {
         const b = drawBirthday(seed, draw);
         send(200, { ...b, age: ageAtStart(b.year, b.month, b.day) });
       } else if (route === "years")
@@ -879,12 +956,19 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? moveAppearance(
-                readRecipe(q.get("recipe")!),
-                gender,
-                q.get("row") ?? "",
-                Number(q.get("by") ?? 1),
-              )
+            ? q.get("pick")
+              ? pickAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  q.get("pick")!,
+                )
+              : moveAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  Number(q.get("by") ?? 1),
+                )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
@@ -903,48 +987,53 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/title",
     run: async ({ send }) => {
-      // One visit to the title: its scene, and the life in progress to
-      // continue (the server's current life), or none.
-      const personId = state.core ? state.player?.personId : undefined;
-      const scenes = titleRotation(
-        new Date().toISOString().slice(0, 10),
-        state.titleVisits++,
-      );
+      // One visit to the title: its scene; the life to continue (the one in
+      // play, else the most recent save); and every saved life.
+      // This launch's stamp starts the rotation on other paintings each time the game is opened.
+      const visit = state.titleVisits++;
+      const today = new Date().toISOString().slice(0, 10);
+      const scenes = titleRotation([today, TITLE_LAUNCH].join("#"), visit);
+      const playing = lifeCover();
+      const saves = savedLives().map(({ id, save }) => ({
+        ...(id === state.lifeId && playing ? playing : save.cover),
+        saveId: id,
+        // In play now: Continue opens it without loading.
+        playing: id === state.lifeId && Boolean(playing),
+      }));
       send(200, {
         ...scenes[0]!,
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
         // New game's busts, before any world exists.
-        newGame: newGameFaces(),
-        life: personId
+        newGame: newGameFaces([TITLE_LAUNCH, visit].join("#")),
+        life: playing
           ? {
-              personId,
-              name: `${state.core!.people.get(personId)?.givenName ?? ""} ${state.core!.people.get(personId)?.familyName ?? ""}`,
-              age: ageOnDate(
-                makeIsoDate(
-                  state.core!.people.get(personId)?.birthDate ??
-                    state.core!.date,
-                ),
-                makeIsoDate(state.core!.date),
-              ),
-              // Continue's and Saved games' face: the player's one face, as
-              // every screen in play draws it (older head and gray hair past
-              // 65), never the creator's look drawn a second way.
-              face: faceOf(
-                state.core!,
-                personId,
-                scenePlace(state.core!, personId).place,
-              ),
-              placeName: state.placeName,
-              date: state.core!.date,
-              minuteOfDay:
-                state.player!.packet?.at.minuteOfDay ??
-                state.opening?.home?.minuteOfDay ??
-                0,
+              ...playing,
+              saveId: state.lifeId,
+              playing: true,
               packet: state.player!.packet,
             }
-          : null,
+          : (saves.find((life) => life.personId) ?? null),
+        saves: saves.filter((life) => life.personId),
       });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/load",
+    run: async ({ url, options, send }) => {
+      // A saved life loaded: its requests replayed into this server, so the
+      // same world, day and household come back (saves.ts).
+      const id = url.searchParams.get("save") ?? "";
+      const found = savedLives().find((life) => life.id === id);
+      if (!found) throw new Error("No such saved life.");
+      // The life in play is written first: what it did since its last day is kept.
+      saveLifeNow();
+      await replayLife(found.save, options, id);
+      const life = lifeCover();
+      if (!life) throw new Error("The saved life did not load.");
+      send(200, { ...life, saveId: id, packet: state.player!.packet });
       return;
     },
   },
@@ -1076,7 +1165,7 @@ const ROUTES: readonly Route[] = [
       send(200, {
         url: backdropFile(
           officePlace(url.searchParams.get("filedWith") ?? ""),
-          state.player?.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         ).url,
       });
       return;
@@ -1144,7 +1233,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         state.player.personId,
         url.searchParams.get("org") ?? "",
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        shownMinute() ?? 12 * 60,
       );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
@@ -1469,7 +1558,7 @@ const ROUTES: readonly Route[] = [
           ? meetingSceneView(
               requireCore(),
               state.player.personId,
-              state.player.packet?.at.minuteOfDay ?? 18 * 60,
+              shownMinute() ?? 18 * 60,
             )
           : null,
       );
@@ -1492,7 +1581,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -1514,7 +1603,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -1564,6 +1653,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         url.searchParams.get("billId") ?? "",
         url.searchParams.get("how") ?? "",
+        url.searchParams.get("reason") ?? undefined,
       );
       send(200, deskView(requireCore()));
       return;
@@ -1890,8 +1980,12 @@ const ROUTES: readonly Route[] = [
             (state.director.ledger.opening?.date === requireCore().date
               ? openingArrivalMinute(requireCore(), state.player.personId)
               : 12 * 60),
-          // ?held=1 on the play page: the grading view, held lines marked.
-          { held: url.searchParams.get("held") === "1" },
+          // ?held=1 on the play page: the grading view, held lines marked;
+          // ?dev=1 in dev mode: each line says why it was placed.
+          {
+            held: url.searchParams.get("held") === "1",
+            dev: url.searchParams.get("dev") === "1",
+          },
         ),
       );
       return;
@@ -2138,6 +2232,24 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // The player accepts a debate's invitation; the director stages the sitting.
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/debate/accept",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        debateAccept(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("debateId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
   // When the office that takes these filings is next open (its clerk's own
   // hours); `opens` is absent while it is open now.
   {
@@ -2215,7 +2327,7 @@ const ROUTES: readonly Route[] = [
           current,
           state.player.personId,
           filedWith,
-          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         );
       } catch (error) {
         // Nothing to file and no petition out: no scene at the counter
@@ -2439,10 +2551,12 @@ const ROUTES: readonly Route[] = [
       const core = requireCore();
       send(200, {
         ...personCard(core, url.searchParams.get("id") ?? ""),
-        at: state.player?.packet?.at ?? {
-          date: makeIsoDate(core.date),
-          minuteOfDay: 0,
-        },
+        at: state.player?.packet?.at
+          ? {
+              ...state.player.packet.at,
+              minuteOfDay: shownMinute() ?? state.player.packet.at.minuteOfDay,
+            }
+          : { date: makeIsoDate(core.date), minuteOfDay: shownMinute() ?? 0 },
       });
       return;
     },
@@ -2513,6 +2627,21 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/apply",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        applyForOpeningAs(
+          requireCore(),
+          url.searchParams.get("position") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/job/leave",
     run: async ({ send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -2531,6 +2660,24 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("partyId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  // Announce for a race whose filing opens later (owner, Nov 17: "Run now,
+  // file on the date").
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/announce",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        announceForOffice(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("contestId") ?? "",
         ),
       );
       return;
@@ -2807,6 +2954,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(next, nextDirector);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = place.context.jurisdiction.id;
         state.placeName = place.displayName;
         send(200, {
@@ -2860,37 +3008,131 @@ const BENCH_REQUEST = "bench.request";
 registerCommand<{ method: string; url: string }>(BENCH_REQUEST, () => {
   throw new Error("A bench request replays through the bench (replayLife).");
 });
-/** Requests that write files, not the world: never recorded. */
-const UNRECORDED = new Set(["/api/grade", "/api/gap"]);
+/** Requests that write files or load a save, not the world: never recorded. */
+const UNRECORDED = new Set(["/api/grade", "/api/gap", "/api/load"]);
 
-/** Where the life's save is written: OCD_SAVE_PATH, else the system's temporary folder (part 3 picks the folder). */
-export function lifeSavePath(): string {
-  return process.env.OCD_SAVE_PATH ?? join(tmpdir(), "ocd-bench-life.json");
+/**
+ * The folder the saves are kept in, one file per life: OCD_SAVE_DIR, which
+ * every way the game is launched sets (the desktop app to its own data
+ * folder, the bench server to the home folder), else a folder in the
+ * system's temporary folder for tests and scripts.
+ */
+export function saveFolder(): string {
+  return process.env.OCD_SAVE_DIR ?? join(tmpdir(), "ocd-saves");
 }
 
-/** Writes the life's save (the recipe and its requests, no snapshot) through saves.ts. */
+/** The file a life's save is written to, by the life's id. */
+export function savePath(lifeId: string): string {
+  return join(saveFolder(), `${lifeId}.json`);
+}
+
+/** The id of the life a replay is rebuilding: no save is written until it is done. */
+let replaying: string | undefined;
+
+/** The player's life as the title shows it (Continue and Saved games), from the records now. */
+function lifeCover(): SaveCover | undefined {
+  const core = state.core;
+  const personId = core ? state.player?.personId : undefined;
+  const person = personId ? core!.people.get(personId) : undefined;
+  if (!core || !personId) return undefined;
+  return {
+    personId,
+    name: `${person?.givenName ?? ""} ${person?.familyName ?? ""}`,
+    age: ageOnDate(
+      makeIsoDate(person?.birthDate ?? core.date),
+      makeIsoDate(core.date),
+    ),
+    // The player's one face, as every screen in play draws it (older head
+    // and gray hair past 65), never the creator's look drawn a second way.
+    face: faceOf(core, personId, scenePlace(core, personId).place),
+    placeName: state.placeName,
+    date: core.date,
+    minuteOfDay:
+      state.player!.packet?.at.minuteOfDay ??
+      state.opening?.home?.minuteOfDay ??
+      0,
+  };
+}
+
+/** Writes the life's save (the recipe, its requests and its cover, no snapshot) through saves.ts. */
 export function saveLifeNow(): SaveV1 | undefined {
-  if (!state.life || !state.core) return undefined;
-  const save = saveGame(state.life, { snapshot: false });
-  writeFileSync(lifeSavePath(), JSON.stringify(save));
+  if (!state.life || !state.core || !state.lifeId || replaying)
+    return undefined;
+  const cover = lifeCover();
+  const save = saveGame(state.life, {
+    snapshot: false,
+    ...(cover ? { cover } : {}),
+  });
+  mkdirSync(saveFolder(), { recursive: true });
+  writeFileSync(savePath(state.lifeId), JSON.stringify(save));
   return save;
 }
 
-/**
- * Replays a saved life into this server: the bench starts empty and runs
- * each recorded request again, so the same world is rebuilt (the bench world
- * is the same from the same seed) and the save is recorded afresh.
- */
-export async function replayLife(
-  save: SaveV1,
-  options: BenchRequestOptions = { developer: true },
-): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+/** Every save in the folder that this version can read, the most recently written first. */
+export function savedLives(): { id: string; save: SaveV1 }[] {
+  let names: string[];
+  try {
+    names = readdirSync(saveFolder()).filter((name) => name.endsWith(".json"));
+  } catch {
+    return [];
+  }
+  const lives: { id: string; save: SaveV1; written: number }[] = [];
+  for (const name of names) {
+    const file = join(saveFolder(), name);
+    try {
+      lives.push({
+        id: name.slice(0, -".json".length),
+        save: parseSave(readFileSync(file, "utf8")),
+        written: statSync(file).mtimeMs,
+      });
+    } catch {
+      // Not a save this version reads (owner, Nov 15: saves "don't need to be transferable between versions").
+    }
+  }
+  return lives
+    .sort((a, b) => b.written - a.written)
+    .map(({ id, save }) => ({ id, save }));
+}
+
+/** The server as it starts, before any life: as a restart leaves it, and where a replay begins. */
+export function emptyBench(): void {
   Object.assign(state, {
     ...EMPTY_STATE,
     nightsWatched: new Set<string>(),
     canvassedOn: new Set<string>(),
     life: undefined,
+    lifeId: undefined,
   });
+}
+
+/**
+ * Replays a saved life into this server: the bench starts empty and runs
+ * each recorded request again, so the same world is rebuilt (the bench world
+ * is the same from the same seed) and the save is recorded afresh. Given the
+ * life's id, the life keeps it and its file is written once, at the end.
+ */
+export async function replayLife(
+  save: SaveV1,
+  options: BenchRequestOptions = { developer: true },
+  lifeId?: string,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+  emptyBench();
+  replaying = lifeId ?? "replay";
+  try {
+    return await replayCommands(save, options);
+  } finally {
+    replaying = undefined;
+    if (lifeId && state.life) {
+      state.lifeId = lifeId;
+      saveLifeNow();
+    }
+  }
+}
+
+async function replayCommands(
+  save: SaveV1,
+  options: BenchRequestOptions,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
   return replaySave(save, async (command) => {
     const { method, url } = command.payload as { method: string; url: string };
     const reply = await benchRequest(
@@ -2931,7 +3173,9 @@ export async function benchRequest(
       kind: BENCH_REQUEST,
       payload: { method, url: `${url.pathname}${url.search}` },
     };
-    if (url.pathname === "/api/newlife" && state.core !== was)
+    if (url.pathname === "/api/newlife" && state.core !== was) {
+      // A new life is a new save file; a replayed one keeps its own.
+      state.lifeId = replaying ? undefined : `life-${Date.now()}`;
       state.life = {
         core: state.core,
         recipe: {
@@ -2944,7 +3188,8 @@ export async function benchRequest(
         commands: [command],
         skipped: [],
       };
-    else if (state.life?.core === state.core) state.life.commands.push(command);
+    } else if (state.life?.core === state.core)
+      state.life.commands.push(command);
     // Written after every request that moved the date (and a new life).
     if (state.core.date !== date || state.core !== was) saveLifeNow();
   }

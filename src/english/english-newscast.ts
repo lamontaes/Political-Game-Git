@@ -205,6 +205,8 @@ export const STORY_KINDS = {
     lede: ["rate"],
     context: ["rate-from"],
   },
+  // The month's poll of the President's approval (printed-words `approval`).
+  approval: { headline: ["approval"], lede: ["approval"] },
   "town-hall": { headline: ["town-hall"], lede: ["town-hall"] },
   "body-meeting": {
     headline: ["body-meeting"],
@@ -250,6 +252,10 @@ export const STORY_KINDS = {
   trip: { headline: ["trip"], lede: ["trip"] },
   "ribbon-cut": { headline: ["ribbon-cut"], lede: ["ribbon-cut"] },
   emergency: { headline: ["emergency"], lede: ["emergency"] },
+  "emergency-lapsed": {
+    headline: ["emergency-lapsed"],
+    lede: ["emergency-lapsed"],
+  },
   succession: { headline: ["succession"], lede: ["succession"] },
   "recall-reply": { headline: ["recall-reply"], lede: ["recall-reply"] },
   "measure-result": { headline: ["measure-result"], lede: ["measure-result"] },
@@ -313,6 +319,13 @@ export const STORY_KINDS = {
   },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
   birth: { headline: ["birth"], lede: ["birth"], brief: true },
+  // A birth in another place, printed because a parent holds office there:
+  // it says who the parent is (printed-words.ts birth).
+  "birth-elsewhere": {
+    headline: ["birth-elsewhere"],
+    lede: ["birth-elsewhere"],
+    brief: true,
+  },
   // The week's round birthdays and business anniversaries (the briefs
   // column, from the press's milestones step).
   birthday: { headline: ["birthday"], lede: ["birthday"], brief: true },

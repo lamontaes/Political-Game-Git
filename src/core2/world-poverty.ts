@@ -13,10 +13,13 @@ import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with 
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
 import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
+import { veteransIncomeByHousehold } from "./modules/laws";
 import type { ClaimRow } from "./jobs-benefits";
 import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
+import { retirementClaims } from "./modules/retirement-claims";
 import { coreAPI } from "./state";
+import { sinceOpeningIndex } from "./tax-index";
 import type { CoreState } from "./types";
 
 const T = thresholds as unknown as {
@@ -28,11 +31,18 @@ const T = thresholds as unknown as {
   bySize: Record<string, number[]>;
 };
 
-/** The official line, in minor units a year, for a household. */
+/**
+ * The official line, in minor units a year, for a household. The table is
+ * written in its source year's dollars; `priceIndex` is how far this world's
+ * own prices have moved since the world opened (`sinceOpeningIndex`, read once
+ * per pass), 1 on day one, so the line moves with this world's economy.
+ * stopgapId: SG-WORLD-tax-index-january
+ */
 export function povertyThresholdMinor(
   size: number,
   children: number,
   eldestAge: number,
+  priceIndex = 1,
 ): number {
   const elder = eldestAge >= T.elderAgeFrom;
   const kids = Math.max(0, Math.min(children, size - 1));
@@ -45,7 +55,7 @@ export function povertyThresholdMinor(
     const row = T.bySize[String(Math.min(size, 9))]!;
     dollars = row[Math.min(kids, row.length - 1)]!;
   }
-  return dollars * T.minorPerDollar;
+  return Math.round(dollars * T.minorPerDollar * priceIndex);
 }
 
 export interface HouseholdPoverty {
@@ -73,6 +83,7 @@ export interface HouseholdPoverty {
  */
 function claimIncome(core: CoreState): Map<string, number> {
   const out = new Map<string, number>();
+  retirementClaimIncome(core, out);
   if (!core.modules.has("jobs")) return out;
   const rt = residentsRuntime(core);
   for (const claim of coreAPI(core)
@@ -101,11 +112,54 @@ function claimIncome(core: CoreState): Map<string, number> {
   return out;
 }
 
+/**
+ * Social Security claimed in play is money income the Census counts (its
+ * money income lists Social Security among its sources): each open claim's
+ * monthly award, a year's worth, for the claimant's household, named or
+ * counted. Awards written at the opening are income contracts, counted
+ * above for named households and in the counted household's own income.
+ */
+function retirementClaimIncome(
+  core: CoreState,
+  out: Map<string, number>,
+): void {
+  const claims = retirementClaims(core);
+  if (!claims.size) return;
+  const accounts = coreAPI(core).accounts();
+  const rt = residentsRuntime(core);
+  for (const [personId, claim] of claims) {
+    // A full claimant is paid by an obligation; a counted one by a monthly
+    // residents flow under the same id, which the line rerates the same way.
+    let monthlyMinor = 0;
+    if (claim.counted) {
+      const flow = rt?.flows.get(claim.obligationId);
+      if (!flow || flow.endedAt) continue;
+      monthlyMinor =
+        flow.amountByContract?.[claim.obligationId] ?? flow.amountMinor;
+    } else {
+      const obligation = accounts.obligation(claim.obligationId);
+      if (!obligation || obligation.endedAt) continue;
+      monthlyMinor = obligation.amountMinor;
+    }
+    const named = core.people.get(personId)?.householdId;
+    const m =
+      named === undefined ? rt?.store.countedMember(personId) : undefined;
+    const household =
+      named ??
+      (m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!]?.id);
+    if (household === undefined) continue;
+    out.set(household, (out.get(household) ?? 0) + monthlyMinor * 12);
+  }
+}
+
 /** Every household's income against its line today, named and counted. */
 export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   const out: HouseholdPoverty[] = [];
   const date = makeIsoDate(core.date);
   const claims = claimIncome(core);
+  const priceIndex = sinceOpeningIndex(coreAPI(core), "prices");
   const add = (
     householdId: string,
     placeId: string,
@@ -122,6 +176,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
       ages.length,
       children,
       eldestAge,
+      priceIndex,
     );
     out.push({
       householdId,
@@ -152,11 +207,14 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   // The welfare line's cash assistance is public assistance, which the
   // Census counts in the income poverty status is computed from.
   const assistance = assistanceIncomeByHousehold(core);
+  // Veterans' payments, which the Census counts too.
+  const veterans = veteransIncomeByHousehold(core);
   for (const household of core.households.values()) {
     const ages: number[] = [];
     let income =
       (awards.get(household.id) ?? 0) +
       (assistance.get(household.id) ?? 0) +
+      (veterans.get(household.id) ?? 0) +
       (claims.get(household.id) ?? 0);
     for (const id of household.memberIds) {
       const person = core.people.get(id);
@@ -183,9 +241,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
         h.placeId,
         false,
         ages,
-        householdIncome(rt, h) +
-          (assistance.get(h.id) ?? 0) +
-          (claims.get(h.id) ?? 0),
+        householdIncome(rt, h) + (claims.get(h.id) ?? 0),
         rt.store.weightOf(h),
       );
     }

@@ -27,20 +27,22 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { headsLocalExecutive } from "../offices-executives";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
-import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import {
+  amendmentRoom,
   budgetsOf,
   fiscalYearOf,
   governmentOfJurisdiction,
   lineChangedInYear,
 } from "./budgets";
+import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { stateActEffectiveDate } from "./laws";
@@ -71,19 +73,28 @@ import {
 import {
   enactLaw,
   lastEnactment,
-  lawRows,
+  lawNeedsChange,
   lawChain,
   LAWS_MODULE_ID,
+  labelOfAnotherAtLevel,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
 import type { LawRowInput } from "./laws";
-import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
-import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  townSeats,
+  type TermRow,
+} from "./offices";
+import { registerOfficeTime, type OfficeTime } from "./work";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
+import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
+import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
+import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
-import { countryStateNow, countryStates } from "./macro";
+import { countryStateMonth, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
@@ -112,6 +123,7 @@ import {
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
+  sittingContactHours,
   tasteForChange,
   type BillRow,
   type Provision,
@@ -166,9 +178,13 @@ function questionForLevel(
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
-  return kind === "federal-district" && level !== "federal"
-    ? levels.some((own) => ["state", "county", "city"].includes(own))
-    : levels.includes(level);
+  const scoped =
+    kind === "federal-district" && level !== "federal"
+      ? levels.some((own) => ["state", "county", "city"].includes(own))
+      : levels.includes(level);
+  // One label per rule at a level: a question this level reads as another
+  // platform question's rule is that question's label here, not a decision.
+  return scoped && !labelOfAnotherAtLevel(question, level);
 }
 
 /**
@@ -222,6 +238,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
+  registerOfficeTime(townMeetingHoursToday);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -242,6 +259,11 @@ export function openSittingSessions(core: CoreState): void {
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
   const api = coreAPI(core);
   for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    // Another state's session keeps only its results and is generated on
+    // demand (owner, Nov 5): nothing about it is read at the opening, so its
+    // legislators stay named officials on their term rows, seated by no one
+    // (the CTO's ruling of Nov 17). Its calendar entry opens it later.
+    if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) continue;
     const w = nextWindow(jurisdiction, core.date, true);
     if (!w || w.conveneAt > core.date) continue;
     openSession(api, {
@@ -298,31 +320,6 @@ export function federalQuestionAdmitted(question: string): boolean {
   return FEDERAL_ADMITTED.has(question.split(":")[1] ?? question);
 }
 
-/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
-const FEDERAL_ANSWERS = (
-  federalAnswers as unknown as {
-    questions: Record<string, { answer: string }>;
-  }
-).questions;
-
-export function answerIn(
-  api: CoreAPI,
-  stateKey: string,
-  question: string,
-  /** Count acts already enacted that haven't taken effect yet. */
-  enacted = false,
-): number | null {
-  const rows = lawRows(api, question, stateKey)
-    .filter((r) => enacted || r.effectiveDate <= api.state.date)
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
-  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer =
-    stateKey === "US"
-      ? FEDERAL_ANSWERS[policySeriesAtLevel(question, "federal")]?.answer
-      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
-  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
-}
-
 function chamber(
   api: CoreAPI,
   stateKey: string,
@@ -346,41 +343,6 @@ function houseOffice(api: CoreAPI): {
   members: readonly TermRow[];
 } {
   return { id: FEDERAL_HOUSE, members: members(api, FEDERAL_HOUSE) };
-}
-
-/**
- * Whether the law in force needs changing for a bill pointing this way: a
- * policy wanted where it isn't law, or wanted gone where it is. Nothing to
- * undo where no law stands.
- */
-function needsChange(direction: number, now: number | null): boolean {
-  return direction > 0 ? now !== 1 : now === 1;
-}
-
-/**
- * Whether a policy is law for the town at any level as enacted, an act
- * waiting on its effective date included (the state's recorded starting
- * answer counting until a state act replaces it).
- */
-function inForceForTown(api: CoreAPI, question: string): boolean {
-  const chain = lawChain(api);
-  return chain.levels.some(({ level, jurisdiction }) =>
-    level === "state"
-      ? answerIn(api, jurisdiction, question, true) === 1
-      : ownRow(api, jurisdiction, question) === 1,
-  );
-}
-
-/** A jurisdiction's own latest enacted row on a question, whether or not it has taken effect yet. */
-function ownRow(
-  api: CoreAPI,
-  jurisdiction: string,
-  question: string,
-): number | null {
-  const row = [...lawRows(api, question, jurisdiction)].sort((a, b) =>
-    b.effectiveDate.localeCompare(a.effectiveDate),
-  )[0];
-  return row ? (row.value === 1 ? 1 : -1) : null;
 }
 
 interface Body {
@@ -469,12 +431,12 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
  * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
  * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
  */
-function lawStanding(
+export function lawStanding(
   api: CoreAPI,
   question: string,
   direction: number,
   jurisdiction: string,
-): { settled: number; reluctance: number; neighbors: number } {
+): { settled: number; reluctance: number; neighbors: number; hole: number } {
   const settled = settledness(api, question, jurisdiction);
   const last = lastEnactment(api, question, lawKeysOf(api, jurisdiction));
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
@@ -486,6 +448,8 @@ function lawStanding(
         ((1 - settled) / 2)
       : 0,
     neighbors: neighborPull(api, question, direction, jurisdiction),
+    // The share of the body's own planned revenue the change would give up.
+    hole: revenueGivenUp(api, jurisdiction, { question, direction }),
   };
 }
 
@@ -532,13 +496,21 @@ export function filingReason(
   f: Filer,
   question: string,
   direction: number,
-  law: { settled: number; reluctance: number; neighbors?: number },
+  law: {
+    settled: number;
+    reluctance: number;
+    neighbors?: number;
+    hole?: number;
+  },
 ): number {
   const bare =
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction -
-    law.reluctance +
+    law.reluctance -
+    // The hole the change would leave in the budget the member's own body
+    // must still pass: the share of planned revenue the law carries.
+    campaignParameter("budgetHoleWeight") * (law.hole ?? 0) +
     // The states next door: the more of them have the change, the likelier it
     // is carried (policy diffusion between neighboring states).
     campaignParameter("neighborLawWeight") * (law.neighbors ?? 0);
@@ -591,6 +563,8 @@ interface Filed {
     readonly name: string;
     readonly deltaMinor: number;
     readonly of: number;
+    /** What the treasury's record shows that lets the body amend the adopted budget. */
+    readonly cause: string;
   };
 }
 
@@ -836,9 +810,15 @@ function fileLines(
 ): Filed[] {
   const all: { filed: Filed; weight: number }[] = [];
   const majority = Math.floor(filers.length / 2) + 1;
+  // A body amends its adopted budget for a cause on record: what the
+  // treasury took in over plan lets it raise lines, a shortfall makes it cut.
+  // A member's standing wish for a line acts when the budget is adopted.
+  const room = amendmentRoom(api, governmentId);
+  if (!room || room.roomMinor === 0) return [];
   for (const row of linePositions(api, governmentId, filers)) {
     const question = `budget-line:${row.name}`;
     for (const direction of [1, -1] as const) {
+      if (direction !== Math.sign(room.roomMinor)) continue;
       const backers = direction > 0 ? row.backing.up : row.backing.down;
       // A body brings a budget amendment to the floor only where its
       // sponsors can count a majority; a change without the votes is not
@@ -878,21 +858,38 @@ function fileLines(
           sponsor,
           cosponsors: backers.length,
           leaderReason: 0,
-          line: { name: row.name, deltaMinor: wanted, of: row.base },
+          line: {
+            name: row.name,
+            deltaMinor: wanted,
+            of: row.base,
+            cause: room.cause,
+          },
         },
       });
     }
   }
-  // A meeting's agenda takes up only so many budget amendments: the ones the
-  // most members back, by the size of the change they want.
+  // The agenda takes up the amendments the most members back, by the size of
+  // the change they want, until the room the treasury's record gives is spent;
+  // the last one is cut to what is left.
   all.sort(
     (a, b) =>
       b.weight - a.weight || a.filed.question.localeCompare(b.filed.question),
   );
-  const taken = all.slice(
-    0,
-    Math.round(campaignParameter("localBudgetAmendmentsPerMeeting")),
-  );
+  let left = Math.abs(room.roomMinor);
+  const taken: typeof all = [];
+  for (const entry of all) {
+    if (left <= 0) break;
+    const line = entry.filed.line!;
+    const size = Math.min(Math.abs(line.deltaMinor), left);
+    left -= size;
+    taken.push({
+      ...entry,
+      filed: {
+        ...entry.filed,
+        line: { ...line, deltaMinor: Math.sign(line.deltaMinor) * size },
+      },
+    });
+  }
   if (taken.length) api.stopgap("SG-LAWS-local-line-filing-threshold");
   return taken.map((t) => t.filed);
 }
@@ -948,6 +945,7 @@ function holdSession(
                 line: item.line.name,
                 value: item.line.deltaMinor,
                 of: item.line.of,
+                cause: item.line.cause,
               },
             ]
           : [
@@ -1155,19 +1153,151 @@ function sittingsBetween(
   return out;
 }
 
+/**
+ * Whether the executive of a body sits with it at its regular sittings
+ * (src/core2/data/legislature/executive-sittings.json): a mayor always, a
+ * county executive where the place's research row says they preside over the
+ * board, a governor or the President never.
+ */
+function executiveSits(
+  api: CoreAPI,
+  executiveKind: string,
+  jurisdiction: string,
+): boolean {
+  const row = (
+    executiveSittings.kinds as Record<string, { sits: string } | undefined>
+  )[executiveKind];
+  if (row?.sits === "always") return true;
+  if (row?.sits !== "where-presides") return false;
+  const usps = (placeStateKey(jurisdiction) ?? "").replace(/^US-/, "");
+  return (
+    (
+      localExecutiveRules.places as Record<
+        string,
+        { countyExecutive?: { mode?: string } } | undefined
+      >
+    )[usps]?.countyExecutive?.mode === "presides"
+  );
+}
+
+/** The executive who sits with a body at its sittings, as a seat, or null; kept per body for the day. */
+const sittingKept = new WeakMap<
+  object,
+  {
+    date: string;
+    byBody: Map<string, { personId: string; since: string } | null>;
+  }
+>();
+function sittingExecutive(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  let kept = sittingKept.get(api.state);
+  if (!kept || kept.date !== api.state.date) {
+    kept = { date: api.state.date, byBody: new Map() };
+    sittingKept.set(api.state, kept);
+  }
+  if (!kept.byBody.has(officeId))
+    kept.byBody.set(officeId, sittingExecutiveNow(api, officeId));
+  return kept.byBody.get(officeId)!;
+}
+function sittingExecutiveNow(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  const body = bodyOf(api, officeId);
+  if (!body) return null;
+  const { office, term } = executiveOf(api, officeId);
+  if (!office || !term || !executiveSits(api, office.kind, body.jurisdiction))
+    return null;
+  return {
+    personId: memberKey(term),
+    since: term.serviceStart ?? term.startDate,
+  };
+}
+
 const SITTING_CALENDAR = {
-  seats: (api: CoreAPI, officeId: string) =>
-    members(api, officeId).map((term) => ({
+  owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
+  // The members, and the executive who sits with them (a mayor at the
+  // council's meetings), each from the day their service began.
+  seats: (api: CoreAPI, officeId: string) => {
+    const seats = members(api, officeId).map((term) => ({
       personId: memberKey(term),
       since: term.serviceStart ?? term.startDate,
-    })),
-  bodiesOf: (api: CoreAPI, personId: string) =>
-    servingTermsOf(api, personId)
+    }));
+    const executive = sittingExecutive(api, officeId);
+    return executive &&
+      !seats.some((seat) => seat.personId === executive.personId)
+      ? [...seats, executive]
+      : seats;
+  },
+  // The bodies a person sits on, and for an executive the bodies of their
+  // own government they sit with.
+  bodiesOf: (api: CoreAPI, personId: string) => {
+    const terms = servingTermsOf(api, personId);
+    const sitsOn = terms
       .map((term) => term.officeId)
-      .filter((officeId) => bodyOf(api, officeId) !== undefined),
+      .filter((officeId) => bodyOf(api, officeId) !== undefined);
+    for (const term of terms) {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; jurisdiction: string } | undefined;
+      if (!office || !headsLocalExecutive(office.kind)) continue;
+      for (const other of api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+      }[])
+        if (
+          !sitsOn.includes(other.id) &&
+          bodyOf(api, other.id) !== undefined &&
+          sittingExecutive(api, other.id)?.personId === personId
+        )
+          sitsOn.push(other.id);
+    }
+    return sitsOn;
+  },
   sittings: sittingsBetween,
-  hoursPerDay: () => campaignParameter("sittingHours"),
+  contactHoursPerDay: sittingContactHours,
 };
+
+/**
+ * The hours a town or county body's meeting takes from each member's day, and
+ * the executive's who sits with it (office-hours-never-fill-an-officials-day):
+ * the body's meeting on its own rule today, at its length (`sittingHours`), an
+ * evening on top of a member's own job. A body with no meeting today takes
+ * nothing; a legislature's days are the state office day's (office-day-state.ts).
+ */
+function townMeetingHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
+  // The office-time readers are one list for every world in the process
+  // (work.ts): a small world with no laws or offices has no body to meet.
+  if (
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return out;
+  const today = api.state.date;
+  const county = lawChain(api).countyGeoids[0];
+  const bodies = new Set(townSeats(api).map((row) => row.office.id));
+  for (const officeId of bodies) {
+    if (!bodyOf(api, officeId)) continue;
+    if (nextMeeting(api, officeId, plusDays(today, -1), county)?.date !== today)
+      continue;
+    for (const seat of SITTING_CALENDAR.seats(api, officeId)) {
+      const held = out.get(seat.personId);
+      const sourceId = `meeting:${officeId}:${today}`;
+      out.set(seat.personId, {
+        hours: (held?.hours ?? 0) + campaignParameter("sittingHours"),
+        sourceId: held ? `${held.sourceId} ${sourceId}` : sourceId,
+      });
+    }
+  }
+  return out;
+}
 
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town
@@ -1451,7 +1581,13 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           floorDays: 0,
           billsPerFloorDay: 0,
           needsChange: (question, direction) =>
-            needsChange(direction, answerIn(api, jurisdiction, question, true)),
+            lawNeedsChange(
+              api,
+              federal ? "federal" : "state",
+              jurisdiction,
+              question,
+              direction,
+            ),
           // A legislature answers only the questions its level may (data); Congress,
           // only those the research list admits.
           allowed: (question, value) =>
@@ -1613,7 +1749,7 @@ function openOutsideSession(
     if (!agenda.has(question)) continue;
     let best: Result | null = null;
     for (const direction of [1, -1]) {
-      if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+      if (!lawNeedsChange(api, "state", jurisdiction, question, direction))
         continue;
       if (!levelMayDecide(api, "state", question, direction, jurisdiction))
         continue;
@@ -1743,14 +1879,19 @@ interface AgendaCause {
   readonly opening: boolean;
 }
 
-/** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
+/** A state's figures today from the country tier's kept month: people out of work, prices, pay, and revenue against budget. */
 function stateFigures(
   api: CoreAPI,
   jurisdiction: string,
 ): Record<string, number> | null {
   if (!api.state.modules.has("macro")) return null;
   const state = countryStates(api).find((row) => row.key === jurisdiction);
-  const now = state ? countryStateNow(api, state.fips) : undefined;
+  const month = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth?: string } | undefined;
+  const now =
+    state && month?.latestMonth
+      ? countryStateMonth(api, state.fips, month.latestMonth)
+      : null;
   if (!state || !now) return null;
   const months = state.ledger.revenueMonths;
   const revenueYear = months.length
@@ -1758,9 +1899,9 @@ function stateFigures(
       api.parameter("monthsPerYear")
     : state.ledger.budgetYear;
   return {
-    unemploymentPct: now.now.unemploymentPct,
-    prices: now.now.prices,
-    hourlyPay: now.now.hourlyPay,
+    unemploymentPct: now.unemploymentPct,
+    prices: now.prices,
+    hourlyPay: now.hourlyPay,
     budgetGap:
       state.ledger.budgetYear > 0 ? revenueYear / state.ledger.budgetYear : 1,
   };
@@ -1868,8 +2009,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const cause = JSON.parse(agendaCause ?? "null") as AgendaCause | null;
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
-  if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
-    return;
+  if (!lawNeedsChange(api, "state", jurisdiction, question, direction)) return;
   const today = api.state.date;
   const rule = stateActEffectiveDate(jurisdiction, today, today);
   if (!rule)
@@ -2170,14 +2310,17 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
 /**
  * The floor's weeks from `first` to adjournment, each with the bills it
  * takes up, each once committee has had it, in the leader's order. The
- * leader paces the floor by the session's own calendar: the bills still
- * waiting (filed or yet to be filed) are spread evenly over the floor weeks
- * left before adjournment (a week takes its share, rounded, so a short list
- * is spread out rather than taken a bill a week from the start), at most as
- * many as the week's floor days allow, and the last week takes what is
- * left. The floor sits with business until the session ends instead of
- * clearing it in the first weeks. The floor week votes the first of them; the floor date and
- * the agenda the members read ahead come from the same weeks.
+ * leader paces the floor by the session's own calendar: every bill of the
+ * session (decided, waiting, or yet to be filed) is owed an even share of
+ * the floor weeks, so by the end of a week the floor has taken up its
+ * share of them so far, rounded up. A share under one bill a week is
+ * carried from week to week, so a year-long session with a handful of bills
+ * takes one up every few weeks from its first floor week instead of none
+ * until the weeks left are few. A week takes at most as many as its floor
+ * days allow, and the last week takes what is left. The floor sits with
+ * business until the session ends instead of clearing it in the first
+ * weeks. The floor week votes the first of them; the floor date and the
+ * agenda the members read ahead come from the same weeks.
  */
 function* floorWeeks(
   api: CoreAPI,
@@ -2187,13 +2330,23 @@ function* floorWeeks(
   const committee = campaignParameter("sessionCommitteeDays");
   const queue = floorQueue(api, row);
   const done = new Set<number>();
+  // The session's bills in all, the floor weeks it has in all, and the bills
+  // already decided: what is owed by a week is read from these, so every
+  // reader of the floor's weeks (the vote, the date, the agenda) agrees on it.
+  const decided = row.bills.length;
+  const total = decided + queue.length;
+  const weeks = Math.max(
+    1,
+    Math.ceil(daysBetween(row.firstFloor, row.adjournAt) / 7),
+  );
   for (let date = first; date < row.adjournAt; date = plusDays(date, 7)) {
     const ready = plusDays(date, -committee);
-    const weeksLeft = Math.ceil(daysBetween(date, row.adjournAt) / 7);
-    const pace = Math.min(
-      row.perWeek,
-      Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
+    const week = Math.min(
+      weeks,
+      Math.max(1, Math.floor(daysBetween(row.firstFloor, date) / 7) + 1),
     );
+    const owed = Math.ceil((total * week) / weeks) - decided - done.size;
+    const pace = Math.max(0, Math.min(row.perWeek, owed));
     const taken: Queued[] = [];
     // The bills the leader calendared for this week keep it, whatever the
     // pace works out to be now; the weeks' other bills fill what room is left.
@@ -2484,9 +2637,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         campaignParameter("policyOrdinanceMinutes"),
     ),
     needsChange: (question, direction) =>
-      direction > 0
-        ? !inForceForTown(api, question)
-        : ownRow(api, jurisdiction, question) === 1,
+      lawNeedsChange(api, "city", jurisdiction, question, direction),
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>

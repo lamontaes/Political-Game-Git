@@ -256,7 +256,7 @@
         "low": 7,
         "high": 45,
         "unit": "days",
-        "citation": "Fewest days between two scenes of household members bringing home a story they read: the scheduler's window for the same scene with the same people (repeatDays, 30), so a household with one reader is not cut short."
+        "citation": "Fewest days between two scenes of household members bringing home a story they read: a household with one reader is not cut short."
       }
     },
     "directorCircumstanceWorkEveryDays": {
@@ -603,6 +603,12 @@
         "unit": "moments",
         "citation": "Unverified estimate: one to four older moments kept a month over a year (24 kept now); checked against memory staying about the same size across a played year (P15-MEMORY-SIZE-FLAT-YEAR)."
       }
+    },
+    "directorEmergencyOfferImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "A disaster in the governor's state with the power to declare an emergency on their desk, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967), the nearest item to a sudden change in the work a person answers for. The scene stops the player's day (the situation type's stopsDay), as the swearing-in does, because the answer is theirs and the engine never declares for them.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
     },
     "directorBribeOfferImpact": {
       "value": 0.63,
@@ -965,6 +971,20 @@
         "unit": "lead over the runner-up, as a share of votes cast",
         "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
       }
+    },
+    "directorGiftRankDonors": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "The fewest other named donors a campaign needs before a gift reads as one of many (the biggest or one of the smallest checks the candidate has had); with fewer, a rank says nothing (Story lead, Nov 17, the donor's call; donor-ask-facts.ts `donorReads`).",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 1,
+        "high": 4,
+        "unit": "other donors",
+        "citation": "Unverified estimate (Nov 17, 2026): the range checked across drawn places in a played campaign; no study measures it. One other donor would make every gift the biggest or the smallest of two; four would hide a rank in a small race."
+      }
     }
   },
   "channels": [
@@ -1038,15 +1058,6 @@
       "producedBy": [],
       "producedByFact": [
         { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
-      ]
-    },
-    {
-      "id": "promise",
-      "endsOn": "settling-record",
-      "producedBy": [],
-      "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "promise" },
-        { "eventKind": "promise.answer", "fact": "promise" }
       ]
     }
   ],
@@ -1151,7 +1162,8 @@
     "reasonKey": "p13-story-director:waiting-scene",
     "citation": "The story director's staged scene that ranked within the life's pace and waited for the player (docs/design/story-director.md, part 4, When: at the cause, the scene opens the first time the player has control after the record is written; on an effective date, that day). One a morning, the highest-ranked first.",
     "notMet": "not met in time",
-    "silent": "no one there to speak"
+    "silent": "no one there to speak",
+    "nothingSaid": "nothing to say past its opener"
   },
   "interruptStop": {
     "reasonKey": "p13-story-director:interrupting-moment",
@@ -1333,6 +1345,11 @@
       "eventKind": "president.address",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "executive.emergency-offered",
+      "channel": "cause",
+      "impactParameter": "directorEmergencyOfferImpact"
     },
     {
       "eventKind": "corruption.bribe-offered",
@@ -1571,6 +1588,11 @@
     },
     {
       "eventKind": "rival-word",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "petition-short",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

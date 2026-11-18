@@ -71,16 +71,30 @@
       "citation": "BEA NIPA Table 2.1: saving 12% of disposable income in 2021 (the low end of outlays) to 3.5% in 2022 (the high end)."
     }
   },
-  "countedMovesInStateShare": {
-    "value": 0.57,
+  "countedMovesNearHomePull": {
+    "value": 3.77,
     "tag": "ESTIMATED",
-    "citation": "U.S. Census Bureau, CPS ASEC 2023, Geographical Mobility: 2022 to 2023, Table 1 (people 1 year and over): about 6.0 million moved from a different county in the same state and about 4.6 million from a different state, so 0.57 of those who left their county stayed in their state.",
-    "estimatedFrom": "Of a group's people who leave their county in a year (the ACS rate for their age), this share move elsewhere in their own state and the rest to another state or territory.",
+    "role": "coefficient",
+    "citation": "How strongly the rest of a mover's own state draws against another state of the same size, draw and pay, on the log scale of the destination weighing (counted-moves.ts weighDestinations): the one strength by which moves within a state come out of the weighing, for the counted households and full people alike. Fitted once nationally so that, with every state weighed by its people and no difference in pay or work, the share of county leavers who stay in their state, averaged over the nation by people, is the CPS share: about 6.0 million of 10.5 million people who moved to a different county in the year to March 2023 stayed in their state, 0.571 (U.S. Census Bureau, CPS ASEC 2023, Table 1; data/research/core/cps-asec-2023-mobility.json). A big state keeps more of its leavers than a small one by its own size, and how many stay moves with each state's pull.",
+    "estimatedFrom": "Solved once for k: the people-weighted mean over the 56 states and territories of p e^k / (p e^k + P - p), with p each state's population and P the nation's (src/core2/data/regional/regions.json), equals 0.571 at k = 3.77. Each state's draw is taken as one in the fit (the tier's draws average one); a fit on the tier's fitted draws is the refinement.",
     "spread": {
-      "low": 0.5,
-      "high": 0.65,
-      "unit": "share of county leavers",
-      "citation": "CPS ASEC 2019 to 2023 tables, same table each year."
+      "low": 3.43,
+      "high": 4.17,
+      "unit": "log weight of the rest of the home state",
+      "citation": "The same fit to the CPS ASEC 2019 to 2023 range of in-state shares, 0.50 to 0.65."
+    }
+  },
+  "countedMovesUnheldScale": {
+    "value": 2.45,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "The rate of leaving the county for a counted household nothing holds (a renter with no children at home) over its state's average at its age (the country tier's rate): the one strength the counted leaving rule reads (counted-moves.ts month), so each household's own holds set how far it sits from the unheld rate and nothing renormalizes a place to the average. Fitted once nationally so the holds the counted rule carries, averaged over the nation's people, give back the average: owners 226.1 million and renters 101.0 million people (CPS ASEC 2023, Table 1, rows 66-67), so with the owner hold (movesOwnerHold, 1.21) the tenure part averages 0.515; family householders 15 to 54 with own children under 18 are 31.1 of 49.3 million (Table 6, rows 9-10), so with the children hold (movesChildrenHold, 0.4) that part averages 0.792; 1 / (0.515 x 0.792) = 2.45 (data/research/core/cps-asec-2023-mobility.json).",
+    "estimatedFrom": "1 / (E[exp(-owner hold)] x E[exp(-children hold)]) over the nation's people, the two taken as independent; the children share is of family householders 15 to 54 (Table 6's universe), above its share of all people, so the scale leans high. Nothing renormalizes a place to the average: a place with more owners or children leaves less, one with fewer leaves more.",
+    "spread": {
+      "low": 1.94,
+      "high": 2.45,
+      "unit": "multiple of the state's average rate of leaving",
+      "citation": "Tenure alone, 6.23% / 3.20% different-county movers among renters over everyone (CPS ASEC 2023 Table 1) = 1.94, to tenure and children together, 2.45."
     }
   },
   "countedMovesRenterHousingWeight": {
@@ -213,6 +227,19 @@
       "high": 5.5,
       "unit": "days a week",
       "citation": "Sensitivity range around the estimated five-day workweek."
+    }
+  },
+  "countedSavingsSpreadLog": {
+    "value": 1.39,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Federal Reserve Board, Survey of Consumer Finances 2022: Changes in U.S. Family Finances from 2019 to 2022 (Federal Reserve Bulletin, October 2023), Table 3: transaction accounts median $8,000 and mean $62,500 among holders; data/research/money/scf-transaction-accounts-2022.json for the medians by income group.",
+    "estimatedFrom": "The spread of the logarithm of a family's transaction-account balance among families alike in income. A log-normal with the survey's mean over median (62.5 / 8.0) has a variance of 2 ln(7.81) = 4.11 across all families; the six income groups' medians (900 to 111,600, weighted by their shares of families) account for 2.20 of it, leaving 1.91 within a group, a spread of 1.39. Each counted household's share of its group's account is exp(1.39 z - 1.39^2/2) of the group's per-person average.",
+    "spread": {
+      "low": 1.0,
+      "high": 1.6,
+      "unit": "standard deviation of the log balance within an income group",
+      "citation": "Low: half the within-group variance (families in a counted group also share age, tenure and work, which the survey's income groups do not); high: the variance with the top income group's mean taken at its median."
     }
   }
 }

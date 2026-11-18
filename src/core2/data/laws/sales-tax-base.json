@@ -1,0 +1,277 @@
+{
+  "about": "The share of each kind of seller's household sales that the sales tax does not reach, by its classification: medical care, tuition, insurance, rent and most services are outside the base in most states, and Hawaii, New Mexico and South Dakota tax most services. Read by syncSalesTax (src/core2/modules/budgets.ts) as exemptions of the tax itself, no law's. Sellers not listed (stores, restaurants, lodging) are taxed on all they sell, but for the grocery exemption where it is law. A state's own share replaces the national one where `states` names it. Every value is ESTIMATED from memory; the container could not reach the Federation of Tax Administrators' services survey to quote it.",
+  "rows": [
+    {
+      "classificationPrefix": "service:clinic",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Medical care is exempt from the sales tax in every state that has one (FTA services survey), from memory.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0
+      }
+    },
+    {
+      "classificationPrefix": "service:hospital",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Hospital care is exempt from the sales tax in every state that has one but Hawaii (FTA services survey), from memory.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0
+      }
+    },
+    {
+      "classificationPrefix": "service:nursing-home",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Nursing and residential care is exempt in every sales-tax state but Hawaii, whose excise reaches it (FTA services survey), from memory.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0
+      }
+    },
+    {
+      "classificationPrefix": "service:private-school",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Tuition is exempt in every sales-tax state (FTA services survey), from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:insurance",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Insurance premiums bear a premium tax, never the sales tax, in every state (NAIC), from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:banking",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Bank fees are outside the sales tax base in every state (FTA services survey), from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:real-estate",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [1, 1],
+        "citation": "Agents' commissions and property managers' fees are untaxed but for Hawaii and New Mexico (FTA services survey), from memory.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:professional-services",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "Legal, accounting, design and other professional services are untaxed in nearly every state; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:political-consulting",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "As professional services; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:construction",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "A builder's labor is untaxed in most states, its materials taxed when it buys them; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:transportation",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "Freight and moving services are untaxed in most states (FTA services survey); Hawaii and New Mexico tax them, from memory.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:personal-services",
+      "exemptShare": {
+        "value": 0.8,
+        "tag": "ESTIMATED",
+        "spread": [0.65, 0.9],
+        "citation": "Hair, nail, laundry and other personal services are taxed in about a fifth of sales-tax states, from memory; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:building-services",
+      "exemptShare": {
+        "value": 0.7,
+        "tag": "ESTIMATED",
+        "spread": [0.5, 0.85],
+        "citation": "Cleaning, landscaping and pest control are taxed in about a third of sales-tax states, from memory; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:repair",
+      "exemptShare": {
+        "value": 0.5,
+        "tag": "ESTIMATED",
+        "spread": [0.3, 0.7],
+        "citation": "Repair labor is taxed in about half of sales-tax states, parts in all, from memory; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:recreation",
+      "exemptShare": {
+        "value": 0.35,
+        "tag": "ESTIMATED",
+        "spread": [0.2, 0.5],
+        "citation": "Admissions and memberships are taxed in most sales-tax states, from memory; Hawaii's general excise tax, New Mexico's gross receipts tax and South Dakota's sales tax reach most services sold to households (FTA, 2017 survey of services taxation; Hawaii Rev. Stat. 237, N.M. Stat. 7-9, S.D. Codified Laws 10-45), from memory, not fetched.",
+        "role": "law"
+      },
+      "states": {
+        "US-HI": 0,
+        "US-NM": 0,
+        "US-SD": 0
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:telecommunications",
+      "exemptShare": {
+        "value": 0.25,
+        "tag": "ESTIMATED",
+        "spread": [0.1, 0.4],
+        "citation": "Phone and cable service is taxed by the sales tax or a utility tax in most states; internet access is untaxed by federal law (Internet Tax Freedom Act), from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:utility",
+      "exemptShare": {
+        "value": 0.5,
+        "tag": "ESTIMATED",
+        "spread": [0.3, 0.7],
+        "citation": "Household electricity and gas are exempt from the state sales tax in about half of sales-tax states, from memory; water and sewer charges mostly untaxed.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:agriculture",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "A farm's sales to households are food or sales for resale, untaxed in most states, from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:manufacturing",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "Sales for resale or for use in making goods are exempt everywhere; households buy little from a plant, from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:wholesale",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "Sales for resale are exempt everywhere, from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:mining",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "Sales for resale or further processing are exempt everywhere, from memory.",
+        "role": "law"
+      }
+    },
+    {
+      "classificationPrefix": "enterprise:corporate-office",
+      "exemptShare": {
+        "value": 1,
+        "tag": "ESTIMATED",
+        "spread": [0.9, 1],
+        "citation": "A head office bills its own firms, never households; such charges are outside the base everywhere, from memory.",
+        "role": "law"
+      }
+    }
+  ]
+}

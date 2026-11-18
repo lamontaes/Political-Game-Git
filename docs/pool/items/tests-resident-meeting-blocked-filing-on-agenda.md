@@ -37,3 +37,5 @@ claimed-at:
 **Files.** src/core2/office-day-attend.test.ts, src/core2/modules/office-day.ts
 
 **Notes.**
+
+Nov 16 (officials' hours thread): red again in a second drawn place, Fox Park, Wyoming (5629400), place seed 652186c7493e69b71b7d6a134fda344b512d601c7317566e4e763f2571badb9f, at bill:office:gus2025:191900:board:2025-02-03:person_2ed719d38d89bf73:13 ("expected 'blocked' to be 'failed'"). Red the same way on the colleague-rooms head 9750a13d without the officials'-hours change, so it is not from that change.

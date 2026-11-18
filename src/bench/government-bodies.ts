@@ -41,15 +41,16 @@ import { calendarItems } from "./calendar";
 import { facePlace, holderFace, homeStateOf } from "./government";
 import { policyNames } from "./words";
 import { chamberChanges } from "./states";
+import {
+  headsExecutive,
+  headsLocalExecutive,
+  nationalExecutive,
+} from "../core2/offices-executives";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
 const LOCAL_ORDER = ["city", "township", "county"];
 const ELECTIONS = "core2-elections-v1";
-/** The office that heads a level's executive branch, where the level has one. */
-const CHIEF_KINDS = ["mayor", "county-executive", "governor", "president"];
-/** The nation's own executive offices, which no state holds. */
-const NATIONAL_KINDS = new Set(["president", "vice-president"]);
 /** A state's seats in Congress, as the offices engine kinds them. */
 const CONGRESS_KINDS = new Set(["us-senate", "us-house", "us-house-delegate"]);
 /** Two chambers of one size list the lower house first, as their law names them. */
@@ -109,7 +110,7 @@ function roomPlace(office: Office, usps: string | null): string {
         : "oval-office-standard"
       : office.kind === "governor"
         ? "governor-office"
-        : office.kind === "mayor" || office.kind === "county-executive"
+        : headsLocalExecutive(office.kind)
           ? "mayor-office"
           : office.seats > 1 && office.level === "county"
             ? "county-commission"
@@ -387,7 +388,7 @@ export function governmentBodies(
             .moduleState(OFFICES_MODULE_ID)
             .table("offices")
             .rows() as unknown as Office[]
-        ).filter((o) => NATIONAL_KINDS.has(o.kind))
+        ).filter((o) => nationalExecutive(o.kind))
       : [];
   const rows: SeatRow[] =
     level === "local"
@@ -438,7 +439,7 @@ export function governmentBodies(
       officeId: office.id,
       kind: office.kind,
       // The head of the level's executive branch (a mayor, a governor).
-      chief: CHIEF_KINDS.includes(office.kind),
+      chief: headsExecutive(office.kind),
       title: office.title,
       // A local body by its own name ("Latimer Board of Aldermen"); a state
       // chamber or an office by its title, its government named apart.
@@ -514,9 +515,8 @@ export function governmentBodies(
       .filter((seats) => !lawmaking(seats))
       .sort(
         (a, b) =>
-          Number(CHIEF_KINDS.includes(b[0]!.office.kind)) -
-            Number(CHIEF_KINDS.includes(a[0]!.office.kind)) ||
-          order(a) - order(b),
+          Number(headsExecutive(b[0]!.office.kind)) -
+            Number(headsExecutive(a[0]!.office.kind)) || order(a) - order(b),
       )
       .map(view),
   };

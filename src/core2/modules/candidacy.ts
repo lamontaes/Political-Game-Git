@@ -1,4 +1,3 @@
-import { countyPlaceOfWorld } from "../opening-county-sample";
 import {
   standingPool,
   partyOf,
@@ -48,16 +47,21 @@ import type {
 import { decisionKinds } from "../trait-decision-table";
 import { leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
+import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
+  announceCandidacy,
+  withdrawAnnouncement,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
   filledByTickets,
   checkEligibility,
+  livesWhereSeatServes,
+  localResidencePlaces,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
   type ContestRow,
@@ -65,6 +69,7 @@ import {
   type OfficeFamily,
   atLargeGroup,
 } from "./elections";
+import { filingOfficerIds } from "./filing-clerk";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
@@ -82,10 +87,9 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import {
-  prisonersBarredHere,
-  revolvingDoorFor,
-} from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { countedVoters, seatLastMargin } from "./voting";
+import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -102,6 +106,8 @@ export interface OpenContest {
   countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
+  /** The seat the contest fills: where its last race's lead is read. */
+  seatId?: string;
   /** How many have already decided to run for it. */
   runners?: number;
   poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
@@ -120,6 +126,12 @@ export interface CandidacyDecision {
   reasons: Readonly<Record<string, number>>;
   scores: readonly { actionId: string; score: number }[];
   sourceIds: readonly string[];
+  /** A runner who announced before filing opened: the day, the announcement and why then. */
+  announced?: {
+    readonly date: string;
+    readonly filingId: string;
+    readonly reasons: Readonly<Record<string, number>>;
+  };
   /** What came of a decision to run: the filing, or the rules it didn't meet. */
   filing?: {
     readonly status: FilingRow["status"] | "refused";
@@ -509,6 +521,49 @@ export function countedCandidacyReasons(
   );
 }
 
+/**
+ * Whether a party stands a nominee in a race: its chance of taking the seat,
+ * the normal curve at the seat's Republican two-party lean over the swing
+ * spread, covers what standing one costs (`candidacyPartyStandingCost`). A
+ * seat one side cannot realistically win is left to the other uncontested;
+ * a competitive seat draws both. `side` is 1 for the right and -1 for the
+ * left; `rightShare` the seat's two-party right share.
+ */
+export function partyFieldsNominee(
+  api: CoreAPI,
+  side: number,
+  rightShare: number,
+): boolean {
+  const one = api.parameter("one");
+  const two = api.parameter("two");
+  const rightWins = normalCdf(
+    (rightShare - one / two) / c(api, "candidacySwingSpread"),
+    one,
+    two,
+  );
+  return (
+    (side > 0 ? rightWins : one - rightWins) >=
+    c(api, "candidacyPartyStandingCost")
+  );
+}
+
+/**
+ * A challenger's odds against the sitting holder: the chance a swing as large
+ * as the holder's last winning lead happens, from the seat's own last race
+ * (`seatLastMargin`) and the world's swing spread. An open seat has no holder
+ * to beat (one); a holder with no counted race (a seat no one has been
+ * counted for) leads by nothing, so the contest is even.
+ */
+export function challengerOdds(api: CoreAPI, contest: OpenContest): number {
+  const one = api.parameter("one");
+  if (!contest.incumbentId) return one;
+  const lead = contest.seatId ? seatLastMargin(api, contest.seatId) : 0;
+  return (
+    one -
+    normalCdf(lead / c(api, "candidacySwingSpread"), one, api.parameter("two"))
+  );
+}
+
 function reasonsFrom(
   api: CoreAPI,
   person: RunFacts,
@@ -535,8 +590,7 @@ function reasonsFrom(
   // and the hope an enterprising, risk-taking person adds to them. A long
   // shot who files anyway is realistic (owner, Nov 8).
   const odds =
-    (standing *
-      (contest.incumbentId ? c(api, "candidacyChallengerOdds") : one)) /
+    (standing * challengerOdds(api, contest)) /
     (one + (contest.runners ?? zero));
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
@@ -636,6 +690,13 @@ export function decideToRun(
 ): CandidacyDecision | null {
   const person = api.state.people.get(personId);
   if (!person?.alive) return null;
+  // Whoever staffs the filing counter takes the filings of the races, so they
+  // never weigh standing in one.
+  // stopgapId: SG-GOV-filing-officer-never-runs
+  if (filingOfficerIds(api).has(personId)) {
+    api.stopgap("SG-GOV-filing-officer-never-runs");
+    return null;
+  }
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
@@ -792,79 +853,12 @@ interface Queues {
   localRank: number;
   weigh: ContestRow[];
   file: { contest: ContestRow; opens: string }[];
+  /** Weighed contests whose filing window is still ahead: their runners weigh announcing. */
+  announcing: ContestRow[];
   /** Contests on the town's calendar whose filing closed before the record began. */
   opening: ContestRow[];
 }
 const queues = new WeakMap<object, Queues>();
-
-/**
- * Those who decided to run and were refused at the counter only for the filing
- * fee, by contest: they try again each day until they file or the window
- * closes, since what they hold changes with pay days (owner, Nov 15: a person
- * who decided to stand and could not pay on one day keeps trying). Kept for
- * the people refused, a handful at a time.
- */
-const refiling = new WeakMap<object, Map<string, Set<PersonId>>>();
-
-/** A refusal that only the person's cash can change. */
-function refusedOnlyForFee(
-  filing: NonNullable<CandidacyDecision["filing"]>,
-): boolean {
-  return (
-    filing.status === "refused" &&
-    filing.unmet.length > 0 &&
-    filing.unmet.every((rule) => rule === "filing-fee")
-  );
-}
-
-/** A person refused only for the fee is kept to try again while the window is open. */
-function keepTryingForFee(
-  api: CoreAPI,
-  contestId: string,
-  personId: PersonId,
-  filing: NonNullable<CandidacyDecision["filing"]>,
-): void {
-  if (!refusedOnlyForFee(filing)) return;
-  const held = refiling.get(api.state) ?? new Map<string, Set<PersonId>>();
-  refiling.set(api.state, held);
-  const people = held.get(contestId) ?? new Set<PersonId>();
-  held.set(contestId, people);
-  people.add(personId);
-}
-
-/** Try again for each person refused only for the fee, while their window is open. */
-function refileRefused(api: CoreAPI): void {
-  const held = refiling.get(api.state);
-  if (!held?.size) return;
-  const today = api.state.date;
-  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
-  for (const [contestId, people] of [...held]) {
-    const contest = contests.get(contestId) as unknown as
-      ContestRow | undefined;
-    if (!contest || contest.filingDeadline < today) {
-      held.delete(contestId);
-      continue;
-    }
-    for (const personId of [...people]) {
-      const decision = decisionOf(api, contestId, personId);
-      const person = api.state.people.get(personId);
-      if (!decision?.run || !person?.alive) {
-        people.delete(personId);
-        continue;
-      }
-      const filing = fileFor(
-        api,
-        person,
-        contest,
-        Boolean(seatParty(api, contest)),
-      );
-      if (refusedOnlyForFee(filing)) continue;
-      table(api).put({ ...decision, filing } as unknown as { id: string });
-      people.delete(personId);
-    }
-    if (!people.size) held.delete(contestId);
-  }
-}
 
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {
@@ -920,6 +914,16 @@ function queuesFor(api: CoreAPI): Queues | null {
           a.opens.localeCompare(b.opens) ||
           a.contest.id.localeCompare(b.contest.id),
       ),
+    announcing: rows
+      .filter((row) => {
+        const w = weighed.get(row.id) as unknown as WeighedContest | undefined;
+        return (
+          w !== undefined &&
+          w.filedOn === null &&
+          filingWindowOpens(api, row) > api.state.date
+        );
+      })
+      .sort((a, b) => a.id.localeCompare(b.id)),
   };
   queues.set(api.state, built);
   return built;
@@ -963,13 +967,13 @@ export function platformForContest(
   );
 }
 
-/** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
-function fileFor(
+/** The label and stands a runner files or announces under, from their own party tie and views. */
+function runnerPaper(
   api: CoreAPI,
   person: Readonly<PersonState>,
   contest: ContestRow,
   partisan: boolean,
-): NonNullable<CandidacyDecision["filing"]> {
+): { party: string | null; platform: string[] } {
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID))
     tieBeforeFiling(api, person.id);
   let party: string | null = partisan ? partyOf(api, person.id) : null;
@@ -978,16 +982,28 @@ function fileFor(
     party =
       partiesHere(api).find((row) => row.id === tie?.partyId)?.name ?? party;
   }
-  const result = fileCandidacy(api, {
-    personId: person.id,
-    contestId: contest.id,
+  return {
+    party,
     platform: platformFromViews(
       api,
       person.id,
       party,
       contestPositions(api, contest),
     ),
-    party,
+  };
+}
+
+/** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
+function fileFor(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  contest: ContestRow,
+  partisan: boolean,
+): NonNullable<CandidacyDecision["filing"]> {
+  const result = fileCandidacy(api, {
+    personId: person.id,
+    contestId: contest.id,
+    ...runnerPaper(api, person, contest, partisan),
   });
   if (result.status === "refused")
     return {
@@ -1021,15 +1037,9 @@ export function weighContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number = LOCAL_RANK,
-  /** The incumbent's own filing is already on record (a race that closed before the opening). */
-  incumbentFiled = false,
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
-  const town = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("town")
-    .get("town") as unknown as { townPlaceId: string };
   // Whoever serves the seat today, so a member seated by a special election
   // after the contest was recorded is its incumbent; else the term the
   // contest names.
@@ -1075,6 +1085,7 @@ export function weighContest(
     filingDeadline: rules.deadline ?? contest.filingDeadline,
     ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
+    seatId: contest.seatId,
     ...(scope ? { poolFacts: facts, wideScope: scope } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
@@ -1121,26 +1132,15 @@ export function weighContest(
     );
   // A seat's serving holder weighs standing again wherever they live: a
   // county officeholder from outside the town still holds the county's seat.
+  const residence = localResidencePlaces(api, contest);
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId ||
-      (contest.family === "countyOffice" &&
-        p.placeId === countyPlaceOfWorld(api.state)) ||
-      pool.has(p.id) ||
-      p.id === incumbentId) &&
+    (residence.includes(p.placeId) || pool.has(p.id) || p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
-    // The filing fee weighs in the decision: someone who cannot cover it from
-    // their own cash does not decide to run (the counter's refusal is left
-    // for the player and for money that ran out in between).
-    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
-    !(incumbentFiled && p.id === incumbentId) &&
-    (!wide ||
-      !checkEligibility(api, p.id, contest.id, null).some(
-        (check) => check.rule === "residency" && !check.met,
-      ));
+    livesWhereSeatServes(api, contest, p);
   // The incumbent weighs standing again first: one who stands down leaves
   // the seat open, and everyone else weighs it as an open seat, citing the
   // decision that opened it.
@@ -1167,9 +1167,7 @@ export function weighContest(
     const screen = countedScreen(
       api,
       { ...field, runners: raceRunners },
-      contest.family === "countyOffice"
-        ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-        : [town.townPlaceId],
+      residence,
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
@@ -1230,11 +1228,7 @@ export function weighContest(
       const voters = stranded.size
         ? countedResidents(api.state as CoreState).filter(
             (voter) =>
-              stranded.has(voter.id) &&
-              (contest.family === "countyOffice"
-                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-                : [town.townPlaceId]
-              ).includes(voter.placeId),
+              stranded.has(voter.id) && residence.includes(voter.placeId),
           )
         : [];
       for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
@@ -1358,21 +1352,17 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms are not drawn to run
-    // where the state bars people held in prison (`incarceratedMayVote`).
-    const barredRooms = prisonersBarredHere(api);
+    // Only the counted residents who vote are drawn to run (`countedVoters`,
+    // which leaves out the rooms of people the state bars while held in
+    // prison).
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
     held = {
       year,
       places,
-      rows: countedResidents(api.state as CoreState)
-        .filter(
-          (voter) =>
-            places.includes(voter.placeId) &&
-            !(barredRooms && voter.quarters === "adultCorrectional"),
-        )
+      rows: countedVoters(api)
+        .filter((voter) => places.includes(voter.placeId))
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1448,7 +1438,7 @@ export function fileRunners(
   const askedFirst = askBeforeWeighing(api, contest);
   const row =
     first.date < api.state.date
-      ? weighContest(api, contest, localRank, false, true)
+      ? weighContest(api, contest, localRank, true)
       : first;
   // Every drawn counted runner is filled in before any platform is read, so
   // the electorate the platforms weigh is rebuilt once for the contest, not
@@ -1467,7 +1457,8 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
-    keepTryingForFee(api, contest.id, personId, filing);
+    if (filing.status === "refused")
+      withdrawAnnouncement(api, contest.id, personId);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1488,7 +1479,7 @@ export function fileRunners(
     table(api).put({ ...decision, filing: refused } as unknown as {
       id: string;
     });
-    keepTryingForFee(api, contest.id, decision.personId, refused);
+    withdrawAnnouncement(api, contest.id, decision.personId);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -1500,6 +1491,148 @@ export function fileRunners(
       decideAsked(api, contest, person, chairId, recordId);
   askForCandidates(api, contest);
   askForSuccessor(api, contest);
+}
+
+/**
+ * Announcing before filing opens (owner, Nov 17: "Of course, other people
+ * should be able to do it early"; CTO on #9995: each candidate decides when to
+ * announce from their own record, the way the town's candidates decide to
+ * file). A runner who has decided to run weighs, the day they decided and
+ * every candidacyAnnounceEveryDays after until the window opens, announcing
+ * now against waiting to file, through the core's one chooser: their ambition,
+ * how many people know them, whether the seat is open, the party and civic
+ * roles they already hold, and how near the window is pull toward announcing;
+ * what waiting is worth pulls the other way. One who announces does it through
+ * the elections engine's one announcement (`announceCandidacy`), the same row
+ * and record the player's announcement makes, and files it when the window
+ * opens (`fileRunners`).
+ */
+function announceAction(id: string, announcing: boolean): ActionDefinition {
+  return {
+    id,
+    actKinds: decisionKinds("candidacy.announce", id),
+    goalKinds: [],
+    need: "time",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "contest",
+    effect: "candidacy",
+    reasonBindings: [
+      {
+        id: "announce-circumstances",
+        provider: "candidacy-announce-circumstances",
+        weightParameter: "one",
+        arguments: { announcing: String(announcing) },
+      },
+    ],
+  };
+}
+export const ANNOUNCE = announceAction("candidacy-announce", true);
+export const WAIT_TO_FILE = announceAction("candidacy-wait-to-file", false);
+
+const pendingAnnounce = new WeakMap<object, ContestRow>();
+
+/** Whoever serves the contest's seat today, as the weighing reads its incumbent. */
+function seatHolderOf(api: CoreAPI, contest: ContestRow): string | null {
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const serving = (
+    terms.query("bySeatStatus", [
+      contest.seatId,
+      "serving",
+    ]) as unknown as TermRow[]
+  )[0];
+  return serving?.personId ?? null;
+}
+
+/** What draws a runner to say so now rather than at the filing counter, from their own record. */
+export function announceReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  contest: ContestRow,
+): Record<string, number> {
+  const zero = api.parameter("zero");
+  const one = api.parameter("one");
+  const roles = rolesOfNamed(api, person);
+  const toWindow = daysBetweenText(
+    api.state.date,
+    filingWindowOpens(api, contest),
+  );
+  const lead = c(api, "candidacyDecisionLeadDays");
+  return {
+    ambition:
+      c(api, "candidacyAnnounceAmbitionWeight") *
+      Math.min(one, ambitionOf(person)),
+    standing:
+      c(api, "candidacyAnnounceStandingWeight") *
+      Math.min(one, person.knownIds.size / c(api, "candidacyStandingCircle")),
+    openSeat: seatHolderOf(api, contest)
+      ? zero
+      : c(api, "candidacyAnnounceOpenSeatWeight"),
+    built:
+      c(api, "candidacyAnnounceBuiltWeight") *
+      Math.min(one, roles.partyActivity + roles.civicRoles),
+    // The window draws nearer: a sliding pull from nothing a lead's length
+    // away to its full weight on the eve of filing.
+    near:
+      c(api, "candidacyAnnounceNearWeight") *
+      Math.min(one, Math.max(zero, one - toWindow / lead)),
+  };
+}
+
+/** The runners of a weighed contest weigh announcing today; those who choose it announce. */
+export function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
+  const weighed = api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("weighed")
+    .get(contest.id) as unknown as WeighedContest | undefined;
+  if (!weighed || weighed.filedOn !== null) return;
+  if (filingWindowOpens(api, contest) <= api.state.date) return;
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const partisan = Boolean(seatParty(api, contest));
+  for (const personId of weighed.runIds) {
+    const person = api.state.people.get(personId);
+    // A counted runner is filled in when they file (`fileRunners`); until
+    // then they have no full record to weigh announcing from.
+    // stopgapId: SG-GOV-counted-runner-announces-at-filing
+    if (!person) {
+      api.stopgap("SG-GOV-counted-runner-announces-at-filing");
+      continue;
+    }
+    if (!person.alive || isExplicitlyControlledPersonV1(api.state, personId))
+      continue;
+    const decision = decisionOf(api, contest.id, personId);
+    if (!decision?.run) continue;
+    if (filings.get(`filing:${contest.id}:${personId}`)) continue;
+    pendingAnnounce.set(api.state, contest);
+    const scored = scoreOffers(
+      api.state,
+      personId,
+      [WAIT_TO_FILE, ANNOUNCE].map((definition) => ({
+        definition,
+        targetId: contest.id,
+        availableHours: api.parameter("hoursPerDay"),
+      })),
+      { needValues: { time: api.parameter("zero") } },
+    );
+    const chosen = decisionFromScores(api.state, personId, scored);
+    pendingAnnounce.delete(api.state);
+    if (chosen.selected?.definition.id !== ANNOUNCE.id) continue;
+    const made = announceCandidacy(api, {
+      personId,
+      contestId: contest.id,
+      ...runnerPaper(api, person, contest, partisan),
+    });
+    if (made.status !== "announced") continue;
+    // Why they said so when they did, kept with their decision to run.
+    table(api).put({
+      ...decision,
+      announced: {
+        date: api.state.date,
+        filingId: made.filing.id,
+        reasons: announceReasons(api, person, contest),
+      },
+    } as unknown as { id: string });
+  }
 }
 
 /** The kind of a party's ask that someone run for a seat. */
@@ -1577,6 +1710,9 @@ export function partyProspects(
         (person): person is PersonState =>
           !!person?.alive &&
           person.id !== chairId &&
+          // The chair recruits from outside their own home: someone who lives
+          // with the chair is not visited, so the ask would stage no scene.
+          person.householdId !== api.state.people.get(chairId)?.householdId &&
           person.placeId === town.townPlaceId &&
           !asked.has(person.id) &&
           ageOnDate(person.birthDate, date) >= rules.minimumAge &&
@@ -1794,15 +1930,13 @@ function askBeforeWeighing(
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     // The first member who has not already decided to run: an ask is for
     // someone who might be brought in.
-    // The day's weighing is the member's own: one who could not cover the
-    // fee does not weigh it, and the player answers in the scene their ask
-    // stages (after the weighing, for a party with no one filed), never in it.
-    const fee = filingRulesFor(api, contest, "party").feeMinor;
+    // The day's weighing is the member's own; the player answers in the scene
+    // their ask stages (after the weighing, for a party with no one filed),
+    // never in it.
     const person = members.find(
       (member) =>
         !decisionOf(api, contest.id, member.id)?.run &&
-        !isExplicitlyControlledPersonV1(api.state, member.id) &&
-        member.liquidMinor >= fee,
+        !isExplicitlyControlledPersonV1(api.state, member.id),
     );
     if (!person) continue;
     const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
@@ -1874,6 +2008,7 @@ function decideAsked(
       ...(incumbent?.personId && !standDown
         ? { incumbentId: incumbent.personId as PersonId }
         : {}),
+      seatId: contest.seatId,
       askedBy: { recordId, chairId },
       sourceIds: [contest.id, recordId, ...(standDown ? [standDown.id] : [])],
     },
@@ -2016,22 +2151,20 @@ function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 }
 
 /**
- * A race whose filing closed before the record began: the town's adults
- * weighed it then, and each runner's filing is part of the opening record
- * (dated at the deadline), beside the incumbent's. Its petition was checked
- * before the record began, so the filing stands on the ballot.
+ * A race whose filing closed before the record began: the seat's holder and
+ * the town's adults weighed it then, and each runner's filing, the holder's
+ * among them, is part of the opening record (dated at the deadline). Its
+ * petition was checked before the record began, so the filing stands on the
+ * ballot.
  */
 function weighClosedContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number,
 ): void {
-  const row = weighContest(
-    api,
-    contest,
-    localRank,
-    contest.level !== "state" && contest.level !== "federal",
-  );
+  // The seat's holder weighs standing again like anyone (`standsAgain`):
+  // nothing filed for them before the record began.
+  const row = weighContest(api, contest, localRank);
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const positions = contestPositions(api, contest);
   // A counted adult who decided to run on their counted record is made a
@@ -2141,11 +2274,10 @@ export function registerClosedContestWeighed(
   closedContestWeighed = fn;
 }
 
-function candidacyDay(api: CoreAPI): void {
+function candidacyDay(api: CoreAPI, played: boolean): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
-  refileRefused(api);
   while (held.opening.length) {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);
@@ -2154,13 +2286,36 @@ function candidacyDay(api: CoreAPI): void {
   }
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;
-    if (contest.filingDeadline >= today)
+    if (contest.filingDeadline >= today) {
       weighContest(api, contest, held.localRank);
+      if (filingWindowOpens(api, contest) > today)
+        held.announcing.push(contest);
+    }
   }
+  // Runners say so before filing opens only on played days: a skipped stretch
+  // leaves them to file when the window opens.
+  if (played) announceDay(api, held);
   while (held.file[0] && held.file[0].opens <= today) {
     const { contest } = held.file.shift()!;
     if (contest.filingDeadline >= today)
       fileRunners(api, contest, held.localRank);
+  }
+}
+
+/** The weighed contests whose runners weigh announcing today: the weighing day, then every candidacyAnnounceEveryDays. */
+function announceDay(api: CoreAPI, held: Queues): void {
+  const today = api.state.date;
+  const every = c(api, "candidacyAnnounceEveryDays");
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+  held.announcing = held.announcing.filter(
+    (contest) => filingWindowOpens(api, contest) > today,
+  );
+  for (const contest of held.announcing) {
+    const row = weighed.get(contest.id) as unknown as
+      WeighedContest | undefined;
+    if (!row || row.filedOn !== null) continue;
+    if (daysBetweenText(row.date, today) % every === 0)
+      weighAnnouncing(api, contest);
   }
 }
 
@@ -2206,7 +2361,7 @@ export const candidacyModule: CoreModule = {
     },
   },
   onDay: (api) => {
-    candidacyDay(api);
+    candidacyDay(api, true);
     dropPastNonRunners(api);
   },
   // A skipped day weighs and files the races whose day has come, so a race
@@ -2216,15 +2371,33 @@ export const candidacyModule: CoreModule = {
     // standing views and the candidates' records, with no campaign's effect.
     // stopgapId: SG-SPEED-results-mode-no-campaign-effect
     api.stopgap("SG-SPEED-results-mode-no-campaign-effect");
-    candidacyDay(api);
+    candidacyDay(api, false);
     dropPastNonRunners(api);
   },
-  eventKinds: ["scene.reply"],
+  eventKinds: ["scene.reply", "election-result"],
   onEvent: (api, event) => {
+    if (event.kind === "election-result") {
+      takeStaffUnderWing(api, event);
+      return;
+    }
     answerPartyAsk(api, event);
     noteHouseholdBacking(api, event);
   },
   reasonProviders: {
+    "candidacy-announce-circumstances": (api, actor, offer, binding) => {
+      const contest = pendingAnnounce.get(api.state);
+      if (!contest || contest.id !== offer.targetId) return undefined;
+      return {
+        value:
+          binding.arguments?.announcing === "true"
+            ? Object.values(announceReasons(api, actor, contest)).reduce(
+                (sum, value) => sum + value,
+                api.parameter("zero"),
+              )
+            : c(api, "candidacyAnnounceWaitPull"),
+        sourceIds: [contest.id, actor.id],
+      };
+    },
     "candidacy-circumstances": (api, actor, offer, binding) => {
       const contest = pending.get(api.state);
       if (!contest || contest.contestId !== offer.targetId) return undefined;
@@ -2246,6 +2419,7 @@ export const candidacyModule: CoreModule = {
 export { localClerkFor } from "./filing-clerk";
 
 export const PARTY_MENTORSHIP = "party.mentorship-formed";
+export const CAMPAIGN_MENTORSHIP = "campaign.mentorship-formed";
 
 /** A party member's mentor in politics: who took them under their wing, and the party's ask that brought it about. */
 export interface PartyMentorRow {
@@ -2324,6 +2498,102 @@ export function takeUnderWing(
     facts: { partyId, mentorId: mentor.id, askId },
   });
   return mentor.id;
+}
+
+/**
+ * A campaign worked is shared history: when a candidate wins, the people who
+ * were on their campaign staff are taken under their wing, the same record
+ * and tie a party's ask makes (`takeUnderWing`), keyed by the campaign instead
+ * of the party. Written once per staffer and campaign. Nothing is rolled: no
+ * staff, no winner or a staffer who is already the winner, no mentorship.
+ */
+function takeStaffUnderWing(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const core = api.state as CoreState;
+  const winnerId = String(event.facts?.winnerId ?? "");
+  const contestId = String(event.facts?.contestId ?? "");
+  if (
+    !winnerId ||
+    !core.people.get(winnerId as PersonId)?.alive ||
+    !core.modules.has(PARTIES_MODULE_ID) ||
+    !core.modules.has(ELECTIONS_MODULE_ID) ||
+    !core.modules.has(CAMPAIGNS_MODULE_ID)
+  )
+    return;
+  const mentors = api.moduleState(PARTIES_MODULE_ID).table("mentors");
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byContest", [contestId]) as unknown as {
+    id: string;
+    personId: string;
+  }[];
+  for (const filing of filings) {
+    if (filing.personId !== winnerId) continue;
+    const campaign = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("campaigns")
+      .get(filing.id) as unknown as
+      { readonly staffIds: readonly string[] } | undefined;
+    for (const staffId of campaign?.staffIds ?? []) {
+      const staffer = core.people.get(staffId as PersonId);
+      if (!staffer?.alive || staffId === winnerId) continue;
+      const id = `${CAMPAIGN_MENTORSHIP}:${filing.id}:${staffId}`;
+      if (mentors.get(id)) continue;
+      const recordId = `${CAMPAIGN_MENTORSHIP}:${filing.id}:${staffId}:${winnerId}`;
+      mentors.put({
+        id,
+        partyId: "",
+        mentorId: winnerId,
+        since: core.date,
+        askId: filing.id,
+      } satisfies PartyMentorRow as unknown as ModuleRow);
+      api.relationship(
+        staffId as PersonId,
+        winnerId as PersonId,
+        "contact",
+        api.parameter("mentorFirstHours"),
+        undefined,
+        { cause: "mentorship", sourceId: recordId },
+      );
+      const holder = core.people.get(winnerId as PersonId)!;
+      api.emit({
+        id: recordId,
+        date: core.date,
+        kind: CAMPAIGN_MENTORSHIP,
+        personIds: [staffId as PersonId, winnerId as PersonId],
+        placeId: staffer.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: `${holder.givenName} ${holder.familyName} took ${staffer.givenName} ${staffer.familyName} under their wing after the campaign they worked won.`,
+          estimatedFrom:
+            "The staff of the winning campaign, the same first sit-down hours as a party's mentor.",
+        },
+        facts: { mentorId: winnerId, campaignId: filing.id, contestId },
+      });
+    }
+  }
+}
+
+/** The mentor a staffer gained from a campaign they worked, where the winner is alive. */
+export function campaignMentorOf(
+  api: CoreAPI,
+  personId: string,
+  filingId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(PARTIES_MODULE_ID)) return null;
+  const row = api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("mentors")
+    .get(`${CAMPAIGN_MENTORSHIP}:${filingId}:${personId}`) as unknown as
+    PartyMentorRow | undefined;
+  const mentor = row ? core.people.get(row.mentorId as PersonId) : undefined;
+  return mentor?.alive ? mentor.id : null;
 }
 
 /** The member's mentor in a party, where one took them under their wing and is still alive and in their town. */

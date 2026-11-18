@@ -158,11 +158,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/news.ts",
     "line": 714,
-    "whatItFakes": "Policy arguments reach counted adult groups, but a month's condition story, counted-only delivery with no named reader, ballots, and carrying a moved view across fill-in, demotion or household moves remain unfinished.",
-    "why": "The bounded policy-delivery reader stores group stances, but the election reader and population transfers still need to carry them. Group traits and engagement are weighted averages; delivery mass updates the mean without selecting individuals. Retained named audience mass is excluded without redistribution.",
+    "whatItFakes": "Policy arguments reach counted adult groups, and since the views thread's change counted ballots read the group's stance and a member filled in starts from it (src/core2/modules/views.ts). A month's condition story, counted-only delivery with no named reader, and carrying a moved view across demotion back to the counts or a household's move to another group remain unfinished.",
+    "why": "The bounded policy-delivery reader stores group stances; population transfers other than fill-in still need to carry them. Group traits and engagement are weighted averages; delivery mass updates the mean without selecting individuals. Retained named audience mass is excluded without redistribution.",
     "addedBy": "effects lead (web-views-hear-conditions-full-readers)",
     "addedAt": "2026-10-24",
-    "replacement": "people-counted-readers-stances-from-stories: each counted group a story reached moves by the full reader's rule times its count, citing the story's news record, and a member filled in from that group holds the moved view.",
+    "replacement": "people-counted-readers-stances-from-stories: each counted group a condition story reached moves by the full reader's rule times its count, citing the story's news record, and a household demoted to the counts or moved to another group carries its members' moved views.",
     "status": "open"
   },
   {
@@ -174,8 +174,8 @@
     "why": "The counted ballot and the fill-in read neither news nor lived stances from the group row today; both are the same gap as SG-PEOPLE-counted-readers-stories and are built once for every countedStances row.",
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
-    "replacement": "countedViewOn adds the group's countedStances row the way a full person's viewOn adds their stance, and a member filled in from the group starts from the group's stance (one PR for news and lived crime alike).",
-    "status": "open"
+    "replacement": "Resolved: a counted group lives its victimizations through its tally row, by the full victim's rule times the share of its adults reached, citing the tally (liveCountedCrime in src/core2/counted-news-views.ts); every counted ballot reads the group's stance through the voter's stance profile (countedStanceProfile's heard term in src/core2/modules/views.ts, read by groupStance), and a member filled in from the group starts from its stance rows (the views engine's onFillIn). Shown in src/core2/views-counted-victims.test.ts (pool item people-counted-victims-lived-crime).",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-unplanned-pregnancy",
@@ -258,7 +258,7 @@
     "kind": "partial-model",
     "file": "src/bench/whole-figures.ts",
     "line": 90,
-    "whatItFakes": "A person's origin narrows which of the pack's people draw them, by a hand-written table of skin-tone thirds per origin (src/bench/data/whole-figures.json originTones); the pack paints only three skin tones per sex, so a Hispanic, white or Asian person may share a tone.",
+    "whatItFakes": "A person's origin narrows which of the pack's people draw them, by a hand-written table of skin-tone thirds per origin (src/bench/data/whole-figures.json originTones); the bust bank paints six shades per sex and the full-body pack three, so skin tones fall into thirds, so a Hispanic, white or Asian person may share a tone.",
     "why": "The pack has six painted people; real variety in skin, hair and features needs the modular busts (CTO, Nov 7).",
     "addedBy": "Tiers (Nov 8)",
     "addedAt": "2026-11-08",
@@ -296,7 +296,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/past-work.ts",
     "line": 1,
-    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace that is the place they live, their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace drawn from their state's shares of where its people were born (src/core2/person-birthplace.ts; born in the state, the place they live stands for where in it, as for any resident the opening's families did not reach), their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
     "why": "The world keeps no record of an outside organization's earlier staff or of where a person made for a role was born; press staff outside the town are paid as a post, not a job (press-staff.ts seatStaff).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",

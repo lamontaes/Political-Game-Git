@@ -12,6 +12,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { centuryRace } from "./electorate-century";
 import {
   OFFICES_MODULE_ID,
   officesOfState,
@@ -51,7 +52,7 @@ function world(placeKey: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 200 }),
   );
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   return core;
 }
 
@@ -141,20 +142,24 @@ describe("M2-01 offices and seats, every level", () => {
         house[0]!.holder,
         `${where}: the House seat has no holder`,
       ).not.toBeNull();
+      // A unicameral state (Nebraska) files its one chamber under the Census's
+      // state-upper geography and the engine seats it as legislature-unicameral.
       const chambers = [
-        ["state-upper", "legislature-upper"],
-        ["state-lower", "legislature-lower"],
+        ["state-upper", ["legislature-upper", "legislature-unicameral"]],
+        ["state-lower", ["legislature-lower"]],
       ] as const;
-      for (const [chamber, kind] of chambers) {
+      const coveringAny = (kinds: readonly string[]) =>
+        kinds.flatMap((kind) => covering(kind));
+      for (const [chamber, kinds] of chambers) {
         // Only a chamber the state elects by district has a district to estimate.
         if (!known[`${placeKey}:${chamber}`]) continue;
         expect(
-          covering(kind).length,
-          `${where}: no ${kind} seat covers the town`,
+          coveringAny(kinds).length,
+          `${where}: no ${kinds.join(" or ")} seat covers the town`,
         ).toBeGreaterThan(0);
       }
       read.push(
-        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${covering(k)[0]?.seat.id}` : "")).join("")}`,
+        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${coveringAny(k)[0]?.seat.id}` : "")).join("")}`,
       );
     }
     govReport("offices-estimated-districts", JSON.stringify({ seed, read }));
@@ -289,7 +294,32 @@ describe("M2-01 offices and seats, every level", () => {
       expect(t.elected!.date < t.startDate, `${placeKey} ${t.seatId}`).toBe(
         true,
       );
-      expect(t.elected!.share).toBeGreaterThan(0.5);
+      // The President and Vice President are elected by electors, so their popular share can
+      // be under half (2000, 2016): the President's term carries the century race's share, and
+      // that race gave its winner a majority of the electors (CTO line 6939896968 on #9747).
+      // Every other elected term won above half.
+      if (t.seatId === "seat:US:president") {
+        const race = centuryRace(
+          seed,
+          START,
+          Number(t.elected!.date.slice(0, 4)),
+        );
+        expect(race, `${placeKey} ${t.seatId}`).toBeDefined();
+        expect(t.elected!.share, `${placeKey} ${t.seatId}`).toBe(
+          race!.winnerShare,
+        );
+        expect(
+          race!.winnerSide > 0
+            ? race!.electoral.republican
+            : race!.electoral.democratic,
+          `${placeKey} ${race!.id}: the winner's electors`,
+        ).toBeGreaterThan(
+          (race!.electoral.republican + race!.electoral.democratic) / 2,
+        );
+      } else if (t.seatId !== "seat:US:vice-president")
+        expect(t.elected!.share, `${placeKey} ${t.seatId}`).toBeGreaterThan(
+          0.5,
+        );
       const history = pastElections(api, t.seatId);
       expect(history.at(-1)?.termId).toBe(t.id);
       // One election per term, oldest first, each before the next.

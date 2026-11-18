@@ -1254,6 +1254,12 @@ export interface CountryPart {
 export interface CountryPartCounts extends Omit<CountryPart, "jobs"> {
   jobs: Partial<BySector>;
   unsortedJobs: number;
+  /**
+   * Jobs sorted by a survey of private employers only (a sampled county's workers, by County
+   * Business Patterns): the survey has no public employer, so the share of them the state's
+   * own jobs hold in government is counted there, and the rest in the sectors the survey gives.
+   */
+  privateSurveyJobs?: Partial<BySector>;
 }
 
 /** A part's people, at work, looking and jobs: what it adds to its state's figures. */
@@ -1277,10 +1283,19 @@ export function resolveCountryPart(
 ): CountryPart {
   const total = sum(state.sectors.map((row) => row.jobs));
   const jobs = zeroBySector();
+  const surveyed = sum(
+    COUNTRY_SECTORS.map((sector) => counts.privateSurveyJobs?.[sector] ?? 0),
+  );
+  const publicShare =
+    total > 0
+      ? (state.sectors.find((row) => row.sector === PUBLIC)?.jobs ?? 0) / total
+      : 0;
   for (const row of state.sectors)
     jobs[row.sector] =
       (counts.jobs[row.sector] ?? 0) +
-      (total > 0 ? (counts.unsortedJobs * row.jobs) / total : 0);
+      (total > 0 ? (counts.unsortedJobs * row.jobs) / total : 0) +
+      (1 - publicShare) * (counts.privateSurveyJobs?.[row.sector] ?? 0) +
+      (row.sector === PUBLIC ? publicShare * surveyed : 0);
   const workers = counts.workers.map((n, band) =>
     Math.min(n, counts.people[band]!),
   );
@@ -1557,6 +1572,18 @@ export function stepCountry(
   const jobsAtStart = tier.states.map((state) =>
     state.sectors.map((row) => row.jobs),
   );
+  // With a part out, the tier steps the rest of the state, and the rest's share looking is not
+  // the whole state's when the part's people look more or less than the state does. The first
+  // month fits the hiring speed to the share looking it reads here, so it must be the share of
+  // the people it steps: stock and flows fitted together belong to the same people.
+  if (first)
+    for (const state of tier.states)
+      // A rest with nobody at work or looking has no share of its own to read.
+      if (
+        parts.has(state) &&
+        state.cells.some((c) => c.workers + c.seekers > 0)
+      )
+        state.unemploymentMonths.fill(countryUnemployment(state));
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
   const lives = people(tier, rules, law);
@@ -1614,6 +1641,22 @@ export function stepCountry(
           : 0;
       const modeled =
         (1 - rules.tradedShare[sector]) * wanted.bySector[sector] + fromNation;
+      if (first && row.jobs > 0 && parts.has(state)) {
+        // The opening's rule (`balanceOpening`), for the people and jobs the tier steps. A
+        // part's people and jobs are not in the state's proportions (a county with the state's
+        // hospitals, a town with none), so the rest's people want more of one sector than its
+        // own firms sell and less of another. Left as it is, the rest hires and lets go until
+        // the two meet, and that month's rush is what the hiring speed is fitted to. As at the
+        // opening: what the rest wants beyond what its firms sell is bought elsewhere (from
+        // the part's firms) from then on, and what they sell beyond it is their other buyers.
+        // A sector the part took whole has no firms in the rest to balance.
+        // stopgapId: SG-NATION-rest-buys-from-the-part-fixed-share (the shares are fixed this month and do not follow the played places' own trade afterward)
+        row.boughtElsewhereShare =
+          modeled > row.sales && modeled > 0 ? 1 - row.sales / modeled : 0;
+        const perUnit = otherBuyersOf({ ...row, otherBuyers: 1 });
+        row.otherBuyers =
+          perUnit > 0 ? Math.max(0, row.sales - modeled) / perUnit : 0;
+      }
       const others = otherBuyersOf(row);
       const asked = modeled * (1 - row.boughtElsewhereShare) + others;
       // What its staff makes at normal hours and a little more; buyers take the rest of what they wanted from outside.
@@ -1705,9 +1748,17 @@ export function stepCountry(
     const floor = law.wageFloorYear(state) * rules.lowPayOverFloor;
     let statePriced = 0,
       stateSales = 0;
+    // A state's price level moves by what its sectors' own prices did, weighted by what each sold
+    // last month. A level averaged over this month's sales also moved when only the mix did: a
+    // played part takes a state's people and jobs, the rest left behind weighs leisure far more,
+    // and the state's prices rose about 2.7% a month on a sector mix alone (Puerto Rico).
+    const weightsBefore = plans.map((plan) => plan.row.sales);
+    const weightTotal = sum(weightsBefore);
+    let priceMove = 0;
     const jobsAdded: number[] = [];
-    for (const plan of plans) {
+    for (const [at, plan] of plans.entries()) {
       const { row } = plan;
+      const priceBefore = row.price;
       const b = books(row, plan.sold, state, law, rules);
       if (row.sector === PUBLIC) {
         // What the public sector buys beyond its payroll.
@@ -1732,6 +1783,11 @@ export function stepCountry(
             (rules.priceBusyPerYear / months) * Math.log(Math.max(busy, TINY)),
         );
       }
+      if (priceBefore > 0 && row.price > 0)
+        priceMove +=
+          (weightTotal > 0
+            ? weightsBefore[at]! / weightTotal
+            : 1 / plans.length) * Math.log(row.price / priceBefore);
       if (row.expectedSales > 0) {
         const grew = plan.sold / row.expectedSales - 1;
         // perception: what a sector's firms expect of their sales follows the sales they have had
@@ -1757,7 +1813,7 @@ export function stepCountry(
     }
     salesTotal += stateSales;
     pricedTotal += statePriced;
-    if (stateSales > 0) state.prices = statePriced / stateSales;
+    if (stateSales > 0) state.prices *= Math.exp(priceMove);
     // The ledger: what it took in, and what it paid for its own work, benefits and the lines passed on.
     const modeledRevenue =
       wanted.incomes.stateTaxes + wanted.salesTax + profitTax;

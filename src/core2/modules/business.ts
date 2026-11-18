@@ -14,7 +14,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
-import { countedPayment } from "../counted-money";
+import { countedHouseholdSavings, countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
@@ -70,7 +70,31 @@ import {
 } from "../business-operating-rules";
 import { outsideLaborForce } from "../gov-rules/place-population";
 
+import {
+  chargeWeighed,
+  FIRM_CHARGE_KINDS,
+  FIRM_CHARGES_TABLE,
+  firmChargesOf,
+  firmCharged,
+  type FirmChargeKind,
+} from "../business-charges";
+import {
+  EMPLOYER_TAXES_MODULE_ID,
+  employerTaxShareOfWage,
+  premisesTaxYearMinor,
+} from "./budgets";
+import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
+
 export { BUSINESS_MODULE_ID };
+export { DEFAULT_BUSINESS_BOOKS_DATA };
+/** A business's books and its kind's national sector, as other families read them (dev mode's Industries view). */
+export { sectorOfKind } from "../business-books";
+export {
+  businessBooksView,
+  type BusinessBooksView,
+} from "../business-books-view";
+/** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
+export { firmCharged } from "../business-charges";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
   medicalDebtOf,
@@ -111,6 +135,16 @@ interface OwnerRow {
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
   splitThrough?: number;
   tradingId?: string;
+  /** The running totals of what the business paid under laws and taxes (business-charges.ts), at the last booked month. */
+  chargesThrough?: Partial<Record<FirmChargeKind, number>>;
+}
+
+/** One cost a month's books hold: what it was, the law rows behind it, and whether the staffing and closing decisions weighed it. */
+export interface BusinessMonthCharge {
+  kind: "wages" | "supplies" | "outside-costs" | FirmChargeKind;
+  minor: number;
+  lawIds: readonly string[];
+  weighed: boolean;
 }
 
 /** A completed month's actual trading, read by the staffing decision. */
@@ -125,6 +159,10 @@ export interface BusinessTradingMonth {
   costsMinor: number;
   complianceMinor: number;
   lossMonths: number;
+  /** Every cost the month paid, by name; `costsMinor` is the sum of the weighed ones. */
+  charges?: readonly BusinessMonthCharge[];
+  /** Staff at the month's end: named jobs held plus counted headcount (businessesIn's rule). */
+  staff?: number;
 }
 
 export function businessTradingMonth(
@@ -214,10 +252,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
     .map(([id]) => ({
       id,
       placeId: c.organizations.get(id)?.placeId,
-      staff:
-        [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-          (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-        ).length + countedHeadcountOf(c, id),
+      staff: staffNow(c, id),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const total = sized.reduce((n, row) => n + row.staff, 0);
@@ -296,6 +331,18 @@ function open(api: CoreAPI): void {
         netThrough: netCash(c, id),
       });
   }
+  // The opening's costs hold the taxes and duties it pays by name: take them out, once.
+  for (const duty of BUSINESS_DUTIES) readBusinessDuty(api, duty);
+  routeCompliance(api);
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const staff = staffNow(c, id);
+    netOutCharges(
+      api,
+      id,
+      staff > 0 ? book.annualPayrollMinor / staff : book.annualPayrollMinor,
+    );
+  }
   store(api).table("state").put({ id: "business:state", openedAt: c.date });
   scheduleMonth(api);
 }
@@ -363,21 +410,28 @@ function ownerPerson(c: CoreState, personId: string) {
     : undefined;
 }
 
-/** A household's common savings are available to a founder on the same per-person basis in either tier. */
+/** A household's common savings are available to a founder on the same per-person basis in either tier: a counted household's are its share of its group's (`countedHouseholdSavings`). */
 function founderSavings(
-  c: CoreState,
+  api: CoreAPI,
   personId: string,
 ): { holderId: string; minor: number } {
+  const c = api.state as CoreState;
   const person = c.people.get(personId);
   const counted = person ? undefined : countedFacts(c, personId);
-  const holderId = person?.householdId ?? counted?.householdId ?? "";
-  const full = c.households.get(holderId);
+  const householdId = person?.householdId ?? counted?.householdId ?? "";
+  const full = c.households.get(householdId);
   const people = full
     ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
     : (counted?.people ?? 0);
+  const saved = full
+    ? { holderId: householdId, minor: depositsHeld(c, householdId) }
+    : (countedHouseholdSavings(api, householdId) ?? {
+        holderId: householdId,
+        minor: 0,
+      });
   return {
-    holderId,
-    minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
+    holderId: saved.holderId,
+    minor: people ? Math.floor(saved.minor / people) : 0,
   };
 }
 
@@ -567,9 +621,10 @@ function membershipPayouts(api: CoreAPI): void {
       const job = c.jobs.get(id);
       if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
     }
-    const cushion =
-      ((daily * p("jobsDaysPerYear")) / p("macroMonthsPerYear")) *
-      p("businessCushionMonths");
+    const cushion = firmBufferMinor(
+      daily * p("jobsDaysPerYear"),
+      p("macroMonthsPerYear"),
+    );
     const excess = org.liquidMinor - cushion;
     if (excess > 0)
       transferCash(
@@ -590,7 +645,7 @@ function membershipPayouts(api: CoreAPI): void {
 }
 
 /** The owner closes the business by choice; its remaining cash goes to them (or their place's pool while counted). */
-function closeByChoice(
+export function closeByChoice(
   api: CoreAPI,
   organizationId: string,
   ownerId: string,
@@ -601,6 +656,9 @@ function closeByChoice(
   const account = ownerAccount(c, ownerId),
     book = c.finance.businesses.get(organizationId);
   if (!account || !book || book.closedAt) return false;
+  const tradingId = (
+    store(api).table("owners").get(organizationId) as OwnerRow | undefined
+  )?.tradingId;
   const closureSource = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
@@ -624,6 +682,8 @@ function closeByChoice(
       reasonKey,
       decidedAs: c.people.has(ownerId) ? "full" : "counted",
       values: { ...values },
+      // The month's books the choice read: its full bill, law by law.
+      ...(tradingId ? { tradingId } : {}),
     });
   api.closeBusinessByChoice({
     organizationId,
@@ -855,6 +915,29 @@ function reviewClosures(api: CoreAPI): void {
     );
 }
 
+/**
+ * The cash a firm keeps back, from its own books: what it pays out in one
+ * booked month (its pay cycle: the books close monthly) plus the largest
+ * shortfall of costs over sales it has met in its own recent months. A firm
+ * with no history keeps back its month's outgo alone. A firm that has run a
+ * thin month keeps more; one that has always covered itself keeps less.
+ */
+export function firmBufferMinor(
+  annualOutgoMinor: number,
+  monthsPerYear: number,
+  recent?: {
+    readonly sales: readonly number[];
+    readonly costs: readonly number[];
+  },
+): number {
+  const month = annualOutgoMinor / monthsPerYear;
+  const shortfall = (recent?.costs ?? []).reduce(
+    (worst, cost, i) => Math.max(worst, cost - (recent?.sales[i] ?? 0)),
+    0,
+  );
+  return Math.round(month + shortfall);
+}
+
 /** A branch of a firm based elsewhere sends its parent the cash above its cushion, out of the profit it has kept. */
 function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   const c = core(api),
@@ -864,9 +947,11 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   const net = netCash(c, row.id);
   const retained = row.retainedMinor + (net - (row.netThrough ?? net));
   const cash = c.organizations.get(row.id)!.liquidMinor;
-  const cushion =
-    (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-    p("businessCushionMonths");
+  const cushion = firmBufferMinor(
+    book.annualPayrollMinor,
+    p("macroMonthsPerYear"),
+    row.recent,
+  );
   const swept =
     retained > 0
       ? transferCash(
@@ -895,25 +980,78 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
     });
 }
 
-/** A business's compliance payments this month, from the books of what it paid. */
-function complianceThisMonth(api: CoreAPI, organizationId: string): number {
-  let total = 0;
+/**
+ * A business's other operating costs are sized from its industry's margin
+ * (IRS net income over receipts), which is what is left after every cost,
+ * taxes and licenses included. The taxes and duties the business pays by name
+ * (business-charges.ts) are charged by their own engines, so they come out of the
+ * lump its suppliers bill, once, at the laws in force when it opens:
+ *
+ *   lump = (margin's other costs - payroll taxes - premises tax) / (1 + duty and energy law shares)
+ *
+ * (the duties and energy law charges are shares of the lump itself). A law
+ * passed later adds its cost on top; a repeal takes its part away.
+ */
+function netOutCharges(
+  api: CoreAPI,
+  organizationId: string,
+  annualWageMinor: number,
+  /** Whose duty rows stand for this one's: itself, or for a new business an incumbent of its kind (its own are routed next month). */
+  dutiesOf = organizationId,
+): void {
+  const c = core(api);
+  const book = c.finance.businesses.get(organizationId);
+  if (!book || book.annualOtherCostsMinor <= 0) return;
+  // Only what an installed payer engine charges comes out: with no payer, the
+  // cost is paid nowhere, so the lump keeps it.
+  const taxed =
+    c.modules.has(EMPLOYER_TAXES_MODULE_ID) && c.modules.has(LAWS_MODULE_ID);
+  const payrollTaxes = taxed
+    ? book.annualPayrollMinor * employerTaxShareOfWage(api, annualWageMinor)
+    : 0;
+  const premises = taxed
+    ? premisesTaxYearMinor(api, organizationId, book.annualDemandMinor)
+    : 0;
+  let shares = c.modules.has(PLACE_PRICES_MODULE_ID)
+    ? businessEnergyLawShare(api)
+    : 0;
   for (const row of store(api)
-    .table("compliance")
-    .query("byOrganization", [organizationId]) as unknown as {
-    date: string;
-    paidMinor: number;
+    .table("operating")
+    .query("all", [true]) as unknown as {
+    organizationId: string;
+    kind: string;
+    share: number;
   }[])
-    if (row.date === core(api).date) total += row.paidMinor;
-  return total;
+    if (row.organizationId === dutiesOf && row.kind === "cost")
+      shares += row.share;
+  const net = Math.max(
+    0,
+    (book.annualOtherCostsMinor - payrollTaxes - premises) / (1 + shares),
+  );
+  const ratio = net / book.annualOtherCostsMinor;
+  book.annualOtherCostsMinor = net;
+  book.anchorAnnualOtherCostsMinor *= ratio;
+}
+
+/** Staff at a business now: named jobs held plus counted headcount (the rule `businessesIn` uses). */
+function staffNow(c: CoreState, organizationId: string): number {
+  return (
+    [...(c.finance.jobsByOrganization.get(organizationId) ?? [])].filter(
+      (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+    ).length + countedHeadcountOf(c, organizationId)
+  );
 }
 
 /**
  * The counters to keep at the end of a month: the books' running totals, the
- * outside-costs flow's paid so far, and the months of revenue lost (this
- * month's operating result from the books, fading the older months over the
- * memory window). Operating result is sales less wages, purchases from
- * suppliers, costs bought outside the town and compliance costs.
+ * outside-costs flow's paid so far, what the business paid under laws and
+ * taxes (business-charges.ts), and the months of revenue lost (this month's
+ * operating result from the books, fading the older months over the memory
+ * window). Operating result is sales less every operating cost the month paid:
+ * wages, purchases from suppliers, costs bought outside the town, compliance
+ * duties, the employer's payroll taxes, property tax on the premises, what
+ * energy price laws added and health premiums. Profit tax is listed but not
+ * weighed: it comes out of profit, so it reaches the decisions through cash.
  */
 function bookedMonth(
   api: CoreAPI,
@@ -929,19 +1067,49 @@ function bookedMonth(
   | "lossMonths"
   | "recent"
   | "tradingId"
+  | "chargesThrough"
 > {
   const outsidePaid =
     residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
       ?.outsidePaidMinor ?? 0;
   const sales = book.salesReceivedMinor - row.salesThrough;
   const payrollMinor = book.wagesPaidMinor - row.wagesThrough;
-  const complianceMinor = complianceThisMonth(api, row.id);
-  const costs =
-    book.wagesPaidMinor -
-    row.wagesThrough +
-    (book.operatingPaidMinor - row.operatingThrough) +
-    (outsidePaid - (row.outsideThrough ?? 0)) +
-    complianceMinor;
+  const totals = firmChargesOf(api, row.id);
+  const chargesThrough: Partial<Record<FirmChargeKind, number>> = {};
+  const charges: BusinessMonthCharge[] = [
+    { kind: "wages", minor: payrollMinor, lawIds: [], weighed: true },
+    {
+      kind: "supplies",
+      minor: book.operatingPaidMinor - row.operatingThrough,
+      lawIds: [],
+      weighed: true,
+    },
+    {
+      kind: "outside-costs",
+      minor: outsidePaid - (row.outsideThrough ?? 0),
+      lawIds: [],
+      weighed: true,
+    },
+  ];
+  for (const kind of FIRM_CHARGE_KINDS) {
+    const total = totals[kind];
+    if (!total) continue;
+    chargesThrough[kind] = total.paidMinor;
+    const minor = total.paidMinor - (row.chargesThrough?.[kind] ?? 0);
+    if (minor !== 0)
+      charges.push({
+        kind,
+        minor,
+        lawIds: total.lawIds,
+        weighed: chargeWeighed(kind),
+      });
+  }
+  const complianceMinor =
+    charges.find((charge) => charge.kind === "compliance")?.minor ?? 0;
+  const costs = charges.reduce(
+    (n, charge) => n + (charge.weighed ? charge.minor : 0),
+    0,
+  );
   // Costs fall due on a cycle (a quarter's supplier invoices, a tax or lease payment), sales do not: the operating result is read over the cycle, so a bill that falls in one month is not a month of loss.
   const window = Math.max(
     1,
@@ -974,18 +1142,22 @@ function bookedMonth(
     : undefined;
   const from = previous?.date ?? row.since;
   const days = daysBetweenText(from, api.state.date);
-  store(api).table("trading").put({
-    id: tradingId,
-    organizationId: row.id,
-    date: api.state.date,
-    from,
-    days,
-    salesMinor: sales,
-    payrollMinor,
-    costsMinor: costs,
-    complianceMinor,
-    lossMonths,
-  });
+  store(api)
+    .table("trading")
+    .put({
+      id: tradingId,
+      organizationId: row.id,
+      date: api.state.date,
+      from,
+      days,
+      salesMinor: sales,
+      payrollMinor,
+      costsMinor: costs,
+      complianceMinor,
+      lossMonths,
+      charges,
+      staff: staffNow(core(api), row.id),
+    });
   return {
     salesThrough: book.salesReceivedMinor,
     wagesThrough: book.wagesPaidMinor,
@@ -997,6 +1169,7 @@ function bookedMonth(
     lossMonths,
     recent,
     tradingId,
+    chargesThrough,
   };
 }
 
@@ -1117,6 +1290,13 @@ function payCompliance(api: CoreAPI): void {
         what: statute.what,
         amountMinor: -paid,
       });
+    firmCharged(
+      api,
+      row.organizationId,
+      "compliance",
+      paid,
+      statute ? [statute.lawId] : [],
+    );
     store(api)
       .table("compliance")
       .put({
@@ -1340,6 +1520,8 @@ const AGE_VERIFICATION_QUESTION =
 
 interface BusinessDuty {
   readonly question: string;
+  /** The statute's own size test: a business with yearly sales below this parameter is not bound. */
+  readonly minSalesParameter?: keyof typeof businessParameters;
   /** The classifications it binds; every enterprise where empty. */
   readonly classifications: readonly string[];
   /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
@@ -1355,12 +1537,14 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
   },
   {
     question: FEDERAL_DATA_PRIVACY_QUESTION,
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
     unlessQuestion: DATA_PRIVACY_QUESTION,
   },
   {
@@ -1373,17 +1557,33 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
 
 const dutyCause = (question: string) => `law:${question}`;
 
+/** Whether a business of these yearly sales is large enough for the duty's statute to bind it. */
+function boundBySize(
+  api: CoreAPI,
+  duty: BusinessDuty,
+  annualSalesMinor: number,
+): boolean {
+  return (
+    duty.minSalesParameter === undefined ||
+    annualSalesMinor >= api.parameter(duty.minSalesParameter)
+  );
+}
+
 /**
  * What a consumer data privacy law costs an employing business in a year: the
  * share of its other operating costs the monthly cost review charges while
- * the law stands (null for any other law).
+ * the law stands, and nothing for a business under the statute's size test
+ * (null for any other law).
  */
 export function businessDataPrivacyCostYear(
   api: CoreAPI,
   question: string,
   annualOtherCostsMinor: number,
+  annualSalesMinor: number,
 ): number | null {
   if (question !== DATA_PRIVACY_QUESTION) return null;
+  const duty = BUSINESS_DUTIES.find((row) => row.question === question)!;
+  if (!boundBySize(api, duty, annualSalesMinor)) return 0;
   return Math.round(
     annualOtherCostsMinor * api.parameter("businessDataPrivacyShareOfCosts"),
   );
@@ -1416,6 +1616,7 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       (duty.classifications.length > 0 &&
         !duty.classifications.includes(classification)) ||
       (duty.employingOnly && !employing) ||
+      !boundBySize(api, duty, book.annualDemandMinor) ||
       // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
       !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
@@ -1511,8 +1712,10 @@ function month(api: CoreAPI): void {
       book.annualPayrollMinor,
       p("jobsDaysPerYear"),
     );
-    const cushion = Math.round(
-      (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
+    const cushion = firmBufferMinor(
+      weightedPayroll,
+      p("macroMonthsPerYear"),
+      row.recent,
     );
     const { need, short, spare } = ownerDrawCase(p, {
       cashMinor: cash,
@@ -1624,10 +1827,7 @@ export function ownerDrawCase(
 ): { need: number; short: number; spare: number } {
   const buffer = Math.max(
     c.payrollCushionMinor,
-    Math.round(
-      (c.annualOutflowsMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths"),
-    ),
+    Math.round(c.annualOutflowsMinor / p("macroMonthsPerYear")),
   );
   return {
     need: 1 / (1 + c.ownerDays / p("businessDaysPerMonth")),
@@ -1705,10 +1905,7 @@ function marketRoom(api: CoreAPI): Market[] {
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
-    row.staff +=
-      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-      ).length + countedHeadcountOf(c, id);
+    row.staff += staffNow(c, id);
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -1911,7 +2108,7 @@ function foundings(api: CoreAPI): void {
           trait: foundTerm({ traits: counted!.packedTraits(m) }),
           unemployed: seeker && !seeker.employed ? 1 : 0,
           income: incomeOf(personId),
-          cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
+          cash: counted!.liquid[m]! + founderSavings(api, personId).minor,
         });
       }
     }
@@ -1934,9 +2131,11 @@ function foundings(api: CoreAPI): void {
         if (!owner?.alive) return;
         const cash =
           c.organizations.get(row.id)!.liquidMinor + depositsHeld(c, row.id);
-        const cushion =
-          (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-          p("businessCushionMonths");
+        const cushion = firmBufferMinor(
+          book.annualPayrollMinor,
+          p("macroMonthsPerYear"),
+          row.recent,
+        );
         // Cash against its cushion, on a sliding scale from -1 (none) toward +1.
         const strength = cushion > 0 ? (cash - cushion) / (cash + cushion) : 0;
         return { row, owner, cash, cushion, strength };
@@ -2000,7 +2199,7 @@ function foundings(api: CoreAPI): void {
             capital(
               market,
               incomeOf(person.id),
-              person.liquidMinor + founderSavings(c, person.id).minor,
+              person.liquidMinor + founderSavings(api, person.id).minor,
             ),
         }),
       ]);
@@ -2106,7 +2305,7 @@ function found(
   if (!ownerFrom) return false;
   const savings = location
     ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
-    : founderSavings(c, founderId);
+    : founderSavings(api, founderId);
   const beforeSavings = founder.liquidMinor;
   const withdrawn = withdrawSavings(c, api, {
     id: `startup-savings:${id}`,
@@ -2271,6 +2470,19 @@ function found(
     costContractIds: [],
     source,
   });
+  // Its margin holds the taxes it will pay by name: out of the lump, at the incumbents' pay per head.
+  netOutCharges(
+    api,
+    id,
+    market.staff > 0
+      ? market.incumbents.reduce(
+          (n, rid) =>
+            n + (c.finance.businesses.get(rid)?.annualPayrollMinor ?? 0),
+          0,
+        ) / market.staff
+      : annualPayrollMinor,
+    market.incumbents[0] ?? id,
+  );
   // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
   giveOutsideSuppliers(c, id, market.incumbents);
   const startup =
@@ -2473,11 +2685,7 @@ export function businessesIn(
     .map((book) => ({
       id: book.organizationId,
       kindId: book.kindId,
-      staff:
-        [
-          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
-        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
-        countedHeadcountOf(c, book.organizationId),
+      staff: staffNow(c, book.organizationId),
     }))
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -2503,11 +2711,7 @@ function businessHistory(
     .map((book) => ({
       id: book.organizationId,
       kindId: book.kindId,
-      staff:
-        [
-          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
-        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
-        countedHeadcountOf(c, book.organizationId),
+      staff: staffNow(c, book.organizationId),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const start = makeIsoDate(c.date);
@@ -2583,6 +2787,7 @@ export const BUSINESS_MODULE: PreStartModule = {
         indexes: { byOrganization: { fields: ["organizationId"] } },
       },
       choices: {},
+      [FIRM_CHARGES_TABLE]: {},
     },
   },
   reasonProviders: {

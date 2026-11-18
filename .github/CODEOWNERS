@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/scene-replies.ts @lamontaes
 /src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
@@ -33,6 +34,9 @@
 /src/core2/bug-report.ts @lamontaes
 /src/core2/gov-test-report.ts @lamontaes
 /src/core2/law-test-start.ts @lamontaes
+/src/core2/resident-adults-test-kit.ts @lamontaes
+/src/core2/record-test-kit.ts @lamontaes
+/src/core2/counted-moves-balance-kit.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
@@ -52,6 +56,7 @@
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/filing-rule-office.ts @lamontaes
+/src/core2/voting-module-id.ts @lamontaes
 /src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
@@ -68,6 +73,8 @@
 /src/core2/electorate*.ts @lamontaes
 /src/core2/legislative-district-results.ts @lamontaes
 /src/core2/race-places.ts @lamontaes
+/src/core2/place-leans.ts @lamontaes
+/src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
 /src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
@@ -301,6 +308,8 @@
 /src/core2/life-plan-readers.ts @lamontaes
 /src/core2/life-stake-rule.ts @lamontaes
 /src/core2/life-stakes.ts @lamontaes
+/src/core2/coverage-module-id.ts @lamontaes
+/src/core2/modules/promises.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -351,3 +360,18 @@
 
 # Screens and the UI kit (screens)
 /src/bench/** @lamontaes
+
+# Owner-protected: the instructions, the workflows and the checks that judge every change (CTO, Nov 17, on issue 9747)
+/AGENTS.md @lamontaes
+/CLAUDE.md @lamontaes
+/.agents/** @lamontaes
+/.claude/** @lamontaes
+/.github/workflows/** @lamontaes
+/.github/CODEOWNERS @lamontaes
+/tests/guards/** @lamontaes
+/scripts/guards/** @lamontaes
+/tests/**/*baseline*.json @lamontaes
+/scripts/**/*baseline*.json @lamontaes
+/data/runtime-text/**/*baseline*.json @lamontaes
+/tests/**/*ceiling*.json @lamontaes
+/scripts/**/*ceiling*.json @lamontaes

@@ -13,7 +13,7 @@
 import { makeIsoDate } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
 import { ageInYears } from "./kernel/dates";
-import { countyPlaceIdOf, statePlaces } from "./modules/elections";
+import { countyOf } from "./modules/elections";
 import {
   namedMembers,
   openingTemperaments,
@@ -25,9 +25,8 @@ import {
   nationalMedianAnnualWage,
   residentEmploymentRate,
 } from "./modules/jobs";
-import { corePlaceByKey } from "./place-lookup";
-import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { householdOpeningCash } from "./modules/budgets";
+import { householdBalanceDraw } from "./modules/residents";
 import { citizenShareOf } from "./modules/voting";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -41,36 +40,6 @@ export interface CountySample {
   weight: number;
   /** The county's place (a jurisdiction id) the households live at. */
   placeId: string;
-}
-
-/** The county the town lies in, if the world records one. */
-function countyOf(input: {
-  seed: string;
-  placeMetadata?: Readonly<Record<string, unknown>>;
-}) {
-  const placeKey = input.placeMetadata?.placeKey as string | undefined;
-  const town = placeKey ? corePlaceByKey(placeKey) : null;
-  const usps = placeStateKey(placeKey ?? "")?.slice(3);
-  if (!town?.sourceGeoid || !usps) return null;
-  const countyName = countyPlaceIdOf(
-    input.placeMetadata?.countyNames as string | undefined,
-    usps,
-  );
-  if (!countyName) return null;
-  const electorate = statePlaces(usps, input.seed).find(
-    (row) => row.id === countyName,
-  );
-  const shares = placeCountyPopulationShares(town.sourceGeoid);
-  const geoid = [...shares].sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0];
-  const county = geoid ? corePlaceByKey(`county:${geoid}`) : null;
-  if (!electorate || !geoid || !county) return null;
-  return {
-    usps,
-    geoid,
-    placeKey: placeKey!,
-    eligible: electorate.eligible,
-    jurisdictionId: county.context.jurisdiction.id as string,
-  };
 }
 
 /**
@@ -287,6 +256,9 @@ export function withCountySample(
       employment.get(home.id)?.length ?? p("zero"),
       adultsHere.length,
       input.seed,
+      householdBalanceDraw(input.seed, home.id),
+      // The head is the household's oldest adult.
+      Math.max(...adultsHere.map((row) => ageInYears(row.birthDate, start))),
     );
     adultsHere.forEach((row, n) => {
       row.liquidMinor = cash[n]!;
@@ -349,12 +321,4 @@ export function withCountySample(
       },
     };
   }
-}
-
-/** The place (jurisdiction id) of the town's county, where the world records one. */
-export function countyPlaceOfWorld(world: {
-  seed: string;
-  placeMetadata?: Readonly<Record<string, unknown>>;
-}): string | null {
-  return countyOf(world)?.jurisdictionId ?? null;
 }

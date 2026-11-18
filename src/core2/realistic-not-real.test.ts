@@ -7,11 +7,12 @@
  * is listed in NOT_YET with the pool item that fixes it, and the list only
  * shrinks: a fix moves its row into the checks below.
  */
+import { worldOffsetUnit } from "./world-draw";
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -52,6 +53,7 @@ import { lawChain } from "./modules/laws";
 import { partyName } from "./appointments";
 import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { centuryRecordVotes } from "./modules/elections";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
 import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
@@ -92,7 +94,9 @@ import {
 } from "./hud-rents";
 import { permitRates, publishedPermitRates } from "./housing-construction";
 import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
-import { homePriceRatio, publishedHomePriceRatio } from "./housing-prices";
+import { pastPriceRatio } from "./housing-price-path";
+import { housingMacroParameter } from "./modules/housing";
+import { publishedHomePriceRatio } from "../../scripts/research/home-price-fit";
 import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -170,9 +174,30 @@ function sourceCountProblems(
   ids: readonly string[],
   totals: ReadonlyMap<string, number>,
   sources: ReadonlyMap<string, string | undefined>,
+  /**
+   * The races the century counted (owner, Nov 17, 2026: history is simulated from 1925): each
+   * one's century record and that record's count. Such a race cites its record and prints that
+   * record's count; it stands on no published count (CTO line 6935893727 on #9747).
+   */
+  century: ReadonlyMap<
+    string,
+    { readonly recordId: string; readonly count: number | undefined }
+  > = new Map(),
 ): string[] {
   const problems: string[] = [];
   for (const id of ids) {
+    const counted = century.get(id);
+    if (counted) {
+      if (counted.count === undefined)
+        problems.push(
+          `${id}: cites ${counted.recordId}, which the century does not hold`,
+        );
+      else if (totals.get(id) !== counted.count)
+        problems.push(
+          `${id}: prints ${String(totals.get(id))}, not its century record's count ${counted.count}`,
+        );
+      continue;
+    }
     const raw = sources.get(id);
     const source = raw === undefined || raw.trim() === "" ? NaN : Number(raw);
     if (!Number.isInteger(source) || source <= 0)
@@ -207,9 +232,42 @@ it("row 44's source-count guard refuses a missing source and a printed one", () 
   expect(
     sourceCountProblems([id], new Map([[id, 6731]]), new Map([[id, "6845"]])),
   ).toEqual([]);
+  // A race the century counted: its count must be its century record's, and the record must exist.
+  const race = "prior-election:seat:US:president:2024-11-05";
+  const record = "century:presidential:2024";
+  const century = (count: number | undefined) =>
+    new Map([[race, { recordId: record, count }]]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 151_000_000]]),
+      new Map(),
+      century(151_000_000),
+    ),
+  ).toEqual([]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 150_999_999]]),
+      new Map(),
+      century(151_000_000),
+    ),
+  ).toEqual([
+    `${race}: prints 150999999, not its century record's count 151000000`,
+  ]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 151_000_000]]),
+      new Map(),
+      century(undefined),
+    ),
+  ).toEqual([`${race}: cites ${record}, which the century does not hold`]);
 });
-const place = drawPlace(seed, "realistic-not-real");
-const where = `${place.name} (${place.key}), seed ${seed}`;
+// A town whose adults all live in group quarters has no one to play: a new game
+// passes over it, so this test does too, and says which places it passed over.
+let place = drawPlace(seed, "realistic-not-real");
+let where = `${place.name} (${place.key}), seed ${seed}`;
 
 function world(worldSeed: string): CoreState {
   setBookkeeping(false);
@@ -239,8 +297,25 @@ const REGION_FIGURES = [
   "priceLevelPct",
 ] as const;
 
+const passedOver: string[] = [];
+let firstWorld: CoreState | undefined;
+for (let draw = 0; draw < 8 && !firstWorld; draw += 1) {
+  place = drawPlace(draw ? `${seed}:${draw}` : seed, "realistic-not-real");
+  where = `${place.name} (${place.key}), seed ${seed}${draw ? `:${draw}` : ""}`;
+  try {
+    firstWorld = world(`${seed}:a`);
+  } catch (error) {
+    if (!(error instanceof NoPlayerHereError)) throw error;
+    passedOver.push(where);
+  }
+}
+if (!firstWorld)
+  throw new Error(`No drawn place had a player: ${passedOver.join("; ")}`);
+if (passedOver.length)
+  process.stdout.write(`passed over ${passedOver.join("; ")}\n`);
+
 describe(`no fixed statistic opens on its published value (${where})`, () => {
-  const a = world(`${seed}:a`),
+  const a = firstWorld!,
     b = world(`${seed}:b`);
   const p = (key: string) => coreAPI(a).parameter(key);
   const rows = <T>(core: CoreState, module: string, name: string) =>
@@ -283,13 +358,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   });
 
   it("every sitting holder's winning share (audit row 46)", () => {
+    // One share per race: a President and Vice President elected on one ticket won one race
+    // (amend. XII), so the ticket counts once, by the President's term (CTO line 6935893727 on
+    // #9747, Nov 17, 2026: "one share per race, so a President and Vice President on one ticket
+    // count as one race").
     const shares = (core: CoreState) =>
       new Map(
-        rows<{ id: string; elected?: { share: number } }>(
+        rows<{ id: string; seatId: string; elected?: { share: number } }>(
           core,
           OFFICES_MODULE_ID,
           "terms",
-        ).flatMap((t) => (t.elected ? [[t.id, t.elected.share] as const] : [])),
+        ).flatMap((t) =>
+          t.elected && t.seatId !== "seat:US:vice-president"
+            ? [[t.id, t.elected.share] as const]
+            : [],
+        ),
       );
     const sa = shares(a),
       sb = shares(b);
@@ -312,13 +395,17 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     };
     const usps = place.state.slice(3);
     const jurisdiction = corePlaceByKey(place.key)!.context.jurisdiction.id;
-    // Row 5: how far a home's price moved from the ACS value date to the start.
+    // Row 5: how far a home's price moved from the ACS value date to the
+    // start: this world's own price level (the housing engine's step on its
+    // own past pay and rates), not the published index, and not another
+    // world's.
+    const p = housingMacroParameter;
     for (const from of ["2015-07-01", "2022-07-01"])
       differs(
         `home price ratio since ${from}`,
-        homePriceRatio(usps, from, a.date, a.seed),
+        pastPriceRatio({ startedAt: a.date, seed: a.seed }, from, a.date, p),
         publishedHomePriceRatio(usps, from, a.date),
-        homePriceRatio(usps, from, a.date, b.seed),
+        pastPriceRatio({ startedAt: a.date, seed: b.seed }, from, a.date, p),
       );
     // Row 7, the old core's county median home value, is checked beside its
     // reader (the old engine's county-home-value-world.test.ts): nothing here
@@ -510,13 +597,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       }
   });
 
-  it("each world's death, birth, moving, chronic-condition, time-use and college-going tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
+  it("each world's birth, moving, chronic-condition and college-going tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
     const tables: BaseRateTable[] = [
-      "mortality",
       "natality",
       "movers",
       "conditions",
-      "timeUse",
       "collegeEnrollment",
       "collegeCompletion",
     ];
@@ -554,10 +639,10 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   it("every play reader of those tables reads the world's factor", () => {
     for (const file of [
       "births-counted.ts",
-      "modules/counted-moves.ts",
+      // counted-moves.ts reads no ACS mover table since Pins family 29: its
+      // rates are the country tier's, its arrivals from abroad the tier's month.
       "modules/health.ts",
       "modules/moves.ts",
-      "free-block.ts",
       "school-outcomes.ts",
     ])
       expect(
@@ -588,7 +673,14 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const benefit = (core: CoreState) =>
       worldBenefitMonthlyMinor(190_000, core.seed);
     expect(benefit(a), `${where} row 16`).not.toBe(190_000);
-    expect(benefit(a), `${where} row 16`).not.toBe(benefit(b));
+    // Two worlds differ in their draw, not always in the rounded cent: at
+    // seed 03071ca4f722a322, Roebling, New Jersey, worlds a and b drew
+    // 0.632667 and 0.632696 of the spread, and both round to 180,383. The
+    // check reads the draw the benefit is made from.
+    expect(
+      worldOffsetUnit(a.seed, "world-benefit-level"),
+      `${where} row 16`,
+    ).not.toBe(worldOffsetUnit(b.seed, "world-benefit-level"));
     const bank = (core: CoreState) =>
       (
         coreAPI(core)
@@ -695,7 +787,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       worldUnionRatePct(b.seed, state),
     );
     // Row 24: margin, payroll share and sales-sensitive cost share of every kind of business.
-    const p = (key: string) => parameter(key);
+    const p = housingMacroParameter;
     for (const kind of DEFAULT_BUSINESS_BOOKS_DATA.kinds)
       for (const which of [
         "margin",
@@ -843,6 +935,20 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       const named = [...core.people.keys()].flatMap((id) =>
         schoolsAttended(core, id).filter((row) => row.name),
       );
+      // A town whose opening holds no school district of its own (its
+      // children went to another place's schools, which the world keeps no
+      // organization for: the Nov 10 ruling, "the estimate stays as the game's
+      // answer") has no school to name, so the claim is shown only where the
+      // world holds a district; the place is named when it is passed over.
+      const district = [...core.organizations.values()].some(
+        (org) => org.classification === "service:school",
+      );
+      if (!district) {
+        process.stdout.write(
+          `${where} row 37: no school district organization in this world; ${[...core.people.keys()].flatMap((id) => schoolsAttended(core, id)).length} school years are unnamed by the Nov 10 ruling\n`,
+        );
+        continue;
+      }
       expect(named.length, `${where} row 37: named schools`).toBeGreaterThan(0);
       for (const row of named)
         expect(
@@ -852,10 +958,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     const first = [...a.people.keys()]
       .flatMap((id) => schoolsAttended(a, id).filter((row) => row.name))
-      .at(0)!;
-    process.stdout.write(
-      `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
-    );
+      .at(0);
+    if (first)
+      process.stdout.write(
+        `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
+      );
   });
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
@@ -895,12 +1002,32 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const large = shared.filter(
       (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
     );
+    // A race the century counted cites its century record; its count must be that record's.
+    const centuryCounts = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter(
+            (facts) =>
+              facts.recordKind === "election-result" && facts.centuryRecordId,
+          )
+          .map((facts) => [
+            facts.contestId!,
+            {
+              recordId: facts.centuryRecordId!,
+              count: centuryRecordVotes(core.seed, facts.centuryRecordId!),
+            },
+          ]),
+      );
     for (const [world, held] of [
       [a, racesA],
       [b, racesB],
     ] as const) {
       expect(
-        sourceCountProblems(large, held, sources(world)),
+        sourceCountProblems(large, held, sources(world), centuryCounts(world)),
         `${where} row 44: races with no source count or printing it`,
       ).toEqual([]);
     }

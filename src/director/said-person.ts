@@ -9,10 +9,11 @@
 import { familyFactsOf } from "../core2/closeness";
 import { officialOf } from "../core2/modules/officials";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { kinAddress } from "../english/journal-words";
 import { officeWords, type SaidPerson } from "../english/said-as";
 import type { Telling } from "../english/telling";
+import { whatTheyAre } from "./who-they-are";
 
 export function saidPersonOf(
   core: Readonly<CoreState>,
@@ -38,6 +39,11 @@ export function saidPersonOf(
       ? ((toSpeaker && gender && kinAddress(toSpeaker, gender)) ??
         person?.givenName)
       : undefined;
+  // What they are to the listener, when the listener has not met them (rule 136).
+  const what =
+    personId !== telling.listenerId
+      ? whatTheyAre(core, telling.listenerId as PersonId, personId as PersonId)
+      : null;
   return {
     id: personId,
     givenName: person?.givenName ?? "",
@@ -50,5 +56,6 @@ export function saidPersonOf(
     ...(called ? { calledBySpeaker: called } : {}),
     knownToListener:
       !!listener?.knownIds.has(personId) || !!toListener || !!officeKind,
+    ...(what ? { what } : {}),
   };
 }

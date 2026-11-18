@@ -3,7 +3,7 @@
   "weeksPerYear": 52,
   "cadenceDays": 7,
   "firstOffsetDays": 1,
-  "note": "Share of a small-town establishment's receipts paid by buyers outside the town (nonresident consumers, outside businesses, government programs, insurers, mortgage-funded buyers). Wholesale is omitted: its sales to local firms are already recorded routes. Research: OPUS-CORE helper, Oct 12, 2026. Each firm's outside sales are its industry's share of its receipts; nothing tops a firm up to its projection.",
+  "note": "Share of a small-town establishment's receipts paid by buyers outside the town (nonresident consumers, outside businesses, government programs, insurers, mortgage-funded buyers). Wholesale's and a hospital's floors are zero: their sales to the town are recorded routes, and the trade area adds their buyers beyond the town for what those routes leave of their books. Research: OPUS-CORE helper, Oct 12, 2026. Each firm's outside sales are its industry's share of its receipts; nothing tops a firm up to its projection.",
   "shares": {
     "farm": {
       "value": 0.99,
@@ -141,6 +141,33 @@
       "tag": "ESTIMATED",
       "citation": "Recreation is outside the 2017 Economic Census class-of-customer table; NAICS 713950 is bowling 56.7%, food and alcohol 32%.",
       "estimatedFrom": "Customers are local households; outside money is visitors and corporate events."
+    },
+    "utility": {
+      "value": 0.62,
+      "low": 0.55,
+      "high": 0.7,
+      "tag": "ESTIMATED",
+      "role": "coefficient",
+      "citation": "U.S. Energy Information Administration, Electric Power Annual, retail sales of electricity by sector, 2023 (from memory; the container cannot reach eia.gov): residential about 1,470 of about 3,870 billion kilowatt-hours, about 38%.",
+      "estimatedFrom": "A town utility's buyers outside the town's households are the commercial, industrial and transportation customers (about 62% of retail kilowatt-hours) and the grid it sells power to for resale; town firms buy their power from outside suppliers in the books (outside-costs), so none of that share is a recorded local route. The trade area lifts a plant that sells beyond its town to its books."
+    },
+    "wholesale": {
+      "value": 0,
+      "low": 0,
+      "high": 0,
+      "tag": "ESTIMATED",
+      "role": "coefficient",
+      "citation": "No share is assumed for wholesale: a wholesaler's sales to the town's own firms are recorded purchase routes (business.sales-input contracts), so a fixed share on top would sell the same goods twice.",
+      "estimatedFrom": "Its outside buyers are what the trade area (opening-outside-market.ts, addTradeArea) adds: its books less the town's recorded purchases from it. At Thief River Falls, Minnesota (seed ind-2764570) the town's firms and households buy about $80 million of books of about $1.61 billion a year; before this row nothing bought the rest and the wholesaler closed on Jun 1, 2025."
+    },
+    "hospital": {
+      "value": 0,
+      "low": 0,
+      "high": 0,
+      "tag": "ESTIMATED",
+      "role": "coefficient",
+      "citation": "No share is assumed for a hospital: a town household's medical bill is billed at its all-payer cost to the town's medical sellers (medical-bills.json, medicalSellerClassifications), so insurers' and programs' part of the town's own care is already a recorded route, and a fixed payer share on top would bill the same care twice.",
+      "estimatedFrom": "Its buyers beyond the town (patients from other towns and their payers) are what the trade area (opening-outside-market.ts, addTradeArea) adds: its books less the town's recorded purchases from it, as for wholesale. When the health thread bills care by kind of seller, the town's recorded purchases from the hospital grow and the outside part shrinks with them."
     }
   }
 }

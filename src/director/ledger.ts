@@ -16,7 +16,7 @@ import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import type { EventAppraisal } from "../core2/emotion";
-import { familyFactsOf, formerKin } from "../core2/closeness";
+import { familyFactsOf, formerKin, lastMetOnRow } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -53,18 +53,11 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
-import { ADDRESS_FACT } from "./opening-facts";
+import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
-import {
-  closeDuePromises,
-  indexPromise,
-  promiseOfEvent,
-  promiseHeldBySecond,
-  settlePromisesOnEvent,
-  settlePromisesOnTie,
-  promiseParam,
-} from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
+import { coreAPI } from "../core2/state";
 import type {
   BackdropEntry,
   CallbackLink,
@@ -90,7 +83,10 @@ interface Snapshot {
   alive: boolean;
   householdPay: number;
   memberJobs: Map<PersonId, string | undefined>;
-  ties: Map<string, { otherId: PersonId; level: number; lastContact: IsoDate }>;
+  ties: Map<
+    string,
+    { otherId: PersonId; level: number; lastContact?: IsoDate }
+  >;
   drives: Map<string, number>;
 }
 
@@ -261,6 +257,19 @@ export function createDirector(
       personId: PersonId,
       entry: ScheduleEntry,
     ) => boolean;
+    /**
+     * Whether a scene's talk with the one it opens with says anything past
+     * its opener (the bench passes the talk's own composer, looking only;
+     * the ledger cannot import it without a load-order cycle). A scene with
+     * nothing to say is the Journal's line, closed with why
+     * (director-street-news-scene-ends-after-its-opener).
+     */
+    saysPastOpener?: (
+      core: Readonly<CoreState>,
+      director: Director,
+      personId: PersonId,
+      entry: ScheduleEntry,
+    ) => boolean;
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
@@ -271,8 +280,6 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
-    promisesBySettle: new Map(),
-    promisesDue: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -397,7 +404,7 @@ export function createDirector(
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
-        lastContact: row.lastContactDate,
+        lastContact: lastMetOnRow(row) ?? undefined,
       });
     }
     return {
@@ -572,7 +579,7 @@ export function createDirector(
         home.has(otherId),
       );
       thread.closeness = row.level;
-      thread.lastContact = row.lastContactDate;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
     }
     // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
@@ -1086,7 +1093,7 @@ export function createDirector(
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
       const contacted =
-        row.lastContactDate === date && prior?.lastContact !== date;
+        lastMetOnRow(row) === date && prior?.lastContact !== date;
       if (delta === zero && !contacted) continue;
       const thread = ensureThread(book, otherId);
       const knew = book.keptFacts.get(
@@ -1136,7 +1143,7 @@ export function createDirector(
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
       thread.closeness = row.level;
-      thread.lastContact = row.lastContactDate;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
       knewFact(book, otherId, date, "recorded", causeId);
     }
 
@@ -1406,6 +1413,20 @@ export function createDirector(
           ),
         );
       }
+      // A promise between the two (the promises engine's rows), oldest
+      // first: due the day it settled.
+      for (const promise of [
+        ...promisesBetween(coreAPI(core as CoreState), book.personId, otherId),
+      ].reverse())
+        moment.echoes.push(
+          link(
+            promise.id,
+            "kept-fact",
+            otherId,
+            promise.endedAt === date ? "kept-fact-due" : "kept-fact-open",
+            impact,
+          ),
+        );
       // An anniversary: a broad event that hit both people links back, most
       // strongly near its date (owner answer 7). It never stages a scene.
       for (const shared of pairHistory(book, otherId)) {
@@ -1655,14 +1676,13 @@ export function createDirector(
               param(row.everyParameter),
               date,
             ),
-          // The same person is not cast again inside the scheduler's window
-          // for the same scene with the same people: the next with a reason is.
-          castDue: (id, row) =>
+          // The same person does not tell the player the same record twice: a
+          // new record is a new cause, so a neighbor who shares another cause
+          // is cast again, and the next with a reason is too.
+          castDue: (id, row, record) =>
             !!row.recast ||
-            spacingAllows(
-              ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
-              SITUATION_LIBRARY.scheduling.repeatDays,
-              date,
+            !ledger.circumstanceLast.has(
+              `${book.personId}|cast|${id}|${record.id}`,
             ),
           byKind: circumstanceRows,
         },
@@ -1723,7 +1743,10 @@ export function createDirector(
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
-      ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      ledger.circumstanceLast.set(
+        `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
+        date,
+      );
       if (pick.row.keepsDays)
         ledger.circumstanceLast.set(
           `${book.personId}|${pick.row.id}|${pick.record.id}`,
@@ -1814,8 +1837,7 @@ export function createDirector(
       return (
         // A speech heard plays only when its record kept the words.
         row.said
-          ? typeof cause?.facts?.[ADDRESS_FACT.text] === "string" &&
-              !!cause.facts[ADDRESS_FACT.text]
+          ? saidOf(cause?.facts).length > P.zero
           : row.roles.some((role) =>
               role.personIds.some((id) => id !== personId),
             )
@@ -1834,6 +1856,13 @@ export function createDirector(
       if (!speaks(core, entry, moment.personId)) {
         entry.outcome = "journal-line";
         entry.closed = data.waitingStop.silent;
+        continue;
+      }
+      if (
+        options.saysPastOpener?.(core, self, moment.personId, entry) === false
+      ) {
+        entry.outcome = "journal-line";
+        entry.closed = data.waitingStop.nothingSaid;
         continue;
       }
       const at = openedAt(
@@ -1946,6 +1975,11 @@ export function createDirector(
         } else if (!speaks(core, row.entry, personId)) {
           row.entry.outcome = "journal-line";
           row.entry.closed = data.waitingStop.silent;
+        } else if (
+          options.saysPastOpener?.(core, self, personId, row.entry) === false
+        ) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.nothingSaid;
         }
       const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
       waiting.set(
@@ -2131,18 +2165,7 @@ export function createDirector(
         return row.equals === undefined ? !!value : value === row.equals;
       });
       if (!kind.producedBy.includes(event.kind) && !byFact) continue;
-      const promise =
-        kind.endsOn === "settling-record"
-          ? promiseOfEvent(event, promiseParam)
-          : null;
-      if (kind.endsOn === "settling-record" && !promise) continue;
-      // The word was given by the first person on the reply, or, where the
-      // promise was the price of a yes, by the second (promise-kinds.json).
-      const [first, second] = event.personIds;
-      const [holderId, otherId] =
-        promise && promiseHeldBySecond(promise.kind)
-          ? [second, first]
-          : [first, second];
+      const [holderId, otherId] = event.personIds;
       if (!holderId || !otherId) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
@@ -2153,10 +2176,8 @@ export function createDirector(
         sinceBasis: "recorded",
         sourceId: event.id,
         ...(event.topic ? { concernsKey: event.topic } : {}),
-        ...(promise ? { promise } : {}),
       };
       keepFact(book, fact);
-      if (promise) indexPromise(ledger, book.keptFacts.get(fact.id)!);
       if (kind.endsOn === "contradicting-fact-learned" && fact.concernsKey) {
         const key = `${otherId}|${fact.concernsKey}`;
         let set = ledger.liesByLearner.get(key);
@@ -2199,7 +2220,6 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      settlePromisesOnEvent(api, ledger, event, promiseParam);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -2221,7 +2241,6 @@ export function createDirector(
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
-      settlePromisesOnTie(api, ledger, notice, promiseParam);
       for (const id of [notice.actorId, notice.otherId]) {
         if (!ledger.people.has(id)) continue;
         let queue = tieNotices.get(id);
@@ -2239,8 +2258,6 @@ export function createDirector(
       if (!started && warming) return;
       if (!started)
         throw new Error("The story director was installed but not started.");
-      // Promises whose window closes today end as their kind says.
-      closeDuePromises(api, ledger, promiseParam);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close
@@ -2356,8 +2373,6 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
-      refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
-      refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);

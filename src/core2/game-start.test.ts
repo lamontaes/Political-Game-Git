@@ -58,7 +58,7 @@ describe(`the game starts on Inauguration Day (${place}, seed ${seed})`, () => {
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   const api = coreAPI(core);
   const stateKey = lawChain(api).stateKey;

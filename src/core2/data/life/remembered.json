@@ -291,6 +291,11 @@
       "what": "born"
     },
     {
+      "kindPrefix": "birthplace",
+      "life": "born",
+      "what": "born"
+    },
+    {
       "kindPrefix": "family:partner",
       "life": "partner",
       "what": "partnered",
@@ -935,6 +940,11 @@
       "kind": "rival-filed",
       "from": "event",
       "reason": "told on the filing (candidate-filed) of each candidate"
+    },
+    {
+      "kind": "petition-short",
+      "from": "event",
+      "reason": "told in its scene; the petition's record holds the count"
     },
     {
       "kind": "rival-word",

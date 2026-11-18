@@ -1,12 +1,11 @@
 ---
 name: scene-producers
 description: >
-  Wires a director situation type's cause to a record an engine already keeps
-  (an awaitingProducer row, a type with no cause, a new scene), proves it fires
-  in a played world and deletes the twins it replaces. Use when a scene waits
-  on a producer or a type never fires in a played year. Not for writing the
-  lines themselves (scene-standard, civic-prose) or for building a missing
-  record in another area's engine (that area's pool item).
+  Wires a director situation type's cause to a record an engine already keeps,
+  proves it fires in a played world, and deletes the twins it replaces. Use
+  when a scene waits on a producer, a type never fires in a played year, or
+  one kind needs several arcs. Not for writing lines (scene-standard,
+  civic-prose) or building a missing record in another area's engine.
 ---
 
 # Scene producers: from an engine's record to a staged scene
@@ -88,20 +87,8 @@ One kind of scene can play several arcs, its **variants**, and the records pick 
 - **Pieces.** A piece written for the variant (`uses.purpose: "bribe-offer.small"`) beats the family's whatever facts either needs; once the variant's own lines are said on a branch the family's serve, so write only what makes the variant differ. A variant needs two lines for each move it offers at the root or its tree stays one deep; add `close` pieces when the family's close would clash.
 - **Per-cause keys.** The scene's word picks are keyed on its cause (`SceneTalkCast.causeId`), and a type whose scene is about one record's decision is `eachCause: true`, so two records between the same two people are two scenes. Never key a scene on its kind and its people alone.
 
-## 9. What the damaged-home scene taught (Nov 9)
+## More in this folder
 
-- **A table is not a record.** A circumstance row reads logged events; an engine's module table (the disasters engine's `damaged` rows) calls nothing. Have the owning engine emit one event naming the household on the day it fills the row (as housing does for a notice), with the row's id in its facts, and word the scene from that event; the row stays the engine's only copy.
-- **Do not set `topic` on such an event** unless it is a policy topic: the facts block turns any `topic` into the `cause` slot.
-- **A scene that is logged but never staged:** read `ledger.circumstanceLast` for the player. The week between scenes (`lived: true` lifts it for the player's own life) and the cast window (`recast: true` lifts it for a household with one other person, whom a news scene may have cast lately) hide a scene without an error.
-- **Pieces: only the top tier plays.** `fitting()` keeps only the pieces with the highest specificity, so a state that has pieces for a move (paid-up) silences the generic ones; a generic piece that presupposes the other state ("how do we pay for it") needs `excludesFacts`, and each state needs a piece for every move of every branch, or its tree loses a reply. Give the pieces for the heaviest state the most required facts (ties pick across both).
-- **Money in a fact** goes through `moneySaid` ("about $4,000"): never write "the {loss}" or "toward the {left}"; write "come to {loss}" and "still owe {left}".
-- **The director imports no module from another engine family** (the families guard counts it): name the record kind in a local constant beside `RALLY_EVENT`.
-- A new scene type needs its picture row or a `wantedScenes` line (skill `scene-pictures`); the `scene-pictures` guard fails one that has neither. Never wait for a picture.
-- **A scene reads facts the cause record kept when it was made, never a row that may have folded.** The rival-word scene is staged days after its message; the message row had folded by then in one of three played places and the reply "What are they saying" had no answer. Put the fact the scene needs (`how`, `side`) on the event's own facts when the event is written, and let a reply that needs a fact say so with `requiresFacts`, so no reply is offered that the record cannot answer (Nov 15).
-- **A new bank placeholder must be declared in the `slots` of its bank file** (`tests/english-parts-banks.test.ts` fails with "to include '<slot>'"); a new `requiresFacts` name only needs the packet to set it. A situation type that is only worth staging while its race is open takes `liveWhile: "contest-open"` in `situation-types.json`, read in `scheduleMoment`.
-- **A scene the player's own act causes never stops the day unless its type says so.** A host's town hall is `selfNamed`, and the scheduler's interrupt formula counts a self-named moment only when the type carries `"stopsDay": true` (the flag `took-office` carries); without it the scene is a Journal line the player never answers (Roy, Montana, meet-a1:1, Nov 14). Prove the stop with a played test that is red without the flag.
+Read each file here when its moment comes:
 
-## 10. Staging and asking (Nov 15)
-
-- **An ask that waits for the player's answer must not re-emit.** A row that says "asked" for both unanswered and put-off re-asks every campaign turn; a put-off is its own row value with its date, and only it comes back.
-- **Stage a struck kind through the game's own path.** moved: `api.relocatePeopleV1` a household with no jobs; died: `api.updatePerson(id, {alive:false})`; barred: justice `sentences` and `cases` rows as `law-reach-felony-voting.test.ts` writes them. Stage "short with names struck" by letting every other signer die the day before the deadline (the check runs the morning after, so a strike after that day is too late). A place whose law asks no petition has no scene by design: a stage-by-draw test must skip it, and a kind no engine can produce (under-age signers) is a pool item, not a line.
+- `references/lessons.md`: when a scene with a place, a room, a question or a player choice will not stage or plays wrong.

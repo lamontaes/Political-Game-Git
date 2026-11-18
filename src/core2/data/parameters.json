@@ -284,18 +284,6 @@
       "citation": "From one short radio spot to a quarter-page in a small daily."
     }
   },
-  "countedGivingShare": {
-    "value": 0.496,
-    "tag": "ESTIMATED",
-    "citation": "The share of U.S. households that give to charity in a year: 49.6% in 2018 (Lilly Family School of Philanthropy, Philanthropy Panel Study, 'The Giving Environment', 2021).",
-    "estimatedFrom": "Applied to the counted adults who share a cause group's concern, as the share of them who give at all.",
-    "spread": {
-      "low": 0.4,
-      "high": 0.66,
-      "unit": "share of households",
-      "citation": "49.6% in 2018 against 66.2% in 2000 in the same study."
-    }
-  },
   "officeReplyDays": {
     "value": 7,
     "tag": "ESTIMATED",
@@ -833,10 +821,18 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "householdFamilyMinutesPerDay": {
-    "value": 243,
-    "tag": "SOURCED",
-    "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
+  "closenessTrustLostShare": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "The share of the hours a tie stands on today that trust lost takes (a lie found out, a promise broken): a close tie loses more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15). Read by the director's endingStrain trust-lost row and the promises engine's broken promise (people-broken-promise-costs-share-of-tie, Nov 16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share of the tie",
+      "citation": "From memory: the spread the Account lead's ruling of Nov 15 checks it against; no study gives a share."
+    },
+    "role": "coefficient",
+    "estimatedFrom": "From memory, not measured: DePaulo and Kashy (1998) give the direction only (people lie less to those they are close to and are more uncomfortable doing it), and no study read gives the share of a tie that trust lost takes. A quarter is the middle of the spread the Account lead's ruling of Nov 15 checks it against. Sizing it from the record (what the lies and broken promises in played worlds actually do to ties) is item people-trust-lost-share-sized-from-the-record, the lying thread's."
   },
   "circleRetentionShareOverSpan": {
     "value": 0.48,
@@ -856,19 +852,6 @@
     "spread": {
       "status": "unmeasured",
       "reason": "The study has one fixed re-interview span; no other span was measured."
-    }
-  },
-  "householdOtherMinutesPerDay": {
-    "value": 43,
-    "tag": "TUNABLE",
-    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "schoolDaysPerYear": {
@@ -4023,8 +4006,8 @@
   "sittingContactShare": {
     "value": 0.15,
     "role": "coefficient",
-    "tag": "TUNABLE",
-    "citation": "The share of a body's sitting a member spends in contact with the colleagues they know there (talk before the gavel, in recess, after adjournment, beside them on the floor), before it is split among them (sitting-closeness.ts). No source was found for how much of a sitting members spend in contact with each other, so the number is tunable. The direction is sourced: members who sit together in session come to act together, and the effect weakens when they sit less and is absent out of session (Christensen, Jin, Walther and Wellman, U.S. Senate seating and senators' trades 2012 to 2018, Journal of Financial and Quantitative Analysis; Northwestern University news, Aug. 2026).",
+    "tag": "ESTIMATED",
+    "citation": "What it means: the share of a sitting of a body or one of its rooms (a chamber's floor, a committee, a party caucus, a town body's meeting) a member spends in contact with the colleagues they know there (talk before the gavel, in recess, after adjournment, beside them), before it is split among them (sitting-closeness.ts). No source measures that share, so the value is an estimate from the neighboring workplace figure, checked against how fast colleagues become friends: Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4), about 50 hours of time together to move from acquaintance to casual friend, used for direction only (a session of sittings leaves most colleagues acquaintances; years of them make some friends). The direction is sourced: members who sit together in session come to act together, and the effect weakens when they sit less and is absent out of session (Christensen, Jin, Walther and Wellman, U.S. Senate seating and senators' trades 2012 to 2018, Journal of Financial and Quantitative Analysis; Northwestern University news, Aug. 2026).",
     "estimatedFrom": "Below a workplace's quarter (workContactShare), because most of a sitting is formal business addressed to the chair, with contact in its breaks and at its ends. Set when the reader was built, before any count of lies or votes was read.",
     "spread": {
       "low": 0.05,
@@ -4777,7 +4760,7 @@
   "grudgeRelationshipChange": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Closeness level a confrontation takes off the tie, from where it stands that day, written as the strain in hours that level stands for (drives.ts confront; Pins fixed Nov 17 that it was written as 0.1 hours). P10 prototype starting value; no direct source for this coefficient.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -5109,6 +5092,27 @@
     "tag": "ESTIMATED",
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "driveAttackedImpulse": {
+    "value": 0.3,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "A public attack on one's name by a rival's ad, sized like the loss of a stake that is not one's livelihood: the Social Readjustment Rating Scale's 'Foreclosure of mortgage or loan' is 30 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218). Only the strength of the push is set here; whether the one attacked holds a grudge, takes up a cause or carries on is their own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.20 to 0.47"
+  },
+  "driveBillVetoedImpulse": {
+    "value": 0.3,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "A sponsor's bill vetoed, sized below losing a job: the Social Readjustment Rating Scale's 'Foreclosure of mortgage or loan' is 30 life-change units, the nearest item for a lost stake that is not a person's livelihood (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218). Only the strength of the push is set here; whether the sponsor holds a grudge, takes up a cause or carries on is their own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.20 to 0.47"
+  },
+  "driveRaceLostImpulse": {
+    "value": 0.47,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Losing a public race, sized like losing a job: the Social Readjustment Rating Scale's 'Fired at work' is 47 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218); it has no item for a lost election. Only the strength of the push is set here; whether a loser holds a grudge, takes up a cause or carries on is each person's own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.30 ('Foreclosure of mortgage or loan') to 0.47 ('Fired at work')"
   },
   "driveHomeLostImpulse": {
     "value": 0.47,
@@ -5718,28 +5722,6 @@
       "citation": "Typical public school days across states and districts."
     }
   },
-  "willAgeWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "How much each year past willAgeMidpointYears adds to a person's lean toward having made a will, in midpoint-lengths: older people far more often have one. Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of U.S. adults have a will, rising with age to about two in three past 65.",
-    "spread": {
-      "low": 0.5,
-      "high": 2,
-      "unit": "lean per midpoint-length of age",
-      "citation": "From a gentle rise with age to most older adults having one."
-    }
-  },
-  "willAgeMidpointYears": {
-    "value": 50,
-    "tag": "TUNABLE",
-    "citation": "The age at which a person with no lean either way is as likely to have made a will as not; with the trait lean averaging zero, about half of 50-year-olds have one, between Gallup's 44% of all adults and its two in three past 65 (Gallup, May 2016).",
-    "spread": {
-      "low": 40,
-      "high": 60,
-      "unit": "years",
-      "citation": "Ages where Gallup's share of will-holders crosses one half."
-    }
-  },
   "probateDays": {
     "value": 270,
     "tag": "ESTIMATED",
@@ -5775,17 +5757,6 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
-  "playerEntryAge": {
-    "value": 18,
-    "tag": "TUNABLE",
-    "citation": "The turn-18 golden path's player entry age (AGENTS.md). The opening keeps at least one full resident of this age when one occurs in the place's generated households, selecting a household to keep full rather than creating an age cohort the place lacks. Matches the bench player's default entry age (src/bench/world.ts).",
-    "spread": {
-      "low": 17,
-      "high": 21,
-      "unit": "years",
-      "citation": "Design sensitivity bounds around the turn-18 start, from 17 through 21 years."
-    }
-  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",
@@ -5810,26 +5781,92 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "healthWorkerContributionSingleAnnualUsd": {
-    "value": 1368,
+  "healthWorkerPremiumShareSingle": {
+    "value": 0.16,
+    "role": "coefficient",
     "tag": "SOURCED",
-    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with single coverage contributed an average of $1,368 a year (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: how a plan's cost is split between worker and employer. The premium itself is the world's (modules/coverage.ts setRate)."
   },
-  "healthWorkerContributionFamilyAnnualUsd": {
-    "value": 6296,
+  "healthWorkerPremiumShareFamily": {
+    "value": 0.25,
+    "role": "coefficient",
     "tag": "SOURCED",
-    "citation": "KFF, 2024 Employer Health Benefits Survey: covered workers with family coverage contributed an average of $6,296 a year, out of an average family premium of $25,572 (https://www.kff.org/health-costs/2024-employer-health-benefits-survey/), read through search results on 2026-10-20; not the survey's own page."
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: the worker's part of each covered person's rate when the policy covers more than one person."
   },
-  "healthEmployerPolicyholderShare": {
-    "value": 0.55,
-    "tag": "ESTIMATED",
-    "citation": "The share of employed working-age adults who hold an employer plan in their own name. Not read directly from any table.",
-    "estimatedFrom": "The Census Bureau's Health Insurance Coverage in the United States: 2023 (P60-284) puts employment-based coverage at 53.7 percent of the whole population, dependents included, and the KFF 2024 survey shows most covered workers also cover family members; about half to two thirds of employed adults holding their own plan fits both. Assigned by rank (larger employers and higher pay first), never a roll.",
+  "healthPlanLoad": {
+    "value": 1.176,
+    "role": "law",
+    "tag": "SOURCED",
+    "citation": "45 CFR 158.210(a) (https://www.law.cornell.edu/cfr/text/45/158.210, fetched 2026-11-17): in the large group market \"an issuer must provide a rebate to enrollees if the issuer has an MLR of less than 85 percent\"; (b) small group, 80 percent. A premium that pays 85 percent of itself in claims is the claims times 1/0.85.",
     "spread": {
-      "low": 0.45,
-      "high": 0.65,
-      "unit": "share of employed working-age adults",
-      "citation": "The Census Bureau's 2023 employment-based coverage rate and the KFF 2024 survey's mix of single and family coverage bound it; nothing measures the share directly."
+      "low": 1.176,
+      "high": 1.25,
+      "unit": "premium over claims",
+      "citation": "Same section: 85 percent (large group) to 80 percent (small group)."
+    }
+  },
+  "healthOfferSizeWeight": {
+    "value": 0.9,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: firms with 200 or more workers, 98% offer coverage, \"versus 53% of small firms (3-199 workers)\"; \"93% of firms with 50 or more workers offer health benefits.\"",
+    "estimatedFrom": "The log-odds of offering rise from 0.12 (53 percent, small firms, most of them under ten workers) to 3.9 (98 percent, firms of 200 or more) over about 4.1 natural logs of staff: 0.9 a log. A strength: how much an employer's size moves its offer. It sets no share of workers.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "log-odds of an offer per natural log of staff",
+      "citation": "The survey gives three size points, not a curve; the slope between any two of them lies in this range."
+    }
+  },
+  "healthOfferPayWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: workers at firms with a large share of lower-wage workers are \"less likely to be covered by their own firm than workers at firms with a smaller share\" (50% versus 64%).",
+    "estimatedFrom": "64 against 50 percent is 0.58 log-odds; firms with many lower-wage workers pay roughly half what others do (about 0.6 natural logs), so about one log-odds a log of pay over the plan's cost. A strength: how much a job's pay against the plan's cost moves the offer.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "log-odds of an offer per natural log of pay over the plan's cost to the employer",
+      "citation": "The survey reports the two coverage shares, not the pay gap between the two kinds of firm; the range covers a pay gap of a third to two thirds."
+    }
+  },
+  "healthOfferBaseline": {
+    "value": -3.75,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: at firms that offer coverage \"an average of 81% of workers are eligible\"; firms with 200 or more workers, 98% offer, small firms 53%.",
+    "estimatedFrom": "Fitted once, Nov 17, 2026, at eight drawn places (draw purpose lives-coverage-fit, seeds a1 to h8, opening day): the baseline at which the mean of the places' offered shares of workers is about 0.72 (most workers work where a plan is offered, and 81 percent of those are eligible). At -4 the mean was 0.68 and at -3 it was 0.84. The places ranged from 0.4 to 0.94 at the fitted value: the baseline is the formula's zero point, and no place is pulled to the mean.",
+    "spread": {
+      "low": -4.5,
+      "high": -3,
+      "unit": "log-odds of an offer before staff and pay",
+      "citation": "The same eight places: -4.5 gave a mean offered share of 0.59 and -3 gave 0.84."
+    }
+  },
+  "healthTakeBurdenTolerance": {
+    "value": 0.026,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"Among eligible workers, 75% take up the firm's offer.\"",
+    "estimatedFrom": "Fitted once, Nov 17, 2026, at the same eight drawn places: the worker's part of the premium for each person covered, as a share of pay, at which take-up is even odds; 0.025 gave a mean take-up of 0.744 and 0.03 gave 0.777. The world's own premiums and pay then move each worker's take-up.",
+    "spread": {
+      "low": 0.015,
+      "high": 0.04,
+      "unit": "share of pay, for each person covered",
+      "citation": "The same eight places: 0.015 gave a mean take-up of 0.64 and 0.04 gave 0.82."
+    }
+  },
+  "healthTakeBurdenWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "How strongly a worker's take-up falls as their part of the premium rises against their pay: log-odds a natural log of the burden. No source fetched yet; checked against the spread below.",
+    "spread": {
+      "low": 0.3,
+      "high": 2,
+      "unit": "log-odds of taking the plan per natural log of tolerance over burden",
+      "citation": "TUNABLE: at 0.3 a doubled premium costs a few points of take-up, at 2 it costs tens of points; the KFF 2024 take-up of 75 percent among eligible workers bounds neither end."
     }
   },
   "healthMedicareAge": {
@@ -5973,6 +6010,19 @@
       "unit": "weight",
       "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
+  },
+  "traitWeightCandidacyAnnounce": {
+    "role": "coefficient",
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How strongly temperament moves a runner who has decided to run to say so before filing opens rather than wait for the counter. Read at the strength fitted for the decision to run (traitWeightCandidacyRun), the same people's same disposition one step later: those who speak out and take risks say so early. Checked against the spread of that fit.",
+    "spread": {
+      "low": 0.11,
+      "high": 0.23,
+      "unit": "weight",
+      "citation": "traitWeightCandidacyRun's spread across its fitted places."
+    },
+    "stopgapId": "SG-P15-candidacy-weights"
   },
   "traitWeightCandidacyRun": {
     "value": 0.2,
@@ -6162,6 +6212,19 @@
       "unit": "score per unit of stress",
       "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
     }
+  },
+  "hardshipWeightPeoplePart": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much the stress a layoff, an eviction or a missed payment left on a couple speeds their pull to part, per unit of stress, on the log scale of the parting pace (partnerships.ts, the couple's mean of both partners' hardship). The direction is sourced: the divorce hazard rises after a spouse's job displacement (Charles and Stephens 2004, Job Displacement, Disability, and Divorce, Journal of Labor Economics 22(2):489-522, PSID; NBER w8578, https://www.nber.org/papers/w8578), for layoffs and not for plant closings. The size here is a starting value: the paper's effect size was not read in this change.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "log hazard of parting per unit of stress",
+      "citation": "Checked range around the starting value, below the move weight's (0.6, Huttunen, Moen and Salvanes 2018) because a layoff moves a household's parting less than its leaving in the studies named; to be replaced by the effect size in Charles and Stephens 2004's tables."
+    },
+    "stopgapId": "SG-LIVES-part-hardship-weight"
   },
   "traitWeightVotingTurnout": {
     "value": 0.79,
@@ -7618,18 +7681,6 @@
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
     }
   },
-  "worldBaseRateMortalitySpreadShare": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
-    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
-    "spread": {
-      "low": 0.02,
-      "high": 0.08,
-      "unit": "share of the published rate",
-      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
-    }
-  },
   "worldBaseRateNatalitySpreadShare": {
     "value": 0.05,
     "tag": "ESTIMATED",
@@ -7664,18 +7715,6 @@
       "high": 0.15,
       "unit": "share of the published prevalence",
       "citation": "CDC BRFSS state-level prevalence ranges; the condition pack's own sources."
-    }
-  },
-  "worldBaseRateTimeUseSpreadShare": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "How far a world's daily hours of unmodeled activities sit from the ATUS diary figures, as a share: about the ATUS year-to-year change in hours of personal care, household work and meals (BLS American Time Use Survey 2022 to 2024, 1% to 5%).",
-    "estimatedFrom": "The published hours are the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
-    "spread": {
-      "low": 0.02,
-      "high": 0.08,
-      "unit": "share of the published hours",
-      "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
     }
   },
   "worldBaseRateCollegeEnrollmentSpreadShare": {
@@ -8572,6 +8611,180 @@
       "high": 0.3,
       "unit": "weight",
       "citation": "The spread of traitWeightVotingStandAgain."
+    }
+  },
+  "homeUpkeepHoursPerMember": {
+    "value": 2.04,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "The housework and shopping a home needs a day for each person it keeps, shared by its adults (free-block.ts homeUpkeep). Fitted once so the average U.S. household reproduces ATUS: household activities 1.99 plus purchasing 0.69 hours a day per person 15 and over (BLS ATUS 2025 Table 3), times 1.9 adults over 2.5 people per household (Census CPS ASEC 2024, America's Families and Living Arrangements, Table H2/AVG1) is 2.68 x 1.9 / 2.5 = 2.04. After the fit each adult's share moves with the people their own home keeps.",
+    "estimatedFrom": "ATUS 2025 Table 3; Census CPS ASEC 2024 average household size and adults.",
+    "spread": {
+      "low": 1.8,
+      "high": 2.3,
+      "unit": "hours a day per member",
+      "citation": "ATUS household activities plus purchasing by age group runs 2.0 to 3.6 hours; with 1.8 to 2.0 adults per 2.5 people the per-member cost stays within this range."
+    }
+  },
+  "homePresenceFamilyShare": {
+    "value": 0.375,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "The share of the waking time two family members are both home that they spend in each other's company (closeness.ts homeTogether). Fitted once: ATUS 2019 reports 243 minutes a day with household family (Kannan and Veazie 2022, SSM Population Health 21:101331); with a 15.3-hour waking day (24 less workSleepReserveHours 8.7) and the more-working of a typical pair at about 4.5 hours of work a day (ATUS 2025 Table 3: 3.32 hours for all persons 15 and over, employed adults about 7.9 on days worked), both are home about 648 minutes, and 243 / 648 = 0.375. After the fit a pair's minutes follow their own schedules.",
+    "estimatedFrom": "Kannan and Veazie (2022) ATUS 2019; BLS ATUS 2025 Table 3.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.45,
+      "unit": "share of shared home time",
+      "citation": "The shared home time a typical pair has runs from about 540 to 800 minutes between a pair where one works long weeks and a pair with one at home."
+    }
+  },
+  "homePresenceOtherShare": {
+    "value": 0.066,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "The share of the waking time two housemates who are not family are both home that they spend in each other's company (closeness.ts homeTogether). Fitted once to ATUS 2019's 43 minutes a day with 'others' (roommates, neighbors, acquaintances, coworkers and clients together; Kannan and Veazie 2022) over the same 648 shared minutes as homePresenceFamilyShare: 43 / 648 = 0.066.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "willStakeWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much what a person has to leave adds to their lean toward having made a will, per e-fold of their estate in months of their own living cost (estates.ts willReasons). Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of adults have one, rising with age and income; age shows here only through what a life has saved.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "lean per e-fold of months of living cost",
+      "citation": "From a gentle rise with savings to most people with a year or more saved having one."
+    }
+  },
+  "willHeirWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much each living partner or child adds to a person's lean toward having made a will (estates.ts willReasons): people make wills to provide for the people they leave. Checked against Gallup (May 2016): parents and married adults more often have one.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "lean per partner or child",
+      "citation": "From a small pull to one as strong as a year of savings."
+    }
+  },
+  "willCostPull": {
+    "value": 1.25,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "The bother and cost of making a will, against which a person's stakes (willStakeWeight per e-fold of months of their own living cost saved) and their partner and children (willHeirWeight each) weigh, with the shared trait lean (estates.ts willReasons). Fitted once, Nov 17, over the adults of three drawn played worlds (Huntingdon TN, Hartford AL, Manzanita OR; 2,850 adults): at 1.25 about 44% lean toward having a will, Gallup's share of U.S. adults (May 2016, 'Majority in U.S. Do Not Have a Will'); the same fit gave 50% at 1.0 and 38% at 1.5. After the fit a world's share moves with its own people's savings and families.",
+    "estimatedFrom": "Gallup May 2016, 44% of U.S. adults have a will; fit table in PR #9852.",
+    "spread": {
+      "low": 1.0,
+      "high": 1.5,
+      "unit": "lean",
+      "citation": "From half of adults to 38% at the same three worlds."
+    }
+  },
+  "ownUpkeepBaseHours": {
+    "value": 2.05,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "A grown person's own upkeep a day at adulthood in good health: personal care beyond the sleep the work schedule reserves (workSleepReserveHours 8.7), and meals (free-block.ts ownUpkeep). Fitted once with ownUpkeepHoursPerYear so the ATUS 2025 Table 3 age groups are met at their middles: personal care less 8.7 plus eating and drinking runs about 2.0 to 2.3 hours from ages 25 to 64 and 2.2 to 2.7 past 65; the average adult lands near 2.3. After the fit, a person's upkeep moves with their own age and health.",
+    "estimatedFrom": "BLS ATUS 2025 Table 3 by age (src/core2/data/time-use-reference.json).",
+    "spread": {
+      "low": 1.8,
+      "high": 2.3,
+      "unit": "hours a day",
+      "citation": "The ages 25 to 54 groups' personal care beyond sleep plus meals."
+    }
+  },
+  "ownUpkeepCareHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How many more hours a day a person's own upkeep takes at full care need (the health engine's careNeedOf, 0 to 1, from their own conditions and hazard): dressing, washing and eating take longer when health fails. Checked so the oldest ATUS group's extra personal care is within reach of people whose health asks for care. A strength; who needs care comes from each person's own health.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "hours a day at full care need",
+      "citation": "From a little help to most of a morning."
+    }
+  },
+  "ownUpkeepHoursPerYear": {
+    "value": 0.008,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "How much more of a day a person's own upkeep takes for each year past adulthood (free-block.ts ownUpkeep): ATUS 2025 Table 3's personal care beyond sleep plus meals rises about 0.4 hours from ages 25-34 to 75 and over, about 0.008 a year. A strength, fitted once; how old a person is comes from their own record.",
+    "spread": {
+      "low": 0.003,
+      "high": 0.015,
+      "unit": "hours a day per year of age",
+      "citation": "From a flat profile to the 75-and-over group's rise alone."
+    }
+  },
+  "grudgeFadeTraitWeight": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "How strongly a grudge holder's own trait lean toward holding a grudge over carrying on (the drives.respond lean, the same one that chose the grudge) moves how long the grudge takes to fade: the half-life is driveGrudgeHalfLifeDays times exp(weight x lean), so a resentful person holds on years and a forgiving one lets go in weeks (Pins, CTO #9747 05:10Z). Checked so a played year's grudges span weeks to years.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "e-folds of half-life per unit of lean",
+      "citation": "From a gentle spread to forgiving and resentful people differing by a factor of seven or more."
+    }
+  },
+  "lobbyMeetingMinutes": {
+    "value": 6,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Minutes a lobbyist's meeting with a member counts as time together on their tie (interest-groups.ts): a short office visit. Moved from a literal 0.1 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 3.0,
+      "high": 18,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "memberTalkMinutes": {
+    "value": 3,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Minutes a sponsor's word with a member about a bill counts as time together on their tie (legislature.ts: a stake learned in conversation, an ask in person, a trade): a word in the hall. Moved from a literal 0.05 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 1.5,
+      "high": 9,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "sourceMeetingMinutes": {
+    "value": 30,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Minutes a leaker and the reporter they tell spend together, as time on their tie (press.ts): one meeting. Moved from a literal 0.5 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 15.0,
+      "high": 90,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "hiringTalkMinutes": {
+    "value": 6,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "Minutes an official's hiring talk with a new staffer counts as time together on their tie (staff.ts). Moved from a literal 0.1 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 3.0,
+      "high": 18,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
     }
   }
 }

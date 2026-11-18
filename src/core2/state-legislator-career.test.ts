@@ -36,6 +36,7 @@ import {
 } from "./modules/legislature";
 import { partySide } from "./appointments";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -86,7 +87,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         collapseToTwoLevels({ ...full, playerId: you.id }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);
@@ -119,15 +120,11 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
       // membership in it, else as an independent.
       const against =
         partySide(holder?.party) > 0 ? "Democratic" : "Republican";
-      const wealthiest = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const wealthiest = townResidentsByCash(core, coreAPI(core)).filter(
+        (p) =>
+          p.alive &&
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
+      );
       const qualified = (label: string | null) =>
         wealthiest.find((p) =>
           checkEligibility(api, p.id, contest.id, label).every((c) => c.met),

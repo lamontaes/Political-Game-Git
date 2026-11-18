@@ -1,6 +1,11 @@
 ---
 name: screen-to-mock
-description: Makes every change to how an Our Civic Duty screen looks follow the owner's approved mocks and one shared set of controls, instead of a new one-off renderer. Use for any PR that adds or changes a screen, panel, menu, card, toast or talk box in src/bench, and when reviewing one.
+description: >
+  Makes every change to how an Our Civic Duty screen looks follow the owner's
+  approved mocks and one shared set of controls, instead of a new one-off
+  renderer; bill screens read the one stage view and are proven with dev mode's
+  hold-vote route. Use for any PR that adds or changes a screen, panel, menu,
+  card, toast, talk box or bill screen in src/bench, and when reviewing one.
 ---
 
 # Screens follow the mock, through shared parts
@@ -44,3 +49,27 @@ The list-beside-page part (`rosterScreen`) hands a page a `show` to redraw itsel
 - **A list does not open the entry that is already open.**
 - **A page that redraws itself shows only its newest draw.** Two acts close together each redraw; the earlier one can finish its reads last.
 - **Check it:** in the page's browser check, click the open entry's own row, act on the page, and read the result on the page.
+
+## Lessons of Nov 17 (Screens)
+
+- **A check that a screen fills its panel measures to the panel's foot, not the card's.** People's check measured empty space to the bottom of the card, so a card shorter than its panel passed with a third of the panel empty under the portrait. Measure from the card's top to the scrolling box's inner bottom (`.roster-page`'s bottom less its bottom padding), and read the last section in each column, not the column box, which may stretch.
+- **A fixed element cannot leave a transformed ancestor.** `#talk` (centered with a transform and a backdrop filter) and `#game` (a transform) make `position: fixed` relative to them. To place something in the screen's corner, make it a sibling of the card in `#game`, positioned absolutely, and hide it with `#game:has(#talk[hidden])`.
+- **A check that meets a stop plays the talk with `finishTalk` (`start-life.mjs`).** Pressing only Leave or Continue, or only the replies, leaves a scene whose next step is a line or a reply open: `calendar.browser.mjs` waited forever for Week, and `campaign-season.browser.mjs` counted one scene three times and passed.
+- **Variety on a menu reuses an allowed draw.** New game's faces needed to differ each game; a new shuffle of the bank's people tripped the no-dice guard. `drawnAppearance` (the Random button's draw) on the visit's seed gives the same variety with no new pick and no allowlist entry.
+- **Some checks hard-code `localhost:3000`** (`campaign*.browser.mjs`, `campaign-season`, `election-day`): run the bench on 3000 for them. Those that import TypeScript (`scripts/core2-year/place.ts`) run with `node --import tsx`.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 16, 23:52Z (#9753): eslint failed with `'URL' is not defined` in a browser check. Cause: `src/bench/*.browser.mjs` runs under `no-undef`. Declare every global the file uses on its `/* global */` line, and no unused one (#9762 failed on an unused `document`).
+- Nov 17, 07:30Z (#9904): the election-day check stopped testing a candidate. Cause: every race at the pinned place now asks signatures (595 to 10,000), and a filing starts "petitioning"; the check never gathered any. A check that must put the player on the ballot files for the race asking the fewest, gathers at the doors through `/api/campaign/day` until `petition.asksAtDoors` is false, and asserts `on-ballot`.
+- Nov 17, 09:00Z (#9904): `repository` went red with "adds or changes no declaration in docs/release/changes". Cause: any change under `src/bench` needs a release declaration file (`impact: none` is allowed). Add it in the same pull request.
+- Nov 17, 08:15Z (#9913): `git checkout <branch> -- <file>` stages the file, and the next `git add` of other files commits it too. Cause: I swapped two files in for a screenshot run and committed them. Use `git show <branch>:<file> > <file>` for a temporary swap, and run `git status` before each commit.
+- Nov 17, 07:50Z: a background run died between turns. Cause: a plain `&` job is reaped when the turn ends. Start the bench and the browser check inside one command with `run_in_background`, which survives the turn.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/legislation-screens.md`: when you change a bill screen (src/bench/ui/bill-*.mjs) or the bill paper.

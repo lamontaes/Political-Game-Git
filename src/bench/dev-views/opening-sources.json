@@ -1,0 +1,902 @@
+{
+  "about": "How the opening made each value dev mode's \"How this world opened\" shows (src/bench/dev-views/opening.ts). From the opening audit of Nov 16, 2026: every seeded draw and table read a New Game world takes, recorded by line at Loudon NH, St. Louis MO and Cambridge MN (the Account lead's report opening-draws-and-fixed-values, in the project's shared folder). Rows say how each value shown was made; sites say how each line of code that draws at the opening draws, keyed by file and function, as src/core2/kernel/draw-recorder.ts records them. dev-opening-draws.test.ts records a pinned opening and fails on a site not listed here. A row or site changes in the same pull request that changes how the opening makes its value.",
+  "kinds": {
+    "real-data": "Real data",
+    "world-offset": "World offset from a published figure",
+    "decision": "Decided from a record",
+    "generation": "Generated from data (seeded)",
+    "ad-hoc-draw": "Drawn with no record behind it",
+    "constant": "Fixed number, same in every world",
+    "id": "Record id, not a draw"
+  },
+  "labels": {
+    "title": "How this world opened",
+    "subjects": {
+      "town": "Town",
+      "person": "Person",
+      "household": "Household",
+      "business": "Business",
+      "office": "Office"
+    },
+    "value": "Value",
+    "made": "How it was made",
+    "by": "Made by",
+    "source": "Record's source",
+    "drawKey": "Draw",
+    "replace": "To replace it",
+    "trace": "Trace",
+    "open": "Open",
+    "counts": "Rows by kind",
+    "record": "Record this world's opening",
+    "recording": "Rebuilding this world from its recipe and recording every draw (several minutes; a big town takes longer)",
+    "draws": "Every draw the opening took",
+    "unknown": "Not in the list",
+    "count": "Draws",
+    "site": "Where",
+    "stage": "Stage",
+    "notRecorded": "Not recorded yet: press Record to rebuild this world's opening and list every draw it takes."
+  },
+  "rows": {
+    "town.population": {
+      "made": "world-offset",
+      "by": "src/core2/gov-rules/place-population.ts worldPopulationOf: the published count moved by the world's offset (worldPopulationSpreadShare)"
+    },
+    "town.jobsMix": {
+      "made": "world-offset",
+      "by": "src/core2/town-employment-mix.ts townWorkplaceWeights: County Business Patterns mix moved by the world's offset (jobsWorldSectorMixSpreadShare)"
+    },
+    "town.employersOfKind": {
+      "made": "constant",
+      "by": "src/core2/town-workplaces.ts outlets per kind of workplace (labeled GAME ASSUMPTIONS)",
+      "replace": "Count from the town's workers and the county's average business size (thread \"Size each town's stores and clinics\")"
+    },
+    "town.householdMix": {
+      "made": "real-data",
+      "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
+    },
+    "town.passedOver": {
+      "made": "decision",
+      "by": "src/bench/world.ts passOver: a new game's drawn place where every adult lives in group quarters opens no player, so the draw is taken again without it (the same state's next place by the same ranking in src/bench/place-selection.mjs); no new draw"
+    },
+    "town.presidentApproval": {
+      "made": "decision",
+      "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
+    },
+    "town.president": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts centuryPresidency: the 2024 presidential election of the century run from 1925 (owner, Nov 17, 2026), counted state by state on the one count (electorate.ts countPlaces) with the one race rule (electorate-inputs.ts candidateReasons); seated by src/core2/modules/offices.ts worldParties. Under the world setting history \"today\", the real record (data/research/offices/federal-executive-2026.json)."
+    },
+    "town.century": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts runCentury: every presidential election from 1928, each state's 1925 lean one starting shift from the world's seed (electorate-century.ts centuryShift, centuryStateLeanSpread) and carried from its own results since (centuryLeanCarryShare)"
+    },
+    "town.congress": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every House seat each even year and the Senate by class from 1926, counted on the one path (electorate.ts countParties); the day-one seats are seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
+    },
+    "town.governors": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every governor and partisan statewide officer elected in its own cycle from 1925 on the one path (electorate.ts countParties), term limits from data/research/offices/state-offices.json; seated by src/core2/modules/offices.ts worldParties. Under the world setting history \"today\", the real record (the calibration corpus's governors and statewide-executive-parties-2026.json)."
+    },
+    "town.legislature": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every state legislative seat in its own cycle from 1925 on the one path (electorate.ts countParties), the played town's state seat by seat and every other state's chambers as results (each district its own place), every district's lean carried from its own results; a chamber not elected on the two national sides (Nebraska's) keeps the real record. Seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
+    },
+    "town.stateLean": {
+      "made": "decision",
+      "by": "src/core2/electorate-places.ts statePlaces: in a world whose day one is the century's, every counted place in the state moves by the one shift that puts the state's vote-weighted lean on its last century count (src/core2/electorate-century.ts centuryStateShare); under the world setting history \"today\", the 2024 presidential vote by county moved by the world's swing."
+    },
+    "town.districtLeans": {
+      "made": "decision",
+      "by": "src/core2/modules/officials.ts seatLean: in a world whose day one is the century's, each House and state legislative district stands where the century's last count left it (src/core2/electorate-century.ts centurySignedLean, from its districtLeans); under the world setting history \"today\", the 2024 House and state legislative results (Clerk, MEDSL) moved by the world's swing."
+    },
+    "town.rentalVacancy": {
+      "made": "decision",
+      "by": "src/core2/housing-past.ts openingVacancy: the leases the town's renters signed in the year before day one (each a counted household's weight), each leaving a unit empty for rentalVacantMonths (HVS 2024's median months vacant); who signed in that year comes from the past's moves and the opening's years in place, split by tenure with the moves engine's owner hold (src/core2/opening-tenure.ts tenureScaleOf)."
+    },
+    "town.partyTies": {
+      "made": "decision",
+      "by": "src/core2/modules/parties.ts openParties: in a world whose day one is the century's, each adult takes their side's party when their own lean reaches partyIdentityReach of the way to the party's day-one position, and has no party at or under noPartyReach (centuryTies); under the world setting history \"today\", the published shares (Gallup's 56% with a party, Pew's 7% with none) by quota."
+    },
+    "town.parties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts partyPositionsNow: each party stands where the members it holds in Congress stand after each even November (the mean of their seats' leans, put on the members' scale by centuryPartyLeanScale); its key issues are the policy questions where its stance and the other party's differ most (electorate-century-laws.ts partyKeyIssues, the one stance rule); its presidencies are the century's; its members of Congress are drawn around its day-one position (src/core2/officials-roster.ts drawOfficial). Under the world setting history \"today\", today's real parties."
+    },
+    "town.foundedParties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters whose lean does not reach partyIdentityReach of the way to their side's party adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters. Under the world setting history \"today\", none."
+    },
+    "town.congresses": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"
+    },
+    "person.name": {
+      "made": "generation",
+      "by": "src/core2/person-names.ts and src/core2/gov-rules/given-name-cohorts.ts: given names by birth-year cohort; family names picked evenly from the whole name list (own random stream)",
+      "replace": "Family names weighted by how common they are, on the world's seeded unit"
+    },
+    "person.birthDate": {
+      "made": "generation",
+      "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
+      "replace": "Any day of the month"
+    },
+    "person.playerAge.townAdult": {
+      "made": "generation",
+      "by": "src/bench/world.ts entrantChoice: with no birthday chosen, one of the town's own residents aged 18 and up, picked by the world's seeded unit (opening-player:<place>), so the player's age follows the place's adults (owner, Nov 16: \"Just do 18 and up right now\")"
+    },
+    "person.playerAge.chosen": {
+      "made": "decision",
+      "by": "src/bench/world.ts entrantBornNear: the age chosen in the New game creator (18 and up); the player is a resident that age, born nearest the chosen day, and the birthday moves only within that age (creator.ts applyChosenPerson)"
+    },
+    "person.trait": {
+      "made": "generation",
+      "by": "src/core2/opening-personality.ts: the facet's spread by age and upbringing, drawn with its own random stream (Box-Muller)",
+      "replace": "The world's seeded unit keyed by person and trait"
+    },
+    "person.cash": {
+      "made": "generation",
+      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income, times each household's own savings draw on the world's seeded unit (src/core2/household-balance-draw.ts)"
+    },
+    "person.job": {
+      "made": "generation",
+      "by": "src/core2/opening-employment.ts and src/core2/opening-town-jobs.ts: the town's job mix, hires ordered by a hash; pay from the 25th to the 75th percentile over 20 years (prototype numbers)",
+      "replace": "Order on the world's seeded unit; pay by tenure from BLS"
+    },
+    "person.birthplace": {
+      "made": "generation",
+      "by": "src/core2/person-birthplace.ts: the person's own draw against their state's Census shares of where its people were born (ACS 2019-2023, table B05002), held to their citizenship and family of origin; a child is born where their parent lived that day",
+      "replace": "The world's seeded unit for the draw"
+    },
+    "person.knownPeople": {
+      "made": "generation",
+      "by": "Day one: src/core2/population.ts, each person knows the members of their own household, from the household record. Filled in later: src/core2/opening-ties.ts, everyone counted at the same employer (the employment record), and as many neighbors as their years in the home give on the neighbors-known curve (neighborsKnownCap, neighborsKnownYears); which neighbor households those are is a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
+    },
+    "person.conditions": {
+      "made": "generation",
+      "by": "Day one: src/core2/condition-pack.ts startingConditionAssignments, each condition's prevalence count spread through the place and age cell in household income order, smoking and drug use by conscientiousness, no draw. Anyone added later: src/core2/modules/health.ts lateConditions, a stable hash of the world seed, condition and person against the condition's prevalence at their age, moved by conscientiousness. Everyone's resilience line: a stable hash of the world seed and the person, read as the spread of the hazard a person reaches (owner's ruling, Oct 9)",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
+    },
+    "household.members": {
+      "made": "generation",
+      "by": "src/core2/population.ts from the place's survey households; town skeletons in src/core2/town-households.ts use typed ranges (partner within 6 years, 1 to 3 children)",
+      "replace": "ACS household size and age tables"
+    },
+    "household.memberAge": {
+      "made": "generation",
+      "by": "src/core2/population.ts and src/core2/town-households.ts (children's ages even between typed bounds)",
+      "replace": "ACS age tables by household kind"
+    },
+    "household.since": {
+      "made": "generation",
+      "by": "src/core2/opening-tenure.ts: years in place from the mover rates, own random stream",
+      "replace": "The world's seeded unit"
+    },
+    "business.name": {
+      "made": "generation",
+      "by": "src/core2/opening-town-jobs.ts writeTownEmployer"
+    },
+    "business.kind": {
+      "made": "real-data",
+      "by": "src/core2/town-employment-mix.ts: the county's County Business Patterns industries"
+    },
+    "business.cash": {
+      "made": "generation",
+      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry (JPMorgan Chase Institute's small-business buffer days), the business's place in that spread read from the world's seeded unit keyed by the business"
+    },
+    "business.staff": {
+      "made": "generation",
+      "by": "src/core2/opening-town-jobs.ts: hires to the outlet with the fewest staff"
+    },
+    "office.office": {
+      "made": "real-data",
+      "by": "src/core2/modules/offices.ts from the place's government records"
+    },
+    "office.holder": {
+      "made": "generation",
+      "by": "src/core2/officials-identity.ts: an invented holder; positions from src/core2/officials-roster.ts on its own hash"
+    },
+    "office.serviceStart": {
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts pastTerms: the current term began a full term before the end the place's law gives it; the terms before it follow the mean service of sitting officials of that kind (src/core2/data/offices/tenure.json) as a geometric spread, the world's seeded unit keyed by the seat; never younger than the minimum age at the first term, never before the office's law created it, never past the state's legislative term limit. The presidency keeps its real record",
+      "replace": "Past elections run by the election engine"
+    },
+    "office.termEnds": {
+      "made": "real-data",
+      "by": "src/core2/modules/offices.ts seatTerm: the term length and start day from the place's law (src/core2/data/elections/term-starts.json); estimated where the law is not read (stopgap SG-GOV-term-end-estimate)"
+    },
+    "office.termsBefore": {
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts pastTerms: the same count as the service start (mean service by office kind, minimum age, the office's creation, the state's term limit), the world's seeded unit keyed by the seat",
+      "replace": "Past elections run by the election engine"
+    },
+    "office.lastShare": {
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), the world's fine seeded unit keyed by the seat and the term's start, evenly inside the office kind's winner-share band (src/core2/data/offices/tenure.json, estimated)",
+      "replace": "The past race's result from the election engine"
+    },
+    "office.lastShareCentury": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts: the seat's own race in the century run from 1925, counted on the one path (electorate.ts countParties), its record id century:<seat>:<year>; written on the term by src/core2/modules/offices.ts electionBehind"
+    },
+    "office.lastShareRecorded": {
+      "made": "world-offset",
+      "by": "src/core2/offices-past-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"
+    }
+  },
+  "sites": {
+    "src/bench/world.ts#entrantChoice": {
+      "made": "generation",
+      "what": "Which of the town's adults the player begins as, with no birthday chosen"
+    },
+    "src/core2/appearance.ts#derivePersonAppearance": {
+      "made": "generation",
+      "what": "How a person looks"
+    },
+    "src/core2/business-books.ts#worldBookRatio": {
+      "made": "world-offset",
+      "what": "A business's book ratios"
+    },
+    "src/core2/campaign-views.ts#normalOf": {
+      "made": "ad-hoc-draw",
+      "what": "Voters' support in campaign views (stand-in, SG-GOV-views-stand-in)",
+      "replace": "Views from life records, on the world's seeded unit keyed by the record's id"
+    },
+    "src/core2/campaign-views.ts#supportShare": {
+      "made": "world-offset",
+      "what": "Support share in campaign views"
+    },
+    "src/core2/central-bank-board.ts#generateBoard": {
+      "made": "ad-hoc-draw",
+      "what": "Central bank governors: age, birthday, career, name",
+      "replace": "People made by the generator everyone else uses"
+    },
+    "src/core2/central-bank-board.ts#trait": {
+      "made": "ad-hoc-draw",
+      "what": "Central bank governors' traits, even between two numbers",
+      "replace": "Traits from the personality engine people use"
+    },
+    "src/core2/citizenship.ts#isNoncitizen": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a new person is a citizen, a roll against a share",
+      "replace": "From the parents' records; arrivals from origin data"
+    },
+    "src/core2/civic-inputs.ts#districtHasJointUse": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a school district shares its buildings, a roll against a share",
+      "replace": "Real data where the district reports it, else a world offset"
+    },
+    "src/core2/coarse-place.ts#metResident": {
+      "made": "generation",
+      "what": "A person met in another place, from its Census rows",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/condition-pack.ts#selectionPlace": {
+      "made": "ad-hoc-draw",
+      "what": "Which illnesses a person has, a hash against rates",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/electorate-places.ts#citizenShareOf": {
+      "made": "world-offset",
+      "what": "A place's citizen share"
+    },
+    "src/core2/electorate-places.ts#worldSwing": {
+      "made": "world-offset",
+      "what": "A place's partisan swing"
+    },
+    "src/core2/electorate-places.ts#worldTurnoutFactor": {
+      "made": "world-offset",
+      "what": "A place's turnout"
+    },
+    "src/core2/firearm-ownership.ts#householdOwnsFirearm": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a household owns a gun, a hash against the state's share",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/gov-rules/given-name-cohorts.ts#birthCohortGivenName": {
+      "made": "generation",
+      "what": "Given name by birth-year cohort (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/gov-rules/given-name-cohorts.ts#drawCohortGivenName": {
+      "made": "generation",
+      "what": "Given name by birth-year cohort (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/gov-rules/invented-person-age.ts#inventedPersonAge": {
+      "made": "generation",
+      "what": "Age of an invented person, even inside a typed band",
+      "replace": "Ages from the office's or role's data"
+    },
+    "src/core2/gov-rules/invented-person-age.ts#inventedPersonBirthDate": {
+      "made": "ad-hoc-draw",
+      "what": "Birthday of an invented person: days 1 to 28 only",
+      "replace": "Any day of the month, on the world's seeded unit keyed by the record's id"
+    },
+    "src/core2/gov-rules/person-identity.ts#generatePersonIdentity": {
+      "made": "generation",
+      "what": "Gender, weighted by data (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/gov-rules/place-population.ts#worldPopulationOf": {
+      "made": "world-offset",
+      "what": "A place's population"
+    },
+    "src/core2/home-distance.ts#homeDistanceMiles": {
+      "made": "ad-hoc-draw",
+      "what": "Miles to relatives, a hash",
+      "replace": "Distance from the relatives' recorded places"
+    },
+    "src/core2/household-balance-draw.ts#balanceDrawZ": {
+      "made": "generation",
+      "what": "A household's savings against the survey median for a family like it",
+      "replace": "Savings read from the household's record (pool item world-opening-savings-read-from-household-record)"
+    },
+    "src/core2/housing-construction.ts#phase": {
+      "made": "ad-hoc-draw",
+      "what": "When construction starts, a hash",
+      "replace": "The builder's own record"
+    },
+    "src/core2/housing-prices.ts#housingWorldOffset": {
+      "made": "world-offset",
+      "what": "Home prices and rents"
+    },
+    "src/core2/jobs-elsewhere.ts#opening": {
+      "made": "ad-hoc-draw",
+      "what": "Layoff, quit, find and retire pulls for people living elsewhere",
+      "replace": "The town's jobs engine at the coarse cadence"
+    },
+    "src/core2/jobs-elsewhere.ts#statusAt": {
+      "made": "ad-hoc-draw",
+      "what": "Work status for people living elsewhere",
+      "replace": "The town's jobs engine at the coarse cadence"
+    },
+    "src/core2/macro-model.ts#at": {
+      "made": "world-offset",
+      "what": "The national economy"
+    },
+    "src/core2/modules/budgets.ts#budgetWorldFactor": {
+      "made": "world-offset",
+      "what": "Budget lines"
+    },
+    "src/core2/modules/budgets.ts#fundOpeningTreasury": {
+      "made": "world-offset",
+      "what": "Treasury cash on day one"
+    },
+    "src/core2/modules/business.ts#outsideOwnedShare": {
+      "made": "world-offset",
+      "what": "Share of businesses owned outside town"
+    },
+    "src/core2/modules/business.ts#stateExitShare": {
+      "made": "world-offset",
+      "what": "Business closings in the state"
+    },
+    "src/core2/modules/counted-demotion.ts#demotionDays": {
+      "made": "ad-hoc-draw",
+      "what": "When filled-in people fold back into the counts, a hash",
+      "replace": "A rule on the day nothing reads them"
+    },
+    "src/core2/modules/counted-moves.ts#arrivals": {
+      "made": "ad-hoc-draw",
+      "what": "Which household arrives, a hash",
+      "replace": "Arrivals from the origin place's own counts"
+    },
+    "src/core2/modules/counted-moves.ts#orderHash": {
+      "made": "ad-hoc-draw",
+      "what": "Which counted households move first, a hash order",
+      "replace": "The households' own reasons to move"
+    },
+    "src/core2/modules/counted-moves.ts#pickName": {
+      "made": "generation",
+      "what": "Names of filled-in movers",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/modules/credit.ts#smallDollarLenderFor": {
+      "made": "world-offset",
+      "what": "Small-dollar lender's terms"
+    },
+    "src/core2/modules/credit.ts#townBankFor": {
+      "made": "world-offset",
+      "what": "The town bank's terms"
+    },
+    "src/core2/modules/health.ts#lateConditions": {
+      "made": "generation",
+      "what": "Illnesses a person added after day one holds, a stable hash of the world seed and the person against the rate at their age, moved by conscientiousness",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
+    },
+    "src/core2/modules/health.ts#resilienceLine": {
+      "made": "generation",
+      "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
+    },
+    "src/core2/modules/jobs.ts#bandRatio": {
+      "made": "world-offset",
+      "what": "Pay band ratios"
+    },
+    "src/core2/modules/jobs.ts#loseAwayWorkByTurnover": {
+      "made": "ad-hoc-draw",
+      "what": "Turnover pull for work away (SG-LABOR-turnover-fixed-rate)",
+      "replace": "Demand from the world's own records"
+    },
+    "src/core2/modules/jobs.ts#openingProgress": {
+      "made": "ad-hoc-draw",
+      "what": "How far along a worker's pull to leave is on day one",
+      "replace": "Demand from the world's own records"
+    },
+    "src/core2/modules/jobs.ts#reviewTurnover": {
+      "made": "ad-hoc-draw",
+      "what": "Turnover pull: who quits or is let go (SG-LABOR-turnover-fixed-rate)",
+      "replace": "Demand from the world's own records"
+    },
+    "src/core2/modules/jobs.ts#seasonalStaffing": {
+      "made": "world-offset",
+      "what": "Seasonal staffing"
+    },
+    "src/core2/modules/jobs.ts#vacancyDays": {
+      "made": "world-offset",
+      "what": "Days a job stays open"
+    },
+    "src/core2/modules/offices.ts#electionBehind": {
+      "made": "generation",
+      "what": "The share each official won by last time, where the research has no record of the race: the world's fine seeded unit inside the office kind's winner-share band",
+      "replace": "The past race's result from the election engine"
+    },
+    "src/core2/modules/offices.ts#pastTerms": {
+      "made": "generation",
+      "what": "An official's years in office before day one: the mean service of that kind of office as a geometric spread, the world's seeded unit keyed by the seat, bounded by the minimum age, the office's creation and the state's term limit",
+      "replace": "Past elections run by the election engine"
+    },
+    "src/core2/modules/officials.ts#drawnServiceStart": {
+      "made": "ad-hoc-draw",
+      "what": "An official's years of service, a hash",
+      "replace": "Past elections run by the election engine"
+    },
+    "src/core2/modules/partnerships.ts#review": {
+      "made": "ad-hoc-draw",
+      "what": "Couples meeting and parting, a seeded pull",
+      "replace": "The pair's own time together and closeness"
+    },
+    "src/core2/modules/partnerships.ts#rowFor": {
+      "made": "ad-hoc-draw",
+      "what": "Couples meeting and parting, a seeded pull",
+      "replace": "The pair's own time together and closeness"
+    },
+    "src/core2/modules/place-prices.ts#bounded": {
+      "made": "world-offset",
+      "what": "A place's prices"
+    },
+    "src/core2/modules/place-prices.ts#level": {
+      "made": "world-offset",
+      "what": "A place's prices"
+    },
+    "src/core2/modules/press.ts#draw": {
+      "made": "world-offset",
+      "what": "Press audience and outlets"
+    },
+    "src/core2/modules/views.ts#engagementFrom": {
+      "made": "ad-hoc-draw",
+      "what": "How engaged a person is, a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/modules/views.ts#normal": {
+      "made": "generation",
+      "what": "Starting views and lean, a hash (lean allowed by the Oct 14 ruling)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/modules/world-legislating.ts#sessionAgenda": {
+      "made": "ad-hoc-draw",
+      "what": "Which questions other legislatures take up, a seeded pull every day",
+      "replace": "The members' own interests and the place's conditions"
+    },
+    "src/core2/nativity.ts#nativityFact": {
+      "made": "ad-hoc-draw",
+      "what": "Where a person was born, a roll against the share born in state",
+      "replace": "The parents' record and the moves pass"
+    },
+    "src/core2/office-day-pay.ts#seatPay": {
+      "made": "ad-hoc-draw",
+      "what": "Seat pay inside a band, a hash",
+      "replace": "Real pay data where held, else a world offset"
+    },
+    "src/core2/office-day-state.ts#perDiemOf": {
+      "made": "ad-hoc-draw",
+      "what": "A state's per diem inside a band, a hash",
+      "replace": "Real data where held, else a world offset"
+    },
+    "src/core2/official-living.ts#officialHousehold": {
+      "made": "generation",
+      "what": "An official's household (officials hash)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/officials-identity.ts#drawOfficialIdentity": {
+      "made": "generation",
+      "what": "An official's name and age (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/officials-president.ts#nationalHomeState": {
+      "made": "generation",
+      "what": "The president's home state",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/officials-president.ts#presidentRecord": {
+      "made": "generation",
+      "what": "The president's past office and visits",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/officials-roster.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Officials' issue order (officials hash)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/officials-roster.ts#drawOfficial": {
+      "made": "generation",
+      "what": "Officials' positions (officials hash, Box-Muller)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-capital.ts#openingEmployerCashBufferPrior": {
+      "made": "generation",
+      "what": "A business's place in its industry's spread of cash on day one, on the world's seeded unit keyed by the business"
+    },
+    "src/core2/opening-county-sample.ts#<anonymous>": {
+      "made": "ad-hoc-draw",
+      "what": "Who works where and who owns in the county sample, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-customer-qualification.ts#openingCustomerQualificationHash": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-customers.ts#saveQualification": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-department-pay.ts#withDistrictPayAuthority": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-employment.ts#<anonymous>": {
+      "made": "ad-hoc-draw",
+      "what": "Order residents are hired in, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-employment.ts#openingJobStart": {
+      "made": "ad-hoc-draw",
+      "what": "When a worker started their job, a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-employment.ts#residentEmploymentRate": {
+      "made": "world-offset",
+      "what": "Residents' employment rate"
+    },
+    "src/core2/opening-income-funding.ts#id": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-income.ts#id": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-income.ts#worldBenefitMonthlyMinor": {
+      "made": "world-offset",
+      "what": "Benefit levels"
+    },
+    "src/core2/opening-kin.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Kin: birth order, parents' ages, whether parents stayed together (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-kin.ts#dateInYear": {
+      "made": "ad-hoc-draw",
+      "what": "Kin birthdays: days 1 to 28 only",
+      "replace": "Any day of the month, on the world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-kin.ts#drawCount": {
+      "made": "generation",
+      "what": "How many siblings or children (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-kin.ts#normal": {
+      "made": "generation",
+      "what": "Mother's age at first birth, with a prototype spread of 4 years (SG-P15)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-kin.ts#stayed": {
+      "made": "generation",
+      "what": "Whether a relative moved away (prototype share 0.35, SG-P15)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-kin.ts#survives": {
+      "made": "generation",
+      "what": "Whether a relative is alive, from life tables (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-origin.ts#originOf": {
+      "made": "generation",
+      "what": "A household's origin, from data shares (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-partnership.ts#countWithMean": {
+      "made": "generation",
+      "what": "Count of earlier partnerships (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-partnership.ts#partnerAgedHousehold": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a couple are relatives, a roll against a share",
+      "replace": "Relatedness from kin records"
+    },
+    "src/core2/opening-partnership.ts#pickAge": {
+      "made": "generation",
+      "what": "A partner's age, from data weights (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-payroll-calendar.ts#openingPayrollEmployerPrior": {
+      "made": "ad-hoc-draw",
+      "what": "An employer's payday calendar, a hash (SG-P8)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-personality.ts#normal": {
+      "made": "generation",
+      "what": "Personality traits, Box-Muller on its own stream",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-personality.ts#personalityKeptScore": {
+      "made": "generation",
+      "what": "A filled-in person's kept trait score, a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-private-tuition.ts#privateShareOf": {
+      "made": "world-offset",
+      "what": "Share of children in private school"
+    },
+    "src/core2/opening-private-tuition.ts#worldPrivateTuitionAnnualUsd": {
+      "made": "world-offset",
+      "what": "Private school tuition"
+    },
+    "src/core2/opening-profile.ts#blended": {
+      "made": "generation",
+      "what": "A person's opening profile (education, income), a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-public-pay.ts#prepareOpeningPublicPayAuthorities": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-public-schools.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Which public school a child attends, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-roles.ts#quantile": {
+      "made": "ad-hoc-draw",
+      "what": "Where a worker sits in a role's band, a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-tenure.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Years in the home, from mover rates (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-ties.ts#order": {
+      "made": "generation",
+      "what": "Which neighbor households a person filled in already knows: how many from their years in the home, which ones a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
+    },
+    "src/core2/opening-upbringing.ts#hashPosition": {
+      "made": "generation",
+      "what": "Upbringing, a hash (14 weights ported from the old engine)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/opening-upbringing.ts#weightedObservation": {
+      "made": "generation",
+      "what": "Upbringing, a hash-weighted pick",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/outcome-web-model.ts#drawnBaseOf": {
+      "made": "world-offset",
+      "what": "The outcome web's base rates"
+    },
+    "src/core2/past-elections.ts#buildPriorElections": {
+      "made": "world-offset",
+      "what": "Prior election results"
+    },
+    "src/core2/past-health.ts#lineOf": {
+      "made": "generation",
+      "what": "Past illnesses, a seeded line (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-justice.ts#lineOf": {
+      "made": "generation",
+      "what": "Past arrests, a seeded line (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-laws.ts#<anonymous>": {
+      "made": "ad-hoc-draw",
+      "what": "Who voted which way on laws already on the books",
+      "replace": "Each member's vote from their own views"
+    },
+    "src/core2/past-laws.ts#rollCall": {
+      "made": "ad-hoc-draw",
+      "what": "The margin a past law passed by",
+      "replace": "Each member's vote from their own views"
+    },
+    "src/core2/past-module.ts#seededBetween": {
+      "made": "generation",
+      "what": "Dates and amounts in the opening past, even inside a band",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-moves.ts#lineOf": {
+      "made": "generation",
+      "what": "Past moves, a seeded line (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-partners.ts#earlierPartnership": {
+      "made": "generation",
+      "what": "Earlier partnerships (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-partners.ts#lineOf": {
+      "made": "generation",
+      "what": "Past partnerships, a seeded line (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-partners.ts#withOtherParent": {
+      "made": "generation",
+      "what": "A child's other parent (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/past-work.ts#serviceOf": {
+      "made": "generation",
+      "what": "Past jobs, a seeded line (opening past)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/person-birthplace.ts#birthOrigin": {
+      "made": "generation",
+      "what": "where a grown resident was born, against their state's ACS B05002 shares",
+      "replace": "The world's seeded unit"
+    },
+    "src/core2/person-names.ts#drawCanonicalNameForGender": {
+      "made": "generation",
+      "what": "Given name, even pick from the list",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/person-names.ts#drawUnrestrictedName": {
+      "made": "generation",
+      "what": "Family name, even pick from the whole list",
+      "replace": "Weighted by how common a name is, on the world's seeded unit keyed by the record's id"
+    },
+    "src/core2/places-elsewhere.ts#weighted": {
+      "made": "generation",
+      "what": "Where people elsewhere work, a hash-weighted pick",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/places.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Which places are drawn and in what order, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/places.ts#unitOf": {
+      "made": "generation",
+      "what": "Picking the place a world opens in, a hash",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/population.ts#buildPopulation": {
+      "made": "generation",
+      "what": "The town's households from its survey sample (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/press-staff.ts#hireStaffMember": {
+      "made": "generation",
+      "what": "Reporters' names and ages (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/press-staff.ts#nationalOutletName": {
+      "made": "generation",
+      "what": "A national outlet's name",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/press-staff.ts#outletName": {
+      "made": "generation",
+      "what": "A paper's masthead or a station's call sign",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/reference/living-costs-data.ts#worldMonthlyHouseholdLivingCosts": {
+      "made": "world-offset",
+      "what": "Living costs"
+    },
+    "src/core2/regional-model.ts#own": {
+      "made": "world-offset",
+      "what": "The region's economy"
+    },
+    "src/core2/representative-sample.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Which households are kept as the representative sample, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/residents.ts#placeEarningsOf": {
+      "made": "world-offset",
+      "what": "Earnings in the place"
+    },
+    "src/core2/shared-history.ts#group": {
+      "made": "ad-hoc-draw",
+      "what": "Who shares a past at an organization, a hash",
+      "replace": "From the organization's own records"
+    },
+    "src/core2/sibling-names.ts#distinctSiblingGivenName": {
+      "made": "generation",
+      "what": "A sibling's given name, distinct from the others",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/starting-cash.ts#medianTransactionBalance": {
+      "made": "world-offset",
+      "what": "Opening cash levels"
+    },
+    "src/core2/town-employment-mix.ts#<anonymous>": {
+      "made": "world-offset",
+      "what": "The town's mix of industries"
+    },
+    "src/core2/town-households.ts#partnerIdentity": {
+      "made": "ad-hoc-draw",
+      "what": "Partner's sex: a roll against the same-sex couple share",
+      "replace": "From the place's household data"
+    },
+    "src/core2/town-households.ts#pickShape": {
+      "made": "generation",
+      "what": "Kind of household, from the place's shares (own stream)",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/town-households.ts#townHouseholdSkeleton": {
+      "made": "ad-hoc-draw",
+      "what": "Ages and children in a household: typed ranges (partner within 6 years, 1 to 3 children)",
+      "replace": "ACS household size and age tables"
+    },
+    "src/core2/town-pay.ts#at": {
+      "made": "world-offset",
+      "what": "Pay levels"
+    },
+    "src/core2/town-pay.ts#townPayPercentile": {
+      "made": "world-offset",
+      "what": "Pay percentiles"
+    },
+    "src/core2/town-pay.ts#worldWage": {
+      "made": "world-offset",
+      "what": "Wages"
+    },
+    "src/core2/union-rate.ts#worldUnionRatePct": {
+      "made": "world-offset",
+      "what": "Union membership rate"
+    },
+    "src/core2/world-base-rates.ts#worldRateFactor": {
+      "made": "world-offset",
+      "what": "Base rates"
+    },
+    "src/english/grounded-english.ts#renderGroundedEnglish": {
+      "made": "generation",
+      "what": "Which wording a line uses (presentation)"
+    },
+    "src/core2/electorate-century.ts#centuryShift": {
+      "made": "generation",
+      "what": "One starting shift on the lean order in 1925 for the country, each state, each House district and each state legislative district, any size between -1 and 1 of its spread equally likely: where each stands when the century starts (CTO line 6935396694)",
+      "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
+    },
+    "src/core2/electorate-century.ts#centuryOpening": {
+      "made": "generation",
+      "what": "Each state's and the country's place on the lean order in 1925, where the century starts: an even split moved by one seeded shift each, sized by the real map's spread (CTO line 6935396694)",
+      "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
+    },
+    "src/core2/electorate-century.ts#districtEligible": {
+      "made": "generation",
+      "what": "How many eligible voters a district holds against its chamber's typical (the state's over its districts), one seeded size per district within centuryDistrictSizeSpread: who lives where",
+      "replace": "Each district's eligible voters read from the places it covers as the century's population moves (family 5)"
+    },
+    "src/core2/electorate-century.ts#careerOf": {
+      "made": "generation",
+      "what": "How many terms a member of Congress, a statewide officer or a state legislator serves before leaving the seat open, drawn once when they first win, its mean the completed career the CRS mean service implies",
+      "replace": "A member's own decision to run again from their record (age, health, standing) once past members are filled in on open"
+    },
+    "src/core2/electorate-century.ts#campaignMeansOf": {
+      "made": "generation",
+      "what": "A century candidate's campaign means against the typical race's, drawn once per person (their donors, own money and party backing), read by the race rule's spending reason",
+      "replace": "Each nominee's own record (donors, wealth, party) once past candidates are filled in on open"
+    }
+  }
+}

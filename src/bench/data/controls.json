@@ -7,7 +7,6 @@
     "previous": "Previous {row}",
     "next": "Next {row}",
     "randomPlace": "Random place",
-    "randomName": "Randomize name",
     "missingGender": "Choose a gender to continue.",
     "missingName": "Type a first and last name to continue.",
     "missingPlace": "Choose where you are from to continue.",
@@ -18,10 +17,9 @@
   },
   "debate": {
     "title": "Debate invitation",
-    "answer": "Answer",
-    "for": "For",
-    "against": "Against",
-    "pass": "Pass"
+    "accept": "Accept",
+    "decline": "Decline",
+    "accepted": "Accepted"
   },
   "raceStanding": {
     "title": "Where the race stands"
@@ -44,7 +42,7 @@
     "retold": "retold"
   },
   "campaignGatherers": {
-    "hired": "{cost} set aside to pay people to gather signatures until {due}. {signed} signed so far.",
+    "hired": "{cost} set aside to pay people to gather signatures until {due}.",
     "noMoneyYet": "The campaign has no money to pay anyone yet.",
     "noMoney": "The campaign has no money left to pay anyone. All {raised} is spent or set aside."
   },
@@ -108,7 +106,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "warmup": "Letting the country run a few weeks",
+    "warmup": "Letting the country, the state and the town run two months on their own before your first evening.",
     "opening": "Preparing the opening"
   },
   "worldSettings": {
@@ -201,18 +199,7 @@
     "record": "Record",
     "publicRecordTitle": "Public record",
     "seat": "Seat held",
-    "closenessWords": [
-      "You barely know each other",
-      "You know each other",
-      "You are friendly",
-      "You are close",
-      "You are very close"
-    ],
-    "tieChange": {
-      "closer": "Grew closer",
-      "apart": "Drifted apart",
-      "same": "Last in touch"
-    },
+    "lastInTouch": "Last in touch",
     "tieCauses": {
       "visit": "a visit",
       "care": "care in a hard time",
@@ -318,6 +305,9 @@
     "donorsGive": "Donors give",
     "raised": "Raised",
     "noneGave": "No one gave",
+    "petitionBehind": "Petition falls behind",
+    "petitionTold": "Told it is short",
+    "petitionNotTold": "Not told before the deadline",
     "saysYes": "Says yes to volunteering",
     "saysNo": "Says no to volunteering",
     "nobody": "No one to ask"
@@ -402,7 +392,7 @@
       "pay": "Hourly pay",
       "stateUnemployment": "Your state: out of work",
       "statePeople": "Your state: people",
-      "stateJobs": "Your state: jobs",
+      "stateJobs": "Your state: residents with jobs",
       "stateBudget": "Your state: public budgets",
       "percent": "%"
     },
@@ -518,7 +508,18 @@
   "desk": {
     "sign": "Sign",
     "veto": "Veto",
-    "own": "Decide for me"
+    "own": "Decide for me",
+    "vetoWhy": "Tell them why",
+    "back": "Back",
+    "reasons": {
+      "opposed-voters": "The voters don't want it",
+      "opposed-groups": "Its opponents are right",
+      "opposed-party": "My party is against it",
+      "opposed-views": "People here don't believe in it",
+      "cost": "We can't afford it",
+      "stance": "I've been against it from the start",
+      "none": "Give no reason"
+    }
   },
   "budgetEditor": {
     "0": "No change",
@@ -573,16 +574,46 @@
       "abstain": "Abstained"
     },
     "bodySwitches": [
-      { "has": ["council"], "label": "Council meetings" },
-      { "has": ["police jury"], "label": "Police Jury meetings" },
-      { "has": ["town meeting"], "label": "Town Meeting" },
-      { "has": ["governing body"], "label": "Governing Body meetings" },
-      { "has": ["board"], "label": "Board meetings" },
-      { "has": ["commission"], "label": "Commission meetings" },
-      { "has": ["committee"], "label": "Committee meetings" },
-      { "has": ["assembly"], "label": "Assembly meetings" },
-      { "has": ["legislature"], "label": "Legislature sessions" },
-      { "has": ["aldermen"], "label": "Aldermen meetings" }
+      {
+        "has": ["council"],
+        "label": "Council meetings"
+      },
+      {
+        "has": ["police jury"],
+        "label": "Police Jury meetings"
+      },
+      {
+        "has": ["town meeting"],
+        "label": "Town Meeting"
+      },
+      {
+        "has": ["governing body"],
+        "label": "Governing Body meetings"
+      },
+      {
+        "has": ["board"],
+        "label": "Board meetings"
+      },
+      {
+        "has": ["commission"],
+        "label": "Commission meetings"
+      },
+      {
+        "has": ["committee"],
+        "label": "Committee meetings"
+      },
+      {
+        "has": ["assembly"],
+        "label": "Assembly meetings"
+      },
+      {
+        "has": ["legislature"],
+        "label": "Legislature sessions"
+      },
+      {
+        "has": ["aldermen"],
+        "label": "Aldermen meetings"
+      }
     ],
     "switches": {
       "meetings": "Meetings",
@@ -676,7 +707,7 @@
       "ownMeeting": "Your board meets today",
       "meeting": "Its board meets today",
       "filing": "You can file to run for office here",
-      "public": "Open to the public"
+      "large": "One of the town's biggest workplaces"
     },
     "memberHere": "Your party's office",
     "filing": "Filing office",
@@ -761,7 +792,8 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
-    "viewUnknown": "You don't know where they stand yet.",
+    "viewUnknown": "You don't know where {lower} stands yet.",
+    "viewUnknownThey": "You don't know where they stand yet.",
     "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
@@ -778,8 +810,6 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "briefs": "Briefs",
-    "backFront": "Back to the front page",
     "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
@@ -797,7 +827,9 @@
     "openings": "Open in town",
     "hourly": "per hour",
     "noOpenings": "Nothing is open in town right now.",
-    "leaveJob": "Leave this job"
+    "leaveJob": "Leave this job",
+    "apply": "Apply",
+    "applied": "Applied"
   },
   "politics": {
     "seats": "Seats",
@@ -953,6 +985,14 @@
     "fiscalYear": "budget year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
+    "partyAbout": "About",
+    "partyChair": "Chair",
+    "partyMembers": "Members",
+    "partyNextMeeting": "Meets",
+    "partyStandsFor": "Positions",
+    "partyFavors": "Favors",
+    "partyOpposes": "Opposes",
+    "partyNone": "None",
     "subjects": "Subjects",
     "lawDid": {
       "title": "What this did",
@@ -1044,6 +1084,9 @@
     "filingOpens": "Filing opens",
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
+    "announce": "Announce",
+    "simTo": "Sim to {date}",
+    "youAnnounced": "Announced",
     "youFiled": "You are running",
     "yourRecord": "Your record in office",
     "recordVotes": "Votes you cast",
@@ -1059,6 +1102,14 @@
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
+    "yourOffices": "Offices you can run for",
+    "alsoOnBallot": "Also on your ballot",
+    "countyOffice": "County office",
+    "refusal": {
+      "not-your-office": "You can't run for this office.",
+      "window-not-open": "Filing for this race hasn't opened yet.",
+      "window-closed": "Filing for this race has closed."
+    },
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -1078,6 +1129,9 @@
   "here": {
     "label": "Here",
     "more": "and {count} more"
+  },
+  "tv": {
+    "live": "Live"
   },
   "talkBox": {
     "continue": "Continue",
@@ -1132,8 +1186,6 @@
     "doors": "{n} doors",
     "reached": "{n} reached",
     "answered": "{n} answered",
-    "signed": "{n} signed",
-    "signedNone": "No one signed",
     "raised": "{amount} raised",
     "spent": "{amount} spent"
   },
@@ -1191,7 +1243,8 @@
       "trait": "it isn't the kind of bill {subject} brings",
       "consistency": "it runs against how {subject} voted last",
       "party": "{possessive} party's leaders are against it",
-      "wing": "{possessive} wing of the party is against it"
+      "wing": "{possessive} wing of the party is against it",
+      "budget": "it would take money out of the budget {subject} has to pass"
     },
     "askedReasonsThey": {
       "views": "they don't believe in it",
@@ -1200,7 +1253,8 @@
       "trait": "it isn't the kind of bill they bring",
       "consistency": "it runs against how they voted last",
       "party": "their party's leaders are against it",
-      "wing": "their wing of the party is against it"
+      "wing": "their wing of the party is against it",
+      "budget": "it would take money out of the budget they have to pass"
     }
   },
   "journal": {
@@ -1209,7 +1263,7 @@
   },
   "metrics": {
     "state": "Your state",
-    "jobs": "Jobs",
+    "jobs": "Residents with jobs",
     "city": "Your town",
     "housing": "Homes",
     "rentals": "Rental homes",
@@ -1344,7 +1398,8 @@
       "trait": "Their temperament",
       "consistency": "Their last vote on it",
       "bribe": "A payment taken",
-      "reply": "What was said to them"
+      "reply": "What was said to them",
+      "budget": "The hole it leaves in their budget"
     },
     "showAll": "Show all",
     "staff": "Staff",
@@ -1377,11 +1432,13 @@
     "inboxOpen": "Answer",
     "doors": "Doors knocked",
     "signatures": "Signatures",
-    "signaturesHeld": "{signed} of {needed}, due {date}",
-    "signaturesEnough": "{signed} of {needed}, enough for the ballot",
+    "signaturesHeld": "Due {date}",
+    "signaturesEnough": "Enough for the ballot",
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
+    "askingWhySignatures": "Your petition is short of what the clerk asks for. You keep asking for signatures until it holds enough. After that you ask for the vote.",
+    "askingWhyVotes": "Your petition holds what the clerk asks for. From here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
@@ -1429,9 +1486,6 @@
     "joint-issue": "Give the address",
     "address": "The State of the State",
     "address-issue": "Give the address",
-    "emergency": "State of emergency",
-    "emergency-issue": "Declare it",
-    "emergency-decline": "Let it pass",
     "budget": "The state budget",
     "budget-issue": "Send the budget",
     "budget-decline": "Leave it to my staff",
@@ -1479,6 +1533,10 @@
     "veto": "Veto",
     "override": "Override",
     "chairHears": "Chair hears it",
+    "splitAbstain": "{name} abstains to hold the margin: {members} voting members, {vacancy}",
+    "noSeatVacant": "no seat vacant",
+    "oneSeatVacant": "one seat vacant",
+    "seatsVacant": "{n} seats vacant",
     "outcome": "What came of it",
     "addedSections": "Sections added by a trade: {n}",
     "noLaw": "No law row yet",
@@ -1497,6 +1555,18 @@
       "money": "Money moved",
       "governmentOwn": "Committed on the government's own record, not paid",
       "none": "No record names this law yet"
+    },
+    "ended": {
+      "repealed": "Ended by this bill",
+      "replaced": "Took over from",
+      "endsOn": "Ends {date}",
+      "endedOn": "Ended {date}",
+      "replacedOn": "Replaced {date}",
+      "runToEnd": "Run until it ends",
+      "whileInForce": "Who it reached while in force",
+      "noLongerReached": "No longer reached",
+      "since": "last ended {date}",
+      "noneEnded": "None of its reach has ended yet"
     },
     "endings": {
       "pending": "Not decided yet",
@@ -1544,5 +1614,18 @@
     "trace": "Trace",
     "why": "Why",
     "came": "What came of it"
+  },
+  "devReplyWhy": {
+    "title": "Why these lines",
+    "cause": "Started by",
+    "facts": "What the scene knows",
+    "said": "Said just now",
+    "replies": "Your replies",
+    "needs": "Needs",
+    "rulesOut": "Would be ruled out by",
+    "after": "Follows",
+    "ties": "Also fit",
+    "nothing": "nothing",
+    "unplaced": "No use recorded"
   }
 }

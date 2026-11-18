@@ -13,9 +13,8 @@
  * SG-GOV-REACH-B-assistance-benefits).
  */
 import type { CoreAPI, CoreState } from "../types";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain, lawInForce } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
-import type { LawRowInput } from "../laws-starting";
 import {
   povertyLineDollars,
   reachParameter,
@@ -52,38 +51,19 @@ function standardDeduction(size: number): number {
 /**
  * The maximum allotment by household size in force: the table of the row in
  * force, scaled to the row's own one-person amount (an act that changes the
- * amount changes every size by the same proportion, whatever table it copied),
- * or, where the row has no table, the latest table recorded for that tier
- * scaled to the row's amount.
+ * amount changes every size by the same proportion; an amendment keeps the
+ * table it amends).
  */
 export function allotments(api: CoreAPI): ((size: number) => number) | null {
   const answer = lawInForce(api, "snap-maximum");
   const governing = answer.governing;
   if (!governing || !answer.value) return null;
-  type Table = { byHouseholdSize?: Record<string, number> };
-  let table = (governing.terms as Table | undefined)?.byHouseholdSize;
-  let factor = table?.["1"] ? answer.value / table["1"] : 1;
-  if (!table) {
-    const rows = (
-      api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .query("bySeriesOnly", ["snap-maximum"]) as unknown as LawRowInput[]
-    )
-      .filter(
-        (r) =>
-          r.jurisdiction === governing.jurisdiction &&
-          r.tier === governing.tier &&
-          (r.terms as Table | undefined)?.byHouseholdSize &&
-          r.effectiveDate <= api.state.date,
-      )
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
-    const base = rows[0];
-    if (!base) return null;
-    table = (base.terms as Table).byHouseholdSize;
-    factor = answer.value / (base.value ?? answer.value);
-  }
-  const sizes = table!;
+  const table = (
+    governing.terms as { byHouseholdSize?: Record<string, number> } | undefined
+  )?.byHouseholdSize;
+  if (!table?.["1"]) return null;
+  const factor = answer.value / table["1"];
+  const sizes = table;
   const added =
     (sizes[String(Object.keys(sizes).length)] ?? 0) -
     (sizes[String(Object.keys(sizes).length - 1)] ?? 0);
@@ -187,7 +167,7 @@ export function runFoodAid(
       if (unit <= 0) continue;
       const dollars = foodAidDollars(
         stopped.length ? { ...household, size: unit } : household,
-        povertyLineDollars(chain.stateKey, household.size),
+        povertyLineDollars(chain.stateKey, household.size, facts.priceIndex),
         allotment,
       );
       if (dollars <= 0) continue;
