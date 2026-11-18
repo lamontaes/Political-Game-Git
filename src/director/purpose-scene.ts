@@ -151,6 +151,7 @@ import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
+import { homeWorkFacts } from "./home-work-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -1051,6 +1052,21 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // What happened in a home or work scene's cause (a layoff, a first day, a
+    // school year's end, a proposal or breakup, a death, a quarrel): the
+    // employer, the years, the school, how long together, who died, what it
+    // was over. stopgapId: none; a fact the record lacks is left out.
+    ...homeWorkFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      (id) => {
+        const person = core.people.get(id);
+        return person ? sayPerson(person) : undefined;
+      },
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
