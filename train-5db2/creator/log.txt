@@ -1,0 +1,10 @@
+visit 1: title painting state-capitol-id__rain.jpg; New game faces: head-long-brown-adult top-tee-gray face-mustache-darkbrown hair-cornrows-darkbrown head-long-dark-adult shirt-dress-cream jacket-blazer-navy hair-bob-black head-olive-adult shirt-dress-lightblue tie-silk-burgundy jacket-suit-charcoal face-beard-darkbrown hair-sidepart-darkbrown head-square-dark-adult shirt-dress-cream jacket-blazer-charcoal hair-bangs-black
+visit 2: title painting state-capitol-il__winter.jpg; New game faces: head-long-medium-adult top-hoodie-maroon hair-updo-black head-fair-adult shirt-dress-lightblue tie-silk-forestgreen jacket-suit-brown face-beard-darkbrown hair-curls-darkbrown head-long-light-adult shirt-dress-white jacket-blazer-charcoal hair-cornrows-black head-round-brown-adult shirt-dress-cream jacket-suit-charcoal face-beard-round-darkbrown hair-balding-darkbrown
+creator opened: {"figureImgs":0,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random place","Random"],"lookRows":0,"swatches":0,"pics":0}
+after Male: {"figureImgs":138,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random place","Random"],"lookRows":8,"swatches":17,"pics":134}
+after Random 1: {"figureImgs":139,"gender":[],"given":"Miles","family":"Simmons","birthday":"October 17 1972 (age 52)","place":"Augusta, Kansas","randomButtons":["Random place","Random"],"lookRows":8,"swatches":18,"pics":135}
+after Random 2: {"figureImgs":99,"gender":[],"given":"Ivy","family":"Williamson","birthday":"January 31 1964 (age 60)","place":"Olin, Iowa","randomButtons":["Random place","Random"],"lookRows":7,"swatches":17,"pics":96}
+began: status 200 place Olin, Iowa
+card: Ivy Williamson | Monday, January 20, 202510:00 PM
+You sheet: Ivy Williamson Server, Monroe's Kitchen Who I am I work as a server at Monroe's Kitchen. I was born in Iowa City, Iowa in 1964. Politics Conservative What I'm like Thinks it through STRONG Confrontational STRONG Lets things slip STRONG Takes chances STRONG My life At 5, I was a student in Iowa City,
+errors []

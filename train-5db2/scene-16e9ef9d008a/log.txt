@@ -1,0 +1,20 @@
+seed 16e9ef9d008a place Beaver Falls, Pennsylvania
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x382 w676 of 1440; Rene Bates[] h111; Liam Bates[] h111; Sandra Bates[] h111"]
+shot 02-room.png
+room strips: ["here: strip x472 w928 of 1440; Sandra Bates[talkable] h104; Liam Bates[] h104; Rene Bates[talkable] h104"]
+room people 3; talkable 2; named-not-talkable 0
+shot 03-room-click-Liam-Bates.png
+after clicking Liam Bates (not talkable): sheet false card text  /          /          /          /       
+card open false name 
+close probe {"r":[0,0,0,0],"xs":["news-surface-close@1368,38"],"at":"<img id=\"backdrop-next\" alt=\"\">"}
+title box null
+after a mouse click on the close mark: card still open false
+shot 04-talk-with-Sandra-Bates.png
+talk strips: ["talk: strip x382 w676 of 1440; Sandra Bates[speaking] h129; Liam Bates[quiet] h111; Rene Bates[quiet] h111"]
+shot 05-talk-click-Sandra-Bates.png
+after clicking Sandra Bates [busts-person speaking] on the talk strip: sheet false text  /          /          /          /       
+card open false name 
+shot 06-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []

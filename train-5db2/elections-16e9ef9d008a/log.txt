@@ -1,0 +1,22 @@
+seed 16e9ef9d008a place Beaver Falls, Pennsylvania me Patrick Bates
+  scene 1: Rene Bates Liam Bates Sandra Bates It's the evening of January 20. The house is quiet. Continue
+day one rows: ["contest:seat:gus2025:173796:council:0:2025-11-04 :: Council member File for it","contest:seat:gus2025:173796:mayor:0:2025-11-04 :: Mayor File for it"]
+local-races: [{"c":"contest:seat:gus2025:173796:council:0:2025-11-04","t":"Council member","may":false,"bar":null,"opens":"2025-01-10","el":"2025-11-04"},{"c":"contest:seat:gus2025:173796:mayor:0:2025-11-04","t":"Mayor","may":false,"bar":null,"opens":"2025-01-10","el":"2025-11-04"}]
+shot 01-elections-day-one
+race contest:seat:gus2025:173796:council:0:2025-11-04 Council member
+race page day one: buttons ["-:Daniel Banks","-:David Simpson","-:Derek Mendez","-:Russell Gallegos","file-for-it:File for it"] | Council memberNovember 4 Who's running Daniel Banks POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against GOVERNMENT ADMINISTRATION Against David Simpson POLICE PROTECTION For GOVERNMENT ADMINISTRATION Against AID TO OTHER GOVERNMENTS Against Derek Mendez NATURAL RESOURCES For HIGHER EDUCATION For HEALTH AND HOSPITALS For Russell Gallegos HEALTH AND HOSPITALS For HIGHER EDUCATION For NATURAL RESOURCES For Seats Seats to fill 3 Last time November 2, 2021 Daniel Banks Share of the vote 68 percent Dates Mar 11 Filing closes Nov 4 Election day File for it
+shot 02-race-day-one
+no Announce on the race page
+after 0 Sim to press(es), 1 scenes: race {"open":true,"opens":"2025-01-10","may":true,"bar":null}; header date ""
+race page at filing: buttons ["-:Daniel Banks","-:David Simpson","-:Derek Mendez","-:Russell Gallegos","file-for-it:File for it"] | Council memberNovember 4 Who's running Daniel Banks POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against GOVERNMENT ADMINISTRATION Against David Simpson POLICE PROTECTION For GOVERNMENT ADMINISTRATION Against AID TO OTHER GOVERNMENTS Against Derek Mendez NATURAL RESOURCES For HIGHER EDUCATION For HEALTH AND HOSPITALS For Russell Gallegos HEALTH AND HOSPITALS For HIGHER EDUCATION For NATURAL RESOURCES For Seats Seats to fill 3 Last time November 2, 2021 Daniel Banks Share of the vote 68 percent Dates Mar 11 Filing closes Nov 4 Election day File for it
+shot 03-race-filing-open
+shot 04-counter
+  counter: Kieran Wilkinson Kieran Wilkinson First thing on January 21st. You walk in to ask for the papers to run, and Kieran Wilkinson, the county board of elections, is already at the counter. Continue
+  replies ["Count me in for the council.","Who else is running in Beaver Falls?","Did Daniel Banks say anything about me?","Thanks, Kieran. I need to think it over."] -> Count me in for the council.
+  replies ["Count me in for the council.","Who else is running in Beaver Falls?","Did Daniel Banks say anything about me?","Thanks, Kieran. I need to think it over."] -> Count me in for the council.
+  counter: Kieran Wilkinson PATRICK BATES Count me in for the council. Done. You and Daniel Banks for the council, then. Continue
+rows after filing: ["contest:seat:gus2025:173796:council:0:2025-11-04 :: Council member You are running","contest:seat:gus2025:173796:mayor:0:2025-11-04 :: Mayor File for it"]
+shot 05-elections-after-filing
+race page after filing: Council memberNovember 4 Who's running Daniel Banks POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against GOVERNMENT ADMINISTRATION Against David Simpson POLICE PROTECTION For GOVERNMENT ADMINISTRATION Against AID TO OTHER GOVERNMENTS Against Derek Mendez NATURAL RESOURCES For HIGHER EDUCATION For HEALTH AND HOSPITALS For Patrick Bates Russell Gallegos HEALTH AND HOSPITALS For HIGHER EDUCATION For NATURAL RESOURCES For Seats Seats to fill 3 Last time November 2, 2021 Daniel Banks Share of the vote 68 percent Dates Mar 11 Filing closes Nov 4 Election day
+shot 06-race-after-filing
+errors ["Not an offered choice."]
