@@ -1200,6 +1200,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case walked a talk to the work question; with the talk's choice lines deleted no talk raises work, so across eight drawn places it found nobody to ask and checked nothing until the work topic is rebuilt. The four out-of-town answer lines dated Nov 15 or later stay in the bank."
+    },
+    {
+      "old": "src/director/volunteer-offer-weight.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the volunteer-offer scene to play before it read the campaign record; the scene's lines are deleted, so no offer joined and it checked nothing."
     }
   ]
 }

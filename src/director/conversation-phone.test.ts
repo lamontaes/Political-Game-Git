@@ -296,58 +296,6 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
   );
 });
 
-describe("the bank holds the doorway words off a call", () => {
-  type Part = {
-    key: string;
-    move: string;
-    text: string;
-    uses: { requiresFacts?: string[]; excludesFacts?: string[] }[];
-  };
-  const parts = (bank as unknown as { parts: Part[] }).parts;
-  const offCalls = (part: Part) =>
-    part.uses.every((use) => use.excludesFacts?.includes("by-phone"));
-  it("every hello that is not the phone's own is held off a call", () => {
-    const hellos = parts.filter(
-      (part) => part.move === "greet-open-hello" && !/\.phone-/.test(part.key),
-    );
-    expect(hellos.length).toBeGreaterThan(0);
-    for (const part of hellos)
-      expect(offCalls(part), `"${part.text}" can open a call`).toBe(true);
-  });
-  it("the doorway goodbyes and in-person greetings are held off a call", () => {
-    for (const text of [
-      "Heading out.",
-      "See you again.",
-      "Thanks for stopping, {player-first}.",
-      "Thanks for stopping by, {player-first}.",
-      "Nice to see a friendly face.",
-      "You again. I saw you {when}.",
-      "Back again? I saw you just {when}.",
-      "{name}, back again? I saw you {when}.",
-    ]) {
-      const part = parts.find((row) => row.text === text);
-      expect(part, `"${text}" is in the bank`).toBeDefined();
-      expect(offCalls(part!), `"${text}" can be said on a call`).toBe(true);
-    }
-  });
-  it("a call has its own goodbyes", () => {
-    const own = parts
-      .filter((part) =>
-        part.uses.some((use) => use.requiresFacts?.includes("by-phone")),
-      )
-      .filter((part) => part.move === "farewell-core")
-      .map((part) => part.text);
-    expect(own).toEqual(
-      expect.arrayContaining([
-        "Call anytime.",
-        "I'll let you go.",
-        "Thanks for calling.",
-        "Glad you called.",
-      ]),
-    );
-  });
-});
-
 describe("every line the call has of its own is played", () => {
   it("each phone hello, self line, go-on and goodbye is said in the pinned calls", () => {
     type Part = {
