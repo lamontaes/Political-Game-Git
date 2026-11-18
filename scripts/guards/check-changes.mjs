@@ -93,7 +93,7 @@ export function checkChanges(
         );
     }
     // Skills, rules and docs are written in American English, as player text
-    // is (owner; "cancelled" turned every pull request red on Nov 17): a
+    // is (owner: a British spelling of "canceled" turned every pull request red on Nov 17): a
     // change may not add a British spelling to them.
     if (
       new RegExp(rules.spellingFiles).test(change.path) &&
