@@ -1507,9 +1507,10 @@ function holdsPost(api: CoreAPI, personId: string): boolean {
  */
 function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
   const out = new Map<string, OfficeTime>();
-  // The office-time readers are one list for every world in the process
-  // (work.ts): a small world with no laws or offices has no state office.
+  // The office-time readers are shared across worlds in the process. A
+  // world contributes state-office time only if it opened the state office day.
   if (
+    !api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) ||
     !api.state.modules.has(LAWS_MODULE_ID) ||
     !api.state.modules.has(OFFICES_MODULE_ID)
   )
