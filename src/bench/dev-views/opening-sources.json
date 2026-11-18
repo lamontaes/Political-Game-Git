@@ -82,6 +82,22 @@
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressElections: every state legislative seat in its own cycle from 1925 on the one path (electorate.ts countParties), the played town's state seat by seat and every other state's chambers as results (each district its own place), every district's lean carried from its own results; a chamber not elected on the two national sides (Nebraska's) keeps the real record. Seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
     },
+    "town.stateLean": {
+      "made": "decision",
+      "by": "src/core2/electorate-places.ts statePlaces: in a world whose day one is the century's, every counted place in the state moves by the one shift that puts the state's vote-weighted lean on its last century count (src/core2/electorate-century.ts centuryStateShare); under the world setting history \"today\", the 2024 presidential vote by county moved by the world's swing."
+    },
+    "town.districtLeans": {
+      "made": "decision",
+      "by": "src/core2/modules/officials.ts seatLean: in a world whose day one is the century's, each House and state legislative district stands where the century's last count left it (src/core2/electorate-century.ts centurySignedLean, from its districtLeans); under the world setting history \"today\", the 2024 House and state legislative results (Clerk, MEDSL) moved by the world's swing."
+    },
+    "town.partyTies": {
+      "made": "decision",
+      "by": "src/core2/modules/parties.ts openParties: in a world whose day one is the century's, each adult takes their side's party when their own lean reaches partyIdentityReach of the way to the party's day-one position, and has no party at or under noPartyReach (centuryTies); under the world setting history \"today\", the published shares (Gallup's 56% with a party, Pew's 7% with none) by quota."
+    },
+    "town.parties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts partyPositionsNow: each party stands where the members it holds in Congress stand after each even November (the mean of their seats' leans, put on the members' scale by centuryPartyLeanScale); its key issues are the policy questions where its stance and the other party's differ most (electorate-century-laws.ts partyKeyIssues, the one stance rule); its presidencies are the century's; its members of Congress are drawn around its day-one position (src/core2/officials-roster.ts drawOfficial). Under the world setting history \"today\", today's real parties."
+    },
     "town.congresses": {
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"

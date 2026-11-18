@@ -7609,18 +7609,6 @@
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
     }
   },
-  "worldBaseRateMortalitySpreadShare": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
-    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
-    "spread": {
-      "low": 0.02,
-      "high": 0.08,
-      "unit": "share of the published rate",
-      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
-    }
-  },
   "worldBaseRateNatalitySpreadShare": {
     "value": 0.05,
     "tag": "ESTIMATED",
