@@ -1,0 +1,14 @@
+seed grano-probe place Grano, North Dakota
+parties listed 3: ["Democratic","Republican","Libertarian"]
+party 1 "Democratic": Democratic About Sonia Skinner Chair MEMBERS 3 MEETS February 18, 2025 Positions FAVORS Medicare drug price negotiation FAVORS Statehood for dc FAVORS Forgive student loans In office Linda Barton President Judy Flynn Vice President Robert McClain U.S. Senator David McPherson U.S. Senator Kenneth Wagner U.S. Representative Hannah Holland Governor Kevin Bennett Lieutenant Governor Donald Wynn Attorney General Avery Cunningham Secretary of State Paula Stafford Treasurer Gail Vance State Auditor Michelle Wells Commissioner of Agriculture William Hodges Insurance Commissioner Thomas Wright Tax Commissioner Matthew Bishop Public Service Commission Me Join Democratic
+  page height 652/652
+  Join at y780 h34; sheet bottom 842; scrollers ["pager 568/136"]
+party 2 "Republican": Republican About Reuben Sweet Chair MEMBERS 6 MEETS February 18, 2025 Positions OPPOSES Medicare drug price negotiation OPPOSES Statehood for dc OPPOSES Forgive student loans In office Carol Pena State Senator Heather Hardy State Representative Daniel Poole State Representative Me Join Republican
+  page height 652/652
+  Join at y780 h34; sheet bottom 842; scrollers []
+  Join visible after scroll: true in viewport {"x":480,"y":779.78125,"width":140.4375,"height":34}
+party 3 "Libertarian": Libertarian About CHAIR None MEMBERS 0 MEETS February 18, 2025 Positions OPPOSES Medicare drug price negotiation OPPOSES Statehood for dc OPPOSES Forgive student loans In office Me Join Libertarian
+  page height 487/487
+  Join at y615 h34; sheet bottom 677; scrollers []
+clicked "Sonia Skinner Chair": card open true name Sonia Skinner
+errors []
