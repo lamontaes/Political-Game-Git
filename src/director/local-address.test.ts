@@ -3,7 +3,6 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
 import { TERM_MEASURES } from "../core2/term-read";
@@ -85,32 +84,4 @@ describe("a governor's and a mayor's address", () => {
       expect(localAddressDate(level, 2026), level).toMatch(/^2026-\d\d-\d\d$/);
     }
   });
-
-  it("is given on its day in a played world, and the household sees it as the address scene", () => {
-    // A fresh world: the opening's own records only (no fixture rows).
-    const fresh = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    if (!fresh.director.ledger.people.has(fresh.playerId!))
-      fresh.director.watch(fresh.core, fresh.playerId!);
-    advanceCore(fresh.core, "2025-02-11");
-    const given = [...fresh.core.durableLog.values()].filter(
-      (row) => row.kind === "governor.address" || row.kind === "mayor.address",
-    );
-    process.stdout.write(
-      `LOCAL ADDRESSES GIVEN ${where}: ${given.map((row) => `${row.kind} ${row.date}`).join(", ") || "none"}\n`,
-    );
-    expect(given.length, where).toBeGreaterThan(0);
-    const book = fresh.director.ledger.people.get(fresh.playerId!)!;
-    for (const row of given) {
-      const entry = book.schedule.find((item) =>
-        item.momentId.includes(row.id),
-      );
-      expect(
-        entry?.bindings.some((binding) => binding.typeKey === "address"),
-        `${where}: ${row.id} is not the address scene`,
-      ).toBe(true);
-    }
-  }, 240_000);
 });

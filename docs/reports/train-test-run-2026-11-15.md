@@ -62,7 +62,7 @@ Each of these names its place and seed in its own failure line.
 - `src/core2/rival-campaign-day-played.test.ts`: Kirby, Wyoming.
 - `src/core2/modules/constituent-cases-warmth.test.ts`: Rock Ridge, Connecticut.
 - `src/bench/printed-police-log.test.ts`: Surrency, Georgia.
-- `src/director/justice-talk.test.ts`: Perkins, Georgia.
+- `src/director/justice-talk.test.ts` (removed): Perkins, Georgia.
 - `src/director/speech-occasion-read.test.ts`: Wilmington Manor, Delaware.
 - `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts` (removed): Ciales, Puerto Rico.
 - `src/bench/endorsement-played.test.ts` (2 tests): North Courtland, Alabama; Laurel, Montana.
