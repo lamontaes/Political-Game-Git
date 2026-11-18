@@ -83,6 +83,7 @@ import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
+import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
@@ -343,6 +344,12 @@ export interface MemberPosition {
   readonly press?: number;
   /** A member of Congress's state's stake in the bill's budget lines, within `constituents`. */
   readonly stateStake?: number;
+  /**
+   * The hole the bill would leave in their own government's budget: the share
+   * of the year's planned revenue its sections give up, weighed against the
+   * bill (`budgetHoleWeight`). Absent where the bill gives up none.
+   */
+  readonly budget?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
@@ -3601,6 +3608,39 @@ function billSettledness(api: CoreAPI, bill: BillRow): number {
  */
 let positionMemo: Map<string, MemberPosition> | null = null;
 
+/**
+ * What a bill's sections would take out of its own government's planned
+ * revenue, as a weight against it (zero or below): each section that ends a
+ * tax or lowers its rate, by the share of the budget in force the tax carries
+ * (`revenueGivenUp`), times `budgetHoleWeight`.
+ */
+function budgetHole(api: CoreAPI, bill: BillRow): number {
+  let share = 0;
+  for (const p of bill.provisions) {
+    if (!carriesRevenue(p.question ?? p.series) || p.repeal) continue;
+    const jurisdiction = billJurisdiction(api, bill);
+    share +=
+      p.kind === "policy-question" && p.question
+        ? revenueGivenUp(api, jurisdiction, {
+            question: p.question,
+            direction: p.value,
+          })
+        : p.kind === "law-amount" && p.series
+          ? revenueGivenUp(api, jurisdiction, {
+              series: p.series,
+              from: currentAmount(
+                api,
+                p.series,
+                billLevel(api, bill),
+                jurisdiction,
+              ),
+              to: p.value,
+            })
+          : 0;
+  }
+  return share ? -campaignParameter("budgetHoleWeight") * share : 0;
+}
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
   api: CoreAPI,
@@ -3675,8 +3715,11 @@ function positionOfMember(
   // What scenes about their vote left: after a veto override with the
   // sponsor, and the evening before this vote with the member who asked.
   const replies = replyPull(api, memberId, bill);
+  // The revenue the bill takes out of the budget this body must still pass:
+  // the same for every member, and larger the more of the budget the law carries.
+  const budget = budgetHole(api, bill);
   // Everything that decides the vote but personality: where they stand, home,
-  // the sponsor, deals, lobbying, party, their record and any bribe.
+  // the sponsor, deals, lobbying, party, their record, any bribe and the budget.
   const bare =
     views +
     answersHome +
@@ -3685,6 +3728,7 @@ function positionOfMember(
     lobby +
     consistency +
     bribe +
+    budget +
     replies.pull +
     (further
       ? further.party + further.wing + further.ambition + further.press
@@ -3713,6 +3757,7 @@ function positionOfMember(
     deal,
     lobby,
     ...(further ?? {}),
+    ...(budget ? { budget } : {}),
     trait,
     consistency,
     bribe,
@@ -6629,6 +6674,31 @@ function decideAtDesk(
         }
       : {},
   );
+  // A veto is a refusal the sponsor holds against whoever cast it (whether
+  // or not the body then overrode it): the drives engine reads this record
+  // and answers by the sponsor's own temperament, never by a roll.
+  if (
+    vetoes &&
+    executive.personId &&
+    executive.personId !== bill.sponsorId &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.emit({
+      id: `bill.vetoed:${bill.id}`,
+      date: api.state.date,
+      kind: "bill.vetoed",
+      personIds: [bill.sponsorId],
+      placeId: lawChain(api).townPlaceId,
+      publicRecord: false,
+      topic: executive.personId,
+      desiredChange: "bill.vetoed",
+      facts: { billId: bill.id, executiveId: executive.personId },
+      source: {
+        tag: "SOURCED",
+        citation: `Veto of ${bill.number}`,
+        asOf: api.state.date,
+      },
+    });
   return { status, decision: { executiveId: key, action: status }, override };
 }
 
@@ -7342,9 +7412,12 @@ function enact(
         level,
         series: provision.series,
         value: provision.value,
+        // A bill sets the law's amount, never its unit: a section that names
+        // no unit amends the law in the law's own unit.
         unit:
           shaped?.unit ??
           provision.unit ??
+          current?.unit ??
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
         measureId: bill.number,

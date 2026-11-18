@@ -56,6 +56,36 @@ export function measuredSpan(remainingMilliseconds, warmups) {
 export function profileFits(remainingMilliseconds, lastRun) {
   return remainingMilliseconds >= lastRun * policies.profileTimeMargin;
 }
+/**
+ * The place the paired run measures at. The draw is one place from every
+ * locality, and some have nobody to play (every adult lives in group
+ * quarters: a colony, a dormitory); a new game passes such a place over and
+ * takes the same state's next one (`passOver` in src/bench/world.ts). The
+ * measured revisions may be older than that rule, so the head's own build
+ * makes the choice once, here, and base and head both measure at the place it
+ * ends at, which is the draw itself where somebody lives there.
+ */
+export async function playablePlace(place, startDate, build) {
+  build ??= async (key, seed, start) => {
+    const { buildBenchWorld } = await import("../../src/bench/world.ts");
+    const world = buildBenchWorld(seed, start, {
+      twoLevel: true,
+      placeKey: key,
+    });
+    return { key: world.place.key, name: world.place.displayName };
+  };
+  const was = process.env.GOLDEN_PATH_PLACE_KEY;
+  process.env.GOLDEN_PATH_PLACE_KEY = place.key;
+  try {
+    const opened = await build(place.key, place.seed, startDate);
+    return opened.key === place.key
+      ? place
+      : { ...place, ...opened, passedOver: place.key };
+  } finally {
+    if (was === undefined) delete process.env.GOLDEN_PATH_PLACE_KEY;
+    else process.env.GOLDEN_PATH_PLACE_KEY = was;
+  }
+}
 export async function paired({ base, head, output }) {
   const cwd = process.cwd(),
     started = performance.now();
@@ -73,7 +103,7 @@ export async function paired({ base, head, output }) {
   base = git("rev-parse", `${base}^{commit}`);
   head = git("rev-parse", `${head}^{commit}`);
   const { drawPlace } = await import("../../tests/golden-path/place.ts");
-  const place = drawPlace(head, "M0-11");
+  let place = drawPlace(head, "M0-11");
   // Base and head open on the head's start date, so the two worlds match.
   const { gameStartDate } = await import("../../src/core2/game-start.ts");
   const startDate = gameStartDate();
@@ -150,6 +180,9 @@ export async function paired({ base, head, output }) {
       return { ...receipt, wallMilliseconds: lastMilliseconds[label] };
     };
   try {
+    // The head's build picks the place once (see `playablePlace`), and the
+    // two revisions then measure at it.
+    place = await playablePlace(place, startDate);
     groups.base = [];
     groups.head = [];
     let index = 0;
@@ -211,6 +244,7 @@ export async function paired({ base, head, output }) {
     }
     result = {
       ...compare(groups.base, groups.head),
+      ...(place.passedOver ? { passedOver: place.passedOver } : {}),
       profiles,
       runs: groups,
       elapsedMilliseconds: performance.now() - started,
@@ -224,6 +258,7 @@ export async function paired({ base, head, output }) {
       headRevision: head,
       seed: place.seed,
       placeKey: place.key,
+      ...(place.passedOver ? { passedOver: place.passedOver } : {}),
       profiles,
       elapsedMilliseconds: performance.now() - started,
     };
@@ -233,7 +268,7 @@ export async function paired({ base, head, output }) {
   writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
   const summary = result.error
     ? `## Core guard: ERROR\n\n${result.error.slice(0, 1000)}\n`
-    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\n${result.inputHash.changed ? `The opening's input changed (base ${result.inputHash.base}, head ${result.inputHash.head}); both opened the same seed, place and day.\n\n` : ""}Peak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns}, each run playing ${result.measuredDays} of ${policies.measuredDays} days after ${policies.warmupDays}-day warmups.\n\n` +
+    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\n${result.inputHash.changed ? `The opening's input changed (base ${result.inputHash.base}, head ${result.inputHash.head}); both opened the same seed, place and day.\n\n` : ""}Peak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}${result.passedOver ? ` (the draw, ${result.passedOver}, has nobody to play, so the same state's next place)` : ""}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns}, each run playing ${result.measuredDays} of ${policies.measuredDays} days after ${policies.warmupDays}-day warmups.\n\n` +
       (profiles.head?.self
         ? "Slowest sampled head functions (profiles include opening and month):\n\n" +
           profiles.head.self
