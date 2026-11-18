@@ -24,7 +24,8 @@ import {
 } from "./life-stake-rule";
 import { ageOnDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
-import { fullHouseholdIncomes, incomeBandOf } from "./counted-income-fifth";
+import { fullHouseholdIncomes, incomeBandOn } from "./counted-income-fifth";
+import { coreAPI } from "./state";
 import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { planReaders } from "./life-plan-readers";
@@ -231,7 +232,10 @@ export function fullLifeStake(
           : index.housed.has(person.placeId)
             ? 0
             : reference("rents"),
-      incomeFifth: incomeBandOf(incomeOf(core, index, person.householdId)),
+      incomeFifth: incomeBandOn(
+        coreAPI(core),
+        incomeOf(core, index, person.householdId),
+      ),
       noWork: working ? (job ? 0 : 1) : reference("noWork"),
       // A plan the coverage engine keeps no record of is not known: the nation's average.
       noPrivatePlan:
@@ -319,7 +323,7 @@ export function countedLifeStake(
           : monthIndex(core).housed.has(h.placeId)
             ? 0
             : reference("rents"),
-      incomeFifth: incomeBandOf(householdIncome(rt, h)),
+      incomeFifth: incomeBandOn(coreAPI(core), householdIncome(rt, h)),
       noWork: working(age)
         ? atWork.has(personId)
           ? 0

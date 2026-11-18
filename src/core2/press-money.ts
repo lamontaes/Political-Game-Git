@@ -208,7 +208,8 @@ export function adBudgetMonthMinor(
   if (!(costs > 0)) return 0;
   // A business with less cash than its cushion of costs advertises less, in
   // proportion: sliding, never a cutoff.
-  const cushion = costs * api.parameter("businessCushionMonths");
+  // The cash it keeps back is one month of its costs, its books' pay cycle.
+  const cushion = costs;
   const willing = Math.max(
     0,
     Math.min(1, netCash(core, businessId) / Math.max(1, cushion)),
