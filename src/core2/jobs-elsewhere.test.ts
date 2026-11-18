@@ -96,20 +96,43 @@ if (process.env.JOBS_ELSEWHERE_REPORT)
   );
 
 describe(`working lives elsewhere over a year in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("starts with the share at work CPS 2024 gives people their ages", () => {
+  // Pins family 32 (#9747): the share at work is each world's own, printed
+  // beside CPS 2024's for the same ages and not held near it. The check is
+  // the relationship age carries: people in their prime working years are at
+  // work more often than those past 65, at the start and a year on.
+  const atWorkByAge = (rows: readonly { id: string; birthDate: string }[]) => {
+    const share = (low: number, high: number) => {
+      const group = rows.filter((row) => {
+        const age = ageOf(row.birthDate);
+        return age >= low && age <= high;
+      });
+      const employed = group.filter(
+        (row) => rowOf(row.id)?.status === "employed",
+      ).length;
+      return {
+        employed,
+        of: group.length,
+        share: employed / Math.max(1, group.length),
+      };
+    };
+    return { prime: share(25, 54), past65: share(65, 200) };
+  };
+
+  it("starts with people in their prime working years at work more often than those past 65", () => {
     expect(working.length).toBeGreaterThan(50);
-    const spread = 3 * Math.sqrt(expectedEmployed);
-    expect(employedAtStart.length).toBeGreaterThanOrEqual(
-      expectedEmployed - spread,
+    const ages = atWorkByAge(working);
+    process.stdout.write(
+      `work elsewhere at start: ${employedAtStart.length} of ${working.length} at work (CPS 2024 for their ages: ${expectedEmployed.toFixed(1)}); 25 to 54 ${(100 * ages.prime.share).toFixed(1)}% of ${ages.prime.of}, 65 and over ${(100 * ages.past65.share).toFixed(1)}% of ${ages.past65.of}\n`,
     );
-    expect(employedAtStart.length).toBeLessThanOrEqual(
-      expectedEmployed + spread,
-    );
+    expect(employedAtStart.length).toBeGreaterThan(0);
+    expect(ages.prime.of).toBeGreaterThan(0);
+    expect(ages.past65.of).toBeGreaterThan(0);
+    expect(ages.prime.share).toBeGreaterThan(ages.past65.share);
   });
 
-  it("still has about the share at work CPS 2024 gives their ages a year later", () => {
-    // Flows in and out of work hold the share near CPS's: those let go find
-    // work again, and the older retire (a wider allowance for a year's aging).
+  it("a year later, still has people in their prime working years at work more often than those past 65", () => {
+    // Flows in and out of work carry the year: those let go find work again,
+    // and the older retire.
     const now = people().filter((row) => ageOf(row.birthDate) >= 16);
     const atWork = now.filter((row) => rowOf(row.id)?.status === "employed");
     const expected = now.reduce(
@@ -117,8 +140,12 @@ describe(`working lives elsewhere over a year in ${input.placeMetadata?.placeNam
         sum + CPS.employedPctByAge[bandOf(ageOf(row.birthDate))!]! / 100,
       0,
     );
-    expect(atWork.length).toBeGreaterThanOrEqual(0.9 * expected);
-    expect(atWork.length).toBeLessThanOrEqual(1.1 * expected);
+    const ages = atWorkByAge(now);
+    process.stdout.write(
+      `work elsewhere a year on: ${atWork.length} of ${now.length} at work (CPS 2024 for their ages: ${expected.toFixed(1)}); 25 to 54 ${(100 * ages.prime.share).toFixed(1)}%, 65 and over ${(100 * ages.past65.share).toFixed(1)}%\n`,
+    );
+    expect(atWork.length).toBeGreaterThan(0);
+    expect(ages.prime.share).toBeGreaterThan(ages.past65.share);
   });
 
   it("lets people go and moves them to other jobs at about the JOLTS rates a year", () => {

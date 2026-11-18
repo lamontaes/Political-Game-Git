@@ -4829,6 +4829,8 @@ select.release-pick {
   position: absolute;
   top: 22px;
   right: 30px;
+  /* Above the name heading, which spans the card: the close mark takes the click. */
+  z-index: 3;
 }
 .strip-screen .mx3cols.one {
   grid-template-columns: minmax(0, 640px);

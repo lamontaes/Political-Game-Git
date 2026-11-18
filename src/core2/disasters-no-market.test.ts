@@ -9,6 +9,7 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   disasterRepairsPaid,
   normalizedGovernmentName,
+  causeDamagingDisaster,
   townDisastersWithDamage,
 } from "./modules/disasters";
 import {
@@ -128,6 +129,7 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
     });
     const where = `${place.name} (${place.key}), seed ${seed}`;
     const api = coreAPI(core);
+    causeDamagingDisaster(api);
     const end = addDays(makeIsoDate(core.date), 365);
     const disaster = dueIn(core, end)[0];
     expect(
@@ -150,7 +152,13 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
       personIds: [player.id],
       placeId: town!,
       ...(countyId ? { countyId } : {}),
-      householdId: `${player.householdId}:moved:${player.id}:${core.date}`,
+      // Alone in the household by the eve (the others may have left or died): the household moves
+      // whole, under its own id; with others in it, the player leaves them behind under a new one.
+      householdId: (core.households.get(player.householdId)?.memberIds ?? [])
+        .filter((id) => core.people.get(id)?.alive)
+        .every((id) => id === player.id)
+        ? player.householdId
+        : `${player.householdId}:moved:${player.id}:${core.date}`,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
@@ -215,13 +223,16 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
       const drawn = drawPlace(`${drawSeed}:${draw}`, "disasters-no-market");
       const name = normalizedGovernmentName(drawn.name.split(",")[0] ?? "");
       if (!townsWithDamage(drawn.state.replace(/^US-/, "")).has(name)) continue;
-      opened += 1;
       const core = createLifeCore(
         generatedOpening(drawn, {
           twoLevel: true,
           settings: { population: 1500 },
         }),
       );
+      // The county's own exposure makes the disaster: cause the next that damages the town.
+      // A place whose county has none recorded is passed over unopened.
+      if (!causeDamagingDisaster(coreAPI(core))) continue;
+      opened += 1;
       if (!dueIn(core, addDays(makeIsoDate(core.date), 365)).length) continue;
       const where = `${drawn.name} (${drawn.key}), seed ${drawSeed}:${draw}`;
       const damaged = playYear(core);
