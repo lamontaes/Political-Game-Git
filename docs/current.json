@@ -1278,6 +1278,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Both cases read the first speech part the planner offers from the opening-speech bank; with that bank cut to its post-Nov-15 lines the planner offers nothing for the town's worst area or its good news, and the test threw on the missing part."
+    },
+    {
+      "old": "src/director/speech-builder.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Both cases needed the speech bank's parts to offer four choices at four stages; the cut left none for them, so nothing was offered and the second threw on a missing part. The four-choices rule returns with the rebuilt speech bank."
     }
   ]
 }
