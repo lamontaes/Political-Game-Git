@@ -6,9 +6,11 @@
  * - town residents outside the player's household hold the address, sourced
  *   to the address's own record (they watched it), learned the day it aired,
  *   and the town's share of watchers sits near the sourced audience share;
- * - a neighbor filled in from the counts the next morning is read by the same
- *   rule, and one who holds it is offered the address and its point in a talk
- *   with the player, citing how they learned it.
+ * - a town resident met (filled in from the counts) the next morning is read
+ *   by the same rule, and one who holds it is offered the address and its
+ *   point in a talk with the player, citing how they learned it. The people
+ *   the player already knows who hold it are counted and printed (most hold
+ *   it only by chance of their habit: word of mouth is not built).
  *
  * Seed from GOLDEN_PATH_SEED (random when unset); the place used and every
  * place passed over are printed.
@@ -32,13 +34,13 @@ import { ADDRESS_FACT } from "./opening-facts";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = 6;
-/** Counted households of the town filled in, at most, looking for a neighbor who watched. */
+/** Counted households of the town filled in, at most, looking for a resident met the next day who watched. */
 const NEIGHBORS = 60;
 /** How far the town's share of watchers may sit from the sourced share: one household's worth in a town of a hundred or so full residents. */
 const SHARE_SLACK = 0.06;
 
 it(
-  `a neighbor outside the player's house holds the address, with its source, and raises it (seed ${seed})`,
+  `a town resident outside the player's house holds the address, with its source, and one met the next day raises it (seed ${seed})`,
   { timeout: 900_000 },
   () => {
     setBookkeeping(false);
@@ -79,6 +81,13 @@ it(
         expect(row.sourceId, where).toBe(eventId);
         expect(row.learnedAt, where).toBe(mine.learnedAt);
       }
+      const known = [...player.knownIds].filter(
+        (id) =>
+          core.people.get(id as PersonId)?.householdId !== player.householdId,
+      );
+      const knownHolders = known.filter((id) =>
+        core.knowledgeByPerson.get(id)?.has(ADDRESS_FACT.event),
+      ).length;
       expect(
         outside.length,
         `${where}: no one outside the house watched`,
@@ -138,7 +147,7 @@ it(
         continue;
       }
       process.stdout.write(
-        `address audience: ${where}; ${holders} of ${residents} full residents watched (share ${addressWatchedShare()}); neighbor ${raised.id} filled in on day 1 after ${filled} households raises the point, learned from ${raised.source}; passed over: ${passed.join("; ") || "none"}\n`,
+        `address audience: ${where}; ${holders} of ${residents} full residents watched (share ${addressWatchedShare()}); ${knownHolders} of the ${known.length} people the player knows outside the house hold it; resident ${raised.id} filled in on day 1 after ${filled} households raises the point, learned from ${raised.source}; passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }

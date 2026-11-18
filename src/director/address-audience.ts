@@ -5,7 +5,7 @@
  *
  * The press's own audience rule decides, as it decides who follows an outlet
  * (`audienceOfKind`, src/core2/modules/press.ts): people are taken in the
- * order of their news habit (`habitScore`: how closely they follow politics,
+ * order of their news habit (`habitOf`, the press's kept `habitScore`: how closely they follow politics,
  * their view's engagement against its survey cell, plus every trait's lean
  * toward keeping up), up to the share of residents the real audience gives
  * (Nielsen's inaugural audiences, `addressWatchedLiveShare`). Watching is a
@@ -29,7 +29,7 @@ import airing from "../core2/data/opening/address-airing.json" with { type: "jso
 import { isDemoted } from "../core2/counted-groups";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { atWork } from "../core2/modules/campaigns";
-import { habitScore } from "../core2/modules/press";
+import { habitOf } from "../core2/modules/press";
 import { P } from "../core2/parameters";
 import { registerWorldMapPart } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
@@ -89,6 +89,7 @@ export function addressAudience(
   placeId: string,
   watchingHousehold: readonly PersonId[],
 ): AddressAudience {
+  const api = coreAPI(core);
   const { minuteOfDay, shiftsDay } = addressAiring(core, placeId);
   // Where the airing falls on the next local date (Guam, the Northern
   // Marianas), the shifts read are that date's.
@@ -119,7 +120,7 @@ export function addressAudience(
     let habit: number | null = null;
     for (const person of people) {
       if (ageOnDate(person.birthDate, core.date) < adultAge) continue;
-      const score = habitScore(person, core);
+      const score = habitOf(api, person);
       if (habit === null || score > habit) habit = score;
     }
     if (habit !== null) leads.push({ householdId, habit });
@@ -129,14 +130,20 @@ export function addressAudience(
   );
   let cut: number | null = null;
   for (const lead of leads) {
-    if (watcherIds.length >= target) break;
+    // At least one house beyond the one given has it on: a town where the
+    // player's household alone makes the share still has others watching.
+    if (cut !== null && watcherIds.length >= target) break;
     // The last house taken is the one that brings the count nearest the
     // share: a large household that would overshoot it by more than the
     // count falls short is not taken, and the count stops there.
     const size = homes
       .get(lead.householdId)!
       .filter((person) => !taken.has(person.id)).length;
-    if (watcherIds.length + size - target > target - watcherIds.length) break;
+    if (
+      cut !== null &&
+      watcherIds.length + size - target > target - watcherIds.length
+    )
+      break;
     for (const person of homes.get(lead.householdId)!)
       if (!taken.has(person.id)) {
         taken.add(person.id);
@@ -224,7 +231,7 @@ export function watchedAtFillIn(
     const lead = home
       .filter((person) => ageOnDate(person.birthDate, row.date) >= P.votingAge)
       .reduce<number | null>((best, person) => {
-        const score = habitScore(person, core);
+        const score = habitOf(api, person);
         return best === null || score > best ? score : best;
       }, null);
     if (lead === null || lead < row.cut) continue;
