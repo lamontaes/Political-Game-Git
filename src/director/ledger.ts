@@ -107,6 +107,11 @@ interface Change {
   raw: Map<string, number>;
   broadEventId?: string;
   placeId?: string;
+  /**
+   * The channel that names the moment, where a pass names it whatever channel
+   * is strongest (a lost job is a money moment: `money:job-ended`).
+   */
+  labelChannel?: string;
   /** The causing event names the person among its own people. */
   selfNamed?: true;
   /** Counterparts whose faded thread this change renewed. */
@@ -1199,7 +1204,7 @@ export function createDirector(
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
-        change(
+        const made = change(
           named ? named.event.id : (priorJob ?? nowJob)!,
           kind,
           "money",
@@ -1209,6 +1214,15 @@ export function createDirector(
             ? named.event.id
             : undefined,
         );
+        // A lost job is one moment, `money:job-ended`, the label every reader
+        // of a lost job reads (the layoff at work, the news at home, the talk
+        // and the journal), even where the event that ended it made the row
+        // first or weighs more (the feeling of being let go, a drive it
+        // formed): the row keeps every channel's part in its impact.
+        if (kind === "job-ended") {
+          made.causeKind = kind;
+          made.labelChannel = "money";
+        }
         break;
       }
     }
@@ -1322,7 +1336,7 @@ export function createDirector(
       const strongest = [...contributions].sort(
         (a, b) => b.contribution - a.contribution,
       )[zero]!;
-      const label = `${strongest.channel}:${row.causeKind}`;
+      const label = `${row.labelChannel ?? strongest.channel}:${row.causeKind}`;
       if (impact < param("directorMomentFloor")) {
         book.belowFloor.set(label, (book.belowFloor.get(label) ?? zero) + one);
         continue;
@@ -1381,7 +1395,7 @@ export function createDirector(
       ...(row.selfNamed ? { selfNamed: true as const } : {}),
       echoes: [],
     };
-    // The label's channel is the strongest contribution.
+    // The label's channel: the strongest contribution, or the channel that names it.
     const strongest = label.slice(zero, label.indexOf(":"));
     for (const otherId of counterpartIds) {
       const earlier = pairMoments(book, otherId);

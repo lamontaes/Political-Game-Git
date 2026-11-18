@@ -128,6 +128,10 @@ const layoffWorld: CoreModule = {
       placeId,
       publicRecord: false,
       topic: employer,
+      // Being let go is felt as well as paid for, as the jobs engine records
+      // it: the feeling makes the lost job's row before its pay is measured.
+      stressImpulse: 1,
+      moodImpulse: -1,
       facts: { decidedBy: "person:boss", organizationId: employer },
       source,
     });
