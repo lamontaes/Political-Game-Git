@@ -2432,7 +2432,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-close-was-it",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
           "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
@@ -26608,6 +26608,5442 @@
       "tag": {
         "move": "leave",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-across-the-room-to-you-as-the-count-comes-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes across the room to you as the count comes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-your-side-when-the-last-of-the-count-is-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is at your side when the last of the count is in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-people-who-worked-for-you-go-quiet-around-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The people who worked for you go quiet around {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-up-beside-you-while-the-others-hold-back",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps up beside you while the others hold back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-count-is-in-and-opponent-has-won-will-you-call-to-concede",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The count is in, and {opponent} has won. Will you call to concede?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.opponent-is-waiting-on-a-word-from-you-do-you-want-to-make-the-call",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{opponent} is waiting on a word from you. Do you want to make the call?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-race-for-office-is-called-are-you-going-to-phone-the-winner",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The race for {office} is called. Are you going to phone the winner?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.people-are-looking-to-you-now-do-you-call-about-the-race-for-office-or-wait",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People are looking to you now. Do you call about the race for {office}, or wait?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.place-has-made-its-choice-will-you-call-to-concede",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{place} has made its choice. Will you call to concede?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-inside-the-recount-margin-so-you-could-wait-on-opponent-do-you-want-to-call",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's inside the recount margin, so you could wait on {opponent}. Do you want to call?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-state-will-count-it-again-on-its-own-do-you-still-want-to-call-opponent-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The state will count it again on its own. Do you still want to call {opponent} now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["recount-automatic"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.we-lost-the-race-for-office-i-ll-make-the-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "We lost the race for {office}. I'll make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.the-race-for-office-is-over-and-i-ll-say-so-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "The race for {office} is over, and I'll say so myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.get-opponent-on-the-phone-i-ll-concede",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Get {opponent} on the phone. I'll concede.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-call-opponent-and-say-it-to-them-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll call {opponent} and say it to them myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.make-the-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-place-deserves-a-clean-ending",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. {place} deserves a clean ending.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-end-this-well-for-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll end this well for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-do-it-for-the-people-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll do it for the people in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-let-me-say-it-to-opponent-straight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. Let me say it to {opponent} straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-there-s-no-point-waiting-on-the-race-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then there's no point waiting on the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.if-that-s-the-count-i-ll-say-so-to-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "If that's the count, I'll say so to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-place-say-in-the-count",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did {place} say in the count?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-place-vote-all-told",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did {place} vote, all told?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-wide-is-it-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How wide is it in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-we-ask-for-another-count-against-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can we ask for another count against {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-what-the-count-says-and-opponent-won-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's what the count says, and {opponent} won it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-how-the-race-for-office-finished",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's how the race for {office} finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-where-place-came-down-in-the-end",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's where {place} came down in the end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-ahead-by-more-than-the-recount-rule-covers",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} is ahead by more than the recount rule covers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["recount-none"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-leads-by-so-little-that-the-state-counts-it-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} leads by so little that the state counts it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["recount-automatic"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-leads-by-little-enough-that-you-may-ask-for-another-count",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} leads by little enough that you may ask for another count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-beat-our-own-poll-by-more-than-it-said",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} beat our own poll by more than it said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["poll-wider"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-came-nearer-to-opponent-than-our-own-poll-had-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You came nearer to {opponent} than our own poll had you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["poll-closer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-went-the-way-our-poll-said-with-opponent-ahead",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It went the way our poll said, with {opponent} ahead.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "requiresFacts": ["poll-as-polled"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.yes-opponent-is-close-enough-that-you-may-ask-for-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes. {opponent} is close enough that you may ask for one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "scene-talk.reply-ask.can-we-ask-for-another-count-against-opponent",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-conceding-the-race-for-office-on-a-first-count",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not conceding the race for {office} on a first count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-until-the-race-for-office-is-certified",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not until the race for {office} is certified.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-call-opponent-before-the-count-is-final",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't call {opponent} before the count is final.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-yet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-want-every-ballot-in-place-counted-first",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I want every ballot in {place} counted first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-i-m-waiting-on-the-full-count-in-place",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. I'm waiting on the full count in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.that-changes-nothing-i-won-t-concede-to-opponent-yet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "That changes nothing. I won't concede to {opponent} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-answer-hasn-t-changed-i-won-t-call-opponent-yet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My answer hasn't changed. I won't call {opponent} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-race-for-office-isn-t-over-for-me-whatever-you-say",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The race for {office} isn't over for me, whatever you say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-s-wait-on-the-rest-of-place",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let's wait on the rest of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-place-a-little-longer-to-finish",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give {place} a little longer to finish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-to-think-about-what-i-say-to-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need to think about what I say to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-time",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-little-longer-on-the-race-for-office-then-i-ll-decide",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a little longer on the race for {office}. Then I'll decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-be-outside",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll be outside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-air",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need air.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.excuse-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Excuse me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-right-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-in-place-will-start-to-wonder-what-you-plan-to-say",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People in {place} will start to wonder what you plan to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-it-place-will-remember-how-you-handled-this",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about it. {place} will remember how you handled this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-longer-it-sits-the-harder-the-call-to-opponent-gets",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The longer it sits, the harder the call to {opponent} gets.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.opponent-is-going-to-hear-about-the-result-from-somebody-better-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "{opponent} is going to hear about the result from somebody. Better you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-call-opponent-and-let-these-people-go-home",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please call {opponent}, and let these people go home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.everyone-here-worked-on-the-race-for-office-don-t-leave-them-waiting",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Everyone here worked on the race for {office}. Don't leave them waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.do-it-for-place-if-not-for-you",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Do it for {place}, if not for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-running-for-office-and-for-how-you-re-ending-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for running for {office}, and for how you're ending it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.everyone-who-worked-for-you-is-proud-of-the-race-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Everyone who worked for you is proud of the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-gave-place-a-real-campaign-and-people-saw-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You gave {place} a real campaign, and people saw it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-took-more-than-most-would-have-with-opponent-on-the-line",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That took more than most would have, with {opponent} on the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-wait-on-the-count-in-the-race-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we wait on the count in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-wait-and-nobody-calls-opponent-yet",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we wait, and nobody calls {opponent} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-s-your-call-we-ll-stand-by-you-in-place",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It's your call. We'll stand by you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-papers-will-ask-why-opponent-hasn-t-heard-from-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The papers will ask why {opponent} hasn't heard from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-in-place-will-read-a-lot-into-a-night-with-no-call",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People in {place} will read a lot into a night with no call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.reporters-will-ask-about-the-race-for-office-before-you-ve-said-a-word",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Reporters will ask about the race for {office} before you've said a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-wait-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.decide-while-place-is-still-watching",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Decide while {place} is still watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.decide-before-opponent-hears-it-somewhere-else",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Decide before {opponent} hears it somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-calls-the-room-to-quiet-as-you-come-forward",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} calls the room to quiet as you come forward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-the-first-to-reach-you-once-the-win-is-called",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is the first to reach you once the win is called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-people-around-name-are-on-their-feet-when-you-walk-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The people around {name} are on their feet when you walk in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-aside-and-the-crowd-opens-up-in-front-of-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps aside, and the crowd opens up in front of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-won-the-race-for-office-what-do-you-want-everyone-to-hear",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You won the race for {office}. What do you want everyone to hear?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.will-you-say-something-about-opponent-before-you-thank-everyone",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Will you say something about {opponent} before you thank everyone?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.how-does-it-feel-to-carry-place",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How does it feel to carry {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.best-place-came-out-for-you-will-you-say-so",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{best_place} came out for you. Will you say so?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["best-place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.opponent-may-still-ask-for-another-count-do-you-want-to-say-anything-about-that",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{opponent} may still ask for another count. Do you want to say anything about that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-grateful-to-place-and-i-mean-that-plainly",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm grateful to {place}, and I mean that plainly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.opponent-ran-a-real-race-and-i-d-like-that-said",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "{opponent} ran a real race, and I'd like that said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.this-is-the-race-for-office-i-won-t-say-more-than-i-know",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "This is the race for {office}. I won't say more than I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-grateful",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm grateful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.thank-you-all-this-belongs-to-everyone-who-worked-for-it-in-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Thank you all. This belongs to everyone who worked for it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.opponent-ran-a-good-race-too-and-i-want-them-to-hear-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{opponent} ran a good race too, and I want them to hear that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.everyone-who-knocked-a-door-for-office-made-this-happen",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Everyone who knocked a door for {office} made this happen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.thank-you-all",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Thank you all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-people-in-place-saying",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are people in {place} saying?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.has-anyone-heard-from-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has anyone heard from {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-came-out-for-us-in-best-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who came out for us in {best_place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["best-place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Was the race for {office} as close as it felt?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.i-said-we-d-win-the-race-for-office-and-here-we-are",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I said we'd win the race for {office}, and here we are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.nobody-thought-we-d-beat-opponent-now-they-know",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Nobody thought we'd beat {opponent}. Now they know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.place-is-ours-and-it-was-ours-from-the-start",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "{place} is ours, and it was ours from the start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.our-way-worked-in-place",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Our way worked in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-what-place-needed-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's what {place} needed to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-exactly-how-to-say-it-after-the-race-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's exactly how to say it after the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.opponent-will-hear-that-and-so-will-everyone-else",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "{opponent} will hear that, and so will everyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.and-what-do-you-say-to-the-ones-who-backed-opponent",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "And what do you say to the ones who backed {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-you-say-more-about-serving-as-office-for-place",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can you say more about serving as {office} for {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-haven-t-said-who-stood-with-you-in-place",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You haven't said who stood with you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-say-you-earned-it-in-the-race-for-office",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They say you earned it in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.folks-in-place-are-saying-it-was-a-fair-fight",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Folks in {place} are saying it was a fair fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.people-are-glad-and-opponent-s-side-is-quiet-about-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "People are glad, and {opponent}'s side is quiet about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-a-word-yet-from-opponent",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not a word yet from {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.has-anyone-heard-from-opponent",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-s-people-have-gone-quiet-since-the-count-came-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent}'s people have gone quiet since the count came in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.has-anyone-heard-from-opponent",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.best-place-turned-out-for-you-more-than-anywhere-else",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{best_place} turned out for you more than anywhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.who-came-out-for-us-in-best-place",
+          "requiresFacts": ["best-place"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-wasn-t-close-and-opponent-never-got-near-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It wasn't close, and {opponent} never got near it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["recount-none"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-close-enough-that-the-state-counts-it-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} is close enough that the state counts it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["recount-automatic"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-close-enough-to-ask-for-another-count",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} is close enough to ask for another count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["recount-offered"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-came-closer-than-our-own-poll-said",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} came closer than our own poll said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["poll-closer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-beat-opponent-by-more-than-our-own-poll-said",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You beat {opponent} by more than our own poll said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["poll-wider"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-finished-where-our-own-poll-put-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} finished where our own poll put them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.reply-ask.was-the-race-for-office-as-close-as-it-felt",
+          "requiresFacts": ["poll-as-polled"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.people-are-glad-about-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "People are glad about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.people-are-talking-about-opponent",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "People are talking about {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.careful-now-a-lot-of-people-in-place-didn-t-vote-for-you",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Careful, now. A lot of people in {place} didn't vote for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.don-t-gloat-about-opponent-people-are-listening",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Don't gloat about {opponent}. People are listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.easy-you-still-have-to-serve-all-of-place-as-office",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Easy. You still have to serve all of {place} as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-we-all-worked-on-the-race-for-office-and-it-shows",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. We all worked on the race for {office}, and it shows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-saying-it-that-way-in-front-of-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for saying it that way in front of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-opponent-will-be-glad-you-said-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. {opponent} will be glad you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-be-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't be long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.come-back-soon-place-is-still-cheering-for-you",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Come back soon. {place} is still cheering for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.go-on-then-opponent-can-wait",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Go on, then. {opponent} can wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-in-place-will-notice-if-you-stay-away",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People in {place} will notice if you stay away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.watch-what-you-say-about-opponent-out-there",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Watch what you say about {opponent} out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.remember-the-race-for-office-belongs-to-everyone-now",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Remember, the race for {office} belongs to everyone now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.everyone-who-voted-for-opponent-gets-my-full-attention-too",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Everyone who voted for {opponent} gets my full attention too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.everybody-in-place-will-get-the-same-from-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Everybody in {place} will get the same from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.good-to-hear",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Good to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.that-s-good-to-hear-about-place",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "That's good to hear about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-ones-who-voted-for-opponent-are-in-place-too-and-they-count",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The ones who voted for {opponent} are in {place} too, and they count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-told-opponent-the-same-when-we-shook-hands",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I told {opponent} the same when we shook hands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-was-a-hard-race-for-office-and-i-won-t-pretend-otherwise",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It was a hard race for {office}, and I won't pretend otherwise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.that-came-out-wrong-about-opponent-i-take-it-back",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "That came out wrong about {opponent}. I take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-got-ahead-of-myself-place-deserves-better",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I got ahead of myself. {place} deserves better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-shouldn-t-talk-that-way-after-the-race-for-office",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I shouldn't talk that way after the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-everyone",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.we-won-the-race-for-office-i-m-allowed-to-enjoy-it",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "We won the race for {office}. I'm allowed to enjoy it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-thank-the-volunteers-in-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go thank the volunteers in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.back-shortly",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Back shortly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-beside-you-and-doesn-t-say-anything-yet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down beside you and doesn't say anything yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-after-the-count-is-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you after the count is in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-puts-a-hand-on-your-shoulder-and-stays-there",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} puts a hand on your shoulder and stays there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-takes-your-hand-when-the-count-is-read-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} takes your hand when the count is read out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-m-so-sorry-about-the-race-for-office",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I'm so sorry about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-know-how-much-this-meant-to-you-in-place",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I know how much this meant to you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.losing-to-winner-is-hard-and-i-m-here",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Losing to {winner} is hard, and I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-gave-you-my-weekends-for-the-race-for-office-and-i-d-do-it-again",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I gave you my weekends for the race for {office}, and I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.what-we-put-into-the-race-for-office-was-ours-to-give-and-i-m-proud-of-it",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "What we put into the race for {office} was ours to give, and I'm proud of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-standing-with-me-through-the-race-for-office",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for standing with me through the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-couldn-t-have-run-for-office-without-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I couldn't have run for {office} without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.it-means-a-lot-that-you-re-here-after-winner-s-win",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "It means a lot that you're here after {winner}'s win.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-carried-me-through-this-race-for-office",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You carried me through this race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-truly",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. Truly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-should-have-worked-place-harder",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I should have worked {place} harder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.winner-outspent-us-and-i-let-it-happen",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "{winner} outspent us, and I let it happen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-let-down-everyone-who-worked-on-the-race-for-office",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I let down everyone who worked on the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-thought-place-knew-me-better-than-this",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I thought {place} knew me better than this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-want-to-talk-about-the-race-for-office-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't want to talk about the race for {office} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-again-please",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not again, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "onlyWhen": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-fine-i-d-rather-think-about-anything-but-winner",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's fine. I'd rather think about anything but {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.the-race-for-office-can-wait-i-need-to-rest",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "The race for {office} can wait. I need to rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-going-to-run-for-office-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to run for {office} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-try-again-and-next-time-place-will-know-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll try again, and next time {place} will know me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.this-isn-t-the-end-of-it-with-winner",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This isn't the end of it with {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-time-and-i-ll-go-for-office-once-more",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me time, and I'll go for {office} once more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-just-glad-i-was-in-place-with-you-for-all-of-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm just glad I was in {place} with you for all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "thank",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.we-did-this-together-even-if-winner-won-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "We did this together, even if {winner} won it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "thank",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-m-here-for-in-the-race-for-office-or-not",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I'm here for, in the race for {office} or not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-you-for-the-race-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of you for the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.place-was-lucky-to-have-you-run",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "{place} was lucky to have you run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-ll-get-through-this-in-place-together",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We'll get through this in {place}, together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.don-t-put-winner-s-win-on-yourself",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Don't put {winner}'s win on yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-worked-place-as-hard-as-anyone-could",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You worked {place} as hard as anyone could.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.nobody-lets-anyone-down-running-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Nobody lets anyone down running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-s-a-lot-to-carry-after-the-race-for-office-and-you-don-t-carry-it-alone",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That's a lot to carry after the race for {office}, and you don't carry it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-for-telling-me-place-will-come-around-and-so-will-you",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you for telling me. {place} will come around, and so will you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-can-say-any-of-it-to-me-about-winner",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You can say any of it to me about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "tell",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-true-you-gave-the-race-for-office-everything",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not true. You gave the race for {office} everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.stop-that-winner-didn-t-win-because-of-you",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Stop that. {winner} didn't win because of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.talk-to-me-don-t-shut-me-out-over-the-race-for-office",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Talk to me. Don't shut me out over the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "deflect",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-asking-about-winner-i-m-asking-about-you",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not asking about {winner}. I'm asking about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "deflect",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.you-don-t-have-to-be-fine-in-front-of-me-in-place",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "You don't have to be fine in front of me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "deflect",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.do-you-really-want-to-run-for-office-again",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Do you really want to run for {office} again?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "promise",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.are-you-sure-about-another-try-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Are you sure about another try in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "promise",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.would-you-run-against-winner-again",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Would you run against {winner} again?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "promise",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-cost-us-more-than-i-said-and-winner-won-anyway",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It cost us more than I said, and {winner} won anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-race-for-office-took-more-out-of-me-than-i-let-on",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The race for {office} took more out of me than I let on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-afraid-of-how-place-saw-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm afraid of how {place} saw me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-keep-thinking-about-what-winner-said-in-the-last-week",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I keep thinking about what {winner} said in the last week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-d-run-place-the-same-way-again-mostly",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'd run {place} the same way again, mostly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.maybe-you-re-right-place-was-never-going-to-be-easy",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Maybe you're right. {place} was never going to be easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-re-kind-to-say-it-but-i-keep-replaying-it-in-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You're kind to say it, but I keep replaying it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-isn-t-all-me-i-know-it-still-feels-that-way-about-winner",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It isn't all me, I know. It still feels that way about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-needed-to-hear-that-thank-you-for-the-race-for-office",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I needed to hear that. Thank you for the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-that-helps-more-than-anything-about-winner",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. That helps more than anything about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-talk-to-you-before-i-decide-anything-about-the-race-for-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll talk to you before I decide anything about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.if-i-run-again-in-place-it-will-be-with-you-in-on-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "If I run again in {place}, it will be with you in on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-ready-to-say-anything-about-winner",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not ready to say anything about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.maybe-later-winner-s-win-is-too-fresh",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Maybe later. {winner}'s win is too fresh.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-the-race-for-office-can-wait-for-you",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. The race for {office} can wait for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.we-can-talk-about-the-race-for-office-whenever-you-re-ready",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We can talk about the race for {office} whenever you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-keep-it-all-inside-about-winner",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't keep it all inside about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["winner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.whatever-you-decide-don-t-do-it-alone-in-place",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Whatever you decide, don't do it alone in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
       }
     }
   ]
