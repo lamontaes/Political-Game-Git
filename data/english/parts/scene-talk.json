@@ -23980,10 +23980,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.let-me-see-what-i-can-do-for-position",
+      "key": "scene-talk.follow-accept.i-ll-see-what-i-can-do-about-the-terms-at-workplace",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Let me see what I can do for {position}.",
+      "text": "I'll see what I can do about the terms at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24005,10 +24005,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.i-asked-and-the-terms-for-position-won-t-change",
+      "key": "scene-talk.follow-refuse.i-asked-and-they-won-t-change-the-terms-at-workplace",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "I asked, and the terms for {position} won't change.",
+      "text": "I asked, and they won't change the terms at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24055,10 +24055,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.i-asked-and-they-said-no-the-offer-for-position-stands",
+      "key": "scene-talk.follow-refuse.i-asked-and-they-said-no-the-offer-stands-at-workplace",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "I asked, and they said no. The offer for {position} stands.",
+      "text": "I asked, and they said no. The offer stands at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24155,10 +24155,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-deflect.i-can-t-change-it-let-s-talk-about-the-terms-for-position",
+      "key": "scene-talk.follow-deflect.i-can-t-change-it-let-s-talk-about-the-terms-at-workplace",
       "move": "follow-deflect",
       "kind": "spoken",
-      "text": "I can't change it. Let's talk about the terms for {position}.",
+      "text": "I can't change it. Let's talk about the terms at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24180,10 +24180,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-deflect.not-mine-to-answer-i-can-explain-the-offer-for-position",
+      "key": "scene-talk.follow-deflect.not-mine-to-answer-i-can-explain-the-offer-from-workplace",
       "move": "follow-deflect",
       "kind": "spoken",
-      "text": "Not mine to answer. I can explain the offer for {position}.",
+      "text": "Not mine to answer. I can explain the offer from {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24280,10 +24280,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-vouch-for-you-to-anyone-hiring-for-position",
+      "key": "scene-talk.follow-promise.i-ll-vouch-for-you-to-anyone-hiring-for-work-as-position",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll vouch for you to anyone hiring for {position}.",
+      "text": "I'll vouch for you to anyone hiring for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -24405,10 +24405,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-won-t-sign-the-terms-for-position-as-they-stand",
+      "key": "scene-talk.reply-bargain.i-won-t-sign-the-terms-at-workplace-as-they-stand",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I won't sign the terms for {position} as they stand.",
+      "text": "I won't sign the terms at {workplace} as they stand.",
       "uses": [
         {
           "subject": "scene",
@@ -24480,10 +24480,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.take-my-case-up-and-come-back-with-more-for-position",
+      "key": "scene-talk.reply-bargain.take-my-case-up-and-come-back-with-more-from-workplace",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Take my case up and come back with more for {position}.",
+      "text": "Take my case up and come back with more from {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -24880,10 +24880,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-air-i-ll-read-the-terms-for-position-at-home",
+      "key": "scene-talk.reply-leave.i-need-air-i-ll-read-the-terms-from-workplace-at-home",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need air. I'll read the terms for {position} at home.",
+      "text": "I need air. I'll read the terms from {workplace} at home.",
       "uses": [
         {
           "subject": "scene",
@@ -25082,10 +25082,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thanks-for-taking-this-well-the-paperwork-for-position-is-easy",
+      "key": "scene-talk.close-thank.thanks-for-taking-this-well-the-paperwork-at-workplace-is-easy",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thanks for taking this well. The paperwork for {position} is easy.",
+      "text": "Thanks for taking this well. The paperwork at {workplace} is easy.",
       "uses": [
         {
           "subject": "scene",
@@ -25160,10 +25160,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.you-have-my-word-on-the-reference-for-position",
+      "key": "scene-talk.close-promise.you-have-my-word-on-the-reference-for-work-as-position",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "You have my word on the reference for {position}.",
+      "text": "You have my word on the reference for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -25186,10 +25186,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-understand-and-the-offer-for-position-stays-open-a-while",
+      "key": "scene-talk.close-accept.i-understand-and-the-offer-stays-open-at-workplace-a-while",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I understand, and the offer for {position} stays open a while.",
+      "text": "I understand, and the offer stays open at {workplace} a while.",
       "uses": [
         {
           "subject": "scene",
@@ -25238,10 +25238,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-won-t-press-take-the-papers-for-position-when-ready",
+      "key": "scene-talk.close-accept.i-won-t-press-take-the-papers-from-workplace-when-ready",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I won't press. Take the papers for {position} when ready.",
+      "text": "I won't press. Take the papers from {workplace} when ready.",
       "uses": [
         {
           "subject": "scene",
@@ -25264,10 +25264,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.without-a-signature-the-offer-for-position-will-lapse",
+      "key": "scene-talk.close-warn.without-a-signature-the-offer-at-workplace-will-lapse",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Without a signature, the offer for {position} will lapse.",
+      "text": "Without a signature, the offer at {workplace} will lapse.",
       "uses": [
         {
           "subject": "scene",
@@ -25289,10 +25289,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.i-m-sorry-but-the-terms-for-position-won-t-wait-forever",
+      "key": "scene-talk.close-warn.i-m-sorry-but-the-terms-at-workplace-won-t-wait-forever",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'm sorry, but the terms for {position} won't wait forever.",
+      "text": "I'm sorry, but the terms at {workplace} won't wait forever.",
       "uses": [
         {
           "subject": "scene",
@@ -25339,10 +25339,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-do-need-your-answer-on-the-terms-for-position-soon",
+      "key": "scene-talk.close-press.i-do-need-your-answer-on-the-terms-at-workplace-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I do need your answer on the terms for {position} soon.",
+      "text": "I do need your answer on the terms at {workplace} soon.",
       "uses": [
         {
           "subject": "scene",
@@ -25365,10 +25365,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.take-your-time-but-i-do-need-an-answer-on-position",
+      "key": "scene-talk.close-press.take-your-time-but-i-need-an-answer-for-workplace-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Take your time, but I do need an answer on {position}.",
+      "text": "Take your time, but I need an answer for {workplace} soon.",
       "uses": [
         {
           "subject": "scene",
@@ -25391,10 +25391,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.please-read-the-terms-and-tell-me-about-position",
+      "key": "scene-talk.close-press.please-read-the-terms-and-tell-me-your-decision-about-workplace",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Please read the terms and tell me about {position}.",
+      "text": "Please read the terms and tell me your decision about {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -25739,10 +25739,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-don-t-know-anyone-hiring-for-work-like-position",
+      "key": "scene-talk.reply-refuse.i-don-t-know-anyone-hiring-for-work-as-position",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I don't know anyone hiring for work like {position}.",
+      "text": "I don't know anyone hiring for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -25839,10 +25839,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-ll-send-you-listings-for-work-like-position",
+      "key": "scene-talk.reply-offer.i-ll-send-you-listings-for-work-as-position",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'll send you listings for work like {position}.",
+      "text": "I'll send you listings for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -25964,10 +25964,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.leave-it-with-me-i-ll-ask-who-s-hiring-for-position",
+      "key": "scene-talk.reply-promise.i-ll-ask-who-s-hiring-for-work-as-position",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Leave it with me. I'll ask who's hiring for {position}.",
+      "text": "I'll ask who's hiring for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -26239,10 +26239,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-ll-keep-looking-for-work-like-position",
+      "key": "scene-talk.follow-accept.alright-i-ll-keep-looking-for-work-as-position",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I'll keep looking for work like {position}.",
+      "text": "Alright. I'll keep looking for work as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -26289,10 +26289,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-apply-for-work-like-position-this-week",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-apply-for-work-as-position-this-week",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll apply for work like {position} this week.",
+      "text": "Thank you. I'll apply for work as {position} this week.",
       "uses": [
         {
           "subject": "scene",
@@ -26489,10 +26489,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-want-steady-work-like-position-nothing-fancy",
+      "key": "scene-talk.follow-answer.i-want-steady-work-as-position-nothing-fancy",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I want steady work like {position}, nothing fancy.",
+      "text": "I want steady work as {position}, nothing fancy.",
       "uses": [
         {
           "subject": "scene",
@@ -27273,31 +27273,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-i-couldn-t-have-finished-school-short-without-you",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you. I couldn't have finished {school-short} without you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "diploma"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.thanks-for-being-there-when-i-graduated-from-school-short",
       "move": "reply-thank",
       "kind": "spoken",
@@ -27348,10 +27323,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-for-every-bit-of-help-through-school-short",
+      "key": "scene-talk.reply-thank.thank-you-truly",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you for every bit of help through {school-short}.",
+      "text": "Thank you. Truly.",
       "uses": [
         {
           "subject": "scene",
@@ -27364,6 +27339,31 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-means-everything",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That means everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27498,10 +27498,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.not-everyone-finishes-school-short-and-i-did",
+      "key": "scene-talk.reply-boast.i-walked-out-of-school-short-feeling-ten-feet-tall",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Not everyone finishes {school-short}, and I did.",
+      "text": "I walked out of {school-short} feeling ten feet tall.",
       "uses": [
         {
           "subject": "scene",
@@ -27523,10 +27523,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.i-m-done-with-school-short-and-i-m-just-getting-started",
+      "key": "scene-talk.reply-boast.i-did-it",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "I'm done with {school-short}, and I'm just getting started.",
+      "text": "I did it.",
       "uses": [
         {
           "subject": "scene",
@@ -27548,10 +27548,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.i-walked-out-of-school-short-feeling-ten-feet-tall",
+      "key": "scene-talk.reply-boast.told-you",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "I walked out of {school-short} feeling ten feet tall.",
+      "text": "Told you.",
       "uses": [
         {
           "subject": "scene",
@@ -27673,10 +27673,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.sorry-i-shouldn-t-have-bragged-about-school-short-like-that",
+      "key": "scene-talk.reply-apologize.i-m-sorry",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "Sorry. I shouldn't have bragged about {school-short} like that.",
+      "text": "I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -27698,10 +27698,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-didn-t-do-school-short-alone-and-i-know-it",
+      "key": "scene-talk.reply-apologize.that-was-unfair",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. I didn't do {school-short} alone, and I know it.",
+      "text": "That was unfair.",
       "uses": [
         {
           "subject": "scene",
@@ -27723,10 +27723,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.sorry-i-got-carried-away-about-school-short",
+      "key": "scene-talk.reply-apologize.sorry-about-that",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "Sorry, I got carried away about {school-short}.",
+      "text": "Sorry about that.",
       "uses": [
         {
           "subject": "scene",
@@ -27748,10 +27748,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.work-first-i-think-then-more-school-after-school-short",
+      "key": "scene-talk.reply-answer.a-job-first",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Work first, I think, then more school after {school-short}.",
+      "text": "A job first.",
       "uses": [
         {
           "subject": "scene",
@@ -27773,10 +27773,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-m-thinking-about-a-job-and-training-after-school-short",
+      "key": "scene-talk.reply-answer.maybe-training",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'm thinking about a job, and training after {school-short}.",
+      "text": "Maybe training.",
       "uses": [
         {
           "subject": "scene",
@@ -27798,10 +27798,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-don-t-know-yet-what-comes-after-school-short",
+      "key": "scene-talk.reply-answer.not-sure-yet",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I don't know yet what comes after {school-short}.",
+      "text": "Not sure yet.",
       "uses": [
         {
           "subject": "scene",
@@ -27848,10 +27848,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-to-rest-after-school-short-i-ll-come-find-you",
+      "key": "scene-talk.reply-leave.i-need-rest",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need to rest after {school-short}. I'll come find you.",
+      "text": "I need rest.",
       "uses": [
         {
           "subject": "scene",
@@ -27873,10 +27873,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-time-alone-finishing-school-short-is-a-lot",
+      "key": "scene-talk.reply-leave.later-please",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need time alone; finishing {school-short} is a lot.",
+      "text": "Later, please.",
       "uses": [
         {
           "subject": "scene",
@@ -27898,10 +27898,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.whatever-you-choose-after-school-short-i-m-behind-you",
+      "key": "scene-talk.follow-promise.i-m-behind-you",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Whatever you choose after {school-short}, I'm behind you.",
+      "text": "I'm behind you.",
       "uses": [
         {
           "subject": "scene",
@@ -27923,10 +27923,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-help-however-i-can-now-that-you-finished-school-short",
+      "key": "scene-talk.follow-promise.whatever-you-choose",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll help however I can now that you finished {school-short}.",
+      "text": "Whatever you choose.",
       "uses": [
         {
           "subject": "scene",
@@ -27948,10 +27948,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.you-won-t-carry-what-comes-after-school-short-alone",
+      "key": "scene-talk.follow-promise.i-ll-help",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "You won't carry what comes after {school-short} alone.",
+      "text": "I'll help.",
       "uses": [
         {
           "subject": "scene",
@@ -27973,10 +27973,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-it-means-a-lot-after-school-short",
+      "key": "scene-talk.follow-thank.thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. It means a lot after {school-short}.",
+      "text": "Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -27998,10 +27998,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-you-earned-that-diploma-from-school-short",
+      "key": "scene-talk.follow-thank.that-s-kind",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. You earned that diploma from {school-short}.",
+      "text": "That's kind.",
       "uses": [
         {
           "subject": "scene",
@@ -28023,10 +28023,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-saying-it-i-m-glad-about-school-short",
+      "key": "scene-talk.follow-thank.i-needed-that",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for saying it. I'm glad about {school-short}.",
+      "text": "I needed that.",
       "uses": [
         {
           "subject": "scene",
@@ -28048,10 +28048,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.what-s-your-plan-now-that-school-short-is-behind-you",
+      "key": "scene-talk.follow-press.what-s-the-plan",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What's your plan now that {school-short} is behind you?",
+      "text": "What's the plan?",
       "uses": [
         {
           "subject": "scene",
@@ -28073,10 +28073,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-s-lovely-what-comes-first-after-school-short",
+      "key": "scene-talk.follow-press.what-comes-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's lovely. What comes first after {school-short}?",
+      "text": "What comes first?",
       "uses": [
         {
           "subject": "scene",
@@ -28098,10 +28098,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-believe-you-what-s-the-first-step-after-school-short",
+      "key": "scene-talk.follow-press.and-then-what",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I believe you. What's the first step after {school-short}?",
+      "text": "And then what?",
       "uses": [
         {
           "subject": "scene",
@@ -28123,10 +28123,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.easy-now-you-didn-t-finish-school-short-alone",
+      "key": "scene-talk.follow-confront.easy-now",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Easy now. You didn't finish {school-short} alone.",
+      "text": "Easy now.",
       "uses": [
         {
           "subject": "scene",
@@ -28148,10 +28148,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.pride-is-fine-but-remember-who-helped-you-through-school-short",
+      "key": "scene-talk.follow-confront.remember-who-helped",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Pride is fine, but remember who helped you through {school-short}.",
+      "text": "Remember who helped.",
       "uses": [
         {
           "subject": "scene",
@@ -28173,10 +28173,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.no-need-to-put-anyone-down-over-school-short",
+      "key": "scene-talk.follow-confront.not-alone-though",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "No need to put anyone down over {school-short}.",
+      "text": "Not alone, though.",
       "uses": [
         {
           "subject": "scene",
@@ -28198,10 +28198,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-want-to-do-now-that-school-short-is-done",
+      "key": "scene-talk.follow-ask.what-s-next",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What do you want to do now that {school-short} is done?",
+      "text": "What's next?",
       "uses": [
         {
           "subject": "scene",
@@ -28223,10 +28223,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.have-you-thought-about-what-comes-after-school-short",
+      "key": "scene-talk.follow-ask.any-plans",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Have you thought about what comes after {school-short}?",
+      "text": "Any plans?",
       "uses": [
         {
           "subject": "scene",
@@ -28248,10 +28248,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.so-what-s-the-plan-after-school-short",
+      "key": "scene-talk.follow-ask.what-do-you-want",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "So what's the plan after {school-short}?",
+      "text": "What do you want?",
       "uses": [
         {
           "subject": "scene",
@@ -28273,10 +28273,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-sitting-with-me-about-school-short",
+      "key": "scene-talk.close-thank.thanks-for-talking",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for sitting with me about {school-short}.",
+      "text": "Thanks for talking.",
       "uses": [
         {
           "subject": "scene",
@@ -28299,10 +28299,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thanks-for-letting-me-say-it-go-enjoy-finishing-school-short",
+      "key": "scene-talk.close-thank.go-celebrate",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thanks for letting me say it. Go enjoy finishing {school-short}.",
+      "text": "Go celebrate.",
       "uses": [
         {
           "subject": "scene",
@@ -28325,10 +28325,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-talking-go-celebrate-finishing-school-short",
+      "key": "scene-talk.close-thank.i-m-glad",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for talking. Go celebrate finishing {school-short}.",
+      "text": "I'm glad.",
       "uses": [
         {
           "subject": "scene",
@@ -28351,10 +28351,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.we-ll-sit-down-this-week-and-plan-what-follows-school-short",
+      "key": "scene-talk.close-promise.we-ll-plan-together",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "We'll sit down this week and plan what follows {school-short}.",
+      "text": "We'll plan together.",
       "uses": [
         {
           "subject": "scene",
@@ -28377,10 +28377,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-help-with-whatever-comes-next-after-school-short",
+      "key": "scene-talk.close-promise.i-ll-cook-for-you",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll help with whatever comes next after {school-short}.",
+      "text": "I'll cook for you.",
       "uses": [
         {
           "subject": "scene",
@@ -28403,10 +28403,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-keep-a-hand-free-for-whatever-comes-after-school-short",
+      "key": "scene-talk.close-promise.count-on-me",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll keep a hand free for whatever comes after {school-short}.",
+      "text": "Count on me.",
       "uses": [
         {
           "subject": "scene",
@@ -28429,10 +28429,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-we-ll-leave-it-there-with-school-short-done",
+      "key": "scene-talk.close-accept.that-s-fine",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. We'll leave it there, with {school-short} done.",
+      "text": "That's fine.",
       "uses": [
         {
           "subject": "scene",
@@ -28455,10 +28455,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-understand-rest-now-that-school-short-is-behind-you",
+      "key": "scene-talk.close-accept.alright-rest",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I understand. Rest now that {school-short} is behind you.",
+      "text": "Alright. Rest.",
       "uses": [
         {
           "subject": "scene",
@@ -28481,10 +28481,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.that-s-fine-finishing-school-short-is-your-milestone-and-i-won-t-push",
+      "key": "scene-talk.close-accept.no-rush",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "That's fine. Finishing {school-short} is your milestone, and I won't push.",
+      "text": "No rush.",
       "uses": [
         {
           "subject": "scene",
@@ -28507,10 +28507,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.don-t-let-the-next-step-after-school-short-drift",
+      "key": "scene-talk.close-warn.don-t-wait-long",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't let the next step after {school-short} drift.",
+      "text": "Don't wait long.",
       "uses": [
         {
           "subject": "scene",
@@ -28532,10 +28532,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.please-don-t-put-off-what-comes-after-school-short",
+      "key": "scene-talk.close-warn.keep-moving",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Please don't put off what comes after {school-short}.",
+      "text": "Keep moving.",
       "uses": [
         {
           "subject": "scene",
@@ -28557,10 +28557,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.don-t-let-finishing-school-short-turn-into-nothing",
+      "key": "scene-talk.close-warn.plan-something",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't let finishing {school-short} turn into nothing.",
+      "text": "Plan something.",
       "uses": [
         {
           "subject": "scene",
@@ -28582,10 +28582,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.tell-me-your-plan-after-school-short-by-the-week-s-end",
+      "key": "scene-talk.close-press.tell-me-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Tell me your plan after {school-short} by the week's end.",
+      "text": "Tell me soon.",
       "uses": [
         {
           "subject": "scene",
@@ -28608,10 +28608,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-won-t-push-but-i-d-like-a-plan-after-school-short-soon",
+      "key": "scene-talk.close-press.think-it-over",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I won't push, but I'd like a plan after {school-short} soon.",
+      "text": "Think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -28634,10 +28634,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.give-me-something-to-hold-onto-about-school-short-and-what-s-next",
+      "key": "scene-talk.close-press.let-me-know",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Give me something to hold onto about {school-short} and what's next.",
+      "text": "Let me know.",
       "uses": [
         {
           "subject": "scene",
@@ -29082,31 +29082,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-take-it-again-and-school-short-won-t-be-the-end",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll take it again, and {school-short} won't be the end.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.i-ll-ask-school-short-what-a-second-try-looks-like",
       "move": "reply-promise",
       "kind": "spoken",
@@ -29132,10 +29107,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-work-and-study-until-i-finish-with-school-short",
+      "key": "scene-talk.reply-promise.i-ll-finish-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll work and study until I finish with {school-short}.",
+      "text": "I'll finish it.",
       "uses": [
         {
           "subject": "scene",
@@ -29148,6 +29123,31 @@
         }
       ],
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-try-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll try again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -29207,10 +29207,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.sorry-i-didn-t-want-to-say-it-school-short-makes-it-real",
+      "key": "scene-talk.reply-apologize.i-m-so-sorry",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "Sorry. I didn't want to say it; {school-short} makes it real.",
+      "text": "I'm so sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -29232,10 +29232,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-want-to-talk-about-school-short-yet",
+      "key": "scene-talk.reply-decline.i-can-t-go-through-what-happened-at-school-short-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't want to talk about {school-short} yet.",
+      "text": "I can't go through what happened at {school-short} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet.",
       "uses": [
         {
           "subject": "scene",
@@ -29257,10 +29282,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.please-don-t-ask-about-school-short-right-now",
+      "key": "scene-talk.reply-decline.not-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Please don't ask about {school-short} right now.",
+      "text": "Not now.",
       "uses": [
         {
           "subject": "scene",
@@ -29273,31 +29298,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-go-through-what-happened-at-school-short-again",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't go through what happened at {school-short} again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -29382,10 +29382,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-for-not-yelling-about-school-short",
+      "key": "scene-talk.reply-thank.thanks-for-listening",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you for not yelling about {school-short}.",
+      "text": "Thanks for listening.",
       "uses": [
         {
           "subject": "scene",
@@ -29407,10 +29407,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thanks-for-sitting-with-me-through-the-school-short-news",
+      "key": "scene-talk.reply-thank.that-helps",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thanks for sitting with me through the {school-short} news.",
+      "text": "That helps.",
       "uses": [
         {
           "subject": "scene",
@@ -29432,10 +29432,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-i-thought-you-d-be-angry-about-school-short",
+      "key": "scene-talk.reply-thank.i-needed-this",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you. I thought you'd be angry about {school-short}.",
+      "text": "I needed this.",
       "uses": [
         {
           "subject": "scene",
@@ -29457,10 +29457,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-m-going-to-my-room-school-short-is-a-lot-to-carry",
+      "key": "scene-talk.reply-leave.i-ll-go-upstairs",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm going to my room; {school-short} is a lot to carry.",
+      "text": "I'll go upstairs.",
       "uses": [
         {
           "subject": "scene",
@@ -29482,10 +29482,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-talk-about-school-short-anymore-right-now",
+      "key": "scene-talk.reply-leave.excuse-me",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't talk about {school-short} anymore right now.",
+      "text": "Excuse me.",
       "uses": [
         {
           "subject": "scene",
@@ -29507,10 +29507,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-to-be-alone-with-the-school-short-news",
+      "key": "scene-talk.reply-leave.i-need-air",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need to be alone with the {school-short} news.",
+      "text": "I need air.",
       "uses": [
         {
           "subject": "scene",
@@ -29532,10 +29532,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.alright-i-ll-take-the-help-with-school-short",
+      "key": "scene-talk.reply-accept.alright-please-do",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Alright, I'll take the help with {school-short}.",
+      "text": "Alright, please do.",
       "uses": [
         {
           "subject": "scene",
@@ -29557,10 +29557,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.i-could-use-the-help-sorting-out-school-short",
+      "key": "scene-talk.reply-accept.i-d-like-that",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "I could use the help sorting out {school-short}.",
+      "text": "I'd like that.",
       "uses": [
         {
           "subject": "scene",
@@ -29582,10 +29582,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.alright-maybe-we-can-look-at-what-school-short-offers-together",
+      "key": "scene-talk.reply-accept.yes-thanks",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Alright. Maybe we can look at what {school-short} offers together.",
+      "text": "Yes, thanks.",
       "uses": [
         {
           "subject": "scene",
@@ -29732,10 +29732,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-want-to-do-about-school-short",
+      "key": "scene-talk.follow-ask.what-happened",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What do you want to do about {school-short}?",
+      "text": "What happened?",
       "uses": [
         {
           "subject": "scene",
@@ -29753,31 +29753,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "ask",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.plenty-of-people-finish-after-school-short-and-you-can-too",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Plenty of people finish after {school-short}, and you can too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "comfort",
         "key": "no-diploma"
       }
     },
@@ -29807,10 +29782,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.it-isn-t-the-end-of-the-world-even-with-school-short",
+      "key": "scene-talk.follow-comfort.it-s-not-the-end",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "It isn't the end of the world, even with {school-short}.",
+      "text": "It's not the end.",
       "uses": [
         {
           "subject": "scene",
@@ -29832,10 +29807,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-telling-me-about-school-short",
+      "key": "scene-talk.follow-comfort.you-ll-be-alright",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You'll be alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-took-courage",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for telling me about {school-short}.",
+      "text": "That took courage.",
       "uses": [
         {
           "subject": "scene",
@@ -29857,10 +29857,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-for-trusting-me-with-the-school-short-news",
+      "key": "scene-talk.follow-thank.good-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks for trusting me with the {school-short} news.",
+      "text": "Good. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -29882,10 +29882,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-s-what-i-needed-to-hear-about-school-short",
+      "key": "scene-talk.follow-thank.that-was-brave",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. That's what I needed to hear about {school-short}.",
+      "text": "That was brave.",
       "uses": [
         {
           "subject": "scene",
@@ -29907,35 +29907,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-being-honest-about-school-short",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you for being honest about {school-short}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-help-with-every-step-after-school-short",
+      "key": "scene-talk.follow-promise.i-ll-be-there",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll help with every step after {school-short}.",
+      "text": "I'll be there.",
       "uses": [
         {
           "subject": "scene",
@@ -29957,10 +29932,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.we-ll-find-out-together-what-school-short-allows",
+      "key": "scene-talk.follow-promise.we-ll-manage",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "We'll find out together what {school-short} allows.",
+      "text": "We'll manage.",
       "uses": [
         {
           "subject": "scene",
@@ -29982,10 +29957,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.whatever-it-takes-to-get-you-through-school-short-i-ll-help",
+      "key": "scene-talk.follow-promise.i-m-with-you",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Whatever it takes to get you through {school-short}, I'll help.",
+      "text": "I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -30032,31 +30007,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-s-a-good-plan-what-s-the-first-step-with-school-short",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's a good plan. What's the first step with {school-short}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one",
       "move": "follow-press",
       "kind": "spoken",
@@ -30082,10 +30032,35 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-talking-about-school-short-we-ll-get-through-it",
+      "key": "scene-talk.follow-press.first-step",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "First step?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.get-some-rest",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for talking about {school-short}. We'll get through it.",
+      "text": "Get some rest.",
       "uses": [
         {
           "subject": "scene",
@@ -30108,10 +30083,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-trusting-me-with-school-short-rest-now",
+      "key": "scene-talk.close-thank.come-here",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for trusting me with {school-short}. Rest now.",
+      "text": "Come here.",
       "uses": [
         {
           "subject": "scene",
@@ -30134,10 +30109,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-letting-me-in-on-school-short",
+      "key": "scene-talk.close-thank.we-ll-be-fine",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for letting me in on {school-short}.",
+      "text": "We'll be fine.",
       "uses": [
         {
           "subject": "scene",
@@ -30186,10 +30161,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-be-there-for-every-step-with-school-short",
+      "key": "scene-talk.close-promise.a-plan-together",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll be there for every step with {school-short}.",
+      "text": "A plan, together.",
       "uses": [
         {
           "subject": "scene",
@@ -30212,10 +30187,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.we-ll-make-a-plan-for-school-short-together",
+      "key": "scene-talk.close-promise.i-m-here",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "We'll make a plan for {school-short} together.",
+      "text": "I'm here.",
       "uses": [
         {
           "subject": "scene",
@@ -30238,10 +30213,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-we-ll-leave-school-short-for-now",
+      "key": "scene-talk.close-accept.take-your-time",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. We'll leave {school-short} for now.",
+      "text": "Take your time.",
       "uses": [
         {
           "subject": "scene",
@@ -30264,10 +30239,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-understand-take-your-time-with-school-short",
+      "key": "scene-talk.close-accept.i-won-t-push",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I understand. Take your time with {school-short}.",
+      "text": "I won't push.",
       "uses": [
         {
           "subject": "scene",
@@ -30290,10 +30265,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.that-s-fine-i-won-t-push-about-school-short",
+      "key": "scene-talk.close-accept.alright-later",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "That's fine. I won't push about {school-short}.",
+      "text": "Alright, later.",
       "uses": [
         {
           "subject": "scene",
@@ -30316,10 +30291,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.don-t-shut-me-out-about-school-short-for-long",
+      "key": "scene-talk.close-warn.stay-close",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't shut me out about {school-short} for long.",
+      "text": "Stay close.",
       "uses": [
         {
           "subject": "scene",
@@ -30341,10 +30316,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.i-m-worried-so-please-don-t-let-school-short-slide",
+      "key": "scene-talk.close-warn.please-don-t-hide",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'm worried, so please don't let {school-short} slide.",
+      "text": "Please, don't hide.",
       "uses": [
         {
           "subject": "scene",
@@ -30366,10 +30341,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.please-don-t-drop-school-short-for-good",
+      "key": "scene-talk.close-warn.don-t-vanish",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Please don't drop {school-short} for good.",
+      "text": "Don't vanish.",
       "uses": [
         {
           "subject": "scene",
@@ -30391,10 +30366,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.tell-me-when-you-can-about-school-short",
+      "key": "scene-talk.close-press.come-find-me",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Tell me when you can about {school-short}.",
+      "text": "Come find me.",
       "uses": [
         {
           "subject": "scene",
@@ -30417,10 +30392,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-ll-ask-again-about-school-short-soon",
+      "key": "scene-talk.close-press.i-ll-ask-again",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask again about {school-short} soon.",
+      "text": "I'll ask again.",
       "uses": [
         {
           "subject": "scene",
@@ -30443,10 +30418,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.come-find-me-when-you-re-ready-to-talk-about-school-short",
+      "key": "scene-talk.close-press.tell-me-when",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Come find me when you're ready to talk about {school-short}.",
+      "text": "Tell me when.",
       "uses": [
         {
           "subject": "scene",
@@ -30741,10 +30716,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.have-you-done-work-like-position-before",
+      "key": "scene-talk.state-ask.have-you-worked-as-position-before",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Have you done work like {position} before?",
+      "text": "Have you worked as {position} before?",
       "uses": [
         {
           "subject": "scene",
@@ -30766,10 +30741,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-ve-done-work-like-position-before-just-not-here",
+      "key": "scene-talk.reply-answer.i-ve-worked-as-position-before-just-not-here",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I've done work like {position} before, just not here.",
+      "text": "I've worked as {position} before, just not here.",
       "uses": [
         {
           "subject": "scene",
@@ -30816,10 +30791,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-was-home-a-while-so-i-m-rusty-for-position",
+      "key": "scene-talk.reply-answer.i-was-home-a-while-so-i-m-rusty-as-position",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I was home a while, so I'm rusty for {position}.",
+      "text": "I was home a while, so I'm rusty as {position}.",
       "uses": [
         {
           "subject": "scene",
@@ -31291,10 +31266,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-figure-out-position-as-i-go-thanks",
+      "key": "scene-talk.reply-leave.i-ll-find-my-way-around-workplace-thanks",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll figure out {position} as I go. Thanks.",
+      "text": "I'll find my way around {workplace}. Thanks.",
       "uses": [
         {
           "subject": "scene",
@@ -31316,10 +31291,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-came-in-with-an-attitude-about-position",
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-came-in-with-an-attitude-at-workplace",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. I came in with an attitude about {position}.",
+      "text": "I'm sorry. I came in with an attitude at {workplace}.",
       "uses": [
         {
           "subject": "scene",
