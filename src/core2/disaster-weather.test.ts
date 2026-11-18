@@ -58,6 +58,8 @@ function damagingDisaster(county: string, townName: string) {
     at: number;
     number: number;
     month: string;
+    /** Days from the recorded disaster's start to its declaration, which a made one keeps. */
+    lag: number;
   } | null = null;
   for (const hazard of HAZARDS_MADE) {
     const list = [
@@ -88,7 +90,16 @@ function damagingDisaster(county: string, townName: string) {
         if (label < FIRST_MONTH || label > LAST_MONTH) continue;
         expected += recordedHazardRate(county, hazard, month);
         if (expected >= 1 && (!best || label < best.month))
-          best = { hazard, at, number: list[at]![4], month: label };
+          best = {
+            hazard,
+            at,
+            number: list[at]![4],
+            month: label,
+            lag: Math.round(
+              (Date.parse(list[at]![1]) - Date.parse(list[at]![0])) /
+                86_400_000,
+            ),
+          };
       }
   }
   return best;
@@ -133,8 +144,11 @@ describe(`the town's weather from the climate (seed ${seed})`, () => {
           expected: first.at,
           fired: first.at,
         } as unknown as { id: string });
-      // Run to the end of the month the exposure builds a whole disaster, and a bit more for its declaration.
-      advanceCore(core, addDays(makeIsoDate(`${first.month}-01`), 75));
+      // Run to the end of the month the exposure builds a whole disaster, and on past its declaration (the made disaster keeps the recorded one's lag) for the aid.
+      advanceCore(
+        core,
+        addDays(makeIsoDate(`${first.month}-01`), 75 + first.lag),
+      );
       const made = (
         api
           .moduleState("core2-disasters-v1")
