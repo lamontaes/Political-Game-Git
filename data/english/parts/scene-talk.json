@@ -26875,10 +26875,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-could-you-do-for-the-campaign-in-place",
+      "key": "scene-talk.reply-ask.doing-what",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What could you do for the campaign in {place}?",
+      "text": "Doing what?",
       "uses": [
         {
           "subject": "scene",
@@ -26899,10 +26899,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.where-would-you-start-in-place",
+      "key": "scene-talk.reply-ask.where-first",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Where would you start in {place}?",
+      "text": "Where first?",
       "uses": [
         {
           "subject": "scene",
@@ -26923,10 +26923,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-are-you-good-at-for-a-campaign-in-place",
+      "key": "scene-talk.reply-ask.what-s-your-strength",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What are you good at, for a campaign in {place}?",
+      "text": "What's your strength?",
       "uses": [
         {
           "subject": "scene",
@@ -27403,10 +27403,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-start-with-my-neighbors-in-place",
+      "key": "scene-talk.follow-thank.i-ll-start-knocking",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll start with my neighbors in {place}.",
+      "text": "I'll start knocking.",
       "uses": [
         {
           "subject": "scene",
@@ -27427,10 +27427,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.you-won-t-regret-it-i-know-place-well",
+      "key": "scene-talk.follow-thank.glad-to-help",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "You won't regret it. I know {place} well.",
+      "text": "Glad to help.",
       "uses": [
         {
           "subject": "scene",
@@ -27451,10 +27451,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-get-the-word-out-in-place",
+      "key": "scene-talk.follow-thank.i-ll-get-started",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll get the word out in {place}.",
+      "text": "I'll get started.",
       "uses": [
         {
           "subject": "scene",
@@ -27782,6 +27782,14 @@
           "purpose": "offer-help",
           "key": "favor-asked",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -27807,6 +27815,14 @@
           "purpose": "offer-help",
           "key": "favor-asked",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -28258,10 +28274,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-would-you-run-it-in-place",
+      "key": "scene-talk.reply-ask.run-it-how",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How would you run it in {place}?",
+      "text": "Run it how?",
       "uses": [
         {
           "subject": "scene",
@@ -28282,10 +28298,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-running-it-in-place-take",
+      "key": "scene-talk.reply-ask.starting-where",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would running it in {place} take?",
+      "text": "Starting where?",
       "uses": [
         {
           "subject": "scene",
@@ -28306,10 +28322,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-you-do-first-in-place",
+      "key": "scene-talk.reply-ask.what-comes-first",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would you do first in {place}?",
+      "text": "What comes first?",
       "uses": [
         {
           "subject": "scene",
@@ -28690,10 +28706,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-learn-every-street-in-place",
+      "key": "scene-talk.follow-thank.let-s-get-moving",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll learn every street in {place}.",
+      "text": "Let's get moving.",
       "uses": [
         {
           "subject": "scene",
@@ -28714,10 +28730,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-get-us-moving-in-place",
+      "key": "scene-talk.follow-thank.i-m-on-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll get us moving in {place}.",
+      "text": "I'm on it.",
       "uses": [
         {
           "subject": "scene",
@@ -28738,10 +28754,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-make-this-campaign-work-in-place",
+      "key": "scene-talk.follow-thank.we-start-tomorrow",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll make this campaign work in {place}.",
+      "text": "We start tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -28834,58 +28850,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-problem-i-ll-be-in-your-corner-in-place",
+      "key": "scene-talk.follow-accept.still-with-you",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No problem. I'll be in your corner in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "offer-to-run",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-i-m-still-with-you-in-place",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. I'm still with you in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "offer-to-run",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fine-i-ll-back-you-in-place-however-i-can",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fine. I'll back you in {place} however I can.",
+      "text": "Still with you.",
       "uses": [
         {
           "subject": "scene",
@@ -29545,10 +29513,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-you-ask-me-about-my-plans-for-place",
+      "key": "scene-talk.reply-ask.what-would-you-ask-me-about-the-race-for-office",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would you ask me about my plans for {place}?",
+      "text": "What would you ask me about the race for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -29569,10 +29537,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.which-questions-about-place-would-you-ask",
+      "key": "scene-talk.reply-ask.which-questions",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Which questions about {place} would you ask?",
+      "text": "Which questions?",
       "uses": [
         {
           "subject": "scene",
@@ -29593,10 +29561,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-you-want-to-know-about-my-platform-for-place",
+      "key": "scene-talk.reply-ask.about-my-platform",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would you want to know about my platform for {place}?",
+      "text": "About my platform?",
       "uses": [
         {
           "subject": "scene",
@@ -30928,10 +30896,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-would-a-debate-work-for-place",
+      "key": "scene-talk.reply-ask.how-would-the-debate-for-office-work",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How would a debate work for {place}?",
+      "text": "How would the debate for {office} work?",
       "uses": [
         {
           "subject": "scene",
@@ -30952,10 +30920,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-the-debate-ask-about-place",
+      "key": "scene-talk.reply-ask.who-else-debates",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would the debate ask about {place}?",
+      "text": "Who else debates?",
       "uses": [
         {
           "subject": "scene",
@@ -30976,10 +30944,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-i-be-answering-about-place",
+      "key": "scene-talk.reply-ask.on-what-questions",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would I be answering about {place}?",
+      "text": "On what questions?",
       "uses": [
         {
           "subject": "scene",
