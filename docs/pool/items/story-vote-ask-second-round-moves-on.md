@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/story-vote-ask-later-replies
-pr:
+pr: 10141
 after:
 blocked-on:
 lead: story
