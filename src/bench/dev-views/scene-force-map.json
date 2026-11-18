@@ -156,13 +156,6 @@
       "how": "writer",
       "reason": "circumstance"
     },
-    "address": {
-      "how": "event",
-      "kind": "president.address",
-      "facts": {
-        "address:president": "person_20db1acaeb2996b6"
-      }
-    },
     "speech-afterward": {
       "how": "writer",
       "reason": "circumstance"
