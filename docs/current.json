@@ -1602,6 +1602,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case read the journal's lines for taking office, a vote, a town hall and an interview; the journal bank is cut to four lines and the line is undefined."
+    },
+    {
+      "old": "src/director/journal-opening.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases needed the first evening's journal chapter (the family and each parent's employer); the journal bank is cut to four lines and no opening chapter is written."
     }
   ]
 }
