@@ -1,0 +1,40 @@
+{
+  "about": "Test files that the hosted full run (npx vitest run, dealt out over the shards) does not discover, and what runs each one. A test no shard runs is a test nobody sees fail (officials-husks sat red on the train unseen on Nov 18). Each entry names the files it covers (an exact path, or a folder ending in a slash), the command that runs them (an npm script in package.json, or the folder's own package.json test script), and the reason. An entry that covers no undiscovered file comes off the list.",
+  "runners": [
+    {
+      "covers": "desktop/tests/",
+      "runBy": "desktop:test",
+      "reason": "The desktop shell has its own node:test runner (cd desktop && npm test)."
+    },
+    {
+      "covers": "scripts/secrets/scan-tracked-secrets.test.mjs",
+      "runBy": "test:secrets-scan",
+      "reason": "node:test file; Vitest finds no suite in it."
+    },
+    {
+      "covers": "scripts/trait-effects/generate-manifest.test.mjs",
+      "runBy": "test:trait-effects",
+      "reason": "node:test file; Vitest finds no suite in it."
+    },
+    {
+      "covers": "src/bench/place-selection.test.mjs",
+      "runBy": "test:place-selection",
+      "reason": "node:test file; Vitest finds no suite in it."
+    },
+    {
+      "covers": "src/core2/campaign-platform-played.test.ts",
+      "runBy": "test:calibration",
+      "reason": "Plays three years of a world (about 20 minutes); the calibration lane runs it in the heavy set."
+    },
+    {
+      "covers": "src/core2/record-rival-turn.test.ts",
+      "runBy": "test:calibration",
+      "reason": "Plays about 240 days of a world a draw; the calibration lane runs it in the heavy set."
+    },
+    {
+      "covers": "src/core2/counted-moves-balance-dc.test.ts",
+      "runBy": "test:calibration",
+      "reason": "Washington, D.C.'s three worlds take 734 to 1,555 seconds each; the calibration lane runs it in the heavy set."
+    }
+  ]
+}
