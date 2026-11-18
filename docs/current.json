@@ -1476,6 +1476,18 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case counted the replies offered to the player's own news; those reply lines are deleted and none is offered."
+    },
+    {
+      "old": "src/director/housemate-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the move-in scene (someone joining the household) to compose; its lines are deleted and it composes nothing."
+    },
+    {
+      "old": "src/director/household-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a housemate to open from the day with a point of the address; the address-talk lines are deleted and no housemate has a point to raise."
     }
   ]
 }
