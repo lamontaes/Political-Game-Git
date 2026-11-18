@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,6 +34,6 @@ Seen: the race story printed in the town paper after the concession call.
 
 **Waits on.** Nothing.
 
-**Files.**
+**Files.** `docs/current.json` (the replaced row for the deleted test).
 
-**Notes.** Old premise: the concession sentence starts with the runner-up's full name. New premise: the sentence names the runner-up by family name and the paper's naming rule holds across the story. Account lead said yes to this change (Nov 15).
+**Notes.** Nov 18 (Story): dropped; the test it would fix was deleted on #10063 with its kind's lines (owner, Nov 17: delete everything the engine did not write), and the race story's wording is rebuilt from nothing after the cut. Old premise: the concession sentence starts with the runner-up's full name. New premise: the sentence names the runner-up by family name and the paper's naming rule holds across the story. Account lead said yes to this change (Nov 15).
