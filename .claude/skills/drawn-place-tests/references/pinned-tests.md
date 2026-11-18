@@ -2,7 +2,7 @@
 
 Part of the `drawn-place-tests` skill. Until Nov 17, 2026 this was the `pinned-tests` skill; the CTO merged it here when the skills were capped (owner: "Let's go ahead"). What it covered: Writes a test pinned to named places and fixed seeds once a CTO line approves the pin for that pull request (done-proof): about a minute, an explicit timeout, a rare event staged through the game's own path, a pin that fails on the old code, never a loosened test. Its staging lessons hold for every test. Use when writing or fixing a test that builds a played world, or when a builder proposes a pin, re-pin, looser assertion or retry. A test draws its place (drawn-place-tests) unless the CTO approves the pin.
 
-A test draws its place (`drawn-place-tests`). A test pinned in its file to named places and seeds is added only when a CTO line on the crew's thread approves that exact pull request (CTO, Nov 16, `done-proof`). With that line, the rules below say how the pin is written; an env seed, or a retry over fresh seeds, is still a draw and counts as unpinned. The staging lessons below hold for every test, drawn or pinned. Drawing places is still how a feature is proved in play: `played-world-proof`.
+A test draws its place (`drawn-place-tests`). A test pinned in its file to named places and seeds is added only when a CTO line on the crew's thread approves that exact pull request (CTO, Nov 16, `done-proof`). With that line, the rules below say how the pin is written; an env seed, or a retry over fresh seeds, is still a draw and counts as unpinned. The staging lessons below hold for every test, drawn or pinned. Drawing places is still how a feature is proved in play: `done-proof` (played-world-proof part).
 
 ## The rules
 
