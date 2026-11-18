@@ -114,8 +114,12 @@ A change to anything that runs without the player watching (monthly engines, ski
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
+- Nov 17, 17:38Z (#9921, Pins): paired-performance read 1.243 against 1.2 while a local year had shown +8.6%. Cause: a cache keyed on a whole module's write count (`officials.writes`) was thrown away on every write, and each miss re-read all 56 states. Key a cache on what the value actually reads, and measure with `scripts/core2-guard/paired.mjs` against CI's base, not a year at another place.
 - Nov 17, 02:09Z (#9784): a per-day cost that grows with a bigger set is a hot spot even when the counts are right. Cause: work repeated every day on data that rarely changes. Do it once, or only on change, and post the before and after at the CI guard's place and seed.
 - Nov 18, 05:30Z (#10088, American Fork, Utah): founding by demand took a 35,000-person town from 32 firms to 409 in a month, and a month's play went from about 16 s to 25 to 77 s. Cause: daily firm work scales with the firm count. Keep daily work near the player's focus and batch the rest; do not cap the firms.
+- Nov 17, 23:40Z (#9921): `paired-performance` read 1.306 on a pull request that had merged the train. Cause: CI measures main against the train plus the pull request. Measure the pull request alone with `node --import tsx scripts/core2-guard/paired.mjs --base <the train commit it merged> --head <its head> --output <a path outside the checkout>`; the place is drawn from the head commit.
+- Nov 17, 23:55Z (#9921): a monthly read over every adult and every question cost 5.2 s a month. Cause: per-question lookups, and a counted group's shared row read again for every member. Work out per-question values once, read a group's row once per group, and prove nothing changed by hashing the written rows before and after.
+- Nov 18, 02:40Z (#9967): a local run of two D.C.-sized worlds at once lost a vitest worker ("Timeout terminating forks worker") on a 15 GB container. Cause: two large worlds in memory at once. Run one large world at a time (one lock), and treat a run that lost its worker as no result.
 
 ## More in this folder
 
