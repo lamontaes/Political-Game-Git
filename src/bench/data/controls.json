@@ -1615,6 +1615,11 @@
     "why": "Why",
     "came": "What came of it"
   },
+  "devTalkRecords": {
+    "title": "What this talk wrote",
+    "reply": "Reply",
+    "nothing": "No reply yet"
+  },
   "devReplyWhy": {
     "title": "Why these lines",
     "cause": "Started by",

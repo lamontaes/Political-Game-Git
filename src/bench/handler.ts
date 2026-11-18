@@ -338,6 +338,8 @@ const talkView = (value: Conversation | undefined) =>
     choices: value.choices,
     // The scales' set: the same choices made false (empty dims the scales).
     lies: value.lies,
+    // The records the talk wrote, for dev mode's Trace of each reply pressed.
+    recorded: value.recorded,
   };
 /**
  * The sit-down when the player asks someone to serve opens at once: the ask

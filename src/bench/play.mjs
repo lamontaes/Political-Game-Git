@@ -38,6 +38,7 @@ import { devViewNodes } from "./ui/dev-views.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
 import { replyWhy } from "./ui/dev-reply-why.mjs";
+import { talkRecords } from "./ui/dev-talk-records.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -1598,8 +1599,19 @@ function renderTalk(value) {
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
+  // Dev mode: under the talk, each reply pressed, its move and the records it
+  // wrote, each one click from the Trace box.
+  const records = devModeOn()
+    ? [
+        talkRecords(
+          controls.devTalkRecords,
+          { lines: value.lines, recorded: value.recorded ?? [] },
+          traceBox(controls.devTrace.trace),
+        ),
+      ]
+    : [];
   fillTalk({
-    lines: spokenLines(value.lines),
+    lines: [...spokenLines(value.lines), ...records],
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.

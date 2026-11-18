@@ -17,6 +17,7 @@
     "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
     "when": "When something happened, from a dated record (a contact, a crime), as the director says it in passing.",
+    "let_go_before_when": "When the player let the President's point go with the speaker, from the told event the talk kept, as people say it (\"yesterday\").",
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",

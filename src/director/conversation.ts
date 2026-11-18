@@ -388,6 +388,10 @@ export interface ConversationLine {
    * itself ("Good night for our side."): the reply answers the feeling.
    */
   feeling?: boolean;
+  /** The player's line: the move the reply made (agree, let-go, ...), for dev mode's record of the talk. */
+  move?: string;
+  /** The player's line: the id the records it wrote start with (an event `say` applied, and its own `:<key>` parts). */
+  recordId?: string;
 }
 
 export interface ConversationChoice {
@@ -7601,7 +7605,11 @@ function offerChoices(
         continue;
       // The point's ask is offered only where its answer is on record:
       // a reason from their own life, or the town's records they hold.
-      if (last.kind === POINT && !pointAnswerable(last.facts, choiceKey))
+      if (
+        last.kind === POINT &&
+        (!POINT_MOVES.includes(choiceKey) ||
+          !pointAnswerable(last.facts, choiceKey))
+      )
         continue;
       const raises = group.raises;
       const subject = raises ? target(raises) : undefined;
@@ -8452,6 +8460,8 @@ function sayNow(
     text: choice.text,
     sourceRecordIds: choice.sourceRecordIds,
     ...(choice.wording ? { wording: choice.wording } : {}),
+    move: choice.move,
+    recordId: eventId,
   });
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
@@ -9014,6 +9024,10 @@ const POINT_HERE = POINT_RULES.replies.here;
 const POINT_ASK = POINT_RULES.replies.ask;
 /** Letting the point go: the talk closes, no stand is kept, and the no is its own record (`letGoKey`). */
 const POINT_LET_GO = POINT_RULES.replies.letGo;
+/** The point's replies, and only these: the moves replyMoves names for it (a bank wording of another choice is not offered). */
+const POINT_MOVES: readonly string[] = Object.keys(
+  REPLY_MOVES[POINT] as Readonly<Record<string, string>>,
+);
 
 /** The point's replies with one ask among them: "what does it mean for you" before "what does it mean here". */
 function onePointAsk(
