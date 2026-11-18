@@ -80,9 +80,13 @@ A drawn place can name a business after a person, so a check that counts the pla
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
 
-## Gotchas (Nov 16 and 17)
+## Gotchas (Nov 16 to 18)
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 18 (#10180, debate): a rival filed in May and lost the primary in August. Read the live ballot on debate day before checking who answered, since the filing list from spring can include people who lost.
+- Nov 18 (#10164, social-media age check): a twin with the law repealed showed the policy effect because the law was already in force on the outcome web's calibration date. Read the law on that date before applying the twin changes to locate the side that should carry the effect.
+- Nov 18 (#10152, town sales tax): the town paid from its treasury, but the ordinary journal view did not keep the itemized debit. Turn on the journal observer before playing the days a test needs to trace, then check the actual payment.
 
 - Nov 17, 12:20Z (press-comment-variants, Bondurant, Wyoming): a scandal probe asked a town's reporters for a scandal arc, and every one of them leaned friendly. Cause: an arc's score is its records times one plus the asker's pull, so no record can win where every asker's temper refuses it. Pass over a town with no asker whose traits allow the case (#9959).
 - Nov 17, 13:45Z (business-charges, Calvin, North Dakota): a town total fell with a tax raise because a TV station sold more in the raised twin. Cause: twin worlds drift apart. Compare one business at a time, only where its inputs are equal in both twins, and add the exact half (the charge equals the rate times its own wages, to the cent).
