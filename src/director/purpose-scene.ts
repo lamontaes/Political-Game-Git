@@ -1794,6 +1794,19 @@ function composeBinding(
         ...(said.contestId ? [said.contestId] : []),
       ],
     };
+  // A party's ask to run (candidacy.ts askToRun, the record `party-asked`): the
+  // seated officeholder who took the member under their wing weighs in on it,
+  // so the advice names the party that asked and the day filing closes, each
+  // from the ask's own record.
+  if (type.purpose === "mentor-advice" && record?.kind === "party-asked") {
+    if (said.party)
+      facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    if (said.filingDeadline)
+      facts.deadline = {
+        text: spokenDate(said.filingDeadline, core.date),
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   // A rival in the race the record names, by name.
   const rival = said.rivalId
     ? core.people.get(said.rivalId as PersonId)
