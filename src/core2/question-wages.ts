@@ -45,6 +45,7 @@ function setLevelWage(
   level: { level: string; jurisdiction: string },
   target: number,
   lawId: string,
+  effectiveDate: string = tomorrow(api.state.date),
 ): void {
   const id = `${key}:${level.jurisdiction}`;
   const held = mechanicRow(api, id);
@@ -65,7 +66,7 @@ function setLevelWage(
     series: "minimum-wage",
     value: target,
     unit: "minor/hour",
-    effectiveDate: tomorrow(api.state.date),
+    effectiveDate,
     measureId: lawId,
     citation: `Minimum wage set by ${lawId}`,
   });
@@ -196,6 +197,9 @@ export function holdFederalWage(
       federal,
       reachParameter("federalMinimumWageTargetMinor"),
       change.lawId,
+      // A century's session passed the raise before day one, so it is law on
+      // the opening day itself and the warm-up has the pay raised before play.
+      centurys ? api.state.date : undefined,
     );
   else restoreWages(api, FEDERAL_KEY, change.lawId);
 }
