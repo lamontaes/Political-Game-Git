@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -21,7 +21,7 @@ checked: m3 2026-11-14
 
 **What.** `src/director/household-news.test.ts` (removed) (a relative raises a printed story by its headline and outlet) fails with "no relative heard a printed story in 200 days: expected null to be truthy" in some places and passes in others, so it is red by draw, which the pinned-tests skill forbids. Seen: News and the talk at home in a town where nobody in the household heard a printed story within 200 days.
 
-**Cause.** Found in code: src/director/household-news.test.ts (removed) takes its seed from `GOLDEN_PATH_SEED` or from `randomBytes(20)` and then `drawPlace(seed, "household-news")` (lines 20 and 21), so each run plays a different place. Measured: it failed at Chubbuck, Idaho (seed 1a7236be5b3282d8d0ac45a2d6f867123fc68d0f) and at Roseville, Michigan (seed f3ae07292614495534a496d5f7d39d949d66ab1f), and failed the same without the call-letters change.
+**Cause.** Found in code: `docs/current.json` holds the replaced row for the test, deleted on #10063; as it stood, src/director/household-news.test.ts (removed) takes its seed from `GOLDEN_PATH_SEED` or from `randomBytes(20)` and then `drawPlace(seed, "household-news")` (lines 20 and 21), so each run plays a different place. Measured: it failed at Chubbuck, Idaho (seed 1a7236be5b3282d8d0ac45a2d6f867123fc68d0f) and at Roseville, Michigan (seed f3ae07292614495534a496d5f7d39d949d66ab1f), and failed the same without the call-letters change.
 
 **Fix.** Pin the test to named places with fixed seeds, chosen by playing 200 days in several drawn places and keeping those where a relative hears a printed story, naming the place and seed in the failure message; a place where nobody hears one in 200 days gets its own case that says so by record, not a loop.
 
@@ -33,4 +33,6 @@ checked: m3 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.**
+**Files.** `docs/current.json` (the replaced row for the deleted test).
+
+**Notes.** Nov 18 (Story): dropped; the test it would fix was deleted on #10063 (owner, Nov 17: delete everything the engine did not write).
