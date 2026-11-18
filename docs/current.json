@@ -1590,6 +1590,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed a resident's journal line naming the law they learned changed what they pay; the journal bank is cut to four lines and the line is empty. It returns with the law-reaches-your-household scene."
+    },
+    {
+      "old": "src/director/journal-life-stories.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted life events told as small stories in the journal; the journal bank is cut to four lines and none is told."
     }
   ]
 }
