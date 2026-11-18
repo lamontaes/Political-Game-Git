@@ -194,9 +194,10 @@ describe("the floor is heard before the roll at a town board", () => {
             );
             if (body && !state)
               expect(registers[0], `${here}: a council`).toBe("body-council");
-            // A formal chamber opens once, with the presiding officer's title.
-            if (state)
-              expect(scene.talk.state.text, here).toMatch(/^Thank you, \w+/);
+            // The speaker's turn says what the bill does, in the body's register.
+            expect(scene.talk.state.text, here).toMatch(
+              /what it does|comes down to|What it does/,
+            );
             const section = bill.provisions[0];
             if (section?.kind === "policy-question")
               expect(keys, `${here}: what the bill is about`).toContain(

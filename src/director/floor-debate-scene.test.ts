@@ -125,20 +125,19 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
             ),
             here,
           ).toBe(true);
-          // The wording follows the body: a state or territory chamber speaks
-          // formally; a town board or council does not ask the Chair to yield.
-          if (scene.facts.some((row) => row.key === "body-formal"))
-            expect(scene.talk.state.text, here).toMatch(/^Thank you, Chair\./);
-          else
-            expect(scene.talk.state.text, here).not.toMatch(
-              /\bChair\b|\byield\b|recognize/i,
-            );
+          // The sponsor's turn is four parts in the body's register: the
+          // claim, what the bill does, why, and the ask; nobody asks the
+          // chair to yield.
+          expect(scene.talk.state.text, here).toMatch(
+            /\b(mine|I wrote|I rise|speak against)\b/,
+          );
+          expect(scene.talk.state.text, here).not.toMatch(
+            /\byield\b|recognize/i,
+          );
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, here);
           for (const row of root)
-            expect(["agree", "disagree", "ask", "deflect"], here).toContain(
-              row.move,
-            );
+            expect(["agree", "disagree", "deflect"], here).toContain(row.move);
           for (const row of [scene.talk.state, ...root])
             expect(row.text, here).not.toMatch(
               /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,

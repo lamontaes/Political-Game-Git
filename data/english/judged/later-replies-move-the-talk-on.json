@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1204,
+  "judged": 1145,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -1484,21 +1484,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first \"by whom\" question."
-    },
-    "0ngbuawzmxn": {
-      "keys": [
-        "scene-talk.follow-press.place-votes-in-november-people-will-want-this-before-then",
-        "scene-talk.reply-answer.i-support-it-it-s-good-for-place",
-        "scene-talk.reply-deflect.i-dont-want-to-speculate-on-that",
-        "scene-talk.reply-refuse.i-m-not-answering-that-one",
-        "scene-talk.reply-lie.i-ve-always-supported-it",
-        "scene-talk.reply-answer.all-right-plainly-i-stand-by-it",
-        "scene-talk.reply-stall.ask-me-next-week-when-there-s-more-to-say",
-        "scene-talk.reply-confront.you-re-not-going-to-like-any-answer-i-give",
-        "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
-        "scene-talk.reply-lie.i-ve-got-numbers-that-say-otherwise"
-      ],
-      "why": "'I stand by it', 'Ask me next week' and 'I've said what I'm going to say' restate the first support, no-speculation and not-answering options."
     },
     "0ngic1o98ox": {
       "keys": [
@@ -4760,5 +4745,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "01wa7gsp6ri"
+  "yesHash": "1syo5e3sswg"
 }

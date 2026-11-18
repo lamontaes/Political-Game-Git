@@ -88451,6 +88451,15 @@
           "move": "thank",
           "role": "asker",
           "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-small"]
         }
       ],
       "bearing": "glad",
@@ -100528,30 +100537,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-chair-recognizes-name-on-bill",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The chair recognizes {name} on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-lifts-a-hand",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -100600,30 +100585,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-asks-to-say-something-about-bill",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} asks to say something about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small", "bill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder N (lines for the Words lead's ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.nobody-else-has-a-hand-up-name-goes-ahead",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -100644,2016 +100605,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-chair-calls-on-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The chair calls on {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder N (lines for the Words lead's ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-asks-to-speak-on-bill",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} asks to speak on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder N (lines for the Words lead's ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-chair-turns-to-name-on-bill",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The chair turns to {name} on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder N (lines for the Words lead's ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-a-yes-and-i-m-not-shy-about-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm a yes, and I'm not shy about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view", "body-small"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-represent-want-this-i-m-voting-with-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I represent want this. I'm voting with them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people", "body-small"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-wrote-this-one-so-i-ll-say-it-plainly-it-s-worth-doing",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I wrote this one, so I'll say it plainly. It's worth doing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-small",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.this-is-my-bill-i-brought-it-because-i-think-we-need-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "This is my bill. I brought it because I think we need it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-small",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-wrote-bill-name-and-i-m-asking-you-to-vote-for-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I wrote {bill-name}, and I'm asking you to vote for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-small",
-            "speaker-wrote-it",
-            "bill-name"
-          ]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-council",
-            "speaker-wrote-it",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-wrote-this-bill-and-i-m-asking-you-to-vote-for-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I wrote this bill, and I'm asking you to vote for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-small",
-            "speaker-wrote-it"
-          ]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-council",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-voting-yes-on-bill-name-it-s-what-i-ve-always-believed",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm voting yes on {bill-name}. It's what I've always believed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-view",
-            "body-small",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-against-bill-name-it-goes-against-what-i-believe",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm against {bill-name}. It goes against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-own-view",
-            "body-small",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-can-t-vote-for-this-i-d-be-going-against-what-i-believe",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I can't vote for this. I'd be going against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view", "body-small"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-represent-don-t-want-this-i-can-t-go-against-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I represent don't want this. I can't go against them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people", "body-small"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-in-favor-of-bill-name-i-think-it-s-the-right-call",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm in favor of {bill-name}. I think it's the right call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-view",
-            "body-council",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-in-favor-of-this-one-i-think-it-s-the-right-call",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm in favor of this one. I think it's the right call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view", "body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-represent-want-this-i-m-supporting-it-for-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I represent want this. I'm supporting it for them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people", "body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-brought-bill-name-forward-because-i-think-we-need-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I brought {bill-name} forward because I think we need it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-council",
-            "speaker-wrote-it",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-brought-this-forward-because-i-think-we-need-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I brought this forward because I think we need it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-council",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-not-comfortable-with-bill-name-it-goes-against-what-i-beli",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm not comfortable with {bill-name}. It goes against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-own-view",
-            "body-council",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-not-comfortable-with-this-one-it-goes-against-what-i-belie",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm not comfortable with this one. It goes against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view", "body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-represent-don-t-want-this-i-ll-be-voting-no",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I represent don't want this. I'll be voting no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people", "body-council"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-support-bill-name-it-is-the-right-call",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I support {bill-name}. It is the right call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-view",
-            "body-formal",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-support-this-bill-it-is-the-right-call",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I support this bill. It is the right call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view", "body-formal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-the-people-i-represent-have-asked-for-this",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. The people I represent have asked for this, and I stand with them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people", "body-formal"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-brought-bill-name-forward-because-i-thin",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I brought {bill-name} forward because I think we need it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-formal",
-            "speaker-wrote-it",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-brought-this-bill-forward-and-i-stand-by",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I brought this bill forward, and I stand by it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-bill",
-            "body-formal",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-can-t-support-bill-name-it-goes-against",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I can't support {bill-name}. It goes against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-own-view",
-            "body-formal",
-            "bill-name"
-          ]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-i-can-t-support-this-bill-it-goes-against",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. I can't support this bill. It goes against what I believe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view", "body-formal"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.thank-you-presiding-the-people-i-represent-do-not-want-this-an",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Thank you, {presiding}. The people I represent do not want this, and I will vote as they asked.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people", "body-formal"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-with-you-on-this-one",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.you-ve-got-me-on-this-one",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got me on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-m-with-you",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.count-me-with-you",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Count me with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-can-t-go-along-with-you-on-this",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I can't go along with you on this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-see-it-differently",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I see it differently.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-can-t-back-it",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I can't back it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-m-not-with-you-on-this-one",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I'm not with you on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-m-still-thinking-it-over",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm still thinking it over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-ll-keep-my-thoughts-for-the-vote",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'll keep my thoughts for the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-m-still-thinking-this-over",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm still thinking this over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-ll-save-my-comments-for-the-vote",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'll save my comments for the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.go-on-i-ll-listen-from-here",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Go on, I'll listen from here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.go-ahead-i-m-listening",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Go ahead, I'm listening.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.go-ahead-i-ll-hear-you-out",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Go ahead, I'll hear you out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.go-on-i-ll-hear-the-rest",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Go on, I'll hear the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-be-voting-with-the-member",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll be voting with the member.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-stand-with-the-member-on-this",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I stand with the member on this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.the-member-has-my-support",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "The member has my support.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-can-t-go-along-with-that",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I can't go along with that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I respectfully disagree with the member.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-am-not-able-to-support-that-and-i-will-say-so",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I am not able to support that, and I will say so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-yield-back",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I yield back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-will-hear-the-rest-and-i-yield-back",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I will hear the rest, and I yield back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-it-do-exactly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does it do, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small", "bill-purpose"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill-purpose"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Would the member say what the bill does?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal", "bill-purpose"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-that-s-all-it-is",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}. That's all it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "bill-purpose"],
-          "after": "scene-talk.reply-ask.what-does-it-do-exactly"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "bill-purpose"],
-          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-and-i-can-t-vote-for-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}, and I can't vote for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "bill-purpose"],
-          "after": "scene-talk.reply-ask.what-does-it-do-exactly"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "bill-purpose"],
-          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thanks-that-means-a-lot",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thanks. That means a lot.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-i-m-glad-i-ve-got-you-on-this-one",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. I'm glad I've got you on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-i-appreciate-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I appreciate that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-i-m-glad-we-agree-on-this",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. I'm glad we agree on this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-appreciate-my-colleague-s-support",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I appreciate my colleague's support.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-thank-the-member-for-the-support",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I thank the member for the support.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-d-like-you-with-me-on-this-think-it-over-once-more",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'd like you with me on this. Think it over once more.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small", "reason-own-view"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.the-people-back-home-are-watching-this-one",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "The people back home are watching this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small", "reason-people"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-wrote-this-for-a-reason-look-at-it-once-more",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I wrote this for a reason. Look at it once more.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-small", "reason-own-bill", "speaker-wrote-it"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-d-ask-you-to-look-at-it-again",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'd ask you to look at it again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "reason-own-view"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.please-think-about-the-people-this-touches",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Please think about the people this touches.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "reason-people"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.please-give-this-another-look-before-you-decide",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Please give this another look before you decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "body-council",
-            "reason-own-bill",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-ask-my-colleague-to-reconsider",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I ask my colleague to reconsider.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal", "reason-own-view"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-ask-the-member-to-think-of-the-people-this-touches",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I ask the member to think of the people this touches.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal", "reason-people"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-ask-the-member-to-give-my-bill-another-look",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I ask the member to give my bill another look.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "body-formal",
-            "reason-own-bill",
-            "speaker-wrote-it"
-          ]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
         "key": "honor"
       }
     },
@@ -186136,6 +184087,596 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.state-claim.this-one-is-mine-bill-name",
+      "move": "state-claim",
+      "kind": "spoken",
+      "text": "This one is mine. {bill-name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "claim",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": [
+            "speaks-for",
+            "speaker-wrote-it",
+            "body-small",
+            "bill-name"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "claim",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-claim.presiding-i-wrote-bill-name-and-i-d-like-to-speak-for-it",
+      "move": "state-claim",
+      "kind": "spoken",
+      "text": "{presiding}, I wrote {bill-name}, and I'd like to speak for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "claim",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": [
+            "speaks-for",
+            "speaker-wrote-it",
+            "body-council",
+            "bill-name"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "claim",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-claim.presiding-i-rise-in-support-of-bill-name-which-i-introduced",
+      "move": "state-claim",
+      "kind": "spoken",
+      "text": "{presiding}, I rise in support of {bill-name}, which I introduced.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "claim",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": [
+            "speaks-for",
+            "speaker-wrote-it",
+            "body-formal",
+            "bill-name"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "claim",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-claim.presiding-i-ll-speak-against-bill-name",
+      "move": "state-claim",
+      "kind": "spoken",
+      "text": "{presiding}, I'll speak against {bill-name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "claim",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill-name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "claim",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-does.here-is-what-it-does-bill-purpose",
+      "move": "state-does",
+      "kind": "spoken",
+      "text": "Here is what it does: {bill-purpose}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "does",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "does",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-does.what-it-does-is-plain-bill-purpose-nothing-else-is-in-it",
+      "move": "state-does",
+      "kind": "spoken",
+      "text": "What it does is plain. {bill-purpose}. Nothing else is in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "does",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "does",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-does.it-comes-down-to-one-thing-bill-purpose",
+      "move": "state-does",
+      "kind": "spoken",
+      "text": "It comes down to one thing: {bill-purpose}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "does",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "does",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-why.i-brought-it-because-i-think-we-have-left-issue-alone-too-long",
+      "move": "state-why",
+      "kind": "spoken",
+      "text": "I brought it because I think we have left {issue} alone too long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "why",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "why",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-why.i-ve-thought-about-issue-for-a-long-time-this-is-where-i-come",
+      "move": "state-why",
+      "kind": "spoken",
+      "text": "I've thought about {issue} for a long time. This is where I come down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "why",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "why",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-why.i-have-heard-about-issue-from-people-in-place-all-year-they-as",
+      "move": "state-why",
+      "kind": "spoken",
+      "text": "I have heard about {issue} from people in {place} all year. They asked for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "why",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people", "issue", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "why",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-why.this-did-not-start-with-me-it-started-with-people-in-place-who",
+      "move": "state-why",
+      "kind": "spoken",
+      "text": "This did not start with me. It started with people in {place} who kept bringing up {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "why",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people", "issue", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "why",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-asking-each-of-you-to-vote-for-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm asking each of you to vote for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "body-small"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-asking-the-council-for-a-yes",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm asking the council for a yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "body-council"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ask-the-members-for-their-votes",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I ask the members for their votes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "body-formal"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-asking-for-a-no",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm asking for a no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-speak-for-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll speak for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-small"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.presiding-i-ll-speak-for-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{presiding}, I'll speak for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "excludesFacts": ["body-small"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ll-speak-against-it",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll speak against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-small"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.presiding-i-ll-speak-against-it",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "{presiding}, I'll speak against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "excludesFacts": ["body-small"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-save-it-for-the-vote",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll save it for the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-thank-the-member",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I thank the member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "excludesFacts": ["body-small"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-member-and-i-see-issue-differently-i-d-ask-for-one-more-lo",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The member and I see {issue} differently. I'd ask for one more look before the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "excludesFacts": ["body-small"],
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-see-issue-differently-look-at-it-once-more-before-we-vote",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We see {issue} differently. Look at it once more before we vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-small", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (floor debate: the sponsor's account and the floor's replies, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
     }
   ]
 }

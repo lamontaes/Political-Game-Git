@@ -3428,24 +3428,17 @@
     },
     "floor-debate": {
       "state": "tell",
-      "replies": ["agree", "disagree", "ask", "deflect"],
+      "stateMoves": ["claim", "does", "why", "ask"],
+      "replies": ["agree", "disagree", "deflect"],
       "follow": {
         "agree": ["thank"],
         "disagree": ["press"],
-        "ask": ["answer"],
         "deflect": ["accept"]
       },
       "again": {
-        "press": ["agree", "disagree", "ask", "leave"],
-        "answer": ["agree", "disagree", "leave"]
+        "press": ["agree", "disagree", "deflect"]
       },
       "endings": [
-        {
-          "id": "heard-out",
-          "label": "You heard the speaker out",
-          "keeps": "none",
-          "when": { "reply": ["leave"] }
-        },
         {
           "id": "stood-with",
           "label": "You stood with the speaker",
@@ -3458,7 +3451,10 @@
           "id": "held-against",
           "label": "You held your ground",
           "keeps": "relationship-strained",
-          "when": { "reply": ["disagree"], "asker": ["press"] }
+          "when": {
+            "reply": ["disagree"],
+            "asker": ["press"]
+          }
         },
         {
           "id": "spoke-against",
@@ -3466,14 +3462,6 @@
           "keeps": "none",
           "when": {
             "anyReply": ["disagree"]
-          }
-        },
-        {
-          "id": "asked-to-yield",
-          "label": "You asked the speaker a question",
-          "keeps": "none",
-          "when": {
-            "anyReply": ["ask"]
           }
         },
         {
@@ -3490,7 +3478,8 @@
           "keeps": "none",
           "when": {}
         }
-      ]
+      ],
+      "stateMoves": ["claim", "does", "why", "ask"]
     },
     "moving-goodbye": {
       "state": "tell",
@@ -4121,9 +4110,18 @@
         "first": {
           "tell": "ask",
           "then": [
-            { "move": "answer", "carries": "lean" },
-            { "move": "tell", "carries": "lean" },
-            { "move": "deflect", "carries": "hedged" }
+            {
+              "move": "answer",
+              "carries": "lean"
+            },
+            {
+              "move": "tell",
+              "carries": "lean"
+            },
+            {
+              "move": "deflect",
+              "carries": "hedged"
+            }
           ]
         }
       },
