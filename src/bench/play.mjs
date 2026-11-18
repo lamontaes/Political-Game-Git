@@ -652,6 +652,8 @@ const amountUnit = (unit) =>
           ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
           : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
+// Engineering height of a party page's facts and positions, taken from the seats' pager.
+const PARTY_FACTS_PX = 225;
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
@@ -2981,6 +2983,21 @@ function markLife(node) {
   node.dataset.life = "1";
   return node;
 }
+/**
+ * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
+ * story sits under the bust; when it does not fit there it moves to the card's
+ * second column, which has the room, and stays under the bust when the panel
+ * holds it either way.
+ */
+function fitLifeStory(facts) {
+  const life = facts.querySelector('[data-life="1"]');
+  if (!life || life.closest(".mx3col")) return;
+  const panel = $("person").getBoundingClientRect();
+  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
+  const columns = facts.querySelectorAll(".mx3col");
+  const target = columns[columns.length - 1];
+  if (target) target.append(life);
+}
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
@@ -2991,6 +3008,7 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
+  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
@@ -5435,7 +5453,11 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
@@ -6282,10 +6304,60 @@ const sheets = {
                   node.tagName === "BUTTON" && party.parties[at]?.name === name,
               )
             : [];
+      // What the party's records hold: its chair, its members here, the town's
+      // next party meeting and the questions it takes the strongest side on.
+      // What they do not hold is said so, never left blank.
+      const facts = v.partyFacts?.[name.trim().toLowerCase()];
+      const about = facts
+        ? [
+            stripSection(
+              1,
+              labels.partyAbout,
+              facts.chair
+                ? personCard({
+                    name: facts.chair.name,
+                    line: labels.partyChair,
+                    party: name,
+                    face: facts.chair.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: facts.chair.cardId });
+                    },
+                  })
+                : row(labels.partyChair, labels.partyNone),
+              row(labels.partyMembers, String(facts.members)),
+              facts.nextMeeting
+                ? row(labels.partyNextMeeting, dateWords(facts.nextMeeting))
+                : row(labels.partyNextMeeting, labels.partyNone),
+            ),
+            stripSection(
+              2,
+              labels.partyStandsFor,
+              // Each side's label once, on its first position; the rest sit under it.
+              ...(facts.standsFor.length
+                ? [true, false].flatMap((favors) =>
+                    facts.standsFor
+                      .filter((s) => !!s.favors === favors)
+                      .map((s, at) =>
+                        row(
+                          at
+                            ? ""
+                            : favors
+                              ? labels.partyFavors
+                              : labels.partyOpposes,
+                          policyLabel(s.question),
+                        ),
+                      ),
+                  )
+                : [row(labels.partyStandsFor, labels.partyNone)]),
+            ),
+          ]
+        : [];
       return [
         rosterTitle(name),
+        ...about,
         stripSection(
-          1,
+          3,
           labels.inOffice,
           seats.length
             ? pager({
@@ -6303,7 +6375,12 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
+                  Math.min(
+                    5,
+                    Math.floor(
+                      (viewHeight() - 420 - (facts ? PARTY_FACTS_PX : 0)) / 72,
+                    ),
+                  ),
                 ),
                 columns: 2,
                 rowHeight: 64,
@@ -6312,7 +6389,7 @@ const sheets = {
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
         ...(meNodes.length
-          ? [stripSection(2, controls.party.me, ...meNodes)]
+          ? [stripSection(4, controls.party.me, ...meNodes)]
           : []),
       ];
     };
@@ -7604,6 +7681,8 @@ function playLoadingStory(story) {
  * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
  * each step finished. `onStory` runs once the built world has its story to play.
  */
+/** How long a dry loading line stays before the next one (ms). Engineering value, not a game number. */
+const QUIP_MS = 3000;
 function followBuild(bar, onStory) {
   const STEPS = [
     "people",
@@ -7625,6 +7704,42 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
+  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // never the same line twice in one load. Each load starts at the next place in the pool, so
+  // two loads in a row do not open on the same line.
+  let quip = { stage: "", text: "" };
+  const used = new Set();
+  let started = 0;
+  try {
+    started = Number(localStorage.getItem("loading-quip-start") ?? 0) || 0;
+    localStorage.setItem("loading-quip-start", String(started + 1));
+  } catch {
+    // Private windows and blocked storage just start at the top of each pool.
+  }
+  const nextQuip = (stage) => {
+    const pool = controls.loadingLines?.[stage] ?? [];
+    const fresh = pool.filter((line) => !used.has(line));
+    if (!fresh.length) return quip.stage === stage ? quip.text : "";
+    const text = fresh[started % fresh.length];
+    used.add(text);
+    return text;
+  };
+  let lit = "";
+  const render = (stage, last) => {
+    const now = stage === "done" ? -1 : last - 1;
+    $("front-status").replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        now,
+        now >= 0 ? quip.text : "",
+      ),
+    );
+  };
+  const turn = setInterval(() => {
+    if (built || !lit) return;
+    quip = { stage: lit, text: nextQuip(lit) };
+    render(lit, STEPS.indexOf(lit) + 1);
+  }, QUIP_MS);
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
@@ -7635,18 +7750,16 @@ function followBuild(bar, onStory) {
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
     // Every step's line stays: each one the build has passed is listed in order, including any
     // that finished between two polls, so the card reads as the loading messages, not one line.
-    const box = $("front-status");
     const last = p.stage === "done" ? STEPS.length : at + 1;
-    box.replaceChildren(
-      ...loadingLines(
-        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
-        p.stage === "done" ? -1 : last - 1,
-      ),
-    );
+    lit = p.stage === "done" ? "" : p.stage;
+    // A new step opens on a new line at once.
+    if (lit && quip.stage !== lit) quip = { stage: lit, text: nextQuip(lit) };
+    render(p.stage, last);
   }, 400);
   return {
     stop() {
       clearInterval(poll);
+      clearInterval(turn);
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";

@@ -93,6 +93,17 @@ try {
     name,
     "PASS strip card from the record, no raw contact date",
   );
+  // Nothing on the card runs past its panel, the life story included (owner's
+  // menu rule; CTO, Nov 18: "Her story" ran off the bottom).
+  const frame = await page.locator("#person").boundingBox();
+  const over = await page.evaluate(
+    (bottom) =>
+      [...document.querySelectorAll("#person .sec")]
+        .filter((sec) => sec.getBoundingClientRect().bottom > bottom)
+        .map((sec) => sec.textContent.slice(0, 30)),
+    frame.y + frame.height,
+  );
+  assert.deepEqual(over, [], "a section runs past the card's panel");
   // The same card in a smaller window, while it is open: a second talk to
   // reach it again would depend on the person having more to say.
   await page.setViewportSize({ width: 1024, height: 768 });

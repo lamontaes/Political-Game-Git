@@ -2,6 +2,7 @@ import { recordDraw } from "../core2/kernel/draw-recorder";
 import type { PersonFace } from "./scene";
 import {
   bustChoices,
+  bustFits,
   bustOfLook,
   bustTopColors,
   lookTop,
@@ -154,32 +155,51 @@ function rowOptions(
         { color: colorOf(`skin:${row.toneName}`) },
       ),
     );
+  if (rowId === "shape")
+    return choices.shape.map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        settled({ ...recipe, shape: choice.key }),
+        (recipe.shape ?? choices.shape[0]!.key) === choice.key,
+        { picture: "head" },
+      ),
+    );
   if (rowId === "hair")
-    return choices.hair.map((choice) =>
-      make(
-        choice.key,
-        choice.label,
-        { ...recipe, hair: choice.key },
-        recipe.hair === choice.key,
-        {
-          picture: "head",
-        },
-      ),
-    );
+    return choices.hair
+      .filter((choice) => bustFits({ ...recipe, hair: choice.key }))
+      .map((choice) =>
+        make(
+          choice.key,
+          choice.label,
+          { ...recipe, hair: choice.key },
+          recipe.hair === choice.key,
+          {
+            picture: "head",
+          },
+        ),
+      );
   if (rowId === "hair-color")
-    return choices.hairColor.map((choice) =>
-      make(
-        choice.key,
-        choice.label,
-        { ...recipe, hairColor: choice.key },
-        recipe.hairColor === choice.key,
-        { color: colorOf(`hair:${choice.key}`) },
-      ),
-    );
+    return choices.hairColor
+      .filter((choice) => bustFits({ ...recipe, hairColor: choice.key }))
+      .map((choice) =>
+        make(
+          choice.key,
+          choice.label,
+          { ...recipe, hairColor: choice.key },
+          recipe.hairColor === choice.key,
+          { color: colorOf(`hair:${choice.key}`) },
+        ),
+      );
   if (rowId === "face" && choices.face.length)
-    return optional(choices.face, "face", recipe.face, () => ({
-      picture: "head",
-    }));
+    return optional(
+      choices.face.filter((choice) =>
+        bustFits({ ...recipe, face: choice.key }),
+      ),
+      "face",
+      recipe.face,
+      () => ({ picture: "head" }),
+    );
   if (rowId === "top" && top && choices.top.length)
     return choices.top.map((choice) =>
       make(
@@ -272,6 +292,7 @@ export function appearanceRows(
   return [
     ...(showsBody(gender) ? [row("body")] : []),
     row("skin"),
+    ...(choices.shape.length > 1 ? [row("shape")] : []),
     row("hair"),
     row("hair-color"),
     ...(choices.face.length ? [row("face")] : []),
@@ -340,31 +361,58 @@ export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
   return onPerson(recipe, sex, person.tone);
 }
 
+/** The look, or the nearest one whose head, hair and facial hair the art checks do not flag. */
+function fitted(
+  look: LookRecipe,
+  choices: ReturnType<typeof bustChoices>,
+): LookRecipe {
+  if (bustFits(look)) return look;
+  const bare = (row: LookRecipe) => withPiece(row, "face", undefined);
+  const candidates = [
+    look,
+    bare(look),
+    ...choices.hair.flatMap((hair) =>
+      choices.hairColor.flatMap((color) =>
+        [look, bare(look)].map((row) => ({
+          ...row,
+          hair: hair.key,
+          hairColor: color.key,
+        })),
+      ),
+    ),
+  ];
+  return candidates.find(bustFits) ?? look;
+}
+
 /** A look the bank paints: a hairstyle, a hair color or a shirt the person's set lacks falls back to its first; facial hair, a tie or a jacket it lacks, to none; a top it lacks, to the game's own pick. */
 function settled(recipe: Partial<LookRecipe> & { person: string }): LookRecipe {
   const person = bustPerson(recipe.person)!;
   const choices = bustChoices(person);
   const has = (list: typeof choices.hair, key: string | undefined) =>
     list.find((choice) => choice.key === key)?.key;
+  const shape = has(choices.shape, recipe.shape);
   const face = has(choices.face, recipe.face);
   const shirt = has(choices.shirt, recipe.shirt) ?? choices.shirt[0]?.key;
   const tie = has(choices.tie, recipe.tie);
   const jacket = has(choices.jacket, recipe.jacket);
-  // The everyday top: the one named, else the game's own pick for this look, so it stays put as the other rows move.
-  const top = lookTop({
+  const asked: LookRecipe = {
     person: person.id,
-    hair: has(choices.hair, recipe.hair) ?? choices.hair[0]!.key,
-    hairColor:
-      has(choices.hairColor, recipe.hairColor) ?? choices.hairColor[0]!.key,
-    ...(recipe.top ? { top: recipe.top } : {}),
-    ...(recipe.topColor ? { topColor: recipe.topColor } : {}),
-  });
-  return {
-    person: person.id,
+    ...(shape && shape !== choices.shape[0]!.key ? { shape } : {}),
     hair: has(choices.hair, recipe.hair) ?? choices.hair[0]!.key,
     hairColor:
       has(choices.hairColor, recipe.hairColor) ?? choices.hairColor[0]!.key,
     ...(face ? { face } : {}),
+  };
+  // A head, hair and facial hair the art checks flag together become the nearest that fit: the facial hair goes first, then another hairstyle or color.
+  const fits = fitted(asked, choices);
+  // The everyday top: the one named, else the game's own pick for this look, so it stays put as the other rows move.
+  const top = lookTop({
+    ...fits,
+    ...(recipe.top ? { top: recipe.top } : {}),
+    ...(recipe.topColor ? { topColor: recipe.topColor } : {}),
+  });
+  return {
+    ...fits,
     ...(shirt ? { shirt } : {}),
     ...(tie ? { tie } : {}),
     ...(jacket ? { jacket } : {}),
@@ -394,6 +442,7 @@ export function drawnAppearance(
   const sex = PACK_SEX[gender] ?? pick(sexes(), "body");
   const person = pick(peopleOf(sex), "skin");
   const choices = bustChoices(person);
+  const shape = pick(choices.shape, "shape").key;
   const face = pick(facesOf(person), "face");
   const tie = pick(orNone(person, "tie"), "tie");
   const jacket = pick(orNone(person, "jacket"), "jacket");
@@ -401,6 +450,7 @@ export function drawnAppearance(
   const topColors = bustTopColors(person, top);
   return settled({
     person: person.id,
+    shape,
     hair: pick(choices.hair, "hair").key,
     hairColor: pick(choices.hairColor, "hair-color").key,
     ...(face ? { face } : {}),
@@ -420,6 +470,7 @@ export function readRecipe(text: string): LookRecipe {
   if (!bustPerson(String(input.person ?? ""))) throw new Error("No such look.");
   return settled({
     person: String(input.person),
+    ...(input.shape ? { shape: String(input.shape) } : {}),
     ...(input.hair ? { hair: String(input.hair) } : {}),
     ...(input.hairColor ? { hairColor: String(input.hairColor) } : {}),
     ...(input.face ? { face: String(input.face) } : {}),
