@@ -196,6 +196,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 02:18Z: pull requests went red only on golden-path M3-09 timing out. Cause: every spec shared one clock, so the last one starved (#9832 gives each spec its own). Until it lands, a pull request whose only red is that timeout may fold; any other M3-09 failure blocks.
 - Nov 17, 03:44Z: two skills pull requests (#9776, #9777) hit 409 against the train. Cause: skill files folded into the train conflict with the lanes' skill lines. Skills and docs pull requests merge straight to main (CTO, Nov 17).
 - Nov 16, 23:52Z to Nov 17, 00:42Z: 13 pull requests were listed ready and none was green. Cause: ready was posted before the checks finished. Ready means every check finished green, or each red is named as red on main too.
+- Nov 18, 03:49Z (Labor, #10084): a pull request that uses a helper already folded into the train branches from the train and opens against main, so its diff against main stays large until the helper lands; say so in the body. Before calling a red guard pre-existing, run that guard alone on the detached train head (`git checkout --detach origin/train/nov17b`) and name the result.
 
 ## More in this folder
 
