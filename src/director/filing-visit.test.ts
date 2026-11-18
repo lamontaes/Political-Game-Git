@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { saidOffice, describesByRule, spokenOffice } from "./filing-visit";
 import { readFileSync } from "node:fs";
 
