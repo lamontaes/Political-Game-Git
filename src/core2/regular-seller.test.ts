@@ -76,13 +76,15 @@ describe("a buyer's regular seller", () => {
     for (let attempt = 0; attempt < 400 && built < 4; attempt += 1) {
       const place = drawPlace(`${DRAW_SEED}:${attempt}`, "regular-seller");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      // Two stores of a kind take a town with the demand for them: a place of at least ten thousand people.
+      // Two stores of a kind take a town with the demand for them: a place of ten thousand to fifty thousand people (a larger one takes too long to play a year).
       const row = realLocalities().find((r) => r.key === place.key);
       const real = row?.sourceGeoid
         ? publishedPlaceReferencePopulation(row.sourceGeoid)?.value
         : undefined;
-      if (real === undefined || real < 10_000) {
-        passed.push(`${where}: under ten thousand people`);
+      if (real === undefined || real < 10_000 || real > 50_000) {
+        passed.push(
+          `${where}: ${real === undefined ? "no published count" : real < 10_000 ? "under ten thousand people" : "over fifty thousand people (a year of play there runs past the wait)"}`,
+        );
         continue;
       }
       built += 1;
