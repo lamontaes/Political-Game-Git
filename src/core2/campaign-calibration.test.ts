@@ -34,6 +34,7 @@ import {
   openCampaigns,
 } from "./modules/campaigns";
 import { personStance } from "./campaign-views";
+import { closenessBetween } from "./closeness";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -53,7 +54,10 @@ const states = [...corePlaceStateIdentities()]
 describe("campaign calibration on totals", () => {
   it("doors, volunteers and a niche speech land near field rates", () => {
     let report: Record<string, unknown> | null = null;
-    for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
+    const passed: string[] = [];
+    // Volunteering is rare (about one in twenty asked), so up to twelve
+    // places are drawn for one with both volunteers and decliners.
+    for (let attempt = 0; attempt < 12 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -95,7 +99,10 @@ describe("campaign calibration on totals", () => {
         filing = r.filing;
         break;
       }
-      if (!filing) continue;
+      if (!filing) {
+        passed.push(`${state} ${key}: no contest the player could file for`);
+        continue;
+      }
       const namedBefore = core.people.size;
       const met = knockDoors(api, {
         filingId: filing.id,
@@ -110,9 +117,12 @@ describe("campaign calibration on totals", () => {
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(
         (id) => core.people.has(id),
       );
-      const volunteers = known.filter((id) =>
-        askToVolunteer(api, filing!.id, id),
-      ).length;
+      const said = known.map((id) => ({
+        id,
+        yes: askToVolunteer(api, filing!.id, id),
+        tie: closenessBetween(core, id, player.id),
+      }));
+      const volunteers = said.filter((s) => s.yes).length;
       // A question few people care about: the weakest left-right split.
       const niche = [...PLATFORM_QUESTIONS].sort(
         (a, b) =>
@@ -125,6 +135,21 @@ describe("campaign calibration on totals", () => {
         statements: [{ question: niche, position: 1 }],
       });
       const moved = heard.filter(
+        (c) => Math.abs(c.warmthAfter - c.warmthBefore) > 0.05,
+      );
+      // The question the town splits on most, said the same way: it should
+      // move more of its listeners than the niche one.
+      const salient = [...PLATFORM_QUESTIONS].sort(
+        (a, b) =>
+          Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
+          a.localeCompare(b),
+      )[0]!;
+      const heardSalient = giveSpeech(api, {
+        filingId: filing.id,
+        venue: "town-hall",
+        statements: [{ question: salient, position: 1 }],
+      });
+      const movedSalient = heardSalient.filter(
         (c) => Math.abs(c.warmthAfter - c.warmthBefore) > 0.05,
       );
       // A poll: paid per completed interview from the campaign's money,
@@ -167,23 +192,41 @@ describe("campaign calibration on totals", () => {
       process.stdout.write(
         `doors in ${state} ${key}, seed ${seed}: ${met.length} of ${knocked} knocked opened, contact ${contact.toFixed(3)}, field band about 0.25 to 0.33 (a quarter to a third)\n`,
       );
-      // The top of the measured range across places (31% of acquaintances,
-      // volunteerThreshold) plus two standard errors of a sample this size:
-      // a dozen acquaintances can't tell 31% from 45% apart by chance.
-      if (known.length >= 10) {
-        const top = 0.31;
-        expect(
-          volunteers / known.length,
-          `${state} ${key} ${seed} volunteers (${volunteers} of ${known.length})`,
-        ).toBeLessThan(top + 2 * Math.sqrt((top * (1 - top)) / known.length));
+      // Pins family 32 (#9747): no band on how many volunteer or how many a
+      // speech moves; the checks are the relationships each stands for.
+      // Volunteers are closer to the candidate than those who decline
+      // (volunteerClosenessWeight).
+      const yes = said.filter((s) => s.yes);
+      const no = said.filter((s) => !s.yes);
+      const meanTie = (rows: typeof said) =>
+        rows.reduce((t, s) => t + s.tie, 0) / Math.max(1, rows.length);
+      process.stdout.write(
+        `volunteers in ${state} ${key}, seed ${seed}: ${yes.length} of ${known.length}, mean closeness ${meanTie(yes).toFixed(2)} against ${meanTie(no).toFixed(2)} for those who declined; speeches moved ${moved.length} of ${heard.length} (niche) and ${movedSalient.length} of ${heardSalient.length} (most split)\n`,
+      );
+      // A place where no one, or everyone, said yes has no closeness to
+      // compare: it is named and the next place is drawn. It can't pass on
+      // nothing: some drawn place must have both.
+      if (!(yes.length && no.length)) {
+        passed.push(
+          `${state} ${key} ${seed}: ${yes.length} of ${known.length} volunteered`,
+        );
+        report = null;
+        continue;
       }
-      if (heard.length >= 10)
-        expect(
-          moved.length / heard.length,
-          `${state} ${key} niche speech`,
-        ).toBeLessThan(0.5);
+      expect(
+        meanTie(yes),
+        `${state} ${key} ${seed}: volunteers' closeness to the candidate`,
+      ).toBeGreaterThan(meanTie(no));
+      // The two speeches' moved shares are printed above, not compared: a
+      // listener's warmth moves toward their agreement with the whole
+      // platform (reach in campaigns.ts), which the first speech has already
+      // added to before the second, to the same hall, so the order and the
+      // platform, not the question's split, decide the second share.
     }
-    expect(report, "no town to campaign in").not.toBeNull();
+    expect(
+      report,
+      `no drawn town had both volunteers and decliners; passed over: ${passed.join("; ")}`,
+    ).not.toBeNull();
     govReport("campaign-calibration", JSON.stringify(report));
   });
 });
