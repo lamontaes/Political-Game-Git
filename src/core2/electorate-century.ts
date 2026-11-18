@@ -247,6 +247,8 @@ export interface Century {
   readonly presidencies: readonly CenturyPresidency[];
   /** Each state's place on the lean order after the century's last election. */
   readonly leans: Readonly<Record<string, number>>;
+  /** Each county's place on the lean order after the century's last election, by place id (a state with counties stands where its counties' mean does). */
+  readonly countyLeans: Readonly<Record<string, number>>;
   /** Every seat in Congress and every statewide executive as the century left them, by key (the legislatures: `centuryLegislatures`). */
   readonly seats: ReadonlyMap<string, CenturySeat>;
   /** Each chamber's party count after every November election, oldest first. */
@@ -470,6 +472,17 @@ export function centuryStateShare(
   );
 }
 
+/**
+ * Each county's place on the lean order after the century's last count, by place id. Undefined
+ * under "today"; a state counted as one place has none.
+ */
+export function centuryCountyLeans(
+  seed: string,
+): Readonly<Record<string, number>> | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return centuryOf(seed, openingOf(seed)).countyLeans;
+}
+
 /** The century's parties, under "century"; undefined under "today". */
 export function centuryParties(
   seed: string,
@@ -676,6 +689,69 @@ function notCarriedGap(reasons: readonly CandidateReasons[]): number {
   return part(1) - part(-1);
 }
 
+/** One county of a state the century counts by county: its place id and its share of the state's voters. */
+interface CountyShare {
+  readonly id: string;
+  readonly weight: number;
+}
+
+/** The century's counties: each state's list and each county's lean, which moves like a state's. */
+interface CountyTable {
+  readonly lists: ReadonlyMap<string, readonly CountyShare[]>;
+  readonly leans: Record<string, number>;
+}
+
+/**
+ * Each state with counties opens 1925 with its counties spread as the published map spreads
+ * them (only how they differ from each other is read, never where the state stands) around the
+ * state's own opening lean (History 8a part 2). A state with one place is counted as a state.
+ */
+function openCounties(
+  seed: string,
+  leans: Readonly<Record<string, number>>,
+): CountyTable {
+  const lists = new Map<string, readonly CountyShare[]>();
+  const out: Record<string, number> = {};
+  for (const stateKey of stateKeys()) {
+    const published = publishedStatePlaces(stateKey.slice(3), seed);
+    const target = leans[stateKey];
+    if (published.length < 2 || target === undefined) continue;
+    const votes = published.reduce((n, p) => n + p.votes2024, 0);
+    const weights = published.map((p) =>
+      votes > 0 ? p.votes2024 / votes : 1 / published.length,
+    );
+    const at = (shift: number, i: number) =>
+      Math.max(0, Math.min(1, published[i]!.rightShare + shift));
+    const meanAt = (shift: number) =>
+      published.reduce((n, _, i) => n + weights[i]! * at(shift, i), 0);
+    // The one shift that puts the counties' mean on the state's opening lean.
+    let low = -1,
+      high = 1;
+    for (let i = 0; i < 60; i += 1) {
+      const mid = (low + high) / 2;
+      if (meanAt(mid) < target) low = mid;
+      else high = mid;
+    }
+    const shift = (low + high) / 2;
+    lists.set(
+      stateKey,
+      published.map((p, i) => ({ id: p.id, weight: weights[i]! })),
+    );
+    published.forEach((p, i) => {
+      out[p.id] = at(shift, i);
+    });
+  }
+  return { lists, leans: out };
+}
+
+/** A state's lean where its counties stand: their mean, weighted by their voters. */
+function countyMean(
+  list: readonly CountyShare[],
+  countyLeans: Readonly<Record<string, number>>,
+): number {
+  return list.reduce((n, c) => n + c.weight * countyLeans[c.id]!, 0);
+}
+
 /** A year's cleared results by place, carried once each at the year's end (several races, their mean). */
 class YearResults {
   private readonly byPlace = new Map<string, number[]>();
@@ -683,6 +759,15 @@ class YearResults {
     const list = this.byPlace.get(placeId);
     if (list) list.push(cleared);
     else this.byPlace.set(placeId, [cleared]);
+  }
+  /** The mean of a place's cleared results so far this year, or undefined with none. */
+  mean(placeId: string): number | undefined {
+    const list = this.byPlace.get(placeId);
+    return list ? list.reduce((a, b) => a + b, 0) / list.length : undefined;
+  }
+  /** Forget a place's results: a state counted by county carries through its counties. */
+  drop(placeId: string): void {
+    this.byPlace.delete(placeId);
   }
   /**
    * Each place's lean moves to its own cleared results' mean by the carry share (interim rule,
@@ -731,6 +816,7 @@ function presidentialElection(
   leans: Readonly<Record<string, number>>,
   voters: readonly SampleVoter[],
   results: YearResults,
+  counties: CountyTable,
   foundings: readonly CenturyFounding[] = [],
 ): CenturyPresidency {
   // stopgapId: SG-HIST-century-two-terms
@@ -790,58 +876,72 @@ function presidentialElection(
     democraticVotes = 0,
     foundedVotes = 0;
   for (const stateKey of stateKeys()) {
-    const eligible = eligibleOf(seed, stateKey);
-    const lean = leans[stateKey]!;
-    const place: RacePlace = {
-      id: `century:${stateKey}`,
-      name: stateKey,
-      eligible,
-      rightShare: lean,
-      votes2024: eligible,
-      source: "The century's count (src/core2/electorate-century.ts)",
-    };
-    const ticket = field.map((candidate, i) => ({
-      ...candidate,
-      spentMinor: typicalSpendPerVote("president") * eligible * means[i]!,
-    }));
-    const conditions = {
-      cycle: "presidential" as const,
-      federal: true,
-      typicalSpendPerVote: typicalSpendPerVote("president"),
-      raceVotes: eligible,
-      approvalGapPoints: gap,
-      town: null,
-    };
-    const { share, cleared: clearedWithThird } = countSeat(
-      voters,
-      place,
-      ticket,
-      conditions,
-    );
-    // Where a state stands carries from the two national sides' own count: a third party's
-    // voters leaving the two sides' count would otherwise push every state's two-party share
-    // away from even, and the carry would ratchet the map apart each cycle. The third party
-    // still moves the recorded vote and the electors.
-    const cleared =
-      ticket.length > 2
-        ? countSeat(voters, place, ticket.slice(0, 2), conditions).cleared
-        : clearedWithThird;
-    republicanVotes += share.republican;
-    democraticVotes += share.democratic;
-    foundedVotes += share.founded ?? 0;
+    const stateEligible = eligibleOf(seed, stateKey);
+    const list = counties.lists.get(stateKey);
+    // A state with counties is counted county by county, each at its own lean and size; its vote
+    // is their sum and its lean their mean (History 8a part 2). Any other is counted as one place.
+    const parts = list
+      ? list.map((c) => ({
+          id: c.id,
+          eligible: stateEligible * c.weight,
+          lean: counties.leans[c.id]!,
+        }))
+      : [{ id: stateKey, eligible: stateEligible, lean: leans[stateKey]! }];
+    const lean = list ? countyMean(list, counties.leans) : leans[stateKey]!;
+    let stateRepublican = 0,
+      stateDemocratic = 0;
+    for (const part of parts) {
+      const place: RacePlace = {
+        id: `century:${part.id}`,
+        name: part.id,
+        eligible: part.eligible,
+        rightShare: part.lean,
+        votes2024: part.eligible,
+        source: "The century's count (src/core2/electorate-century.ts)",
+      };
+      const ticket = field.map((candidate, i) => ({
+        ...candidate,
+        spentMinor:
+          typicalSpendPerVote("president") * part.eligible * means[i]!,
+      }));
+      const conditions = {
+        cycle: "presidential" as const,
+        federal: true,
+        typicalSpendPerVote: typicalSpendPerVote("president"),
+        raceVotes: part.eligible,
+        approvalGapPoints: gap,
+        town: null,
+      };
+      const { share, cleared: clearedWithThird } = countSeat(
+        voters,
+        place,
+        ticket,
+        conditions,
+      );
+      // Where a place stands carries from the two national sides' own count: a third party's
+      // voters leaving the two sides' count would otherwise push every place's two-party share
+      // away from even, and the carry would ratchet the map apart each cycle. The third party
+      // still moves the recorded vote and the electors.
+      const cleared =
+        ticket.length > 2
+          ? countSeat(voters, place, ticket.slice(0, 2), conditions).cleared
+          : clearedWithThird;
+      stateRepublican += share.republican;
+      stateDemocratic += share.democratic;
+      foundedVotes += share.founded ?? 0;
+      results.add(part.id, cleared);
+    }
+    republicanVotes += stateRepublican;
+    democraticVotes += stateDemocratic;
+    const stateTotal = stateRepublican + stateDemocratic;
+    const stateShare = stateTotal ? stateRepublican / stateTotal : 0.5;
     states.push({
       stateKey,
       electors: ELECTORS.states[stateKey]!,
       lean,
-      republicanShare: share.republicanShare,
-      winnerSide:
-        share.republicanShare > 0.5
-          ? 1
-          : share.republicanShare < 0.5
-            ? -1
-            : sittingSide,
+      republicanShare: stateShare,
+      winnerSide: stateShare > 0.5 ? 1 : stateShare < 0.5 ? -1 : sittingSide,
     });
-    results.add(stateKey, cleared);
   }
   const republican = states
     .filter((s) => s.winnerSide > 0)
@@ -1683,6 +1783,7 @@ export function* runCentury(
     founded: null,
     positions: [] as { year: number; position: number }[],
   }));
+  const counties = openCounties(seed, leans);
   const foundings: CenturyFounding[] = [];
   const foundedShares = new Map<string, number[]>();
   let foundingPressure = 0;
@@ -1711,6 +1812,7 @@ export function* runCentury(
         leans,
         voters,
         results,
+        counties,
         foundings,
       );
       presidencies.push(row);
@@ -1771,8 +1873,20 @@ export function* runCentury(
         now,
       );
     }
-    // Each place carries its year's results once (a state its presidential and Senate results).
-    results.carry(leans, districtLeans);
+    // Each place carries its year's results once. A state with counties carries through them: its
+    // Senate result moves every county by the state's own move (its result less its lean), the
+    // presidential count has already added each county's own, and the state then stands where its
+    // counties' mean does.
+    for (const [stateKey, list] of counties.lists) {
+      const senate = results.mean(stateKey);
+      results.drop(stateKey);
+      if (senate === undefined) continue;
+      const move = senate - leans[stateKey]!;
+      for (const c of list) results.add(c.id, counties.leans[c.id]! + move);
+    }
+    results.carry(counties.leans, leans, districtLeans);
+    for (const [stateKey, list] of counties.lists)
+      leans[stateKey] = countyMean(list, counties.leans);
     yield { year, done: at + 1, total: years.length };
   }
   const century: Century = {
@@ -1780,6 +1894,7 @@ export function* runCentury(
     opening,
     presidencies,
     leans,
+    countyLeans: counties.leans,
     seats,
     congresses,
     districtLeans,

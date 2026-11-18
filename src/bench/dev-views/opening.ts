@@ -478,6 +478,18 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         : "none (today's real parties)",
     ),
     row(
+      "town.countyLeans",
+      "Counties counted in the century",
+      historyMode(core.seed) === "century"
+        ? (() => {
+            const shares = Object.values(century.countyLeans);
+            return shares.length
+              ? `${shares.length} counties, each counted in every presidential election at its own lean and carried by its own results; after the last, from ${pct(Math.min(...shares))} to ${pct(Math.max(...shares))} right of the two-party vote, and each state stands where its counties' mean does`
+              : "none: every state was counted as one place";
+          })()
+        : "none (today's real map)",
+    ),
+    row(
       "town.congresses",
       "The century's Congresses",
       historyMode(core.seed) === "century"

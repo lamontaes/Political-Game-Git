@@ -39,6 +39,7 @@ import {
   centuryCongressRoster,
   centuryDistrictLean,
   centuryStateShare,
+  centuryCountyLeans,
   centuryLegislatureRoster,
   historyMode,
 } from "./electorate-century";
@@ -353,36 +354,25 @@ export function statePlaces(
   territoryEligible?: number,
 ): readonly ElectoratePlace[] {
   const published = publishedStatePlaces(usps, seed, territoryEligible);
-  // In a world whose day one is the century's, the state stands where the century's last count
-  // left it: every place moves by one shift, keeping how its places differ from each other.
-  const target =
-    historyMode(seed) === "century" ? centuryStateShare(seed, usps) : undefined;
-  if (target === undefined || !published.length) return published;
+  // In a world whose day one is the century's, each county stands where the century's own count
+  // of it left it (History 8a part 2); a state counted as one place stands where its last count did.
+  if (historyMode(seed) !== "century" || !published.length) return published;
   const key = `${seed}|${usps}|${territoryEligible ?? ""}`;
   const hit = centuryPlaceCache.get(key);
   if (hit) return hit;
-  const votes = published.reduce((sum, p) => sum + p.votes2024, 0);
-  const weight = (p: ElectoratePlace) =>
-    votes > 0 ? p.votes2024 : 1 / published.length;
-  const total = votes > 0 ? votes : 1;
-  const at = (shift: number, p: ElectoratePlace) =>
-    Math.max(0, Math.min(1, p.rightShare + shift));
-  const meanAt = (shift: number) =>
-    published.reduce((sum, p) => sum + weight(p) * at(shift, p), 0) / total;
-  // The one shift that puts the state's mean on the century's share (the mean rises with it).
-  let low = -1,
-    high = 1;
-  for (let i = 0; i < 60; i += 1) {
-    const mid = (low + high) / 2;
-    if (meanAt(mid) < target) low = mid;
-    else high = mid;
-  }
-  const shift = (low + high) / 2;
-  const places = published.map((p) => ({
-    ...p,
-    rightShare: at(shift, p),
-    source: `${p.source}; where its state stands: the century's last count (src/core2/electorate-century.ts)`,
-  }));
+  const counties = centuryCountyLeans(seed);
+  const state = centuryStateShare(seed, usps);
+  const places = published.map((p) => {
+    const rightShare =
+      counties?.[p.id] ?? (published.length === 1 ? state : undefined);
+    return rightShare === undefined
+      ? p
+      : {
+          ...p,
+          rightShare,
+          source: `${p.source}; where it stands: the century's last count (src/core2/electorate-century.ts)`,
+        };
+  });
   centuryPlaceCache.set(key, places);
   return places;
 }
