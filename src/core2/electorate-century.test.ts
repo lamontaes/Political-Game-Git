@@ -108,7 +108,7 @@ describe("the century elects day one's President", () => {
     const conditions = {
       cycle: "presidential" as const,
       federal: true,
-      typicalSpendPerVote: 0,
+      contactPriceMinor: 0,
       raceVotes: 1,
       approvalGapPoints: 0,
       town: null,

@@ -48,6 +48,14 @@ try {
     `${newest.title}: ${newest.builds.length} builds on the first page, newest ${newest.chosen}; strips: ${newest.headings.join(", ")}`,
   );
   assert.equal(newest.title, "Patch notes");
+  // Real patch notes: headed sections of short bullets, never paragraphs.
+  const bullets = await page.locator("#sheet-body .patch-list li").count();
+  assert.ok(bullets > 0, "the notes are not bullets under their headings");
+  assert.equal(
+    await page.locator("#sheet-body .roster-page p.intro").count(),
+    0,
+    "a note is a paragraph, not a bullet",
+  );
   assert.ok(newest.builds.length >= 2, "the builds are listed");
   assert.equal(newest.chosen, newest.builds[0], "the newest build is chosen");
   assert.match(newest.chosen ?? "", /\d+\.\d+\.\d+/, "the build is named");

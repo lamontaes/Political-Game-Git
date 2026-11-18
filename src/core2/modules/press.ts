@@ -1444,15 +1444,42 @@ function adOutlet(api: CoreAPI): {
   organizationId: string;
   followerIds: readonly string[];
   countedFollowers: number;
+  contactPriceMinor: number;
 } | null {
   const best = widestLocalOutlet(api);
-  return best
-    ? {
-        organizationId: best.outlet.organizationId,
-        followerIds: best.followers,
-        countedFollowers: countedFollowers(api, best.outlet.id),
-      }
-    : null;
+  if (!best) return null;
+  const counted = countedFollowers(api, best.outlet.id);
+  return {
+    organizationId: best.outlet.organizationId,
+    followerIds: best.followers,
+    countedFollowers: counted,
+    contactPriceMinor: adContactPriceMinor(
+      api,
+      best.outlet,
+      best.followers.length + counted,
+    ),
+  };
+}
+
+/**
+ * What an outlet charges to put a message in front of one of its followers
+ * once: what a week of its own costs (its people's pay, the taxes on it and
+ * its margin, `outletMonthlyCostMinor`; the week is the press's own cycle)
+ * comes to for each follower it has today. The price is the outlet's own:
+ * a paper with a large newsroom and few readers sells dear, a station many
+ * follow sells cheap, and the price moves as its staff and its audience do.
+ * Zero where it has no followers or no costs on record (nothing to sell).
+ */
+export function adContactPriceMinor(
+  api: CoreAPI,
+  outlet: OutletRow,
+  followers: number,
+): number {
+  if (followers <= 0) return 0;
+  const weekShareOfMonth =
+    (api.parameter("daysPerWeek") * pressParameter("monthsPerYear")) /
+    pressParameter("daysPerYear");
+  return (outletMonthlyCostMinor(api, outlet) * weekShareOfMonth) / followers;
 }
 
 /**

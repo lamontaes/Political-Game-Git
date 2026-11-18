@@ -12,14 +12,17 @@ import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { nationalParty, partySide } from "./appointments";
 // The national party of a side, for the century's count (electorate-century.ts).
-export { nationalParty };
+export { nationalParty, partySide };
 import { approvalGapPoints } from "./modules/national-opinion";
 import { campaignParameter } from "./campaign-data";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
 } from "./law-reach/group-a-voting";
-import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  voterContactPriceMinor,
+} from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { crimeChange } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
@@ -38,17 +41,6 @@ export function electorateParameter(key: string): number {
   return row.value;
 }
 
-const TYPICAL_SPEND = (
-  data as unknown as {
-    typicalSpendPerVoteMinor: { byFamily: Record<string, number> };
-  }
-).typicalSpendPerVoteMinor.byFamily;
-
-/** Typical spending per two-party vote for an office family, cents. */
-export function typicalSpendPerVote(family: string): number {
-  return TYPICAL_SPEND[family] ?? TYPICAL_SPEND.stateLegislative ?? 0;
-}
-
 /** Appeal on the lean scale for a share of the two-party vote. */
 export function appealOfShare(share: number): number {
   return share * electorateParameter("appealPerShare");
@@ -63,7 +55,7 @@ export interface CandidateInputs {
   readonly incumbent: boolean;
   /** Has held elected office (another seat, or this one before). */
   readonly experienced: boolean;
-  /** What the campaign's books show it spent; null where the world records no campaign (the typical race). */
+  /** What the campaign's books show it spent; null where the world records no campaign (its spending is not read). */
   readonly spentMinor: number | null;
   /** The officeholder's recorded votes and promises, weighed at the race's lean (record.ts units). */
   readonly record: number;
@@ -94,9 +86,14 @@ export interface RaceConditions {
   readonly cycle: "presidential" | "midterm" | "off-cycle";
   /** Federal offices feel the national economy whole; state offices in part. */
   readonly federal: boolean;
-  /** Typical spending per two-party vote for the race's office, cents. */
-  readonly typicalSpendPerVote: number;
-  /** The race's two-party voters at the opening (sizes the typical campaign). */
+  /**
+   * What it costs, in this world today, to reach one of the race's voters
+   * once: the cheaper of the town outlet's own ad price and a mailed piece
+   * (campaigns.ts `voterContactPriceMinor`), in cents. Zero where the world
+   * runs no campaign for the race, and then no candidate's spending is read.
+   */
+  readonly contactPriceMinor: number;
+  /** The race's two-party voters (sizes what reaching them all costs). */
   readonly raceVotes: number;
   /** The country's approval of the president against its long-run mean, in points (national-opinion.ts). */
   readonly approvalGapPoints: number;
@@ -161,8 +158,13 @@ export function candidateReasons(
   conditions: RaceConditions,
 ): CandidateReasons {
   const p = electorateParameter;
+  // Spending is weighed against what reaching the race's voters costs here:
+  // a number of contacts with each voter (`spendingContactsPerVoteAtEven`,
+  // the strength) at this world's own price of a contact.
   const typical =
-    conditions.typicalSpendPerVote * Math.max(1, conditions.raceVotes);
+    p("spendingContactsPerVoteAtEven") *
+    conditions.contactPriceMinor *
+    Math.max(1, conditions.raceVotes);
   const spending =
     candidate.spentMinor === null || !typical
       ? 0
@@ -332,7 +334,6 @@ export function raceConditions(
   api: CoreAPI,
   input: {
     readonly federal: boolean;
-    readonly family: string;
     readonly cycle: RaceConditions["cycle"];
     readonly raceVotes: number;
     readonly townPlaceId: string | null;
@@ -344,7 +345,7 @@ export function raceConditions(
   return {
     cycle: input.cycle,
     federal: input.federal,
-    typicalSpendPerVote: typicalSpendPerVote(input.family),
+    contactPriceMinor: input.townPlaceId ? voterContactPriceMinor(api) : 0,
     raceVotes: input.raceVotes,
     approvalGapPoints: approvalGapPoints(api, input.electionDate),
     town: input.townPlaceId
@@ -465,7 +466,7 @@ export function candidateInputs(
     experienced: input.incumbent || (named && heldOffice(api, input.id)),
     // The campaign's books, by one rule for every candidate, named or not:
     // a campaign the world runs is read as it spent; a candidate with no
-    // campaign in the world runs the typical race's.
+    // campaign in the world has no books, and spending moves nothing.
     spentMinor: campaign ? campaign.spentMinor : null,
     record,
     presidentsParty: side !== 0 && side === president,

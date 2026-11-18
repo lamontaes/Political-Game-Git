@@ -73,12 +73,20 @@ The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fr
 
 A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.
 
+## A test drawn by state: sweep all 56 before you push
+
+A pure-model test that draws a state (`COUNTRY_STATE` in `src/core2/country-model.test.ts`) has only seen the handful of states your runs drew. Before you push, run it once for every state and territory: `for st in AL AK … MP; do COUNTRY_STATE=$st npx vitest run <file> -t "<name>"; done`, about ten minutes for a file that plays 120 months. On Nov 17 a new test required every sector to hold jobs and was red at the District of Columbia, which has no mining; and an old test in the same file turned out to be red on main whenever the draw is Puerto Rico. A case the place cannot have (a sector with no jobs) is left out of the case by the test and named, as a town with no race is passed over.
+
 ## The case is there, but the test asked for the wrong one (Nov 17)
 
 - **A scenario choice can be the luck.** `src/director/press-comment-variants.test.ts` brought "the town's four most settled questions" to a town body. In most drawn towns those are a state's or the country's to decide, so the draft was blocked for want of authority and never voted, and the test reported a slow body 12 places out of 12. Take the first case the place's own rules allow (the most settled question the body may decide), trying each in order, and pass over by name a place that allows none.
 - **A probe must not hope an arc wins.** Where an engine adds several reads in one sum, a probe that changes one record while another large one is still on record asserts a result the engine does not promise. Check each arc on a case that makes it the larger product under the engine's own sum, check the competing arc as its own case, and name any place that cannot show one (CTO, Nov 17, on the national reporter's call).
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
+
+## A case the player never reaches (Handoff, Nov 17)
+
+When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
 
 ## Gotchas (Nov 16 and 17)
 
