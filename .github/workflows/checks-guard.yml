@@ -1,0 +1,80 @@
+name: Checks guard
+# No session edits the checks that judge it. This workflow runs the
+# check-changes guard and its rules from main (pull_request_target), so a pull
+# request cannot loosen its own judge. It reads the pull request's files
+# through git only and never runs them. A refused change needs a line from the
+# CTO on the crew issue that approves the pull request by number; re-run this
+# job after that line is posted. docs/design/guards.md, "check-changes".
+on:
+  pull_request_target:
+    # edited: the stamp and the report check read the body, so an edited body is judged again.
+    types: [opened, synchronize, reopened, edited]
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+concurrency:
+  group: checks-guard-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  check-changes:
+    name: check-changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Main's copy of the guard and its rules, without file contents: the
+      # guard asks git for the few files a pull request changed. Main's
+      # parameter files come too, so a new read of a SOURCED level is seen.
+      - name: Check out main's guard
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            scripts/guards
+            scripts/prose-eval
+            scripts/report-check
+            src/core2/data
+            src/director/data
+            tests/guards
+          persist-credentials: true
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+      - name: Judge the pull request's changes by main's rules
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The body is read as data by the script (the done-proof stamp), never run.
+          PR_BODY: ${{ github.event.pull_request.body }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --quiet --filter=blob:none origin "pull/${PR_NUMBER}/head"
+          base="$(git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA")"
+          node --experimental-strip-types scripts/guards/check-changes.mjs --base "$base" --head "$PR_HEAD_SHA"
+      # The civic-reports standard on the pull request's body (CTO, Nov 17 on
+      # #9747, item 4): the same check as `npm run report:check`, which until
+      # now ran only as a hook in some sessions. Observe mode first: its
+      # errors are warnings on the run and the job passes, until the CTO sets
+      # REPORT_CHECK_OBSERVE to "false" here on main.
+      - name: Read the pull request's body against the report standard
+        if: ${{ !cancelled() }}
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          REPORT_CHECK_OBSERVE: "true"
+        shell: bash
+        run: |
+          set -uo pipefail
+          body="$RUNNER_TEMP/pull-request-body.md"
+          printf '%s\n' "$PR_BODY" > "$body"
+          if node scripts/report-check/cli.mjs "$body"; then exit 0; fi
+          if [[ "$REPORT_CHECK_OBSERVE" == "true" ]]; then
+            echo "::warning::The pull request body fails the report check (observe mode: reported, not refused)."
+            exit 0
+          fi
+          exit 1
