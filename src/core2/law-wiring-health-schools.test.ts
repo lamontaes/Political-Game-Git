@@ -20,7 +20,12 @@ import { govReport } from "./gov-test-report";
 import { setJournalTrace } from "./journal-state";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { appliedOn, appliedTo, type LawAppliedRow } from "./law-reach/applied";
+import {
+  appliedEver,
+  appliedOn,
+  appliedTo,
+  type LawAppliedRow,
+} from "./law-reach/applied";
 import { allotments, foodAidDollars } from "./law-reach/group-b-food-aid";
 import { jobsAt, source } from "./law-reach/group-b-money";
 import {
@@ -628,20 +633,45 @@ function play(where: string, seed: string, core: CoreState): void {
       job.wageDailyMinor,
       say(`${job.id} is paid under the teacher minimum`),
     ).toBeGreaterThanOrEqual(Math.floor(floor));
+  // The played world legislates: where its own legislature has since answered
+  // no on the teacher minimum, the engine ends every teacher row on the law's
+  // effective day, which is the repeal link (a repeal stops the law). Read the
+  // coverage against the law in force today, and name the act that ended it.
   const teacherRows = appliedOn(api, TEACHER);
-  for (const job of covers.filter((j) => core.jobs.has(j.id)))
+  const teacherStands = levelsSayingYes(api, TEACHER).length > 0;
+  const teacherEnding = lawInForce(api, TEACHER).governing;
+  if (!teacherStands) {
     expect(
-      teacherRows.some(
-        (r) => r.target === "person" && r.targetId === job.personId,
-      ),
-      say(`teacher ${job.personId} is covered`),
-    ).toBe(true);
-  expect(
-    teacherRows
-      .filter((r) => r.target === "group")
-      .reduce((n, r) => n + r.count, 0),
-    say("counted teachers covered"),
-  ).toBe(covers.filter((j) => !core.jobs.has(j.id)).length);
+      teacherEnding,
+      say("the teacher minimum no longer stands and no law row says no"),
+    ).toBeTruthy();
+    const ever = appliedEver(api, TEACHER);
+    expect(
+      ever.length,
+      say("the teacher minimum applied to no one before it ended"),
+    ).toBeGreaterThan(0);
+    for (const row of ever)
+      expect(
+        row.endedOn !== null && row.endedOn >= teacherEnding!.effectiveDate,
+        say(
+          `teacher row ${row.id} ended on ${row.endedOn}, not on or after ${teacherEnding!.effectiveDate}, the day ${teacherEnding!.id} took effect`,
+        ),
+      ).toBe(true);
+  } else {
+    for (const job of covers.filter((j) => core.jobs.has(j.id)))
+      expect(
+        teacherRows.some(
+          (r) => r.target === "person" && r.targetId === job.personId,
+        ),
+        say(`teacher ${job.personId} is covered`),
+      ).toBe(true);
+    expect(
+      teacherRows
+        .filter((r) => r.target === "group")
+        .reduce((n, r) => n + r.count, 0),
+      say("counted teachers covered"),
+    ).toBe(covers.filter((j) => !core.jobs.has(j.id)).length);
+  }
 
   // The record of each law: the applied record that names whom it reached,
   // and the journal entry of the money, by id. Taken now, while the laws
@@ -826,14 +856,18 @@ function play(where: string, seed: string, core: CoreState): void {
   };
   const paidTeacher = raisedJobs.find((j) => payrollOf(j));
   const teacherPay = paidTeacher ? payrollOf(paidTeacher) : undefined;
+  // A repealed law's rows are kept ended, so the chain names the row the law wrote.
+  const teacherChainRows = teacherRows.length
+    ? teacherRows
+    : appliedEver(api, TEACHER);
   record(
     TEACHER,
-    teacherRows.find(
+    teacherChainRows.find(
       (r) =>
         r.target === "person" &&
         r.targetId === paidTeacher?.personId &&
         r.what === "raised-to-teacher-minimum",
-    ) ?? teacherRows.find((r) => r.target === "group"),
+    ) ?? teacherChainRows.find((r) => r.target === "group"),
     teacherPay ? (teacherPay.split(" ")[0] ?? null) : null,
   );
 
