@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/fixer-unopened-holders-leave-office
-pr:
+pr: "#10133"
 blocked-on:
 standard: 2
 model: opus

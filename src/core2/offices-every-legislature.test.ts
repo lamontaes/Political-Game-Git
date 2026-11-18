@@ -328,8 +328,12 @@ it(`every other place's chambers, governor and statewide executives sit as named
   // Every such seat the voting engine raced is held by its race's winner,
   // at home in the office's own state; a re-elected holder is the same
   // person, a winner of another party a new one.
+  // The seat's regular race, not a special one held in the year for a holder
+  // who left mid-term (`race:<seat>:<date>:special`).
   const races = new Map(
-    racesOf(api).map((race) => [race.seatId, race] as const),
+    racesOf(api)
+      .filter((race) => !race.id.endsWith(":special"))
+      .map((race) => [race.seatId, race] as const),
   );
   // A term won in the year that begins just after it (a governor
   // inaugurated in late January): run on to the morning after the last.
@@ -340,7 +344,14 @@ it(`every other place's chambers, governor and statewide executives sit as named
     advanceCore(core, addDays(lastSeating as typeof core.date, 1));
   const seated: string[] = [];
   const changed: string[] = [];
-  for (const { seat, office, before } of up) {
+  // The term each race replaced: the seat's last term before the winner's,
+  // the opening holder's unless they left mid-term (a holder dies by the
+  // health engine's rule, and the place's law fills the seat; CTO, Nov 18
+  // 16:22Z).
+  const termsBySeat = new Map<string, TermRow[]>();
+  for (const row of offices.table("terms").rows() as unknown as TermRow[])
+    termsBySeat.set(row.seatId, [...(termsBySeat.get(row.seatId) ?? []), row]);
+  for (const { seat, office, before: opened } of up) {
     const race = races.get(seat.id);
     expect(
       race,
@@ -359,6 +370,10 @@ it(`every other place's chambers, governor and statewide executives sit as named
     );
     expect(term!.personId, `${where}: ${term!.id}`).toBeNull();
     seated.push(`${race!.id} -> ${term!.id} (${term!.party})`);
+    const before =
+      (termsBySeat.get(seat.id) ?? [])
+        .filter((row) => row.startDate < term!.startDate)
+        .sort((a, b) => b.startDate.localeCompare(a.startDate))[0] ?? opened;
     if (before && term!.party === before.party)
       expect(term!.identity, `${where}: ${term!.id} re-elected`).toEqual(
         before.identity,
