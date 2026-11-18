@@ -10,7 +10,7 @@
 import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
-import { placeStateKey } from "../core2/place-map";
+import { placeChain, placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
@@ -475,6 +475,47 @@ export function destinationSaid(
   const place = corePlaceByJurisdictionId(destinationId as never);
   if (place) return spoken(place);
   return name ? stateInSentence(name) : null;
+}
+
+/**
+ * How a relative's place is said to the asked person: `placeNamed` names a
+ * place elsewhere (their hometown) and is null for the asked person's own
+ * town or a county or state it sits in, which `nearNamed` names instead (a
+ * relative kept at that level, `lives`).
+ */
+export function relativePlaceSaid(
+  core: Readonly<CoreState>,
+  askedId: string,
+): {
+  placeNamed: (placeId: string) => string | null;
+  nearNamed: (placeId: string) => string | null;
+} {
+  const askedPlace = core.people.get(askedId as PersonId)?.placeId;
+  return {
+    placeNamed: (placeId) =>
+      askedPlace && holdsTown(placeId, askedPlace)
+        ? null
+        : destinationSaid(placeId, ""),
+    nearNamed: (placeId) =>
+      askedPlace && placeId !== askedPlace && holdsTown(placeId, askedPlace)
+        ? destinationSaid(placeId, "")
+        : null,
+  };
+}
+
+/**
+ * Whether a recorded place is the town itself or a county or state it sits
+ * in (a relative kept at their county or state's level, `lives`).
+ */
+function holdsTown(placeId: string, townId: string): boolean {
+  if (placeId === townId) return true;
+  const town = corePlaceByJurisdictionId(townId as never)?.key;
+  if (!town) return false;
+  const held =
+    coreStateKeyOfJurisdictionId(placeId) ??
+    corePlaceByJurisdictionId(placeId as never)?.key ??
+    placeId;
+  return !!held && placeChain(town).some((row) => row.id === held);
 }
 
 /**
@@ -1008,7 +1049,7 @@ function composeBinding(
   // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
-  const placeNamed = (placeId: string) => destinationSaid(placeId, "");
+  const { placeNamed, nearNamed } = relativePlaceSaid(core, askedId);
   for (const [key, fact] of Object.entries(
     letterFacts(
       core,
@@ -1017,6 +1058,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   ))
     facts[key] = fact;
@@ -1043,6 +1085,7 @@ function composeBinding(
       askedId,
       placeNamed,
       (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
+      nearNamed,
     ),
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
