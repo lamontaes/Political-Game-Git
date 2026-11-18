@@ -142,6 +142,10 @@
       "path": "src/director/scene.ts"
     },
     {
+      "kind": "The director's board design (cards, strings, a few picks)",
+      "path": "docs/design/director-board.md"
+    },
+    {
       "kind": "The talk engine",
       "path": "src/director/conversation.ts"
     },

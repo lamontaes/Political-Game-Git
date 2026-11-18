@@ -16,6 +16,7 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
+import type { CardFields } from "./card-facts";
 import { receives, SITUATION_LIBRARY, type ReceiveRule } from "./scheduling";
 import { cardsByString, rowsOnRecord, type StringIndex } from "./strings";
 import {
@@ -54,7 +55,7 @@ import type { Moment, PersonLedger } from "./types";
 const zero = P.zero;
 const one = P.one;
 
-export interface CircumstanceRow {
+export interface CircumstanceRow extends CardFields {
   id: string;
   /** Who may receive the row's scene (scheduling.ts `receives`); a cast that breaks it is not made. */
   receive?: ReceiveRule;

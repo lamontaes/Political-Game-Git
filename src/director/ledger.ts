@@ -1518,6 +1518,7 @@ export function createDirector(
       interruptImpact: param("directorInterruptImpact"),
       ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
       ...(preferredSettings.size ? { preferredSettings } : {}),
+      replies: ledger.repliesByPlayer,
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -1789,6 +1790,7 @@ export function createDirector(
         mode,
         pending,
         offers: offers.get(book.personId) ?? [],
+        replies: ledger.repliesByPlayer,
         // Only the controlled person's scenes open, so only theirs are worded.
         worded: (entry) =>
           controlled ? unworded(core, entry, book.personId) : undefined,

@@ -165,6 +165,26 @@
     "quarrel": {
       "kind": "quarrel"
     },
+    "declined-party": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": { "typeKey": "party-recruit" },
+      "refused": true,
+      "named": "asked",
+      "within": {
+        "value": 365,
+        "tag": "TUNABLE",
+        "spread": [91, 730],
+        "checkedAgainst": "A party's ask the player turned down in the last year still says the door is not the party's: a different door weighs more (docs/design/director-board.md, section 2, the committee person)."
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before: one no reads one half, two read two thirds."
+      }
+    },
     "exposed-before": {
       "kind": "history",
       "events": ["press.exposed"],

@@ -46,6 +46,11 @@ export interface RelationFacts {
 
 const PASSED = rulesFile.passedBetween;
 
+/** Whether a scene reply's move is a refusal (scene-talk-rules.json passedBetween.refused): the one list every reader of a no uses. */
+export function isRefusal(move: string | undefined): boolean {
+  return !!move && PASSED.refused.includes(move);
+}
+
 /** The record kind every scene's reply is written as. */
 export const SCENE_REPLY = "scene.reply";
 
@@ -113,7 +118,7 @@ export function passedBetween(
       event.facts?.keeps !== "promise" || event.facts?.settled === "help";
     if (move && PASSED.helped.includes(move) && kept)
       passed.helpedBefore.push(id);
-    if (move && PASSED.refused.includes(move)) passed.refusedBefore.push(id);
+    if (isRefusal(move)) passed.refusedBefore.push(id);
   }
   return passed;
 }
