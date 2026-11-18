@@ -521,12 +521,9 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const own =
       [...plan.own].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
-    // This world's life table: the published hazard times its mortality
-    // factor, the same one counted people die by (one model, two tiers).
-    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web * own * world),
+      micros: Math.round(plan.micros * housing * evicted * web * own),
     };
   });
 }

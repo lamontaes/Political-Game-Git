@@ -423,6 +423,37 @@ ol {
 .bust-strip .busts-person.quiet .busts-name {
   color: var(--muted);
 }
+/* A speech on television: the speaker's bust on a set, top right over the room, gone with the talk. */
+#tv {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+  z-index: 3;
+  padding: 10px 14px 0;
+  background: rgba(24, 22, 20, 0.78);
+  border: 2px solid var(--gold);
+  border-radius: var(--control-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+#tv .bust-strip {
+  --bust: 120px;
+}
+#tv .busts-glass {
+  display: none;
+}
+#tv .tv-live {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#game:has(#talk[hidden]) #tv,
+#game:has(#person:not([hidden])) #tv {
+  display: none;
+}
 /* Who is here: along the foot of the room, clear of the player card. */
 #here {
   position: absolute;
@@ -1298,6 +1329,14 @@ input[type="range"]::-moz-range-thumb {
 }
 #front-status:empty {
   display: none;
+}
+/* The loading messages: every step the build has passed, the current one lit. */
+#front-status span {
+  display: block;
+  opacity: 0.55;
+}
+#front-status span.now {
+  opacity: 1;
 }
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
