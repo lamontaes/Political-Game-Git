@@ -576,9 +576,17 @@ function play(where: string, seed: string, core: CoreState): void {
     say("preschool applied rows record no money"),
   ).toBeGreaterThan(0);
 
-  // Vouchers follow the private tuition households pay.
+  // Vouchers follow the private tuition households pay. The law's review
+  // opens each group's voucher on the 1st and its first payment falls on the
+  // group's own due day, later than this check: wait out the last of those
+  // days, and every opened voucher has paid.
   const vouchers = open(`voucher|${VOUCHER}`);
   expect(vouchers.length, say("no open voucher payment")).toBeGreaterThan(0);
+  const lastDue = vouchers
+    .map((r) => accounts.obligation(r.obligationId)!.firstDueAt)
+    .sort()
+    .at(-1)!;
+  while (api.state.date < lastDue) advance(core, 1);
   expect(paid(vouchers), say("vouchers paid nothing")).toBeGreaterThan(0);
   expect(
     appliedOn(api, VOUCHER).length,
