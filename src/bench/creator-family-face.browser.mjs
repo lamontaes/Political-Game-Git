@@ -23,7 +23,8 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-given").fill("Test");
+  await page.locator("#cr-family").fill("Person");
   await page.waitForFunction(() => document.getElementById("cr-given").value);
   await page.locator("#cr-place-random").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();

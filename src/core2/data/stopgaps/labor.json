@@ -253,5 +253,29 @@
     "addedAt": "2026-11-12",
     "replacement": "Price a commuter's job from the role's BLS OEWS wage (townJobRate) and take the difference out of the place's pooled flow.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-aide-pay-estimate",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/staff.ts",
+    "line": 1,
+    "whatItFakes": "An official's aide is paid the median of what the town's own private jobs pay (postHourlyMinor). Where the town holds no private job, the estimate staffHourlyMinor (a published local-government administrative wage) stands, and the aide is not priced by the post's own skill demand.",
+    "why": "Family 20 of the pins (Nov 17): the aide's pay was a fixed $24 an hour for the whole game; it now moves with the town's labor market. A town with no private job has no market to read.",
+    "addedBy": "labor",
+    "addedAt": "2026-11-17",
+    "replacement": "The offer an aide's occupation would get in the town's own labor market by skill (the wage by occupation from family 20's main pull request), read in the same place.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-head-pay-estimate",
+    "kind": "estimated-behavior",
+    "file": "src/core2/town-labor-pay.ts",
+    "line": 1,
+    "whatItFakes": "An appointed department head is paid the town's own pay at the rank appointeePayQuantile (the 85th of its private jobs). Where the town holds no private job, the estimate appointeeHourlyMinor (a published local-government management wage) stands. The rank is estimated, not fitted from a skill market.",
+    "why": "Family 20 of the pins (Nov 17): the head's pay was a fixed $46 an hour for the whole game; it now moves with the town's labor market.",
+    "addedBy": "labor",
+    "addedAt": "2026-11-18",
+    "replacement": "The offer the head's occupation would get in the town's own labor market by skill and schooling, read in the same place (family 20's main pull request).",
+    "status": "open"
   }
 ]

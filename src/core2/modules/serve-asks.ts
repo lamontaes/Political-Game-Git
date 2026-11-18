@@ -65,7 +65,7 @@ import {
   statePostsToFill,
 } from "./executive";
 import { appointGovernor, prepareAct } from "./office-day";
-import { campaignParameter } from "../campaign-data";
+import { appointeeHourlyMinor } from "../town-labor-pay";
 import { viewOn } from "./views";
 import { contestPositions } from "../contest-positions";
 import {
@@ -545,7 +545,7 @@ export function postStanding(
   const held = workHeld(api.state as CoreState, asked.id);
   const working = held !== null;
   const hourlyMinor = held?.hourlyMinor ?? 0;
-  const postHourly = campaignParameter("appointeeHourlyMinor");
+  const postHourly = appointeeHourlyMinor(api);
   const distance = Math.abs(theirStance - playerStance) / 2;
   const terms: Record<string, number> = {
     base: w(seat, "base"),
@@ -911,7 +911,7 @@ export function askToServe(
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       // The question a price is named on, one the office can decide, and
       // their side on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       ...(standing.grounds.priceQuestion
         ? {
             "price-question": standing.grounds.priceQuestion,
@@ -1069,7 +1069,7 @@ function askToTakePost(
       askedId: personId,
       question: standing.grounds.question,
       // The side they hold on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },
