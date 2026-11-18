@@ -14,6 +14,7 @@ import { publicPayTreasuries } from "./public-work-pay";
 import {
   lineAdders,
   linePayers,
+  registerBudgetPassThrough,
   registerLineAdditions,
   registerLinePayments,
   registerTreasuryRule,
@@ -24,7 +25,6 @@ import spendingData from "./data/budgets/treasury-spending.json" with { type: "j
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
 import { townOutsideOf } from "./opening-outside-market";
@@ -69,6 +69,7 @@ const DATA = spendingData as unknown as {
   aid: {
     flows: { payer: string; payee: string; revenueLine: string }[];
     fromLines: Record<string, string[]>;
+    matchLines: Record<string, string>;
   };
   providers: {
     lines: Record<
@@ -266,40 +267,18 @@ const INTEREST_LINE = "interest";
 const BORROWING_COST = "gov.borrowing-cost";
 
 /**
- * A state's rate on its debt: its interest on general debt over its debt
- * outstanding, both from the Census Bureau's state finances
- * (public-budget-bases.json). A place the survey leaves out (a territory, or
- * D.C., which reports no state debt) takes the median of the states that
- * report both, as an estimate.
+ * What a state pays to borrow, as a fraction a year: the world's own long
+ * Treasury yield in the last completed month (the macro record's
+ * treasury10Pct, a percent). A state borrows at that yield plus its own
+ * spread, so a law that moves the spread moves the cost by its share of the
+ * yield. None where the world keeps no macro record yet.
  */
-const STATE_DEBT_RATES: ReadonlyMap<string, number> = (() => {
-  const places = (
-    budgetBases as unknown as {
-      places: Record<
-        string,
-        { state?: { debt?: number; spending?: { interest?: number } } }
-      >;
-    }
-  ).places;
-  const rates = new Map<string, number>();
-  for (const [key, place] of Object.entries(places)) {
-    const debt = place.state?.debt ?? 0;
-    const interest = place.state?.spending?.interest ?? 0;
-    if (debt > 0 && interest > 0) rates.set(key, interest / debt);
-  }
-  return rates;
-})();
-/** A state's rate on its debt, or the states' median where the survey has none (an estimate). */
-export function stateDebtRate(stateKey: string): number {
-  return STATE_DEBT_RATES.get(stateKey) ?? MEDIAN_STATE_DEBT_RATE;
+export function stateBorrowingRate(api: CoreAPI): number | undefined {
+  const drivers = budgetDrivers(api);
+  return drivers ? drivers.yield / PERCENT : undefined;
 }
-const MEDIAN_STATE_DEBT_RATE = (() => {
-  const sorted = [...STATE_DEBT_RATES.values()].sort((a, b) => a - b);
-  const mid = Math.floor(sorted.length / 2);
-  return sorted.length % 2
-    ? sorted[mid]!
-    : (sorted[mid - 1]! + sorted[mid]!) / 2;
-})();
+/** A percent is one hundredth (the unit the macro record keeps its yields in). */
+const PERCENT = 100;
 
 /**
  * The share of its planned interest a state owes this month: the outcome
@@ -316,7 +295,8 @@ function interestFactor(api: CoreAPI): number {
   // whole interest line at once, not only the bonds issued after it, and only
   // the state's; no record keeps a government's bonds by issue date.
   api.stopgap("SG-EFFECT-WEB-prices-gov-borrowing");
-  const rate = stateDebtRate(chain.stateKey);
+  const rate = stateBorrowingRate(api);
+  if (rate === undefined) return 1;
   return Math.max(
     0,
     1 + added / treasuryParameter("basisPointsPerUnit") / rate,
@@ -440,6 +420,45 @@ function lawsOnLine(
     });
   return out;
 }
+
+/**
+ * What a bill that moved a federal grant line adds to the line a state, county
+ * or town spends that grant on (`DATA.aid.matchLines`): the receiver's federal
+ * aid for the year, times the share of the federal grant lines' base the bill
+ * moved. This is the same share `grantLineChanges` pays on top of the base aid
+ * each month, so the line rises by the dollars that arrive for it.
+ */
+registerBudgetPassThrough((api, gov, revenueMinor) => {
+  const flow = DATA.aid.flows.find(
+    (f) => f.payer === "federal" && f.payee === gov.level,
+  );
+  const aid = flow ? (revenueMinor[flow.revenueLine] ?? 0) : 0;
+  if (aid <= 0) return {};
+  const federalGov = governments(api).find((g) => g.level === "federal");
+  const budget = federalGov
+    ? budgetsOf(api, federalGov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]
+    : undefined;
+  if (!federalGov || !budget) return {};
+  const fy = Number(budget.startsOn.slice(0, 4));
+  const grantLines = DATA.aid.fromLines["federal"] ?? [];
+  const baseTotal = grantLines.reduce(
+    (n, line) => n + lineWithoutBills(api, federalGov, fy, line),
+    0,
+  );
+  if (baseTotal <= 0) return {};
+  const out: Record<string, number> = {};
+  for (const [grantLine, spentOn] of Object.entries(DATA.aid.matchLines)) {
+    const byBills =
+      (budget.spendingMinor[grantLine] ?? 0) -
+      lineWithoutBills(api, federalGov, fy, grantLine);
+    if (byBills === 0) continue;
+    out[spentOn] =
+      (out[spentOn] ?? 0) + Math.round((aid * byBills) / baseTotal);
+  }
+  return out;
+});
 
 /** A law that raised a line, with the share of the line it added. */
 type RaisedBy = LineAddition & { readonly share: number };

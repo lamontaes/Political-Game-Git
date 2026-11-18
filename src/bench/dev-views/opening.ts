@@ -46,6 +46,7 @@ import {
   type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { openingRentals } from "../../core2/modules/housing";
 import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
@@ -342,6 +343,19 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       })(),
     ),
     row(
+      "town.rentalVacancy",
+      "Your town's empty rentals on day one",
+      (() => {
+        // The town's own past: the leases its renters signed in the last year,
+        // each leaving a unit empty between tenants (housing-past.ts openingVacancy).
+        const town = core.placeMetadata?.housingTown;
+        const api = coreAPI(core);
+        const rentals = town ? openingRentals(api, town) : undefined;
+        if (!rentals) return "no rental homes here";
+        return `${Math.round(rentals.vacant)} of ${Math.round(rentals.units)} rentals empty (${pct(rentals.vacant / Math.max(1, rentals.units))}), from the ${Math.round(rentals.signed)} leases its ${Math.round(rentals.renters)} renting households signed in the last year, each leaving a home empty about ${api.parameter("rentalVacantMonths")} months`;
+      })(),
+    ),
+    row(
       "town.districtLeans",
       "Where the town's districts lean on day one",
       (() => {
@@ -441,6 +455,20 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             })
             .join("; ")
         : "today's real parties (the world chose it)",
+    ),
+    row(
+      "town.foundedParties",
+      "Parties founded in the century",
+      historyMode(core.seed) === "century"
+        ? century.foundings.length
+          ? century.foundings
+              .map(
+                (f) =>
+                  `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}`,
+              )
+              .join("; ")
+          : "none: the century's parties kept their voters close enough that no pressure outweighed the cost of a new one"
+        : "none (today's real parties)",
     ),
     row(
       "town.congresses",
