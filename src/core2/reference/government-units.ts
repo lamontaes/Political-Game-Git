@@ -180,7 +180,6 @@ function load(): Index {
   }
   // The Island Areas' own governments, which the listing does not carry (a
   // Guam village's mayor): the same identity, from their own law's rows.
-  // stopgapId: SG-GOV-island-area-municipalities-unread
   for (const row of islandAreas.governments) {
     const unit: GovernmentUnitIdentity = {
       id: row.id,
@@ -189,14 +188,15 @@ function load(): Index {
       unitType: row.unitType as GovernmentUnitType,
       stateUsps: row.stateUsps,
       countyGeoid: null,
-      placeGeoid: row.placeGeoid,
+      // A Northern Marianas municipality governs many villages, none its own.
+      placeGeoid: row.placeGeoids.length === 1 ? row.placeGeoids[0]! : null,
       publisherPlaceCode: null,
       functionalActive: true,
       asOf: GOVERNMENT_UNITS_META.asOf,
     };
     byId.set(unit.id, unit);
     push(byState, unit.stateUsps, unit);
-    push(byPlace, row.placeGeoid, unit);
+    for (const geoid of row.placeGeoids) push(byPlace, geoid, unit);
   }
   // A consolidated city-county government is listed as a municipality that
   // covers its whole county area; it is the county's government.

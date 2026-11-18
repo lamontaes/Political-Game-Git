@@ -2972,6 +2972,96 @@
           }
         ]
       }
+    },
+    {
+      "key": "us-mp-rota",
+      "placeGeoid": null,
+      "publisherId": "island:MP:rota",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodyName": "Rota Municipal Council",
+        "bodySize": 3,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
+        "executiveSelection": "popularly elected by the qualified voters of the islands served (CNMI Constitution art. VI sec. 2(a))",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          },
+          {
+            "seatClass": "Council",
+            "years": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-mp-saipan",
+      "placeGeoid": null,
+      "publisherId": "island:MP:saipan",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodyName": "Saipan and Northern Islands Municipal Council",
+        "bodySize": 3,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
+        "executiveSelection": "popularly elected by the qualified voters of the islands served (CNMI Constitution art. VI sec. 2(a))",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          },
+          {
+            "seatClass": "Council",
+            "years": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-mp-tinian",
+      "placeGeoid": null,
+      "publisherId": "island:MP:tinian",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodyName": "Tinian and Aguiguan Municipal Council",
+        "bodySize": 3,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
+        "executiveSelection": "popularly elected by the qualified voters of the islands served (CNMI Constitution art. VI sec. 2(a))",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          },
+          {
+            "seatClass": "Council",
+            "years": 2
+          }
+        ]
+      }
     }
   ]
 }

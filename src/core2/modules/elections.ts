@@ -381,6 +381,8 @@ interface ReadRequirements {
   readonly party?: ReadSide;
   readonly independent?: ReadSide;
   readonly minimumAge?: number | null;
+  /** An office of the family whose own law sets another age (a Northern Marianas Mayor, 25, beside its council's 21). */
+  readonly minimumAgeByOffice?: Readonly<Record<string, number>>;
   readonly residency?: string | null;
   readonly registeredVoterRequired?: boolean | null;
   readonly filingDeadlineRule?: string | null;
@@ -654,7 +656,12 @@ export function filingRulesFor(
     (contest.district
       ? readRequirements(town(api).stateKey, contest.family)?.districtSeatsRead
       : undefined) ?? contest.family;
-  const stateRules = filingRequirements(town(api).stateKey, family, side);
+  const kind = contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1);
+  const familyRules = filingRequirements(town(api).stateKey, family, side);
+  const ownAge = readRequirements(town(api).stateKey, family)
+    ?.minimumAgeByOffice?.[kind];
+  const stateRules =
+    ownAge === undefined ? familyRules : { ...familyRules, minimumAge: ownAge };
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
@@ -662,7 +669,7 @@ export function filingRulesFor(
       string,
       { value: number; citation: string }
     >
-  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  )[kind];
   const rules =
     federal && federal.value > stateRules.minimumAge
       ? {

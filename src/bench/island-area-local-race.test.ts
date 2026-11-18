@@ -25,8 +25,10 @@ import filing from "../../data/research/elections/filing-requirements.json" with
 // rows of their own law (island-area-governments.json); a place one of them
 // governs opens with that government's offices seated and its next regular
 // race on the Elections page, on the calendar its law sets, filed with the
-// officer and at the age the territory's filing research reads. The test
-// draws one governed place from every row, by the seed it prints.
+// officer and at the age the territory's filing research reads. A
+// government may govern many places (a Northern Marianas municipality holds
+// every village the Census lists under it). The test draws, by the seed it
+// prints, one government of each territory and one place it governs.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const opening = "2026-10-12";
 type PlaceRow = [string, string, string, string | null, string, number];
@@ -37,83 +39,138 @@ describe(`an Island Area place has its own local race (seed ${seed})`, () => {
     const rows = islandAreas.governments;
     const states = new Set(rows.map((row) => row.stateUsps));
     for (const row of rows)
-      expect(
-        places.some((p) => p[2] === row.stateUsps && p[4] === row.placeGeoid),
-        row.id,
-      ).toBe(true);
+      for (const geoid of row.placeGeoids)
+        expect(
+          places.some((p) => p[2] === row.stateUsps && p[4] === geoid),
+          `${row.id} ${geoid}`,
+        ).toBe(true);
     for (const place of places.filter((p) => states.has(p[2])))
       expect(
-        rows.filter((row) => row.placeGeoid === place[4]).length,
+        rows.filter((row) => row.placeGeoids.includes(place[4])).length,
         place[0],
       ).toBe(1);
   });
 
-  it("opens with the place's own race on the Elections page, on its law's calendar", () => {
-    const rank = (key: string) =>
-      createHash("sha256").update(`${seed}:${key}`).digest("hex");
-    const row = [...islandAreas.governments].sort((a, b) =>
-      rank(a.id).localeCompare(rank(b.id)),
-    )[0]!;
-    const place = places.find(
-      (p) => p[2] === row.stateUsps && p[4] === row.placeGeoid,
-    )!;
-    const world = buildBenchWorld(seed, opening, {
-      twoLevel: true,
-      placeKey: place[0],
-    });
-    const label = `${place[1]}, ${row.stateUsps} (${place[0]}, seed ${seed})`;
-    process.stdout.write(`island-area-local-race: ${label}\n`);
-    expect(world.place.key, label).toBe(place[0]);
-    const api = coreAPI(world.core);
-    const contests = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .rows() as unknown as ContestRow[];
-    const own = contests.filter((contest) =>
-      contest.seatId.startsWith(`seat:${row.id}:`),
-    );
-    expect(own.length, label).toBeGreaterThan(0);
-
-    // The page lists the government's race, the nearest local one.
-    const page = localRaces(world.core);
-    const race = page.races.find((r) =>
-      r.contestIds.some((id) => own.some((contest) => contest.id === id)),
-    );
-    expect(
-      race,
-      `${label}: ${JSON.stringify(page.races.map((r) => r.title))}`,
-    ).toBeDefined();
-
-    // On the calendar its law sets: a cycle year of the territory's row.
-    const cycle = (
-      municipalCycles as {
-        states: Record<string, { anchorYear: number; periodYears: number }>;
-      }
-    ).states[`US-${row.stateUsps}`]!;
-    const year = Number(race!.electionDate.slice(0, 4));
-    expect((year - cycle.anchorYear) % cycle.periodYears, label).toBe(0);
-    expect(race!.electionDate > opening, label).toBe(true);
-
-    // Filed with the territory's officer, at the age its research reads.
-    const research = (
-      filing as unknown as {
-        places: Record<
-          string,
-          { municipalOffice?: { filedWith?: string; minimumAge?: number } }
-        >;
-      }
-    ).places[`US-${row.stateUsps}`]!.municipalOffice!;
-    expect(race!.filedWith, label).toBe(research.filedWith);
-    // A player born 18 years before the opening is younger than the
-    // territory's age on every day its race can be filed for.
-    const player = world.core.people.get(world.core.playerId!)!;
-    const turns = `${Number(player.birthDate.slice(0, 4)) + research.minimumAge!}${player.birthDate.slice(4)}`;
-    if (turns > race!.filingDeadline)
-      expect(race!.cannotFile, label).toMatchObject({
-        rule: "minimum-age",
-        required: String(research.minimumAge),
+  const rank = (key: string) =>
+    createHash("sha256").update(`${seed}:${key}`).digest("hex");
+  const territories = [
+    ...new Set(islandAreas.governments.map((row) => row.stateUsps)),
+  ].sort();
+  it.each(territories)(
+    "opens with the place's own races on the Elections page, on its law's calendar (%s)",
+    (territory) => {
+      const row = islandAreas.governments
+        .filter((g) => g.stateUsps === territory)
+        .sort((a, b) => rank(a.id).localeCompare(rank(b.id)))[0]!;
+      const geoid = [...row.placeGeoids].sort((a, b) =>
+        rank(a).localeCompare(rank(b)),
+      )[0]!;
+      const place = places.find(
+        (p) => p[2] === row.stateUsps && p[4] === geoid,
+      )!;
+      const world = buildBenchWorld(seed, opening, {
+        twoLevel: true,
+        placeKey: place[0],
       });
-  }, 600_000);
+      const label = `${place[1]}, ${row.stateUsps} (${place[0]}, seed ${seed})`;
+      process.stdout.write(`island-area-local-race: ${label}\n`);
+      expect(world.place.key, label).toBe(place[0]);
+      const api = coreAPI(world.core);
+      const contests = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[];
+      const own = contests.filter((contest) =>
+        contest.seatId.startsWith(`seat:${row.id}:`),
+      );
+      expect(own.length, label).toBeGreaterThan(0);
+
+      // The page lists the government's race, the nearest local one.
+      const page = localRaces(world.core);
+      const races = page.races.filter((r) =>
+        r.contestIds.some((id) => own.some((contest) => contest.id === id)),
+      );
+      // Every office the government's reading names is raced: its Mayor (and
+      // Vice Mayor), and its council's seats where it has one.
+      const reading = (
+        readings.governments as {
+          publisherId: string | null;
+          reading: {
+            bodySize: number | null;
+            mayor: unknown;
+            viceMayor?: unknown;
+          };
+        }[]
+      ).find((g) => g.publisherId === row.id)!.reading;
+      const titles = races.map((r) => r.title).sort();
+      expect(titles, label).toEqual(
+        [
+          ...(reading.bodySize ? ["Council member"] : []),
+          ...(reading.mayor ? ["Mayor"] : []),
+          ...(reading.viceMayor ? ["Vice Mayor"] : []),
+        ].sort(),
+      );
+      const council = races.find((r) => r.title === "Council member");
+      if (council) expect(council.seats, label).toBe(reading.bodySize);
+
+      // Filed with the territory's officer, at the age its research reads for
+      // the office.
+      const research = (
+        filing as unknown as {
+          places: Record<
+            string,
+            {
+              municipalOffice?: {
+                filedWith?: string;
+                minimumAge?: number;
+                minimumAgeByOffice?: Record<string, number>;
+              };
+            }
+          >;
+        }
+      ).places[`US-${row.stateUsps}`]!.municipalOffice!;
+      const timing = (
+        islandAreas.territories as Record<string, { electionTiming: string }>
+      )[row.stateUsps]!.electionTiming;
+      const cycle = (
+        municipalCycles as {
+          states: Record<string, { anchorYear: number; periodYears: number }>;
+        }
+      ).states[`US-${row.stateUsps}`];
+      const player = world.core.people.get(world.core.playerId!)!;
+      for (const race of races) {
+        const seen = `${label} ${race.title}`;
+        // On the calendar its law sets: a cycle year of the territory's row,
+        // or an even year's November general election.
+        const year = Number(race.electionDate.slice(0, 4));
+        if (cycle)
+          expect((year - cycle.anchorYear) % cycle.periodYears, seen).toBe(0);
+        else {
+          expect(timing, seen).toBe("even-year-november-consolidated");
+          expect(year % 2, seen).toBe(0);
+          expect(race.electionDate.slice(5, 7), seen).toBe("11");
+        }
+        expect(race.electionDate > opening, seen).toBe(true);
+        expect(race.filedWith, seen).toBe(research.filedWith);
+        const officeId = own.find((c) =>
+          race.contestIds.includes(c.id),
+        )!.officeId;
+        const age =
+          research.minimumAgeByOffice?.[
+            officeId.slice(officeId.lastIndexOf(":") + 1)
+          ] ?? research.minimumAge!;
+        // A player born 18 years before the opening is younger than the
+        // office's age on every day its race can be filed for.
+        const turns = `${Number(player.birthDate.slice(0, 4)) + age}${player.birthDate.slice(4)}`;
+        if (turns > race.filingDeadline)
+          expect(race.cannotFile, seen).toMatchObject({
+            rule: "minimum-age",
+            required: String(age),
+          });
+      }
+    },
+    600_000,
+  );
 
   it("a Vice Mayor is elected where the law has one, and takes a vacated Mayor's seat", () => {
     // Every government whose reading names a Vice Mayor (5 GCA sec. 40101),
@@ -128,13 +185,13 @@ describe(`an Island Area place has its own local race (seed ${seed})`, () => {
         .filter((g) => g.reading.viceMayor)
         .map((g) => g.publisherId),
     );
-    const rank = (key: string) =>
+    const viceRank = (key: string) =>
       createHash("sha256").update(`${seed}:vice:${key}`).digest("hex");
     const row = islandAreas.governments
       .filter((g) => withVice.has(g.id))
-      .sort((a, b) => rank(a.id).localeCompare(rank(b.id)))[0]!;
+      .sort((a, b) => viceRank(a.id).localeCompare(viceRank(b.id)))[0]!;
     const place = places.find(
-      (p) => p[2] === row.stateUsps && p[4] === row.placeGeoid,
+      (p) => p[2] === row.stateUsps && p[4] === row.placeGeoids[0],
     )!;
     const world = buildBenchWorld(seed, opening, {
       twoLevel: true,

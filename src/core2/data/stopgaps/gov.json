@@ -2043,7 +2043,7 @@
     "id": "SG-GOV-territory-municipal-mix",
     "kind": "assumed-data",
     "file": "scripts/research/export-public-budget-bases.py",
-    "line": 0,
+    "line": 315,
     "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
     "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
     "addedBy": "Nation",
@@ -2110,7 +2110,21 @@
     "why": "The game's 66 Northern Marianas places carry no link to the municipality each lies in (the place-to-county files hold none for the Island Areas), and a government row needs the places it governs.",
     "addedBy": "Elections",
     "addedAt": "2026-11-18",
-    "replacement": "A row for each Northern Marianas municipality listing the Census places it governs (from the Census Bureau's 2020 Island Areas geography), its reading (mayor and council) in src/core2/gov-rules/municipal-governments.json, its election timing and its filing research row.",
+    "replacement": "Resolved Nov 18: src/core2/data/reference/island-area-governments.json has a row for Saipan, Rota, and Tinian and Aguiguan, each listing the Census places it governs as the Census Bureau's 2020 Table 2 (Municipality and Village) lists them (51, 11 and 4 of the game's 66 places); each has its reading (a Mayor and a three-member council at large, Mayor 4 years and council 2) in src/core2/gov-rules/municipal-governments.json, the territory's even-year November timing, the Commonwealth Election Commission's filing row with the Mayor's own age of 25 (minimumAgeByOffice, read by filingRulesFor in src/core2/modules/elections.ts), and its vacancy law. The Northern Islands municipality (7 residents in 2020) has no village the game opens in, so it has no row. Shown in src/bench/island-area-local-race.test.ts. Was: A row for each Northern Marianas municipality listing the Census places it governs (from the Census Bureau's 2020 Island Areas geography), its reading (mayor and council) in src/core2/gov-rules/municipal-governments.json, its election timing and its filing research row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-18",
+    "resolvedBy": "Elections"
+  },
+  {
+    "id": "SG-GOV-island-mayor-late-vacancy",
+    "kind": "missing-engine",
+    "file": "src/core2/offices-local.ts",
+    "line": 315,
+    "whatItFakes": "A Northern Marianas Mayor's vacancy always goes to a special election. The Commonwealth Constitution (art. VI sec. 2(b)) calls one only when half or more of the term remains; with less left, 1 CMC sec. 5103(a) has the Governor appoint the last election's unsuccessful candidate for that office with the most votes. A council vacancy is appointed by the Mayor (art. VI sec. 6(b)), but the appointee is not the council race's runner-up the section names first.",
+    "why": "A vacancy rule in src/core2/modules/offices.ts is one method; no rule yet switches method on the share of the term left, or names the last race's runner-up as the appointee.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "A vacancy rule that reads the share of the term left (special election at half or more, else appointment by the Governor) and an appointee drawn from the last race's results, for both the Mayor and the council.",
     "status": "open"
   },
   {

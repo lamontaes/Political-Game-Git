@@ -11620,12 +11620,17 @@
         "petitionInLieuOfFee": false,
         "partyCandidateVsIndependent": "As governor.",
         "minimumAge": 21,
+        "minimumAgeByOffice": {
+          "mayor": 25
+        },
         "residency": "Qualified voter of the island; resident and domiciliary of the island 3 years; must keep residing there",
         "registeredVoterRequired": true,
         "filingDeadlineRule": "4:30 p.m. 90 days before the election",
         "filingWindowOpens": "120 days before the election",
         "source": "https://www.votecnmi.gov.mp/downloads/2026/2026_GE_Candidates_Pamphlet-updated.pdf",
-        "secondarySources": [],
+        "secondarySources": [
+          "https://ballotpedia.org/Article_VI,_Northern_Mariana_Islands_Constitution"
+        ],
         "retrievedDate": "2026-10-12",
         "estimate": false
       },

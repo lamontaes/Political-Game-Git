@@ -1,5 +1,5 @@
 {
-  "about": "Local governments of the Island Areas, which the Census Bureau's 2025 Government Units listing does not carry (it covers the 50 states and D.C.; Puerto Rico's municipios are read from the county corpus). Each territory names the law its governments follow: when it holds their regular elections and who fills a vacant seat; each government row names the Census place it governs. Read by src/core2/reference/government-units.ts (identity) and src/core2/gov-rules/municipal-ballot-rules.ts (timing); the government's offices come from its reading in src/core2/gov-rules/municipal-governments.json, as for every other town.",
+  "about": "Local governments of the Island Areas, which the Census Bureau's 2025 Government Units listing does not carry (it covers the 50 states and D.C.; Puerto Rico's municipios are read from the county corpus). Each territory names the law its governments follow: when it holds their regular elections and who fills a vacant seat; each government row names the Census places it governs (a Guam village is one place; a Northern Marianas municipality holds every village the Census Bureau's 2020 Table 2, Municipality and Village, lists under it). Read by src/core2/reference/government-units.ts (identity) and src/core2/gov-rules/municipal-ballot-rules.ts (timing); the government's offices come from its reading in src/core2/gov-rules/municipal-governments.json, as for every other town.",
   "territories": {
     "GU": {
       "electionTiming": "quadrennial-november-general",
@@ -9,6 +9,19 @@
         "viceMayorSucceeds": true,
         "citation": "5 GCA sec. 40110: a Mayor's vacancy is filled by the Vice Mayor where the municipality has one, and the Vice Mayor's office then stays vacant until the term ends (b); otherwise, and for a Vice Mayor's vacancy, by a majority vote of the municipality's Municipal Planning Council with the advice and consent of I Liheslatura (a), (b)"
       }
+    },
+    "MP": {
+      "electionTiming": "even-year-november-consolidated",
+      "source": "Constitution of the Commonwealth of the Northern Mariana Islands, Article VI: sec. 2(a) (the qualified voters of Rota, Tinian and Aguiguan, Saipan, and the islands north of Saipan each elect a mayor, at least twenty-five years of age and a resident and domiciliary of the islands served for at least three years), sec. 2(b) (elected at a regular general election for a term of four years, at most two terms), sec. 6(a) (municipal councils for Rota, Tinian and Aguiguan, and Saipan and the islands north of Saipan, of three members elected at large on a nonpartisan basis, at least twenty-one years of age, for a term of two years). https://ballotpedia.org/Article_VI,_Northern_Mariana_Islands_Constitution, read 2026-11-18. Villages by municipality: U.S. Census Bureau, 2020 Census Population of the Commonwealth of the Northern Mariana Islands: Municipality and Village (Table 2), https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/commonwealth-of-the-northern-mariana-islands/population-and-housing-unit-counts/commonwealth-northern-mariana-islands-phc-table02.csv, read 2026-11-18; the Northern Islands municipality (7 residents in 2020) has no village the game opens in.",
+      "vacancy": {
+        "method": "special-election",
+        "viceMayorSucceeds": false,
+        "citation": "CNMI Constitution art. VI sec. 2(b): a vacancy in the Office of Mayor is filled by special election if one-half or more of the term remains, and otherwise as provided by law; 1 CMC sec. 5103(a): with less than half the term left, the Governor appoints the previous election's unsuccessful candidate for that mayor's office with the most votes who is willing to serve (https://saipantribune.com/index.php/tudela-named-saipan-mayor)"
+      },
+      "councilVacancy": {
+        "appointedBy": "the Mayor",
+        "citation": "CNMI Constitution art. VI sec. 6(b): the mayor of the islands served appoints the unsuccessful candidate in the council's last election with the next highest number of votes, otherwise a person from the islands served with the advice and consent of the senatorial district's legislative delegation"
+      }
     }
   },
   "governments": [
@@ -17,133 +30,218 @@
       "name": "Agana Heights",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601004650"
+      "placeGeoids": ["6601004650"]
     },
     {
       "id": "island:GU:agat",
       "name": "Agat",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601007250"
+      "placeGeoids": ["6601007250"]
     },
     {
       "id": "island:GU:asan-maina",
       "name": "Asan-Maina",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601013100"
+      "placeGeoids": ["6601013100"]
     },
     {
       "id": "island:GU:barrigada",
       "name": "Barrigada",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601017650"
+      "placeGeoids": ["6601017650"]
     },
     {
       "id": "island:GU:chalan-pago-ordot",
       "name": "Chalan Pago-Ordot",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601026100"
+      "placeGeoids": ["6601026100"]
     },
     {
       "id": "island:GU:dededo",
       "name": "Dededo",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601028050"
+      "placeGeoids": ["6601028050"]
     },
     {
       "id": "island:GU:hagatna",
       "name": "Hagåtña",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601034800"
+      "placeGeoids": ["6601034800"]
     },
     {
       "id": "island:GU:inarajan",
       "name": "Inarajan",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601036500"
+      "placeGeoids": ["6601036500"]
     },
     {
       "id": "island:GU:mangilao",
       "name": "Mangilao",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601046250"
+      "placeGeoids": ["6601046250"]
     },
     {
       "id": "island:GU:merizo",
       "name": "Merizo",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601050150"
+      "placeGeoids": ["6601050150"]
     },
     {
       "id": "island:GU:mongmong-toto-maite",
       "name": "Mongmong-Toto-Maite",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601051450"
+      "placeGeoids": ["6601051450"]
     },
     {
       "id": "island:GU:piti",
       "name": "Piti",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601059250"
+      "placeGeoids": ["6601059250"]
     },
     {
       "id": "island:GU:santa-rita",
       "name": "Santa Rita",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601062500"
+      "placeGeoids": ["6601062500"]
     },
     {
       "id": "island:GU:sinajana",
       "name": "Sinajana",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601065750"
+      "placeGeoids": ["6601065750"]
     },
     {
       "id": "island:GU:talofofo",
       "name": "Talofofo",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601069650"
+      "placeGeoids": ["6601069650"]
     },
     {
       "id": "island:GU:tamuning",
       "name": "Tamuning",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601071600"
+      "placeGeoids": ["6601071600"]
     },
     {
       "id": "island:GU:umatac",
       "name": "Umatac",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601078750"
+      "placeGeoids": ["6601078750"]
     },
     {
       "id": "island:GU:yigo",
       "name": "Yigo",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601083300"
+      "placeGeoids": ["6601083300"]
     },
     {
       "id": "island:GU:yona",
       "name": "Yona",
       "unitType": "municipality",
       "stateUsps": "GU",
-      "placeGeoid": "6601084600"
+      "placeGeoids": ["6601084600"]
+    },
+    {
+      "id": "island:MP:rota",
+      "name": "Rota",
+      "unitType": "municipality",
+      "stateUsps": "MP",
+      "placeGeoids": [
+        "6901300",
+        "6901850",
+        "6915500",
+        "6915550",
+        "6917850",
+        "6918050",
+        "6919750",
+        "6962000",
+        "6964900",
+        "6977200",
+        "6977300"
+      ]
+    },
+    {
+      "id": "island:MP:saipan",
+      "name": "Saipan",
+      "unitType": "municipality",
+      "stateUsps": "MP",
+      "placeGeoids": [
+        "6900300",
+        "6900450",
+        "6900600",
+        "6901650",
+        "6901700",
+        "6901750",
+        "6901800",
+        "6901900",
+        "6901950",
+        "6902000",
+        "6902500",
+        "6906000",
+        "6911820",
+        "6911850",
+        "6911860",
+        "6911870",
+        "6912000",
+        "6913000",
+        "6913500",
+        "6913610",
+        "6913620",
+        "6913690",
+        "6914700",
+        "6914900",
+        "6917750",
+        "6917900",
+        "6918000",
+        "6918020",
+        "6918250",
+        "6918400",
+        "6919510",
+        "6919520",
+        "6919530",
+        "6919540",
+        "6919550",
+        "6919570",
+        "6919580",
+        "6919650",
+        "6919800",
+        "6922430",
+        "6922650",
+        "6923980",
+        "6925200",
+        "6942000",
+        "6947205",
+        "6953100",
+        "6959000",
+        "6970800",
+        "6972000",
+        "6976700",
+        "6977000"
+      ]
+    },
+    {
+      "id": "island:MP:tinian",
+      "name": "Tinian and Aguiguan",
+      "unitType": "municipality",
+      "stateUsps": "MP",
+      "placeGeoids": ["6907000", "6914650", "6922440", "6947210"]
     }
   ]
 }
