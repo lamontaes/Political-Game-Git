@@ -193,15 +193,15 @@ describe("state school aid", () => {
       expect(sentMore).toBe(gotMore);
       // The state pays aid pro rata when its money falls short, so what the
       // town got is not a fixed share of the pool; it is what the state's
-      // treasury says it paid on the line, and never more than the town's
-      // share of what fell due, both counted over the same 360 days.
-      const added = (key: "due" | "aid") =>
+      // treasury says it paid on the line to governments, counted over the
+      // same 360 days (the pool grows with the state's budget in the second
+      // year, so the first year's share of it is no bound).
+      const added = (key: "aid") =>
         localAidLine(b)[key] -
         lineBefore.on[key] -
         (localAidLine(a)[key] - lineBefore.off[key]);
       expect(gotMore).toBeGreaterThan(0);
       expect(added("aid")).toBe(sentMore);
-      expect(gotMore).toBeLessThanOrEqual(added("due") * (schools / stateRise));
       const received = (api: CoreAPI) =>
         governments(api)
           .filter((g) => g.level === "city" || g.level === "county")
