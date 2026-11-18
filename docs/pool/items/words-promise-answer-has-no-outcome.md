@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing; people-broken-promise-costs-share-of-tie is built on if it lands first.
 
-**Files.** src/director/promise-talk.ts, src/director/data/promise-kinds.json, data/english/parts/conversation.json
+**Files.** src/director/promise-talk.ts, src/core2/data/promises/promise-kinds.json, data/english/parts/conversation.json

@@ -58,6 +58,7 @@ import {
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { lineHourlyMinor, startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import {
@@ -414,7 +415,7 @@ export function staffCandidates(
       (s) => s.personId,
     ),
   );
-  const postHourly = campaignParameter("staffHourlyMinor");
+  const postHourly = postHourlyMinor(api);
   const out: StaffCandidate[] = [];
   // Someone who runs an open business cannot take a post and keep it open:
   // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
@@ -422,6 +423,13 @@ export function staffCandidates(
   const owners = openBusinessOwnerIds(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
+    // The person the player controls is never hired by the engine's choice
+    // (owner, Oct 14: the engine offers, the player decides).
+    if (
+      person.id === state.playerId ||
+      isExplicitlyControlledPersonV1(state, person.id)
+    )
+      continue;
     if (owners.has(person.id)) continue;
     if (roomOutsideLaborForce(state, person.householdId)) continue;
     const facts = personFacts(api, person, minimum, review);
@@ -548,6 +556,42 @@ function seatApplicant(
   };
 }
 
+const postPayHeld = new WeakMap<CoreState, { date: string; minor: number }>();
+
+/**
+ * What an official's aide is paid an hour, in cents: the median of what the
+ * town's own private jobs pay today, so the post moves with the town's labor
+ * market and never stands at a published dollar. Where the town holds no
+ * private job yet, the parameter's estimate stands
+ * (stopgapId: SG-LABOR-aide-pay-estimate).
+ */
+export function postHourlyMinor(api: CoreAPI): number {
+  const state = api.state as CoreState;
+  const held = postPayHeld.get(state);
+  if (held?.date === state.date) return held.minor;
+  const town = lawChain(api).townPlaceId;
+  const pays: number[] = [];
+  for (const job of state.jobs.values()) {
+    if (job.endsAt !== undefined || !((job.hourlyMinor ?? 0) > 0)) continue;
+    const org = state.organizations.get(job.organizationId);
+    if (
+      org?.placeId !== town ||
+      org.kind !== "employer" ||
+      org.publicPayAuthority ||
+      org.outsideFlow
+    )
+      continue;
+    pays.push(job.hourlyMinor!);
+  }
+  pays.sort((a, b) => a - b);
+  const minor = pays.length
+    ? Math.round(pays[Math.floor(pays.length / 2)]!)
+    : (api.stopgap("SG-LABOR-aide-pay-estimate"),
+      campaignParameter("staffHourlyMinor"));
+  postPayHeld.set(state, { date: state.date, minor });
+  return minor;
+}
+
 const pools = new WeakMap<
   CoreState,
   {
@@ -567,7 +611,7 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   if (held?.date === state.date) return held.rows;
   // Anyone earning less than the post pays may apply, not only the jobless,
   // except residents of institutions and barracks, outside the labor force.
-  const postHourly = campaignParameter("staffHourlyMinor");
+  const postHourly = postHourlyMinor(api);
   const rows = countedResidents(state)
     .filter(
       (voter) =>
@@ -734,8 +778,7 @@ export function hireStaff(
       personId: input.personId,
       stateKey: site.stateKey,
       annualMinor:
-        campaignParameter("staffHourlyMinor") *
-        treasuryParameter("fullTimeHoursPerYear"),
+        postHourlyMinor(api) * treasuryParameter("fullTimeHoursPerYear"),
       governmentKey: federal ? "US" : site.stateKey,
     });
   // On the payroll of the government the official serves, at the post's
@@ -752,7 +795,7 @@ export function hireStaff(
         employerId: employer,
         post: `staff:${input.officialId}`,
         title: input.role,
-        hourlyMinor: campaignParameter("staffHourlyMinor"),
+        hourlyMinor: postHourlyMinor(api),
         ...(maxDailyMinor !== undefined ? { maxDailyMinor } : {}),
         // A state or federal office with no staff schedule of its own follows the town's.
         scheduleFromPlaceId: lawChain(api).townPlaceId,
@@ -802,8 +845,7 @@ function budgetLean(api: CoreAPI, officialId: string): number {
   const employer = employerOf(api, officialId);
   if (!employer) return 0;
   const yearly =
-    campaignParameter("staffHourlyMinor") *
-    treasuryParameter("fullTimeHoursPerYear");
+    postHourlyMinor(api) * treasuryParameter("fullTimeHoursPerYear");
   const years = Math.max(
     0,
     publicPayRoom(api, employer, `staff:${officialId}`) / yearly,
@@ -1217,7 +1259,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     } as unknown as ModuleRow);
   }
   const state = api.state as CoreState;
-  const postHourly = campaignParameter("staffHourlyMinor");
+  const postHourly = postHourlyMinor(api);
   const officials = [
     ...new Set(
       townSeats(api)

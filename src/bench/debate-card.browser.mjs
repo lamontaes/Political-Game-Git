@@ -1,5 +1,5 @@
 /* global console, document, process, URLSearchParams, fetch */
-// The debate panel and the speech panel on the campaign trail are built from the shared
+// The debate invitation and the speech panel on the campaign trail are built from the shared
 // parts in src/bench/ui/ (owner, Oct 26: one UI); moved here from four-screens.browser.mjs,
 // whose campaign step now ends at the filing. Run against the bench (npm run bench) at
 // 1440x900: a grown resident files for the first office the records allow once its filing
@@ -168,27 +168,17 @@ try {
     .locator("#sheet-body .travel-tile", { hasText: debateTitle })
     .first()
     .click();
-  // The debate: a tab for each position on each question, one chosen at a time.
-  const bars = page.locator("#sheet-body nav.tab-rail");
-  // The card draws once the tile's page has loaded.
-  await bars.first().waitFor();
-  assert.equal(await bars.count(), 2, "two questions, two position bars");
+  // The debate's invitation: Accept or Decline (the questions are answered in the sitting,
+  // a scene of its own), and nothing else to choose on the card.
+  await page.locator('[data-testid="debate-accept"]').waitFor();
+  assert.ok(
+    await page.locator('[data-testid="debate-decline"]').isVisible(),
+    "Decline beside Accept",
+  );
   assert.equal(
-    await page
-      .locator("#sheet-body nav.tab-rail ~ select, #sheet-body select")
-      .count(),
+    await page.locator("#sheet-body select").count(),
     0,
     "no select in the debate",
-  );
-  const against = bars.first().locator('[data-position="-1"]');
-  await against.click();
-  assert.equal(await against.getAttribute("aria-pressed"), "true");
-  assert.equal(
-    await bars
-      .first()
-      .locator('[data-position="null"]')
-      .getAttribute("aria-pressed"),
-    "false",
   );
   await settle();
   await page.screenshot({ path: `${shots}/debate.png` });

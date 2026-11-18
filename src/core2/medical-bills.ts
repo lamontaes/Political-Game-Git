@@ -62,7 +62,7 @@ import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
 import { chargeGroups, fundGroups } from "./counted-money";
-import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
+import { incomeBandOn, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import {
@@ -95,7 +95,7 @@ import {
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
-import { lawApplied } from "./law-reach/applied";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 
 /** The engine named on the law-reach rows these bills write. */
 const MEDICAL_BILLS_ENGINE = "medical-bills";
@@ -419,7 +419,7 @@ function householdsToBill(
       region: region(placeId),
       counted: false,
       weight: 1,
-      incomeFifth: incomeBandOf(incomes.get(householdId) ?? 0),
+      incomeFifth: incomeBandOn(api, incomes.get(householdId) ?? 0),
       members,
       ownMedicaid: ownMedicaid(placeId),
     });
@@ -447,7 +447,7 @@ function householdsToBill(
         region: region(h.placeId),
         counted: true,
         weight: rt.store.weightOf(h),
-        incomeFifth: incomeBandOf(householdIncome(rt, h)),
+        incomeFifth: incomeBandOn(api, householdIncome(rt, h)),
         members,
         ownMedicaid: ownMedicaid(h.placeId),
       });
@@ -501,6 +501,14 @@ function billMembers(
   );
   const shareOf = (plan: BillPlan) =>
     plan === "medicare" ? medicareShare : q(SHARE_KEY[plan]);
+  // The members each law's change reached on this month's bills. One it
+  // reached before and not now (the line back at its base, the law repealed,
+  // the member gone) is no longer reached, so a repeal ends their rows.
+  const lineKey = `budget-line:${MEDICARE_LINE}`;
+  const reachedNow = new Map<string, Set<string>>([
+    [lineKey, new Set()],
+    [DRUG_NEGOTIATION, new Set()],
+  ]);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -532,6 +540,7 @@ function billMembers(
         if (m.plan === "medicare" && drugs !== one && drugLaw.governing) {
           const full = api.state.people.has(m.personId);
           const times = full ? one : h.weight;
+          reachedNow.get(DRUG_NEGOTIATION)!.add(m.personId);
           lawApplied(api, {
             key: DRUG_NEGOTIATION,
             lawId: drugLaw.governing.id,
@@ -550,8 +559,9 @@ function billMembers(
         if (lineMinor !== 0 && medicareLine.lawId) {
           const full = api.state.people.has(m.personId);
           const times = full ? one : h.weight;
+          reachedNow.get(lineKey)!.add(m.personId);
           lawApplied(api, {
-            key: `budget-line:${MEDICARE_LINE}`,
+            key: lineKey,
             lawId: medicareLine.lawId,
             targetId: m.personId,
             target: full ? "person" : "group",
@@ -579,6 +589,10 @@ function billMembers(
       }),
     );
   }
+  for (const [key, now] of reachedNow)
+    for (const row of appliedOn(api, key))
+      if (row.engine === MEDICAL_BILLS_ENGINE && !now.has(row.targetId))
+        lawNoLongerApplies(api, key, row.targetId);
   return out;
 }
 

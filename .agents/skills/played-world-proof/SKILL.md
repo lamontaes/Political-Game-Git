@@ -2,8 +2,11 @@
 name: played-world-proof
 description: >
   Proves an Our Civic Duty feature in a one-year run of the played world, with
-  another engine reading what it wrote, named by record id. Use before calling
-  any feature, law or module finished.
+  another engine reading what it wrote, named by record id; a jobs, wage or
+  firm-demand change is proven over 24 months with both the inflow into
+  unemployment and the outflow out of it. Use before calling any feature, law or
+  module finished, and for any jobs, business-demand, layoff or regional-work
+  change.
 ---
 
 # Played-world proof
@@ -46,6 +49,9 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 ## Rules
 
+- **Replay the place where the fault was measured, on your fix, before you draw others (Nov 17, World B).** The state unemployment fix passed its new tests and three drawn places would have passed too, because their played county was a small part of its state. Replayed at Waimanalo, Hawaii, where the fault was first measured, the rate still slid, and that replay found three more causes. A drawn place proves the rule holds elsewhere; the measured place proves the fault is gone.
+- **Give each drawn place the numbers that say whether it is a case.** For a fault that depends on how much of something the place holds (the played county's share of its state, a town's renters), print that share beside the result, so a reader can see a pass was not a place the fault never reached.
+
 - **What the player sees of a tie is its relationship row (Nov 15, #9543).** The person card (`src/bench/card.ts` personCard) lists only people with a relationship row and words its closeness from that row alone (`currentCloseness`); hours read through `registerSharedHours` count in `closenessBetween` and in whether two have met, but a pair with shared sittings and no row is not on the card. A proof of a tie reports both: the closeness and the card's line, at day one and after a played year.
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.
@@ -55,9 +61,16 @@ Name the few people it reached by record id. Most people are untouched; say so.
 - Every dollar balances; the golden-path suite must stay green.
 - **Run the with-and-without years for one change from one script** that swaps the changed file between runs (copy the base's file, run, copy the new one, run), twice each side, in the background with a Monitor on an ALLDONE line; two heavy runs at once get OOM-killed. Count printed stories by kind, not only the total (layoff thread, Nov 14).
 - Answer why for every number you report (see `ask-why`).
+- **A played proof with bookkeeping off skips the core's write checks (Nov 17, #9971).** Word spreading passed its played year, then crashed `jobs-record-bias` at seed aa11 with bookkeeping on: a hearer's drive named an act they never lived through. After the played proof, run the module's unit tests with bookkeeping on (the default) before calling it done.
 
 ## Native bench papers after a scripted route
 
 Keep the route and bench server in the same ESM module context: a temporary `.ts` script outside this module-type repository can load a second CommonJS handler, leaving the browser with an empty world even though the script has a life. Use an in-repository script or an external `.mts` script, and verify `/api/title` before clicking Continue. To read a sponsored bill through Your office, select its sponsor from the played town's actual seats; the page lists that member's own bills. A single office page may already be open with its tab hidden. Record when historical papers are reopened: their estimate can read today's law while the roll call and decision remain historical.
 
 `npm run pool` commands that publish a claim or status temporarily check out `origin/main` in the working directory (they may do so differently since the Nov 10 `next` command; if unsure, treat it as true). Finish that command before running a test, browser proof or benchmark in the same worktree; a concurrent runner can otherwise see main's files instead of the candidate.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/labor-market-proof.md`: for any jobs, wages, firm-demand, layoff or regional-work change.

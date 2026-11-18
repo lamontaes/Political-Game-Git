@@ -55,6 +55,7 @@ import {
   runningMateAsked,
   runningMatePicked,
   playerRecord,
+  debateAccept,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -74,7 +75,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { leaveJobAs, openingsView } from "./openings";
+import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
@@ -139,6 +140,9 @@ import {
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
+
+/** When this game was opened, so the title's paintings and New game's people differ each launch. */
+const TITLE_LAUNCH = String(Date.now());
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -149,11 +153,13 @@ import {
   creatorTowns,
   creatorRandomPlace,
   drawBirthday,
+  drawCharacter,
   drawName,
   readChosenPerson,
 } from "./creator";
 import {
   appearanceRows,
+  pickAppearance,
   drawnAppearance,
   lookForGender,
   moveAppearance,
@@ -175,6 +181,7 @@ import {
 import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
+  announceForOffice,
   fileForOffice,
   governmentView,
   joinPartyAs,
@@ -254,6 +261,26 @@ const state: ServerState = {
 /** What the server holds before any life, for a replay to start from. */
 const EMPTY_STATE: ServerState = { ...state };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+/**
+ * The minute of day the player's clock, the light behind them and a scene's
+ * opener all read. The opening day is that evening at home, when the household
+ * gets home, so the clock is never at the midnight it starts the day from
+ * (owner, Nov 16: "the timing is completely messed up"): the player's own
+ * minute, raised to the arrival minute on the opening day.
+ */
+function shownMinute(): number | undefined {
+  const minute = state.player?.packet?.at.minuteOfDay;
+  const current = state.core;
+  if (
+    !current ||
+    !state.player?.personId ||
+    state.director?.ledger.opening?.date !== current.date
+  )
+    return minute;
+  const arrival = openingArrivalMinute(current, state.player.personId);
+  return Math.max(minute ?? arrival, arrival);
+}
+
 function sceneNow(current: CoreState, id: string) {
   const playing = state.player?.personId === id;
   const openingDay =
@@ -401,7 +428,19 @@ export function benchWorld() {
     director: state.director,
     player: state.player,
     placeId: state.placeId,
+    nightsWatched: state.nightsWatched,
+    canvassedOn: state.canvassedOn,
   };
+}
+
+/**
+ * A new world is a new life: the election nights the last life watched and the mornings it
+ * canvassed are that life's, keyed by person and race, and a world built again from the same
+ * seed has the same people and races. Kept, they hid the new life's own election night.
+ */
+function forgetLastLife(): void {
+  state.nightsWatched = new Set<string>();
+  state.canvassedOn = new Set<string>();
 }
 
 /** What the handler sends back: a status, headers and a body. */
@@ -492,6 +531,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(world.core, world.director);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
@@ -887,7 +927,21 @@ const ROUTES: readonly Route[] = [
       const gender = q.get("gender") ?? "";
       const route = url.pathname.slice("/api/creator/".length);
       if (route === "name") send(200, drawName(seed, draw, gender));
-      else if (route === "birthday") {
+      else if (route === "character") {
+        const character = drawCharacter(seed, draw);
+        const recipe = lookForGender(
+          drawnAppearance(character.gender, seed, draw),
+          character.gender,
+        );
+        send(200, {
+          ...character,
+          look: {
+            recipe,
+            rows: appearanceRows(recipe, character.gender),
+            faces: lookFaces(recipe),
+          },
+        });
+      } else if (route === "birthday") {
         const b = drawBirthday(seed, draw);
         send(200, { ...b, age: ageAtStart(b.year, b.month, b.day) });
       } else if (route === "years")
@@ -902,12 +956,19 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? moveAppearance(
-                readRecipe(q.get("recipe")!),
-                gender,
-                q.get("row") ?? "",
-                Number(q.get("by") ?? 1),
-              )
+            ? q.get("pick")
+              ? pickAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  q.get("pick")!,
+                )
+              : moveAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  Number(q.get("by") ?? 1),
+                )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
@@ -928,10 +989,10 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       // One visit to the title: its scene; the life to continue (the one in
       // play, else the most recent save); and every saved life.
-      const scenes = titleRotation(
-        new Date().toISOString().slice(0, 10),
-        state.titleVisits++,
-      );
+      // This launch's stamp starts the rotation on other paintings each time the game is opened.
+      const visit = state.titleVisits++;
+      const today = new Date().toISOString().slice(0, 10);
+      const scenes = titleRotation([today, TITLE_LAUNCH].join("#"), visit);
       const playing = lifeCover();
       const saves = savedLives().map(({ id, save }) => ({
         ...(id === state.lifeId && playing ? playing : save.cover),
@@ -944,7 +1005,7 @@ const ROUTES: readonly Route[] = [
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
         // New game's busts, before any world exists.
-        newGame: newGameFaces(),
+        newGame: newGameFaces([TITLE_LAUNCH, visit].join("#")),
         life: playing
           ? {
               ...playing,
@@ -1104,7 +1165,7 @@ const ROUTES: readonly Route[] = [
       send(200, {
         url: backdropFile(
           officePlace(url.searchParams.get("filedWith") ?? ""),
-          state.player?.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         ).url,
       });
       return;
@@ -1172,7 +1233,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         state.player.personId,
         url.searchParams.get("org") ?? "",
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        shownMinute() ?? 12 * 60,
       );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
@@ -1497,7 +1558,7 @@ const ROUTES: readonly Route[] = [
           ? meetingSceneView(
               requireCore(),
               state.player.personId,
-              state.player.packet?.at.minuteOfDay ?? 18 * 60,
+              shownMinute() ?? 18 * 60,
             )
           : null,
       );
@@ -1520,7 +1581,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -1542,7 +1603,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -2171,6 +2232,24 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // The player accepts a debate's invitation; the director stages the sitting.
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/debate/accept",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        debateAccept(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("debateId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
   // When the office that takes these filings is next open (its clerk's own
   // hours); `opens` is absent while it is open now.
   {
@@ -2248,7 +2327,7 @@ const ROUTES: readonly Route[] = [
           current,
           state.player.personId,
           filedWith,
-          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         );
       } catch (error) {
         // Nothing to file and no petition out: no scene at the counter
@@ -2472,10 +2551,12 @@ const ROUTES: readonly Route[] = [
       const core = requireCore();
       send(200, {
         ...personCard(core, url.searchParams.get("id") ?? ""),
-        at: state.player?.packet?.at ?? {
-          date: makeIsoDate(core.date),
-          minuteOfDay: 0,
-        },
+        at: state.player?.packet?.at
+          ? {
+              ...state.player.packet.at,
+              minuteOfDay: shownMinute() ?? state.player.packet.at.minuteOfDay,
+            }
+          : { date: makeIsoDate(core.date), minuteOfDay: shownMinute() ?? 0 },
       });
       return;
     },
@@ -2546,6 +2627,21 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/apply",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        applyForOpeningAs(
+          requireCore(),
+          url.searchParams.get("position") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/job/leave",
     run: async ({ send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -2564,6 +2660,24 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("partyId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  // Announce for a race whose filing opens later (owner, Nov 17: "Run now,
+  // file on the date").
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/announce",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        announceForOffice(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("contestId") ?? "",
         ),
       );
       return;
@@ -2840,6 +2954,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(next, nextDirector);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = place.context.jurisdiction.id;
         state.placeName = place.displayName;
         send(200, {

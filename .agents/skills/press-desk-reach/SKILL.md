@@ -1,6 +1,11 @@
 ---
 name: press-desk-reach
-description: How the press desk (src/core2/press-desk.ts) decides which stories a town's outlets print, how to change what a kind of record weighs by who its readers are, and how to prove it: stories by kind before and after, per-outlet reach, and why several outlets print the same words. Use when a story kind never prints or prints at every outlet, or when a desk rule changes. Not for the words of a story (words-engine) or for timing (speed-work).
+description: >
+  How the press desk (src/core2/press-desk.ts) decides which stories a town's
+  outlets print, how a record's reach is weighed by its readers, and how to
+  prove a desk change by story kind and outlet. Use when a story kind never
+  prints or prints at every outlet, or a desk rule changes. Not for a story's
+  words (words-engine) or timing (speed-work).
 ---
 
 # Press desk reach
@@ -13,4 +18,4 @@ Learned on the layoff story (PR 9304, Nov 14, 2026).
 - **Several outlets printing the same words has two causes.** Every desk picks the same record, and each story's wording is drawn by its own id from a small bank. Look at both before changing the desk; more varied lines come from conditions in the record (the count, the day, who is left), never from more tuned weights.
 - **Never print a raw label.** A kind of business is said in a reader's words ("a doctor's office", "one of the town's wholesalers"), never the trade-statistics industry name. The words table and `kindFacts` this line once named are no longer on main; before a new story kind words a business kind, find where `src/bench/printed-words.ts` gets those words now and read the same source.
 - **A day, not "this month".** A story printed days after its record says the record's own day (`day` fact, `on December 1, 2025`).
-- **Draw the test's place** (`drawn-place-tests`), or pin it to a place and seed only with a CTO line on that pull request (`done-proof`, `pinned-tests`), and state the premise in the comment: which cut reaches the outlet's readers at that place.
+- **Draw the test's place** (`drawn-place-tests`), or pin it to a place and seed only with a CTO line on that pull request (`done-proof`, `drawn-place-tests` (pinned-tests part)), and state the premise in the comment: which cut reaches the outlet's readers at that place.
