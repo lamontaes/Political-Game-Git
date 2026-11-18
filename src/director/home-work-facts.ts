@@ -29,6 +29,8 @@ import { SPOKEN_DAYS_PER_YEAR, spanSaid } from "../english/span-words";
 import type { NewsFact } from "./life-news";
 import { schoolResult } from "./school";
 import { employerWords, organizationName } from "./words";
+import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
 
 /** The jobs engine's layoff record (`work.job-lost`). */
 const JOB_LOST = "work.job-lost";
@@ -113,6 +115,18 @@ function workFacts(
       text: held.employer,
       sourceRecordIds: [causeId, held.job.id, held.org.id],
     },
+  };
+  // The employer as a common noun ("the clinic"), from its classification (or
+  // its business kind's, as the business engine reads it), same records.
+  facts.workplace = {
+    text: workplaceSaid(
+      held.org.classification ??
+        DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+          (row) =>
+            row.kindId === core.finance.businesses.get(held.org.id)?.kindId,
+        )?.classification,
+    ),
+    sourceRecordIds: [causeId, held.job.id, held.org.id],
   };
   if (sayableJobTitle(held.job.title))
     facts.position = {
@@ -223,6 +237,11 @@ function schoolFacts(core: Readonly<CoreState>, causeId: string): Facts {
         ...(!result.schoolId && last ? [last.recordId] : []),
         school.id,
       ],
+    };
+  if (facts.school)
+    facts["school-short"] = {
+      text: schoolShortSaid(facts.school.text),
+      sourceRecordIds: [...facts.school.sourceRecordIds],
     };
   facts[result.passed ? "passed" : "not-passed"] = {
     text: "yes",

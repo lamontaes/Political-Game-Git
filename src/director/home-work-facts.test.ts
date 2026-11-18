@@ -35,6 +35,8 @@ import { rescueFacts } from "./rescue-facts";
 import { purposeScene } from "./purpose-scene";
 import { graduationResults } from "./school";
 import { employerWords } from "./words";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
+import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 5;
@@ -59,6 +61,7 @@ const SCENE_TYPES = new Set([
 /** What every run must show somewhere in its drawn places (the rest is printed by name when not seen). */
 const REQUIRED = [
   "layoff: employer",
+  "layoff: workplace",
   "school: school",
   "breakup: together",
   "care: since",
@@ -218,6 +221,22 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
           expect(facts.employer?.sourceRecordIds, where).toContain(lost.id);
           expect(facts.employer?.sourceRecordIds, where).toContain(org.id);
           note("layoff: employer", where, `${lost.id}: ${employer}`);
+          // The same record, said as a common noun from the words file.
+          const classification =
+            org.classification ??
+            DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+              (row) =>
+                row.kindId === core.finance.businesses.get(org.id)?.kindId,
+            )?.classification;
+          expect(facts.workplace?.text, `${where}: ${lost.id}`).toBe(
+            workplaceSaid(classification),
+          );
+          expect(facts.workplace?.sourceRecordIds, where).toContain(org.id);
+          note(
+            "layoff: workplace",
+            where,
+            `${lost.id}: ${facts.workplace!.text}`,
+          );
         } else expect(facts.employer, where).toBeUndefined();
         const reach = homeWorkFacts(
           core,
@@ -466,6 +485,9 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
       if (facts.school) {
         expect(facts.school.sourceRecordIds, where).toContain(
           graduate.result.id,
+        );
+        expect(facts["school-short"]?.text, where).toBe(
+          schoolShortSaid(facts.school.text),
         );
         note(
           "school: school",

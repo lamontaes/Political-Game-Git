@@ -125,6 +125,8 @@ export const facts: Record<string, Fact> = {
   employer: fact("the hardware store"),
   position: fact("a cashier"),
   school: fact("Long Hill High School"),
+  "school-short": fact("Long Hill"),
+  workplace: fact("the clinic"),
   pay: fact("$15.00"),
   when: fact("this morning"),
   "stake-money": fact("money"),

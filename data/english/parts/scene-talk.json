@@ -71,6 +71,8 @@
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
+    "workplace": "The employer as a common noun after a preposition ('the clinic', 'the plant', 'work'), from the organization's classification through data/english/workplace-words.json, cited to the same records as the employer.",
+    "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
     "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
     "pay": "The pay offered by the hour (\"$18.50\"), from the offer record.",
