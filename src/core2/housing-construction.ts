@@ -138,7 +138,11 @@ export function publishedPermitRates(usps: string): {
   );
 }
 
-/** A place's homes at the opening: renters' units at the national rental vacancy. */
+/**
+ * A place's homes at the opening: renters' units at the national rental vacancy, until the housing
+ * past sets the vacant units from the town's own leases (housing-past.ts `openingVacancy`); a world
+ * that runs no housing past keeps this.
+ */
 export function openStock(
   stock: ModuleTable,
   placeId: string,
@@ -147,6 +151,7 @@ export function openStock(
   rentMinor: number,
   priceLevel: number,
 ): void {
+  // stopgapId: SG-HIST-opening-vacancy-without-past
   const units = Math.round(renters / (1 - construction.vacancy.rental));
   stock.put({
     id: `stock:${placeId}`,

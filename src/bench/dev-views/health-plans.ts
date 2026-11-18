@@ -1,5 +1,5 @@
 /**
- * Dev mode's employer health plans: the town's plans as the coverage review ranks them
+ * Dev mode's employer health plans: the town's plans as the coverage review weighs them
  * today (src/core2/modules/coverage.ts employerPlansToday), on the Calendar. Reads only.
  */
 import { employerPlansToday } from "../../core2/modules/coverage";
@@ -16,11 +16,15 @@ const view: DevView = {
     title: "Employer health plans today",
     date: "Date",
     workers: "Workers with a job",
-    planShare: "Share who hold their own plan",
-    plansGiven: "Plans that share gives",
+    offered: "Plans their employers offer",
+    plansGiven: "Plans their own shares add up to",
     plansHeld: "Plans held",
     premiumMissed: "Left out for a missed premium",
     heldShare: "Held, of workers",
+    rateYear: "Rate year",
+    rate: "One covered person, a month",
+    claims: "Claims a covered person, a month",
+    claimMonths: "Months of claims behind the rate",
   },
 };
 

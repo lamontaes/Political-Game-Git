@@ -25,21 +25,27 @@ import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
 import { LAW_SERIES } from "../core2/laws-in-force";
 import {
+  announceCandidacy,
   atLargeGroup,
+  campaigning,
   checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
+  filingRulesFor,
   filingWindowOpen,
   playerContests,
   notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
-  standing,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { candidateIdentity, resultOf } from "../core2/modules/voting";
+import {
+  candidateIdentity,
+  petitionNeededHere,
+  resultOf,
+} from "../core2/modules/voting";
 import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
@@ -408,6 +414,15 @@ export function governmentView(core: CoreState, personId: string) {
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)
         : [],
+      // The signatures the clerk would ask of a filing with no party; none
+      // means the race goes straight onto the ballot (the one rule, read
+      // from the elections and voting engines, not a second one).
+      signaturesAsked: petitionNeededHere(
+        api,
+        contest,
+        filingRulesFor(api, contest, "independent").petition,
+        null,
+      ),
     })),
     filings,
     nextFiling: nextFiling(core),
@@ -519,12 +534,16 @@ export function localRaces(core: CoreState) {
               .table("filings")
               .query("byContest", [seat.id]) as unknown as FilingRow[],
         )
-        .filter(standing)
+        // Everyone running: filed, and announced while the window is ahead
+        // (owner, Nov 17: "other people should be able to announce").
+        .filter(campaigning)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
           return {
             filingId: row.id,
             personId: row.personId,
+            // Said they are running; files when the window opens.
+            announced: row.status === "announced",
             // The id a click opens and their face: a resident by their
             // person, a named official by their term (holderFace's rule).
             ...holderFace(
@@ -547,6 +566,20 @@ export function localRaces(core: CoreState) {
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
       const office = filingOfficeFor(api, contest.id);
       const bar = playerFilingBar(api, contest.id);
+      // The player's announcement for this race, while it waits for its
+      // window (owner, Nov 17: "Run now, file on the date").
+      const announced = core.playerId
+        ? group.some(
+            (seat) =>
+              (
+                elections
+                  .table("filings")
+                  .get(`filing:${seat.id}:${core.playerId}`) as unknown as
+                  FilingRow | undefined
+              )?.status === "announced",
+          )
+        : false;
+      const cannotFile = cannotFileFor(api, core.playerId, contest.id);
       return {
         contestId: contest.id,
         title: raceTitle(contest.title, contest.district),
@@ -567,6 +600,14 @@ export function localRaces(core: CoreState) {
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
         playerMayFile: bar === null,
+        // Whether the player may announce for it now and file when its
+        // window opens: the window is still ahead and nothing else bars them.
+        mayAnnounce:
+          !announced &&
+          bar === "window-not-open" &&
+          !cannotFile &&
+          playerFilingBar(api, contest.id, undefined, true) === null,
+        announced,
         // Why it is not offered, from the clerk's own check (null when it is);
         // a race of an office the player does not run for says so.
         bar,
@@ -579,7 +620,7 @@ export function localRaces(core: CoreState) {
         // The first rule that stops the player filing, other than the dates
         // (the window shows those): the page says it plainly and offers no
         // filing, from the same eligibility check the clerk reads.
-        cannotFile: cannotFileFor(api, core.playerId, contest.id),
+        cannotFile,
         // The last election for the seat, from its holder's term record.
         lastTime: lastTimeOf(api, contest.id),
         filers,
@@ -754,6 +795,40 @@ function officeLevelOf(api: CoreAPI, officeId: string): string {
     .table("offices")
     .get(officeId) as unknown as { level?: string } | undefined;
   return office?.level ?? "";
+}
+
+/**
+ * Announce for a race whose filing has not opened (owner, Nov 17: "Run now,
+ * file on the date"): the same bar and the same platform and party as a
+ * filing at the counter, through the elections engine's announcement.
+ */
+export function announceForOffice(
+  core: CoreState,
+  personId: string,
+  contestId: string,
+) {
+  const api = coreAPI(core);
+  const bar = playerFilingBar(api, contestId, undefined, true);
+  if (bar)
+    throw new Error(
+      (controls.localRaces.refusal as Record<string, string>)[bar] ??
+        controls.localRaces.refusal["not-your-office"],
+    );
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) throw new Error(controls.localRaces.refusal["not-your-office"]);
+  // The party the player is tied to, as the counter's filing reads it.
+  const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
+  const tie = parties.length ? partyTie(api, personId) : null;
+  const party = parties.find((row) => row.id === tie?.partyId)?.name ?? null;
+  return announceCandidacy(api, {
+    personId,
+    contestId,
+    platform: platformForContest(api, personId, party, contest),
+    party,
+  });
 }
 
 export function fileForOffice(

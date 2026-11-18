@@ -221,10 +221,54 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-district-sizes",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A district's eligible voters in the century are its chamber's typical moved by one seeded size per district, the same in every year, instead of the people who live there as they move and age.",
+    "why": "The century keeps no people by district; districts by law hold near equal people but not equal eligible voters, so each gets its own size within a tunable spread.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each district's eligible voters read from the places it covers as the century's population moves (family 5, the states' people), with the spread sourced from the Census Bureau's citizen voting-age population by district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-term-limits-always",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Today's term limit on a governor, a statewide officer or a state legislator binds every century holder from 1925, though most legislative limits were adopted from 1990 on and many governors' at other times.",
+    "why": "The offices research records each office's limit in force now, not the year it was adopted; the laws in force through the century are a later unit.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The laws in force through the century (History family 4): each term limit binding from the year its state adopted it, sourced from the state constitutions and NCSL's table of legislative term limits.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-law-sessions",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century-laws.ts",
+    "whatItFakes": "Each Congress and each state legislature the century elects sits one session after its November, and every policy question comes up in it: no bill is drafted, no committee or leader holds one back, and members stand at their party's typical position moved by their seat, not as people with their own records.",
+    "why": "The century runs a hundred years of every body before day one; the bill engine runs one played body's bills, and the century's members are results until someone opens them.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-federal-mandates",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/laws.ts",
+    "whatItFakes": "In a century world no federal law reaches a state policy question: the century's Congress votes only the federal questions, so a state's own law stands alone on day one.",
+    "why": "Which federal statutes preempt a state's law on a question is the research's real record; the century's Congress has not yet been given those questions to vote.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's Congress votes the state questions federal law can reach, by the question's preemption rule, and its enactments load beside each state's law.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed.",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed. A legislature most of whose published members belong to no national side (Nebraska's and American Samoa's, elected without party labels; the Northern Marianas' House, most of whose members are independents) is not counted by the century and keeps what play reads. Puerto Rico's chambers are counted under its own parties' labels for each side.",
     "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
     "addedBy": "History lane (claude/history-congress)",
     "addedAt": "2026-11-17",
@@ -262,6 +306,61 @@
     "addedBy": "History lane (claude/history-states)",
     "addedAt": "2026-11-17",
     "replacement": "The ticket rule read in the century: a joint ticket's offices take the governor's race.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-opening-vacancy-without-past",
+    "kind": "partial-model",
+    "file": "src/core2/housing-construction.ts",
+    "whatItFakes": "A world that runs no housing past (a test that opens the housing module alone) opens its rental stock at the national rental vacancy; a played world's vacancy is then set from the town's own leases (housing-past.ts openingVacancy).",
+    "why": "openStock runs before the history passes, and some worlds run none.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "The stock opened by the housing past itself, once every world that opens the housing module runs its past.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-opening-tenure-town-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "The past's moves pass and the opening's years in place split a moving rate by tenure only for the town's own homes, the ones the housing opening draws before day one; homes in the county's other places take their tenure when the housing module installs, after the past's moves pass has run, so their people move at the age's average rate, owners and renters alike. Each tenure is held through the whole adult past, as if the home on day one had been theirs all along.",
+    "why": "The county's other places get their homes at the housing install (modules/housing.ts openMissingHomes), and the people module's past runs before it; a household's tenure in earlier years is not recorded.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "Every place's homes drawn at the opening, before the past runs (the housing opening for the whole county); and the century's household past (family 21), where each household's tenure changes as it buys and sells.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-territory-opening-lean",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A place with no presidential vote (a territory, Puerto Rico) opens 1925 at the neutral point moved by its delegate seat's own shift; its legislative districts stand around that.",
+    "why": "The lean order is set from the states' presidential votes; a territory casts none, and its people are not counted yet.",
+    "addedBy": "History lane (claude/history-territory-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The territory's people counted from its own population (the people engine's counts, family 5), so it opens where its people stand.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-founding-cost",
+    "kind": "tunable",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "What it costs to stand a new party in the century's history is one number (centuryFoundingCost) against the founding pressure, not the election rules in force (ballot access, fusion, ranked choice); a founded party is a record on the century (foundings) that the dev view reads, and the count does not yet field its nominees.",
+    "why": "None of the 73 policy questions carries ballot access, fusion or ranked choice, and the count takes a candidate's side only as -1, 0 or 1; family 9b parts 2 and 3 add the position and the merges.",
+    "addedBy": "History lane (claude/history-party-founding)",
+    "addedAt": "2026-11-18",
+    "replacement": "The election-rules questions in the laws data (Laws and effects' area; pool item to file), read by the founding step; the founded party fielding nominees on the one count with its position (9b part 2).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-founded-ticket",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A party founded in the century's history stands a ticket in the presidential count only (from the next presidential year on): its votes come out of the two national sides' by the one count, but it carries no state and wins no electors, no House or legislative seat, so it can only move the two sides' shares; its nominee is a stand-in with no office held, and the voters' strategic choice against a wasted vote is not modeled. A state's lean carries from the two national sides' own count (the third party's voters leaving it would otherwise push every state's share from even and the carry would ratchet the map), so the third party moves the recorded vote and the electors but not where a state stands.",
+    "why": "The presidential count's winner, the electors and the century's seats read two sides (R and D); a third winner touches the electoral college, the contingent election and every seat's party, which History 9b part 2 does not rebuild.",
+    "addedBy": "History lane (claude/history-party-competes)",
+    "addedAt": "2026-11-18",
+    "replacement": "The founded party's nominees in House and legislative races where its voters are, its electors where it leads a state, and a contingent election among three (the electoral college and the century's seats read the party's own side, not R or D).",
     "status": "open"
   }
 ]

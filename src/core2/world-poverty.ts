@@ -19,6 +19,7 @@ import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
 import { coreAPI } from "./state";
+import { sinceOpeningIndex } from "./tax-index";
 import type { CoreState } from "./types";
 
 const T = thresholds as unknown as {
@@ -30,11 +31,18 @@ const T = thresholds as unknown as {
   bySize: Record<string, number[]>;
 };
 
-/** The official line, in minor units a year, for a household. */
+/**
+ * The official line, in minor units a year, for a household. The table is
+ * written in its source year's dollars; `priceIndex` is how far this world's
+ * own prices have moved since the world opened (`sinceOpeningIndex`, read once
+ * per pass), 1 on day one, so the line moves with this world's economy.
+ * stopgapId: SG-WORLD-tax-index-january
+ */
 export function povertyThresholdMinor(
   size: number,
   children: number,
   eldestAge: number,
+  priceIndex = 1,
 ): number {
   const elder = eldestAge >= T.elderAgeFrom;
   const kids = Math.max(0, Math.min(children, size - 1));
@@ -47,7 +55,7 @@ export function povertyThresholdMinor(
     const row = T.bySize[String(Math.min(size, 9))]!;
     dollars = row[Math.min(kids, row.length - 1)]!;
   }
-  return dollars * T.minorPerDollar;
+  return Math.round(dollars * T.minorPerDollar * priceIndex);
 }
 
 export interface HouseholdPoverty {
@@ -151,6 +159,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   const out: HouseholdPoverty[] = [];
   const date = makeIsoDate(core.date);
   const claims = claimIncome(core);
+  const priceIndex = sinceOpeningIndex(coreAPI(core), "prices");
   const add = (
     householdId: string,
     placeId: string,
@@ -167,6 +176,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
       ages.length,
       children,
       eldestAge,
+      priceIndex,
     );
     out.push({
       householdId,
