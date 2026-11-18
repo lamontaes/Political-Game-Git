@@ -243,8 +243,9 @@
     "address-point": {
       "agree": "agree",
       "disagree": "disagree",
+      "ask": "ask",
       "here": "ask",
-      "instead": "ask"
+      "let-go": "decline"
     },
     "own-view": {
       "agree": "agree",
@@ -423,6 +424,19 @@
       "kinds": ["press.printed"]
     },
     "back": "address-point-back",
+    "replies": {
+      "about": "CTO, Nov 18 08:47Z (Story thread, order item 3): the player answers the point four ways, each a different move about what was said: agree, disagree, ask what it means for them, or let it go (pattern A47's choices). `ask` is offered only when the speaker's point carries a reason from their own life (work, money, the lease, a relative or a story: the marks of ./point-reasons) and is answered from it; `here` is the same move put to someone holding a town office, who reads the state's law or the town's figure, and a screen offers one of the two, `ask` first. `letGo` closes the talk: no stand of the player's is kept, so the point is raised again on a later evening, and the no is kept as its own record (`letGoKey`), read by the next raise of that question as the fact `letGoFact`. Names only; no sentence.",
+      "ask": "ask",
+      "here": "here",
+      "letGo": "let-go",
+      "letGoKey": "address-point-let-go",
+      "letGoFact": "let-go-before"
+    },
+    "oneLiner": {
+      "about": "Pattern A47's household branch (Story, Nov 18): when the two watched the address together at home, the point \"can be one line, praise or scorn, with no question at the end.\" A housemate who watched it with the player, in a talk at home (not by phone, not at a workplace the player came to), whose stand on the point is decided (with or against), and whose traits keep talk short (the trait engine's conversation.reply-reach lean, read for the speaker as it is for the player) raises it in one line: the raise carries the fact `fact`, and a composed line with that fact says none of the parts `omits`. Replies key on the same fact. Names only; no sentence.",
+      "fact": "one-liner",
+      "omits": ["closer"]
+    },
     "claims": {
       "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",
       "prices-high": {

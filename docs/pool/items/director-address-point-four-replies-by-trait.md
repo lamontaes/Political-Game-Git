@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/story-address-point-four-replies
+pr: 10139
 after: director-address-point-reasons-lease-relative-story
 blocked-on:
 lead: story

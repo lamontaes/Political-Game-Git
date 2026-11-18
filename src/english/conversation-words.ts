@@ -513,12 +513,26 @@ export function composeConversationLine(request: {
   momentKey: string;
   /** Piece keys the speaker said earlier in the talk. */
   said?: readonly string[];
+  /** Parts of the line the director leaves unsaid (a one-liner's closer); never the core. */
+  omit?: readonly string[];
 }): Said | null {
   const whole = composedConversationBank(request.subject);
   if (!whole) return null;
   // A piece held back where a fact is present (`excludesFacts`) is not
   // offered for these facts.
-  const bank = withoutExcluded(whole, request.facts);
+  const kept = withoutExcluded(whole, request.facts);
+  const omit = (request.omit ?? []).filter((part) => part !== "core");
+  const bank: ComposedLineBank = omit.length
+    ? {
+        ...kept,
+        parts: {
+          ...Object.fromEntries(
+            Object.entries(kept.parts).filter(([part]) => !omit.includes(part)),
+          ),
+          core: kept.parts.core,
+        },
+      }
+    : kept;
   const line = composeGroundedLine(
     conversationPacket({
       surface: "dialogue",

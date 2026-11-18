@@ -59,7 +59,9 @@ const RAISES = 200;
 const DIFFERENT = 40;
 const POINT = "address-point";
 const BACK = rules.addressPoint.back;
-const MOVES = ["agree", "disagree", "here", "instead"];
+/** The point's replies (conversation-rules.json replyMoves): agree, disagree, ask (or here, for an office holder) and let it go. */
+const MOVES = Object.keys(rules.replyMoves["address-point"]);
+const LET_GO = rules.addressPoint.replies.letGo;
 const WEEKS = 26;
 const TOWN_TALKS = 20;
 const INSERTS = [
@@ -160,7 +162,7 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       // Agree and disagree always; a question is offered only when the
       // relative holds a record to answer it with (owner, Nov 12: "how the
       // hell would she know?"): what it means here needs the state's law or
-      // the town's figure, what they would do instead a reason of their own.
+      // the town's figure, what it means for them a reason from their own life.
       const moves = new Set(talk.choices.map((row) => row.move));
       expect(
         [...moves].every((move) => MOVES.includes(move)),
@@ -260,9 +262,11 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         for (const row of [line, ...talk.choices])
           expect(row.text, here).not.toMatch(/\b(they|them|their)\b/i);
       // The player answers; the relative keeps the answer by the question,
-      // and answers it.
+      // and answers it. Letting it go keeps no answer: its own test is
+      // conversation-address-replies.test.ts.
       const question = talk.last!.subject.point!.question;
-      const choice = talk.choices[raised.length % talk.choices.length]!;
+      const stances = talk.choices.filter((row) => row.move !== LET_GO);
+      const choice = stances[raised.length % stances.length]!;
       const before = talk.lines.length;
       say(core, talk, choice.key);
       const answer = talk.lines[before + 1];
