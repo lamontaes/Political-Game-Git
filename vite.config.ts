@@ -116,6 +116,9 @@ export default defineConfig({
             // The rival's own campaign turn in a race's last four weeks plays
             // about 240 days of a world a draw (CTO, Nov 17, 21:53Z).
             "src/core2/record-rival-turn.test.ts",
+            // Washington, D.C.'s three counted-moves worlds take 734 to 1,555
+            // seconds each.
+            "src/core2/counted-moves-balance-dc.test.ts",
           ]),
     ],
   },
