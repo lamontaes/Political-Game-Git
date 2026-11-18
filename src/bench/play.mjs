@@ -5483,8 +5483,16 @@ const sheets = {
         race.filedWith;
       // A race the player may run for in kind but cannot file for today
       // says why, from the eligibility rule's own record, and offers no filing.
+      // So does one whose filing hasn't opened, where the player is still too
+      // young on its last filing day: waiting for it to open won't help.
+      const tooYoungForRace =
+        Boolean(race.filingDeadline) &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline;
       const cannotFile =
-        race.playerMayFile && !filed.has(race.contestId) && race.cannotFile
+        (race.playerMayFile || tooYoungForRace) &&
+        !filed.has(race.contestId) &&
+        race.cannotFile
           ? race.cannotFile
           : null;
       const cannotFileWords = cannotFile
@@ -5526,11 +5534,7 @@ const sheets = {
         !race.filingOpen &&
         race.filingOpens &&
         race.filingOpens > today() &&
-        !(
-          race.filingDeadline &&
-          race.cannotFile?.rule === "minimum-age" &&
-          race.cannotFile.metOn > race.filingDeadline
-        );
+        !tooYoungForRace;
       const simButton = makeButton({
         textContent: labels.simTo.replace(
           "{date}",
