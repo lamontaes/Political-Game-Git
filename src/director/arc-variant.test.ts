@@ -129,11 +129,18 @@ const pressFacts: Record<string, Fact> = {
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
-// asker already voted for (`earlier`) and the reads that came to something.
+// asker already voted for (`earlier`), what the bill is about and where the
+// one asked stands on it, the sponsor's count and the vote's day
+// (vote-ask-facts.ts and the day facts, since the Nov 17 rewrite), and the
+// reads that came to something.
 const voteFacts: Record<string, Fact> = {
   ...generic,
   bill: fact("Bill 14"),
   earlier: fact("Bill 9"),
+  about: fact("free fares on public transit"),
+  stand: fact("make the buses free"),
+  "count-several": fact("yes"),
+  "vote-tomorrow": fact("yes"),
   "read-holds-post": fact("yes"),
   "read-same-party": fact("yes"),
   "read-favor-given": fact("yes"),

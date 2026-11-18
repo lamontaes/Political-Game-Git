@@ -113,6 +113,7 @@ import {
   leanOf,
   memberKey,
   members,
+  servingTerms,
   POLICY_QUESTIONS,
   proposeAsExecutive,
   reachesTown,
@@ -320,10 +321,16 @@ export function federalQuestionAdmitted(question: string): boolean {
   return FEDERAL_ADMITTED.has(question.split(":")[1] ?? question);
 }
 
+/**
+ * A state's chamber of `kind` and its members, each made a person
+ * (`members`); `held` false keeps an unopened holder a name on their term,
+ * for another place's session, which keeps only its results.
+ */
 function chamber(
   api: CoreAPI,
   stateKey: string,
   kind: string,
+  held = true,
 ): { id: string; members: readonly TermRow[] } | null {
   const office = (
     api
@@ -334,7 +341,11 @@ function chamber(
       kind: string;
     }[]
   ).find((o) => o.kind === kind);
-  return office ? { id: office.id, members: members(api, office.id) } : null;
+  if (!office) return null;
+  return {
+    id: office.id,
+    members: held ? members(api, office.id) : servingTerms(api, office.id),
+  };
 }
 
 /** The House: one national chamber, the same in every world (bills are introduced there). */
@@ -1726,12 +1737,15 @@ function openOutsideSession(
     "legislature-upper",
     "legislature-unicameral",
   ]
-    .map((kind) => chamber(api, jurisdiction, kind))
+    // Its members are read as they are kept: nobody is made a person or
+    // given an official row for a session the player never opens (CTO,
+    // Nov 18 13:44Z); `officialStance` reads an unopened one's draw.
+    .map((kind) => chamber(api, jurisdiction, kind, false))
     .filter((c): c is NonNullable<typeof c> => c !== null)
     .filter((c) => c.members.length > 0);
   const id = `session:${jurisdiction}:${conveneAt}`;
   const lower = bodies[0];
-  const governor = lower ? executiveOf(api, lower.id).term : undefined;
+  const governor = lower ? executiveOf(api, lower.id, false).term : undefined;
   const governorKey = governor ? memberKey(governor) : "";
   const keys = bodies.map((b) => b.members.map(memberKey));
   interface Result {
@@ -2176,7 +2190,8 @@ function originChamber(
     "legislature-upper",
     "legislature-unicameral",
   ]) {
-    const c = chamber(api, row.jurisdiction, kind);
+    // A member's key is the same on their term as on them as a person.
+    const c = chamber(api, row.jurisdiction, kind, false);
     if (c?.members.some((t) => memberKey(t) === sponsor)) return c.id;
   }
   return row.bodyOfficeId;
@@ -2191,7 +2206,8 @@ function sessionChambers(
     row.jurisdiction === "US"
       ? [FEDERAL_HOUSE, FEDERAL_SENATE]
       : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
-          .map((kind) => chamber(api, row.jurisdiction, kind)?.id)
+          // Only which chambers: nobody is made a person to name them.
+          .map((kind) => chamber(api, row.jurisdiction, kind, false)?.id)
           .filter((id): id is string => id !== undefined),
   );
 }
