@@ -290,7 +290,7 @@ export function electionNight(core: CoreState, personId: string) {
     recordIds: [recordId],
   });
   const place = townName(api);
-  const office = fact(race.title, race.contestId);
+  const office = fact(officeInSentence(race.title), race.contestId);
   const names = new Map(race.candidates.map((row) => [row.id, row.name]));
   const steps: { lines: Line[]; totals: { name: string; votes: number }[] }[] =
     [];
