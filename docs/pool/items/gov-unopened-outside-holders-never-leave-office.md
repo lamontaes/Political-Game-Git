@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fixer-unopened-holders-leave-office
 pr:
 blocked-on:
 standard: 2
@@ -32,6 +32,8 @@ checked:
 
 **Done when.** A second session, in a played world at a drawn place and seed nobody chose, plays a year and sees at least one other state's seat end mid-term by a death or a move, with its vacancy and filler listed by record id, and offices-every-legislature.test.ts still passes.
 
-**Waits on.** The CTO's choice between (a) and (b).
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/health.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/modules/world-legislating.ts
+
+**Notes.** CTO, Nov 18 15:04Z on #9747 (6982417672): "(b), in your pool item, not in #10124. Other places keep only their results. A holder nobody has opened leaves office under the same mortality and move rules everyone else follows. The result is what gets written: the term ends, the seat falls vacant, and an appointee or special election follows by the place's own law. Nobody is built for it. If the player later meets that person, the draw already reflects that they left." Built on branch claude/fixer-unopened-holders-leave-office by Fixer A.
