@@ -23910,76 +23910,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "care-visit",
-          "key": "routine",
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "breakup-tell",
-          "key": "loss",
-          "after": "accept"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "promise"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-understand",
       "move": "follow-accept",
       "kind": "spoken",
@@ -24100,83 +24030,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-settles-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "That settles it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.still-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Still no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.my-answer-stands",
       "move": "reply-decline",
       "kind": "spoken",
@@ -24241,67 +24094,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-truly",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you, truly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "breakup-tell",
-          "key": "loss",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
@@ -24510,38 +24302,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.of-course",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "care-visit",
-          "key": "routine"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.i-will",
       "move": "reply-agree",
       "kind": "spoken",
@@ -24602,40 +24362,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "deflect",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-remember",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll remember.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "care-visit",
-          "key": "routine",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
         "key": "routine"
       }
     },
@@ -24748,6 +24474,15 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
           "purpose": "breakup-tell",
           "key": "loss",
           "after": "answer"
@@ -24819,40 +24554,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.leaving-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leaving now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
         "key": "favor-asked"
       }
     },
@@ -25267,31 +24968,6 @@
         }
       ],
       "bearing": "nervous",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.you-have-your-own-place-would-asked-has-family-approve",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You have your own place. Would {asked-has-family} approve?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-has-family", "asked-has-own-place"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -25770,6 +25446,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.that-means-everything",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.i-m-so-glad",
       "move": "follow-thank",
       "kind": "spoken",
@@ -25964,32 +25665,6 @@
         }
       ],
       "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.would-asked-has-family-speak-up-for-me",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Would {asked-has-family} speak up for me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "decline",
-          "requiresFacts": ["asked-has-family"]
-        }
-      ],
-      "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -26201,10 +25876,78 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.later-maybe",
+      "key": "scene-talk.reply-agree.then-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-s-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It's still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-me-again",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Later, maybe.",
+      "text": "Ask me again.",
       "uses": [
         {
           "subject": "scene",
@@ -26351,27 +26094,36 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-earn-it",
-      "move": "close-promise",
+      "key": "scene-talk.close-thank.i-m-so-grateful",
+      "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll earn it.",
+      "text": "I'm so grateful.",
       "uses": [
         {
           "subject": "scene",
           "step": "close",
-          "move": "promise",
+          "move": "thank",
           "role": "asker",
           "purpose": "move-in-ask",
           "key": "favor-asked",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
         }
       ],
-      "bearing": "tender",
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "promise",
+        "move": "thank",
         "key": "favor-asked"
       }
     },
@@ -26426,10 +26178,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.i-ll-remember-this",
+      "key": "scene-talk.close-warn.this-hurts-though",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'll remember this.",
+      "text": "This hurts, though.",
       "uses": [
         {
           "subject": "scene",
@@ -26472,6 +26224,31 @@
       "date": "2026-11-18",
       "tag": {
         "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.your-place-is-yours-does-asked-has-family-think-we-could-share",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Your place is yours. Does {asked-has-family} think we could share?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-has-family", "asked-has-own-place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
         "key": "favor-asked"
       }
     },
@@ -27016,10 +26793,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-re-right",
+      "key": "scene-talk.reply-agree.you-re-right-fine",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. You're right.",
+      "text": "You're right. Fine.",
       "uses": [
         {
           "subject": "scene",
@@ -27212,10 +26989,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.did-i-speak",
+      "key": "scene-talk.reply-ask.was-i-talking",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Did I speak?",
+      "text": "Was I talking?",
       "uses": [
         {
           "subject": "scene",
@@ -27508,6 +27285,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.that-s-a-relief",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's a relief.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.i-can-breathe",
       "move": "follow-thank",
       "kind": "spoken",
@@ -27585,10 +27387,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-good",
+      "key": "scene-talk.follow-accept.then-rest",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Good.",
+      "text": "Then rest.",
       "uses": [
         {
           "subject": "scene",
@@ -27635,10 +27437,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.please-just-once",
+      "key": "scene-talk.follow-press.do-it-please",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Please, just once.",
+      "text": "Do it, please.",
       "uses": [
         {
           "subject": "scene",
@@ -27863,6 +27665,31 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.i-m-so-relieved",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm so relieved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.close-promise.i-ll-be-there",
       "move": "close-promise",
       "kind": "spoken",
@@ -27888,10 +27715,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.understood-then",
+      "key": "scene-talk.close-accept.i-ll-respect-it",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Understood, then.",
+      "text": "I'll respect it.",
       "uses": [
         {
           "subject": "scene",
@@ -27913,10 +27740,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.i-ll-be-watching",
+      "key": "scene-talk.close-warn.i-m-worried-though",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'll be watching.",
+      "text": "I'm worried, though.",
       "uses": [
         {
           "subject": "scene",
@@ -28279,10 +28106,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.illness-has-worn-me-down-will-you-stay",
+      "key": "scene-talk.state-request.the-illness-has-worn-me-down-will-you-stay",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{illness} has worn me down. Will you stay?",
+      "text": "The {illness} has worn me down. Will you stay?",
       "uses": [
         {
           "subject": "scene",
@@ -28304,10 +28131,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-stay-i-m-worn-out-by-illness",
+      "key": "scene-talk.state-request.will-you-stay-the-illness-wears-me-out",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you stay? I'm worn out by {illness}.",
+      "text": "Will you stay? The {illness} wears me out.",
       "uses": [
         {
           "subject": "scene",
@@ -28375,6 +28202,30 @@
       "date": "2026-11-18",
       "tag": {
         "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-glad-to",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm glad to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
         "key": "routine"
       }
     },
@@ -28607,35 +28458,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-does-illness-feel-like",
+      "key": "scene-talk.reply-ask.how-bad-is-the-illness-right-now",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What does {illness} feel like?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "care-visit",
-          "key": "routine",
-          "requiresFacts": ["illness"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-bad-is-illness-right-now",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How bad is {illness} right now?",
+      "text": "How bad is the {illness} right now?",
       "uses": [
         {
           "subject": "scene",
@@ -28657,10 +28483,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.has-it-been-since-that-you-ve-felt-this-way",
+      "key": "scene-talk.reply-ask.you-ve-felt-this-way-for-since",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Has it been {since} that you've felt this way?",
+      "text": "You've felt this way for {since}?",
       "uses": [
         {
           "subject": "scene",
@@ -28804,34 +28630,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-comfort.never-a-burden",
+      "key": "scene-talk.reply-comfort.the-illness-doesn-t-change-who-you-are",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "Never a burden.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "care-visit",
-          "key": "routine"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "comfort",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.illness-doesn-t-change-who-you-are",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "{illness} doesn't change who you are.",
+      "text": "The {illness} doesn't change who you are.",
       "uses": [
         {
           "subject": "scene",
@@ -28853,10 +28655,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-comfort.we-ll-face-illness-together",
+      "key": "scene-talk.reply-comfort.we-ll-face-the-illness-together",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "We'll face {illness} together.",
+      "text": "We'll face the {illness} together.",
       "uses": [
         {
           "subject": "scene",
@@ -28928,10 +28730,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.hold-on",
+      "key": "scene-talk.reply-deflect.one-moment-please",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Hold on.",
+      "text": "One moment, please.",
       "uses": [
         {
           "subject": "scene",
@@ -29000,10 +28802,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-s-not-talk-about-illness-yet",
+      "key": "scene-talk.reply-deflect.let-s-not-talk-about-the-illness-yet",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let's not talk about {illness} yet.",
+      "text": "Let's not talk about the {illness} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -29046,6 +28848,31 @@
       "date": "2026-11-18",
       "tag": {
         "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-feel-lighter",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I feel lighter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
         "key": "routine"
       }
     },
@@ -29355,10 +29182,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-can-t-keep-illness-secret",
+      "key": "scene-talk.follow-press.i-can-t-keep-the-illness-a-secret",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I can't keep {illness} secret.",
+      "text": "I can't keep the {illness} a secret.",
       "uses": [
         {
           "subject": "scene",
@@ -29431,10 +29258,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.soon",
+      "key": "scene-talk.reply-deflect.within-days",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Soon.",
+      "text": "Within days.",
       "uses": [
         {
           "subject": "scene",
@@ -29481,10 +29308,35 @@
       }
     },
     {
-      "key": "scene-talk.close-press.don-t-forget",
+      "key": "scene-talk.close-promise.i-promise-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I promise you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Don't forget.",
+      "text": "Call me soon.",
       "uses": [
         {
           "subject": "scene",
@@ -29506,28 +29358,29 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.child-is-sent-back-out-of-the-room",
-      "move": "narrate-narrate",
+      "key": "scene-talk.close-warn.don-t-carry-illness-by-yourself",
+      "move": "close-warn",
       "kind": "spoken",
-      "text": "{child} is sent back out of the room.",
+      "text": "Don't carry {illness} by yourself.",
       "uses": [
         {
           "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["child"]
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "care-visit",
+          "key": "routine",
+          "outcome": "open",
+          "requiresFacts": ["illness"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "hurt",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
+        "move": "warn",
+        "key": "routine"
       }
     },
     {
@@ -29922,6 +29775,30 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.of-course",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.yes-after-together-how-could-i-say-no",
       "move": "reply-agree",
       "kind": "spoken",
@@ -30302,6 +30179,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.i-m-overjoyed",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm overjoyed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.i-m-so-happy",
       "move": "follow-thank",
       "kind": "spoken",
@@ -30430,10 +30332,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.please-not-now",
+      "key": "scene-talk.follow-plea.not-so-quickly",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Please. Not now.",
+      "text": "Not so quickly.",
       "uses": [
         {
           "subject": "scene",
@@ -30531,10 +30433,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nothing-happened",
+      "key": "scene-talk.follow-answer.nothing-s-wrong",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Nothing happened.",
+      "text": "Nothing's wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -30709,6 +30611,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.then-yes-gladly",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then yes, gladly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-deflect.more-time-please",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -30734,10 +30661,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.who-could-refuse",
+      "key": "scene-talk.reply-leave.leaving-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Leaving now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-won-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Who could refuse?",
+      "text": "You've won me.",
       "uses": [
         {
           "subject": "scene",
@@ -30784,10 +30736,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-be-good",
+      "key": "scene-talk.close-promise.i-ll-cherish-you",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll be good.",
+      "text": "I'll cherish you.",
       "uses": [
         {
           "subject": "scene",
@@ -30809,10 +30761,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.never-again",
+      "key": "scene-talk.close-warn.that-hurts-though",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Never again.",
+      "text": "That hurts, though.",
       "uses": [
         {
           "subject": "scene",
@@ -30855,6 +30807,30 @@
       "date": "2026-11-18",
       "tag": {
         "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-pulls-out-a-chair-and-doesn-t-sit",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} pulls out a chair and doesn't sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
         "key": "favor-asked"
       }
     },
@@ -31395,10 +31371,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.i-see",
+      "key": "scene-talk.reply-accept.then-it-ends",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "I see.",
+      "text": "Then it ends.",
       "uses": [
         {
           "subject": "scene",
@@ -31493,10 +31469,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-let-go",
+      "key": "scene-talk.reply-apologize.i-stopped-trying",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I let go.",
+      "text": "I stopped trying.",
       "uses": [
         {
           "subject": "scene",
@@ -31888,10 +31864,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.gently-then",
+      "key": "scene-talk.follow-thank.i-m-grateful",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Gently, then.",
+      "text": "I'm grateful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "accept"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-be-gentle",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll be gentle.",
       "uses": [
         {
           "subject": "scene",
@@ -31989,10 +31990,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.sorry-won-t-help",
+      "key": "scene-talk.follow-press.it-changes-nothing",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Sorry won't help.",
+      "text": "It changes nothing.",
       "uses": [
         {
           "subject": "scene",
@@ -32039,10 +32040,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.that-s-untrue",
+      "key": "scene-talk.follow-confront.i-tried-though",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "That's untrue.",
+      "text": "I tried, though.",
       "uses": [
         {
           "subject": "scene",
@@ -32064,10 +32065,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.i-won-t-rewrite",
+      "key": "scene-talk.follow-confront.i-won-t-argue",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "I won't rewrite.",
+      "text": "I won't argue.",
       "uses": [
         {
           "subject": "scene",
@@ -32165,10 +32166,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.okay-i-see",
+      "key": "scene-talk.reply-accept.understood-truly",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Okay. I see.",
+      "text": "Understood, truly.",
       "uses": [
         {
           "subject": "scene",
@@ -32215,10 +32216,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.my-part-sorry",
+      "key": "scene-talk.reply-apologize.i-m-sorry-too",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "My part, sorry.",
+      "text": "I'm sorry too.",
       "uses": [
         {
           "subject": "scene",
@@ -32240,10 +32241,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.not-an-answer",
+      "key": "scene-talk.reply-confront.why-though",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Not an answer.",
+      "text": "Why, though?",
       "uses": [
         {
           "subject": "scene",
@@ -32290,10 +32291,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.why-drag-it",
+      "key": "scene-talk.reply-confront.then-why-wait",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Why drag it?",
+      "text": "Then why wait?",
       "uses": [
         {
           "subject": "scene",
@@ -32340,10 +32341,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.too-much",
+      "key": "scene-talk.reply-apologize.i-overreacted",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "Too much.",
+      "text": "I overreacted.",
       "uses": [
         {
           "subject": "scene",
@@ -32415,10 +32416,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.you-re-right-decently",
+      "key": "scene-talk.reply-accept.let-s-be-decent",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "You're right. Decently.",
+      "text": "Let's be decent.",
       "uses": [
         {
           "subject": "scene",
@@ -32440,10 +32441,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.too-late",
+      "key": "scene-talk.reply-confront.it-s-too-late",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Too late.",
+      "text": "It's too late.",
       "uses": [
         {
           "subject": "scene",
@@ -32486,6 +32487,31 @@
       "date": "2026-11-18",
       "tag": {
         "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.take-care",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Take care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
         "key": "loss"
       }
     },
@@ -32540,10 +32566,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.tell-nobody-yet",
+      "key": "scene-talk.close-warn.don-t-hate-me",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Tell nobody yet.",
+      "text": "Don't hate me.",
       "uses": [
         {
           "subject": "scene",
@@ -32663,10 +32689,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stands-near-the-photographs-hat-held-low",
+      "key": "scene-talk.narrate-narrate.name-stands-near-the-photographs-hands-folded",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stands near the photographs, hat held low.",
+      "text": "{name} stands near the photographs, hands folded.",
       "uses": [
         {
           "subject": "scene",
@@ -32860,31 +32886,6 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "Will you stand with the family for {deceased}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "requiresFacts": ["deceased"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.may-i-share-a-story-about-deceased",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "May I share a story about {deceased}?",
       "uses": [
         {
           "subject": "scene",
@@ -33149,83 +33150,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-say-deceased-s-name-aloud",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't say {deceased}'s name aloud.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "requiresFacts": ["deceased"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.who-s-here",
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Who's here?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-asked-you",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who asked you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.where-s-everyone",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Where's everyone?",
       "uses": [
         {
           "subject": "scene",
@@ -33395,6 +33323,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.that-is-kind",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That is kind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.it-matters",
       "move": "follow-thank",
       "kind": "spoken",
@@ -33446,10 +33399,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.certainly",
+      "key": "scene-talk.follow-accept.don-t-apologize",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Certainly.",
+      "text": "Don't apologize.",
       "uses": [
         {
           "subject": "scene",
@@ -33573,56 +33526,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.come-inside",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Come inside.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-s-here",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone's here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "ask"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.it-was-cause",
       "move": "follow-answer",
       "kind": "spoken",
@@ -33700,10 +33603,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.still-can-t",
+      "key": "scene-talk.reply-decline.i-still-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Still can't.",
+      "text": "I still can't.",
       "uses": [
         {
           "subject": "scene",
@@ -33775,10 +33678,60 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.reconsider-please",
+      "key": "scene-talk.close-thank.we-re-grateful",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We're grateful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-stay-near",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll stay near.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.think-again-please",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Reconsider, please.",
+      "text": "Think again, please.",
       "uses": [
         {
           "subject": "scene",
@@ -33796,6 +33749,157 @@
       "date": "2026-11-18",
       "tag": {
         "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-was-sudden",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It was sudden.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-re-all-stunned",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We're all stunned.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.everyone-loved-deceased",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Everyone loved {deceased}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["deceased"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-lost-deceased-too-soon",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We lost {deceased} too soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["deceased"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-spoke-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who spoke first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-has-spoken-for-deceased",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who has spoken for {deceased}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["deceased"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
         "key": "loss"
       }
     }
