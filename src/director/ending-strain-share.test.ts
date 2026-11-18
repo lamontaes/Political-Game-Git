@@ -1,6 +1,6 @@
 /**
- * Trust lost takes a share of the tie (scene-talk-rules endingStrain
- * trust-lost; the Account lead's ruling and the Words lead's yes, Nov 15).
+ * Trust lost takes a share of the tie (the core's closenessTrustLostShare,
+ * read by scene-talk-rules endingStrain trust-lost; the Account lead's ruling and the Words lead's yes, Nov 15).
  * In a place drawn from all 56 (one without a state chamber of three or a pair
  * tied only by sittings is passed over and named), an ending that loses trust takes the same share
  * of the hours each tie stands on today, so the closest pair in the world
@@ -16,13 +16,14 @@ import {
   closenessBetween,
   sharedHoursBetween,
   tieHoursBetween,
+  trustLostHours,
 } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { bodyOf, memberKey, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
+import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { endingStrainHours } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -62,7 +63,7 @@ function attempt(place: ReturnType<typeof drawPlace>): string | undefined {
         sharedHoursBetween(core, a, b) > 0,
     );
   if (!slight) return "no pair tied only by sittings";
-  const share = rules.endingStrain["trust-lost"].value;
+  const share = parameter("closenessTrustLostShare", core.data.parameters);
   const closeHours = tieHoursBetween(core, close.actorId, close.otherId);
   const slightHours = tieHoursBetween(core, slight[0], slight[1]);
   const lost = (a: PersonId, b: PersonId) =>
@@ -74,6 +75,11 @@ function attempt(place: ReturnType<typeof drawPlace>): string | undefined {
   );
   expect(lost(close.actorId, close.otherId)).toBeCloseTo(
     share * closeHours,
+    10,
+  );
+  // The promises engine reads the same row (closeness.ts trustLostHours).
+  expect(trustLostHours(core, close.actorId, close.otherId)).toBeCloseTo(
+    lost(close.actorId, close.otherId),
     10,
   );
   expect(lost(slight[0], slight[1])).toBeCloseTo(share * slightHours, 10);

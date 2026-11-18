@@ -76,7 +76,7 @@ let cash = 0,
 for (const row of core.people.values()) cash += row.liquidMinor;
 for (const row of core.organizations.values()) cash += row.liquidMinor;
 for (const row of core.cashJournal.externalFlowsByOwner.values())
-  outside += row.netMinor;
+  outside += Number(row.netMinor);
 console.log(
   JSON.stringify(
     {

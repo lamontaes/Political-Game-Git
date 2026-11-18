@@ -3787,7 +3787,12 @@ export function learnStake(
     api.state.people.has(memberId) &&
     memberId !== bill.sponsorId
   )
-    api.relationship(bill.sponsorId, memberId, "contact", 0.05);
+    api.relationship(
+      bill.sponsorId,
+      memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   const position = memberPosition(api, billId, memberId);
   const learner = learnerId ?? bill.sponsorId;
   // Kept for the player (the character the player controls, as a played official is) and the people they deal with, as reasons are.
@@ -3895,7 +3900,12 @@ export function askToCarry(
     );
   // Asked in person: the conversation brings the two closer.
   if (asker && api.state.people.has(input.memberId))
-    api.relationship(input.askerId, input.memberId, "contact", 0.05);
+    api.relationship(
+      input.askerId,
+      input.memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   const asked = {
     id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
     number: "",
@@ -4338,7 +4348,12 @@ export function offerDeal(
     api.state.people.has(input.memberId) &&
     api.state.people.has(bill.sponsorId)
   )
-    api.relationship(bill.sponsorId, input.memberId, "contact", 0.05);
+    api.relationship(
+      bill.sponsorId,
+      input.memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   return {
     accepted,
     before,
@@ -6674,6 +6689,31 @@ function decideAtDesk(
         }
       : {},
   );
+  // A veto is a refusal the sponsor holds against whoever cast it (whether
+  // or not the body then overrode it): the drives engine reads this record
+  // and answers by the sponsor's own temperament, never by a roll.
+  if (
+    vetoes &&
+    executive.personId &&
+    executive.personId !== bill.sponsorId &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.emit({
+      id: `bill.vetoed:${bill.id}`,
+      date: api.state.date,
+      kind: "bill.vetoed",
+      personIds: [bill.sponsorId],
+      placeId: lawChain(api).townPlaceId,
+      publicRecord: false,
+      topic: executive.personId,
+      desiredChange: "bill.vetoed",
+      facts: { billId: bill.id, executiveId: executive.personId },
+      source: {
+        tag: "SOURCED",
+        citation: `Veto of ${bill.number}`,
+        asOf: api.state.date,
+      },
+    });
   return { status, decision: { executiveId: key, action: status }, override };
 }
 

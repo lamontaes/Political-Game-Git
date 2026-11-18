@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 851,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -93,18 +93,6 @@
       ],
       "why": "Both replies are the yes and no from the opening options again, now in new words."
     },
-    "02e8nvq1net": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Both replies restate first options: the answer is still no, and the talk is finished."
-    },
     "02eop9byjsa": {
       "keys": [
         "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
@@ -118,33 +106,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "02qnu38f23j": {
-      "keys": [
-        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Won't be bought, keeping it, reporting it and 'take it with you' are the first refuse, accept, report and take-it-back options."
-    },
-    "02va9peyr84": {
-      "keys": [
-        "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it",
-        "scene-talk.reply-accept.all-right-ill-take-it-thank-you",
-        "scene-talk.reply-refuse.thats-kind-but-i-cant-take-gifts-from-anyone-with-business-here",
-        "scene-talk.reply-deflect.you-didnt-need-to-do-that",
-        "scene-talk.reply-confront.a-gift-to-someone-you-want-something-from-is-a-bribe-im-reporting-it",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-leave.thank-you-for-stopping-by-take-the-gift-with-you"
-      ],
-      "why": "Keeping it and handing the gift back are the first accept and can't-take options again, leaving one new line."
-    },
     "032hd2lcgef": {
       "keys": [
         "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
@@ -157,20 +118,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
-    },
-    "0336hngltdj": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Refusing, keeping it, reporting and 'take it with you' repeat the first set's four stances."
     },
     "03jly4bgrrk": {
       "keys": [
@@ -289,21 +236,6 @@
       ],
       "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
-    "05a6jf3yx6k": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Refusing, 'put it down and go', reporting and ending the talk repeat the first set's options."
-    },
     "05beub4tymw": {
       "keys": [
         "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide",
@@ -328,20 +260,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Both replies return to demanding the source, rewording 'Who told you that?' instead of answering why someone said otherwise."
-    },
-    "05qa93svl0x": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
-      ],
-      "why": "No to threats, reporting, nothing to say and walking away reword the first no, clerk and finished options."
     },
     "05v62tqzl87": {
       "keys": [
@@ -408,34 +326,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the apology."
-    },
-    "06qta9yjas4": {
-      "keys": [
-        "scene-talk.follow-plea.it-would-mean-a-lot-to-me-and-it-costs-you-nothing",
-        "scene-talk.reply-accept.all-right-ill-take-it-thank-you",
-        "scene-talk.reply-refuse.thats-kind-but-i-cant-take-gifts-from-anyone-with-business-here",
-        "scene-talk.reply-deflect.you-didnt-need-to-do-that",
-        "scene-talk.reply-confront.a-gift-to-someone-you-want-something-from-is-a-bribe-im-reporting-it",
-        "scene-talk.reply-refuse.thank-you-but-keep-it-i-dont-accept-anything",
-        "scene-talk.reply-accept.thats-thoughtful-of-you-thank-you",
-        "scene-talk.reply-leave.thank-you-for-stopping-by-take-the-gift-with-you"
-      ],
-      "why": "Declining, accepting with thanks and handing it back are the first set's choices said again."
-    },
-    "06sb99uta0t": {
-      "keys": [
-        "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me",
-        "scene-talk.reply-accept.i-shouldnt-but-fine-put-it-down",
-        "scene-talk.reply-refuse.no-take-your-money-home-im-sorry",
-        "scene-talk.reply-comfort.sit-down-whatever-has-gone-wrong-this-isnt-the-way-out-of-it",
-        "scene-talk.reply-confront.im-sorry-for-you-but-this-is-a-bribe-and-im-reporting-it",
-        "scene-talk.reply-stall.give-me-a-little-time-i-cant-answer-you-while-youre-like-this",
-        "scene-talk.reply-refuse.i-cant-take-this-you-need-it-more-than-i-do",
-        "scene-talk.reply-comfort.i-can-see-what-this-is-costing-you-lets-find-another-way-to-help-one-t",
-        "scene-talk.reply-accept.all-right-ill-do-what-i-can-for-you",
-        "scene-talk.reply-leave.i-cant-do-this-please-take-it-home"
-      ],
-      "why": "The replies are the first take-your-money-home, another-way and accept options reworded rather than a response to 'only you can help'."
     },
     "06se0wmvp6g": {
       "keys": [
@@ -582,20 +472,6 @@
       ],
       "why": "Both replies ask again who told them, which repeats the first option asking where the story came from."
     },
-    "08zras0znrr": {
-      "keys": [
-        "scene-talk.follow-plea.just-think-about-it-for-me",
-        "scene-talk.reply-accept.for-you-fine-but-this-stays-between-us",
-        "scene-talk.reply-refuse.not-even-for-you-take-it-back",
-        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Holding the answer, 'put it down and go' and 'take it with you' are the first refuse, accept and go options again."
-    },
     "0973slx4eps": {
       "keys": [
         "scene-talk.follow-confront.money.i-m-not-going-to-apologize-for-something-you-won-t-let-me-explain-first",
@@ -661,21 +537,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "09r129d98v0": {
-      "keys": [
-        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, 'put it down and go', reporting it and ending the talk replay the first refuse, accept, report and leave options."
-    },
     "09uwjp902l3": {
       "keys": [
         "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
@@ -740,61 +601,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first \"by whom\" question."
-    },
-    "0cax200wkto": {
-      "keys": [
-        "scene-talk.follow-plea.youd-report-me-after-everything",
-        "scene-talk.reply-accept.for-you-fine-but-this-stays-between-us",
-        "scene-talk.reply-refuse.not-even-for-you-take-it-back",
-        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away",
-        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
-        "scene-talk.reply-accept.all-right-i-trust-you-not-to-make-me-regret-this",
-        "scene-talk.reply-leave.i-have-to-go-ill-call-you-but-not-about-this"
-      ],
-      "why": "The refusals and the trusting acceptance repeat the first friend options instead of answering 'you'd report me'."
-    },
-    "0ccdn9ugwps": {
-      "keys": [
-        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Same answer, telling the clerk, not here and done talking restate all four first options."
-    },
-    "0cj1b99v36l": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "'No, this changes nothing' and 'said all I'm going to say' restate the first no and finished options."
-    },
-    "0cs37gruwol": {
-      "keys": [
-        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Refusing, keeping it, reporting and ending the talk are the first bribe choices again."
     },
     "0dc3974nusy": {
       "keys": [
@@ -952,19 +758,6 @@
       ],
       "why": "\"I'll call tonight\" repeats the first yes and the soup offer repeats \"Did you eat anything today?\""
     },
-    "0gvhf9cwnuo": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.i-ll-take-it-this-stays-here",
-        "scene-talk.reply-refuse.not-for-any-price",
-        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it"
-      ],
-      "why": "'I'll take it' and reporting the bribe restate the first accept and report options; only 'Not for any price' answers the new ask."
-    },
     "0hcjqx99wdr": {
       "keys": [
         "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
@@ -1087,48 +880,6 @@
       ],
       "why": "'You win', 'No' and 'Stand next to me... and I'll vote yes' restate the first yes, refusal and hear-me-out condition."
     },
-    "0jvqsp6n6tl": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Won't be bought, 'put it down and go', reporting and 'take it with you' replay the first refuse, accept, report and go options."
-    },
-    "0k1vq5jzxg4": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, 'put it down and go', reporting and ending the talk repeat the first set's stances."
-    },
-    "0kfkdrxic8u": {
-      "keys": [
-        "scene-talk.follow-offer.take-it-home-to-your-family-then-nobodys-keeping-score",
-        "scene-talk.reply-accept.all-right-ill-take-it-thank-you",
-        "scene-talk.reply-refuse.thats-kind-but-i-cant-take-gifts-from-anyone-with-business-here",
-        "scene-talk.reply-deflect.you-didnt-need-to-do-that",
-        "scene-talk.reply-confront.a-gift-to-someone-you-want-something-from-is-a-bribe-im-reporting-it",
-        "scene-talk.reply-accept.thats-thoughtful-of-you-thank-you",
-        "scene-talk.reply-refuse.thank-you-but-keep-it-i-dont-accept-anything",
-        "scene-talk.reply-confront.you-know-i-have-to-report-this",
-        "scene-talk.reply-leave.i-have-to-get-back-to-work-take-that-with-you"
-      ],
-      "why": "Thanking and taking it, declining all gifts and reporting it are the first take, can't-take and report options again."
-    },
     "0kjs9oldpq3": {
       "keys": [
         "scene-talk.follow-ask.here-doing-what",
@@ -1154,20 +905,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
-    },
-    "0kvoy7d64xy": {
-      "keys": [
-        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Same no, reporting, nothing to say and done talking restate the first no, clerk and said-my-piece options."
     },
     "0kxkifggyov": {
       "keys": [
@@ -1258,20 +995,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "\"Start to finish\" restates explain, \"Whoever told you has it wrong\" restates \"nothing to it,\" and \"answer when I know who\" restates \"by whom,\" all three."
-    },
-    "0mbuudwmknc": {
-      "keys": [
-        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Refusing, reporting, keeping it and 'take it with you' repeat the first set's four stances."
     },
     "0mff95rvoyx": {
       "keys": [
@@ -1365,20 +1088,6 @@
       ],
       "why": "Three of four replies say the openers again: \"Show me what you have\" rewords not-until-I've-seen even though the reporter just offered to show, the office statement rewords answer-in-writing, and \"None of it is true\" rewords \"I knew nothing about it.\""
     },
-    "0n9rs7bmvzf": {
-      "keys": [
-        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
-        "scene-talk.reply-refuse.i-cant-do-it-and-begging-wont-change-that",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-comfort.i-wont-help-you-this-way-let-me-see-what-i-can-do-thats-honest",
-        "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-comfort.go-home-and-get-some-rest-there-are-honest-ways-to-get-help-and-ill-po",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Still no, reporting it and pointing to honest help restate the first refusal, clerk and honest-help options."
-    },
     "0n9w2x8v97e": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -1415,18 +1124,6 @@
         "scene-talk.reply-leave.im-going-to-go-lie-down"
       ],
       "why": "'I'm going to fix it' repeats 'I'll get it done this year' and going to lie down repeats the 'Not now' avoidance, so both rehash."
-    },
-    "0nonej4hl7r": {
-      "keys": [
-        "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Both replies restate first options: the answer is still no, and the talk is finished."
     },
     "0nq9gzsj2ld": {
       "keys": [
@@ -1467,32 +1164,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "0o9zlii2zwg": {
-      "keys": [
-        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies restate the first no and 'I've said what I'm going to say'."
-    },
-    "0oehpujgp2i": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "The four replies restate the first no, clerk, not-in-the-open and finished options."
-    },
     "0owwd3z0rzj": {
       "keys": [
         "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -1517,20 +1188,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Both replies ask again who told them, which repeats the first option asking who said it."
-    },
-    "0pap53c18v1": {
-      "keys": [
-        "scene-talk.follow-press.then-ill-ask-again-i-have-time",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-accept.all-right-just-this-once",
-        "scene-talk.reply-leave.im-not-doing-this-twice-take-that-with-you"
-      ],
-      "why": "'Nothing has changed', reporting, 'just this once' and 'not doing this twice' restate all four first options."
     },
     "0pc8sqtqhe4": {
       "keys": [
@@ -1557,20 +1214,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Two of three replies restate first options: the offer to explain how it went and the denial of any payment."
-    },
-    "0pkveunusq0": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, accepting, reporting and ending the talk are the first bribe choices again."
     },
     "0pmehzvnr13": {
       "keys": [
@@ -1624,19 +1267,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "0qxjynuhjk8": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, 'put it down and go' and ending the talk restate the first refuse, accept and go options."
-    },
     "0r01su6si24": {
       "keys": [
         "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
@@ -1676,18 +1306,6 @@
         "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything"
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
-    },
-    "0rajl7f6flp": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "'My answer is the same' and 'said all I'm going to say' repeat the first no and finished options."
     },
     "0rphingm2da": {
       "keys": [
@@ -1783,20 +1401,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "0tg3irhgfa5": {
-      "keys": [
-        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "No, telling the clerk, not here and done talking map onto all four first options."
-    },
     "0tn4ylxlfz0": {
       "keys": [
         "scene-talk.follow-press.count-how-tell-me-one-thing",
@@ -1822,31 +1426,6 @@
         "scene-talk.reply-deflect.i-wasn-t-ready-for-it-let-me-sit-with-it-a-while-and-i-ll-come-to-you"
       ],
       "why": "The yes, the no and \"let me sit with it\" restate the opening yes, refusal and \"give me room to think.\""
-    },
-    "0v9268mwmyd": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Both replies restate the first no and 'I'm finished with this conversation'."
-    },
-    "0v9pzrxu4bv": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, accepting and ending the talk are the first no, worn-down and not-discussing options again."
     },
     "0vkew60d4rc": {
       "keys": [
@@ -1939,20 +1518,6 @@
       ],
       "why": "All three replies restate first options: offering to explain, denying the money, and declining to talk now."
     },
-    "0xqfb7l14zs": {
-      "keys": [
-        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
-      ],
-      "why": "No, telling the clerk, not discussing it here and walking away restate all four first options."
-    },
     "0xwdq8hn76y": {
       "keys": [
         "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
@@ -1978,19 +1543,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
-    },
-    "0y25p9l5v30": {
-      "keys": [
-        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
-        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
-        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Two of three replies restate first options: the refusal repeats that the answer hasn't changed, and not discussing it here repeats not doing this here."
     },
     "0y2peu4lonu": {
       "keys": [
@@ -2032,32 +1584,6 @@
       ],
       "why": "All three replies restate first options: the offer to explain, the denial of the rumor and asking who said it."
     },
-    "0zo0bqvl5e5": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Holding the answer, 'put it down and go' and 'take it with you' repeat the first refuse, accept and go options."
-    },
-    "109earimalg": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.keep-this-between-us",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it"
-      ],
-      "why": "Keeping it quiet, 'pick that up and go' and reporting the bribe are the first accept, take-back and report options in new words."
-    },
     "10i3q9xsoro": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -2098,21 +1624,6 @@
       ],
       "why": "Making the call, still no and finding half restate the first fight, refuse and half-back options."
     },
-    "127w58qpbvf": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Refusing, taking it, reporting it and ending the talk are the first bribe choices again in new words."
-    },
     "12b3e2jg7qm": {
       "keys": [
         "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
@@ -2151,20 +1662,6 @@
       ],
       "why": "Two of the three replies restate first options: the partial admission repeats the offer to explain, and the flat denial repeats calling it a rumor."
     },
-    "12rdx4g5y83": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "These four replies repeat the first no, report and done-talking options in new words."
-    },
     "13aje4nog0n": {
       "keys": [
         "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
@@ -2177,18 +1674,6 @@
         "scene-talk.reply-leave.i-need-some-air"
       ],
       "why": "'I'll take it up' and 'I can't make them say yes' restate the first take-it-up-in-their-name reply and 'I need some air' restates the not-today exit."
-    },
-    "147an8t261n": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies restate first options: the answer is the same, and there is nothing more to say."
     },
     "14k16kz4h0o": {
       "keys": [
@@ -2216,18 +1701,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "1517ghr5fkc": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies restate first options: the answer is the same, and there is nothing more to say."
-    },
     "153ofr8iimt": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -2240,21 +1713,6 @@
         "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
       ],
       "why": "\"Part of it's true\" restates explain and \"That's a rumor... prosecutor\" restates \"Rumors ruin people,\" two of three."
-    },
-    "1551cvfgk88": {
-      "keys": [
-        "scene-talk.follow-plea.just-think-about-it-for-me",
-        "scene-talk.reply-accept.for-you-fine-but-this-stays-between-us",
-        "scene-talk.reply-refuse.not-even-for-you-take-it-back",
-        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away",
-        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
-        "scene-talk.reply-accept.all-right-i-trust-you-not-to-make-me-regret-this",
-        "scene-talk.reply-leave.i-have-to-go-ill-call-you-but-not-about-this"
-      ],
-      "why": "Putting it away, 'I care about you and I can't' and 'I trust you' are the first take-it-back, sorry and for-you-fine options in new words."
     },
     "15e9szcyfm1": {
       "keys": [
@@ -2386,20 +1844,6 @@
       ],
       "why": "Two of three replies restate first options: the apology repeats the first apology, and saying enough for today repeats having to go."
     },
-    "17xunjtmvnl": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Refusing, reporting, keeping it and 'take it with you' repeat the first no, report, worn-down and not-again options."
-    },
     "1847m4chvbc": {
       "keys": [
         "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
@@ -2426,35 +1870,6 @@
         "scene-talk.reply-decline.health-coverage-is-the-state-s-not-mine-i-can-send-you-to-the-people-who-can-loo"
       ],
       "why": "The caseworker and 'health coverage is the state's' restate the first caseworker and town-doesn't-pay options, leaving only the home-visit line new."
-    },
-    "193xo94kjb7": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Same answer, reporting, nothing to say and done talking reword the first no, clerk and finished options."
-    },
-    "1997kqn9vsd": {
-      "keys": [
-        "scene-talk.follow-plea.please-dont-report-it-it-would-finish-me",
-        "scene-talk.reply-accept.i-shouldnt-but-fine-put-it-down",
-        "scene-talk.reply-refuse.no-take-your-money-home-im-sorry",
-        "scene-talk.reply-comfort.sit-down-whatever-has-gone-wrong-this-isnt-the-way-out-of-it",
-        "scene-talk.reply-confront.im-sorry-for-you-but-this-is-a-bribe-and-im-reporting-it",
-        "scene-talk.reply-stall.give-me-a-little-time-i-cant-answer-you-while-youre-like-this",
-        "scene-talk.reply-refuse.i-cant-take-this-you-need-it-more-than-i-do",
-        "scene-talk.reply-comfort.i-can-see-what-this-is-costing-you-lets-find-another-way-to-help-one-t",
-        "scene-talk.reply-accept.all-right-ill-do-what-i-can-for-you",
-        "scene-talk.reply-leave.i-cant-do-this-please-take-it-home"
-      ],
-      "why": "'Take it home', finding another way to help and 'I'll do what I can' are the first no, sit-down and accept options in new words."
     },
     "19cjqvk4nml": {
       "keys": [
@@ -2522,18 +1937,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "1b18tyz8w5p": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Both replies restate first options: the answer is still no, and the talk is finished."
-    },
     "1b56f4bhgno": {
       "keys": [
         "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste",
@@ -2596,21 +1999,6 @@
         "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you"
       ],
       "why": "Both replies restate first options: the offer to tell everything and the denial."
-    },
-    "1bz4xjkker7": {
-      "keys": [
-        "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no",
-        "scene-talk.reply-accept.for-you-fine-but-this-stays-between-us",
-        "scene-talk.reply-refuse.not-even-for-you-take-it-back",
-        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away",
-        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
-        "scene-talk.reply-accept.all-right-i-trust-you-not-to-make-me-regret-this",
-        "scene-talk.reply-leave.i-have-to-go-ill-call-you-but-not-about-this"
-      ],
-      "why": "Put that away, I can't do this and I trust you replay the first not-even-for-you, sorry and for-you-fine options."
     },
     "1c4av7kq5xh": {
       "keys": [
@@ -2783,19 +2171,6 @@
       ],
       "why": "Two of three replies restate first options: the apology repeats the first apology, and saying enough for today repeats declining to discuss it."
     },
-    "1flcsbyoq30": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, accepting and ending the talk restate the first no, worn-down and not-discussing options."
-    },
     "1fq6saqskve": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -2865,34 +2240,6 @@
       ],
       "why": "\"I promise\" and the soup offer restate the first yes and the eating deflection."
     },
-    "1gvu6gpodyj": {
-      "keys": [
-        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Same answer, telling the clerk, not here and said all restate every one of the first options."
-    },
-    "1h33ctnhl5l": {
-      "keys": [
-        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
-        "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
-        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
-        "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
-        "scene-talk.reply-deflect.im-not-discussing-that-again",
-        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-accept.all-right-just-this-once",
-        "scene-talk.reply-leave.im-not-doing-this-twice-take-that-with-you"
-      ],
-      "why": "'Nothing has changed', reporting, 'just this once' and 'take that with you' are the four first options reworded."
-    },
     "1h8isvspkew": {
       "keys": [
         "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -2933,20 +2280,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "1i6j129tpx4": {
-      "keys": [
-        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "No, reporting it, nothing to say and asking them to leave repeat the first no, clerk and finished options."
     },
     "1ic5ythtue6": {
       "keys": [
@@ -3039,18 +2372,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "1mj8gxki68v": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies repeat the first no and the first 'finished with this conversation'."
-    },
     "1mjnwf63lc8": {
       "keys": [
         "scene-talk.follow-plea.please-don-t-close-it-for-good-just-keep-it-in-mind-while-we-do-the-bi",
@@ -3115,19 +2436,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "1o43xpv35ei": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "All three replies restate first options: still no, reporting it, and ending the talk."
     },
     "1o5h0mcj8jn": {
       "keys": [
@@ -3197,32 +2505,6 @@
       ],
       "why": "'Is this a good place to work?' restates 'does nobody last here past a year?' and 'I'll find the rest' restates 'good at learning on the fly', so two of three rehash."
     },
-    "1p98mudn4jz": {
-      "keys": [
-        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
-        "scene-talk.reply-refuse.i-cant-do-it-and-begging-wont-change-that",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-comfort.i-wont-help-you-this-way-let-me-see-what-i-can-do-thats-honest",
-        "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-comfort.go-home-and-get-some-rest-there-are-honest-ways-to-get-help-and-ill-po",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Still no, reporting it and honest ways to get help reword three first options; only 'done talking' is new."
-    },
-    "1pn4545aodz": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Same answer and 'please leave' repeat the first no and the first ending."
-    },
     "1q1gn285dg0": {
       "keys": [
         "scene-talk.follow-press.eight-more-officers-and-the-south-lot-that-s-overtime-and-the-council-",
@@ -3235,18 +2517,6 @@
         "scene-talk.reply-offer.then-i-ll-meet-them-at-the-door-not-in-the-street"
       ],
       "why": "'Fine. We cancel' rewords 'Then cancel it' and meeting them at the door rewords 'go out and meet them', and none answer the overtime question."
-    },
-    "1q8jxrn0y1n": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies restate first options: the answer is still no, and the talk is finished."
     },
     "1qvf3nvi7oi": {
       "keys": [
@@ -3340,47 +2610,6 @@
       ],
       "why": "Two of three replies restate first options: the offer of the truth and the apology."
     },
-    "1sion640ggo": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Refusing, keeping it, reporting and 'take it with you' replay the first set's options."
-    },
-    "1tmgau3mvfc": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "All three replies restate first options: still no, telling the clerk, and ending the talk."
-    },
-    "1tsngpkbap4": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
-        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
-        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
-        "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "No, telling the clerk, not here and leave reword the first no, clerk and end-the-round options."
-    },
     "1tzm3l6n6kn": {
       "keys": [
         "scene-talk.follow-answer.i-found-out-who-was-paying-for-the-other-side-i-didn-t-like-it",
@@ -3432,20 +2661,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the denial."
-    },
-    "1vg7fgttf6e": {
-      "keys": [
-        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
     },
     "1vgglsc4st0": {
       "keys": [
@@ -3564,20 +2779,6 @@
       ],
       "why": "Besides the staying answer, \"I'll give you a real answer\" repeats the truth promise and \"Ask me after the pie\" repeats the deflection to another topic."
     },
-    "1wmsl08oo6g": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Same answer, report, nothing to say and leave restate the first no, clerk and finished options."
-    },
     "1wr5tc4m3j0": {
       "keys": [
         "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
@@ -3669,21 +2870,6 @@
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the apology."
     },
-    "1zdntj0122j": {
-      "keys": [
-        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "The four replies are the first refuse, accept, report and leave choices again after he already said he is reporting it."
-    },
     "1ze14an6c4v": {
       "keys": [
         "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
@@ -3737,32 +2923,6 @@
       ],
       "why": "'I'll run' and 'I'm not the one for it' are the first sign-me-up and can't options again, with only a polite exit added."
     },
-    "20i8aw7tyj4": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "No, telling the clerk, not here and said all reword every first option."
-    },
-    "20krh5e4c2k": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Both replies restate first options: the answer is still no, and the talk is finished."
-    },
     "22mjntoinzv": {
       "keys": [
         "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
@@ -3800,34 +2960,6 @@
         "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
-    },
-    "23zf7yfafi1": {
-      "keys": [
-        "scene-talk.follow-press.until-you-tell-me-otherwise-i-ll-assume-i-have-your-support",
-        "scene-talk.reply-agree.i-ll-look-again-i-won-t-tell-you-the-answer-before-i-ve-looked",
-        "scene-talk.reply-bargain.tell-me-what-the-change-is-and-who-it-costs-and-i-ll-tell-you-what-i",
-        "scene-talk.reply-decline.i-took-your-money-and-i-ll-take-your-call-i-won-t-take-instructions",
-        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
-        "scene-talk.reply-agree.i-ll-go-back-through-it-tonight-and-you-ll-hear-from-me-before-the-vo",
-        "scene-talk.reply-decline.i-can-t-tie-a-vote-to-a-check-not-yours-not-anyone-s",
-        "scene-talk.reply-bargain.i-ll-listen-i-d-like-your-people-at-the-budget-hearing-in-return",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "Going back through it tonight, refusing to tie a vote to a check and 'I'll let you know' restate the first look-again, no-instructions and wait-for-committee options."
-    },
-    "240t43z5u6s": {
-      "keys": [
-        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
-      ],
-      "why": "No, reporting, nothing to say and walking away reword the first no, clerk and finished options."
     },
     "24ovhe0cpgy": {
       "keys": [
@@ -3960,20 +3092,6 @@
       ],
       "why": "\"I'll call {relative}\" repeats the first yes and \"staying here a while longer first\" repeats \"get you better first,\" so two of three rehash."
     },
-    "27co3eh1boo": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
-    },
     "27v6j0srigs": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -4000,21 +3118,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
-    "28aivmew2eq": {
-      "keys": [
-        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Refusing, keeping it, reporting it and 'take it with you' restate the first set's refuse, accept, report and go options."
-    },
     "28jparm0yyo": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -4039,21 +3142,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Two of three replies restate first options: the offer to tell all of it repeats the offer to explain, and blaming the complaint repeats the denial."
-    },
-    "29cdfnkmcz4": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.then-we-understand-each-other",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
-        "scene-talk.reply-stall.let-me-think-don-t-call-me",
-        "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-leave.i-m-done-take-it-with-you"
-      ],
-      "why": "Keeping it, reporting it and 'take it with you' are the first accept, report and pick-it-up-and-go options in new words."
     },
     "29in9v5cnix": {
       "keys": [
@@ -4119,33 +3207,6 @@
       ],
       "why": "\"Yes, signing the lease\" and \"not ready to marry\" just restate the first yes and the first no to the proposal."
     },
-    "2btuiqqy2yv": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.keep-this-between-us",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.you-know-i-have-to-report-this"
-      ],
-      "why": "'Keep this between us', 'Pick that up and go' and 'I have to report this' restate the first accept, take-back and report options."
-    },
-    "2bud6capjur": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "All four replies restate first options: the refusal, telling the clerk, not discussing it here and ending the talk."
-    },
     "2buxbtex709": {
       "keys": [
         "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
@@ -4185,20 +3246,6 @@
         "scene-talk.reply-promise.i-ll-figure-it-out-i-promise"
       ],
       "why": "Asked 'Doing what?', the replies only restate wanting to do something here in town and 'make it count, you'll see' without naming anything new."
-    },
-    "2cn54f4bycd": {
-      "keys": [
-        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
-        "scene-talk.reply-accept.all-right-leave-it-and-let-me-handle-the-rest",
-        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
-        "scene-talk.reply-leave.were-finished-here-take-your-envelope-and-go"
-      ],
-      "why": "Won't be bought, leaving it for him to handle, reporting and 'take your envelope' replay the first four options."
     },
     "2d75c6xpjqm": {
       "keys": [
@@ -4253,33 +3300,6 @@
       ],
       "why": "Three of four replies restate first options: the denial and the rumor complaint repeat the rumor dismissal, and the offer to tell it start to finish repeats the offer to explain."
     },
-    "2e289j77i6o": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
-        "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
-        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Refusing, keeping it, reporting and ending the talk are the first bribe choices again."
-    },
-    "2edkova0qdc": {
-      "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
-        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
-        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Two of three replies restate first options: the refusal repeats that the answer hasn't changed, and not discussing it here repeats not doing this here."
-    },
     "2em13eskavo": {
       "keys": [
         "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
@@ -4306,19 +3326,6 @@
         "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
       ],
       "why": "\"Let me tell you what I meant\" re-offers the first explain option and \"You're right, and I'm sorry\" re-offers the apology, two of three."
-    },
-    "2eyxd2lu58c": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
-        "scene-talk.reply-accept.fine-put-it-down-and-go",
-        "scene-talk.reply-leave.this-conversation-is-over"
-      ],
-      "why": "Holding the answer, 'put it down and go' and ending the talk repeat the first refuse, accept and go options."
     },
     "2fbjklh4e83": {
       "keys": [
@@ -4372,5 +3379,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "0q9am5yicyx"
 }

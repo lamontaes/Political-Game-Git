@@ -2,6 +2,7 @@ import { recordDraw } from "../core2/kernel/draw-recorder";
 import type { PersonFace } from "./scene";
 import {
   bustChoices,
+  bustFits,
   bustOfLook,
   bustTopColors,
   lookTop,
@@ -36,6 +37,8 @@ export interface AppearanceRow {
   readonly value: string;
   /** The tab the row sits in; absent for a row both tabs share. */
   readonly tab?: LookTab;
+  /** Everything the row offers, each a swatch or a picture. */
+  readonly options: readonly AppearanceOption[];
 }
 
 const LABELS = rules.creator;
@@ -51,11 +54,6 @@ const peopleOf = (sex: string) =>
     .sort((a, b) => a.tone - b.tone || a.id.localeCompare(b.id));
 const sexLabel = (sex: string) =>
   (LABELS.sex as Record<string, string>)[sex] ?? sentenceCase(sex);
-
-function step<T>(items: readonly T[], current: T, by: number): T {
-  const index = Math.max(0, items.indexOf(current));
-  return items[(index + by + items.length) % items.length]!;
-}
 
 /** The body row shows only where the gender does not settle the body. */
 const showsBody = (gender: string) => !PACK_SEX[gender];
@@ -83,151 +81,263 @@ function withPiece(
   return value ? { ...rest, [piece]: value } : rest;
 }
 
+/** One thing a row offers: a skin, a hairstyle, a color of cloth, each a recipe the look becomes when it is picked. */
+interface LookOption {
+  readonly id: string;
+  readonly label: string;
+  readonly recipe: LookRecipe;
+  /** The swatch's color; absent where the option is drawn as a picture or is "none". */
+  readonly color?: string;
+  /** Drawn as a picture of the person wearing it (the Nov 17 ruling: hair and facial hair as pictures). */
+  readonly picture?: "head" | "chest";
+  readonly chosen: boolean;
+}
+const NONE = "none";
+const COLORS = rules.creator.swatches as Record<string, string>;
+const colorOf = (key: string) => COLORS[key] ?? COLORS.unknown!;
+
+/** What each row offers, in the manifest's order; the rows, a pick and a step all read this one list. */
+function rowOptions(
+  recipe: LookRecipe,
+  gender: string,
+  rowId: string,
+): LookOption[] {
+  const person = bustPerson(recipe.person)!;
+  const choices = bustChoices(person);
+  const top = lookTop(recipe);
+  const make = (
+    id: string,
+    label: string,
+    next: LookRecipe,
+    chosen: boolean,
+    how: { color?: string; picture?: "head" | "chest" },
+  ): LookOption => ({ id, label, recipe: next, chosen, ...how });
+  const optional = (
+    list: typeof choices.hair,
+    piece: "face" | "tie" | "jacket",
+    current: string | undefined,
+    how: (key: string) => { color?: string; picture?: "head" | "chest" },
+  ) => [
+    make(
+      NONE,
+      LABELS.none,
+      withPiece(recipe, piece, undefined),
+      !current,
+      piece === "face" ? how(NONE) : {},
+    ),
+    ...list.map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        withPiece(recipe, piece, choice.key),
+        current === choice.key,
+        how(choice.key),
+      ),
+    ),
+  ];
+  if (rowId === "body" && showsBody(gender))
+    return sexes().map((sex) =>
+      make(
+        sex,
+        sexLabel(sex),
+        onPerson(recipe, sex, person.tone),
+        person.sex === sex,
+        { picture: "head" },
+      ),
+    );
+  if (rowId === "skin")
+    return peopleOf(person.sex).map((row) =>
+      make(
+        row.id,
+        skinLabel(row),
+        onPerson(recipe, person.sex, row.tone),
+        row.id === person.id,
+        { color: colorOf(`skin:${row.toneName}`) },
+      ),
+    );
+  if (rowId === "shape")
+    return choices.shape.map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        settled({ ...recipe, shape: choice.key }),
+        (recipe.shape ?? choices.shape[0]!.key) === choice.key,
+        { picture: "head" },
+      ),
+    );
+  if (rowId === "hair")
+    return choices.hair
+      .filter((choice) => bustFits({ ...recipe, hair: choice.key }))
+      .map((choice) =>
+        make(
+          choice.key,
+          choice.label,
+          { ...recipe, hair: choice.key },
+          recipe.hair === choice.key,
+          {
+            picture: "head",
+          },
+        ),
+      );
+  if (rowId === "hair-color")
+    return choices.hairColor
+      .filter((choice) => bustFits({ ...recipe, hairColor: choice.key }))
+      .map((choice) =>
+        make(
+          choice.key,
+          choice.label,
+          { ...recipe, hairColor: choice.key },
+          recipe.hairColor === choice.key,
+          { color: colorOf(`hair:${choice.key}`) },
+        ),
+      );
+  if (rowId === "face" && choices.face.length)
+    return optional(
+      choices.face.filter((choice) =>
+        bustFits({ ...recipe, face: choice.key }),
+      ),
+      "face",
+      recipe.face,
+      () => ({ picture: "head" }),
+    );
+  if (rowId === "top" && top && choices.top.length)
+    return choices.top.map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        {
+          ...recipe,
+          top: choice.key,
+          topColor: bustTopColors(person, choice.key)[0]!.key,
+        },
+        top.top === choice.key,
+        { picture: "chest" },
+      ),
+    );
+  if (rowId === "top-color" && top)
+    return bustTopColors(person, top.top).map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        { ...recipe, top: top.top, topColor: choice.key },
+        top.color === choice.key,
+        { color: colorOf(`top:${top.top}:${choice.key}`) },
+      ),
+    );
+  if (rowId === "shirt" && choices.shirt.length)
+    return choices.shirt.map((choice) =>
+      make(
+        choice.key,
+        choice.label,
+        { ...recipe, shirt: choice.key },
+        (recipe.shirt ?? choices.shirt[0]!.key) === choice.key,
+        { color: colorOf(`shirt:${choice.key}`) },
+      ),
+    );
+  if (rowId === "tie" && choices.tie.length)
+    return optional(choices.tie, "tie", recipe.tie, (key) => ({
+      color: colorOf(`tie:${key}`),
+    }));
+  if (rowId === "jacket" && choices.jacket.length)
+    return optional(choices.jacket, "jacket", recipe.jacket, (key) => ({
+      color: colorOf(`jacket:${key}`),
+    }));
+  throw new Error("No such appearance row.");
+}
+
+/** What a picked option looks like in its row: a swatch's color, or a picture of the person wearing it. */
+export interface AppearanceOption {
+  readonly id: string;
+  readonly label: string;
+  readonly chosen: boolean;
+  readonly color?: string;
+  readonly picture?: "head" | "chest";
+  readonly face?: PersonFace;
+}
+
 export function appearanceRows(
   recipe: LookRecipe,
   gender: string,
 ): AppearanceRow[] {
   const person = bustPerson(recipe.person)!;
   const choices = bustChoices(person);
-  const named = (list: typeof choices.hair, key: string | undefined) =>
-    list.find((choice) => choice.key === key)?.label ?? LABELS.none;
   const top = lookTop(recipe);
   const topColors = bustTopColors(person, top?.top);
+  const row = (id: string, tab?: LookTab): AppearanceRow => {
+    const options = rowOptions(recipe, gender, id);
+    const chosen = options.find((option) => option.chosen);
+    return {
+      id,
+      label: (LABELS.rows as Record<string, string>)[
+        id.replace(/-(\w)/g, (_, c: string) => c.toUpperCase())
+      ]!,
+      value: chosen?.label ?? LABELS.none,
+      ...(tab ? { tab } : {}),
+      options: options.map((option) => {
+        const face = option.picture
+          ? bustOfLook(option.recipe, "everyday")
+          : null;
+        return {
+          id: option.id,
+          label: option.label,
+          chosen: option.chosen,
+          ...(option.color ? { color: option.color } : {}),
+          ...(option.picture && face
+            ? { picture: option.picture, face: { bust: face } }
+            : {}),
+        };
+      }),
+    };
+  };
   return [
-    ...(showsBody(gender)
-      ? [{ id: "body", label: LABELS.rows.body, value: sexLabel(person.sex) }]
-      : []),
-    { id: "skin", label: LABELS.rows.skin, value: skinLabel(person) },
-    {
-      id: "hair",
-      label: LABELS.rows.hair,
-      value: named(choices.hair, recipe.hair),
-    },
-    {
-      id: "hair-color",
-      label: LABELS.rows.hairColor,
-      value: named(choices.hairColor, recipe.hairColor),
-    },
-    ...(choices.face.length
-      ? [
-          {
-            id: "face",
-            label: LABELS.rows.face,
-            value: named(choices.face, recipe.face),
-          },
-        ]
-      : []),
+    ...(showsBody(gender) ? [row("body")] : []),
+    row("skin"),
+    ...(choices.shape.length > 1 ? [row("shape")] : []),
+    row("hair"),
+    row("hair-color"),
+    ...(choices.face.length ? [row("face")] : []),
     // The everyday top and its color, where the bank paints tops.
     ...(top
       ? [
-          {
-            id: "top",
-            label: LABELS.rows.top,
-            value: named(choices.top, top.top),
-            tab: "everyday" as const,
-          },
-          ...(topColors.length > 1
-            ? [
-                {
-                  id: "top-color",
-                  label: LABELS.rows.topColor,
-                  value: named(topColors, top.color),
-                  tab: "everyday" as const,
-                },
-              ]
-            : []),
+          row("top", "everyday"),
+          ...(topColors.length > 1 ? [row("top-color", "everyday")] : []),
         ]
       : []),
     // The clothes they dress up in, each row only where the bank paints the piece.
-    ...(choices.shirt.length
-      ? [
-          {
-            id: "shirt",
-            label: LABELS.rows.shirt,
-            value: named(choices.shirt, recipe.shirt),
-            tab: "formal" as const,
-          },
-        ]
-      : []),
-    ...(choices.tie.length
-      ? [
-          {
-            id: "tie",
-            label: LABELS.rows.tie,
-            value: named(choices.tie, recipe.tie),
-            tab: "formal" as const,
-          },
-        ]
-      : []),
-    ...(choices.jacket.length
-      ? [
-          {
-            id: "jacket",
-            label: LABELS.rows.jacket,
-            value: named(choices.jacket, recipe.jacket),
-            tab: "formal" as const,
-          },
-        ]
-      : []),
+    ...(choices.shirt.length ? [row("shirt", "formal")] : []),
+    ...(choices.tie.length ? [row("tie", "formal")] : []),
+    ...(choices.jacket.length ? [row("jacket", "formal")] : []),
   ];
 }
 
+/** The look with one option picked by its id in its row. */
+export function pickAppearance(
+  recipe: LookRecipe,
+  gender: string,
+  rowId: string,
+  optionId: string,
+): LookRecipe {
+  const option = rowOptions(recipe, gender, rowId).find(
+    (candidate) => candidate.id === optionId,
+  );
+  if (!option) throw new Error("No such appearance choice.");
+  return option.recipe;
+}
+
+/** The look with a row stepped to its next or previous option. */
 export function moveAppearance(
   recipe: LookRecipe,
   gender: string,
   rowId: string,
   by: number,
 ): LookRecipe {
-  const turn = by < 0 ? -1 : 1;
-  const person = bustPerson(recipe.person)!;
-  const choices = bustChoices(person);
-  const keys = (list: typeof choices.hair) => list.map((choice) => choice.key);
-  if (rowId === "body" && showsBody(gender))
-    return onPerson(recipe, step(sexes(), person.sex, turn), person.tone);
-  if (rowId === "skin") {
-    const tones = peopleOf(person.sex).map((row) => row.tone);
-    return onPerson(recipe, person.sex, step(tones, person.tone, turn));
-  }
-  if (rowId === "hair")
-    return { ...recipe, hair: step(keys(choices.hair), recipe.hair, turn) };
-  if (rowId === "hair-color")
-    return {
-      ...recipe,
-      hairColor: step(keys(choices.hairColor), recipe.hairColor, turn),
-    };
-  if (rowId === "face" && choices.face.length)
-    return withPiece(recipe, "face", step(facesOf(person), recipe.face, turn));
-  const top = lookTop(recipe);
-  if (rowId === "top" && top && choices.top.length) {
-    const next = step(keys(choices.top), top.top, turn);
-    return {
-      ...recipe,
-      top: next,
-      topColor: keys(bustTopColors(person, next))[0]!,
-    };
-  }
-  if (rowId === "top-color" && top) {
-    const colors = keys(bustTopColors(person, top.top));
-    return { ...recipe, top: top.top, topColor: step(colors, top.color, turn) };
-  }
-  if (rowId === "shirt" && choices.shirt.length)
-    return {
-      ...recipe,
-      shirt: step(keys(choices.shirt), recipe.shirt ?? "", turn),
-    };
-  if (rowId === "tie" && choices.tie.length)
-    return withPiece(
-      recipe,
-      "tie",
-      step(orNone(person, "tie"), recipe.tie, turn),
-    );
-  if (rowId === "jacket" && choices.jacket.length)
-    return withPiece(
-      recipe,
-      "jacket",
-      step(orNone(person, "jacket"), recipe.jacket, turn),
-    );
-  throw new Error("No such appearance row.");
+  const options = rowOptions(recipe, gender, rowId);
+  const at = Math.max(
+    0,
+    options.findIndex((option) => option.chosen),
+  );
+  return options[(at + (by < 0 ? -1 : 1) + options.length) % options.length]!
+    .recipe;
 }
 
 /** The look moved onto another of the bank's people, keeping the hair and facial hair that person's set paints. */
@@ -251,31 +361,58 @@ export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
   return onPerson(recipe, sex, person.tone);
 }
 
+/** The look, or the nearest one whose head, hair and facial hair the art checks do not flag. */
+function fitted(
+  look: LookRecipe,
+  choices: ReturnType<typeof bustChoices>,
+): LookRecipe {
+  if (bustFits(look)) return look;
+  const bare = (row: LookRecipe) => withPiece(row, "face", undefined);
+  const candidates = [
+    look,
+    bare(look),
+    ...choices.hair.flatMap((hair) =>
+      choices.hairColor.flatMap((color) =>
+        [look, bare(look)].map((row) => ({
+          ...row,
+          hair: hair.key,
+          hairColor: color.key,
+        })),
+      ),
+    ),
+  ];
+  return candidates.find(bustFits) ?? look;
+}
+
 /** A look the bank paints: a hairstyle, a hair color or a shirt the person's set lacks falls back to its first; facial hair, a tie or a jacket it lacks, to none; a top it lacks, to the game's own pick. */
 function settled(recipe: Partial<LookRecipe> & { person: string }): LookRecipe {
   const person = bustPerson(recipe.person)!;
   const choices = bustChoices(person);
   const has = (list: typeof choices.hair, key: string | undefined) =>
     list.find((choice) => choice.key === key)?.key;
+  const shape = has(choices.shape, recipe.shape);
   const face = has(choices.face, recipe.face);
   const shirt = has(choices.shirt, recipe.shirt) ?? choices.shirt[0]?.key;
   const tie = has(choices.tie, recipe.tie);
   const jacket = has(choices.jacket, recipe.jacket);
-  // The everyday top: the one named, else the game's own pick for this look, so it stays put as the other rows move.
-  const top = lookTop({
+  const asked: LookRecipe = {
     person: person.id,
-    hair: has(choices.hair, recipe.hair) ?? choices.hair[0]!.key,
-    hairColor:
-      has(choices.hairColor, recipe.hairColor) ?? choices.hairColor[0]!.key,
-    ...(recipe.top ? { top: recipe.top } : {}),
-    ...(recipe.topColor ? { topColor: recipe.topColor } : {}),
-  });
-  return {
-    person: person.id,
+    ...(shape && shape !== choices.shape[0]!.key ? { shape } : {}),
     hair: has(choices.hair, recipe.hair) ?? choices.hair[0]!.key,
     hairColor:
       has(choices.hairColor, recipe.hairColor) ?? choices.hairColor[0]!.key,
     ...(face ? { face } : {}),
+  };
+  // A head, hair and facial hair the art checks flag together become the nearest that fit: the facial hair goes first, then another hairstyle or color.
+  const fits = fitted(asked, choices);
+  // The everyday top: the one named, else the game's own pick for this look, so it stays put as the other rows move.
+  const top = lookTop({
+    ...fits,
+    ...(recipe.top ? { top: recipe.top } : {}),
+    ...(recipe.topColor ? { topColor: recipe.topColor } : {}),
+  });
+  return {
+    ...fits,
     ...(shirt ? { shirt } : {}),
     ...(tie ? { tie } : {}),
     ...(jacket ? { jacket } : {}),
@@ -305,6 +442,7 @@ export function drawnAppearance(
   const sex = PACK_SEX[gender] ?? pick(sexes(), "body");
   const person = pick(peopleOf(sex), "skin");
   const choices = bustChoices(person);
+  const shape = pick(choices.shape, "shape").key;
   const face = pick(facesOf(person), "face");
   const tie = pick(orNone(person, "tie"), "tie");
   const jacket = pick(orNone(person, "jacket"), "jacket");
@@ -312,6 +450,7 @@ export function drawnAppearance(
   const topColors = bustTopColors(person, top);
   return settled({
     person: person.id,
+    shape,
     hair: pick(choices.hair, "hair").key,
     hairColor: pick(choices.hairColor, "hair-color").key,
     ...(face ? { face } : {}),
@@ -331,6 +470,7 @@ export function readRecipe(text: string): LookRecipe {
   if (!bustPerson(String(input.person ?? ""))) throw new Error("No such look.");
   return settled({
     person: String(input.person),
+    ...(input.shape ? { shape: String(input.shape) } : {}),
     ...(input.hair ? { hair: String(input.hair) } : {}),
     ...(input.hairColor ? { hairColor: String(input.hairColor) } : {}),
     ...(input.face ? { face: String(input.face) } : {}),
@@ -365,34 +505,22 @@ export function lookFaces(
 
 /**
  * The busts on New game (the approved front mock, fr-new): someone starting
- * out, in everyday clothes, and three who hold office, each a different one
- * of the bank's people. No world exists yet, so they are the bank's own
- * people in its order, the same every visit: who is pictured, never a choice
- * anyone makes.
+ * out, in everyday clothes, and three who hold office, each drawn from the
+ * bank's people by the visit's seed (owner, Nov 17: "the New game screen shows
+ * new people each time"). No world exists yet, so these are only who is
+ * pictured, never a choice anyone makes. They are the Random button's own draw
+ * (`drawnAppearance`), so no new pick exists.
  */
-export function newGameFaces(): {
+export function newGameFaces(seed: string): {
   start: PersonFace | null;
   advanced: PersonFace[];
 } {
-  const kinds = sexes();
   const pictured = (n: number, dress: "everyday" | "official") => {
-    const people = peopleOf(kinds[n % kinds.length]!);
-    const person = people[n % people.length]!;
-    const choices = bustChoices(person);
-    const face = facesOf(person)[n % facesOf(person).length];
-    const bust = bustOfLook(
-      {
-        person: person.id,
-        hair: choices.hair[n % choices.hair.length]!.key,
-        hairColor: choices.hairColor[n % choices.hairColor.length]!.key,
-        ...(face ? { face } : {}),
-      },
-      dress,
-    );
+    const bust = bustOfLook(drawnAppearance("", seed, n), dress);
     return bust ? { bust } : null;
   };
   return {
-    start: pictured(3, "everyday"),
-    advanced: [0, 1, 2].flatMap((n) => pictured(n, "official") ?? []),
+    start: pictured(0, "everyday"),
+    advanced: [1, 2, 3].flatMap((n) => pictured(n, "official") ?? []),
   };
 }
