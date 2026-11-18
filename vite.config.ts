@@ -111,7 +111,15 @@ export default defineConfig({
       // tests-campaign-platform-played-calibration-is-slow).
       ...(process.env.OCD_CALIBRATION
         ? []
-        : ["src/core2/campaign-platform-played.test.ts"]),
+        : [
+            "src/core2/campaign-platform-played.test.ts",
+            // The rival's own campaign turn in a race's last four weeks plays
+            // about 240 days of a world a draw (CTO, Nov 17, 21:53Z).
+            "src/core2/record-rival-turn.test.ts",
+            // Washington, D.C.'s three counted-moves worlds take 734 to 1,555
+            // seconds each.
+            "src/core2/counted-moves-balance-dc.test.ts",
+          ]),
     ],
   },
 });

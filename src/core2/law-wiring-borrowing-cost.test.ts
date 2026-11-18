@@ -16,7 +16,6 @@ import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import {
-  stateDebtRate,
   treasuryMonthsOf,
   treasuryParameter,
   type TreasuryMonthRow,
@@ -115,7 +114,17 @@ describe("a state's fiscal laws reach its bondholders", () => {
           advanceCore(control, until);
           const withLaw = stateMonths(api)!;
           const without = stateMonths(coreAPI(control))!;
-          const rate = stateDebtRate(chain.stateKey);
+          // The world's own long yield in the last month macro had closed on
+          // the day the treasury ran (a percent; the rate is its hundredth).
+          const yields = [
+            ...(api.moduleState("macro").table("months").rows() as unknown as {
+              month: string;
+              treasury10Pct: number;
+            }[]),
+          ].sort((a, b) => a.month.localeCompare(b.month));
+          const rateOn = (date: string) =>
+            yields.filter((y) => y.month < date.slice(0, 7)).pop()!
+              .treasury10Pct / 100;
           const unit = treasuryParameter("basisPointsPerUnit");
           const byDate = new Map(without.months.map((m) => [m.date, m]));
           const checked: {
@@ -144,8 +153,10 @@ describe("a state's fiscal laws reach its bondholders", () => {
             const arrears = prior?.lines.interest?.shortMinor ?? 0;
             // The interest owed is the twelfth at the cost the web keeps.
             expect(line.dueMinor, month.id).toBe(
-              Math.round(planned * Math.max(0, 1 + web.added / unit / rate)) +
-                arrears,
+              Math.round(
+                planned *
+                  Math.max(0, 1 + web.added / unit / rateOn(month.date)),
+              ) + arrears,
             );
             checked.push({
               month,
@@ -175,7 +186,7 @@ describe("a state's fiscal laws reach its bondholders", () => {
             first.month.id,
           ).toBe(inForce ? 1 : -1);
           process.stdout.write(
-            `BORROWING ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} (${inForce ? "repealed" : "enacted"}); ${checked.length} closes in moved months; ${first.month.id}: borrowing cost ${first.added > 0 ? "+" : ""}${first.added.toFixed(1)} basis points against the control (${first.recordId}), state rate ${(rate * 100).toFixed(2)}%, interest owed ${first.month.lines.interest!.dueMinor} against ${first.other.lines.interest!.dueMinor} in the control world, bondholders paid in ${bonds(first.month) ?? "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
+            `BORROWING ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} (${inForce ? "repealed" : "enacted"}); ${checked.length} closes in moved months; ${first.month.id}: borrowing cost ${first.added > 0 ? "+" : ""}${first.added.toFixed(1)} basis points against the control (${first.recordId}), state rate ${(rateOn(first.month.date) * 100).toFixed(2)}%, interest owed ${first.month.lines.interest!.dueMinor} against ${first.other.lines.interest!.dueMinor} in the control world, bondholders paid in ${bonds(first.month) ?? "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }

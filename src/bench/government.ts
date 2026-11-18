@@ -27,6 +27,7 @@ import { LAW_SERIES } from "../core2/laws-in-force";
 import {
   announceCandidacy,
   atLargeGroup,
+  campaigning,
   checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -37,7 +38,6 @@ import {
   notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
-  standing,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -534,12 +534,16 @@ export function localRaces(core: CoreState) {
               .table("filings")
               .query("byContest", [seat.id]) as unknown as FilingRow[],
         )
-        .filter(standing)
+        // Everyone running: filed, and announced while the window is ahead
+        // (owner, Nov 17: "other people should be able to announce").
+        .filter(campaigning)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
           return {
             filingId: row.id,
             personId: row.personId,
+            // Said they are running; files when the window opens.
+            announced: row.status === "announced",
             // The id a click opens and their face: a resident by their
             // person, a named official by their term (holderFace's rule).
             ...holderFace(
