@@ -132,8 +132,10 @@ describe("M2-01 offices and seats, every level", () => {
       const where = `${placeKey}, seed ${seed}`;
       const core = world(placeKey);
       const seats = townSeats(coreAPI(core));
-      const covering = (kind: string) =>
-        seats.filter((s) => s.office.kind === kind && s.seat.district !== null);
+      const covering = (...kinds: string[]) =>
+        seats.filter(
+          (s) => kinds.includes(s.office.kind) && s.seat.district !== null,
+        );
       const house = covering("us-house");
       expect(house.length, `${where}: no U.S. House seat covers the town`).toBe(
         1,
@@ -142,20 +144,23 @@ describe("M2-01 offices and seats, every level", () => {
         house[0]!.holder,
         `${where}: the House seat has no holder`,
       ).not.toBeNull();
+      // A state with one chamber keeps it under the upper chamber's key
+      // (`offices-state.ts`: unicameral reads "state-upper"), as a
+      // unicameral legislature's seat.
       const chambers = [
-        ["state-upper", "legislature-upper"],
-        ["state-lower", "legislature-lower"],
+        ["state-upper", ["legislature-upper", "legislature-unicameral"]],
+        ["state-lower", ["legislature-lower"]],
       ] as const;
-      for (const [chamber, kind] of chambers) {
+      for (const [chamber, kinds] of chambers) {
         // Only a chamber the state elects by district has a district to estimate.
         if (!known[`${placeKey}:${chamber}`]) continue;
         expect(
-          covering(kind).length,
-          `${where}: no ${kind} seat covers the town`,
+          covering(...kinds).length,
+          `${where}: no ${kinds.join(" or ")} seat covers the town`,
         ).toBeGreaterThan(0);
       }
       read.push(
-        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${covering(k)[0]?.seat.id}` : "")).join("")}`,
+        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${covering(...k)[0]?.seat.id}` : "")).join("")}`,
       );
     }
     govReport("offices-estimated-districts", JSON.stringify({ seed, read }));
