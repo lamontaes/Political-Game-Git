@@ -24,6 +24,9 @@ const YEAR_DAYS = 365;
 
 /** Newcomers from outside the country: no state's leavers, so no pull between states. */
 const fromAbroad = (row: MoveRecord) => row.fromPlace === "abroad";
+/** A move an institution's own calendar or waiting list makes (admitToRooms), not a household's. */
+const institutional = (row: MoveRecord) =>
+  row.direction === "discharged" || row.fromPlace === "waiting-list";
 const inState = (row: MoveRecord) =>
   row.fromPlace.endsWith(":rest-of-state") ||
   row.toPlace.endsWith(":rest-of-state");
@@ -43,17 +46,21 @@ it("every counted move in a played year, within the state or across states, reco
       advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
       setBookkeeping(true);
       const moves = countedMoves(coreAPI(core));
-      const within = moves.filter(
-        (row) => row.direction !== "discharged" && inState(row),
+      const households = moves.filter((row) => !institutional(row));
+      const within = households.filter(inState);
+      const across = households.filter(
+        (row) => !inState(row) && !fromAbroad(row),
       );
-      const across = moves.filter((row) => !inState(row) && !fromAbroad(row));
       for (const row of moves) {
-        // An institution letting a resident go on its own calendar
-        // (admitToRooms) is not a household weighing a move: its cause is
-        // the institution's calendar, never a rate of leaving.
-        if (row.direction === "discharged") {
+        // An institution letting a resident go on its own calendar, or
+        // filling a room from its waiting list (admitToRooms), is not a
+        // household weighing a move: its cause is the institution's own,
+        // never a rate of leaving, and one with no cause fails.
+        if (institutional(row)) {
           expect(
-            row.reasons["the institution's calendar"],
+            row.direction === "discharged"
+              ? row.reasons["the institution's calendar"]
+              : row.reasons["the institution's waiting list"],
             `${where}: ${row.id}`,
           ).toBeGreaterThan(0);
           continue;
