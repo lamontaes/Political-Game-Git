@@ -104,6 +104,24 @@ const banks = readdirSync(PARTS_DIR)
     bank: JSON.parse(readFileSync(path.join(PARTS_DIR, name), "utf8")) as Bank,
   }));
 
+/**
+ * The banks the cut of Nov 17 emptied (owner: delete every line written before
+ * Nov 15; CTO, Nov 18 18:27Z on #9750: a named list that only shrinks). Their
+ * files and readers stay, and the screens show the records through labels.
+ */
+const CUT_BANKS = new Set<string>([
+  "bill-paper.json",
+  "bring-it-up.json",
+  "calendar.json",
+  "campaign-standing.json",
+  "choice-names.json",
+  "meeting.json",
+  "newscast.json",
+  "notice.json",
+  "person-history.json",
+  "speech-stages.json",
+]);
+
 describe("English part banks", () => {
   it("has at least one bank", () => {
     expect(banks.length).toBeGreaterThan(0);
@@ -171,7 +189,14 @@ describe("English part banks", () => {
         expect(bank.schema).toBe("english-parts/1");
         expect(`${bank.register}.json`).toBe(name);
         expect(bank.maxWords).toBeGreaterThan(0);
-        expect(bank.parts.length).toBeGreaterThan(0);
+        // A bank the cut of Nov 17 emptied waits empty for its new lines and
+        // leaves CUT_BANKS the moment one returns; no other bank may be empty.
+        if (CUT_BANKS.has(name))
+          expect(
+            bank.parts,
+            `${name} has lines again: take it off CUT_BANKS`,
+          ).toEqual([]);
+        else expect(bank.parts.length).toBeGreaterThan(0);
         const keys = bank.parts.map((part) => part.key);
         expect(new Set(keys).size).toBe(keys.length);
         const texts = bank.parts.map((part) => part.text.toLowerCase());

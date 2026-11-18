@@ -2870,46 +2870,28 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-opener.hello-yes",
-      "move": "greet-opener",
-      "kind": "spoken",
-      "text": "Hello, yes?",
-      "uses": [
-        {
-          "subject": "greet",
-          "role": "opener",
-          "requiresFacts": ["by-phone"],
-          "move": "greet-opener"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.greet-opener.yeah-hello",
-      "move": "greet-opener",
-      "kind": "spoken",
-      "text": "Yeah, hello?",
-      "uses": [
-        {
-          "subject": "greet",
-          "role": "opener",
-          "requiresFacts": ["by-phone"],
-          "move": "greet-opener"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.greet-opener.hello",
       "move": "greet-opener",
       "kind": "spoken",
       "text": "Hello?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"],
+          "move": "greet-opener"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-opener.yes-hello",
+      "move": "greet-opener",
+      "kind": "spoken",
+      "text": "Yes, hello?",
       "uses": [
         {
           "subject": "greet",
