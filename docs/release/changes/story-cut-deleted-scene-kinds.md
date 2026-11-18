@@ -1,7 +1,7 @@
 ---
 id: story-cut-deleted-scene-kinds
-impact: none
-section: Changed
+impact: patch
+section: Removed
 title: Tests and scripts no longer name the lines and scene kinds the owner had deleted.
 ---
 
