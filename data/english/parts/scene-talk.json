@@ -26545,6 +26545,5058 @@
         "move": "press",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-up-and-there-is-a-cake-on-the-counter-that-nobody-is-allow",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting up, and there is a cake on the counter that nobody is allowed to cut yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-cap-and-gown-are-still-over-the-chair-and-name-keeps-glancing-at-them",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The cap and gown are still over the chair, and {name} keeps glancing at them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-propped-the-diploma-against-the-fruit-bowl-so-it-is-the-first-thing-any",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has propped the diploma against the fruit bowl, so it is the first thing anyone sees in the kitchen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-house-is-quiet-until-name-comes-into-the-kitchen-still-holding-the-program-f",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The house is quiet until {name} comes into the kitchen, still holding the program from the ceremony.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-sit-with-me-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}. Sit with me a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-you-re-up-first-i-ve-been-waiting-to-say-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good, you're up, {first}. I've been waiting to say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-come-here-and-let-me-look-at-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. Come here and let me look at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.i-m-proud-of-you-nobody-in-place-can-take-that-diploma-away-and-i-wanted-you-to",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "I'm proud of you. Nobody in {place} can take that diploma away, and I wanted you to hear me say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-did-it-after-everything-it-took-to-get-here-i-m-so-proud-i-can-hardly-talk-f",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You did it. After everything it took to get here, I'm so proud I can hardly talk, {first}. Thank you for not giving up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.congratulations-this-house-has-been-waiting-for-this-and-so-has-everyone-who-wat",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations. This house has been waiting for this, and so has everyone who watched you grow up around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.i-watched-you-walk-across-that-stage-and-i-had-to-hold-on-to-my-seat-please-let",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "I watched you walk across that stage, and I had to hold on to my seat. Please let me say how proud I am, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.it-s-done-first-i-m-sorry-i-got-so-teary-at-the-ceremony-i-m-just-so-happy-for-y",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "It's done, {first}. I'm sorry I got so teary at the ceremony. I'm just so happy for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "congratulate",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-name-i-wouldn-t-have-made-it-without-you-there",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, {name}. I wouldn't have made it without you there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-being-there-name-it-meant-a-lot-to-look-out-and-see-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for being there, {name}. It meant a lot to look out and see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-means-more-than-i-can-say-name-thank-you-for-everything",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That means more than I can say, {name}. Thank you for everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-all-of-it-name-i-couldn-t-have-done-it-without-the-whole-house-beh",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for all of it, {name}. I couldn't have done it without the whole house behind me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-going-to-make-this-count-name-i-ll-find-work-or-a-program-and-not-let-this-s",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to make this count, {name}. I'll find work or a program and not let this sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-won-t-let-it-go-to-waste-i-ll-decide-what-s-next-and-tell-you-straight-name",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I won't let it go to waste. I'll decide what's next and tell you straight, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-going-to-do-something-with-it-you-ll-see-name",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to do something with it. You'll see, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-i-ll-use-this-maybe-somewhere-around-place-maybe-not-but-i-ll-use-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise I'll use this. Maybe somewhere around {place}, maybe not, but I'll use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.i-told-you-i-d-do-it-name-not-everyone-gets-this-far-and-i-did",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I told you I'd do it, {name}. Not everyone gets this far, and I did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.now-i-get-to-say-i-finished-and-i-earned-it-name",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Now I get to say I finished, and I earned it, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.that-s-one-thing-done-and-i-m-just-getting-started-watch-what-i-do-next-name",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "That's one thing done, and I'm just getting started. Watch what I do next, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.i-walked-out-of-there-like-i-owned-the-place-i-felt-ten-feet-tall-around-place",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I walked out of there like I owned the place. I felt ten feet tall around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "boast",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.standing-up-there-i-looked-for-you-in-the-crowd-name-and-i-found-you-right-away",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Standing up there, I looked for you in the crowd, {name}, and I found you right away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-felt-strange-when-they-handed-it-over-name-happy-and-a-little-afraid-of-what-s",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I felt strange when they handed it over, {name}. Happy, and a little afraid of what's next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-still-can-t-believe-it-s-real-name-i-keep-reading-my-name-on-the-paper",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I still can't believe it's real, {name}. I keep reading my name on the paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.a-lot-of-the-people-from-place-were-up-there-with-me-and-i-realized-i-may-not-se",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "A lot of the people from {place} were up there with me, and I realized I may not see most of them again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-name-i-shouldn-t-have-said-it-like-that-i-know-you-did-your-part",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {name}. I shouldn't have said it like that. I know you did your part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-and-i-m-sorry-i-was-proud-and-it-came-out-wrong-name",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right, and I'm sorry. I was proud and it came out wrong, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-name-i-got-carried-away-with-myself-and-i-forgot-who-got-me-there",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, {name}. I got carried away with myself, and I forgot who got me there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.work-i-think-maybe-training-too-i-haven-t-decided-name-but-i-ll-decide-soon",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Work, I think. Maybe training too. I haven't decided, {name}, but I'll decide soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-thinking-about-a-few-things-around-place-a-job-first-then-school-if-i-can-af",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm thinking about a few things around {place}: a job first, then school if I can afford it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.honestly-i-don-t-know-yet-i-want-to-take-a-little-time-and-figure-out-a-plan-nam",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Honestly, I don't know yet. I want to take a little time and figure out a plan, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-worn-out-name-can-we-talk-about-it-after-i-ve-slept",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm worn out, {name}. Can we talk about it after I've slept?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while-i-ll-be-fine-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go lie down for a while. I'll be fine, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-time-to-myself-with-this-i-ll-come-find-you-when-i-m-ready-to-talk-a",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some time to myself with this. I'll come find you when I'm ready to talk about what's next, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.whatever-you-choose-i-ll-be-behind-you-first-thank-you-for-letting-me-share-this",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Whatever you choose, I'll be behind you, {first}. Thank you for letting me share this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-help-however-i-can-rides-a-quiet-room-a-good-word-around-place-just-say-wha",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll help however I can: rides, a quiet room, a good word around {place}. Just say what you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-promise-you-won-t-carry-this-alone-i-m-sorry-i-wasn-t-always-easy-on-you-first",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I promise you won't carry this alone. I'm sorry I wasn't always easy on you, {first}. I want to be now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-needed-to-hear-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I needed to hear that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-saying-that-it-means-a-lot-to-me-and-to-everyone-in-place-who-stoo",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for saying that. It means a lot to me, and to everyone in {place} who stood by you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-kind-of-you-and-thank-you-first-i-ll-hold-on-to-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's kind of you, and thank you, {first}. I'll hold on to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.good-but-have-you-thought-about-what-you-ll-do-next-first-please-tell-me-somethi",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Good. But have you thought about what you'll do next, {first}? Please tell me something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-lovely-thing-to-say-but-what-s-the-plan-for-after-this-with-the-bills-a",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a lovely thing to say. But what's the plan for after this, with the bills and the rest of life in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-believe-you-please-tell-me-what-comes-first-first-so-i-know-how-to-help",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you. Please tell me what comes first, {first}, so I know how to help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.easy-now-first-you-didn-t-do-this-alone-and-i-d-like-to-hear-you-say-so-please",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Easy now, {first}. You didn't do this alone, and I'd like to hear you say so, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.there-s-no-need-to-put-anyone-down-to-feel-good-please-remember-who-stood-up-for",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "There's no need to put anyone down to feel good. Please remember who stood up for you around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.careful-first-pride-is-fine-but-please-remember-who-helped-you-get-here",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Careful, {first}. Pride is fine, but please remember who helped you get here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-you-want-to-do-next-please-tell-me-what-you-re-thinking-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do you want to do next? Please tell me what you're thinking, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.have-you-thought-about-what-comes-next-for-you-around-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Have you thought about what comes next for you around {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.so-what-s-the-plan-now-that-it-s-done-please-say-it-out-loud-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "So what's the plan now that it's done? Please, say it out loud, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-sitting-with-me-first-i-ll-remember-this-for-a-long-time",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for sitting with me, {first}. I'll remember this for a long time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-letting-me-say-it-first-go-enjoy-yourself",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for letting me say it, {first}. Go enjoy yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-talking-to-me-first-now-go-celebrate-you-earned-it-around-place-an",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for talking to me, {first}. Now go celebrate. You earned it, around {place} and in this house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-sit-down-this-week-and-work-out-what-s-next-i-promise-thank-you-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll sit down this week and work out what's next, I promise. Thank you, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-make-your-favorite-supper-to-mark-it-and-we-ll-talk-about-the-rest-then-fir",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll make your favorite supper to mark it, and we'll talk about the rest then, {first}. Please don't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-a-place-at-the-table-and-a-hand-free-for-whatever-comes-next-around-pl",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep a place at the table and a hand free for whatever comes next around {place}. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-leave-it-there-for-now-first-sorry-if-i-asked-too-much",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll leave it there for now, {first}. Sorry if I asked too much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-rest-and-we-ll-talk-when-you-re-ready-first-sorry-for-pushing",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. Rest, and we'll talk when you're ready, {first}. Sorry for pushing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-fine-it-s-your-milestone-and-i-won-t-push-you-around-place-or-at-home",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's fine. It's your milestone, and I won't push you around {place} or at home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.just-don-t-let-it-drift-first-please-the-next-step-won-t-wait-for-you-forever",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Just don't let it drift, {first}. Please. The next step won't wait for you forever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-don-t-put-it-off-too-long-first-things-like-this-get-away-from-people",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please don't put it off too long, {first}. Things like this get away from people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.be-careful-that-this-doesn-t-turn-into-nothing-around-place-please-promise-me-yo",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Be careful that this doesn't turn into nothing around {place}. Please promise me you'll decide soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-please-let-me-know-by-the-end-of-the-week-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and please let me know by the end of the week, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-won-t-push-but-i-do-want-to-hear-a-plan-soon-please-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I won't push, but I do want to hear a plan soon, please, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-give-me-something-to-hold-onto-even-a-small-plan-so-i-can-stop-worrying-a",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please give me something to hold onto, even a small plan, so I can stop worrying about it around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-sitting-at-the-kitchen-table-with-two-cups-out-and-the-radio-turned-off",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is sitting at the kitchen table with two cups out and the radio turned off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-for-you-to-come-home-and-has-put-the-kettle-on-without-ask",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting for you to come home, and has put the kettle on without asking anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-envelope-from-the-school-is-still-on-the-counter-and-name-has-not-opened-any",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The envelope from the school is still on the counter, and {name} has not opened anything else in the house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turns-the-radio-off-when-you-come-in-which-is-how-the-house-signals-a-serio",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} turns the radio off when you come in, which is how the house signals a serious talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-sit-down-with-me-first-i-made-something-to-eat",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come sit down with me, {first}. I made something to eat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-re-home-first-sit-with-me-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you're home, {first}. Sit with me a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-come-on-in-i-m-not-angry",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. Come on in. I'm not angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-heard-about-the-school-it-isn-t-the-end-of-anything-first-and-i-m-sorry-you-re",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I heard about the school. It isn't the end of anything, {first}, and I'm sorry you're carrying it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-want-you-to-know-that-i-m-not-mad-lots-of-people-around-place-have-had-to-come",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I want you to know that I'm not mad. Lots of people around {place} have had to come back and finish, and they did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.whatever-happened-we-ll-figure-it-out-together-i-m-sorry-i-wasn-t-there-to-help",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Whatever happened, we'll figure it out together. I'm sorry I wasn't there to help sooner, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.please-don-t-hide-from-me-about-this-first-tell-me-what-happened-and-then-we-ll",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Please don't hide from me about this, {first}. Tell me what happened, and then we'll talk about what's next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-know-it-hurts-and-i-m-sorry-i-m-here-and-i-ll-listen-for-as-long-as-you-need-f",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I know it hurts, and I'm sorry. I'm here, and I'll listen for as long as you need, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didn-t-pass-name-i-missed-too-much-and-i-couldn-t-make-it-up-in-time",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't pass, {name}. I missed too much, and I couldn't make it up in time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-was-math-mostly-i-tried-name-but-i-fell-behind-and-never-caught-up",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It was math, mostly. I tried, {name}, but I fell behind and never caught up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-thought-i-d-be-okay-at-the-end-and-i-wasn-t-i-should-have-told-you-sooner-name",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I thought I'd be okay at the end, and I wasn't. I should have told you sooner, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.a-lot-of-kids-in-place-did-fine-and-i-didn-t-i-feel-like-i-let-everybody-down",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "A lot of kids in {place} did fine, and I didn't. I feel like I let everybody down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-finish-it-name-i-ll-find-out-what-i-have-to-do-and-i-ll-do-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll finish it, {name}. I'll find out what I have to do and I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-going-to-take-it-again-i-promise-i-won-t-let-this-be-the-end-name",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm going to take it again, I promise. I won't let this be the end, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-go-back-and-ask-them-what-a-second-try-looks-like-around-place-i-ll-tell-yo",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll go back and ask them what a second try looks like around {place}. I'll tell you what they say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-work-and-study-both-until-it-s-done-name-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll work and study both until it's done, {name}. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-name-i-know-you-were-counting-on-me-and-i-let-you-down",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {name}. I know you were counting on me, and I let you down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-so-sorry-i-should-have-asked-for-help-before-it-was-too-late-name",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm so sorry. I should have asked for help before it was too late, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-name-i-didn-t-want-to-say-it-out-loud-because-then-it-would-be-real",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, {name}. I didn't want to say it out loud, because then it would be real.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-want-to-talk-about-it-yet-name-it-s-too-raw",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't want to talk about it yet, {name}. It's too raw.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.please-don-t-ask-me-about-it-right-now-i-need-some-time-first-name",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Please don't ask me about it right now. I need some time first, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-go-through-it-again-let-me-be-and-i-ll-tell-you-when-i-m-ready-name",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't go through it again. Let me be, and I'll tell you when I'm ready, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-think-i-need-another-semester-maybe-night-classes-name-i-ll-find-out-what-s-of",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I think I need another semester, maybe night classes, {name}. I'll find out what's offered around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.the-school-said-i-can-retake-what-i-missed-i-just-have-to-sign-up-name",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The school said I can retake what I missed. I just have to sign up, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-was-behind-in-two-classes-and-i-stopped-going-that-s-the-whole-story-name",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I was behind in two classes, and I stopped going. That's the whole story, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-not-yelling-name-i-thought-you-d-be-angry",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for not yelling, {name}. I thought you'd be angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-sitting-with-me-it-helps-more-than-you-know-name",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for sitting with me. It helps more than you know, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-didn-t-think-anyone-around-place-would-still-believe-in-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I didn't think anyone around {place} would still believe in me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-to-my-room-name-i-ll-come-out-when-i-m-ready",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go to my room, {name}. I'll come out when I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-talk-anymore-name-i-ll-see-you-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk anymore, {name}. I'll see you later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-be-alone-with-this-i-ll-be-fine-name-i-just-need-a-little-room",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to be alone with this. I'll be fine, {name}, I just need a little room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-happened-please-tell-me-whatever-you-can-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What happened? Please, tell me whatever you can, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-does-the-school-say-you-can-do-now-first-please-tell-me-what-you-ve-heard",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What does the school say you can do now, {first}? Please tell me what you've heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-you-want-to-do-about-it-i-ll-help-with-whichever-way-you-choose-around-p",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do you want to do about it? I'll help with whichever way you choose around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-s-alright-plenty-of-people-finish-later-and-i-ll-help-you-do-it-first-please",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It's alright. Plenty of people finish later, and I'll help you do it, {first}. Please believe that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-re-not-the-first-and-you-won-t-be-the-last-we-ll-sort-it-out-and-i-m-sorry-y",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You're not the first, and you won't be the last. We'll sort it out, and I'm sorry you've been scared to tell me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.come-here-it-isn-t-the-end-of-the-world-and-it-isn-t-the-end-of-you-in-place-or",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Come here. It isn't the end of the world, and it isn't the end of you in {place} or anywhere else. Please breathe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "comfort",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-telling-me-first-that-was-hard-and-you-did-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for telling me, {first}. That was hard, and you did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-what-i-needed-to-hear-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's what I needed to hear, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-trusting-me-with-it-first-i-won-t-take-that-lightly",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for trusting me with it, {first}. I won't take that lightly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-glad-but-please-think-about-when-you-ll-start-first-the-sooner-the-easier",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm glad, but please think about when you'll start, {first}. The sooner, the easier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-good-plan-please-tell-me-what-the-first-step-is-so-i-can-help-around-pl",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a good plan. Please tell me what the first step is, so I can help around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-don-t-wait-on-this-first-pick-a-day-even-if-it-s-small",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please don't wait on this, {first}. Pick a day, even if it's small.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-talking-to-me-first-we-ll-get-through-this-together",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for talking to me, {first}. We'll get through this together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-trusting-me-first-get-some-rest-and-we-ll-start-again-from-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for trusting me, {first}. Get some rest, and we'll start again from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-letting-me-in-i-ll-be-right-here-around-place-whenever-you-want-to",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for letting me in. I'll be right here around {place} whenever you want to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-promise-i-ll-call-the-school-with-you-when-you-re-ready-and-i-ll-sit-beside-yo",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I promise I'll call the school with you when you're ready, and I'll sit beside you around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-help-with-whatever-it-takes-and-i-ll-hold-you-to-it-too-first-please-keep-t",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll help with whatever it takes, and I'll hold you to it too, {first}. Please keep that in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-work-out-a-plan-together-and-i-ll-be-there-for-every-step-please-trust-tha",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll work out a plan together, and I'll be there for every step. Please trust that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-leave-it-for-now-first-sorry-if-i-pushed-too-hard",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll leave it for now, {first}. Sorry if I pushed too hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-take-the-time-you-need-and-i-ll-be-here-first-sorry-i-rushed",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. Take the time you need, and I'll be here, {first}. Sorry I rushed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-fine-i-won-t-push-but-the-door-s-open-around-place-and-at-this-table-when",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's fine. I won't push, but the door's open around {place} and at this table when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-don-t-shut-me-out-for-long-first-i-m-worried-and-i-d-rather-know",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please don't shut me out for long, {first}. I'm worried, and I'd rather know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.just-don-t-let-this-sit-for-too-long-first-please-it-only-gets-harder",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Just don't let this sit for too long, {first}. Please. It only gets harder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-give-you-the-room-you-need-but-please-remember-that-i-m-worried-about-you-a",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll give you the room you need, but please remember that I'm worried about you, around {place} and here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-think-about-it-and-tell-me-when-you-can-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please think about it and tell me when you can, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-soon-so-please-be-ready-to-talk-a-little-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again soon, so please be ready to talk a little, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.whenever-you-re-ready-please-come-find-me-i-d-like-to-know-where-you-stand-befor",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Whenever you're ready, please come find me. I'd like to know where you stand before the next step is due around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-by-the-time-clock-with-a-clipboard-and-a-coffee-and-nods-when-yo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting by the time clock with a clipboard and a coffee, and nods when you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-floor-is-already-moving-when-you-arrive-and-name-waves-you-over-from-the-far",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The floor is already moving when you arrive, and {name} waves you over from the far end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-locker-key-in-one-hand-and-a-printed-schedule-in-the-other",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a locker key in one hand and a printed schedule in the other.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-up-from-the-desk-as-you-come-in-and-sets-down-the-pen",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} looks up from the desk as you come in, and sets down the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.welcome-first-i-m-glad-you-found-the-place-alright",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Welcome, {first}. I'm glad you found the place alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-come-on-over",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}. Come on over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-you-re-here-first-let-s-get-you-started",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good, you're here, {first}. Let's get you started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-re-glad-you-re-here-and-i-d-like-to-know-a-little-about-you-what-kind-of-work",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're glad you're here, and I'd like to know a little about you. What kind of work have you done before, {first}? Please tell me honestly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.before-i-show-you-around-tell-me-what-you-re-comfortable-with-and-what-you-ve-ne",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Before I show you around, tell me what you're comfortable with and what you've never touched. Nobody in {place} knows everything on day one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-the-one-who-ll-be-showing-you-the-ropes-so-please-tell-me-what-you-already-k",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm the one who'll be showing you the ropes, so please tell me what you already know, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-brought-you-to-work-here-please-be-straight-with-me-first-it-helps-me-fi",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So what brought you to work here? Please be straight with me, {first}. It helps me figure out how to train you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.thanks-for-being-on-time-let-s-start-with-what-you-want-out-of-this-job-and-then",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Thanks for being on time. Let's start with what you want out of this job, and then I'll tell you who to stay close to, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ve-worked-retail-and-some-warehouse-name-i-learn-fast-and-i-don-t-mind-hard-da",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I've worked retail and some warehouse, {name}. I learn fast, and I don't mind hard days.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.mostly-i-ve-done-odd-jobs-around-place-this-is-the-first-one-with-a-real-schedul",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Mostly I've done odd jobs around {place}. This is the first one with a real schedule.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-haven-t-done-this-exact-work-but-i-ve-done-things-like-it-name-show-me-and-i-l",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I haven't done this exact work, but I've done things like it, {name}. Show me and I'll pick it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-was-at-home-for-a-while-so-i-m-rusty-i-ll-work-hard-to-catch-up-name",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I was at home for a while, so I'm rusty. I'll work hard to catch up, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-do-i-go-to-when-i-don-t-know-something-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who do I go to when I don't know something, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-the-one-thing-i-shouldn-t-mess-up-in-my-first-week-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's the one thing I shouldn't mess up in my first week, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-do-i-leave-my-things-and-who-tells-me-when-it-s-my-break-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where do I leave my things, and who tells me when it's my break, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-anything-about-this-place-i-should-know-before-someone-tells-me-the-wro",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there anything about this place I should know before someone tells me the wrong way, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-nervous-name-it-s-been-a-while-since-i-started-anywhere-new",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm nervous, {name}. It's been a while since I started anywhere new.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-wanted-this-job-for-a-long-time-i-m-glad-to-be-here-in-place-and-i-m-going-to",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I wanted this job for a long time. I'm glad to be here in {place}, and I'm going to show it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-want-to-be-useful-quickly-name-just-tell-me-where-to-start",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I want to be useful quickly, {name}. Just tell me where to start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-do-this-right-name-because-i-need-it-to-work-out-for-my-family",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to do this right, {name}, because I need it to work out for my family.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-was-told-this-would-be-a-different-job-than-the-one-i-m-standing-in-name",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I was told this would be a different job than the one I'm standing in, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.nobody-told-me-any-of-this-on-the-phone-name-i-d-like-to-know-why",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Nobody told me any of this on the phone, {name}. I'd like to know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-m-here-to-work-not-to-be-tested-on-my-first-day-name",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm here to work, not to be tested on my first day, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-what-i-was-promised-when-i-took-this-job-around-place",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not what I was promised when I took this job around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-taking-the-time-name-i-ll-try-not-to-waste-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for taking the time, {name}. I'll try not to waste it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-making-it-easy-i-was-dreading-this-name",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for making it easy. I was dreading this, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-ll-remember-who-showed-me-around-place-when-i-started",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll remember who showed me around {place} when I started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-think-i-should-get-started-on-my-own-name-i-ll-find-you-if-i-get-stuck",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I think I should get started on my own, {name}. I'll find you if I get stuck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-a-minute-i-ll-find-my-way-to-the-floor-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need a minute. I'll find my way to the floor, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-go-ahead-and-figure-it-out-thanks-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll go ahead and figure it out. Thanks, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-name-i-came-in-with-an-attitude-and-that-s-not-me",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {name}. I came in with an attitude, and that's not me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-name-i-m-on-edge-and-it-came-out-wrong",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, {name}. I'm on edge, and it came out wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-apologize-name-i-was-out-of-line-i-d-like-to-start-over",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I apologize, {name}. I was out of line. I'd like to start over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fine-you-ll-do-well-here-first-please-ask-me-whenever-you-need-to",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fine. You'll do well here, {first}. Please ask me whenever you need to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-all-i-need-to-know-thanks-for-being-open-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That's all I need to know. Thanks for being open, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-a-good-start-stick-with-me-and-we-ll-get-you-settled-around-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's a good start. Stick with me and we'll get you settled around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.be-careful-about-promising-too-much-on-day-one-first-please-keep-your-head-down",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Be careful about promising too much on day one, {first}. Please keep your head down and learn the routine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.just-so-you-know-people-here-notice-how-a-new-person-treats-the-work-please-don",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Just so you know, people here notice how a new person treats the work. Please don't cut corners around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.please-be-careful-with-that-tone-first-the-people-you-work-with-start-deciding-w",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Please be careful with that tone, {first}. The people you work with start deciding who you are on the first day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-person-on-the-next-shift-can-tell-you-most-things-please-ask-anyone-who-look",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The person on the next shift can tell you most things. Please ask anyone who looks free, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.your-things-go-in-the-back-and-breaks-are-when-i-tell-you-i-m-sorry-it-s-not-wri",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Your things go in the back, and breaks are when I tell you. I'm sorry it's not written down, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.anything-you-re-unsure-about-ask-me-first-thanks-for-asking-before-guessing-firs",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Anything you're unsure about, ask me first. Thanks for asking before guessing, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.that-s-not-how-we-do-things-here-please-listen-first-then-argue-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That's not how we do things here. Please listen first, then argue, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-m-not-the-one-who-made-the-promises-but-i-m-the-one-you-work-with-around-place",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm not the one who made the promises, but I'm the one you work with around {place}. Please keep that in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.you-can-say-it-plainly-but-not-in-front-of-the-others-please-wait-until-we-re-al",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You can say it plainly, but not in front of the others. Please wait until we're alone, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-the-kind-words-first-we-ll-get-along-fine",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for the kind words, {first}. We'll get along fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-first-i-appreciate-you-saying-so",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I appreciate you saying so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-means-a-lot-on-a-first-day-in-place-or-anywhere",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That means a lot on a first day in {place} or anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-being-easy-to-work-with-first-i-think-you-ll-fit-in-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for being easy to work with, {first}. I think you'll fit in here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-being-straight-with-me-first-now-let-s-go-meet-everybody",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for being straight with me, {first}. Now let's go meet everybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-coming-in-ready-to-learn-it-ll-be-noticed-around-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming in ready to learn. It'll be noticed around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-look-out-for-you-this-first-week-first-please-come-find-me-whenever-you-nee",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll look out for you this first week, {first}. Please come find me whenever you need to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-an-eye-on-how-you-re-doing-and-speak-up-for-you-if-it-goes-wrong-you-h",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep an eye on how you're doing and speak up for you if it goes wrong. You have my word around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-your-schedule-and-your-locker-sorted-before-the-end-of-the-shift-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have your schedule and your locker sorted before the end of the shift, {first}. Please check back with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-start-over-from-here-first-sorry-it-began-rough",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll start over from here, {first}. Sorry it began rough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-we-ll-leave-it-at-that-and-get-to-work-first-sorry-if-i-pushed",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. We'll leave it at that and get to work, {first}. Sorry if I pushed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-alright-we-ll-take-it-one-step-at-a-time-around-place-and-we-ll-both-do-b",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's alright. We'll take it one step at a time around {place}, and we'll both do better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-remember-i-m-watching-how-this-goes-first-a-rough-start-can-follow-you-a",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please remember I'm watching how this goes, {first}. A rough start can follow you a long way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-to-say-it-but-you-need-to-turn-this-around-soon-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm sorry to say it, but you need to turn this around soon, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-keep-this-in-mind-first-impressions-in-place-are-hard-to-change",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please keep this in mind: first impressions in {place} are hard to change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-think-about-what-i-said-and-be-back-on-time-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please think about what I said and be back on time, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-you-again-about-your-plan-in-a-few-days-so-please-have-an-answer-ready",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask you again about your plan in a few days, so please have an answer ready, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-decide-how-you-want-to-start-and-tell-me-before-we-reach-the-floor-in-pla",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please decide how you want to start, and tell me before we reach the floor in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-letting-me-stay-with-you-in-this-first-it-s-what-i-wanted",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for letting me stay with you in this, {first}. It's what I wanted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-saying-so-first-we-ll-take-it-one-small-step-at-a-time-around-place",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for saying so, {first}. We'll take it one small step at a time around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.please-don-t-thank-me-thank-you-first-for-being-honest-when-it-wasn-t-easy",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Please don't thank me. Thank you, {first}, for being honest when it wasn't easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-whatever-comes-next-you-won-t-be-doing-it-by-yourself",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. Whatever comes next, you won't be doing it by yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-be-here-for-every-step-of-it-first-please-lean-on-me",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll be here for every step of it, {first}. Please lean on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-promise-we-ll-find-out-what-the-school-allows-around-place-and-we-ll-do-it-tog",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I promise we'll find out what the school allows around {place}, and we'll do it together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.whatever-it-takes-we-ll-get-you-through-it-i-m-sorry-you-ever-doubted-that-first",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Whatever it takes, we'll get you through it. I'm sorry you ever doubted that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.alright-i-ll-take-you-up-on-it-name-i-could-use-the-help",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Alright, I'll take you up on it, {name}. I could use the help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.okay-if-you-re-really-with-me-on-this-name-then-i-ll-let-you-in-on-it",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Okay. If you're really with me on this, {name}, then I'll let you in on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.alright-maybe-we-can-look-at-what-the-school-offers-around-place-together",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Alright. Maybe we can look at what the school offers around {place} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.could-you-help-me-sort-out-the-forms-for-the-retake-name",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Could you help me sort out the forms for the retake, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.would-you-sit-with-me-while-i-call-the-school-name-i-d-feel-steadier",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Would you sit with me while I call the school, {name}? I'd feel steadier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.can-you-help-me-figure-out-what-a-second-try-would-take-around-place",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Can you help me figure out what a second try would take around {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "no-diploma"
+      }
     }
   ]
 }
