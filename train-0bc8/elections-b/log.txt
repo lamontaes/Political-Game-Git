@@ -1,0 +1,35 @@
+seed 16fe67619774 place Langston, Alabama me Zara Riggs
+  scene 1: Melissa Riggs Brian Riggs It's late on January 20. You stay in. Continue
+day one rows: ["contest:seat:gus2025:137132:council:0:2025-08-26 :: Council member Filing opens May 16","contest:seat:gus2025:137132:mayor:0:2025-08-26 :: Mayor Filing opens May 16"]
+local-races: [{"c":"contest:seat:gus2025:137132:council:0:2025-08-26","t":"Council member","may":true,"bar":"window-not-open","opens":"2025-05-16","el":"2025-08-26"},{"c":"contest:seat:gus2025:137132:mayor:0:2025-08-26","t":"Mayor","may":true,"bar":"window-not-open","opens":"2025-05-16","el":"2025-08-26"}]
+shot 01-elections-day-one
+race contest:seat:gus2025:137132:council:0:2025-08-26 Council member
+race page day one: buttons ["-:Bonnie Harrell\nAnnounced","announce:Announce","sim-to-filing:Sim to May 16"] | Council memberAugust 26 Who's running Bonnie Harrell Announced NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Seats Seats to fill 5 Last time July 25, 2021 Sarah Melendez Share of the vote 59 percent Dates May 16 Filing opens Jul 15 Filing closes Aug 26 Election day Announce Sim to May 16
+shot 02-race-day-one
+after Announce: tabs ["Government","Elections","Campaign","Parties","Issues","Bills","Budgets","Metrics"] | Where the race stands Nobody has heard from you yet. Voters decide on August 26. No one else has filed for the Langston Town Council yet. Filing closes July 15. Asking 50 voters in a poll would cost $2,250. The money $0.00 Raised $0.00 Spent $0.00 Volunteers 0 Doors knocked 0 Go out on the trail
+shot 03-campaign-after-announce
+campaign buttons: ["Go out on the trail"]
+race page announced: buttons ["-:Bonnie Harrell\nAnnounced","-:Zara Riggs\nAnnounced","sim-to-filing:Sim to May 16"] | Council memberAugust 26 Who's running Bonnie Harrell Announced NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Zara Riggs Announced NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Seats Seats to fill 5 Last time July 25, 2021 Sarah Melendez Share of the vote 59 percent Dates May 16 Filing opens Jul 15 Filing closes Aug 26 Election day Sim to May 16
+shot 04-race-announced
+press Sim to (Sim to May 16)
+  advance answered at {"date":"2025-01-22","minuteOfDay":420} kind stop
+  scene 2: Melissa Riggs Brian Riggs It's early on January 22. You stay in. You caught Governor Daniel Mills's State of the State address on WOAO-TV last night. Continue
+  scene 3: Melissa Riggs Brian Riggs It's early on February 11. You stay in. You caught Mayor Nadia Tillman's yearly address on WOAO-TV last night. Continue
+  scene 4: Sophia Riggs First thing on March 2nd, a letter comes from Sophia Riggs. A letter from Sophia has come from Jackson County, with something to ask you. Continue
+  scene 5: Sam Donovan First thing on March 23rd, out and about, you stop to talk with Sam Donovan, a member of the Jackson County Commission. Sam crosses the street to catch you. Continue
+  scene 6: Brian Riggs It's early on March 28. The house is quiet. Your father has been waiting for you to get home. Continue
+  scene 7: Sophia Riggs First thing on May 2nd, the phone rings. It's Sophia Riggs. Sophia catches you on the street. Continue
+  scene 8: Sam Donovan First thing on May 11th, Sam Donovan, a member of the Jackson County Commission, walks up to you on the street. Sam recognizes you on the street. Continue
+after 1 Sim to press(es), 8 scenes: race {"open":true,"opens":"2025-05-16","may":true,"bar":null}; header date ""
+race page at filing: buttons ["-:Alice Campbell\nAnnounced","-:Bonnie Harrell\nAnnounced","-:Zara Riggs\nAnnounced","file-for-it:File for it"] | Council memberAugust 26 Who's running Alice Campbell Announced NATURAL RESOURCES For WELFARE AND MEDICAID For HEALTH AND HOSPITALS For Bonnie Harrell Announced NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Zara Riggs Announced NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Seats Seats to fill 5 Last time July 25, 2021 Sarah Melendez Share of the vote 59 percent Dates Jul 15 Filing closes Aug 26 Election day File for it
+shot 05-race-filing-open
+shot 06-counter
+  counter: Mary Perez Mary Perez First thing on May 19th, you head to the municipal clerk's office. Mary Perez comes over to the counter. Continue
+  replies ["Put me down for the council.","Who's filed in Langston so far?","Give me a few days, Mary."] -> Who's filed in Langston so far?
+  replies ["Then I'll file for the council.","I'm not ready yet, Mary. I'll be back."] -> Then I'll file for the council.
+  counter: Mary Perez ZARA RIGGS Then I'll file for the council. Done. Signed and stamped for the council. Continue
+rows after filing: ["contest:seat:gus2025:137132:council:0:2025-08-26 :: Council member You are running","contest:seat:gus2025:137132:mayor:0:2025-08-26 :: Mayor File for it"]
+shot 07-elections-after-filing
+race page after filing: Council memberAugust 26 Who's running Alice Campbell NATURAL RESOURCES For WELFARE AND MEDICAID For HEALTH AND HOSPITALS For Bonnie Harrell NATURAL RESOURCES For ELEMENTARY AND SECONDARY EDUCATION For HEALTH AND HOSPITALS For Robin Stephens POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against WELFARE AND MEDICAID Against Zara Riggs Seats Seats to fill 5 Last time July 25, 2021 Sarah Melendez Share of the vote 59 percent Dates Jul 15 Filing closes Aug 26 Election day
+shot 08-race-after-filing
+errors []

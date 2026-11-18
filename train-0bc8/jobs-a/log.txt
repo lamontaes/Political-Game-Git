@@ -1,0 +1,28 @@
+seed 32c8b2016031 place Wenatchee, Washington me Dennis Rosales
+opening talk with "": Leslie Rosales It's the evening of January 20. You stay in. Continue
+work at start: Dennis Rosales Age 18 Work No current job You have no job of your own; your household lives on what Leslie Rosales earns at Carey's Kitchen. Open in town Janitor Bishop Building Services PAY $21.84 per hour Apply Janitor Bishop Building Services PAY $21.33 per hour Apply Landscaper Bishop Building Services PAY $24.43 per hour Apply Landscaper Bishop Building Services PAY $23.59 per hour Apply Police officer Wenatchee Police Department PAY $48.69 per hour HOURS 5.7 per day Apply Production worker Orr Manufacturing PAY $20.38 per hour HOURS 3.1 per day Apply Production worker Orr Manufacturing P
+no-apply press 1: 
+no-apply wk0 talk with "": Leslie Rosales It's early on January 22. The house is quiet. Last night you watched Governor Nancy Tyson's State of the State address on KQBK-TV. Continue
+no-apply press 2: 
+no-apply press 3: 
+no-apply wk2 talk with "": Leslie Rosales It's early on February 11. The house is quiet. Last night you watched Mayor Paul O'Connor's yearly address on KQBK-TV. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply press 6: 
+no-apply wk5 talk with "": Isabel Rosales First thing on March 2nd, a letter comes from Isabel Rosales. A letter from Isabel has come from Chelan County, with something to ask you. Continue
+no-apply press 7: 
+no-apply press 8: 
+no-apply wk7 talk with "": It's early on March 18. The house is quiet. Leslie turned 42, and Vivian wasn't at the table. Elena wants to talk to you about it. Continue
+work after no-apply weeks: Dennis Rosales Age 18 Work No current job You have no job of your own; your household lives on what Leslie Rosales earns at Carey's Kitchen. Open in town Front desk clerk Pollard Inn PAY $21.07 per hour Apply Front desk clerk Pollard Inn PAY $19.27 per hour Apply Front desk clerk Pollard Inn PAY $19.17 per hour Apply Home health aide Spencer Care Home PAY $29.20 per hour Apply Home health aide Spencer Care Home PAY $26.68 per hour Apply Home health aide Spencer Care Home PAY $29.20 per hour Apply Home health aide Spencer Care Home PAY $29.20 per hour Apply Home health aide Spencer Care Home PAY $26.68 per hour Apply Home health aide Spencer Care Home PAY $29.20 per hour Apply Home health aide Spencer Care Home PAY $29.20 per hour Apply Home health aide Spencer Care Home PAY $26.68 per hour Apply Housekeeper Pollard Inn PAY $20.98 per hour HOURS 5.8 per day Apply Housekeeper Pollard Inn P
+APPLIED: Front desk clerk | Pollard Inn | PAY $21.07 per hour
+APPLIED: Front desk clerk | Pollard Inn | PAY $19.27 per hour
+applied press 1: 
+applied press 2: 
+applied press 3: 
+applied wk2 talk with "": Todd Rosales Late in the morning on April 3rd, you stop by Todd Rosales's place. Todd is leaving town and wanted to say it face to face. Continue
+week press failed locator.click: Timeout 20000ms exceeded.
+  visible: ["game:Options Seeing FULL SCREEN On Off COLOR-BLIND COLORS On Off Scenes that may stop","stage:","backdrop:","backdrop-next:","sheet:Options Seeing FULL SCREEN On Off COLOR-BLIND COLORS On Off Scenes that may stop","dock:"] week disabled false
+applied press 5: 
+applied press 6: 
+work at end: Dennis Rosales Age 18 Work No current job You have no job of your own; your household lives on what Leslie Rosales earns at Carey's Kitchen. Open in town Farmworker Sharp Family Farm PAY $21.62 per hour HOURS 6.5 per day Apply Farmworker Sharp Family Farm PAY $21.62 per hour HOURS 6.5 per day Apply Front desk clerk Michael Inn PAY $21.14 per hour Apply Front desk clerk Michael Inn PAY $19.33 per hour Apply Front desk clerk Pollard Inn PAY $21.07 per hour Applied Front desk clerk Pollard Inn PAY $19.27 per hour Applied Front desk clerk Pollard Inn PAY $19.17 per hour Apply Home health aide Spen
+offers 0; errors []

@@ -1,0 +1,19 @@
+{
+ "seed": "eb610fc468df",
+ "place": "Iroquois, South Dakota",
+ "me": "Chloe Carson",
+ "applied": [
+  "Carpenter | Carson Construction | PAY $22.41 per hour | HOURS 5.8 per day",
+  "Cashier | Malone's Market | PAY $111.01 per hour | HOURS 3.1 per day"
+ ],
+ "offers": [
+  {
+   "phase": "applied",
+   "who": "",
+   "text": "Cynthia Patel First thing on March 25th, Cynthia Patel calls. Cynthia from Malone's Market is calling about the opening. Continue",
+   "card": "",
+   "shot": "04-offer-"
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,8 @@
+seed 16fe67619774 place Langston, Alabama
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x382 w676 of 1440; Melissa Riggs[] h133; Brian Riggs[] h133"]
+shot 02-room.png
+room strips: []
+room people 0; talkable 0; named-not-talkable 0
+nobody talkable in the room
+errors []

@@ -1,0 +1,15 @@
+seed 16fe67619774 place Langston, Alabama scene person_a3e9f6a37dc7fcc2:2025-01-20:president.address:2025-01-20
+beat 1: bedroom-teen__night.jpg ·  · strip Melissa Riggs[] h133; Brian Riggs[] h133 · It's late on January 20. You stay in.
+beat 2: us-house-floor__night.jpg · President Samuel Walton · strip Samuel Walton[speaking] h129; Donna Chen[quiet] h111; Karen Dalton[quiet] h111 · Speaker Donna Chen, Cabinet members. It's good to have Vice President Karen Dalton here, and it's good to come before you with some real reason for ho
+beat 3: us-house-floor__night.jpg · President Samuel Walton · strip Samuel Walton[speaking] h172 · These days, a family short on cash can still find a lender to take the risk. Because I've always thought free people in a free market look out for the
+beat 4: bedroom-teen__night.jpg · President Samuel Walton · strip Melissa Riggs[quiet] h133; Brian Riggs[quiet] h133 · You know what I'm asking for on a cap on consumer loan interest, so hold me to it.
+beat 5: bedroom-teen__night.jpg ·  · strip  · It's late on January 20. The day is done.
+talk 1: home-kitchen__morning.jpg ·  · First thing on February 2nd, a letter comes from Sophia Riggs. / Good / Bad / A letter from Sophia has come from Jackson County, with someth
+talk 2: home-kitchen__morning.jpg · Sophia Riggs · Come and see me in Jackson County. I would love to show you what it's like here. / Good / Bad / Why these lines / Started by: family.contact
+talk 3: home-kitchen__morning.jpg · Sophia Riggs · ZARA RIGGS / Yes, of course. I'll do it. / Good / Bad / Good. I'm glad you'll do it. / Good / Bad / Why these lines / Started by: family.con
+talk 4: home-kitchen__morning.jpg ·  · It's early on February 11. You stay in. You caught Mayor David Wells's yearly address on WOAO-TV last night. / Good / Bad
+talk 5: home-kitchen__morning.jpg · Mayor David Wells · WOAO-TV / Members of the Langston Town Council, and everybody in Langston who came out tonight. Our 2025 books have about $31,000 more comin
+tv seen true
+set: LIVE / Mayor David Wells / WOAO-TV; date Wednesday, February 11, 20267:00 AM
+card after clicking the set: true David Wells
+errors []

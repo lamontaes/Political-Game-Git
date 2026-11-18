@@ -1,0 +1,843 @@
+{
+ "packet": {
+  "version": "core2-part1b-v1",
+  "controlledPersonId": "person_4e91afc6a0b30f7f",
+  "at": {
+   "date": "2025-04-22",
+   "minuteOfDay": 420
+  },
+  "simulatedDays": 91,
+  "decisions": 13159,
+  "acts": 45722,
+  "kind": "complete"
+ },
+ "earliest": null,
+ "through": {
+  "date": "2025-04-22",
+  "minuteOfDay": 420
+ },
+ "selfChosen": [
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:91",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-16",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:91:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:92",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-17",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:92:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:93",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-18",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:93:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:94",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-19",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:94:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:95",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-20",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:95:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:96",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-21",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:96:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  },
+  {
+   "pauseId": "player:person_4e91afc6a0b30f7f:97",
+   "personId": "person_4e91afc6a0b30f7f",
+   "at": {
+    "date": "2025-04-22",
+    "minuteOfDay": 0
+   },
+   "offerId": "player:person_4e91afc6a0b30f7f:97:12",
+   "actionId": "care-for-relative",
+   "targetId": "person_4e91b0c6a0b31132",
+   "why": "advancing"
+  }
+ ],
+ "names": {},
+ "progress": {
+  "date": "2025-04-22",
+  "placeId": "jurisdiction_ea755d3355e939bb",
+  "steps": [
+   {
+    "step": 1,
+    "label": "Turn 18",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "opening-person",
+     "personId": "person_4e91afc6a0b30f7f",
+     "givenName": "Dennis",
+     "familyName": "Rosales",
+     "householdId": "household_6412d090dd948b26",
+     "birthDate": "2007-01-18",
+     "turns18At": "2025-01-18",
+     "age": 18,
+     "date": "2025-04-22",
+     "source": {
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+      "asOf": "2024-12-20",
+      "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+     }
+    }
+   },
+   {
+    "step": 2,
+    "label": "Meet people",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "current-offer",
+     "personId": "person_4e91afc6a0b30f7f",
+     "actionId": "contact-known-person",
+     "targetId": "person_4e91b1c6a0b312e5",
+     "date": "2025-04-22",
+     "offer": {
+      "definition": {
+       "id": "contact-known-person",
+       "actKinds": [
+        "engage",
+        "cooperate"
+       ],
+       "goalKinds": [
+        "connect"
+       ],
+       "need": "company",
+       "effortParameter": "socialHours",
+       "effectParameter": "relationContactGain",
+       "targetKind": "contact-candidate",
+       "effect": "contact",
+       "stopgapId": "SG-P8-life-utility",
+       "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+       },
+       "reasonBindings": [
+        {
+         "id": "tie-fading",
+         "provider": "tie-fading",
+         "weightParameter": "tieMissingWeightPerHour",
+         "stopgapId": "SG-P15-closeness-model"
+        },
+        {
+         "id": "grief-pull",
+         "provider": "grief",
+         "weightParameter": "griefPullWeight",
+         "stopgapId": "SG-P15-grief-line"
+        }
+       ]
+      },
+      "targetId": "person_4e91b1c6a0b312e5",
+      "availableHours": 13.07,
+      "effortHours": 1.92
+     },
+     "target": {
+      "id": "person_4e91b1c6a0b312e5",
+      "givenName": "Leslie",
+      "familyName": "Rosales",
+      "birthDate": "1983-03-17",
+      "placeId": "jurisdiction_ea755d3355e939bb",
+      "countyId": "jurisdiction_f2c58ca5e03f662d",
+      "householdId": "household_6412d090dd948b26",
+      "tier": "weekly",
+      "traits": {
+       "people-mind-v1:deliberation": 0,
+       "people-mind-v1:sociability": -1,
+       "people-mind-v1:conflict": 0,
+       "people-mind-v1:reliability": 0,
+       "people-mind-v1:risk": 0,
+       "personality-v1:action-despite-fear": -1,
+       "personality-v1:facet-analytical": -1,
+       "personality-v1:facet-arbitrary": -1,
+       "personality-v1:facet-argumentative": -1,
+       "personality-v1:facet-assertive": 1,
+       "personality-v1:facet-brazen": -2,
+       "personality-v1:facet-charming": -1,
+       "personality-v1:facet-comforting": -1,
+       "personality-v1:facet-contented": -2,
+       "personality-v1:facet-defensive": -2,
+       "personality-v1:facet-dramatic": 1,
+       "personality-v1:facet-envious": -1,
+       "personality-v1:facet-fair-minded": 1,
+       "personality-v1:facet-fickle": -1,
+       "personality-v1:facet-forgiving": 1,
+       "personality-v1:facet-friendly": -1,
+       "personality-v1:facet-gentle": 2,
+       "personality-v1:facet-humble": -1,
+       "personality-v1:facet-imaginative": 1,
+       "personality-v1:facet-independent": 1,
+       "personality-v1:facet-informal": -1,
+       "personality-v1:facet-light-hearted": 1,
+       "personality-v1:facet-manipulative": -1,
+       "personality-v1:facet-meticulous": 1,
+       "personality-v1:facet-nostalgic": -1,
+       "personality-v1:facet-open-minded": 1,
+       "personality-v1:facet-opportunistic": 1,
+       "personality-v1:facet-persistent": 1,
+       "personality-v1:facet-philanthropic": 1,
+       "personality-v1:facet-proud": -2,
+       "personality-v1:facet-restless": 1,
+       "personality-v1:facet-sassy": -2,
+       "personality-v1:facet-self-serving": 1,
+       "personality-v1:facet-shy": 1,
+       "personality-v1:facet-sincere": -1,
+       "personality-v1:facet-skeptical": 2,
+       "personality-v1:facet-smug": -2,
+       "personality-v1:facet-studious": -1,
+       "personality-v1:facet-supportive": 1,
+       "personality-v1:facet-tactful": 1,
+       "personality-v1:facet-teasing": -2,
+       "personality-v1:facet-vindictive": -1,
+       "personality-v1:facet-work-centered": 1,
+       "personality-v1:facet-zealous": -1,
+       "personality-v1:patience": -1,
+       "personality-v1:facet-acquisitive": 1,
+       "personality-v1:facet-duty-bound": 1
+      },
+      "sharedTraitSource": {
+       "tag": "ESTIMATED",
+       "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+       "asOf": "2024-12-20",
+       "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+      },
+      "liquidMinor": 82542,
+      "livingCostDailyMinor": 11227,
+      "source": {
+       "tag": "ESTIMATED",
+       "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+       "asOf": "2024-12-20",
+       "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+      },
+      "familyIds": [
+       "person_4e91afc6a0b30f7f",
+       "person_4e91b0c6a0b31132",
+       "person_65aba3c88b653be3",
+       "person_65aba4c88b653d96",
+       "person_65aba5c88b653f49",
+       "person_65aba7c88b6542af",
+       "person_6ec993bca8548beb",
+       "person_d218775444e24f36"
+      ],
+      "knownIds": [
+       "person_4e91b0c6a0b31132",
+       "person_4e91afc6a0b30f7f",
+       "person_d218775444e24f36",
+       "person_6ec993bca8548beb",
+       "person_65aba3c88b653be3",
+       "person_65aba4c88b653d96",
+       "person_65aba5c88b653f49",
+       "person_65aba7c88b6542af",
+       "person_e238d76b2843db69",
+       "person_0318bb7156156c87"
+      ],
+      "jobId": "work-relationship_09d7be5cc74fd5f4",
+      "looks": {
+       "gender": "female",
+       "pronouns": "she-her",
+       "appearanceSeed": "app_47bb5991127bd91f",
+       "recipeVersion": "appearance-recipe-v1",
+       "origin": "hispanic"
+      },
+      "pastFacts": [
+       {
+        "id": "fact_46b845a8c860e22e",
+        "date": "1983-03-17",
+        "kind": "birth-date",
+        "summary": "Leslie Rosales's birth date is established.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+        },
+        "facts": {}
+       },
+       {
+        "id": "fact_1b4446c704358ec4",
+        "date": "2024-12-20",
+        "kind": "residence",
+        "summary": "Leslie Rosales resides in the recorded home jurisdiction.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+        },
+        "facts": {
+         "placeId": "jurisdiction_ea755d3355e939bb"
+        }
+       },
+       {
+        "id": "kinship_3cf2acdfea5eaee4:past:person_4e91b1c6a0b312e5",
+        "date": "2012-08-14",
+        "kind": "family:child",
+        "summary": "Elena Rosales is recorded as this person's child in the generated opening household.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+        },
+        "facts": {
+         "otherPersonId": "person_4e91b0c6a0b31132"
+        }
+       },
+       {
+        "id": "kinship_33dc71dfe51a4b19:past:person_4e91b1c6a0b312e5",
+        "date": "2007-01-18",
+        "kind": "family:child",
+        "summary": "Dennis Rosales is recorded as this person's child in the generated opening household.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening cohort at 2024-12-20; place household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+        },
+        "facts": {
+         "otherPersonId": "person_4e91afc6a0b30f7f"
+        }
+       },
+       {
+        "id": "work-relationship_09d7be5cc74fd5f4:past:opening",
+        "date": "2001-03-17",
+        "kind": "work:opening",
+        "summary": "The generated opening job as Server has an estimated start on 2001-03-17.",
+        "source": {
+         "tag": "ESTIMATED",
+         "asOf": "2024-12-20",
+         "citation": "Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers). BLS OEWS May 2025 state ownership research estimates: federal, state and local government, including schools and hospitals. BLS notes these carry more model error than standard estimates. BLS Occupational Employment and Wage Statistics, May 2025: area, state and national tables, 10th, 25th, 50th, 75th and 90th percentile annual wage, all ownerships. Existing Census County Business Patterns 2023 county sector employment and BLS OEWS May 2025 public ownership mix in src/core2/reference/town-employment.generated.ts; not resident employment or observed establishment staff.; Existing TOWN_WORKPLACES and Role weights in town-employment.ts are authored game assumptions, not measured sector-to-SOC staffing shares.; Existing TOWN_JOB_SOC and BLS OEWS May 2025 wage references in town-pay.generated.ts; same-occupation national median is a labeled fallback where no local observation exists.; Existing BLS Employee Tenure in January 2026 age-cohort median table in town-employment.ts; later-vintage opening proxy, no individual tenure spread reconstructed. U.S. Census Bureau, 2020-2024 American Community Survey 5-year estimates, table B23001 (Sex by Age by Employment Status for the Population 16 Years and Over), table-based summary file https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b23001.dat, county rows (summary level 050), with Puerto Rico's municipios. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows (which have no armed-forces branch) carry the age total.",
+         "estimatedFrom": "Population-scaled finite opening allocation over recorded employers and already recorded compatible employee roles. Initial seed order distributes who held opening positions among supported real options; it never selects a future application, hire, firing or desired biography. Unsupported reference weight stays omitted. Role template work-role_053f3a95079db36a, employer organization_564ac4ec5c68fe6e; cohort target 245 for restaurant:service:food-server:Server. SOC 35-3031, area 48300, percentile 71.06215332695282. Hours retain the recorded role estimate. BLS age-band median tenure, spread within the band (an exponential at that median, the worker's place in it a generation fact), bounded by adulthood and by an employer founding recorded before the opening; start 2001-03-17. Initial generated assignment, not an application, offered vacancy, acceptance or future hiring decision."
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_d218775444e24f36",
+        "date": "1983-03-17",
+        "kind": "family:parent",
+        "summary": "Kenneth Rosales is recorded as this person's parent in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_d218775444e24f36"
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_6ec993bca8548beb",
+        "date": "1983-03-17",
+        "kind": "family:parent",
+        "summary": "Vivian Rosales is recorded as this person's parent in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_6ec993bca8548beb"
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_65aba3c88b653be3",
+        "date": "1983-03-17",
+        "kind": "family:sibling",
+        "summary": "Isabel Rosales is recorded as this person's sibling in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_65aba3c88b653be3"
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_65aba4c88b653d96",
+        "date": "1983-03-17",
+        "kind": "family:sibling",
+        "summary": "Laura Rosales is recorded as this person's sibling in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_65aba4c88b653d96"
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_65aba5c88b653f49",
+        "date": "1983-03-17",
+        "kind": "family:sibling",
+        "summary": "Harper Rosales is recorded as this person's sibling in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_65aba5c88b653f49"
+        }
+       },
+       {
+        "id": "person_4e91b1c6a0b312e5:family:person_65aba7c88b6542af",
+        "date": "1983-03-17",
+        "kind": "family:sibling",
+        "summary": "Todd Rosales is recorded as this person's sibling in the generated opening family.",
+        "source": {
+         "tag": "ESTIMATED",
+         "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born. U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses. NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value. SSA cohort life tables by birth year (Actuarial Study No. 120).",
+         "asOf": "2024-12-20",
+         "estimatedFrom": "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people."
+        },
+        "facts": {
+         "otherPersonId": "person_65aba7c88b6542af"
+        }
+       },
+       {
+        "id": "fact_cb1a98062a74159a",
+        "date": "1983-03-17",
+        "kind": "birthplace",
+        "summary": "Leslie Rosales's birthplace is established.",
+        "source": {
+         "tag": "ESTIMATED",
+         "asOf": "2024-12-20",
+         "citation": "U.S. Census Bureau, American Community Survey 2019-2023 ACS 5-year, table B05002 (https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b05002.dat), data/research/core/acs-2023-b05002-born-in-state.json.",
+         "estimatedFrom": "The person's own seeded draw against their state's shares of where its people were born, held to their citizenship and to where their family of origin lives (src/core2/person-birthplace.ts)."
+        },
+        "facts": {
+         "placeId": "jurisdiction_ea755d3355e939bb"
+        }
+       }
+      ],
+      "traitSources": {
+       "personality-v1:facet-acquisitive": {
+        "tag": "ESTIMATED",
+        "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "ESTIMATED FROM RECORDS AND PUBLIC DATA: available parents, household adults, payroll, place and congregation records are used first. Missing sibling counts use the national U.S. Census SIPP 2009 distribution and missing pay bands use ACS 2024 B17024; both are labeled estimates and sampled by the person's stable generation key. Caregiver availability uses recorded adults or a saved family pattern's parents per child. Cohort scope: exact; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. No relative, emotional treatment, faith or event is created. ESTIMATED FROM RECORDS AND NATIONAL DATA: siblings, congregation, household pay, caregivers per child, school-year moves and a parent's death are weighed smoothly; missing sibling counts use sipp-2009-p70-126-table-4, and missing pay bands use acs-2024-1yr-b17024-adolescence. ESTIMATED FROM THE NATIONAL DISTRIBUTION: no household pay is recorded for this childhood period, so a stable sample for this person uses the ACS 2024 1-year B17024 U.S. child distribution for early-childhood. ESTIMATED FROM THE NATIONAL DISTRIBUTION: no household pay is recorded for this childhood period, so a stable sample for this person uses the ACS 2024 1-year B17024 U.S. child distribution for adolescence. Canonical sparse upbringing trait projection; no traits inferred from names or gender."
+       },
+       "personality-v1:facet-duty-bound": {
+        "tag": "ESTIMATED",
+        "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/core2/opening-upbringing.ts.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "ESTIMATED FROM RECORDS AND PUBLIC DATA: available parents, household adults, payroll, place and congregation records are used first. Missing sibling counts use the national U.S. Census SIPP 2009 distribution and missing pay bands use ACS 2024 B17024; both are labeled estimates and sampled by the person's stable generation key. Caregiver availability uses recorded adults or a saved family pattern's parents per child. Cohort scope: exact; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. No relative, emotional treatment, faith or event is created. ESTIMATED FROM RECORDS AND NATIONAL DATA: siblings, congregation, household pay, caregivers per child, school-year moves and a parent's death are weighed smoothly; missing sibling counts use sipp-2009-p70-126-table-4, and missing pay bands use acs-2024-1yr-b17024-adolescence. ESTIMATED FROM THE NATIONAL DISTRIBUTION: no household pay is recorded for this childhood period, so a stable sample for this person uses the ACS 2024 1-year B17024 U.S. child distribution for early-childhood. ESTIMATED FROM THE NATIONAL DISTRIBUTION: no household pay is recorded for this childhood period, so a stable sample for this person uses the ACS 2024 1-year B17024 U.S. child distribution for adolescence. Canonical sparse upbringing trait projection; no traits inferred from names or gender."
+       },
+       "people-mind-v1:sociability": {
+        "tag": "ESTIMATED",
+        "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+       },
+       "people-mind-v1:risk": {
+        "tag": "ESTIMATED",
+        "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+       },
+       "people-mind-v1:conflict": {
+        "tag": "ESTIMATED",
+        "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+       },
+       "people-mind-v1:reliability": {
+        "tag": "ESTIMATED",
+        "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+       },
+       "people-mind-v1:deliberation": {
+        "tag": "ESTIMATED",
+        "citation": "Built on the town's generated households; each household's own source names the Census household tables it follows. Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female. Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40.",
+        "asOf": "2024-12-20",
+        "estimatedFrom": "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread."
+       }
+      },
+      "knownIdSources": {
+       "person_d218775444e24f36": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_d218775444e24f36",
+        "learnedAt": "1983-03-17"
+       },
+       "person_6ec993bca8548beb": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_6ec993bca8548beb",
+        "learnedAt": "1983-03-17"
+       },
+       "person_65aba3c88b653be3": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_65aba3c88b653be3",
+        "learnedAt": "1983-03-17"
+       },
+       "person_65aba4c88b653d96": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_65aba4c88b653d96",
+        "learnedAt": "1983-03-17"
+       },
+       "person_65aba5c88b653f49": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_65aba5c88b653f49",
+        "learnedAt": "1983-03-17"
+       },
+       "person_65aba7c88b6542af": {
+        "sourceFactId": "person_4e91b1c6a0b312e5:family:person_65aba7c88b6542af",
+        "learnedAt": "1983-03-17"
+       }
+      },
+      "lastActDate": "2025-04-21",
+      "lastContactDate": "2025-04-21",
+      "alive": true,
+      "actCount": 222,
+      "actsByKind": {
+       "attend-scheduled-work-date-segment": 69,
+       "rest": 117,
+       "contact-known-person": 36
+      },
+      "affect": {
+       "at": "2025-04-21",
+       "mood": 0.5703705175600617,
+       "stress": 0.24872160516807482,
+       "moodBaseline": 0,
+       "stressBaseline": 0.3900081202622875
+      },
+      "needs": {
+       "money": 0.7210052221527438,
+       "time": 0.31936486271518116,
+       "health": 0.15573277308117436,
+       "company": 0.14285714285714285,
+       "safety": 0.31936486271518116,
+       "dependents": 0.29529315759012464,
+       "schooling": 0,
+       "duty": 0
+      },
+      "goals": {
+       "work:work-commitment:work-relationship_09d7be5cc74fd5f4": {
+        "id": "work:work-commitment:work-relationship_09d7be5cc74fd5f4",
+        "kind": "fulfil-work",
+        "urgency": 1
+       },
+       "need:money": {
+        "id": "need:money",
+        "kind": "earn",
+        "urgency": 0.7210052221527438
+       },
+       "need:time": {
+        "id": "need:time",
+        "kind": "recover",
+        "urgency": 0.31936486271518116
+       },
+       "need:health": {
+        "id": "need:health",
+        "kind": "care",
+        "urgency": 0.15573277308117436
+       },
+       "need:company": {
+        "id": "need:company",
+        "kind": "connect",
+        "urgency": 0.14285714285714285
+       },
+       "need:safety": {
+        "id": "need:safety",
+        "kind": "security",
+        "urgency": 0.31936486271518116
+       },
+       "need:dependents": {
+        "id": "need:dependents",
+        "kind": "care",
+        "urgency": 0.29529315759012464
+       },
+       "need:schooling": {
+        "id": "need:schooling",
+        "kind": "learn",
+        "urgency": 0
+       },
+       "need:duty": {
+        "id": "need:duty",
+        "kind": "change-condition",
+        "urgency": 0
+       }
+      },
+      "drives": {},
+      "lastChoice": "contact-known-person",
+      "lastReason": "utility:company:contact"
+     }
+    }
+   },
+   {
+    "step": 3,
+    "label": "File for office where that place files: clerk, registrar or board of elections",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "open-contest",
+     "personId": "person_4e91afc6a0b30f7f",
+     "contestId": "contest:seat:gus2025:202756:council:0:2025-11-04",
+     "title": "Council member",
+     "filingDeadline": "2025-05-09",
+     "filedWith": "County auditor"
+    }
+   },
+   {
+    "step": 4,
+    "label": "Campaign",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-campaigns-v1"
+    }
+   },
+   {
+    "step": 5,
+    "label": "Win or lose",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-voting-v1"
+    }
+   },
+   {
+    "step": 6,
+    "label": "Propose an ordinance",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-legislature-v1"
+    }
+   },
+   {
+    "step": 7,
+    "label": "Negotiate",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-legislature-v1"
+    }
+   },
+   {
+    "step": 8,
+    "label": "Pass or fail",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-legislature-v1"
+    }
+   },
+   {
+    "step": 9,
+    "label": "Town changes",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-law-effects-v1"
+    }
+   },
+   {
+    "step": 10,
+    "label": "People bring it up",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "news"
+    }
+   },
+   {
+    "step": 11,
+    "label": "Next election uses the record",
+    "status": "reachable now",
+    "missingModule": null,
+    "evidence": {
+     "kind": "module-running",
+     "moduleId": "core2-record-v1"
+    }
+   }
+  ],
+  "world": [
+   {
+    "label": "National economy",
+    "status": "running",
+    "runningModules": [
+     "macro"
+    ],
+    "missingModule": null
+   },
+   {
+    "label": "State government",
+    "status": "partly running",
+    "runningModules": [
+     "core2-laws-v1",
+     "core2-offices-v1",
+     "core2-elections-v1",
+     "regional"
+    ],
+    "missingModule": "state budgets and governing (legislature, governor acting)"
+   },
+   {
+    "label": "Federal government",
+    "status": "partly running",
+    "runningModules": [
+     "core2-laws-v1",
+     "core2-offices-v1",
+     "core2-elections-v1",
+     "macro"
+    ],
+    "missingModule": "federal budgets and governing (Congress, president acting)"
+   },
+   {
+    "label": "Other places",
+    "status": "not in the new core yet",
+    "missingModule": "coarse other-place world module"
+   }
+  ],
+  "installedModules": [
+   "core2-life-v2",
+   "core2-people-p15-v1",
+   "core2-school-days-v1",
+   "core2-disasters-v1",
+   "core2-recorded-work-v1",
+   "core2-recorded-finance-v1",
+   "core2-accounts-v1",
+   "core2-purchase-tax-v1",
+   "core2-residents-v1",
+   "core2-retirement-claims-v1",
+   "core2-counted-moves-v1",
+   "core2-counted-demotion-v1",
+   "macro",
+   "regional",
+   "credit",
+   "jobs",
+   "housing",
+   "business",
+   "place-prices",
+   "world-metrics",
+   "core2-outcome-web-v1",
+   "core2-health-producer-p10-v1",
+   "core2-resting-stress-v1",
+   "core2-trait-change-v1",
+   "core2-drives-p10-v1",
+   "views",
+   "news",
+   "speech",
+   "corruption",
+   "core2-renewal-v1",
+   "moves",
+   "partnerships",
+   "beliefs",
+   "core2-promises-v1",
+   "p13-story-director",
+   "core2-laws-v1",
+   "core2-offices-v1",
+   "core2-officials-v1",
+   "core2-elections-v1",
+   "core2-campaigns-v1",
+   "core2-parties-v1",
+   "core2-voting-v1",
+   "candidacy",
+   "core2-record-v1",
+   "core2-budgets-v1",
+   "outside-budgets",
+   "core2-official-pay-v1",
+   "core2-homeless-count-v1",
+   "grievance",
+   "core2-crime-v1",
+   "core2-patrol-v1",
+   "core2-estates-v1",
+   "core2-employer-taxes-v1",
+   "core2-legislature-v1",
+   "contracts",
+   "core2-public-projects-v1",
+   "core2-leadership-v1",
+   "core2-executive-v1",
+   "core2-succession-v1",
+   "core2-law-effects-v1",
+   "core2-law-reach-a-v1",
+   "core2-law-reach-b-v1",
+   "core2-staff-v1",
+   "core2-serve-asks-v1",
+   "core2-interest-groups-v1",
+   "core2-world-legislating-v1",
+   "core2-ballot-measures-v1",
+   "core2-recalls-v1",
+   "core2-press-v1",
+   "core2-meetings-v1",
+   "core2-constituent-cases-v1",
+   "core2-public-action-v1",
+   "national-opinion",
+   "national-events",
+   "climate",
+   "core2-office-day-v1",
+   "core2-office-day-federal-v1",
+   "core2-office-day-state-v1",
+   "president-acts",
+   "core2-justice-v1",
+   "core2-public-safety-v1",
+   "federal-courts",
+   "core2-past-v1",
+   "core2-coverage-v1",
+   "core2-finance-cash-v1",
+   "work-payroll-cash"
+  ],
+  "worldRunning": true,
+  "furthestReachedStep": null,
+  "reachedEvidence": [],
+  "basis": "Reachability identifies existing opening records and current offers. No step is reached without played records and the M1 world modules running. Opening history and the presence of government organizations do not establish that."
+ },
+ "pollingPlace": null,
+ "candidateMorning": null
+}

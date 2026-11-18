@@ -1,0 +1,37 @@
+seed eb610fc468df place Iroquois, South Dakota me Chloe Carson
+opening talk with "": Austin Carson Patricia Carson It's the evening of January 20. You stay in. Continue
+work at start: Chloe Carson Age 18 Work No current job You have no job of your own; your household lives on what Austin Carson earns at Carson Trucking. Open in town Cashier Malone's Market PAY $15.98 per hour HOURS 3.1 per day Apply Home health aide Mendoza Care Home PAY $19.97 per hour HOURS 5.1 per day Apply Insurance agent Wade Insurance Agency PAY $32.31 per hour HOURS 6.4 per day Apply Medical assistant McMillan Family Clinic PAY $22.97 per hour HOURS 5.7 per day Apply Production worker Whitehead Manufacturing PAY $23.12 per hour HOURS 6.1 per day Apply Production worker Haynes Manufacturing PAY $23.12
+no-apply press 1: 
+no-apply wk0 talk with "": Austin Carson Patricia Carson It's early on January 22. The house is quiet. Last night you watched Governor George Ferguson's State of the State address on KMPF-TV. Continue
+no-apply press 2: 
+no-apply press 3: 
+no-apply wk2 talk with "": Austin Carson Patricia Carson It's early on February 11. The house is quiet. Last night you watched Mayor Stella Harmon's yearly address on KMPF-TV. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply press 6: 
+no-apply wk5 talk with "": Sara Carson First thing on March 2nd, you open a letter from Sara Carson. A letter from Sara has come from South Dakota, with something to ask you. Continue
+no-apply press 7: 
+no-apply wk6 talk with "": Austin Carson Patricia Carson It's early on March 10. You stay in. It was Austin's birthday, and Sara wasn't at the table. Austin turned 56 and wants to talk to you about it. Continue
+no-apply press 8: 
+work after no-apply weeks: Chloe Carson Age 18 Work No current job You have no job of your own; your household lives on what Austin Carson earns at Carson Trucking. Open in town Carpenter Carson Construction PAY $22.41 per hour HOURS 5.8 per day Apply Cashier Malone's Market PAY $111.01 per hour HOURS 3.1 per day Apply Cashier Malone's Market PAY $16.75 per hour HOURS 3.1 per day Apply Cashier May's Market PAY $18.27 per hour HOURS 6 per day Apply Cook Chapman's Kitchen PAY $21.11 per hour HOURS 3.3 per day Apply Home health aide Mendoza Care Home PAY $20.07 per hour HOURS 5.1 per day Apply Home health aide Mendoza Care Home PAY $19.10 per hour HOURS 5.1 per day Apply Insurance agent Wade Insurance Agency PAY $32.31 per hour HOURS 6.4 per day Apply Insurance agent Wade Insurance Agency PAY $33.20 per hour HOURS 5.7 per day Apply Landscaper Ruiz Building Services PAY $16.49 per hour HOURS 6 per day Apply Machinist 
+APPLIED: Carpenter | Carson Construction | PAY $22.41 per hour | HOURS 5.8 per day
+APPLIED: Cashier | Malone's Market | PAY $111.01 per hour | HOURS 3.1 per day
+applied press 1: 
+applied wk0 talk with "": Cynthia Patel First thing on March 25th, Cynthia Patel calls. Cynthia from Malone's Market is calling about the opening. Continue
+OFFER from "" | card: 
+  call line: Cynthia Patel Cynthia Patel Hi. This is Cynthia, over at Malone's Market. We'd like to offer you the job. You'd start as a cashier, at $111.01 an hour. Who else works at Malone's Market? Yes. I'll take it. I appreciate it, but a cashier isn't the work I want to do. I'd like to talk it over at home f
+  replies ["Who else works at Malone's Market?","Yes. I'll take it.","I appreciate it, but a cashier isn't the work I want to do.","I'd like to talk it over at home first."] -> pressed "Who else works at Malone's Market?"
+  call line: Cynthia Patel Cynthia Patel CHLOE CARSON Who else works at Malone's Market? There are 5 people here. You'd be on 22 hours a week with them. That's great news. Count me in. Thank you, but I'm going to pass on working as a cashier. It isn't what I'm looking for. I can't decide this right now.
+  replies ["That's great news. Count me in.","Thank you, but I'm going to pass on working as a cashier. It isn't what I'm looking for.","I can't decide this right now."] -> pressed "That's great news. Count me in."
+  call line: Cynthia Patel Cynthia Patel CHLOE CARSON That's great news. Count me in. Welcome aboard. I'll let everyone know. Continue
+applied press 2: 
+week press failed locator.click: Timeout 20000ms exceeded.
+  visible: ["game:Austin Carson Patricia Carson Election day · City of Iroquois · 7:00 AM The poll","stage:","backdrop:","backdrop-next:","here:Austin Carson Patricia Carson","election-day:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","dock:"] week disabled false
+week press failed locator.click: Timeout 20000ms exceeded.
+  visible: ["game:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","stage:","backdrop:","backdrop-next:","election-day:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","sheet:Options Seeing FULL SCREEN On Off COLOR-BLIND COLORS On Off Scenes that may stop","dock:"] week disabled false
+week press failed locator.click: Timeout 20000ms exceeded.
+  visible: ["game:Austin Carson Patricia Carson Election day · City of Iroquois · 7:00 AM The poll","stage:","backdrop:","backdrop-next:","here:Austin Carson Patricia Carson","election-day:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","dock:"] week disabled false
+week press failed locator.click: Timeout 20000ms exceeded.
+  visible: ["game:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","stage:","backdrop:","backdrop-next:","election-day:Election day · City of Iroquois · 7:00 AM The polls opened this morning. 3 races","sheet:Options Seeing FULL SCREEN On Off COLOR-BLIND COLORS On Off Scenes that may stop","dock:"] week disabled false
+work at end: Chloe Carson Cashier, Malone's Market Work Cashier Malone's Market PAY $348.89 per day HOURS 3.1 per day Leave this job Work and school At 5, I first went to school at Iroquois Public Schools. In 2018, I began middle school. Then in 2021, I started high school. In 2025, I worked at Malone's Market.
+offers 1; errors []
