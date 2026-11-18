@@ -29,7 +29,7 @@ checked:
 
 **Rules.** No hand-written player text in code; words come from the banks. Every line names what its record holds (owner, Nov 11).
 
-**Done when.** `src/director/scene-talk.test.ts` passes 11 of 11 on the cut's lines without an edit to the test; every new reply pair has a fresh reader's verdict; a second session plays the vote ask before a roll call and the reply names the bill.
+**Done when.** `src/director/scene-talk.test.ts` passes 11 of 11 on the cut's lines without an edit to the test; every new reply pair has a fresh reader's verdict; a second session, in a drawn place with the player seated on a body, plays the vote ask before a roll call and the reply names the bill.
 
 **Waits on.** Nothing.
 
