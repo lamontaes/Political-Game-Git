@@ -918,6 +918,162 @@
       "now": "deleted; the engine that reads such a record words it from the record when one exists",
       "when": "2026-11-17",
       "why": "It held four lines of a meeting's minutes, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "scripts/english-corpus/newscast-bank.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/card-history-ways.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/card-history.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/dev-director-day.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/own-ordinance-in-the-paper.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/address-openers-by-kind.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/address-render-join.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-election.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-law.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-press.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-up-ordinance.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/home-alone-arrival.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/journal-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/opening-address-versions.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-leads.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-narration-once.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-opens-day-place-person.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/school-year-end-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/election-opponent-outcome.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/mined/scene-bank.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-closing-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-honor-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-police-log.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-side-bodies.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/opener-comma.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
     }
   ]
 }

@@ -79,7 +79,7 @@ Each of these names its place and seed in its own failure line.
 
 A second run draws other places. Each is still a test that can go red by draw, which the pinned-tests skill says to fix by pinning.
 
-- `src/director/bring-it-up-election.test.ts`: Astoria, Oregon.
+- `src/director/bring-it-up-election.test.ts` (removed): Astoria, Oregon.
 - `src/director/speech-afterward.test.ts`: Felsenthal, Arkansas.
 - `src/bench/campaign-mail.test.ts` (2 tests): Shaniko, Oregon.
 - `src/bench/filing-visit-talk.test.ts`: Volcano, Hawaii.

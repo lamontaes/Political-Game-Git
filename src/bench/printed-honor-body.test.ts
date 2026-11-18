@@ -4,7 +4,7 @@
  * a body: the lede, the school the honor row names and what comes next, each
  * from the honor's own record. The winners in these places are counted
  * students, so the story is unnamed; the named wording is proved by facts in
- * `src/english/news-honor-story.test.ts`. Places and seeds are named.
+ * src/english/news-honor-story.test.ts (removed). Places and seeds are named.
  */
 import { appendFileSync } from "node:fs";
 import { tmpdir } from "node:os";
