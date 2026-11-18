@@ -7,7 +7,7 @@ description: >
   to a race or a person. Use when measuring golden-path wins, re-election
   totals or a calibration across drawn places, or when the speed lead asks
   about a campaign or voting table. Not for one feature's played-year proof
-  (played-world-proof) or timing (speed-work).
+  (done-proof, played-world-proof part) or timing (speed-work).
 ---
 
 # Governing measurement
