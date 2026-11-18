@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-election-night
-pr:
+pr: 10161
 after:
 blocked-on:
 lead: story
