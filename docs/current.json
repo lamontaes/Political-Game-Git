@@ -1458,12 +1458,6 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case (a town post and a state post) needed the post-ask scene's offer; those lines are deleted and no offer comes."
-    },
-    {
-      "old": "src/director/post-ask-drawn-refuses.test.ts",
-      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
-      "when": "2026-11-18",
-      "why": "Its one case needed the post-ask scene's offer and refusal in a drawn place; those lines are deleted and no offer comes."
     }
   ]
 }
