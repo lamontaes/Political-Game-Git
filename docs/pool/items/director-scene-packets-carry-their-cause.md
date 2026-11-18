@@ -27,7 +27,7 @@ checked:
 
 **Time box.** 3 hours.
 
-**Rules.** The simulation is the one layer that knows; a scene is a view of the record (owner, Oct 28). Talk says how it feels, never the figure (owner, Nov 11).
+**Rules.** No dice: every fact the packet carries is read from the cause record, never drawn or guessed. The simulation is the one layer that knows; a scene is a view of the record (owner, Oct 28). Talk says how it feels, never the figure (owner, Nov 11).
 
 **Done when.** A second session plays a layoff, a day after school and a quarrel in drawn places, and the dev mode Trace on each scene lists the new facts with the record ids they came from.
 
