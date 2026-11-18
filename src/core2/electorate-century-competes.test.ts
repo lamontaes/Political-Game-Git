@@ -104,7 +104,7 @@ describe("a party off the two national sides competes by where it stands", () =>
 });
 
 describe("a founded party stands a ticket from the next presidential year", () => {
-  it("is on no race before its founding and on every one after, in drawn worlds", () => {
+  it("is on no race before its founding and on every one from then until it merges, in drawn worlds", () => {
     const named: string[] = [];
     let founded = 0;
     for (let i = 0; i < 8; i += 1) {
@@ -115,11 +115,17 @@ describe("a founded party stands a ticket from the next presidential year", () =
       const century = centuryOf(place.seed, gameStartDate());
       const first = century.foundings[0];
       for (const race of century.presidencies) {
-        if (!first || race.year <= first.year) {
+        // A party stands from the race after its founding until the race it merges in.
+        const standing = century.foundings.find(
+          (f) =>
+            f.year < race.year &&
+            (f.endedYear === undefined || race.year <= f.endedYear),
+        );
+        if (!standing) {
           expect(race.foundedParty, `${where}: ${race.id}`).toBeUndefined();
           continue;
         }
-        expect(race.foundedParty?.id, `${where}: ${race.id}`).toBe(first.id);
+        expect(race.foundedParty?.id, `${where}: ${race.id}`).toBe(standing.id);
         expect(
           race.foundedParty!.share,
           `${where}: ${race.id}`,

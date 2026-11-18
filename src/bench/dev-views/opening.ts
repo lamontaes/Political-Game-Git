@@ -469,7 +469,7 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
                       .filter((p) => p.foundedParty?.id === f.id)
                       .at(-1);
                     return last
-                      ? `; it stood in ${century.presidencies.filter((p) => p.foundedParty?.id === f.id).length} presidential races and took ${pct(last.foundedParty!.share)} of every vote in ${last.year}`
+                      ? `; it stood in ${century.presidencies.filter((p) => p.foundedParty?.id === f.id).length} presidential races and took ${pct(last.foundedParty!.share)} of every vote in ${last.year}${f.endedYear ? `; its share fell in each of the last races, so it merged into ${f.mergedInto} in ${f.endedYear}` : ""}`
                       : "; it has not yet stood in a presidential race";
                   })()}`,
               )

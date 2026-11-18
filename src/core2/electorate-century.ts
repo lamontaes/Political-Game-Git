@@ -311,6 +311,13 @@ export interface CenturyFounding {
   readonly cost: number;
   /** The share of the century's voters neither national party reached that year. */
   readonly unreachedShare: number;
+  /**
+   * The presidential year its share had fallen in each of `centuryFoundedPartyFallCycles` straight
+   * races and it merged into the national party nearest it (`mergedInto`, a party id); both
+   * absent while it stands (History 9b part 3).
+   */
+  readonly endedYear?: number;
+  readonly mergedInto?: string;
 }
 
 /**
@@ -733,7 +740,7 @@ function presidentialElection(
   // yet (stopgap SG-HIST-century-founded-ticket).
   // stopgapId: SG-HIST-century-founded-ticket
   for (const founding of foundings)
-    if (founding.year < year) {
+    if (founding.year < year && founding.endedYear === undefined) {
       field.push({
         id: founding.id,
         party: null,
@@ -1648,6 +1655,7 @@ export function* runCentury(
     positions: [] as { year: number; position: number }[],
   }));
   const foundings: CenturyFounding[] = [];
+  const foundedShares = new Map<string, number[]>();
   let foundingPressure = 0;
   let sittingSide = opening.presidentSide;
   for (const [at, year] of years.entries()) {
@@ -1678,6 +1686,36 @@ export function* runCentury(
       );
       presidencies.push(row);
       sittingSide = row.winnerSide;
+      // A founded party whose share has fallen in each of several straight races merges into
+      // the national party nearest it, and its ticket ends (History 9b part 3).
+      const stood = row.foundedParty;
+      if (stood) {
+        const shares = foundedShares.get(stood.id) ?? [];
+        shares.push(stood.share);
+        foundedShares.set(stood.id, shares);
+        const falls = centuryParameter("centuryFoundedPartyFallCycles");
+        const recent = shares.slice(-(falls + 1));
+        if (
+          recent.length === falls + 1 &&
+          recent.every((share, i) => i === 0 || share < recent[i - 1]!)
+        ) {
+          const at = foundings.findIndex((f) => f.id === stood.id);
+          const founding = foundings[at]!;
+          // Where the parties stood going into this election (the last November's).
+          const positions = partyPositionsAt(parties, year);
+          const nearest = parties.reduce((best, party) =>
+            Math.abs((positions[party.side] ?? 0) - founding.position) <
+            Math.abs((positions[best.side] ?? 0) - founding.position)
+              ? party
+              : best,
+          );
+          foundings[at] = {
+            ...founding,
+            endedYear: year,
+            mergedInto: nearest.id,
+          };
+        }
+      }
     }
     if (year % 2 === 0) congresses.push(congressCount(year, seats));
     // Each governor's side as it changes (the legislatures' sessions read who signs).
@@ -1700,7 +1738,7 @@ export function* runCentury(
           parties,
           year,
           foundingPressure,
-          foundings.length > 0,
+          foundings.some((f) => f.endedYear === undefined),
         );
         foundingPressure = step.pressure;
         if (step.founding) foundings.push(step.founding);
