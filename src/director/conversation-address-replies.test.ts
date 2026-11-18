@@ -220,6 +220,7 @@ it(`ask is offered only with a reason of their own and answered from it; let it 
   let raisedAgain = false;
   let oneLiners = 0;
   let withCloser = 0;
+  const saidOnce = new Set<string>();
   for (
     let draw = 0;
     draw < ATTEMPTS && !(asked && letGo && raisedAgain && oneLiners);
@@ -282,7 +283,9 @@ it(`ask is offered only with a reason of their own and answered from it; let it 
           expect(closer, `${here}: "${line.text}"`).toBe(false);
           expect(line.text, here).not.toMatch(/\?$/);
           oneLiners += 1;
-          seen.push(`${here}: one line: "${line.text}"`);
+          if (!saidOnce.has(here))
+            seen.push(`${here}: one line: "${line.text}"`);
+          saidOnce.add(here);
         } else if (closer) withCloser += 1;
         talks.push({ otherId, talk });
       }
