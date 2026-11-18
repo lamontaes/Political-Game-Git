@@ -1,0 +1,34 @@
+seed 78c3a4888e9a6a81 place Townsend, Delaware me Grace Sinclair
+opening talk with "": Wyatt Sinclair Sophia Sinclair Mark Sinclair Gia Sinclair It's the evening of January 20. The day is done. Continue
+work at start: Grace Sinclair Age 18 Work No current job You have no job of your own; your household lives on what Gia Sinclair earns at Gallagher Family Clinic. Open in town Dishwasher Chang's Kitchen PAY $15.99 per hour Apply Home health aide Moran Care Home PAY $14.93 per hour HOURS 3.1 per day Apply Sales representative Lara Supply Company PAY $32.66 per hour Apply Server Chang's Kitchen PAY $17.08 per hour Apply Warehouse worker Lara Supply Company PAY $18.73 per hour HOURS 6.1 per day Apply Warehouse worker Lara Supply Company PAY $21.32 per hour HOURS 6.1 per day Apply Work and school At age 5, I firs
+no-apply press 1: 
+no-apply wk0 talk with "": Wyatt Sinclair Sophia Sinclair Mark Sinclair Gia Sinclair It's early on January 22. The house is quiet. Last night you watched Governor Jerry McKinney's State of the State address on WYES-TV. Continue
+no-apply press 2: 
+no-apply press 3: 
+no-apply wk2 talk with "": Wyatt Sinclair Sophia Sinclair Mark Sinclair Gia Sinclair It's early on February 11. The house is quiet. Last night you watched Mayor Peggy Warren's yearly address on WYES-TV. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply wk4 talk with "": Sophia Sinclair Mark Sinclair Gia Sinclair Melanie Sinclair It's early on February 25. The house is quiet. Wyatt turned 28, and Rowan wasn't at the table. Mark wants to talk to you about it. Continue
+no-apply press 6: 
+no-apply press 7: 
+no-apply wk6 talk with "": Wyatt Sinclair Sophia Sinclair Mark Sinclair Gia Sinclair It's early on March 5. The house is quiet. Continue
+no-apply press 8: 
+no-apply press 9: 
+no-apply press 10: 
+no-apply wk9 talk with "": Rowan Sinclair Late in the morning on March 25th, you knock on Rowan Sinclair's door. Rowan has come by one last time before going. Continue
+work after no-apply weeks: Grace Sinclair Age 18 Work No current job You have no job of your own; your household lives on what Gia Sinclair earns at Gallagher Family Clinic. Open in town Attorney Jones and Associates PAY $80.74 per hour Apply Home health aide Moran Care Home PAY $16.84 per hour HOURS 5.1 per day Apply Home health aide Moran Care Home PAY $16.92 per hour HOURS 5.1 per day Apply Insurance agent Bryant Insurance Agency PAY $38.47 per hour HOURS 5.8 per day Apply Insurance agent Bryant Insurance Agency PAY $38.47 per hour HOURS 5.8 per day Apply Insurance agent Bryant Insurance Agency PAY $38.47 per hour HOURS 6.5 per day Apply Insurance agent Bryant Insurance Agency PAY $38.47 per hour HOURS 5.8 per day Apply Office clerk Bryant Insurance Agency PAY $23.45 per hour Apply Office clerk Bryant Insurance Agency PAY $23.45 per hour Apply Production worker Blanchard Manufacturing PAY $18.84 per hour HOURS 
+APPLIED: Attorney | Jones and Associates | PAY $80.74 per hour
+APPLIED: Home health aide | Moran Care Home | PAY $16.84 per hour | HOURS 5.1 per day
+applied press 1: 
+applied press 2: 
+applied press 3: 
+applied press 4: 
+applied press 5: 
+applied press 6: 
+applied press 7: 
+applied press 8: 
+applied press 9: 
+applied wk8 talk with "": Gia Sinclair It's early on June 2. You stay in. Your mother has news for you. Continue
+applied press 10: 
+work at end: Grace Sinclair Age 18 Work No current job You have no job of your own; your household lives on what Wyatt Sinclair earns at McCormick's Kitchen. Open in town Insurance agent Gallagher Insurance Agency PAY $38.89 per hour HOURS 5.5 per day Apply Insurance agent Gallagher Insurance Agency PAY $38.89 per hour HOURS 6 per day Apply Insurance agent Gallagher Insurance Agency PAY $38.89 per hour HOURS 5.5 per day Apply Insurance agent Noel Insurance Agency PAY $38.74 per hour HOURS 5.5 per day Apply Office clerk Gallagher Insurance Agency PAY $25.91 per hour Apply Office clerk Gallagher Insurance Ag
+offers 0; errors []

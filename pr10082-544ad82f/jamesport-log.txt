@@ -1,0 +1,43 @@
+seed bde1e98430f9bc14 place Jamesport, Missouri me Rafael Mills
+opening talk with "": It's the evening of January 20. The house is quiet. Continue
+work at start: Rafael Mills Age 18 Work No current job Open in town Home health aide Oliver Care Home PAY $17.63 per hour HOURS 5.1 per day Apply Medical assistant Holt Family Clinic PAY $19.08 per hour HOURS 6.4 per day Apply Production worker McClure Manufacturing PAY $21.87 per hour HOURS 6.1 per day Apply Production worker Morris Manufacturing PAY $22.77 per hour HOURS 6.1 per day Apply Work and school At 5, I started kindergarten at Jamesport Public Schools. In 2018, I began middle school. Then in 2021, I made it to high school.
+no-apply press 1: 
+no-apply wk0 talk with "": It's early on January 22. You stay in. You caught Governor Peter Yates's State of the State address on KYKA-TV last night. Continue
+no-apply press 2: 
+no-apply wk1 talk with "": Jerry Mills First thing on February 2nd, you open a letter from Jerry Mills. A letter from Jerry has come from Daviess County, with something to ask you. Continue
+no-apply press 3: 
+no-apply wk2 talk with "": It's early on February 11. You stay in. You caught Mayor Kimberly Payne's yearly address on KYKA-TV last night. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply press 6: 
+no-apply press 7: 
+no-apply press 8: 
+no-apply press 9: 
+no-apply press 10: 
+work after no-apply weeks: Rafael Mills Age 18 Work No current job Open in town Carpenter Neal Construction PAY $26.84 per hour HOURS 6.1 per day Apply Cashier Morrison's Market PAY $15.95 per hour HOURS 5.7 per day Apply Cashier Morrison's Market PAY $15.95 per hour HOURS 5.7 per day Apply Cashier Shaffer's Market PAY $15.94 per hour Apply Construction laborer Richmond Construction PAY $24.21 per hour Apply Construction laborer Neal Construction PAY $23.28 per hour HOURS 6.1 per day Apply Electrician Richmond Construction PAY $32.57 per hour Apply Home health aide Oliver Care Home PAY $25.66 per hour HOURS 5.1 per day Apply Machinist Haynes Manufacturing PAY $26.69 per hour Apply Production worker Haynes Manufacturing PAY $22.93 per hour HOURS 6 per day Apply Sales associate Stevenson's Market PAY $17.20 per hour Apply Sales associate Shaffer's Market PAY $16.17 per hour Apply Security guard Hicks Building Servic
+APPLIED: Carpenter | Neal Construction | PAY $26.84 per hour | HOURS 6.1 per day
+APPLIED: Cashier | Morrison's Market | PAY $15.95 per hour | HOURS 5.7 per day
+applied press 1: 
+applied wk0 talk with "": Tracy Jennings First thing on April 8th, you pick up the phone and it's Tracy Jennings. The phone rings. It's Tracy, from Neal Construction. Continue
+OFFER from "" | card: 
+  call line: Tracy Jennings Tracy Jennings Hi. This is Tracy, over at Neal Construction. I'm calling with good news. The job's yours if you want it: a carpenter, $26.84 an hour. What hours would I work at Neal Construction? Yes. I'll take it. I appreciate it, but a carpenter isn't the work I want to do. Can I th
+  replies ["What hours would I work at Neal Construction?","Yes. I'll take it.","I appreciate it, but a carpenter isn't the work I want to do.","Can I think it over and call you back?"] -> pressed "What hours would I work at Neal Construction?"
+  call line: Tracy Jennings Tracy Jennings RAFAEL MILLS What hours would I work at Neal Construction? You'd work 43 hours a week alongside 14 of us. That's great news. Count me in. Thank you, but I'm going to pass on working as a carpenter. It isn't what I'm looking for. I can't decide this right now.
+  replies ["That's great news. Count me in.","Thank you, but I'm going to pass on working as a carpenter. It isn't what I'm looking for.","I can't decide this right now."] -> pressed "That's great news. Count me in."
+  call line: Tracy Jennings Tracy Jennings RAFAEL MILLS That's great news. Count me in. Welcome aboard. I'll let everyone know. Continue
+applied press 2: 
+applied press 3: 
+applied press 4: 
+applied press 5: 
+applied wk4 talk with "": Paul McKenzie First thing on May 2nd, the phone rings. It's Paul McKenzie. Paul catches you on the street. Continue
+OFFER from "" | card: 
+  call line: Paul McKenzie Paul McKenzie Can I ask you something, and you tell me no if it's wrong? My son needs a job. Anything at city hall. He's a good kid. I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it. Tell him to apply to the posting. I'll make sure som
+  replies ["I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it.","Tell him to apply to the posting. I'll make sure somebody reads it.","Have him call my office Monday. I'll see what's open.","What's he done so far?"] -> pressed "I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it."
+  call line: Paul McKenzie Paul McKenzie RAFAEL MILLS I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it. I figured. I had to ask. Continue
+applied press 6: 
+applied press 7: 
+applied press 8: 
+applied press 9: 
+applied press 10: 
+work at end: Rafael Mills Carpenter, Neal Construction Work Carpenter Neal Construction PAY $162.96 per day HOURS 6.1 per day Leave this job Work and school At 5, I started kindergarten at Jamesport Public Schools. In 2018, I began middle school. Then in 2021, I made it to high school. In 2025, I went to work at Neal Construction.
+offers 2; errors []

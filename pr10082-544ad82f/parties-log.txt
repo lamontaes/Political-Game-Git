@@ -1,0 +1,11 @@
+seed grano-probe place Grano, North Dakota
+parties listed 2: ["Democratic","Republican"]
+party 1 "Democratic": Democratic About Amber Gordon Chair MEMBERS 1 MEETS February 18, 2025 Positions FAVORS Medicare drug price negotiation FAVORS Statehood for dc FAVORS Forgive student loans In office Linda Barton President Judy Flynn Vice President Robert McClain U.S. Senator David McPherson U.S. Senator Kenneth Wagner U.S. Representative Hannah Holland Governor Kevin Bennett Lieutenant Governor Donald Wynn Attorney General Avery Cunningham Secretary of State Paula Stafford Treasurer Gail Vance State Auditor Michelle Wells Commissioner of Agriculture William Hodges Insurance Commissioner Thomas Wright Tax Commissioner Matthew Bishop Public Service Commission Carol Pena State Senator Heather Hardy State Representative Daniel Poole State Representative Me Join Democratic
+  page height 668/668
+  Join at y786 h34; sheet bottom 848; scrollers ["pager 640/208"]
+party 2 "Republican": Republican About Jennifer Mullen Chair MEMBERS 7 MEETS February 18, 2025 Positions OPPOSES Medicare drug price negotiation OPPOSES Statehood for dc OPPOSES Forgive student loans In office Me Join Republican
+  page height 460/460
+  Join at y578 h34; sheet bottom 640; scrollers []
+  Join visible after scroll: true in viewport {"x":480,"y":577.78125,"width":140.4375,"height":34}
+clicked "Amber Gordon Chair": card open true name Amber Gordon
+errors []
