@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/story-address-points-from-record
-pr:
+pr: 10107
 after:
 blocked-on:
 lead: story
