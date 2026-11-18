@@ -31,6 +31,7 @@ import { bookkeeping } from "../bookkeeping";
 import { tableTraceOn } from "../module-state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS, householdIncome } from "./people";
+import { feelingBetween } from "../closeness";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -643,18 +644,26 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
-  // its candidate off the rival campaigns they worked for.
-  eventKinds: ["scene.reply", "election-result", "candidate-filed"],
+  // its candidate off the rival campaigns they worked for; an announcement
+  // forms the candidate's committee the day they announce.
+  eventKinds: [
+    "scene.reply",
+    "election-result",
+    "candidate-filed",
+    "candidate-announced",
+  ],
   onEvent: (api, event) =>
     event.kind === "election-result"
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : (answerOffer(api, event),
-          answerAskForVote(api, event),
-          answerEndorsementAsk(api, event),
-          answerVolunteerAsk(api, event),
-          answerPetitionShort(api, event)),
+        : event.kind === "candidate-announced"
+          ? void campaignFor(api, String(event.facts?.filingId ?? ""))
+          : (answerOffer(api, event),
+            answerAskForVote(api, event),
+            answerEndorsementAsk(api, event),
+            answerVolunteerAsk(api, event),
+            answerPetitionShort(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -3958,6 +3967,20 @@ export function giftOf(
 }
 
 /**
+ * Every donor's running total to one campaign, read off the gifts table's
+ * `byCampaign` rows: a donor's ask weighs their gift against the rest of what
+ * the campaign was given (donor-ask-facts.ts).
+ */
+export function giftsToCampaign(
+  api: CoreAPI,
+  filingId: string,
+): readonly GiftRow[] {
+  return table(api, "gifts").query("byCampaign", [
+    filingId,
+  ]) as unknown as GiftRow[];
+}
+
+/**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
  * platform, party, how they stand with the candidate, what they have to
  * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
@@ -5657,6 +5680,35 @@ export function runAd(
     );
     if (cause) causes.push(cause);
   }
+  // The one an attack ad ran against holds it against whoever bought it: the
+  // drives engine reads this record and answers by their own temperament
+  // (a grudge, proving themselves, a cause or carrying on), never by a roll.
+  if (
+    input.attackFilingId &&
+    causes.length > 0 &&
+    target.candidateId !== campaign.candidateId &&
+    api.state.people.get(target.candidateId as PersonId)?.alive &&
+    api.state.people.get(campaign.candidateId as PersonId)?.alive
+  )
+    api.emit({
+      id: `campaign.attacked:${campaign.id}:${api.state.date}:${campaign.spentMinor}`,
+      date: api.state.date,
+      kind: "campaign.attacked",
+      personIds: [target.candidateId as PersonId],
+      placeId: api.state.people.get(target.candidateId as PersonId)!.placeId,
+      publicRecord: false,
+      topic: campaign.candidateId,
+      desiredChange: "campaign.attacked",
+      facts: {
+        attackerId: campaign.candidateId,
+        contestId: campaign.contestId,
+      },
+      source: {
+        tag: "SOURCED",
+        citation: `Attack ad against ${target.candidateId} bought by ${campaign.candidateId}`,
+        asOf: api.state.date,
+      },
+    });
   // The ad's message is a public record its viewers saw: the views engine
   // moves each one's stance on its question.
   if (!input.attackFilingId && !input.quiet)
@@ -5979,7 +6031,7 @@ function weighEndorsement(
     const tie =
       row.candidateId === endorser.id
         ? 0
-        : closenessBetween(api.state, endorser.id, row.candidateId);
+        : feelingBetween(api.state, endorser.id, row.candidateId);
     // A favor the endorser owes this candidate from a deal they took
     // (campaign-favor-called-in): worth what a favor is worth in the
     // legislature, more the closer they are; a person speaks for themselves.
@@ -7052,7 +7104,7 @@ export interface CauseSums {
   >;
 }
 
-/** A candidate's campaigns as date windows: filed to election day, by filing id. */
+/** A candidate's campaigns as date windows: announced or filed to election day, by filing id. */
 function campaignWindows(
   api: CoreAPI,
   candidateId: string,
@@ -7065,7 +7117,7 @@ function campaignWindows(
     ]) as unknown as FilingRow[]
   ).map((filing) => ({
     id: filing.id,
-    from: filing.filedOn,
+    from: filing.announcedOn ?? filing.filedOn,
     through: (
       contests.get(filing.contestId) as unknown as
         { electionDate?: string } | undefined

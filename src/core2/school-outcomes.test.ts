@@ -344,6 +344,11 @@ describe(`a student filled in keeps the income fifth the counts gave them (seed 
         // A played year, then a student is met.
         advanceCore(core, addDays(makeIsoDate(core.date), 365));
         const rt = residentsRuntime(core);
+        const inactiveTiers = new Set(
+          core.data.tiers
+            .filter((tier) => tier.cadence === "inactive")
+            .map((tier) => tier.id),
+        );
         if (!rt) {
           tried.push(`${where}: no counted tier`);
           continue;
@@ -380,9 +385,15 @@ describe(`a student filled in keeps the income fifth the counts gave them (seed 
             )
               continue;
             for (const grade of grades) {
+              // A student in an inactive tier (a counted record's member who lives
+              // away, the "husk" tier) stays out of the place's school counts when
+              // met, so the case needs one in the counted town tier (Lake Viking,
+              // Missouri, seed cbf9c13751481f75: the first student found was a husk).
               const kid = record.people.find(
                 (p) =>
-                  ageOn(p.birthDate, sept) === schoolData.gradeAgeFirst + grade,
+                  ageOn(p.birthDate, sept) ===
+                    schoolData.gradeAgeFirst + grade &&
+                  !inactiveTiers.has(p.tier ?? ""),
               );
               if (kid) {
                 found = { placeId, kid: kid.id, grade, nonJob };
