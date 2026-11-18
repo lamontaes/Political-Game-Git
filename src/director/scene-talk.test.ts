@@ -28,6 +28,9 @@ import {
  */
 const CUT_PURPOSES = new Set<string>([
   "return",
+  "argument",
+  "apology",
+  "reconciliation",
   "letter",
   "becoming-friends",
   "celebration",
