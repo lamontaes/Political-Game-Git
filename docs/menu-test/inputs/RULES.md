@@ -53,6 +53,6 @@ Why it exists (the owner, Nov 17, on round 4): "It just defaulted back to floati
 
 ## Words and limits
 
-- **No captions or subtitles:** no explaining line under an item, number or heading. No developer text, no system math, and American English only (never "ward", "councillor", "colour").
+- **No captions or subtitles:** no explaining line under an item, number or heading. No developer text, no system math, and American English only: American spellings, and a council seat is a district or at large, as the place's own records name it.
 - **No timelines** on person cards or You.
 - **The menu never scrolls** as a page. Each page is exactly 1440 × 900, static HTML and CSS, with at most one click per page.
