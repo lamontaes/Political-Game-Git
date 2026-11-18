@@ -23974,60 +23974,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.my-chief-of-staff-will-sit-down-with-you-on-bill-tell-them-everything",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "My chief of staff will sit down with you on {bill}. Tell them everything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-offer.take-bill-to-my-office-and-set-up-a-meeting-i-ll-hear-it-there",
       "move": "reply-offer",
       "kind": "spoken",
       "text": "Take {bill} to my office and set up a meeting. I'll hear it there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.i-d-like-my-staff-to-go-over-bill-with-you-before-i-say-a-word",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "I'd like my staff to go over {bill} with you before I say a word.",
       "uses": [
         {
           "subject": "scene",
