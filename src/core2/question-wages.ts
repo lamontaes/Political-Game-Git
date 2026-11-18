@@ -180,8 +180,15 @@ export function holdFederalWage(
   const federal = lawChain(api).levels.find((l) => l.level === "federal");
   if (!federal) return;
   const standing = yesLevels(api, FEDERAL_KEY).length > 0;
-  // The opening's researched answer is the federal floor already in force.
-  if (standing && change.lawId.endsWith(":starting")) return;
+  // The opening's researched answer is the federal floor already in force; a
+  // century's session that passed the raise left its amount as law, which
+  // nothing else writes.
+  const centurys =
+    (
+      api.moduleState(LAWS_MODULE_ID).table("laws").get(change.lawId) as
+        { terms?: { centuryRecordId?: string } } | undefined
+    )?.terms?.centuryRecordId !== undefined;
+  if (standing && change.lawId.endsWith(":starting") && !centurys) return;
   if (standing)
     setLevelWage(
       api,
