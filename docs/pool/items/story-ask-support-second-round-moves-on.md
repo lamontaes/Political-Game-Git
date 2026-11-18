@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/story-ask-support-second-round
-pr:
+pr: 10142
 after:
 blocked-on:
 lead: story
