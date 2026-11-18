@@ -6628,10 +6628,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-yes.yes-about-was-in-the-paper",
+      "key": "conversation.news-answer-yes.yes-the-paper-had-a-story-on-about",
       "move": "news-answer-yes",
       "kind": "spoken",
-      "text": "Yes, {about} was in the paper.",
+      "text": "Yes, the paper had a story on {about}.",
       "uses": [
         {
           "move": "news-answer-yes",
@@ -6647,10 +6647,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-yes.yes-i-saw-about-on-the-news",
+      "key": "conversation.news-answer-yes.yes-i-saw-a-story-about-about-on-the-news",
       "move": "news-answer-yes",
       "kind": "spoken",
-      "text": "Yes, I saw {about} on the news.",
+      "text": "Yes, I saw a story about {about} on the news.",
       "uses": [
         {
           "move": "news-answer-yes",
@@ -6666,10 +6666,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-yes.yes-about-was-on-the-news",
+      "key": "conversation.news-answer-yes.yes-the-news-had-a-story-on-about",
       "move": "news-answer-yes",
       "kind": "spoken",
-      "text": "Yes, {about} was on the news.",
+      "text": "Yes, the news had a story on {about}.",
       "uses": [
         {
           "move": "news-answer-yes",
@@ -6685,10 +6685,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-yes.yes-i-heard-about-on-the-radio",
+      "key": "conversation.news-answer-yes.yes-i-heard-about-about-on-the-radio",
       "move": "news-answer-yes",
       "kind": "spoken",
-      "text": "Yes, I heard {about} on the radio.",
+      "text": "Yes, I heard about {about} on the radio.",
       "uses": [
         {
           "move": "news-answer-yes",
@@ -6704,10 +6704,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-yes.yes-about-was-on-the-radio",
+      "key": "conversation.news-answer-yes.yes-the-radio-had-a-story-on-about",
       "move": "news-answer-yes",
       "kind": "spoken",
-      "text": "Yes, {about} was on the radio.",
+      "text": "Yes, the radio had a story on {about}.",
       "uses": [
         {
           "move": "news-answer-yes",
@@ -6837,10 +6837,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-no.no-i-missed-about-tell-me",
+      "key": "conversation.news-answer-no.no-i-missed-the-story-on-about-tell-me",
       "move": "news-answer-no",
       "kind": "spoken",
-      "text": "No, I missed {about}. Tell me.",
+      "text": "No, I missed the story on {about}. Tell me.",
       "uses": [
         {
           "move": "news-answer-no",
@@ -6856,10 +6856,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-answer-no.i-missed-about-what-was-it",
+      "key": "conversation.news-answer-no.i-missed-the-story-on-about-what-was-it",
       "move": "news-answer-no",
       "kind": "spoken",
-      "text": "I missed {about}. What was it?",
+      "text": "I missed the story on {about}. What was it?",
       "uses": [
         {
           "move": "news-answer-no",
@@ -7276,10 +7276,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-for-it",
+      "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-for-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} made the news {ran}. I'm for it.",
+      "text": "The story on {about} ran {ran}. I'm for it.",
       "uses": [
         {
           "move": "news-ask-core",
@@ -7295,10 +7295,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-was-in-the-news-ran-and-i-m-glad",
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-m-glad",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}, and I'm glad.",
+      "text": "There was a story on {about} {ran}, and I'm glad.",
       "uses": [
         {
           "move": "news-ask-core",
@@ -7314,10 +7314,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-came-up-in-the-news-ran-about-time",
+      "key": "conversation.news-ask-core.the-news-covered-about-ran-about-time",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} came up in the news {ran}. About time.",
+      "text": "The news covered {about} {ran}. About time.",
       "uses": [
         {
           "move": "news-ask-core",
@@ -7352,10 +7352,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-against-it",
+      "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-against-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} made the news {ran}. I'm against it.",
+      "text": "The story on {about} ran {ran}. I'm against it.",
       "uses": [
         {
           "move": "news-ask-core",
@@ -7371,10 +7371,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-was-in-the-news-ran-and-i-don-t-like-it",
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-don-t-like-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}, and I don't like it.",
+      "text": "There was a story on {about} {ran}, and I don't like it.",
       "uses": [
         {
           "move": "news-ask-core",
@@ -7390,10 +7390,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.news-ask-core.about-came-up-in-the-news-ran-it-worries-me",
+      "key": "conversation.news-ask-core.the-news-covered-about-ran-it-worries-me",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} came up in the news {ran}. It worries me.",
+      "text": "The news covered {about} {ran}. It worries me.",
       "uses": [
         {
           "move": "news-ask-core",
