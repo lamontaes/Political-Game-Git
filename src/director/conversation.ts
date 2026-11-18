@@ -5151,9 +5151,10 @@ function askSubject(
         kind,
         "ask",
         ALL,
-        subject.kind === "school"
-          ? { ...subject.facts, ...townFact(core, otherId) }
-          : subject.facts,
+        // The asker's town rides along, so a question carries a record
+        // (owner, Nov 17: every line the engine says is composed from one):
+        // "What do you do here in {place}?"
+        { ...townFact(core, otherId), ...subject.facts },
         momentKey,
         subject.kind === "school"
           ? schoolAskStage(core, otherId, playerId)
@@ -7269,7 +7270,10 @@ function offerChoices(
         raised.kind,
         "raise",
         ALL,
-        raised.facts,
+        // The player's town and what the other just said ride along, so the
+        // turned-back question carries a record: "How long have you been at
+        // {employer}?" (owner, Nov 17).
+        { ...townFact(core, playerId), ...last.facts, ...raised.facts },
         `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
         "default",
         raised,

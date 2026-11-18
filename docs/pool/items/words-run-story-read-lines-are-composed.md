@@ -44,7 +44,7 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/view-learned.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/view-learned.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 110 lines, 64 with no insert and not excused. Three today: "I saw it. They've got it about right.", "Yeah. I've been thinking the same thing for a while.", "I did, and I'm glad someone finally said it."
 

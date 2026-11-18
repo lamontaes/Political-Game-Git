@@ -34,4 +34,4 @@ checked: words builder A 2026-11-15
 
 **Waits on.** director-relation-passed-between (#9444).
 
-**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, scripts/words/relation-greets-replay.ts
+**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts

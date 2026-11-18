@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** The padded-name pull request #9337 folding into the train.
 
-**Files.** data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** data/english/parts/conversation.json
 
 **Notes.** Result on branch claude/project-thread-nue48y-p9: three of the five are shown said at that head (Sherrodsville, place key 3972242, world seed "scan-25", fixed after scanning seeds scan-1 to scan-30 for a home with two risk-low parents; the engine entered the player in the 2025-11-04 races and the player lost, and the housemates' talks offered the replies: "Somebody has to run for Mayor.", "You think it's a mistake?", "I'll be careful. I promise."). "I'll be okay. Thanks." keeps its name because it is a thank-you. "We'll have to agree to disagree." was not reached by play (own-view exchanges with opposite views did not offer that variant in the runs) and is deleted; it was one of eight variants of the same reply. The player's own filing press was not used: the filing route showed no open contest for the player at game start.

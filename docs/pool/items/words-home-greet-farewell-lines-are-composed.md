@@ -46,6 +46,6 @@ merged-at: 2026-11-11T18:59:55.068Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715). Until then, the builder builds the code steps and lists the lines it needs in its pull request.
 
-**Files.** src/director/conversation.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/english/day-words.ts, src/director/words.ts, src/director/conversation.test.ts, data/english/parts/conversation.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/english/day-words.ts, src/director/words.ts, src/director/conversation.test.ts, data/english/parts/conversation.json, data/english/part-grades.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. Counts are distinct bank parts with a `greet` or `farewell` use: 96 lines, 31 with no insert and not excused (greet 47 and 7; farewell 53 and 26; six parts serve both or another subject). Three today: "I've got to run.", "Have a nice day.", "Let me know if you need anything."

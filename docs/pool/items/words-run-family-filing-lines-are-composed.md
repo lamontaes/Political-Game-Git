@@ -44,7 +44,7 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/director/family-stake-scene.test.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/director/family-stake-scene.test.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 134 lines, 111 with no insert and not excused. Three today: "So. You did it.", "I didn't tell you because I wasn't sure I'd go through with it.", "I'm running because somebody has to."
 

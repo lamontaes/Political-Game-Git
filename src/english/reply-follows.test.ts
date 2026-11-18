@@ -68,9 +68,11 @@ function askOf(pair: {
 }): SceneMove {
   const before = parts.find((part) => part.key === pair.before)!;
   const reply = parts.find((part) => part.key === pair.reply)!;
-  const use = reply.uses.find(
+  // A pair at the flow's "continue" step is said by a reply written for the
+  // "state" step of the same move, so the move alone finds its use there.
+  const use = (reply.uses.find(
     (u) => u.step === pair.step && u.move === pair.move,
-  )!;
+  ) ?? reply.uses.find((u) => u.move === pair.move))!;
   return {
     step: pair.step as SceneMove["step"],
     move: pair.move,
@@ -97,7 +99,7 @@ describe("a reply that does not follow is not offered after that line", () => {
   });
 
   it("with a no for (B, R) the picker leaves R out while another reply exists, and offers it when it is the only one", () => {
-    const facts: Record<string, Fact> = {};
+    const facts: Record<string, Fact> = factsOfFixture;
     let checked = 0;
     for (const pair of pairs) {
       const ask = askOf(pair);
@@ -116,15 +118,21 @@ describe("a reply that does not follow is not offered after that line", () => {
         table,
       );
       expect(only.map((part) => part.key)).toEqual([pair.reply]);
-      // Marking every one of them "no" serves them all: a spot is never silent.
+      // Marking every one of them "no" never leaves a spot silent: where no
+      // other reply fits, the picker serves them all; where a lower-ranked
+      // reply fits (the most specific lines were the ones marked), it serves
+      // that one instead, and never a "no".
       const every = tableOf(
         Object.fromEntries(all.map((part) => [part.key, [pair.before]])),
       );
-      expect(
-        fitting(ask, facts, (p) => !tagged(p), parts, every).map(
-          (part) => part.key,
-        ),
-      ).toEqual(all.map((part) => part.key));
+      const served = fitting(ask, facts, (p) => !tagged(p), parts, every).map(
+        (part) => part.key,
+      );
+      expect(served.length).toBeGreaterThan(0);
+      const allKeys = all.map((part) => part.key);
+      if (served.some((key) => allKeys.includes(key)))
+        expect(served).toEqual(allKeys);
+      else for (const key of served) expect(allKeys).not.toContain(key);
       checked += 1;
       if (checked >= 5) break;
     }

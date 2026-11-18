@@ -57,19 +57,10 @@
     ],
     "person-history.story.school.elsewhere.they.w3": [
       "plain-american-spelling-and-phrasing"
-    ],
-    "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
-      "plain-american-spelling-and-phrasing"
-    ],
-    "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
-      "plain-american-spelling-and-phrasing"
     ]
   },
   "waiting": {},
   "sample": {
-    "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out": [
-      "plain-american-reads-stiff"
-    ],
     "conversation.eviction-back-core.host-s-i-ll-sort-out-the-rest-from-there": [
       "plain-american-reads-stiff"
     ],
@@ -86,371 +77,33 @@
     "conversation.farewell-core.well-see-you": ["no-filler"],
     "conversation.farewell-core.well-take-care": ["no-filler"],
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
-    "conversation.greet-core.phone-well-hello-it-s-been-a-while": ["no-filler"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
       "alright-in-dialogue"
     ],
-    "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
+    "conversation.job-new-detail-reply-answer-brief.well-position-is-a-start": [
       "no-filler"
     ],
     "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
     ],
-    "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
-    "scene-talk.close-accept.all-right-i-ll-let-you-go": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week": [
-      "plain-american-reads-stiff"
-    ],
-    "scene-talk.close-accept.all-right-well-let-the-vote-settle-it": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-accept.all-right-well-start-without-the-details-then": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-press.i-ll-ask-again-later-if-that-s-all-right": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
-      "no-filler"
-    ],
-    "scene-talk.follow-accept.all-right-its-on-the-record-either-way": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.follow-accept.all-right-the-committee-meets-whether-were-all-ready-or-not": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
-      "no-stock-phrases"
-    ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
-    "scene-talk.follow-accept.of-course-we-ll-sort-out-the-rest-as-we-go": [
-      "plain-american-reads-stiff"
-    ],
-    "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.follow-press.i-hear-you-what-s-stopping-you": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
-    "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
-      "narration-assumes-no-reason"
-    ],
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
       "narration-assumes-no-reason"
-    ],
-    "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
-    "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
-      "no-filler"
-    ],
-    "scene-talk.open-greet.hi-i-hope-it-s-all-right-that-i-m-here": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
-    "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
-    "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-accept.i-hear-you-i-wish-it-had-gone-another-way-we-did-try-and-i-want-to-rem": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-agree.all-right-i-ll-do-it": ["alright-in-dialogue"],
-    "scene-talk.reply-agree.all-right-i-ll-go-with-the-committee": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-agree.you-can-stay-we-ll-sort-out-the-rest-as-it-comes": [
-      "plain-american-reads-stiff"
-    ],
-    "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying": [
-      "plain-american-reads-stiff"
-    ],
-    "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-leave.i-hear-you-i-m-late-and-i-won-t-do-this-justice-standing-here": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end": [
-      "reply-second-move-follows-the-first"
-    ],
-    "scene-talk.state-ask.you-settling-in-all-right": ["alright-in-dialogue"],
-    "scene-talk.state-confront.you-can-t-win-this-you-know": ["no-filler"],
-    "scene-talk.state-congratulate.well-look-at-you": ["no-filler"],
-    "scene-talk.state-deliver-news.they-sent-aid-for-the-damage-and-the-repairs-come-to-less-than-that-we": [
-      "alright-in-dialogue"
-    ],
-    "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
-      "no-filler"
     ]
   },
   "noReplyFollows": {
-    "scene-talk.follow-accept.all-right-i-had-to-ask": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.all-right-i-ll-find-the-votes-somewhere-else": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.all-right-we-have-a-deal": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.alright-their-first-no-hard-feelings": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-accept.fair-enough": [
-      "ask-to-serve/decline",
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.fair-enough-their-first-i-m-glad-we-talked": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.i-can-get-you-the-funding-section-give-me-a-day": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.i-ll-put-that-in": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.i-respect-that-their-first-my-door-stays-open": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-accept.i-understand": ["ask-to-serve/decline"],
-    "scene-talk.follow-accept.i-understand-their-first-thank-you-for-hearing-me-out": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-accept.name-it-if-i-can-do-it-it-s-yours": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.not-against-me-i-ll-take-that": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-accept.okay-i-can-work-with-that": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.suit-yourself": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.that-i-can-live-with": ["ask-vote/refuse"],
-    "scene-talk.follow-accept.then-your-amendment-goes-in-deal": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-answer.there-are-sign-up-sheets-and-calls-and-speaking-only-if-you-re-up-for-it": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-ask.then-why-vote-at-all": [
-      "conflict-accuse.friend/deny",
-      "conflict-accuse.hearsay/deny",
-      "conflict-accuse.taken/deny"
-    ],
-    "scene-talk.follow-ask.why-is-source-wrong": [
-      "ask-vote.friend/refuse",
-      "ask-vote.trade/refuse",
-      "ask-vote.watched/refuse",
-      "ask-vote.whip/refuse",
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-bargain.depends-on-the-favor": [
-      "ask-vote.friend/refuse",
-      "ask-vote.friend/stall",
-      "ask-vote.trade/refuse",
-      "ask-vote.trade/stall",
-      "ask-vote.watched/refuse",
-      "ask-vote.watched/stall",
-      "ask-vote.whip/refuse",
-      "ask-vote.whip/stall",
-      "ask-vote/refuse",
-      "ask-vote/stall"
-    ],
-    "scene-talk.follow-bargain.i-can-write-it-in-tonight-it-ll-cost-me-two-other-votes": [
-      "ask-vote.watched/refuse"
-    ],
-    "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
-      "conflict-accuse.hearsay/tell"
-    ],
-    "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me": [
-      "conflict-accuse.hearsay/tell"
-    ],
     "scene-talk.follow-confront.i-will": [
-      "conflict-accuse.hearsay/deny",
       "conflict-accuse.hearsay/leave",
-      "conflict-accuse.hearsay/tell",
-      "conflict-accuse.taken/deny",
       "conflict-accuse.taken/leave",
-      "conflict-accuse.taken/tell",
-      "conflict-accuse.witness/deny",
       "conflict-accuse.witness/leave",
-      "conflict-accuse.witness/tell",
-      "conflict-accuse/deny",
-      "conflict-accuse/leave",
-      "conflict-accuse/tell"
-    ],
-    "scene-talk.follow-defer.take-the-time-you-need": ["ask-vote/relent"],
-    "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-press.what-would-change-it": [
-      "ask-vote.friend/relent",
-      "ask-vote.trade/relent",
-      "ask-vote.watched/relent",
-      "ask-vote.whip/relent",
-      "ask-vote/relent",
-      "confirm-vote/relent",
-      "section-bargain/relent"
-    ],
-    "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-request.i-m-not-asking-for-a-yes-i-m-asking-you-to-sit-this-one-out": [
-      "ask-vote.friend/stall",
-      "ask-vote.trade/stall",
-      "ask-vote.watched/stall",
-      "ask-vote.whip/stall",
-      "ask-vote/stall"
-    ],
-    "scene-talk.follow-request.if-you-can-t-vote-yes-can-you-be-out-of-the-room": [
-      "ask-vote.friend/stall",
-      "ask-vote.trade/stall",
-      "ask-vote.watched/stall",
-      "ask-vote.whip/stall",
-      "ask-vote/stall"
-    ],
-    "scene-talk.follow-request.then-don-t-vote-against-it-just-don-t-be-there": [
-      "ask-vote.friend/stall",
-      "ask-vote.trade/stall",
-      "ask-vote.watched/stall",
-      "ask-vote.whip/stall",
-      "ask-vote/stall"
-    ],
-    "scene-talk.follow-thank.good-i-ll-hold-you-to-that": ["ask-vote/refuse"],
-    "scene-talk.follow-thank.good-i-ll-put-you-down-as-a-yes": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-thank.good-i-m-writing-you-down": ["ask-vote/refuse"],
-    "scene-talk.follow-thank.i-knew-i-could-count-on-you": ["ask-vote/refuse"],
-    "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy": [
-      "ask-vote/refuse"
-    ],
-    "scene-talk.follow-thank.thank-you-i-won-t-forget-it": ["ask-vote/refuse"],
-    "scene-talk.follow-thank.thank-you-their-first-let-s-do-this-right": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-thank.thank-you-their-first-you-won-t-be-sorry": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-thank.that-means-a-lot-their-first-thank-you": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.follow-thank.that-s-a-relief": ["ask-vote/refuse"],
-    "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-agree.fine-you-have-it": ["ask-vote/plea"],
-    "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
-    "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-agree.you-have-my-vote": ["ask-vote/plea"],
-    "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
-      "conflict-accuse.hearsay/confront"
-    ],
-    "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor": [
-      "conflict-accuse.hearsay/confront"
-    ],
-    "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation": [
-      "conflict-accuse.witness/confront"
-    ],
-    "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
-      "conflict-accuse.witness/confront"
-    ],
-    "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
-      "ask-vote.watched/accept"
-    ],
-    "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y": [
-      "conflict-accuse/accept"
-    ],
-    "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
-      "favor-job/press"
-    ],
-    "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again": [
-      "ask-vote/thank"
-    ],
-    "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet": [
-      "ask-vote/thank"
-    ],
-    "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up": [
-      "conflict-accuse.friend/ask"
-    ],
-    "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish": [
-      "conflict-accuse.hearsay/ask"
-    ],
-    "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
-      "conflict-accuse.taken/ask"
-    ],
-    "scene-talk.reply-thank.thank-you": ["ask-to-serve/decline"],
-    "scene-talk.state-request.i-know-it-s-a-lot-to-ask-their-first-would-you-run-for-office-with-me": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.i-ll-get-right-to-it-their-first-i-want-you-as-my-office-will-you-do-it": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.i-m-self-full-thank-you-for-seeing-me-i-m-running-for-race-office-and-i-d-like-you-to-run-with-me-for-office": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.i-ve-thought-hard-about-who-should-run-with-me-for-office-i-d-like-it-to-be-you-their-first": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.their-first-you-know-me-i-want-you-beside-me-on-the-ballot-for-office-will-you-run-with-me": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.we-can-win-this-their-first-and-i-want-you-with-me-as-office": [
-      "ask-to-serve/decline"
-    ],
-    "scene-talk.state-request.you-re-family-their-first-but-that-isn-t-why-i-m-asking-i-d-want-you-for-office-either-way": [
-      "ask-to-serve/decline"
+      "conflict-accuse/leave"
     ]
   },
   "barred": {},
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 9777
+    "reply-second-move-follows-the-first (pairs)": 0
   }
 }

@@ -88,7 +88,10 @@ describe("the opening address's pieces", () => {
     }
   });
 
-  it("a governor and a mayor have four ways to say each of jobs, pay and prices going wrong, and going right, that never name the place again", () => {
+  it("a governor and a mayor have four ways to say each of jobs, pay and prices going right, and every line for them going wrong never names the place again", () => {
+    // The cut of Nov 17 deleted the lines of the worse tone that no record
+    // composed (jobs-worse has none left, pay and prices one or two), so the
+    // count of four holds for the better tone only.
     // The names budget drops a line that names the state or town again after
     // the greeting and the close, so a worse line that took {realm-name}
     // never played (Bee Cave, Texas, seed a7c13e: a bad term told no jobs).
@@ -104,10 +107,11 @@ describe("the opening address's pieces", () => {
                 use.requiresFacts?.includes(fact),
             ),
           );
-          expect(
-            lines.length,
-            `${subject} ${fact}: lines that tell it`,
-          ).toBeGreaterThanOrEqual(4);
+          if (tone === "better")
+            expect(
+              lines.length,
+              `${subject} ${fact}: lines that tell it`,
+            ).toBeGreaterThanOrEqual(4);
           for (const line of lines)
             if (tone === "worse")
               expect(line.text, line.key).not.toMatch(/\{realm-name\}/);

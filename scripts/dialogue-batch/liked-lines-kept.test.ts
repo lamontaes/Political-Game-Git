@@ -20,6 +20,12 @@ import { describe, expect, it } from "vitest";
  * design page prints under "Lines the owner graded good, deleted with their
  * scenes"; it must be in no bank, and every other liked line stays.
  *
+ * The second way a liked line leaves the banks is the owner's ruling of
+ * Nov 17, 2026 ("JUST DELETE EVERYTHING THAT IT HASNT WRITTEN"): the cut
+ * deleted every line the engine did not compose from records, liked ones
+ * included. `liked-lines-cut.json` (beside this file) lists those keys; each
+ * must be in no bank, and the grade stays in the ledger.
+ *
  * Where to find an old piece: `git show <deleting commit>^:<path>` (a shallow
  * clone may need `git fetch origin main --deepen=2000` first).
  */
@@ -62,10 +68,19 @@ const retired =
   ).likedLinesRetired ?? [];
 const retiredKeys = new Set(retired.map((row) => row.key));
 
+/** Liked lines the Nov 17, 2026 cut deleted (the owner's ruling). */
+const cutKeys = new Set(
+  (
+    JSON.parse(
+      readFileSync("scripts/dialogue-batch/liked-lines-cut.json", "utf8"),
+    ) as { keys: string[] }
+  ).keys,
+);
+
 const liked = Object.entries(ledger.parts)
   .filter(([, counts]) => counts.good > 0)
   .map(([key]) => key)
-  .filter((key) => !retiredKeys.has(key));
+  .filter((key) => !retiredKeys.has(key) && !cutKeys.has(key));
 
 describe("a line the owner graded good stays in the banks", () => {
   it("is a piece in a bank, or a grade moved onto a live piece in a bank", () => {
@@ -91,11 +106,19 @@ describe("a line the owner graded good stays in the banks", () => {
     }
   });
 
+  it("lists a line the cut deleted only if it is in no bank", () => {
+    for (const key of cutKeys) {
+      expect(ledger.parts[key]?.good, key).toBeGreaterThan(0);
+      expect(bankKeys.has(key), `${key} is still in a bank`).toBe(false);
+      expect(restoredFrom.has(key), `${key} is still restored`).toBe(false);
+    }
+  });
+
   it("restores a piece only from a key the ledger counts good", () => {
     for (const key of restoredFrom) expect(liked, key).toContain(key);
     for (const [key, live] of moved) {
       // A liked line restored onto a scene that was later deleted left with it.
-      if (retiredKeys.has(key)) continue;
+      if (retiredKeys.has(key) || cutKeys.has(key)) continue;
       expect(liked, key).toContain(key);
       for (const piece of live) expect(bankKeys.has(piece), piece).toBe(true);
     }
