@@ -9,23 +9,63 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import {
   centuryOf,
   centuryParameter,
+  foundedPartyHasFallen,
+  nearestParty,
   setHistoryMode,
+  type CenturyParty,
 } from "./electorate-century";
 import { gameStartDate } from "./game-start";
 
 const RUN = `history-merges:${Date.now()}`;
 
+function party(side: number, position: number): CenturyParty {
+  return {
+    id: `party:${side}`,
+    name: "x",
+    side,
+    founded: null,
+    positions: [{ year: 2000, position }],
+  };
+}
+
+describe("the rule that ends a founded party", () => {
+  // Rare in a drawn world, so the rule is checked on shares built to meet it (drawn-place-tests:
+  // build a rare case, do not search for it).
+  it("ends a party only when its share fell in every one of the last races", () => {
+    const falls = centuryParameter("centuryFoundedPartyFallCycles");
+    const falling = Array.from({ length: falls + 1 }, (_, i) => 0.3 - 0.05 * i);
+    expect(foundedPartyHasFallen(falling)).toBe(true);
+    // One race that held or rose keeps it standing.
+    expect(
+      foundedPartyHasFallen([...falling.slice(0, -1), falling.at(-2)!]),
+    ).toBe(false);
+    expect(
+      foundedPartyHasFallen([
+        ...falling.slice(0, 1),
+        0.31,
+        ...falling.slice(2),
+      ]),
+    ).toBe(false);
+    // Too few races to have fallen that many times.
+    expect(foundedPartyHasFallen(falling.slice(1))).toBe(false);
+    // A long history only reads its last races.
+    expect(foundedPartyHasFallen([0.1, 0.05, ...falling])).toBe(true);
+  });
+
+  it("joins the national party whose position stood nearest it, on either side", () => {
+    const parties = [party(-1, -0.2), party(1, 0.6)];
+    expect(nearestParty(parties, 2004, 0.1).id).toBe("party:-1");
+    expect(nearestParty(parties, 2004, 0.3).id).toBe("party:1");
+    expect(nearestParty(parties, 2004, -0.5).id).toBe("party:-1");
+  });
+});
+
 describe("a founded party that keeps losing voters merges into the party nearest it", () => {
   it("merges only after its share fell in every one of the last races, into the nearest national party, in drawn worlds", () => {
     const falls = centuryParameter("centuryFoundedPartyFallCycles");
-    const named: string[] = [];
-    let merged = 0;
-    let standing = 0;
-    // Draw worlds until one of each has been seen, within a bound (skill drawn-place-tests).
-    for (let i = 0; i < 24 && (merged === 0 || standing === 0); i += 1) {
+    for (let i = 0; i < 8; i += 1) {
       const place = drawPlace(`${RUN}:${i}`, "history-merges");
       const where = `${place.name} (${place.key}), world seed ${place.seed}`;
-      named.push(where);
       setHistoryMode(place.seed, "century", gameStartDate(), place.state);
       const century = centuryOf(place.seed, gameStartDate());
       for (const f of century.foundings) {
@@ -37,18 +77,14 @@ describe("a founded party that keeps losing voters merges into the party nearest
           )
           .map((p) => p.foundedParty!.share);
         if (f.endedYear === undefined) {
-          standing += 1;
           // Still standing: its share has not fallen in each of the last races.
-          const recent = shares.slice(-(falls + 1));
           expect(
-            recent.length === falls + 1 &&
-              recent.every((s, k) => k === 0 || s < recent[k - 1]!),
+            foundedPartyHasFallen(shares),
             `${where}: ${f.id} should have merged`,
           ).toBe(false);
           expect(f.mergedInto, where).toBeUndefined();
           continue;
         }
-        merged += 1;
         const recent = shares.slice(-(falls + 1));
         expect(recent, `${where}: ${f.id}'s last races`).toHaveLength(
           falls + 1,
@@ -77,13 +113,5 @@ describe("a founded party that keeps losing voters merges into the party nearest
           expect(p.foundedParty?.id, `${where}: ${p.id}`).not.toBe(f.id);
       }
     }
-    expect(
-      merged,
-      `parties that merged across ${named.join("; ")}`,
-    ).toBeGreaterThan(0);
-    expect(
-      standing,
-      `parties still standing across ${named.join("; ")}`,
-    ).toBeGreaterThan(0);
-  }, 420_000);
+  }, 240_000);
 });

@@ -107,7 +107,8 @@ describe("a founded party stands a ticket from the next presidential year", () =
   it("is on no race before its founding and on every one from then until it merges, in drawn worlds", () => {
     const named: string[] = [];
     let founded = 0;
-    for (let i = 0; i < 8; i += 1) {
+    // Draw until a world founded a party, within a bound (skill drawn-place-tests).
+    for (let i = 0; i < 24 && (i < 4 || founded === 0); i += 1) {
       const place = drawPlace(`${RUN}:${i}`, "history-competes");
       const where = `${place.name} (${place.key}), world seed ${place.seed}`;
       named.push(where);

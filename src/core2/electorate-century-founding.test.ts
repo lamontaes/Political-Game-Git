@@ -126,7 +126,8 @@ describe("a party is founded when the voters neither party reaches outweigh the 
   it("differs between drawn worlds, and each founding names its cause in the century's own record", () => {
     const years: string[] = [];
     const named: string[] = [];
-    for (let i = 0; i < 6; i += 1) {
+    // Draw until two worlds differ, within a bound (skill drawn-place-tests).
+    for (let i = 0; i < 24 && (i < 4 || new Set(years).size < 2); i += 1) {
       const place = drawPlace(`${RUN}:${i}`, "history-founding");
       const where = `${place.name} (${place.key}), world seed ${place.seed}`;
       named.push(where);

@@ -478,6 +478,35 @@ export function centuryParties(
   return centuryOf(seed, openingOf(seed)).parties;
 }
 
+/**
+ * Whether a founded party's vote share has fallen in each of the last
+ * `centuryFoundedPartyFallCycles` straight presidential races (its shares, oldest first), the
+ * cause of its merging (History 9b part 3).
+ */
+export function foundedPartyHasFallen(shares: readonly number[]): boolean {
+  const falls = centuryParameter("centuryFoundedPartyFallCycles");
+  const recent = shares.slice(-(falls + 1));
+  return (
+    recent.length === falls + 1 &&
+    recent.every((share, i) => i === 0 || share < recent[i - 1]!)
+  );
+}
+
+/** The national party whose position stood nearest `position` going into a presidential year (the last November's). */
+export function nearestParty(
+  parties: readonly CenturyParty[],
+  year: number,
+  position: number,
+): CenturyParty {
+  const at = partyPositionsAt(parties, year);
+  return parties.reduce((best, party) =>
+    Math.abs((at[party.side] ?? 0) - position) <
+    Math.abs((at[best.side] ?? 0) - position)
+      ? party
+      : best,
+  );
+}
+
 /** The parties founded in the century's own history, oldest first; undefined under "today". */
 export function centuryFoundings(
   seed: string,
@@ -1693,22 +1722,11 @@ export function* runCentury(
         const shares = foundedShares.get(stood.id) ?? [];
         shares.push(stood.share);
         foundedShares.set(stood.id, shares);
-        const falls = centuryParameter("centuryFoundedPartyFallCycles");
-        const recent = shares.slice(-(falls + 1));
-        if (
-          recent.length === falls + 1 &&
-          recent.every((share, i) => i === 0 || share < recent[i - 1]!)
-        ) {
+        if (foundedPartyHasFallen(shares)) {
           const at = foundings.findIndex((f) => f.id === stood.id);
           const founding = foundings[at]!;
           // Where the parties stood going into this election (the last November's).
-          const positions = partyPositionsAt(parties, year);
-          const nearest = parties.reduce((best, party) =>
-            Math.abs((positions[party.side] ?? 0) - founding.position) <
-            Math.abs((positions[best.side] ?? 0) - founding.position)
-              ? party
-              : best,
-          );
+          const nearest = nearestParty(parties, year, founding.position);
           foundings[at] = {
             ...founding,
             endedYear: year,
