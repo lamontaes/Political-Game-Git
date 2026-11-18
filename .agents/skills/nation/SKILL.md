@@ -56,3 +56,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 01:06Z: elections outside the town restarted from the 2024 county map every time. Cause: a real result used as each race's start. Each place's lean carries forward from its own last result.
 - Nov 17, 01:06Z: crime, health, coverage and turnout were rebuilt from 2024 every month in the outcome web. Cause: a real level reloaded monthly. Carry each from last month and move it by the world's own causes.
 - Nov 17, 01:05Z: the presidency's ballot fell back on a `fileNominees` stand-in. Cause: a fallback hides a race with nobody on the ballot (Cross Anchor, South Carolina). Candidacy alone fields the nominees.
+
+## More in this folder
+
+- `references/country-tier-played-part.md`: when a figure of the played state looks wrong, or you change `stepCountry`, `takeOutPart`, `putInPart`, `resolveCountryPart`, `townPartCounts` or `residentsPart` (the played state as a part and a rest; the Nov 17 traps).
