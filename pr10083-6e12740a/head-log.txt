@@ -1,0 +1,28 @@
+female: place La Mesilla, New Mexico; rows ["controls:43","skin:6","shape:5","hair:16","hair-color:2","top:11","top-color:3"]
+  shape: ["standard","round","long","square","heart"]
+  skin: ["woman-fair","woman-heavy","woman-olive","woman-slim","woman-brown","woman-medium"]
+  hair: ["bob","curls","pixie","shoulder","updo","waves","bangs","braids","ponytail","locs","cornrows","curly","straight","set","puff","natural"]
+  top: ["henley","denim","cardigan","tee","hoodie","flannel","blouse","scrubs","denimjacket","mockneck","polo"]
+  look 1 shape standard: ["head-light-adult.png","top-polo-navy.png","hair-natural-black.png"]
+  look 2 shape round: ["head-round-medium-adult.png","top-denimjacket-blue.png","hair-straight-black.png"]
+  look 3 shape long: ["head-long-dark-adult.png","top-blouse-rose.png","hair-locs-black.png"]
+  look 4 shape square: ["head-square-light-adult.png","top-hoodie-gray.png","hair-bangs-black.png"]
+  look 5 shape heart: ["head-heart-medium-adult.png","top-cardigan-cream.png","hair-shoulder-heart-black.png"]
+male: place Ta'ū, American Samoa; rows ["controls:46","skin:6","shape:5","hair:16","hair-color:3","face:3","top:10","top-color:3"]
+  shape: ["standard","round","long","square","narrow"]
+  skin: ["man-fair","man-slim","man-olive","man-medium","man-brown","man-heavy"]
+  hair: ["crop","curls","receding","sidepart","swept","textured","buzz","balding","twists","collar","fade","afro","manbun","cornrows","caesar","waves"]
+  top: ["chambray","sweater","tee","hoodie","flannel","polo","workjacket","denimjacket","scrubs","quarterzip"]
+  look 1 shape standard: ["head-light-adult.png","top-quarterzip-charcoal.png","face-mustache-darkbrown.png","hair-waves-darkbrown.png"]
+  look 2 shape round: ["head-round-medium-adult.png","top-denimjacket-blue.png","face-mustache-darkbrown.png","hair-manbun-darkbrown.png"]
+  look 3 shape long: ["head-long-dark-adult.png","top-polo-forestgreen.png","face-mustache-darkbrown.png","hair-collar-darkbrown.png"]
+  look 4 shape square: ["head-square-light-adult.png","top-hoodie-navy.png","face-mustache-darkbrown.png","hair-buzz-darkbrown.png"]
+  look 5 shape narrow: ["head-narrow-medium-adult.png","top-sweater-gray.png","face-mustache-darkbrown.png","hair-sidepart-darkbrown.png"]
+rings ["who","journal","calendar","money","politics","news","people","travel","guide"]
+people: MY PEOPLE HOME Brandon Player father Brenda Player mother FAMILY Nora Player sister Ashley Player sister Miles Valdez uncle Brianna Valdez grandmother Linda Pollard aunt OTHERS Jaden Garrett Brooke Robinson Kimberly Carlson His story At age 5, Brandon Player did his schooling in Seattle, Washington. He enrolled in college in 1990. At 22, he worked at Livingston Construction, Hodges Care Home, Farr
+people rows 10
+  click 0: no #person; sheet MY PEOPLE HOME Brandon Player father Brenda Player mother FAMILY Nora Player sister Ashley Player sister Miles Valdez uncle Brianna Valdez grandmother Linda Pollard aunt OTHERS Jaden Garrett Brooke Ro
+  click 1: no #person; sheet MY PEOPLE HOME Brandon Player father Brenda Player mother FAMILY Nora Player sister Ashley Player sister Miles Valdez uncle Brianna Valdez grandmother Linda Pollard aunt OTHERS Jaden Garrett Brooke Ro
+  click 2: no #person; sheet MY PEOPLE HOME Brandon Player father Brenda Player mother FAMILY Nora Player sister Ashley Player sister Miles Valdez uncle Brianna Valdez grandmother Linda Pollard aunt OTHERS Jaden Garrett Brooke Ro
+  click 3: no #person; sheet MY PEOPLE HOME Brandon Player father Brenda Player mother FAMILY Nora Player sister Ashley Player sister Miles Valdez uncle Brianna Valdez grandmother Linda Pollard aunt OTHERS Jaden Garrett Brooke Ro
+errors []
