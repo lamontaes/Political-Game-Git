@@ -449,6 +449,10 @@ export function townEngagementCenter(core: CoreState): number {
 export interface CountedFieldEntry {
   readonly id: string;
   readonly side: number;
+  /** Where a party off the two national sides stands on the lean scale; read only where set (`CandidateInputs.position`). */
+  readonly position?: number;
+  /** How much of a voter's party appeal the party holds (0 to 1); read only with `position`, 1 where absent. */
+  readonly pull?: number;
   readonly isIncumbent: boolean;
   /** Public standing every voter in the race sees, appeal units. */
   readonly standing: number;
@@ -629,7 +633,10 @@ export function countedAppeal(
   const appeal: Record<string, CountedAppeal> = into ?? {};
   const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
-    const party = lean * entry.side;
+    const party =
+      entry.position === undefined
+        ? lean * entry.side
+        : (entry.pull ?? 1) * (1 - Math.abs(lean - entry.position));
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
     const recognition = where.inTown
       ? entry.recognition *
@@ -1146,6 +1153,12 @@ export function partyFieldEntries(
   return field.map((c, i) => ({
     id: c.id,
     side: c.side,
+    ...(c.position !== undefined
+      ? {
+          position: c.position,
+          ...(c.pull !== undefined ? { pull: c.pull } : {}),
+        }
+      : {}),
     isIncumbent: c.incumbent,
     // The holder's standing carries the average incumbency advantage, so each
     // voter's own incumbent lean is read against the town's average, as the

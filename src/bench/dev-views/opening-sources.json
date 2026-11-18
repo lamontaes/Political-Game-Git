@@ -104,7 +104,7 @@
     },
     "town.foundedParties": {
       "made": "decision",
-      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters whose lean does not reach partyIdentityReach of the way to their side's party adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters. Under the world setting history \"today\", none."
+      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters whose lean does not reach partyIdentityReach of the way to their side's party adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters; from the next presidential year it stands a ticket on the one count (electorate-century.ts presidentialElection, position and pull read by electorate.ts countedAppeal), and its share of every vote is the race's (CenturyPresidency.foundedParty). Under the world setting history \"today\", none."
     },
     "town.congresses": {
       "made": "decision",

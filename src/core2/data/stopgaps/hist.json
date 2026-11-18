@@ -351,5 +351,16 @@
     "addedAt": "2026-11-18",
     "replacement": "The election-rules questions in the laws data (Laws and effects' area; pool item to file), read by the founding step; the founded party fielding nominees on the one count with its position (9b part 2).",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-founded-ticket",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A party founded in the century's history stands a ticket in the presidential count only (from the next presidential year on): its votes come out of the two national sides' by the one count, but it carries no state and wins no electors, no House or legislative seat, so it can only move the two sides' shares; its nominee is a stand-in with no office held, and the voters' strategic choice against a wasted vote is not modeled. A state's lean carries from the two national sides' own count (the third party's voters leaving it would otherwise push every state's share from even and the carry would ratchet the map), so the third party moves the recorded vote and the electors but not where a state stands.",
+    "why": "The presidential count's winner, the electors and the century's seats read two sides (R and D); a third winner touches the electoral college, the contingent election and every seat's party, which History 9b part 2 does not rebuild.",
+    "addedBy": "History lane (claude/history-party-competes)",
+    "addedAt": "2026-11-18",
+    "replacement": "The founded party's nominees in House and legislative races where its voters are, its electors where it leads a state, and a contingent election among three (the electoral college and the century's seats read the party's own side, not R or D).",
+    "status": "open"
   }
 ]
