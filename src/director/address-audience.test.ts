@@ -34,6 +34,7 @@ import { coworkersToMeet } from "../core2/modules/jobs";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { addressWatchedShare } from "./address-audience";
+import { traceNode } from "../bench/dev-trace";
 import { subjectsBetween } from "./conversation";
 import { ADDRESS_FACT } from "./opening-facts";
 
@@ -315,8 +316,52 @@ it(
           ),
           `${where}: ${holderId} holds it and is not offered it`,
         ).toBe(true);
+      // Dev mode's Trace of a person names the record their knowing cites,
+      // and for a telling the one who told them.
+      const traced = (id: PersonId) => {
+        const source = core.knowledgeByPerson
+          .get(id)
+          ?.get(ADDRESS_FACT.event)?.sourceId;
+        const node = traceNode(core, director, id);
+        const learned = node.children.find(
+          (child) =>
+            child.kind === "learned" &&
+            child.id === source &&
+            (child.value as readonly { key: string }[]).some(
+              (row) => row.key === ADDRESS_FACT.event,
+            ),
+        );
+        expect(
+          learned,
+          `${where}: Trace of ${id} names ${source}`,
+        ).toBeDefined();
+        const tie = source ? core.relationships.get(source) : undefined;
+        const teller = tie
+          ? tie.actorId === id
+            ? tie.otherId
+            : tie.actorId
+          : null;
+        if (teller)
+          expect(
+            node.children.some(
+              (child) => child.kind === "person" && child.id === teller,
+            ),
+            `${where}: Trace of ${id} names the teller ${teller}`,
+          ).toBe(true);
+        return `${id}: ${learned!.via} ${learned!.id}${teller ? `, told by ${teller}` : ""}`;
+      };
+      const holderTrace = traced(holderId);
       // The paper's story later does not replace having watched it.
       advanceCore(core, addDays(start, PRINTED_BY));
+      // By then someone in town was told it: their Trace names the tie and the teller.
+      const toldId = [...(core.peopleByPlace.get(player.placeId) ?? [])].find(
+        (id) =>
+          core.relationships.has(
+            core.knowledgeByPerson.get(id)?.get(ADDRESS_FACT.event)?.sourceId ??
+              "",
+          ),
+      );
+      const toldTrace = toldId ? traced(toldId) : "nobody in town told by then";
       const replaced = watchers.filter(
         (id) =>
           core.knowledgeByPerson.get(id)?.get(ADDRESS_FACT.event)?.sourceId !==
@@ -336,7 +381,7 @@ it(
       ).toEqual([]);
       const contact = core.relationships.get(row.sourceId);
       process.stdout.write(
-        `address near the player: ${where}; ${holderId}, ${tie}, holds it on day 1, ${how}, from ${row.sourceId}${contact ? ` (a ${contact.kind} tie, last together ${contact.lastContactDate})` : ""}, first watched by ${origin(holderId)} (the player is ${me}); on day ${PRINTED_BY} all ${watchers.length} watchers still cite ${eventId} and ${printed} people cite a printed story; passed over: ${passed.join("; ") || "none"}\n`,
+        `address near the player: ${where}; ${holderId}, ${tie}, holds it on day 1, ${how}, from ${row.sourceId}${contact ? ` (a ${contact.kind} tie, last together ${contact.lastContactDate})` : ""}, first watched by ${origin(holderId)} (the player is ${me}); Trace ${holderTrace}; on day ${PRINTED_BY} Trace ${toldTrace}; on day ${PRINTED_BY} all ${watchers.length} watchers still cite ${eventId} and ${printed} people cite a printed story; passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }

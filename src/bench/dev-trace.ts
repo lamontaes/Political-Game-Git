@@ -1092,6 +1092,61 @@ function reverseLinks(
   return out;
 }
 
+/**
+ * The kept records a person holds on record (a fact whose value is a logged
+ * record's id, such as the President's address), each as the record their
+ * knowledge cites: the record itself where they saw it, the story they read,
+ * or the tie a contact passed it along, with the one on its other side who
+ * told them. Newest first.
+ */
+function heldOf(core: CoreState, personId: string): TraceChild[] {
+  // One child for each record they learned from, naming every fact it taught.
+  const bySource = new Map<
+    string,
+    { key: string; value: string; learnedAt: string; access: string }[]
+  >();
+  const facts = [...(core.knowledgeByPerson.get(personId) ?? [])]
+    .filter(
+      ([key, fact]) =>
+        !key.startsWith("event:") && core.durableLog.has(fact.value),
+    )
+    .sort(
+      (a, b) =>
+        b[1].learnedAt.localeCompare(a[1].learnedAt) ||
+        a[0].localeCompare(b[0]),
+    );
+  for (const [key, fact] of facts) {
+    const rows = bySource.get(fact.sourceId) ?? [];
+    rows.push({
+      key,
+      value: fact.value,
+      learnedAt: fact.learnedAt,
+      access: fact.access,
+    });
+    bySource.set(fact.sourceId, rows);
+  }
+  const out: TraceChild[] = [];
+  for (const [sourceId, rows] of [...bySource].slice(0, MAX_LEARNED)) {
+    out.push({
+      id: sourceId,
+      kind: "learned",
+      via: `core.observe.${rows[0]!.access}`,
+      value: rows,
+    });
+    const tie = core.relationships.get(sourceId);
+    if (tie)
+      out.push({
+        id: tie.actorId === personId ? tie.otherId : tie.actorId,
+        kind: "person",
+        via:
+          tie.actorId === personId
+            ? "core.relationships.otherId"
+            : "core.relationships.actorId",
+      });
+  }
+  return out;
+}
+
 /** People who learned of a record, and how (the core's observed facts). */
 function learnedOf(core: CoreState, id: string): TraceChild[] {
   const out: TraceChild[] = [];
@@ -1382,6 +1437,8 @@ export function traceNode(
       via: `saved-trace.${resolver.paymentCause.mechanism}`,
     });
   if (found) {
+    // A person: the records they hold on record, each by how they learned it.
+    if (found.engine === "core.people") children.push(...heldOf(core, id));
     // A director moment names the record that caused it.
     if (found.engine === MOMENT_ENGINE) {
       const moment = found.record as { causeId: string; personId: string };
