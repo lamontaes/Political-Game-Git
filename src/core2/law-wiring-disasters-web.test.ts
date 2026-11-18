@@ -44,12 +44,12 @@ import {
   severityOf,
 } from "./modules/disasters";
 import { hazardOfIncident, type Hazard } from "./modules/climate";
-import { ownedHomes } from "./modules/housing";
+import { HOUSING_MODULE_ID, ownedHomes } from "./modules/housing";
 import { MOVES_MODULE_ID } from "./modules/moves";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { WEB_LINKS } from "./outcome-web-model";
 import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.DISASTERS_WEB_SEED || randomBytes(20).toString("hex");
 /** The most places drawn before the test names every one it passed over and fails. */
@@ -127,7 +127,34 @@ interface Kept {
   readonly months: Map<string, WebMonth>;
   /** Owner households' homes in the town that were valued at the opening: the value today. */
   readonly homes: Map<string, number>;
+  /**
+   * The town's home price level today, and what it is before the web's factor
+   * (scale times the market's own level): the factor is the first over the
+   * second, so the link is read apart from the market's response to the disaster.
+   */
+  readonly price?: { readonly level: number; readonly marketLevel: number };
   readonly pulls: Map<string, { webFactor?: number; webRecord?: string }>;
+}
+
+function priceRow(api: CoreAPI, town: string) {
+  const row = api
+    .moduleState(HOUSING_MODULE_ID)
+    .table("stock")
+    .get(`stock:${town}`) as
+    | {
+        priceLevelMinor?: number;
+        priceScaleMinor?: number;
+        priceLogLevel?: number;
+      }
+    | undefined;
+  return row?.priceLevelMinor &&
+    row.priceScaleMinor &&
+    row.priceLogLevel !== undefined
+    ? {
+        level: row.priceLevelMinor,
+        marketLevel: row.priceScaleMinor * Math.exp(row.priceLogLevel),
+      }
+    : undefined;
 }
 
 function keep(core: CoreState): Kept {
@@ -169,6 +196,7 @@ function keep(core: CoreState): Kept {
       : {}),
     ...(web ? { web } : {}),
     months: new Map(rows.map((row) => [row.id, row])),
+    ...(priceRow(api, town) ? { price: priceRow(api, town) } : {}),
     homes: new Map(
       ownedHomes(api, town)
         .filter((row) => opening.has(row.householdId))
@@ -306,9 +334,30 @@ describe("a severe disaster reaches home values and moving through the outcome w
           expect(ratios.length, "owner households in the town").toBeGreaterThan(
             0,
           );
+          // The link: the web's factor on the price level, read apart from the
+          // market's own response to the disaster (damaged homes put on the
+          // market and people leaving move the level's own step as well).
+          expect(treated.price, "the town keeps a price level").toBeDefined();
+          expect(
+            control.price,
+            "the control keeps a price level",
+          ).toBeDefined();
+          expect(
+            Math.abs(
+              treated.price!.level / treated.price!.marketLevel - expectedValue,
+            ),
+            "the web's factor on the treated price level",
+          ).toBeLessThan(2e-4);
+          expect(
+            Math.abs(control.price!.level / control.price!.marketLevel - 1),
+            "the control's price level carries no factor",
+          ).toBeLessThan(2e-4);
+          // Each owner's home is worth what the town's level is now: the
+          // treated level over the control's.
+          const levels = treated.price!.level / control.price!.level;
           for (const [id, value, base] of ratios)
             expect(
-              Math.abs(value / base - expectedValue),
+              Math.abs(value / base - levels),
               `${id}: ${value} against ${base}`,
             ).toBeLessThan(2e-4);
           const [household, homeTreated, homeControl] = ratios[0]!;
