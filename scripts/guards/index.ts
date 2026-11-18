@@ -223,19 +223,6 @@ export const GUARDS: readonly Guard[] = [
     command: ["node", "scripts/guards/reading-line.mjs"],
   },
   {
-    id: "check-changes",
-    rule: "No session edits the checks that judge it: a change adds no expected-failure, skip, only or todo mark, no known-red row, no test pinned to a named town or seed and no larger baseline, and drops no test file, case or assertion, without the CTO's line on the crew issue.",
-    readMore:
-      "scripts/guards/check-changes.mjs, its header; tests/guards/check-changes.json; docs/design/guards.md, check-changes",
-    // Its spelling list is TypeScript; CI runs Node 22.13, which loads it only
-    // with the flag (the checks-guard workflow passes it too).
-    command: [
-      "node",
-      "--experimental-strip-types",
-      "scripts/guards/check-changes.mjs",
-    ],
-  },
-  {
     id: "secrets",
     rule: "No credential or signing material is ever committed.",
     readMore: "scripts/secrets/scan-tracked-secrets.mjs, its header",

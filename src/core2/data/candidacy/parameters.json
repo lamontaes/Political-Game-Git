@@ -244,12 +244,12 @@
     "citation": "Weight on the person's own read of their chance of winning, in the pull toward running. People run when they think they have a chance, and what they think is not what the odds are (owner, Nov 8, 10:20 a.m.: candidates need not be the strongest, 'maybe they think they have a good chance... some inside knowledge'). Viability perceptions drive the decision to run (Lawless and Fox 2010, It Still Takes a Candidate, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
-  "candidacySwingSpread": {
-    "value": 0.08,
-    "role": "coefficient",
+  "candidacyChallengerOdds": {
+    "value": 0.15,
+    "role": "level",
     "tag": "ESTIMATED",
-    "citation": "How far one election's vote can swing a seat against the party that held it, as a share of the votes cast: the standard deviation of the change in a seat's two-party vote between one race and the next. A challenger's odds against a sitting holder are the chance a swing that large happens, 1 less the normal curve at the holder's last winning lead over this spread, so a seat the holder won narrowly is a real contest and one the holder won by a wide margin is not. It sets how strongly a lead protects a seat, never a seat's level (Gelman and King 1990, Estimating incumbency advantage without bias, American Journal of Political Science 34(4):1142-1164, where the swing between races runs near 0.05 to 0.10 of the vote). An open seat has no holder to beat, so the odds there are the person's standing alone.",
-    "estimatedFrom": "year-to-year swing in a seat's two-party vote in House and state legislative elections, Gelman and King 1990; spread 0.04 to 0.12",
+    "citation": "The chance an outsider's campaign has against a sitting incumbent, before any overconfidence: incumbents who ran won 95 to 98 percent of U.S. House general elections since 1980, and state legislative incumbents about 95 percent (Ballotpedia incumbent win rates, benchmarks.json stateLegislativeIncumbentsLostPrimaryShare is the primary side). An open seat has no such penalty, so the odds there are the person's standing alone.",
+    "estimatedFrom": "incumbent re-election rates of 90 to 98 percent in Ballotpedia and Brookings Vital Statistics on Congress; spread 0.05 to 0.3",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOverconfidenceShare": {

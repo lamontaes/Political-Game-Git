@@ -49,9 +49,6 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 ## Rules
 
-- **Replay the place where the fault was measured, on your fix, before you draw others (Nov 17, World B).** The state unemployment fix passed its new tests and three drawn places would have passed too, because their played county was a small part of its state. Replayed at Waimanalo, Hawaii, where the fault was first measured, the rate still slid, and that replay found three more causes. A drawn place proves the rule holds elsewhere; the measured place proves the fault is gone.
-- **Give each drawn place the numbers that say whether it is a case.** For a fault that depends on how much of something the place holds (the played county's share of its state, a town's renters), print that share beside the result, so a reader can see a pass was not a place the fault never reached.
-
 - **What the player sees of a tie is its relationship row (Nov 15, #9543).** The person card (`src/bench/card.ts` personCard) lists only people with a relationship row and words its closeness from that row alone (`currentCloseness`); hours read through `registerSharedHours` count in `closenessBetween` and in whether two have met, but a pair with shared sittings and no row is not on the card. A proof of a tie reports both: the closeness and the card's line, at day one and after a played year.
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.

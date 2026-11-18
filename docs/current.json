@@ -1080,6 +1080,36 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
       "when": "2026-11-17",
       "why": "It asserted the spelling bee's printed body from news lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/address-response.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played a legislator's answer to the governor's address, worded from lines written before Nov 15 and the address scene, both deleted."
+    },
+    {
+      "old": "src/director/asked-mutual-give-back.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It asked about someone both knew from talk lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/asked-mutual-no-against-record.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It read the talk's mutual-acquaintance replies from lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/bargain-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the section bargain, a scene kind the cut deleted, and the vote ask's trade from deleted lines."
+    },
+    {
+      "old": "src/director/birth-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the new-baby visit, a scene kind the cut deleted."
     }
   ]
 }

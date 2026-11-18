@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "look-up-how-real-people-say-it",
   "rubric": "Before writing a line, look up how real people say that thing in that situation (transcripts, interviews, oral histories) and write from that, not from a guess.",
-  "judged": 0,
+  "judged": 1,
   "no": {},
-  "yesHash": "0wvjl67o803"
+  "yesHash": "0z8inr9yklx"
 }

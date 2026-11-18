@@ -21,6 +21,6 @@ source: added with npm run pool -- add
 
 **Done when.** Both tests pass with the seeds above and with three fresh seeds each, on the PR head; the PR names the role or place that failed to bind and why.
 
-**Files.** src/director/scheduling.ts, src/director/civic-roles.ts, src/director/electoral-scenes.test.ts, src/director/bargain-scenes.test.ts
+**Files.** src/director/scheduling.ts, src/director/civic-roles.ts, src/director/electoral-scenes.test.ts
 
 **Notes.** TODO

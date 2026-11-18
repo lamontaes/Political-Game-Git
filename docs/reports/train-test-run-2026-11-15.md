@@ -87,7 +87,7 @@ A second run draws other places. Each is still a test that can go red by draw, w
 - `src/core2/campaign-day.test.ts`: Franklinton, Louisiana.
 - `src/core2/congress-budget-line-bill.test.ts`: no vote enacted in eight places.
 - `src/bench/election-day.test.ts`: no draw reached election day.
-- `src/director/asked-mutual-give-back.test.ts`: Cumming, Iowa.
+- `src/director/asked-mutual-give-back.test.ts` (removed): Cumming, Iowa.
 - `src/core2/budget-line-schools-staffing.test.ts` (2 tests): no drawn place had the pieces; Fremont, Iowa.
 - `src/core2/office-day-attend.test.ts`: Bondurant, Wyoming.
 - `src/core2/officials-sample-vacancy.test.ts`: no such official died in the year.

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "names-something-specific",
   "rubric": "A line names something specific from its situation (a person, place, thing, amount or day), not a general sentiment.",
-  "judged": 0,
+  "judged": 1,
   "no": {},
-  "yesHash": "0wvjl67o803"
+  "yesHash": "0z8inr9yklx"
 }

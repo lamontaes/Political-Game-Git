@@ -42,7 +42,6 @@ import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { closenessBetween } from "../closeness";
-import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -94,25 +93,11 @@ export const PARTIES_MODULE: CoreModule = {
       chairs: { indexes: { byParty: { fields: ["partyId"] } } },
       /** Who took a member under their wing when the party asked them to run (`takeUnderWing`), by the member. */
       mentors: {},
-      /** The local committees' next meeting day, kept when it is set (`scheduleMeeting`). */
-      schedule: {},
-      /**
-       * The player's answer to their party's invitation to a meeting, one row per meeting: `asked` until
-       * they answer in the scene it stages, then `yes` or `no`. The meeting reads it for the player in
-       * place of a lean (`meetTheChair`): nothing decides for the player whether they go. A meeting's
-       * row goes at the next meeting.
-       */
-      playerAttends: {},
     },
   },
-  // A chair who dies or moves away is replaced the same day; the player's reply to a meeting's
-  // invitation is kept.
-  eventKinds: ["life.death", MOVED_AWAY_EVENT, "scene.reply"],
+  // A chair who dies or moves away is replaced the same day.
+  eventKinds: ["life.death", MOVED_AWAY_EVENT],
   onEvent: (api, event) => {
-    if (event.kind === "scene.reply") {
-      answerMeetingInvite(api, event);
-      return;
-    }
     for (const party of partiesHere(api))
       if (party.leaderId && event.personIds.includes(party.leaderId))
         chooseChair(
@@ -632,109 +617,7 @@ export function joinParty(
       ...(left && left.id !== party.id ? { leftPartyId: left.id } : {}),
     },
   });
-  // The player who joins is told when the committee next meets.
-  if (personId === (api.state as CoreState).playerId) {
-    const next = api
-      .moduleState(PARTIES_MODULE_ID)
-      .table("schedule")
-      .get("next") as unknown as { date: string } | undefined;
-    if (next) invitePlayer(api, next.date);
-  }
   return { tie: partyTie(api, personId)!, agreement };
-}
-
-/** The record of a party inviting the player to its next meeting (a scene stages from it). */
-export const PARTY_MEETING_INVITED = "party-meeting-invited";
-
-interface PlayerAttendsRow {
-  readonly id: string;
-  readonly partyId: string;
-  readonly date: string;
-  readonly answer: "asked" | "yes" | "no";
-}
-
-/**
- * The player's party invites them to its next meeting, through its chair: one invitation a meeting,
- * when they join and when the meeting before it sets the day. A scene puts it to them, and their reply
- * is kept (`answerMeetingInvite`); a player with no party here is not invited.
- */
-function invitePlayer(api: CoreAPI, date: string): void {
-  const core = api.state as CoreState;
-  const player = core.playerId ? core.people.get(core.playerId) : undefined;
-  if (!player?.alive) return;
-  const partyId = partyTie(api, player.id)?.partyId;
-  const party = partyId
-    ? partiesHere(api).find((p) => p.id === partyId)
-    : undefined;
-  if (!party || !partyMemberIds(api, party.id).includes(player.id)) return;
-  const attends = api.moduleState(PARTIES_MODULE_ID).table("playerAttends");
-  const id = `${party.id}:${date}`;
-  if (attends.get(id)) return;
-  attends.put({
-    id,
-    partyId: party.id,
-    date,
-    answer: "asked",
-  } satisfies PlayerAttendsRow as unknown as ModuleRow);
-  const chairId =
-    party.leaderId &&
-    party.leaderId !== player.id &&
-    core.people.has(party.leaderId)
-      ? party.leaderId
-      : null;
-  api.emit({
-    id: `${PARTY_MEETING_INVITED}:${id}:${player.id}`,
-    date: core.date,
-    kind: PARTY_MEETING_INVITED,
-    personIds: chairId
-      ? [chairId as PersonId, player.id as PersonId]
-      : [player.id as PersonId],
-    placeId: player.placeId,
-    source: {
-      tag: "ESTIMATED",
-      citation: "Local party committees meet on a regular schedule",
-      asOf: core.date,
-      estimatedFrom: "partyMeetingDays",
-    },
-    facts: {
-      inviteId: id,
-      partyId: party.id,
-      party: party.name,
-      meetingDate: date,
-      askedId: player.id,
-      ...(chairId ? { chairId } : {}),
-    },
-  });
-}
-
-/** The player's reply in the meeting invitation's scene: a yes puts them in the room that day; a no keeps them home. */
-function answerMeetingInvite(
-  api: CoreAPI,
-  event: Readonly<{ facts?: Readonly<Record<string, unknown>> }>,
-): void {
-  const facts = event.facts ?? {};
-  if (facts.typeKey !== "party-meeting-invite") return;
-  const cause = api.state.durableLog.get(String(facts.causeId ?? "") as never);
-  if (cause?.kind !== PARTY_MEETING_INVITED) return;
-  const attends = api.moduleState(PARTIES_MODULE_ID).table("playerAttends");
-  const held = attends.get(String(cause.facts?.inviteId ?? "")) as unknown as
-    PlayerAttendsRow | undefined;
-  if (!held) return;
-  const move = String(facts.move);
-  const yes = ACCEPTING_MOVES.has(move);
-  if (!yes && !REFUSING_MOVES.has(move)) return;
-  attends.put({ ...held, answer: yes ? "yes" : "no" } as unknown as ModuleRow);
-}
-
-/** Whether the player said yes to their party's meeting on this day. */
-function playerSaidYes(api: CoreAPI, playerId: string, date: string): boolean {
-  const partyId = partyTie(api, playerId)?.partyId;
-  if (!partyId) return false;
-  const held = api
-    .moduleState(PARTIES_MODULE_ID)
-    .table("playerAttends")
-    .get(`${partyId}:${date}`) as unknown as PlayerAttendsRow | undefined;
-  return held?.answer === "yes";
 }
 
 export function partyTie(api: CoreAPI, personId: string): TieRow | null {
@@ -807,17 +690,14 @@ function meetTheChair(
     .filter(
       (m) =>
         m.id === leaderId ||
-        // The player comes only by their own yes to the invitation, never by a lean.
-        (m.id === core.playerId
-          ? playerSaidYes(api, m.id, core.date)
-          : leanedYes(
-              core,
-              m,
-              "parties.attend",
-              "attend",
-              "stay-home",
-              attendCase(core, m),
-            )),
+        leanedYes(
+          core,
+          m,
+          "parties.attend",
+          "attend",
+          "stay-home",
+          attendCase(core, m),
+        ),
     )
     .map((m) => m.id);
   for (const id of attendeeIds)
@@ -834,11 +714,6 @@ function meetTheChair(
 /** The party's next local committee meeting. */
 function scheduleMeeting(api: CoreAPI, from: string): void {
   const date = addDays(makeIsoDate(from), value("partyMeetingDays"));
-  api
-    .moduleState(PARTIES_MODULE_ID)
-    .table("schedule")
-    .put({ id: "next", date } as unknown as ModuleRow);
-  invitePlayer(api, date);
   api.moduleCalendar(PARTIES_MODULE_ID).schedule({
     key: `party-meeting:${date}`,
     date,
@@ -1185,10 +1060,6 @@ export function tieBeforeFiling(api: CoreAPI, personId: string): void {
  */
 function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "party-meeting") return;
-  // The player's answers to meetings already held are spent: only the coming meetings' stay.
-  const attends = api.moduleState(PARTIES_MODULE_ID).table("playerAttends");
-  for (const row of attends.rows() as unknown as { id: string; date: string }[])
-    if (row.date < api.state.date) attends.remove(row.id);
   scheduleMeeting(api, api.state.date);
   const rule = townTieRule(api);
   if (!rule) return;
