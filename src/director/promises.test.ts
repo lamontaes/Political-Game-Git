@@ -46,6 +46,9 @@ import {
   talkOf,
 } from "../../tests/support/promise-play";
 
+/** Days played in a place at most, one at a time, so the evening before a roll is caught. */
+const VOTE_DAYS = 120;
+
 /** A check that holds, as a test assertion. */
 const ok: Check = (holds, message) => expect(holds, message).toBe(true);
 
