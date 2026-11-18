@@ -19,6 +19,7 @@ import type { PersonId } from "../core2/types";
 import circumstances from "./data/circumstances.json" with { type: "json" };
 import situations from "./data/situation-types.json" with { type: "json" };
 import { receives, type ReceiveRule } from "./scheduling";
+import { playerStanding } from "./standing";
 
 setBookkeeping(false);
 
@@ -29,7 +30,6 @@ const where = `${place.name} (${place.key}), seed ${seed}`;
 const RULE_VALUES = {
   age: ["any"],
   counterpart: ["any", "apart"],
-  seat: ["any", "serving"],
 };
 
 function expectRule(owner: string, rule: unknown) {
@@ -74,11 +74,11 @@ describe(`the director reads it (${where})`, () => {
     const apart: ReceiveRule = {
       age: "any",
       counterpart: "apart",
-      seat: "any",
     };
+    const standing = playerStanding(core, player.id);
     if (housemate)
       expect(
-        receives(core, player.id, apart, [housemate], "home"),
+        receives(core, player.id, standing, apart, [housemate], "home"),
         `${where}: ${housemate} lives with ${player.id} and came to the house`,
       ).toBe(false);
     expect(
@@ -86,12 +86,12 @@ describe(`the director reads it (${where})`, () => {
       `${where}: the player knows nobody outside the household`,
     ).toBeDefined();
     expect(
-      receives(core, player.id, apart, [outsider!], "home"),
+      receives(core, player.id, standing, apart, [outsider!], "home"),
       `${where}: ${outsider} lives apart and may come`,
     ).toBe(true);
     const inOffice = servingTermsOf(coreAPI(core), player.id).length > 0;
     expect(
-      receives(core, player.id, apart, [outsider!], "seat"),
+      receives(core, player.id, standing, apart, [outsider!], "seat"),
       `${where}: a seat scene for ${player.id}, ${inOffice ? "in" : "in no"} office`,
     ).toBe(inOffice);
   }, 600_000);

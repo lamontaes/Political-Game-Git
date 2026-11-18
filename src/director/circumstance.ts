@@ -18,6 +18,12 @@
  */
 import { receives, type ReceiveRule } from "./scheduling";
 import {
+  holdsAny,
+  openContests,
+  playerStanding,
+  type PlayerStanding,
+} from "./standing";
+import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
 } from "../core2/modules/elections";
@@ -27,8 +33,6 @@ import {
 } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -114,7 +118,10 @@ export interface CircumstanceRow {
   place: string;
   pool: readonly string[];
   where: string;
-  player: string;
+  /** Who the player must be (standing.ts `holdsAny`): any one word passing admits the row. */
+  holds: readonly string[];
+  /** How the player must stand in the record (`inRecord`), where the row asks. */
+  inRecord?: string;
   /** The cast rule, as the scene web reads it. */
   cast: string;
   typeKey: string;
@@ -197,45 +204,6 @@ export interface CircumstancePick {
   closeness: number;
 }
 
-/** The player's serving terms and filings, read once a day. */
-interface PlayerStanding {
-  officeIds: Set<string>;
-  filed: boolean;
-}
-
-function standingOf(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-): PlayerStanding {
-  const api = coreAPI(core as CoreState);
-  const officeIds = new Set<string>();
-  if (api.state.modules.has(OFFICES_MODULE_ID))
-    for (const term of api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [playerId]) as unknown as TermRow[])
-      if (term.status === "serving") officeIds.add(term.officeId);
-  return { officeIds, filed: openContests(core, playerId).length > zero };
-}
-
-/** The contests a person has filed in that are still ahead. */
-function openContests(core: Readonly<CoreState>, personId: PersonId): string[] {
-  const api = coreAPI(core as CoreState);
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
-  const elections = api.moduleState(ELECTIONS_MODULE_ID);
-  return (
-    elections.table("filings").query("byPerson", [personId]) as unknown as {
-      contestId: string;
-    }[]
-  )
-    .filter((filing) => {
-      const contest = elections.table("contests").get(filing.contestId) as
-        { electionDate?: string } | undefined;
-      return !contest?.electionDate || contest.electionDate >= core.date;
-    })
-    .map((filing) => filing.contestId);
-}
-
 /** Both people are filed in the same contest still ahead: rivals. */
 function sharesContest(
   core: Readonly<CoreState>,
@@ -298,85 +266,21 @@ function studyOf(
     .get(studyId) as unknown as StudyRow | undefined;
 }
 
-/** Whether the player filed in the contest and someone else won it. */
-function ranAndLost(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  contestId: string | undefined,
-  winnerId: string | undefined,
-): boolean {
-  if (!contestId || !winnerId || winnerId === playerId) return false;
-  if (!core.modules.has(ELECTIONS_MODULE_ID)) return false;
-  return (
-    coreAPI(core as CoreState)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
-  ).some((filing) => filing.contestId === contestId);
-}
-
 /**
- * How many contests the player filed in and lost on an earlier day than the
- * count at hand (the count's record names someone else). The races settled
- * on the same ballot are one election, not a habit of losing.
+ * Whether the player stands in the record the way the row asks (`inRecord`):
+ * they saw or heard it, voted in it, are the official it names, are named in
+ * it, sit on its body or its study, or a fact of it lists them. Who the
+ * player is (an office, a filing, work) is the row's `holds`, read from
+ * their standing (standing.ts).
  */
-export function earlierLosses(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  contestId: string | undefined,
-): number {
-  if (!core.modules.has(ELECTIONS_MODULE_ID)) return zero;
-  const settled = core.durableLog.get(`election-result:${contestId}` as never);
-  if (!settled) return zero;
-  const beforeDate = settled.date;
-  return (
-    coreAPI(core as CoreState)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
-  ).filter((filing) => {
-    if (filing.contestId === contestId) return false;
-    const result = core.durableLog.get(
-      `election-result:${filing.contestId}` as never,
-    );
-    const winner = result?.facts?.winnerId;
-    // Lost: among those who missed the cut (an at-large race seats several,
-    // and a winner of another seat lost nothing); a record kept before
-    // `outIds` reads the winner.
-    const out = result?.facts?.outIds;
-    const lost = out
-      ? (JSON.parse(String(out)) as string[]).includes(playerId)
-      : !!winner && winner !== playerId;
-    return !!result && lost && result.date < beforeDate;
-  }).length;
-}
-
-function playerHolds(
+function inRecord(
   rule: string,
   core: Readonly<CoreState>,
   playerId: PersonId,
   standing: PlayerStanding,
   record: QueuedRecord,
 ): boolean {
-  const serving = standing.officeIds.size > zero;
   switch (rule) {
-    case "anyone":
-      return true;
-    case "resident":
-      return !serving && !standing.filed;
-    case "public-figure":
-      return serving || standing.filed;
-    case "serving":
-      return serving;
-    case "working-or-public": {
-      // Someone who could put in a word: they work somewhere, or hold or seek office.
-      const job = core.people.get(playerId)?.jobId;
-      return (
-        serving ||
-        standing.filed ||
-        (!!job && core.jobs.get(job)?.endsAt === undefined)
-      );
-    }
     case "heard-it":
       // The player is among those who saw or heard the record (a case made to them).
       return record.witnessIds.includes(playerId);
@@ -387,28 +291,6 @@ function playerHolds(
         core.durableLog.get(source)?.personIds.includes(playerId) === true
       );
     }
-    case "ran-in-it": {
-      // The player filed in the contest the record settled.
-      const contestId = record.facts.contestId;
-      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
-      return (
-        coreAPI(core as CoreState)
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .query("byPerson", [playerId]) as unknown as { contestId: string }[]
-      ).some((filing) => filing.contestId === contestId);
-    }
-    case "lost-again":
-      // The player ran in the contest the record settled, lost it, and has
-      // lost another before.
-      return (
-        ranAndLost(
-          core,
-          playerId,
-          record.facts.contestId,
-          record.facts.winnerId,
-        ) && earlierLosses(core, playerId, record.facts.contestId) > zero
-      );
     case "official-in-it":
       // A story of a bribe the player took (the report names the official).
       return record.facts.officialId === playerId;
@@ -434,7 +316,7 @@ function playerHolds(
         return (record.facts[rule.slice("listed:".length)] ?? "")
           .split(",")
           .includes(playerId);
-      throw new Error(`Unknown circumstance player rule: ${rule}`);
+      throw new Error(`Unknown circumstance record rule: ${rule}`);
   }
 }
 
@@ -662,8 +544,13 @@ export function circumstancePicks(
         continue;
       if (row.outletTier && outletTierOf(core, record) !== row.outletTier)
         continue;
-      standing ??= standingOf(core, playerId);
-      if (!playerHolds(row.player, core, playerId, standing, record)) continue;
+      standing ??= playerStanding(core, playerId, book);
+      if (!holdsAny(row.holds, standing)) continue;
+      if (
+        row.inRecord &&
+        !inRecord(row.inRecord, core, playerId, standing, record)
+      )
+        continue;
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           const person = core.people.get(id);
@@ -680,7 +567,8 @@ export function circumstancePicks(
           if (!placedWith(row.where, core, playerId, id)) continue;
           // The one who comes does not live with the player where the row
           // says apart, and a seat's scene reaches only a player in office.
-          if (!receives(core, playerId, row.receive, [id], row.place)) continue;
+          if (!receives(core, playerId, standing, row.receive, [id], row.place))
+            continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
           const sociability =
