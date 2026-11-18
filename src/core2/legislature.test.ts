@@ -29,12 +29,14 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
 import {
+  BUDGETS_MODULE_ID,
   budgetsOf,
   departmentRequests,
   enactedBudgetChanges,
   governments,
   openBudgets,
   setBudgetPriorities,
+  type BudgetRow,
 } from "./modules/budgets";
 import {
   appropriationsWithProjects,
@@ -168,6 +170,27 @@ function town(
   }
   throw new Error(
     `no town with a seated council${ready ? " and what the test needs" : ""} (${salt}, seed ${seed})`,
+  );
+}
+
+/** A city's carried amounts, with its council's changes and this year's grants applied once. */
+function expectedCitySpending(
+  prior: BudgetRow,
+  adopted: BudgetRow,
+  changes: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const base = prior.baseSpendingMinor ?? prior.spendingMinor;
+  const grants = adopted.passThroughMinor ?? {};
+  const lines = new Set([
+    ...Object.keys(base),
+    ...Object.keys(changes),
+    ...Object.keys(grants),
+  ]);
+  return Object.fromEntries(
+    [...lines].map((line) => {
+      const voted = Math.max(0, (base[line] ?? 0) + (changes[line] ?? 0));
+      return [line, Math.max(0, voted + (grants[line] ?? 0))];
+    }),
   );
 }
 
@@ -760,13 +783,9 @@ describe(
       if (bill!.status === "enacted")
         for (const p of bill!.provisions)
           changes[p.line!] = (changes[p.line!] ?? 0) + p.value;
-      for (const line of new Set([
-        ...Object.keys(before.spendingMinor),
-        ...Object.keys(changes),
-      ]))
-        expect(next.spendingMinor[line] ?? 0, `${label}: ${line}`).toBe(
-          Math.max(0, (before.spendingMinor[line] ?? 0) + (changes[line] ?? 0)),
-        );
+      expect(next.spendingMinor, label).toEqual(
+        expectedCitySpending(before, next, changes),
+      );
       expect(enactedBudgetChanges(api, city.id), label).toEqual(changes);
       govReport(
         "legislature",
@@ -792,8 +811,14 @@ describe(
         if (office.kind === "mayor") offices.remove(office.id);
       const before = budgetsOf(api, city.id)[0]!;
       const fy = before.fiscalYear + 1;
+      const start = `${fy}-${city.fiscalYearStart}`;
+      // Where the world opens inside the hearing window, the council drafts at adoption.
+      const hearing = api
+        .moduleCalendar(BUDGETS_MODULE_ID)
+        .get(`hearing:${city.id}:${fy}`);
+      advanceCore(core, hearing?.date ?? start);
       const requested = departmentRequests(api, city, fy);
-      advanceCore(core, `${fy}-${city.fiscalYearStart}`);
+      if (core.date < start) advanceCore(core, start);
       const bill = (
         api
           .moduleState(LEGISLATURE_MODULE_ID)
@@ -812,9 +837,10 @@ describe(
         Object.fromEntries(bill.provisions.map((p) => [p.line, p.of])),
       ).toEqual(requested);
       expect(bill.provisions.every((p) => p.value === 0)).toBe(true);
-      expect(
-        budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)?.spendingMinor,
-      ).toEqual(requested);
+      const adopted = budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)!;
+      expect(adopted.spendingMinor).toEqual(
+        expectedCitySpending(before, adopted, {}),
+      );
       // A drawn town's fiscal year of daily work took 15 to 85 s alone across
       // sixteen runs and 122 s inside a 92-file run on a loaded
       // machine, so the limit is twice the old one, for load and not a slow path.
