@@ -1,9 +1,14 @@
 {
-  "about": "Local governments of the Island Areas, which the Census Bureau's 2025 Government Units listing does not carry (it covers the 50 states and D.C.; Puerto Rico's municipios are read from the county corpus). Each territory names the law its governments follow and when that law holds their regular elections; each government row names the Census place it governs. Read by src/core2/reference/government-units.ts (identity) and src/core2/gov-rules/municipal-ballot-rules.ts (timing); the government's offices come from its reading in src/core2/gov-rules/municipal-governments.json, as for every other town.",
+  "about": "Local governments of the Island Areas, which the Census Bureau's 2025 Government Units listing does not carry (it covers the 50 states and D.C.; Puerto Rico's municipios are read from the county corpus). Each territory names the law its governments follow: when it holds their regular elections and who fills a vacant seat; each government row names the Census place it governs. Read by src/core2/reference/government-units.ts (identity) and src/core2/gov-rules/municipal-ballot-rules.ts (timing); the government's offices come from its reading in src/core2/gov-rules/municipal-governments.json, as for every other town.",
   "territories": {
     "GU": {
       "electionTiming": "quadrennial-november-general",
-      "source": "5 GCA Chapter 40 (Mayors of Guam): sec. 40101 (a Mayor for each of the 19 municipalities and villages; Vice Mayors in Hagat, Barrigada, Mangilao, Tamuning, Dededo and Yigo), sec. 40103 (chosen by popular vote of the area each represents), sec. 40104 (elected at the regular general election every fourth year from November 1952, for four years), sec. 40108 (U.S. citizens of 21 or older, registered and resident in the municipality one year before the election), sec. 40111(a) (term begins the first Monday in January after the election). https://statecodesfiles.justia.com/guam/2024/title-5/division-4/chapter-40/chapter-40.pdf, read 2026-11-18. Last held November 5, 2024 (https://en.wikipedia.org/wiki/2024_Guamanian_local_elections)."
+      "source": "5 GCA Chapter 40 (Mayors of Guam): sec. 40101 (a Mayor for each of the 19 municipalities and villages; Vice Mayors in Hagat, Barrigada, Mangilao, Tamuning, Dededo and Yigo), sec. 40103 (chosen by popular vote of the area each represents), sec. 40104 (elected at the regular general election every fourth year from November 1952, for four years), sec. 40108 (U.S. citizens of 21 or older, registered and resident in the municipality one year before the election), sec. 40111(a) (term begins the first Monday in January after the election). https://statecodesfiles.justia.com/guam/2024/title-5/division-4/chapter-40/chapter-40.pdf, read 2026-11-18. Last held November 5, 2024 (https://en.wikipedia.org/wiki/2024_Guamanian_local_elections).",
+      "vacancy": {
+        "appointedBy": "the Municipal Planning Council",
+        "viceMayorSucceeds": true,
+        "citation": "5 GCA sec. 40110: a Mayor's vacancy is filled by the Vice Mayor where the municipality has one, and the Vice Mayor's office then stays vacant until the term ends (b); otherwise, and for a Vice Mayor's vacancy, by a majority vote of the municipality's Municipal Planning Council with the advice and consent of I Liheslatura (a), (b)"
+      }
     }
   },
   "governments": [

@@ -7,6 +7,13 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "../core2/modules/elections";
+import {
+  OFFICES_MODULE_ID,
+  vacateSeat,
+  type TermRow,
+  type VacancyRow,
+} from "../core2/modules/offices";
+import readings from "../core2/gov-rules/municipal-governments.json" with { type: "json" };
 import islandAreas from "../core2/data/reference/island-area-governments.json" with { type: "json" };
 import territoryPlaces from "../core2/data/places/territory-places.json" with { type: "json" };
 import municipalCycles from "../core2/data/elections/municipal-cycles.json" with { type: "json" };
@@ -106,5 +113,77 @@ describe(`an Island Area place has its own local race (seed ${seed})`, () => {
         rule: "minimum-age",
         required: String(research.minimumAge),
       });
+  }, 600_000);
+
+  it("a Vice Mayor is elected where the law has one, and takes a vacated Mayor's seat", () => {
+    // Every government whose reading names a Vice Mayor (5 GCA sec. 40101),
+    // one drawn by the seed.
+    const withVice = new Set(
+      (
+        readings.governments as {
+          publisherId: string | null;
+          reading: { viceMayor?: unknown };
+        }[]
+      )
+        .filter((g) => g.reading.viceMayor)
+        .map((g) => g.publisherId),
+    );
+    const rank = (key: string) =>
+      createHash("sha256").update(`${seed}:vice:${key}`).digest("hex");
+    const row = islandAreas.governments
+      .filter((g) => withVice.has(g.id))
+      .sort((a, b) => rank(a.id).localeCompare(rank(b.id)))[0]!;
+    const place = places.find(
+      (p) => p[2] === row.stateUsps && p[4] === row.placeGeoid,
+    )!;
+    const world = buildBenchWorld(seed, opening, {
+      twoLevel: true,
+      placeKey: place[0],
+    });
+    const label = `${place[1]}, ${row.stateUsps} (${place[0]}, seed ${seed})`;
+    process.stdout.write(`island-area-vice-mayor: ${label}\n`);
+    const api = coreAPI(world.core);
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const serving = (seatId: string) =>
+      (
+        terms.query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+      )[0];
+    const mayorSeat = `seat:${row.id}:mayor:0`;
+    const viceSeat = `seat:${row.id}:vice-mayor:0`;
+
+    // Seated on day one and raced with the Mayor, on the page.
+    const vice = serving(viceSeat);
+    expect(vice?.personId, label).toBeTruthy();
+    const race = localRaces(world.core).races.find((r) =>
+      r.contestIds.some((id) => id.startsWith(`contest:${viceSeat}:`)),
+    );
+    const mayorRace = localRaces(world.core).races.find((r) =>
+      r.contestIds.some((id) => id.startsWith(`contest:${mayorSeat}:`)),
+    );
+    expect(race?.title, label).toBe("Vice Mayor");
+    expect(race?.electionDate, label).toBe(mayorRace?.electionDate);
+
+    // The Mayor leaves: the Vice Mayor takes the seat for the rest of the
+    // term, and the Vice Mayor's seat stays vacant to its end (sec. 40110(b)).
+    const mayor = serving(mayorSeat)!;
+    vacateSeat(api, mayorSeat, "resigned");
+    const risen = serving(mayorSeat);
+    expect(risen?.personId, label).toBe(vice!.personId);
+    expect(risen?.reached, label).toContain("succeeded as Vice Mayor");
+    expect(risen?.endDate, label).toBe(mayor.endDate);
+    expect(serving(viceSeat), label).toBeUndefined();
+    const left = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("vacancies")
+        .rows() as unknown as VacancyRow[]
+    ).find((v) => v.seatId === viceSeat);
+    expect(left?.rule.method, label).toBe("remains-vacant");
+    expect(left?.status, label).toBe("open");
+    // The rise is a seating the other engines read, as any other is.
+    const record = world.core.durableLog.get(
+      `took-office:${mayorSeat}:${world.core.date}`,
+    );
+    expect(record?.personIds, label).toContain(vice!.personId);
   }, 600_000);
 });

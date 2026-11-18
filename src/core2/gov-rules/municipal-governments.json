@@ -2553,8 +2553,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {
@@ -2597,8 +2604,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {
@@ -2641,8 +2655,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {
@@ -2707,8 +2728,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {
@@ -2861,8 +2889,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {
@@ -2905,8 +2940,15 @@
           {
             "seatClass": "Mayor",
             "years": 4
+          },
+          {
+            "seatClass": "Vice Mayor",
+            "years": 4
           }
-        ]
+        ],
+        "viceMayor": {
+          "title": "Vice Mayor"
+        }
       }
     },
     {

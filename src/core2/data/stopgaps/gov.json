@@ -2122,7 +2122,9 @@
     "why": "The town office reader seats a council and a chief executive only; a second elected executive office has no reader yet.",
     "addedBy": "Elections",
     "addedAt": "2026-11-18",
-    "replacement": "A vice-mayor office read from the village's reading in src/core2/gov-rules/municipal-governments.json, raced on the mayor's calendar, and the successor rule of 5 GCA sec. 40110(b) on the mayor's vacancy.",
-    "status": "open"
+    "replacement": "Resolved Nov 18: the six villages' readings in src/core2/gov-rules/municipal-governments.json name the Vice Mayor, the town office reader seats and races it on the Mayor's calendar (localViceMayorRules, cityOffices), and a Mayor's vacancy goes to the serving Vice Mayor, whose seat then stays vacant to the term's end (viceMayorSuccessor in src/core2/modules/offices.ts, 5 GCA sec. 40110(b)); with no Vice Mayor serving, the Municipal Planning Council appoints. Shown in src/bench/island-area-local-race.test.ts. Was: A vice-mayor office read from the village's reading in src/core2/gov-rules/municipal-governments.json, raced on the mayor's calendar, and the successor rule of 5 GCA sec. 40110(b) on the mayor's vacancy.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-18",
+    "resolvedBy": "Elections"
   }
 ]

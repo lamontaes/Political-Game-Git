@@ -18,7 +18,12 @@ import {
   localGoverningBodyName,
   localGoverningBodyRules,
 } from "./gov-rules/local-governing-body-rules";
-import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
+import {
+  localChiefExecutiveRules,
+  localViceMayorRules,
+} from "./gov-rules/local-chief-executive-rules";
+import type { VacancyRule } from "./offices-state";
+import islandAreas from "./data/reference/island-area-governments.json" with { type: "json" };
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
 import {
@@ -132,6 +137,12 @@ export interface OfficeInput {
    * chair, instead of asking a member. From the place's own county data.
    */
   readonly presidesOverBody?: boolean;
+  /**
+   * Who fills the seat when it falls vacant, where the government's own law
+   * says (a Guam village's, 5 GCA sec. 40110); absent, the state's municipal
+   * rule applies.
+   */
+  readonly vacancyRule?: VacancyRule;
   readonly source: string;
   readonly estimate: boolean;
 }
@@ -255,8 +266,9 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
         : "ICMA municipal form of government survey: the national typical council size and term",
       estimate: seats.basis !== "read",
     });
-  // stopgapId: SG-GOV-island-vice-mayors-unseated
   const chief = localChiefExecutiveRules(unit);
+  const vice = chief ? localViceMayorRules(unit) : null;
+  const law = islandVacancyLaw(unit);
   if (chief)
     offices.push({
       id: `office:${unit.id}:mayor`,
@@ -274,8 +286,80 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
         ? `Municipal reading ${chief.researchedGovernmentKey}`
         : "ICMA municipal form of government survey: whether the typical town elects its mayor directly",
       estimate: chief.directlyElected.basis !== "read",
+      // The vice mayor takes a vacated mayor's seat where the law has one.
+      ...(law
+        ? {
+            vacancyRule:
+              vice && law.viceMayorSucceeds
+                ? {
+                    method: "successor" as const,
+                    successor: "vice-mayor",
+                    appointedBy: law.appointedBy,
+                    citation: law.citation,
+                    estimate: false,
+                  }
+                : {
+                    method: "appointment" as const,
+                    appointedBy: law.appointedBy,
+                    citation: law.citation,
+                    estimate: false,
+                  },
+          }
+        : {}),
+    });
+  // A second elected executive the government's reading names, elected
+  // apart from the mayor on the same calendar (5 GCA secs. 40101, 40103).
+  if (chief && vice)
+    offices.push({
+      id: `office:${unit.id}:vice-mayor`,
+      level: "city",
+      jurisdiction: unit.id,
+      governmentName: unit.name,
+      kind: "vice-mayor",
+      title: vice.title,
+      seats: 1,
+      termYears: vice.termYears,
+      elected: true,
+      districted: false,
+      coversTown: true,
+      source: `Municipal reading ${chief.researchedGovernmentKey}`,
+      estimate: false,
+      ...(law
+        ? {
+            vacancyRule: {
+              method: "appointment" as const,
+              appointedBy: law.appointedBy,
+              citation: law.citation,
+              estimate: false,
+            },
+          }
+        : {}),
     });
   return offices;
+}
+
+/** An Island Area government's own vacancy law, from its territory's row; null for every other town. */
+function islandVacancyLaw(unit: GovernmentUnitIdentity): {
+  readonly appointedBy: string;
+  readonly viceMayorSucceeds: boolean;
+  readonly citation: string;
+} | null {
+  if (!unit.id.startsWith("island:")) return null;
+  return (
+    (
+      islandAreas.territories as Record<
+        string,
+        | {
+            readonly vacancy?: {
+              readonly appointedBy: string;
+              readonly viceMayorSucceeds: boolean;
+              readonly citation: string;
+            };
+          }
+        | undefined
+      >
+    )[unit.stateUsps]?.vacancy ?? null
+  );
 }
 
 function boardOffices(
