@@ -2396,7 +2396,6 @@ function build(api: CoreAPI): void {
       },
       {
         placeId: landlord.placeId,
-        usps: housingPlace(api, landlord.placeId).usps,
         landlordId: landlord.id,
         backfill: !(
           store(api).table("stock").get(`stock:${landlord.placeId}`) as

@@ -432,16 +432,30 @@
       "citation": "HUD Housing Inventory Count, year-round beds by state, 2024 versus 2025."
     }
   },
-  "housingWorldPermitSpreadShare": {
-    "value": 0.1,
+  "housingSingleStartsPerBuilderYear": {
+    "value": 0.1286,
     "tag": "ESTIMATED",
-    "citation": "How far a world's building permits per thousand people sit from the published state rate: state permit counts move 5% to 20% from one year to the next outside a downturn (Census Building Permits Survey annual state totals).",
-    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "role": "coefficient",
+    "citation": "Census Building Permits Survey 2024 single-family permits per thousand people by state, read against each drawn town's own builders (the heads on its construction firms' staff).",
+    "estimatedFrom": "How many houses one builder on a construction firm's staff starts in a year at the market signal's baseline. Fitted Nov 17, 2026 on train/nov17 at 71cd7e31: 55 played towns drawn from all 56 places (drawPlace with seed justice-fit-b-nov17, purposes fit-0 to fit-54), each built to its opening with buildBenchWorld; the heads on the staff of the town's construction firms (full workers plus what their counted jobs stand for) against the state's published permits per thousand people over the town's residents. 53 towns had builders. The median over those towns is 0.1286 a year per head (quartiles 0.0657 and 0.2224). A town's starts are its own builders times this, so a town with more builders builds more and none starts none; no state's permit rate is read in play.",
     "spread": {
-      "low": 0.05,
-      "high": 0.2,
-      "unit": "share of the published rate",
-      "citation": "Census Building Permits Survey, annual state totals by structure type, year-over-year change."
+      "low": 0.0657,
+      "high": 0.2224,
+      "unit": "houses started per builder a year",
+      "citation": "The quartiles of the same fit over the drawn towns."
+    }
+  },
+  "housingMultiUnitsPerBuilderYear": {
+    "value": 0.0629,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Census Building Permits Survey 2024 multifamily permitted units per thousand people by state, read against each drawn town's own builders (the heads on its construction firms' staff).",
+    "estimatedFrom": "How many apartment units one builder on a construction firm's staff starts in a year at the market signal's baseline. Fitted Nov 17, 2026 on train/nov17 at 71cd7e31: 55 played towns drawn from all 56 places (drawPlace with seed justice-fit-b-nov17, purposes fit-0 to fit-54), each built to its opening with buildBenchWorld; the heads on the staff of the town's construction firms (full workers plus what their counted jobs stand for) against the state's published permits per thousand people over the town's residents. 53 towns had builders. The median over those towns is 0.0629 a year per head (quartiles 0.034 and 0.099). A town's starts are its own builders times this, so a town with more builders builds more and none starts none; no state's permit rate is read in play.",
+    "spread": {
+      "low": 0.034,
+      "high": 0.099,
+      "unit": "apartment units started per builder a year",
+      "citation": "The quartiles of the same fit over the drawn towns."
     }
   },
   "housingPriceRateResponse": {

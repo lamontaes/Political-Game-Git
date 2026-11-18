@@ -41,9 +41,9 @@ import { budgetToday, housingLineMeasureId } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
+import { builderHeads } from "./housing-construction";
 import type { CoreAPI, CoreState } from "./types";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
-import construction from "./data/housing/construction.json" with { type: "json" };
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 
 const P = "us-policy-positions:";
@@ -74,16 +74,18 @@ const DAYS = Number(process.env.HOUSING_DAYS ?? 420);
 const HELPED_DAYS = 45;
 
 /**
- * The apartments a place of this size would start in the days played, at its
- * state's permit rate. The zoning laws act on apartment buildings, so a place
- * that would start fewer than one building has none to follow.
+ * The apartments a place's builders would start in the days played: their
+ * heads times the units a builder starts a year. The zoning laws act on
+ * apartment buildings, so a place that would start fewer than one building
+ * has none to follow.
  */
-function apartmentsPermitted(usps: string, people: number): number {
-  const rates =
-    (construction.byState as Record<string, { multiPerThousand: number }>)[
-      usps
-    ] ?? construction.national;
-  return (rates.multiPerThousand * (people / 1000) * DAYS) / 365;
+function apartmentsPermitted(core: CoreState, placeId: string): number {
+  return (
+    (builderHeads(core, placeId) *
+      housingParameters.housingMultiUnitsPerBuilderYear.value *
+      DAYS) /
+    365
+  );
 }
 const UNITS_PER_BUILDING = housingParameters.housingUnitsPerBuilding.value;
 
@@ -341,12 +343,9 @@ function play(
     !figures.rentMinor
   )
     return `no subject: ${figures.renters} renters, ${landlords} landlords, home value ${figures.homeValueMinor}, rent ${figures.rentMinor}`;
-  const apartments = apartmentsPermitted(
-    core.placeMetadata?.housingState ?? "",
-    people,
-  );
+  const apartments = apartmentsPermitted(core, town);
   if (apartments < UNITS_PER_BUILDING)
-    return `no subject: about ${Math.round(apartments)} apartments permitted in ${DAYS} days (${people} people)`;
+    return `no subject: about ${Math.round(apartments)} apartments started by ${DAYS} days of its builders (${people} people)`;
 
   // The journal posts these cases cite, by the id of the payment that made them; for a lease, the latest settlement.
   const posts: Post[] = [];
