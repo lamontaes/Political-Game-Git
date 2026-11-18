@@ -1,6 +1,6 @@
 {
   "schema": "scene-patterns/1",
-  "asOf": "2026-11-17",
+  "asOf": "2026-11-18",
   "about": "Scene patterns drawn from real political lives. Real lives calibrate only: no real name, words or event ships. Roles and settings are slots the director fills from the world's records. Gates are yes-or-no facts that may gate; weights are amounts that only weight the pick. unlocks, extends and mergesWith hold pattern ids (A = bank 1, B = bank 2, C = bank 3), kind: (a scene kind the game has today), class: (a row in docs/design/scenes/scene-catalog), later: (a kind the inventory marks needed later). Bank 3 patterns also carry alsoStages (other stages where their gates can hold; stage is the home tab) and needs (mechanics they lean on that the game lacks or only partly has, keyed to the needs list). No pattern is locked to one stage: the director may blend parts of several patterns that fit the same player into one scene (mergesWith).",
   "stages": [
     {
@@ -219,7 +219,9 @@
     "bank2": 55,
     "bank2NewPeople": 65,
     "bank3": 49,
-    "bank3People": 15
+    "bank3People": 15,
+    "bank4": 1,
+    "bank5": 8
   },
   "needs": [
     {
@@ -10925,6 +10927,1055 @@
       "ifNo": "Staying quiet writes that you said nothing, and both sides take it as a side.",
       "alsoStages": ["the-work", "running-again"],
       "needs": ["grudge", "allies-turning"]
+    },
+    {
+      "id": "A47",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "first-days"],
+      "title": "The first word on the address",
+      "roles": [
+        {
+          "slot": "the speaker",
+          "fill": "whoever is around the player with a stand on the address: kin or a housemate at home; a neighbor; a coworker the next morning; a regular where people gather (the barber, the diner counter, a morning coffee group, a church's fellowship hour); a local party officer; rarely a stranger, and only where talking to strangers is normal in that setting. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the address",
+          "fill": "the President's address on record that day: the inaugural on day 0, later any big address"
+        },
+        {
+          "slot": "the point",
+          "fill": "one point of {the address} from its record: what the President promised, warned about or claimed, and which side the President took"
+        },
+        {
+          "slot": "their reason",
+          "fill": "the record from {the speaker}'s own life that gives them a stand: their job and employer, their rent or mortgage, a relative it touches, a story they read, their party"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever {the speaker} and the player are when it comes up, by the record: home the evening it aired, the place {the speaker} gathers with regulars, work the next morning, or out in public, a park bench or a bus stop. People who watched it together bring it up sooner."
+      },
+      "gates": [
+        "{the speaker} holds {the address} on record, having watched it or heard of it from someone or the news.",
+        "{the speaker} has a stand on {the point}.",
+        "{the speaker} and the player are in the same place on record within a week of {the address}.",
+        "{the speaker} has not raised {the point} with the player before."
+      ],
+      "weights": [
+        "How much {the point} touches {the speaker}'s life ({their reason}).",
+        "How engaged in politics {the speaker} is.",
+        "Whether the people present mostly agree: people bring politics up more among those who share their views, and hold back at work and with family when they don't.",
+        "The setting's habits: home and regulars' places more, work and strangers less.",
+        "Traits that speak up."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the speaker} is a local party officer or someone deep in politics",
+          "then": "They end on the party's next meeting or a rally, with the time and place on record, and the player can go."
+        },
+        {
+          "by": "record",
+          "when": "{the point} touches the player's own record (their job, their rent, their family)",
+          "then": "{the speaker} asks what the player thinks anyone should do about it, the first nudge toward doing something."
+        },
+        {
+          "by": "record",
+          "when": "{the speaker} and the player disagree and the setting is work",
+          "then": "{the speaker} drops it fast. The disagreement is recorded on the tie, and it colors the next talk."
+        },
+        {
+          "by": "household",
+          "when": "they watched {the address} together at home",
+          "then": "It can be one line, praise or scorn, with no question at the end. It's the intro, and it tells the player who this person is."
+        }
+      ],
+      "unlocks": ["A13", "A06", "A16", "kind:bring-it-up"],
+      "extends": ["kind:news-talk"],
+      "mergesWith": ["A11", "A04"],
+      "sources": [
+        {
+          "person": "Katherine Cramer's rural Wisconsin study",
+          "life": "She sat in on morning coffee groups at gas stations and cafes, and in churches, where regulars, mostly retired or working men, plus a women's lunch group, talked politics as part of who they were and what they felt their places were owed.",
+          "urls": [
+            "https://www.christiancentury.org/article/political-scientist-tries-understand-states-rural-residents",
+            "https://www.scientificamerican.com/article/trump-s-victory-and-the-politics-of-resentment/"
+          ]
+        },
+        {
+          "person": "Melissa Harris-Perry (Harris-Lacewell)",
+          "life": "Her study of barbershops and churches found political ideas form in everyday talk among neighbors and local figures, and most of it is about life, not about presidents and senators.",
+          "urls": [
+            "https://press.princeton.edu/books/paperback/9780691126098/barbershops-bibles-and-bet",
+            "https://historynet.com/dialogue-barbershops-bibles-americas-racial-divide/"
+          ]
+        },
+        {
+          "person": "Pew Research Center surveys, 2018 and 2024",
+          "life": "Most adults say politics comes up a little with family and friends, about one in five a lot. Families that agree talk more, and about two in five families avoid it.",
+          "urls": [
+            "https://www.pewresearch.org/politics/2018/11/20/most-say-their-family-is-ok-with-discussing-politics-but-it-helps-if-the-family-agrees/",
+            "https://www.pewresearch.org/short-reads/2024/07/02/whats-new-with-you-what-americans-talk-about-with-family-and-friends/"
+          ]
+        },
+        {
+          "person": "A Penn State poll",
+          "life": "Only about one in six adults feel comfortable talking politics with anyone, and people hold back most at work and around family.",
+          "urls": [
+            "https://laist.com/news/politics/poll-a-majority-of-americans-embrace-democracy-but-most-self-censor-their-political-speech"
+          ]
+        },
+        {
+          "person": "Rochester barbershop, Jan. 2017",
+          "life": "A barber watched the inauguration on the shop TV and said he hoped the new President would deliver what he promised. A customer worried about who was and wasn't in the crowd.",
+          "urls": [
+            "https://www.wxxinews.org/government/2017-01-20/local-people-react-to-the-inauguration-of-a-new-president"
+          ]
+        },
+        {
+          "person": "Diners in Old Bridge, New Jersey, and Hamilton, Montana, Jan. 2025",
+          "life": "Residents watched the address together at the diner. One said the talk of unity struck a chord; a server wanted to see action; a man in Montana was glad it mentioned God.",
+          "urls": [
+            "https://www.cbsnews.com/newyork/news/new-jersey-trump-inauguration",
+            "https://www.npr.org/transcripts/510828590"
+          ]
+        }
+      ],
+      "bank": 4,
+      "beat": null,
+      "moment": "{the speaker} brings up {the point}: what the President said, and where they stand on it, from {their reason}. It can be one line, praise or scorn, and it doesn't have to end in a question. It doubles as the player's first look at the world: who this person is, what they do, what's going on in town.",
+      "choices": [
+        "agree with them",
+        "disagree, with the other side of the point",
+        "ask what it means for them",
+        "let it go"
+      ],
+      "ifNo": "Letting it go writes no stand for the player, and the point waits for another day. If the news keeps {the point} alive, someone else raises it. A reply writes the player's first stand on that question, the told record, and time on the tie, so the next talk says something else."
+    },
+    {
+      "id": "B5-01",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "the-work"],
+      "title": "Home with a record",
+      "roles": [
+        {
+          "slot": "the returner",
+          "fill": "whoever the justice record shows as released: the player, or a relative, housemate or old friend of the player's. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the host",
+          "fill": "whoever on the records holds a home or a room the returner could use: kin, a housemate, or the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the helper",
+          "fill": "whoever the records show could vouch, hire or place the returner: a program that helps people leaving custody, an employer, a relative with a business, or none yet"
+        },
+        {
+          "slot": "the child at home",
+          "fill": "a child in the host's household or the returner's, if the records show one; otherwise none"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the returner and the host first meet after the release, by the records: the host's door, the stop where the returner got off, the helper's office. Nobody is waiting for the returner if the records show nobody came."
+      },
+      "gates": [
+        "The justice record shows {the returner} released.",
+        "{the returner} and {the host} are tied on the records by blood, a shared household, or a friendship.",
+        "{the host} holds a home or a room on the household record.",
+        "{the returner} has no home of their own on the housing record."
+      ],
+      "weights": [
+        "How long the term was.",
+        "Whether the term ended {the returner}'s job.",
+        "Whether {the child at home} is in the household.",
+        "How often the player visited or wrote during the term.",
+        "Whether {the helper} exists on the records."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "nobody was there to meet {the returner}",
+          "then": "{the returner} goes to {the host} alone, and the tie records who came and who did not."
+        },
+        {
+          "by": "record",
+          "when": "{the host} says yes",
+          "then": "The returner joins the household record, and the job question comes next: it unlocks a job-offer scene through {the helper}."
+        },
+        {
+          "by": "record",
+          "when": "{the host} says not yet",
+          "then": "The returner holds a place on the housing record with a date on it, and a promise to talk again is kept on the reply record."
+        },
+        {
+          "by": "record",
+          "when": "{the child at home} is in the house",
+          "then": "The talk turns on the child: what the child is told and who is there when the child comes home from school."
+        },
+        {
+          "by": "record",
+          "when": "the player is the returner",
+          "then": "A relative asks what happens now, and the player's answer writes the promise the household keeps or breaks."
+        }
+      ],
+      "unlocks": ["kind:job-offer", "kind:argument", "A10"],
+      "extends": ["kind:prison-visit", "A11"],
+      "mergesWith": ["A10", "C11"],
+      "sources": [
+        {
+          "person": "James Taylor and Darlene Lewis",
+          "life": "He came home in 1999 after seven years for weapons and drug charges. She runs a group that prepares former inmates for work. She sent him to a fast-food job where he became a manager, and she stayed with him after he lost it.",
+          "urls": [
+            "https://www.kunc.org/2015-01-09/a-former-inmate-and-the-mother-who-buoys-him"
+          ]
+        },
+        {
+          "person": "Jamal Faison and Born Blackwell",
+          "life": "After eight months in a city jail, with no one to pick him up, he took the train to his uncle's home. Years later he works at a group that helps people leaving jail and fears his record touches everything, including how his young son sees him.",
+          "urls": [
+            "https://www.kunc.org/2016-06-03/navigating-life-and-relationships-after-a-jail-sentence"
+          ]
+        },
+        {
+          "person": "Five Mualimm-ak and Omar",
+          "life": "A father came home after almost twelve years away, when his son was a high school senior. He said he had played no part in the son's success, and the two now work on the present.",
+          "urls": [
+            "https://www.interlochenpublicradio.org/post/while-he-was-prison-his-son-grew-now-theyre-getting-know-each-other"
+          ]
+        },
+        {
+          "person": "Rowena Gore-Simmons and Kenya",
+          "life": "A mother left when her daughter was four and decided in prison to be a better mother. Later she founded a group with transitional housing for women leaving prison, after working at another Baltimore group.",
+          "urls": [
+            "https://www.wkar.org/2013-02-21/after-prison-a-second-chance-to-be-a-better-mother"
+          ]
+        }
+      ],
+      "moment": "{the returner} is out, and {the host} has to say whether there is a room and who tells the child.",
+      "choices": [
+        "say yes and name the rule of the house",
+        "say yes until work comes, with a day to talk again",
+        "say not yet and say why",
+        "ask who else can take {the returner} first"
+      ],
+      "ifNo": "A no or a put-off strains the tie on the records, and {the returner} turns up later at {the helper}'s door or the host's door again.",
+      "situationKeys": ["return", "prison-visit"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-02",
+      "stage": "on-ramp",
+      "otherStages": ["the-work", "running-again"],
+      "title": "The notice and the days after",
+      "roles": [
+        {
+          "slot": "the tenant",
+          "fill": "whoever on the household record holds the lease: the player, or someone the player lives with or is tied to. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the owner's side",
+          "fill": "whoever the lease record names: a landlord, a property manager, or a lot owner, said with the role"
+        },
+        {
+          "slot": "the helper",
+          "fill": "whoever the records show could act: a legal aid office, a tenant group, a relative with room, a neighbor, a local official, or none"
+        },
+        {
+          "slot": "the cause",
+          "fill": "what the records show behind the arrears: a lost job, an illness, a hurt household member, a damaged home, or a rent rise"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the notice reaches {the tenant}, by the records: taped to the door, handed over by an officer, or said on the phone. The talk after it happens wherever the household is that evening."
+      },
+      "gates": [
+        "The housing record shows a notice served on {the tenant}.",
+        "{the owner's side} has the power on the lease record to end the tenancy.",
+        "{the tenant} and the player share a household or a tie on the records.",
+        "The notice has a date on the housing record after which the household must leave."
+      ],
+      "weights": [
+        "How far behind the rent is, said in months.",
+        "Whether {the cause} is a job loss or a sickness.",
+        "Whether a child lives in the household.",
+        "Whether {the helper} exists on the records.",
+        "Whether the tenant owns the home but not the ground under it."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the helper} is a legal aid office or a tenant group",
+          "then": "The household learns what the notice can and cannot do, and a hearing date goes on the housing record."
+        },
+        {
+          "by": "record",
+          "when": "the household moves out before the date",
+          "then": "The housing record shows a move to a relative or a short stay, and a later landlord reads the eviction on the record."
+        },
+        {
+          "by": "record",
+          "when": "the owner's side keeps the home or the belongings",
+          "then": "The loss is written on the household's money record and a grudge toward {the owner's side} forms."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "A tenant or neighbor asks the player to act, which unlocks a town-hall or office-hours scene about the rule."
+        },
+        {
+          "by": "record",
+          "when": "the player is the tenant",
+          "then": "The household asks who pays what by the date, and the answer lands on the money record."
+        }
+      ],
+      "unlocks": ["kind:office-hours", "kind:town-hall-question", "A07", "A11"],
+      "extends": ["kind:news-arrives"],
+      "mergesWith": ["A39", "A01"],
+      "sources": [
+        {
+          "person": "Sonja Lee",
+          "life": "A single mother of two in Houston who lost a fast-food job in March, fell two months behind on rent, and was denied unemployment benefits. A taunting notice on her door demanded her keys by evening. A legal aid lawyer said it carried no legal force, and the property company later said no eviction was filed and its manager was disciplined.",
+          "urls": [
+            "https://abc13.com/post/out-of-work-mom-hit-with-insensitive-eviction-notice/6376539/"
+          ]
+        },
+        {
+          "person": "Tiana Caldwell",
+          "life": "Furloughed in 2020 while in treatment for a second cancer, she got a notice and fought it, but was evicted in the fall. The family spent about six months in hotels, lost money to a rental scam, and she joined a tenant group and became its board president.",
+          "urls": [
+            "https://www.nprillinois.org/2021-11-30/first-person-activist-tiana-caldwell-on-finding-strength-in-the-face-of-eviction"
+          ]
+        },
+        {
+          "person": "Shuntera Brown",
+          "life": "A single mother in Phoenix whose family caught COVID. She missed weeks of work, fell behind, and was evicted days before a federal moratorium ended. The family spent eighty days in hotels and short rentals paid by a fundraiser. Rental agencies refused her until a legal women's group helped her get rental aid.",
+          "urls": [
+            "https://www.delawarepublic.org/2021-10-22/how-covid-19-and-an-eviction-nearly-unraveled-one-family"
+          ]
+        },
+        {
+          "person": "Barbara Gaught",
+          "life": "A sheriff taped a notice to her door on a Friday evening the week before Christmas, giving her until Monday to leave a mobile home she owned on rented land. She owed under about $1,200 in lot rent and the owner would not take part payments. Her father negotiated away the debt, but the company kept the home.",
+          "urls": [
+            "https://ideastream.org/2021-04-16/losing-it-all-mobile-home-owners-evicted-over-small-debts-during-pandemic"
+          ]
+        }
+      ],
+      "moment": "The notice is served, and someone in the household asks what happens by the date on it.",
+      "choices": [
+        "go to {the helper} with the paper",
+        "pay what the household can and ask for time",
+        "call {the owner's side} and ask for terms",
+        "start looking for a place to go"
+      ],
+      "ifNo": "Doing nothing lets the date pass: the eviction goes on the housing record and the household's next landlord reads it.",
+      "situationKeys": ["notice-home", "home-damaged", "news-arrives"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-03",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "after-office"],
+      "title": "The job ends",
+      "roles": [
+        {
+          "slot": "the worker",
+          "fill": "whoever on the work record loses the job: the player, or someone tied to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the employer's side",
+          "fill": "whoever on the employer's record delivers it: a boss, a human-resources officer, a letter, or a public announcement, said with the role"
+        },
+        {
+          "slot": "the first to hear",
+          "fill": "whoever the records show the worker tells first: a partner, a parent, a close friend, a housemate"
+        },
+        {
+          "slot": "the one who asks for help",
+          "fill": "a friend or relative who has just lost work and calls the player for a word or a lead, when the records show one"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the news lands, by the records: a meeting at work, a message that arrives at an odd hour, a television announcement at home. The telling afterward happens wherever {the first to hear} is."
+      },
+      "gates": [
+        "The work record shows {the worker}'s job ended by the employer.",
+        "{the worker} and the player share a household or a tie on the records.",
+        "The employer's record shows what was offered: pay in lieu, a reference, health cover, or nothing.",
+        "{the first to hear} is on the tie record."
+      ],
+      "weights": [
+        "How many years {the worker} held the job.",
+        "Whether the household depends on this income.",
+        "Whether many workers lost jobs at once.",
+        "Whether health cover ended with the job.",
+        "Whether another household member can work."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the whole workplace or plant closes",
+          "then": "The loss is shared: neighbors and coworkers appear on the tie record, and the place's job record drops."
+        },
+        {
+          "by": "record",
+          "when": "the employer offers pay in return for a signature",
+          "then": "The worker's choice lands on the money record and on what they may say later."
+        },
+        {
+          "by": "record",
+          "when": "health cover ends",
+          "then": "The household's cost record rises and a later illness reads it."
+        },
+        {
+          "by": "record",
+          "when": "{the one who asks for help} calls",
+          "then": "The player's word or lead is written, and the friend remembers who answered."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "A worker brings the same loss to office hours, which unlocks that scene with the cause on record."
+        }
+      ],
+      "unlocks": [
+        "kind:job-offer",
+        "kind:office-hours",
+        "kind:notice-home",
+        "A10",
+        "C45"
+      ],
+      "extends": ["kind:news-arrives"],
+      "mergesWith": ["B49", "C07"],
+      "sources": [
+        {
+          "person": "Emmy Serviss",
+          "life": "A Boston writer told in a routine morning meeting that her position was eliminated. Her email was cut off within minutes. About a dozen people were affected, seniority did not protect anyone, and it was her second layoff in three years.",
+          "urls": [
+            "https://www.theinsider1.com/post/your-position-has-been-eliminated"
+          ]
+        },
+        {
+          "person": "Kossana Young",
+          "life": "A communications specialist on a contract with a federal aid agency whose layoff email came in the middle of the night. She had two days of health insurance left, a day to return equipment and no severance. She had told her father and close friends her fears beforehand and then leaned on laid-off colleagues in group chats.",
+          "urls": [
+            "https://laid0ff.substack.com/p/laid-off-communications-specialist"
+          ]
+        },
+        {
+          "person": "Michael Duffin",
+          "life": "A counterterrorism expert with twelve years in his agency, cut by a form email while working from home. He describes anxiety and depression afterward. Many former colleagues applied for hundreds of jobs without offers, and some took service work when benefits ran out.",
+          "urls": [
+            "https://federalnewsnetwork.com/commentary/2026/07/one-year-later-my-layoff-from-the-federal-government-has-become-a-banishment/"
+          ]
+        },
+        {
+          "person": "Kim and Vanessa Clay",
+          "life": "He lost his job when a carmaker closed its Moraine, Ohio, plant in 2008. By 2010 the couple were struggling with unemployment and had lost their health insurance. He later became an electrician at another plant and kept up photography.",
+          "urls": [
+            "https://www.wyso.org/news/2013-06-14/the-best-of-miami-valley-storycorps-kim-clay-vanessa-stanton-clay"
+          ]
+        },
+        {
+          "person": "Dnitra Landon",
+          "life": "An assembly-line worker who learned of her plant's planned closure from a television announcement the night before it was public. The next day coworkers were split between accepting it and feeling slighted, and transfers were offered. The job had carried her from homelessness to owning a home.",
+          "urls": [
+            "https://www.tpr.org/2018-12-02/a-general-motors-employee-reacts-to-news-of-layoffs"
+          ]
+        }
+      ],
+      "moment": "The job ends, and {the first to hear} asks what the household does now.",
+      "choices": [
+        "tell {the first to hear} the same hour and say what is offered",
+        "take the offered terms",
+        "push back before signing",
+        "start calling people for work that day"
+      ],
+      "ifNo": "Telling no one writes silence on the tie record, and {the first to hear} learns it from someone else and remembers.",
+      "situationKeys": ["layoff", "reach-out", "news-arrives"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-04",
+      "stage": "on-ramp",
+      "otherStages": ["first-term", "crisis", "leaving"],
+      "title": "Someone dying, someone buried",
+      "roles": [
+        {
+          "slot": "the dying or dead",
+          "fill": "whoever on the health or death record is gravely ill or has just died: a parent, a grandparent, a partner, a sibling, a friend. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the caregiver",
+          "fill": "whoever on the household record carries the daily care: the player, a relative, or a housemate"
+        },
+        {
+          "slot": "the mourner",
+          "fill": "whoever else the records tie to {the dying or dead}: kin, an old friend, a neighbor, a church or lodge member, a coworker"
+        },
+        {
+          "slot": "the helper",
+          "fill": "whoever the records show could ease it: a hospice program, neighbors, a faith group, a friend's family, or none"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever {the dying or dead} is on the records: the home, a care bed, the place of burial and the gathering after. The talk with {the mourner} happens wherever they meet the player, a doorway, a kitchen, the steps after the service."
+      },
+      "gates": [
+        "The health or death record shows {the dying or dead} gravely ill or dead.",
+        "{the dying or dead} is tied to the player or the player's household on the records.",
+        "The player can reach the place on the travel record within the days it matters.",
+        "A date for the care or the service is on the calendar."
+      ],
+      "weights": [
+        "How close the tie is.",
+        "How long the illness has run.",
+        "Whether the player lives in the same home as {the dying or dead}.",
+        "Whether {the helper} has a record of showing up.",
+        "Whether the player holds an office and the dead had a cause."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the caregiver} is the player",
+          "then": "The days of care write on the player's time and money records and on the household's tie to {the dying or dead}."
+        },
+        {
+          "by": "record",
+          "when": "the player is not there",
+          "then": "The absence is on the tie record and a grief later names it, and a no-show at a service is remembered by {the mourner}."
+        },
+        {
+          "by": "record",
+          "when": "{the helper} is neighbors or a faith group",
+          "then": "The household's later debts of thanks go on the favor record."
+        },
+        {
+          "by": "record",
+          "when": "{the dying or dead} left a cause",
+          "then": "A mourner asks the player to carry it, which unlocks an invitation scene."
+        },
+        {
+          "by": "record",
+          "when": "the player has just won a seat",
+          "then": "The death can reach the player between the win and the oath, and the chamber leader's call about the seat reads it."
+        }
+      ],
+      "unlocks": ["A37", "A25", "kind:cause-invite", "kind:care"],
+      "extends": ["A37", "A31"],
+      "mergesWith": ["A37", "C24", "A31"],
+      "sources": [
+        {
+          "person": "Grant Brenner and Ari Gildengers",
+          "life": "As a boy Grant lost his mother to cancer, did not go to her funeral and regrets it. His father later gave him a note she had written. His friend's mother became like a second mother to him, and her death years later moved him deeply.",
+          "urls": ["https://storycorps.org/stories/mom-died-of-cancer-young/"]
+        },
+        {
+          "person": "Diane Botwin and Solomon Alpert",
+          "life": "About twenty years earlier she moved her ailing father into the family home and the household cared for him for seven years until he died. She says she did not think she had another choice and felt isolated while friends praised her. Her son valued the dignity of the death at home.",
+          "urls": [
+            "https://www.kcur.org/arts-life/2018-08-20/storycorps-in-kansas-city-a-mother-confronts-her-doubts-about-her-fathers-final-years-at-home"
+          ]
+        },
+        {
+          "person": "Eva Vega-Olds and Leonardo Vega",
+          "life": "A daughter recorded a talk with her father in hospice at his New Jersey home, days before he died. Asked what he was proudest of, he said his children and family. He had paid off the home and died there with loved ones around him.",
+          "urls": [
+            "https://www.kunc.org/2016-03-25/just-days-before-her-father-died-she-told-him-what-he-meant-to-her"
+          ]
+        },
+        {
+          "person": "Larry Maxfield",
+          "life": "In 2007 his brother, with terminal cancer and in home hospice, moved from California to Utah near his adult children. Neighborhood women cleaned and furnished a small house before the family arrived at night. The brother died two days later with family around him.",
+          "urls": [
+            "https://www.wamc.org/2026-01-26/neighbors-and-church-members-transformed-the-home-of-a-man-with-terminal-cancer"
+          ]
+        }
+      ],
+      "moment": "{the dying or dead} is dying or gone, and the player must say who is there, who stays, and who speaks.",
+      "choices": [
+        "go and stay through it",
+        "go for the service and speak to {the mourner}",
+        "send help with {the helper}",
+        "ask what is needed before deciding"
+      ],
+      "ifNo": "Not going is written on the tie record. A mourner names it later, and a grief the player did not attend does not close.",
+      "situationKeys": ["funeral", "care", "rescue", "news-arrives"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-05",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "running-again"],
+      "title": "Under one roof, or not",
+      "roles": [
+        {
+          "slot": "the partner",
+          "fill": "whoever on the tie record is the player's partner or would-be partner. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the household",
+          "fill": "whoever else lives where the player or {the partner} lives: parents, children from before, a housemate, a grandparent"
+        },
+        {
+          "slot": "the one who objects or backs",
+          "fill": "a relative or friend the records show has a stand on the match: a parent, a sibling, an old friend"
+        },
+        {
+          "slot": "the child",
+          "fill": "a child of the player or {the partner}, if the records show one; otherwise none"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever {the partner} and the player are when it comes up, by the records: at home, in public, at a venue, or the doorway of a household that will have to make room. The ending of it happens at home, with whoever lives there."
+      },
+      "gates": [
+        "{the partner} is tied to the player on the tie record as a partner or a would-be partner.",
+        "The housing record shows either a home or a room that could hold both, or a household that must change.",
+        "{the partner} has made the ask, or the break, on the calendar.",
+        "The player has not answered it before."
+      ],
+      "weights": [
+        "How long the tie has run.",
+        "Whether {the child} is in either household.",
+        "Whether either household's money is tight.",
+        "Whether {the one who objects or backs} lives in the same home.",
+        "Traits that commit or hold back."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player says yes",
+          "then": "The household record changes: one joins the other, or a new home is found, and the money record is shared from that date."
+        },
+        {
+          "by": "record",
+          "when": "the player says not yet",
+          "then": "A date to revisit goes on the calendar and the tie record shows a doubt."
+        },
+        {
+          "by": "record",
+          "when": "the player says no",
+          "then": "The tie record cools, and the one who asked remembers it at the next big choice."
+        },
+        {
+          "by": "record",
+          "when": "the partner ends it",
+          "then": "The household record splits, the child's days are set between homes, and who keeps the home goes on the housing record."
+        },
+        {
+          "by": "record",
+          "when": "{the one who objects or backs} is in the house",
+          "then": "They speak up, and their stand reaches the family's later votes of confidence."
+        }
+      ],
+      "unlocks": [
+        "kind:family-filing",
+        "kind:new-baby",
+        "kind:celebration",
+        "kind:notice-home"
+      ],
+      "extends": ["kind:date"],
+      "mergesWith": ["A16", "C41"],
+      "sources": [
+        {
+          "person": "George and Angela Ju",
+          "life": "A restaurant owner and a woman he met at an engagement party in 1971 married about a week later. He moved in with her, her mother and her grandfather until they could afford their own home. Her mother opposed it at first and later came to love him, and they were still together near their fiftieth anniversary.",
+          "urls": [
+            "https://www.gpb.org/news/2021/03/19/we-mesh-together-one-miami-love-story"
+          ]
+        },
+        {
+          "person": "Michael Wolmetz and Debora Brakarz",
+          "life": "After three months together he proposed during a recorded interview, using the ring his late father had used. She said yes. They married, stayed together nearly twenty years and have two sons.",
+          "urls": [
+            "https://www.kunc.org/2023-09-01/celebrating-a-couple-who-got-engaged-in-a-storycorps-booth-2-decades-ago"
+          ]
+        },
+        {
+          "person": "Melissa Smith and Sarah Weeldreyer",
+          "life": "A mother who divorced through a mediator tells another who is divorcing how she and her ex told their daughter together, sitting on the floor and stressing routines that stay the same. They share custody on a written plan and stayed on civil terms.",
+          "urls": [
+            "https://www.wunc.org/2016-11-10/finding-a-new-kind-of-partnership-through-divorce"
+          ]
+        },
+        {
+          "person": "Sarah Avant and Anand Hernandez",
+          "life": "Her son, twelve, recalls the yelling at home before his parents' 2009 divorce, being torn, and his grades slipping for two school years. He now spends alternate weeks with each parent and mostly wants his mother to be happy.",
+          "urls": [
+            "https://www.kunc.org/2012-12-06/3-years-after-parents-divorce-son-looks-back"
+          ]
+        }
+      ],
+      "moment": "{the partner} asks to share a roof, to marry, or to end it, and the household has to rearrange around the answer.",
+      "choices": [
+        "say yes and name what changes in the home",
+        "say yes when a stated thing is settled",
+        "say not yet and give a time",
+        "say no and say why"
+      ],
+      "ifNo": "A no or a put-off is written on the tie record and read at the next big choice by both of them.",
+      "situationKeys": ["move-in", "proposal", "breakup"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-06",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "running-again", "after-office"],
+      "title": "The one you fell out with",
+      "roles": [
+        {
+          "slot": "the estranged",
+          "fill": "whoever the tie record shows as cut off, hurt or in conflict with the player or someone the player loves: a sibling, a cousin, a former friend, a neighbor. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the go-between",
+          "fill": "whoever the records show stands between: a grandparent, a parent who took a side, a child, a friend of both, or none"
+        },
+        {
+          "slot": "the cause",
+          "fill": "what the records show split them: a harsh act, an unkept promise, a difference of belief, a money matter, a move"
+        },
+        {
+          "slot": "the witness",
+          "fill": "whoever is present or hears of it: kin at a meal, neighbors, a coworker"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever {the estranged} and the player can meet or talk, by the records: a doorway, a phone call, a gathering where both are expected, a public place with others looking on."
+      },
+      "gates": [
+        "The tie record shows {the estranged} and the player (or someone the player loves) at odds.",
+        "{the cause} is on the record.",
+        "A way to reach {the estranged} exists: an address, a number, or a go-between.",
+        "The player has not already settled it with {the estranged}."
+      ],
+      "weights": [
+        "How long they have been apart.",
+        "How much hurt {the cause} caused.",
+        "Whether {the go-between} presses for it.",
+        "Whether the player's work or office adds to the pressure.",
+        "Traits that forgive or hold on."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player reaches out first",
+          "then": "The tie record warms or stays cold depending on the reply, and a later scene reads who moved first."
+        },
+        {
+          "by": "record",
+          "when": "the player admits the harm",
+          "then": "The grudge record softens and an old ally may return later."
+        },
+        {
+          "by": "record",
+          "when": "{the go-between} is a child or a grandparent",
+          "then": "The player is asked to put the quarrel aside for them, and the answer is written."
+        },
+        {
+          "by": "record",
+          "when": "{the estranged} was cast out for who they are",
+          "then": "The player's stand, for or against, is on the tie record and read by others in the family."
+        },
+        {
+          "by": "record",
+          "when": "the player is a candidate",
+          "then": "{the estranged} may be asked to endorse or oppose, and the quarrel enters the race."
+        }
+      ],
+      "unlocks": ["A11", "C36", "kind:becoming-friends"],
+      "extends": ["C49", "A29"],
+      "mergesWith": ["C49", "C36"],
+      "sources": [
+        {
+          "person": "Bryan and Michael Wilmoth",
+          "life": "The oldest of eight was put out of his father's house as a teen after being found out. As each younger sibling left or was thrown out, he reached out to be their big brother again. Some resisted at first, but the eight became close.",
+          "urls": [
+            "https://www.kunc.org/2013-01-24/after-years-of-estrangement-eight-siblings-become-a-family"
+          ]
+        },
+        {
+          "person": "Derrick and Raymond Storms",
+          "life": "Two brothers who grew up in a hard home. After their mother died of cancer the older one tormented the younger. Their grandmother urged the younger to call before the older deployed. Each admitted jealousy of the other, and they became close.",
+          "urls": [
+            "https://www.kaxe.org/news/2020-01-31/i-just-needed-help-how-2-brothers-opened-up-to-forge-a-bond-in-adulthood"
+          ]
+        },
+        {
+          "person": "Fatu Castillo and Rosetta",
+          "life": "A high school senior stuck between her mother and her aunt, who had fallen out. Her mother saw her contact with the aunt as disloyalty. The aunt said she would never shut her niece out over the quarrel and told her to make her own choices.",
+          "urls": [
+            "https://whyy.org/articles/story-corps-caught-in-the-middle-of-a-family-feud/"
+          ]
+        },
+        {
+          "person": "Bernie Feldstein",
+          "life": "A Brooklyn father set days when his children could confess anything without punishment or discussion. His son admitted boyhood mischief. The father admitted burning a table with firecrackers and told how his own father had calmed him about it.",
+          "urls": [
+            "https://www.kunc.org/2019-10-11/a-great-burden-was-lifted-a-fathers-made-up-day-of-forgiveness"
+          ]
+        }
+      ],
+      "moment": "The player has a chance to speak to {the estranged}, and what is said first decides whether the quarrel ends or sets.",
+      "choices": [
+        "reach out and name what the player did",
+        "reach out and say nothing of the quarrel yet",
+        "wait for {the estranged} to come",
+        "ask {the go-between} to carry a word"
+      ],
+      "ifNo": "Staying silent leaves the quarrel on the tie record with a longer date on it, and {the witness} carries it forward.",
+      "situationKeys": ["apology", "argument", "reconciliation"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-07",
+      "stage": "on-ramp",
+      "otherStages": ["involvement"],
+      "title": "The day after the threshold",
+      "roles": [
+        {
+          "slot": "the one crossing",
+          "fill": "whoever on the school or work record finishes, fails to finish, or starts: the player, or someone tied to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the one who marks it",
+          "fill": "whoever on the tie record marks the day: a parent, a child, a partner, a teacher, a principal, a coworker. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the next step",
+          "fill": "what the records show comes next: a diploma or a second chance at one, a job, college, the army, a training class, or nothing yet"
+        },
+        {
+          "slot": "the one who pays or lets it happen",
+          "fill": "whoever carries the cost or gives the leave: a household member, an employer, a school office"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the day is marked, by the records: the stage or the lot where the day ends, the household that evening, the first shift floor. The talk of what comes next happens there or the next morning."
+      },
+      "gates": [
+        "The school or work record shows {the one crossing} finishing, failing to finish, or starting.",
+        "{the one who marks it} is tied to {the one crossing} on the records.",
+        "{the next step} has a place on the calendar or the opening record.",
+        "{the one crossing} has not been asked yet what comes next."
+      ],
+      "weights": [
+        "How late in life the threshold came.",
+        "Whether the household needs the income now.",
+        "Whether a child lives with {the one crossing}.",
+        "Whether {the one who pays or lets it happen} has a record of backing the step.",
+        "Traits that persist."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the one crossing} finishes",
+          "then": "The record shows the diploma or the start date and a household or a coworker marks it, unlocking the job or the next training."
+        },
+        {
+          "by": "record",
+          "when": "{the one crossing} falls short",
+          "then": "The one who marks it asks what happened and what is next, and a second try goes on the calendar if the school or office allows."
+        },
+        {
+          "by": "record",
+          "when": "a principal or teacher offers a way to stay",
+          "then": "A changed schedule or a retake goes on the school record, and the later job or service reads the diploma."
+        },
+        {
+          "by": "record",
+          "when": "{the one crossing} is the new hire on a shift",
+          "then": "A coworker or customer's patience on the first day is written, and that person is remembered when the new hire has a say."
+        },
+        {
+          "by": "record",
+          "when": "the player is the one who marks it",
+          "then": "The player's word, praise or worry, is written on the tie record."
+        }
+      ],
+      "unlocks": [
+        "kind:job-offer",
+        "kind:last-day",
+        "kind:becoming-friends",
+        "A10"
+      ],
+      "extends": ["B46"],
+      "mergesWith": ["A10", "B46"],
+      "sources": [
+        {
+          "person": "Joseph Bond",
+          "life": "A Vietnam-era Marine who worked thirty-five years for a city, he finished high school at seventy-two in night school, keeping a promise to his dying mother. His daughter cheered as he crossed the stage. He then enrolled in college.",
+          "urls": [
+            "https://www.whro.org/2025-05-16/after-55-years-a-vietnam-veteran-gets-his-high-school-diploma"
+          ]
+        },
+        {
+          "person": "Noramay Cadena and Chassitty Saldana",
+          "life": "A factory worker's daughter who gave birth in her senior year of high school, then went across the country to a top engineering school with her baby. She took the child to day care every morning and studied after bedtime. Her daughter names her as a role model.",
+          "urls": [
+            "https://www.kunc.org/2015-09-25/from-factory-to-classroom-a-worker-a-student-and-a-mother"
+          ]
+        },
+        {
+          "person": "Ngoc Nguyen and Chris Myers",
+          "life": "She left school in the tenth grade in Vietnam to help her family, immigrated, worked for years, and enrolled in a high school equivalency class at forty-five. Her teacher kept encouraging her after a poor first test. She passed.",
+          "urls": [
+            "https://www.kunc.org/2021-01-22/i-have-wings-now-at-age-45-she-went-back-to-school"
+          ]
+        },
+        {
+          "person": "Jon Hegwood",
+          "life": "A sixteen-year-old in Texas who learned he would be a father, worked two jobs, and planned to drop out for an equivalency test. The principal offered a half-day schedule instead. He graduated with his baby at the ceremony, and the diploma later helped him join the army.",
+          "urls": [
+            "https://www.ctpublic.org/2025-05-19/unsung-hero-jon-hegwood"
+          ]
+        },
+        {
+          "person": "Stephanie Cole",
+          "life": "On a first retail job in the Christmas rush she froze at the register. A customer told her to take her time, which let her wait for a coworker to help. She says that patience shaped how she treats people for decades.",
+          "urls": [
+            "https://www.ctpublic.org/2022-12-27/on-stephanie-coles-first-day-at-a-new-job-a-stranger-puts-her-mind-at-ease"
+          ]
+        }
+      ],
+      "moment": "The day ends, and {the one who marks it} asks {the one crossing} what comes next.",
+      "choices": [
+        "name the next step and who helps",
+        "say you need a day and a plan",
+        "ask {the one who pays or lets it happen} for the room",
+        "say it is over and let it rest"
+      ],
+      "ifNo": "Leaving it unnamed writes a drift on the tie record, and the next opening reads it.",
+      "situationKeys": ["diploma-home", "no-diploma-home", "first-day"],
+      "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B5-08",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "after-office"],
+      "title": "The call with an offer",
+      "roles": [
+        {
+          "slot": "the offerer",
+          "fill": "whoever on the work record has a job to fill and calls or meets the player: an employer's office, a hiring manager, a program head, a relative with a business. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the job",
+          "fill": "an opening on the place's job record, said with the pay, the hours, and who it serves"
+        },
+        {
+          "slot": "the household",
+          "fill": "whoever depends on the player's income or shares the player's costs, if any: a partner, a parent, a child"
+        },
+        {
+          "slot": "the one who vouched",
+          "fill": "whoever the records show spoke for the player: a mentor, a program, a friend inside, or none"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the call finds the player, by the records: a phone at home, a missed call returned from the street, a meeting at the offerer's desk, a warehouse floor."
+      },
+      "gates": [
+        "The work record shows the player out of work or looking.",
+        "{the offerer} has {the job} open on the job record.",
+        "{the offerer} and the player are in touch on the records.",
+        "The player has not accepted or refused {the job} yet."
+      ],
+      "weights": [
+        "How long the player has been out of work.",
+        "How much {the job} pays against the last one.",
+        "Whether health cover comes with it.",
+        "Whether a household member depends on the income.",
+        "Whether {the one who vouched} exists on the records.",
+        "Whether the player has a record that employers shun."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player accepts",
+          "then": "The job joins the work record from the start date, the household's money record changes, and a first-day scene is placed on the calendar."
+        },
+        {
+          "by": "record",
+          "when": "the player refuses",
+          "then": "The refusal is written and {the offerer} remembers it, and the search record shows more weeks."
+        },
+        {
+          "by": "record",
+          "when": "{the job} pays less than the player's old one",
+          "then": "The pride and the money are both written, and the household's later votes of confidence read them."
+        },
+        {
+          "by": "record",
+          "when": "{the one who vouched} is on the records",
+          "then": "A debt of thanks goes on the favor record, and the vouching person is named later."
+        },
+        {
+          "by": "record",
+          "when": "the player is tied to a justice record",
+          "then": "The offer may exist only because someone chose to take the risk, and that person's trust is written."
+        }
+      ],
+      "unlocks": ["kind:first-day", "kind:notice-home", "A10", "C45"],
+      "extends": ["C45"],
+      "mergesWith": ["A10", "C45"],
+      "sources": [
+        {
+          "person": "Annica Trotter",
+          "life": "A twenty-five-year-old near St. Louis who missed a call from a security company's hiring office, returned it, interviewed and was hired as a receptionist at fourteen dollars an hour. The hours let her and her boyfriend share the one car. She still faced a backlog of bills that delayed their plans.",
+          "urls": [
+            "https://www.kunc.org/npr-news/2011-03-31/the-thrill-of-a-job-and-the-worry-over-digging-out"
+          ]
+        },
+        {
+          "person": "Randy Howland (the offer)",
+          "life": "A fifty-year-old with a master's degree who had earned over six figures until his employer collapsed in 2002. After more than a year out and hundreds of applications he took a ten-dollar-an-hour work-from-home job, where take-home would be below his unemployment check. He weighed pride against ending the joblessness.",
+          "urls": [
+            "https://www.kunc.org/npr-news/2011-02-23/the-relief-of-finding-a-less-than-perfect-job"
+          ]
+        },
+        {
+          "person": "Randy Howland and Jennifer Barfield (a later offer)",
+          "life": "He was laid off again, then took an offer at about a third of his old pay with benefits, and was dismissed less than a week into training after failing an exam. A woman laid off from IT weighed selling her ring or house, then took a lower-paid job at a law firm.",
+          "urls": [
+            "https://www.kunc.org/npr-news/2011-12-30/when-the-road-back-to-work-detours"
+          ]
+        },
+        {
+          "person": "Scott Thompson and Cyndi Kirkhart",
+          "life": "After nearly five years in prison on drug charges he took whatever work he could find. Housemates in his sober living home invited him to volunteer at a food bank, and in 2021 its director interviewed him and gave him a warehouse job because she believed in him.",
+          "urls": [
+            "https://www.wkar.org/2025-11-14/much-more-than-a-job-food-bank-workers-reflect-on-the-joy-they-find-in-their-work"
+          ]
+        }
+      ],
+      "moment": "{the offerer} offers {the job}, and the player must say yes or no before the household's bills come due.",
+      "choices": [
+        "accept and ask for the start date",
+        "accept and ask for better terms first",
+        "say you need a day to talk to the household",
+        "refuse and say why"
+      ],
+      "ifNo": "A refusal is on the work record, {the offerer} remembers it, and the weeks without work are counted on the household's money record.",
+      "situationKeys": ["job-offer"],
+      "bank": 5,
+      "beat": null
     }
   ]
 }
