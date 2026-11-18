@@ -2561,10 +2561,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-phone-self.it-s-player-first-calling",
+      "key": "conversation.greet-phone-self.hey-it-s-player-first",
       "move": "greet-phone-self",
       "kind": "spoken",
-      "text": "It's {player-first} calling.",
+      "text": "Hey, it's {player-first}.",
       "uses": [
         {
           "subject": "greet-phone-self",
@@ -2658,10 +2658,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-phone-self.it-s-just-me",
+      "key": "conversation.greet-phone-self.oh-it-s-me",
       "move": "greet-phone-self",
       "kind": "spoken",
-      "text": "It's just me.",
+      "text": "Oh, it's me.",
       "uses": [
         {
           "subject": "greet-phone-self",
@@ -2715,10 +2715,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-core.not-since-when-huh",
+      "key": "conversation.greet-core.wow-not-since-when",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Not since {when}, huh?",
+      "text": "Wow, not since {when}.",
       "uses": [
         {
           "subject": "greet",
@@ -2753,10 +2753,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-core.hey-name-what-s-up",
+      "key": "conversation.greet-core.hey-name-good-to-hear-from-you",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Hey, {name}. What's up?",
+      "text": "Hey, {name}. Good to hear from you.",
       "uses": [
         {
           "subject": "greet",
@@ -2813,7 +2813,7 @@
       "key": "conversation.greet-core.hey-what-s-up",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Hey, what's up?",
+      "text": "Hey. What's up?",
       "uses": [
         {
           "subject": "greet",
