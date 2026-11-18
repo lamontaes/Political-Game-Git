@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-on-ramp
-pr:
+pr: 10150
 after:
 blocked-on:
 lead: story
