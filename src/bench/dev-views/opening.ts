@@ -457,6 +457,20 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         : "today's real parties (the world chose it)",
     ),
     row(
+      "town.foundedParties",
+      "Parties founded in the century",
+      historyMode(core.seed) === "century"
+        ? century.foundings.length
+          ? century.foundings
+              .map(
+                (f) =>
+                  `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}`,
+              )
+              .join("; ")
+          : "none: the century's parties kept their voters close enough that no pressure outweighed the cost of a new one"
+        : "none (today's real parties)",
+    ),
+    row(
       "town.congresses",
       "The century's Congresses",
       historyMode(core.seed) === "century"
