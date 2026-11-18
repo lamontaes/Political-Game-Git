@@ -358,7 +358,8 @@
     "docs/release/changes/",
     "PATCH_NOTES.md",
     "docs/current.json",
-    "docs/CURRENT.md"
+    "docs/CURRENT.md",
+    "docs/words-lead-handoff-2026-11-16/"
   ],
   "replaced": [
     {
@@ -705,13 +706,13 @@
     },
     {
       "old": ".agents/skills/labor-market-proof",
-      "now": ".agents/skills/played-world-proof/references/labor-market-proof.md",
+      "now": ".agents/skills/done-proof/references/labor-market-proof.md",
       "when": "2026-11-17",
       "why": "Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/labor-market-proof",
-      "now": ".claude/skills/played-world-proof/references/labor-market-proof.md",
+      "now": ".claude/skills/done-proof/references/labor-market-proof.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
@@ -765,13 +766,13 @@
     },
     {
       "old": ".agents/skills/owners-words-to-threads",
-      "now": ".agents/skills/crew-messages/references/owners-words-to-threads.md",
+      "now": ".agents/skills/crew-coordinator/references/owners-words-to-threads.md",
       "when": "2026-11-17",
       "why": "Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/owners-words-to-threads",
-      "now": ".claude/skills/crew-messages/references/owners-words-to-threads.md",
+      "now": ".claude/skills/crew-coordinator/references/owners-words-to-threads.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
@@ -892,6 +893,42 @@
     {
       "old": ".claude/skills/play-walks",
       "now": ".claude/skills/verify/references/play-walks.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/crew-messages",
+      "now": ".agents/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-coordinator skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into crew-coordinator/references/."
+    },
+    {
+      "old": ".claude/skills/crew-messages",
+      "now": ".claude/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/seen-in-game",
+      "now": ".agents/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/seen-in-game",
+      "now": ".claude/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/played-world-proof",
+      "now": ".agents/skills/done-proof/references/played-world-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/played-world-proof",
+      "now": ".claude/skills/done-proof/references/played-world-proof.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
