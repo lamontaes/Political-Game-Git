@@ -120,6 +120,9 @@ export const facts: Record<string, Fact> = {
   self: fact("Pat Rivera"),
   effect: fact("my rent went up"),
   relative: fact("Robin Ortiz"),
+  // A letter writer's and a missing relative's town and name (letterFacts, gatheringFacts).
+  hometown: fact("Bergen County"),
+  absent: fact("Robin Ortiz"),
   where: fact("county clerk's office"),
   executive: fact("governor"),
   employer: fact("the hardware store"),
