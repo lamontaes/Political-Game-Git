@@ -1,6 +1,6 @@
 # The owner's words
 
-Part of the `crew-messages` skill. Until Nov 17, 2026 this was the `owners-words-to-threads` skill; the CTO merged it here when the skills were capped (owner: "Let's go ahead"). What it covered: The owner's words go to threads verbatim, never summarized; an example he gives is a generality, so the work is the system behind it; and the standing rules for words (talk is dialogue only, people say how it feels and never the figure, depth is a tree). Use whenever you pass something the owner said to a thread, helper or reviewer, read an ask that names one case, or brief a scene or story builder. Not for line wording (civic-prose, words-engine).
+Part of the `crew-coordinator` skill (it moved here with `crew-messages` on Nov 17, 2026). Until Nov 17, 2026 this was the `owners-words-to-threads` skill; the CTO merged it here when the skills were capped (owner: "Let's go ahead"). What it covered: The owner's words go to threads verbatim, never summarized; an example he gives is a generality, so the work is the system behind it; and the standing rules for words (talk is dialogue only, people say how it feels and never the figure, depth is a tree). Use whenever you pass something the owner said to a thread, helper or reviewer, read an ask that names one case, or brief a scene or story builder. Not for line wording (civic-prose, words-engine).
 
 ## Verbatim (owner, Nov 14)
 
