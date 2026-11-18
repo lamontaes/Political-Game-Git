@@ -1530,6 +1530,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed a debate invitation the player could accept so the sitting could be played; the invite-debate scene has no narration since the cut, so none reaches anyone. The sitting's mechanics return with the rebuilt invitation."
+    },
+    {
+      "old": "src/director/party-ask-refused.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases needed the party-recruit scene to compose so the player could say no and the party ask its next member; the scene is skipped unworded since the cut."
     }
   ]
 }

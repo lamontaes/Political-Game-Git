@@ -32,4 +32,6 @@ root: rc10-screens-keep-own-facts
 
 **Waits on.** Nothing.
 
-**Files.**
+**Files.** `docs/current.json` (the replaced rows for the deleted tests).
+
+**Notes.** Nov 18 (Story): dropped; the sitting tests it would fix were deleted on #10063 with their invitation lines (owner, Nov 17: delete everything the engine did not write).
