@@ -1,72 +1,54 @@
 ---
 name: scenes-from-life
 description: >
-  Grows scenes and dialogue from real political lives: take one episode from a
-  real American's life in office, write it as a fact packet, ask whether the
-  director and English engine would produce it from a played world's records,
-  and turn each gap into a producer, a bank or a SMART item. Never ships the
-  real person's words or name. Use when the owner says there are not enough
-  scenes, a season or office is quiet in play, or in a words-and-scenes lead
-  pass.
+  Builds every scene from a real-lives pattern (owner, Nov 18): research how
+  the moment goes in real American lives, write it as a pattern in
+  docs/story/scene-patterns.json with role and setting slots, gates, weights
+  and branches, check the engine gives the scene's packet those facts, brief
+  line writers from the pattern, read every line filled in, and have fresh
+  readers judge it. Never ships a real person's name or words. Use for any new
+  or rebuilt scene, a quiet season in play, or a words-and-scenes lead pass.
+  Not for the checkable rules a finished scene meets (scene-standard) or the
+  English engine's own mechanics (words-engine).
 ---
 
-# Scenes from real lives
+# Scenes from real lives: the pattern method
 
 **Look first:** run the `look-first` search before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
-The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because, again, you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes." Real life is the calibration set for scenes, the way real rates calibrate the simulation (`research-habit`). Nothing from it ships: no real name, no quoted line, no copied text. What ships is a producer that fires from the game's own records and bank lines written for the game's people.
+The owner, Oct 26: "use real life people's as examples... take scenes from their life. See if the engine can produce it." The owner, Nov 18, via the CTO on #9750: every scene is built from a pattern in `docs/story/scene-patterns.json`, and each situation type names its `pattern` (scene-standard rule 13). Real life is the calibration set for scenes, the way real rates calibrate the simulation (`researcher`). Nothing from it ships: no real name, no quoted line, no copied text.
 
-## The scope (owner, Oct 27)
+## The files
 
-The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through the item's pull request and, where their work meets, directly (`crew-coordinator` (crew-messages part)).
+- `docs/story/scene-patterns.json`: the patterns, by bank. A01 to A47 are the on-ramp and involvement, B04 to B55 the campaign and office moments, bank 5 (B5-01 to B5-06) home and work life, bank 6 more of life, bank 7 (B7-01 to B7-12) the office kinds. Each pattern holds its `moment`, `roles` (each a role, never a named office: "kin or housemate, neighbor, coworker the next morning, a regular at a gathering place, a party officer, rarely a stranger"), `setting` (a slot: home, work, a gathering place, out in public), `gates` (records that must hold, never a number), `weights` (who and when), `branches` (each leads somewhere: a meeting, a nudge, a tie that remembers, the next talk), `choices`, `ifNo` and `sources` (paraphrased, cited).
+- `docs/story/scene-pattern-map.md`: each situation type in `src/director/data/situation-types.json` against its pattern, "same moment", "close", or "none, new". A type with no pattern gets one before any line.
 
-## The loop (one episode, one SMART item, under 4 hours)
+## The loop, one scene at a time
 
-1. **Pick an episode, not a person.** One moment with a beginning and an end from a real political life at the level the game needs: a first filing, a party chair's visit, a bad story in the paper, a debate, a lost primary, a vote traded in committee, a constituent at the door, a resignation. Any American, any office, any era; biographies, oral histories, local news, campaign memoirs, C-SPAN, court records and school board minutes all count. Read the source; quote it in your notes with its citation.
-2. **Write the fact packet.** Who was there and why (their office, tie to the subject, what they wanted), what had happened on the record before the moment (the trigger), what each person said in substance (not the words), the choice the subject faced, and what changed after (a relationship, a promise, a record, a line in a history). Five to fifteen lines.
-3. **Ask the engine.** In a played world (`buildBenchWorld`, a drawn place and seed you did not choose), find the records that would stand for each line of the packet: the trigger record, the people the roles would be cast from, the outcome record. For each line answer one of: the record exists and a situation type fires on it; the record exists and nothing fires; the record does not exist. Name the record ids and the situation type (`src/director/data/situation-types.json`).
-4. **Turn each gap into work.** A record that exists with nothing firing is a producer (a situation type with its cast rules and outcome writes), built to `scene-standard`. A record that does not exist is an engine item for the lead that owns that engine (`lead:` set), filed at the item standard (`.agents/rules/pool-item-standard.md`: a Cause that begins `Found in code:` or `Measured:`, a Fix, a time box, a model and an effort), never built by the words line. A scene that fires but reads wrong is lines: the Story session writes the bank pieces (owner, Nov 10: only Story writes under `data/english/parts/`), several per speaker by top trait and tie to the player, four replies that are four stances, in the game's own voice (`civic-prose`); the packet's PR lists the lines and moves needed. Scenes also tie to the effects of a term and differ in English by kind of scene (owner, Nov 8: "a good term except for education... a strike"). The event the scene writes back goes on the person's life record (`docs/design/life-record.md`).
-5. **Check it plays.** The scene is reached in ordinary play on the golden path in a second drawn place, writes its outcome back by record id, and its lines pass `player-screen-text`. Then the general case: name two other episodes from two other lives the same producer now covers. A producer that covers one life is a hand-written scene, not a producer.
-6. **File the trail.** The episode's packet, the gaps, and what shipped go in `docs/design/scenes/from-life/<slug>.md` (packet and citations; never the real name in any player-facing file), and the item's Notes name that file.
-   A packet PR (research only, no scene firing) opens with `Touches pool item: <id>`, never `Pool item: <id>`: line 1 flips the feature item to merged on the merge (Oct 27: #6304 and #6314 were sent back for it).
+1. **Research the moment, not a person.** Read real accounts (studies, surveys, oral histories, local reporting, memoirs) of how the moment goes for ordinary Americans. Paraphrase them as the pattern's `sources` with citations. A Sonnet researcher does a bank (bank 7 was 13 office kinds, then second sources); it runs `npm run spelling` before it reports.
+2. **Write or read the pattern.** The speaker is a role, the place is a slot (A47: the first word on the address can be kin at home, a coworker the next morning or a regular at the diner). Gates are records. Every branch ends somewhere a later scene or screen reads.
+3. **Engine first.** Find what the scene's packet carries (`composeBinding` in `src/director/purpose-scene.ts`, and the facts helpers it calls) with a probe in a drawn place. If the packet holds only the people and the town, the scene is not written yet: give the packet the facts the pattern names from the records that hold them (the employer, the years, the school, the meeting, the party's deadline), each cited to its record id, with a test at a drawn place (CTO, Nov 18). A fact no engine keeps is a pool item for the engine that would keep it.
+4. **Brief the writers** from the Story lead's line-writer kit, one setting or stage per writer (CTO: split the helpers by setting). Each pull request names its pattern ids.
+5. **Read every line with its slots filled in** before any verdict: the writer keeps a rendered file, and the lead sends back what reads wrong.
+6. **Fresh readers judge** the new reply pairs and narrations with planted rows (`words:pairs`, `words:review`, a fresh reader per batch, `words:review --check`, `words:verdicts --from`, the rules twice; `words-engine`). Fold before editing lines.
+7. **Prove it in play.** The scene stages from its engine's record in a drawn place, through dev mode's force when there is one, and the talk names what the record holds (`played-world-proof`). A scene that only a hand-relabeled moment reaches is a producer defect to file, not done.
 
-## Building out many classes at once (owner, Nov 15, 2026)
+## What writers got wrong on Nov 18 (each was sent back for it)
 
-When the ask is breadth ("keep adding a bunch of scenes... use people's real lives"), work as a catalog, not one episode at a time. The Nov 15 catalog is `docs/design/scenes/scene-catalog.md`, read by machines as `docs/design/scenes/scene-catalog.json` (37 classes, the form below); add rows to it rather than starting another.
+- **A fact slot in every line.** The insert guard pushes every line of four words or more to carry a slot, and writers stuffed the employer or the school into all of them ("I'll make your favorite supper to mark Long Hill High School"). A full name is said at most twice a talk; give the packet the short forms people use (`workplace` "the clinic", `school-short` "Long Hill").
+- **A slot as a stand-in.** The school's name for "it", the cause for the group working on it ("That helps more spending on land and water"). A slot carries the fact the line is about, in a form it fits ("pushing for {cause}", "as {position}").
+- **Thin, stock fallbacks and threats in closes.** A line of one to three words says one clear thing a person says then; a family scene's warning is worry, never a threat.
+- **Narration that knows too much:** a letter from the school, a weakness, a reason someone came. Narration says what is seen.
+- **A reply that promises an act the engine never records** (leaving the floor, being marked not voting).
+- **A second round that repeats the first** (later-replies-move-the-talk-on): the second round is the `reply` rows chosen by `after`, and needs its own lines.
 
-- **One row per class, never per episode.** Each row names: the real lives behind it (cited), who, where, the cause record (the file and line you read), depth (turns, where the player steers, the long form), what it writes, which later scenes read that ending, whether the engine can do it now, with a small addition or only with a new mechanism, and the thread that owns it.
-- **The outcome rule first** (owner, Nov 15 02:32Z): a class whose ending writes nothing another engine reads is dropped or folded into a scene that does, unless it is a step inside an event's arc that unlocks later scenes. Run every row through it before proposing.
-- **Look for an engine that already does it for everyone but the player.** The cheapest scenes are acts the world already performs between people and skips for the player by name: on Nov 15 every candidate asked their closest people for an endorsement each turn, except the player (`campaigns.ts`, `id !== playerId`), and a favor the player owed was a stopgap. Search `playerId` exclusions and `SG-*-player-*` stopgaps in the engine you are reading.
-- **Look for traits nobody decides with.** A trait read only by wordings (`arc-variants.json`, `grading-profiles.json`) and by no decision is a missing mechanism (Nov 15: `truthfulness` decided nothing, so nobody could lie to the player).
-- **Look for causes the director already hears but no scene plays.** An `eventImpacts` row in `src/director/data/director.json` whose event kind no cause in `situation-types.json` matches is a scene with its record and moment already built. Check this before a brief says a step waits on another thread. On Nov 15 the plan said the clerk's signature scene waited on the voter roll thread, but the clerk's check against the roll was already on main (`checkPetition`, voting.ts) and emitted `petition-checked`, a cause moment with no scene.
-- **Design questions go through `look-first` across every area's prior-rulings digest** before they reach the lead; all three of the Nov 15 catalog's questions were already ruled.
-- **Sources that worked from a cloud session (Nov 15):** WebFetch reaches the Miller Center's "Life Before the Presidency" pages, Wikipedia, History.com, the Encyclopedia of Arkansas, Flatland KC, Atlanta Magazine and BlackPast; `curl` from the container does not reach most of them. Ask the fetch for numbered episodes with who, trigger, choice and consequence.
+## Breadth: the catalog
 
-## Many scenes inside one situation: arc variants (door scenes, Nov 14)
-
-When one situation (a knock at a door, a visit to office hours) needs many scenes, do not add situation types or a picker: add a family to `src/director/data/arc-variants.json`, one variant per scene, each scored from reads of the asker's own records (`person-rows`, `household-case`, `care-need`, `closeness`, `shared-party`; a new read kind in `arc-variant.ts` only where none fits). The highest score plays, a tie goes to the name first in the alphabet, the plain arc plays where no record beats its base, and a second meeting (`nextDown`) plays the next variant down only where it holds its own against the plain arc. A family whose purpose another situation also plays needs `onlyFor` on each variant (the door families read the knock's `petition` fact), or its arcs leak into the other situation. Lines go under the variant's purpose id; the family's pieces fill any spot the variant lacks. Every line of four words or more names a slot (`tests/guards/english/line-inserts.test.ts`): reach for `{place}`, `{office}`, `{self}` and the records' own slots, never a stock sentence. Prove it with a test over drawn places that checks each variant played against the record that caused it, apart from the engine's own read (`src/director/door-variants.test.ts`), and read the scenes whole through `purposeScene` (`scripts/dev-tests/door-scenes-played.ts`). Pictures are not built here: list each scene type's setting and wanted picture for the pictures line, and no scene waits on one (owner, Nov 14: "do not let pics hold it back").
-
-## SMART shape of a scenes-from-life item (it also carries `standard: 2`)
-
-- **Specific:** the episode (by slug), the producer or bank it adds, the files.
-- **Measurable:** the scene fires in a drawn place from named record ids, writes a named record, and covers two other episodes; lines pass the screen-text check; a test fails when the trigger record is absent.
-- **Attainable:** the engine items it waits on are filed with `lead:` and the scene lands without them where the record already exists.
-- **Realistic:** Sonnet for tests, Opus for a producer with new cast rules, Story for lines; no helpers unless the brief says.
-- **Time-bound:** 4 hours an episode; what passes is pushed at the box.
-
-## Where to start (owner's examples)
-
-`docs/design/scenes/owner-scene-examples.md` lists every scene the owner has asked for, by where it happens in play, with what exists on main. Work a season at a time in the order the owner meets it: home and family, meeting people, filing, the campaign season, election day and night, holding office. Each pass picks the quietest stretch of a played year and finds the real-life episode that belongs there.
+When the ask is breadth, work by pattern bank and the map, never by episode. Look for scenes the world already plays between other people but skips for the player (`playerId` exclusions, `SG-*-player-*` stopgaps), traits nobody decides with, and `eventImpacts` rows in `src/director/data/director.json` whose event no situation type matches: each is a scene with its record and moment already built (Nov 15).
 
 ## Never
 
-- Ship a real person's name, words or likeness, or a scene that only a real event's details could produce. Calibration only.
+- Ship a real person's name, words or likeness, or a scene only a real event's details could produce.
 - Invent a cause the records do not carry (`no-dice`, `ask-why`). A quiet stretch gets a new record from its engine, not a timer.
-- Write one line per scene. Every spoken line has versions by trait and tie.
-- A new scene or setting the gap turns up gets its picture row (skill `scene-pictures`); if no painted place fits, ship on the fallback and list what it wants in `wantedScenes`. Pictures are generated later.
-
-## Gotchas (Nov 16 and 17)
-
-One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
-
-- Nov 17, 03:47Z: the owner found the real-lives scene bank "a little too specific" (dinner at home, the party's meeting room, a senator who comes to campaign). Cause: scenes tied to one place and one office. Write patterns with slots for the role ("a powerful officeholder") and the setting, and let a pattern feed or merge into others.
+- Write lines for a scene with no pattern, or before its packet carries what the pattern needs.
+- Hold a scene for its picture: it ships on its fallback with a `wantedScenes` line (`scene-pictures`).

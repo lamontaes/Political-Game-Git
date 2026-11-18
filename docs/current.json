@@ -913,6 +913,18 @@
       "now": ".claude/skills/done-proof/references/played-world-proof.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/scene-producers",
+      "now": ".agents/skills/scene-standard/references/producers.md and producer-lessons.md",
+      "when": "2026-11-18",
+      "why": "Merged into scene-standard at the CTO's skill check of Nov 18, 17:30Z, when the skills were at their cap; no lane had named it that week."
+    },
+    {
+      "old": ".claude/skills/scene-producers",
+      "now": ".claude/skills/scene-standard/references/producers.md and producer-lessons.md",
+      "when": "2026-11-18",
+      "why": "Merged into scene-standard at the CTO's skill check of Nov 18, 17:30Z, when the skills were at their cap; no lane had named it that week."
     }
   ]
 }

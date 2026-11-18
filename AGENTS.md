@@ -148,9 +148,8 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them, and the people pack
 - `scene-pictures`: giving a scene its picture: the one list, the lookup, the gap report, wanted pictures
-- `scene-producers`: a scene's cause wired to an engine's record
-- `scene-standard`: the standard every scene meets, and a scene builder's first report
-- `scenes-from-life`: new scenes from real lives
+- `scene-standard`: the standard every scene meets, a scene builder's first report, and wiring a scene's cause to an engine's record
+- `scenes-from-life`: every scene built from a real-lives pattern: research, the pattern file, the engine check, the writers' brief and the fresh readers
 - `screen-to-mock`: screens follow the mocks and the shared controls; bill screens
 - `session-start`: the pool worker loop
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows, long runs, and how often a step runs

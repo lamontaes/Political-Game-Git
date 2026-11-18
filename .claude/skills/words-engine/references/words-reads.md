@@ -114,7 +114,7 @@ Part of the `words-engine` skill. It was written as the `words-reads` skill in #
 99. A door asks about what the office being run for can touch, and a candidate does not promise to act on a question above the office. The same holds at a desk and for a donor.
 100.  A seat is said aloud with the area it covers ("Congress, the 3rd District", "the state Senate in the 17th District"); a statewide seat takes no place at the counter, and a town's own office takes nothing after it at its own counter.
 
-Three rulings that go with these. The rules that a scene names its stake and that a promise names who, what and why judge a scene's path up to its ask, never one line or one pair of lines. An offered reply that nothing later reads is not offered: keep the offer as a fact a later talk brings up, or cut the reply. And before lines are written for a scene kind, it is played with the player in the right seat in three drawn places: a kind that never stages, or whose packet holds no facts, needs a producer or a fact first (skill `scene-producers`).
+Three rulings that go with these. The rules that a scene names its stake and that a promise names who, what and why judge a scene's path up to its ask, never one line or one pair of lines. An offered reply that nothing later reads is not offered: keep the offer as a fact a later talk brings up, or cut the reply. And before lines are written for a scene kind, it is played with the player in the right seat in three drawn places: a kind that never stages, or whose packet holds no facts, needs a producer or a fact first (skill `scene-standard` (producers part)).
 
 ## Rules 101 to 107: how people talk (owner, Nov 14 2026)
 

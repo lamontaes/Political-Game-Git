@@ -1,6 +1,6 @@
 # Scene producers: what later scenes taught
 
-Part of the `scene-producers` skill. The damaged-home scene, the governor's briefing room, staging and asking, and a choice the engine must not make (Nov 9 and 15).
+Part of the `scene-standard` skill (its producers part, `producers.md`). The damaged-home scene, the governor's briefing room, staging and asking, and a choice the engine must not make (Nov 9 and 15).
 
 ## 9. What the damaged-home scene taught (Nov 9)
 
