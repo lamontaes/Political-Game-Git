@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-bank7-floor
-pr:
+pr: 10158
 after:
 blocked-on:
 lead: story
