@@ -1066,12 +1066,6 @@
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
     },
-    "petitionSignatureCushion": {
-      "value": 0.5,
-      "tag": "ESTIMATED",
-      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
-      "spread": [0.25, 1]
-    },
     "petitionSignOpenness": {
       "value": 0.4,
       "tag": "TUNABLE",
@@ -1473,13 +1467,6 @@
       "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
       "spread": [1, 5]
     },
-    "localBudgetAmendmentsPerMeeting": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "How many budget-line amendments a local body's regular meeting takes up. Council and county board agendas carry a budget adjustment or transfer item at some meetings, rarely several; one item a meeting is an upper estimate, since most meetings carry none (the line gaps close once amended).",
-      "stopgapId": "SG-LAWS-local-line-filing-threshold",
-      "spread": [1, 3]
-    },
     "budgetAmendmentMinShare": {
       "value": 0.01,
       "tag": "ESTIMATED",
@@ -1528,6 +1515,20 @@
       "tag": "ESTIMATED",
       "source": "How long a town council or county board's regular meeting runs, the time a member gives up to attend: most run two to four hours (National League of Cities, 'City Councils in a Changing Environment', 2018 member survey; ICMA meeting-length surveys). A member whose own day leaves fewer free hours than this misses the vote.",
       "spread": [2, 4]
+    },
+    "legislatureFloorDayHours": {
+      "value": 4,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a legislature's floor sits on a floor day, the time the members spend together in the chamber (read in place of the town meeting's sittingHours for a state legislature or Congress). From memory, not fetched: state floor sessions usually convene in the late morning and run a few hours, short early in the session and long near deadlines (NCSL, 'Legislative Session Length' and its pages on daily calendars; Rosenthal, 'Heavy Lifting', 2004). One value for every legislature; the spread covers a short morning floor to a deadline day.",
+      "spread": [2, 8]
+    },
+    "legislatureSessionDayHours": {
+      "value": 10,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a member's floor day at the Capitol runs in session, the time they share the building with the chamber's other members (offices, hallways, the floor and the hours around it). From memory, not fetched: legislators in session report working weeks of fifty hours and more, and the floor day is the longest of them (NCSL, 'Full- and Part-Time Legislatures', its time-on-the-job figures by legislature type). The hours outside the floor sitting count as a workplace's do (workContactShare). The spread runs from a part-time legislature's day to a full-time one's.",
+      "spread": [8, 12]
     },
     "sittingIndifference": {
       "value": 0.25,
@@ -1692,6 +1693,13 @@
       "role": "coefficient",
       "spread": "0.5 to 2",
       "source": "How much a campaign leans toward a question whose area of the term read went the way the candidate runs on (a challenger's toward the area the incumbent's term hurt, the incumbent's toward the area it helped): a question's share of what the campaign says is multiplied by one plus this times the area's slide on that side, between 0 and 1, so a town that slid furthest on pay moves a challenger's talk toward pay by this much and no further, never a pass or fail. TUNABLE: no study measures it. The spread is checked in three named places by how many of a challenger's acts reach the hurt area and by the platform-emphasis printout, which is not tuned to (pool item campaign-platform-emphasis-c1)."
+    },
+    "budgetHoleWeight": {
+      "value": 10,
+      "tag": "ESTIMATED",
+      "role": "coefficient",
+      "source": "How much the revenue a bill would take out of its own government's budget weighs against it for a member, per unit share of the year's planned revenue, in the units of a member's position (their own views run about -1 to 1). Fitted to which income taxes American legislatures have ended: Alaska ended its tax on all individual income in 1980, when it had fallen to 3.8 percent of general revenue from 18.5 percent in fiscal 1978 as oil receipts grew (MOST Policy Initiative science note, Pre-elimination income tax rates, citing the Alaska Department of Revenue 1981, https://mostpolicyinitiative.org/science-note/pre-elimination-income-tax-rates/); New Hampshire ended its interest and dividends tax when it was 7.2 to 8.8 percent of General Fund revenue (New Hampshire Business Review, March 6, 2025, https://www.nhbr.com/new-state-budget-will-bear-consequence-of-interest-and-dividend-tax-repeal/); no state has ended a broad income tax carrying a larger share, and Congress has not ended the federal one, about half of receipts (Monthly Treasury Statement, fiscal 2025). At 10 a tax carrying 4 to 9 percent of revenue costs a member 0.4 to 0.9, which a strong view outweighs, and one carrying 18.5 percent costs 1.85, which a single view does not. Checked by a twenty-world count of first-year repeals of the federal income tax (none in the real record).",
+      "spread": [5, 20]
     }
   }
 }

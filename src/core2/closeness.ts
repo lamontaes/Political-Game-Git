@@ -60,11 +60,14 @@ function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
 }
 
 /**
- * The day two people were last together, or null when they never were: a
- * change made apart (a veto, an answer to the whip) moves the tie without
- * being time together.
+ * The day one tie row last had its two people together, or null when it never
+ * did: a change made apart (a veto, an answer to the whip) moves the tie
+ * without being time together. The row's own fact, for the writer that keeps
+ * it (state.ts) and for readers that follow one row's changes (the director's
+ * threads, a tie moment); when two people were last together by every record,
+ * sittings included, is `lastTogether`.
  */
-export function lastTogether(
+export function lastMetOnRow(
   row: Pick<Relationship, "lastContactDate" | "lastMetDate">,
 ): IsoDate | null {
   return row.lastMetDate === undefined ? row.lastContactDate : row.lastMetDate;
@@ -187,6 +190,18 @@ export function metThrough(
   const key = a < b ? `${a}:${b}` : `${b}:${a}`;
   const row = core.relationships.get(key);
   if (row) return { date: row.lastContactDate, sourceId: row.id };
+  return firstTogetherInRecords(core, a, b);
+}
+
+/**
+ * The first day a registered reader's record says two people shared time (the
+ * first sitting of a body both sit on) and that record; null when none does.
+ */
+export function firstTogetherInRecords(
+  core: object,
+  a: PersonId,
+  b: PersonId,
+): { date: IsoDate; sourceId: string } | null {
   let first: { date: IsoDate; sourceId: string } | null = null;
   for (const known of knownReaders.values()) {
     const met = known.together(core, a, b);
@@ -197,10 +212,47 @@ export function metThrough(
 }
 
 /**
+ * The last day two people were together: the last day their row had them
+ * together (`lastMetOnRow`), or the last sitting of a body both sit on,
+ * whichever is later; null when neither says they ever were. The one answer to "when did these two last see each
+ * other", for the hours a tie has lost and for whether the player has seen
+ * someone lately (calendar.ts).
+ */
+export function lastTogether(
+  core: Pick<CoreState, "relationships">,
+  a: PersonId,
+  b: PersonId,
+): IsoDate | null {
+  if (a === b) return null;
+  return timeTogether(core, a, b, false).last;
+}
+
+function timeTogether(
+  core: Pick<CoreState, "relationships">,
+  a: PersonId,
+  b: PersonId,
+  withHours: boolean,
+): {
+  row: Relationship | undefined;
+  last: IsoDate | null;
+  shared: { now: number; kind: string }[];
+} {
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  const shared: { now: number; kind: string }[] = [];
+  let last: IsoDate | null = row ? lastMetOnRow(row) : null;
+  for (const [reader, known] of knownReaders) {
+    const met = known.together(core, a, b);
+    if (!met) continue;
+    if (withHours) shared.push({ now: reader(core, a, b), kind: known.kind });
+    if (!last || met.last > last) last = met.last as IsoDate;
+  }
+  return { row, last, shared };
+}
+
+/**
  * The hours a tie has lost since the two were last together, over all its
  * time: the row's own and each reader's shared hours, each at its half-life,
- * since the last day any of them had the two together (the row's last
- * contact, or the last sitting both sat). Two colleagues who sat together
+ * since the last day any of them had the two together (`lastTogether`). Two colleagues who sat together
  * yesterday have lost a day, however long ago their row's last contact was.
  * What a person misses about someone they have not seen.
  */
@@ -213,15 +265,7 @@ export function tieHoursLost(
   b: PersonId,
 ): number {
   const p = lookup(core);
-  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  const shared: { now: number; kind: string }[] = [];
-  let last: IsoDate | null = row ? row.lastContactDate : null;
-  for (const [reader, known] of knownReaders) {
-    const met = known.together(core, a, b);
-    if (!met) continue;
-    shared.push({ now: reader(core, a, b), kind: known.kind });
-    if (!last || met.last > last) last = met.last as IsoDate;
-  }
+  const { row, last, shared } = timeTogether(core, a, b, true);
   if (!last) return p("zero");
   let lost = p("zero");
   if (row) {
@@ -423,12 +467,115 @@ function meanVisitsPerYear(p: Lookup, row: readonly number[]): number {
 }
 
 /**
+ * A household's upkeep: its housework and shopping, which grow with the
+ * people it keeps (`homeUpkeepHoursPerMember` a day for each) and are shared
+ * by its adults. A parent alone with three children carries far more of it
+ * than one of two adults with none. Children keep no share.
+ */
+export function homeUpkeep(
+  core: Pick<CoreState, "data" | "date" | "people" | "households">,
+  householdId: string,
+): { members: number; adults: number; upkeepHoursPerAdult: number } {
+  const p = lookup(core);
+  let members = p("zero"),
+    adults = p("zero");
+  for (const id of core.households.get(householdId)?.memberIds ?? []) {
+    const person = core.people.get(id);
+    if (!person?.alive) continue;
+    members += p("one");
+    if (
+      daysBetweenText(person.birthDate, core.date) / p("daysPerMeanYear") >=
+      p("votingAge")
+    )
+      adults += p("one");
+  }
+  return {
+    members,
+    adults,
+    upkeepHoursPerAdult: adults
+      ? (p("homeUpkeepHoursPerMember") * members) / adults
+      : p("zero"),
+  };
+}
+
+/**
+ * The work commitments that keep a person from home today: their current
+ * job's, in force on this date. Their ids are what a home-time row cites.
+ */
+export function homeWorkIds(
+  core: Pick<CoreState, "date" | "people" | "work">,
+  personId: PersonId,
+): string[] {
+  const person = core.people.get(personId);
+  const ids: string[] = [];
+  for (const id of core.work.commitmentsByPerson.get(personId) ?? []) {
+    const row = core.work.commitments.get(id);
+    if (!row || row.jobId !== person?.jobId) continue;
+    if (row.startsAt > core.date || (row.endsAt && row.endsAt < core.date))
+      continue;
+    ids.push(id);
+  }
+  return ids;
+}
+
+/**
+ * The minutes a day one person is home and awake: the waking day less the
+ * work their current job schedules, averaged over its week
+ * (`expectedWeeklyMinutes` on each running commitment of that job). Someone
+ * with no job is home the whole waking day.
+ */
+export function homeMinutesPerDay(
+  core: Pick<CoreState, "data" | "date" | "people" | "work">,
+  personId: PersonId,
+): number {
+  const p = lookup(core);
+  const sleep = core.data.work
+    ? p(core.data.work.sleepReserveParameter)
+    : p("zero");
+  let weekly = p("zero");
+  for (const id of homeWorkIds(core, personId))
+    weekly += core.work.commitments.get(id)!.expectedWeeklyMinutes;
+  return Math.max(
+    p("zero"),
+    (p("hoursPerDay") - sleep) * p("minutesPerHour") -
+      weekly / p("daysPerWeek"),
+  );
+}
+
+/**
+ * The minutes a day two housemates spend in each other's company: the
+ * waking time both are home (the shorter of their two home days), times the
+ * share of shared home time people spend together, by whether they are family
+ * (`homePresenceFamilyShare`, `homePresenceOtherShare`, fitted once so ATUS
+ * work hours give ATUS's minutes with household family and with others). A
+ * pair where one works doubles or both work long weeks spends less; a retired
+ * couple more. The inputs are returned with the minutes for the trace.
+ */
+export function homeTogether(
+  core: Pick<CoreState, "data" | "date" | "people" | "work">,
+  aId: PersonId,
+  bId: PersonId,
+  family: boolean,
+): { homeA: number; homeB: number; minutesPerDay: number } {
+  const p = lookup(core);
+  const homeA = homeMinutesPerDay(core, aId),
+    homeB = homeMinutesPerDay(core, bId);
+  return {
+    homeA,
+    homeB,
+    minutesPerDay:
+      Math.min(homeA, homeB) *
+      p(family ? "homePresenceFamilyShare" : "homePresenceOtherShare"),
+  };
+}
+
+/**
  * Opening closeness, in hours of time together, between two people at the
  * start of the world: the steady state of how often their kind of tie meets,
  * plus the childhood they shared at home, faded since one of them left.
  */
 export function openingClosenessHours(
-  core: Pick<CoreState, "data" | "date" | "people" | "husks">,
+  core: Pick<CoreState, "data" | "date" | "people" | "husks" | "work">,
   actorId: PersonId,
   otherId: PersonId,
 ): number {
@@ -438,11 +585,13 @@ export function openingClosenessHours(
   const other = core.people.get(otherId) ?? core.husks.get(otherId)!;
   const family = actor.familyIds.has(otherId);
   const kind = family ? data.familyKind : data.householdKind;
-  const householdRate =
-    p(family ? "householdFamilyMinutesPerDay" : "householdOtherMinutesPerDay") /
-    p("minutesPerHour");
   if ("householdId" in other && actor.householdId === other.householdId)
-    return steadyHours(p, householdRate, kind);
+    return steadyHours(
+      p,
+      homeTogether(core, actorId, otherId, family).minutesPerDay /
+        p("minutesPerHour"),
+      kind,
+    );
 
   const fact = actor.pastFacts?.find(
     (row) => row.id === `${actorId}${data.kinFactMarker}${otherId}`,
@@ -493,7 +642,19 @@ export function openingClosenessHours(
       apart = ages[p("zero")]! - adultDays;
     }
   }
-  const atParting = towardSteady(p, p("zero"), householdRate, together, kind);
+  // Growing up at home together: the family's share of the hours both were
+  // home, each as their own job allows now (a child and a relative kept only
+  // by name have the whole waking day).
+  const childhoodRate =
+    (Math.min(
+      homeMinutesPerDay(core, actorId),
+      core.people.has(otherId)
+        ? homeMinutesPerDay(core, otherId)
+        : Number.POSITIVE_INFINITY,
+    ) *
+      p("homePresenceFamilyShare")) /
+    p("minutesPerHour");
+  const atParting = towardSteady(p, p("zero"), childhoodRate, together, kind);
   return together > p("zero")
     ? towardSteady(p, atParting, rate, apart, kind)
     : steadyHours(p, rate, kind);
@@ -623,5 +784,7 @@ export {
   noSittingTie,
   registerSittingCalendar,
   sittingHours,
+  sittingHoursByBody,
+  type SittingCalendar,
   type SittingDay,
 } from "./sitting-closeness";

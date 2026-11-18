@@ -33,10 +33,6 @@
         "Hey.",
         "Hi there.",
         "Hello there.",
-        "Good morning.",
-        "Good afternoon.",
-        "Good evening.",
-        "Morning.",
         "Hello, {name}.",
         "Hi, {name}.",
         "Hey, {name}.",
@@ -48,14 +44,9 @@
         "It's nice to see you.",
         "Long time no see.",
         "Well, look who's here.",
-        "How are you?",
         "How are you doing?",
-        "How's it going?",
         "How have you been?",
-        "How you doing?",
-        "What's new?",
         "How are things?",
-        "How's everything?",
         "How are things going?"
       ]
     },
@@ -65,25 +56,10 @@
       "role": "answer",
       "choice": "fine",
       "candidates": [
-        "Fine, thank you.",
         "Fine, thanks.",
-        "Good, thank you.",
-        "Good, thanks.",
         "I'm fine.",
-        "I'm good.",
-        "I'm doing well.",
-        "I'm doing fine.",
-        "I'm doing good.",
-        "Pretty good.",
-        "Not bad.",
-        "Not too bad.",
-        "Can't complain.",
-        "I can't complain.",
-        "Doing well.",
         "Doing fine.",
         "All right.",
-        "Okay.",
-        "I'm all right.",
         "I'm okay.",
         "Very well, thank you.",
         "Fine, how are you?",
@@ -94,10 +70,7 @@
         "Not bad, how are you?",
         "Fine. And you?",
         "Good. And you?",
-        "I'm fine. And you?",
-        "And you?",
-        "How about you?",
-        "What about you?"
+        "I'm fine. And you?"
       ]
     },
     {
@@ -213,10 +186,6 @@
       "choice": "turn",
       "raises": "their-work",
       "candidates": [
-        "And you?",
-        "How about you?",
-        "What about you?",
-        "How about yourself?",
         "Still there. And you?",
         "Yes. And you?",
         "Where are you working?",
@@ -237,14 +206,11 @@
         "Same old thing.",
         "Same as always.",
         "Nothing much has changed.",
-        "Nothing's changed.",
-        "It's the same.",
         "Still the same.",
         "Same old, same old.",
         "Busy.",
         "It's been busy.",
         "Keeping busy.",
-        "Can't complain.",
         "It keeps me busy."
       ]
     },
@@ -421,20 +387,7 @@
       "role": "answer",
       "choice": "ack",
       "stages": ["working"],
-      "candidates": [
-        "{employer}, right.",
-        "Oh, {employer}.",
-        "{employer}?",
-        "Really?",
-        "Oh, really?",
-        "Oh, okay.",
-        "Okay.",
-        "I see.",
-        "Oh, I see.",
-        "Good for you.",
-        "That's great.",
-        "That's good."
-      ]
+      "candidates": ["{employer}, right.", "Oh, {employer}.", "{employer}?"]
     },
     {
       "move": "other-work-answer-tenure",
@@ -489,9 +442,6 @@
         "That's a while.",
         "That's a long time.",
         "That's a long time!",
-        "Wow.",
-        "That's great.",
-        "Good for you.",
         "That's quite a while."
       ]
     },
@@ -582,13 +532,7 @@
       "role": "answer",
       "choice": "turn",
       "raises": "home",
-      "candidates": [
-        "I am. You too?",
-        "You too?",
-        "How about you?",
-        "And you?",
-        "What about you?"
-      ]
+      "candidates": ["I am. You too?", "You too?"]
     },
     {
       "move": "home-answer-brief",
@@ -682,11 +626,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": [
-        "Here in {place}.",
-        "Right here in {place}.",
-        "Right here."
-      ]
+      "candidates": ["Here in {place}.", "Right here in {place}."]
     },
     {
       "move": "home-new-lie-none",
@@ -726,34 +666,11 @@
       "candidates": ["Same here.", "Me too.", "Same with me."]
     },
     {
-      "move": "home-reply-answer-ack",
-      "subject": "home-reply",
-      "role": "answer",
-      "choice": "ack",
-      "candidates": [
-        "{place}, right.",
-        "Oh, {place}.",
-        "Oh, okay.",
-        "I see.",
-        "Oh, nice.",
-        "That's nice."
-      ]
-    },
-    {
-      "move": "home-reply-answer-brief",
-      "subject": "home-reply",
-      "role": "answer",
-      "choice": "brief",
-      "raises": "next",
-      "candidates": ["Right.", "Okay.", "Sure.", "Oh."]
-    },
-    {
       "move": "shared-school-ask-remember",
       "subject": "shared-school",
       "role": "ask",
       "choice": "remember",
       "candidates": [
-        "Do you remember {school}?",
         "Remember {school}?",
         "You remember {school}?",
         "Do you remember when we were at {school}?",
@@ -786,14 +703,11 @@
       "choice": "plain",
       "candidates": [
         "{school}, yes.",
-        "Of course.",
         "Of course I remember.",
         "I remember.",
         "I remember that.",
         "Yes, I remember.",
         "Sure, I remember.",
-        "Oh, yes.",
-        "Oh, sure.",
         "Sure I do.",
         "How could I forget?",
         "I'll never forget it."
@@ -842,7 +756,6 @@
         "Remember working at {employer}?",
         "Do you remember working at {employer}?",
         "Remember {employer}?",
-        "Do you remember {employer}?",
         "Remember when we worked together?",
         "Do you remember when we worked together?"
       ]
@@ -901,13 +814,7 @@
       "subject": "shared-work",
       "role": "answer",
       "choice": "plain",
-      "candidates": [
-        "{employer}, right.",
-        "Oh, sure.",
-        "Sure.",
-        "I remember.",
-        "Of course."
-      ]
+      "candidates": ["I remember."]
     },
     {
       "move": "shared-work-answer-own",
@@ -928,7 +835,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": ["Right.", "Yeah.", "Yes."]
+      "candidates": ["Yeah.", "Yes."]
     },
     {
       "move": "mutual-raise-seen",
@@ -992,8 +899,6 @@
         "I haven't talked to {name} in a while.",
         "I haven't heard from {name}.",
         "I haven't heard from {name} in a while.",
-        "I haven't seen him.",
-        "I haven't seen her.",
         "I haven't seen them.",
         "Not lately.",
         "Not in a while.",
@@ -1002,13 +907,6 @@
         "No, not in a while.",
         "I haven't seen {name} in years."
       ]
-    },
-    {
-      "move": "mutual-answer-ack",
-      "subject": "mutual",
-      "role": "answer",
-      "choice": "ack",
-      "candidates": ["Oh, okay.", "Okay.", "Really?"]
     },
     {
       "move": "mutual-answer-mine-saw",
@@ -1042,14 +940,6 @@
         "Me neither.",
         "I haven't seen {name} either."
       ]
-    },
-    {
-      "move": "mutual-answer-brief",
-      "subject": "mutual",
-      "role": "answer",
-      "choice": "brief",
-      "raises": "next",
-      "candidates": ["Okay.", "Right.", "Oh.", "Huh."]
     },
     {
       "move": "kin-raise-met",
@@ -1119,7 +1009,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": ["You will.", "You'll meet {name}.", "You'll like {name}."]
+      "candidates": ["You'll meet {name}.", "You'll like {name}."]
     },
     {
       "move": "kin-answer-turn",
@@ -1128,9 +1018,6 @@
       "choice": "turn",
       "raises": "next-2",
       "candidates": [
-        "Maybe one day.",
-        "Maybe someday.",
-        "Someday.",
         "One of these days.",
         "Maybe sometime.",
         "Sometime.",
@@ -1154,7 +1041,6 @@
         "How's your mom?",
         "How's your father?",
         "How's your dad?",
-        "How's your wife?",
         "How's your husband?",
         "How's {relation}?",
         "How is {relation}?",
@@ -1283,17 +1169,7 @@
       "subject": "school",
       "role": "answer",
       "choice": "fine",
-      "candidates": [
-        "It's fine.",
-        "It's good.",
-        "It's going well.",
-        "Good.",
-        "Fine.",
-        "Okay.",
-        "It's okay.",
-        "It's hard.",
-        "It's going okay."
-      ]
+      "candidates": ["It's going okay."]
     },
     {
       "move": "school-answer-done",
@@ -1316,8 +1192,6 @@
       "role": "raise",
       "choice": "heard",
       "candidates": [
-        "Did you hear about {topic}?",
-        "Have you heard about {topic}?",
         "Did you hear?",
         "Have you heard?",
         "Did you see that?",
@@ -1339,17 +1213,14 @@
       "choice": "yes",
       "stages": ["heard"],
       "candidates": [
-        "I heard.",
         "I heard about that.",
         "I heard about it.",
         "Yes, I heard.",
         "Yeah, I heard.",
-        "I saw that.",
         "I read about it.",
         "I read about that.",
         "I saw it on the news.",
-        "I saw it in the paper.",
-        "I know."
+        "I saw it in the paper."
       ]
     },
     {
@@ -1362,14 +1233,7 @@
         "No, what happened?",
         "What happened?",
         "No. What happened?",
-        "No.",
-        "I didn't hear.",
-        "I haven't heard.",
-        "No, I didn't.",
-        "No, I haven't.",
-        "What?",
-        "What about it?",
-        "Tell me."
+        "No, I haven't."
       ]
     },
     {
@@ -1378,9 +1242,7 @@
       "role": "answer",
       "choice": "react",
       "candidates": [
-        "Really?",
         "Oh, no.",
-        "Oh, my.",
         "That's terrible.",
         "That's too bad.",
         "That's a shame.",
@@ -1388,11 +1250,7 @@
         "That's good news.",
         "Good for them.",
         "I can't believe it.",
-        "I didn't know that.",
-        "Wow.",
-        "Huh.",
-        "No kidding.",
-        "You're kidding."
+        "I didn't know that."
       ]
     },
     {
@@ -1421,10 +1279,6 @@
         "I think it's a mistake.",
         "I think it's terrible.",
         "I think it's great.",
-        "It's about time.",
-        "It's a shame.",
-        "We'll see.",
-        "Time will tell.",
         "I don't like it.",
         "I like it.",
         "I'm not sure."
@@ -1447,7 +1301,6 @@
         "Have a good day.",
         "Have a nice day.",
         "Have a good night.",
-        "Good night.",
         "I'll see you.",
         "I'll talk to you later.",
         "Talk to you later.",
@@ -1505,7 +1358,6 @@
         "Take care.",
         "I will.",
         "Will do.",
-        "Okay.",
         "Okay, bye.",
         "All right.",
         "Thanks.",
@@ -1518,17 +1370,14 @@
       "role": "doubt",
       "choice": "question",
       "candidates": [
-        "Really?",
         "Is that right?",
         "Is that so?",
         "Is that true?",
         "Are you sure?",
         "Since when?",
-        "Oh, really?",
         "That's not what I heard.",
         "That's not what I heard!",
         "I heard different.",
-        "I didn't know that.",
         "I thought you were still there.",
         "I thought you were still working there."
       ]
@@ -1545,7 +1394,6 @@
         "Still in {place}?",
         "Are you still living there?",
         "Do you still live there?",
-        "Are you still there?",
         "You still live in {place}?",
         "You're still in {place}?",
         "You're still living in {place}?",
@@ -1559,7 +1407,6 @@
       "role": "raise",
       "choice": "remember",
       "candidates": [
-        "Do you remember {school}?",
         "Remember {school}?",
         "You remember {school}?",
         "Remember when we were in school?",
@@ -1576,7 +1423,6 @@
       "raises": "their-work",
       "candidates": [
         "{employer}, sure.",
-        "Oh, sure.",
         "Sure, I remember.",
         "Of course I remember.",
         "I sure do.",
@@ -1608,15 +1454,9 @@
       "choice": "ack-none",
       "stages": ["none"],
       "candidates": [
-        "I see.",
-        "Oh, I see.",
-        "Oh, okay.",
-        "Okay.",
         "I'm sorry.",
         "I'm sorry to hear that.",
-        "Sorry to hear that.",
-        "That's too bad.",
-        "Oh, no."
+        "Sorry to hear that."
       ]
     },
     {
@@ -1647,14 +1487,7 @@
       "subject": "tenure-reply",
       "role": "answer",
       "choice": "ack",
-      "candidates": [
-        "Since {since}, right.",
-        "Oh, wow.",
-        "Wow.",
-        "That's a long time.",
-        "That's great.",
-        "Good for you."
-      ]
+      "candidates": ["Since {since}, right.", "That's a long time."]
     },
     {
       "move": "tenure-reply-answer-own",
@@ -1670,38 +1503,18 @@
       ]
     },
     {
-      "move": "tenure-reply-answer-brief",
-      "subject": "tenure-reply",
-      "role": "answer",
-      "choice": "brief",
-      "raises": "next",
-      "candidates": ["Right.", "Okay.", "Sure."]
-    },
-    {
       "move": "heard-work-reply-ok",
       "subject": "heard-work",
       "role": "reply",
       "choice": "ok",
-      "candidates": [
-        "{employer}, right.",
-        "Oh, {employer}.",
-        "Oh, okay.",
-        "Oh, really?",
-        "Really?",
-        "I didn't know that.",
-        "I see.",
-        "Oh, I see.",
-        "Good for you.",
-        "That's great.",
-        "That's good."
-      ]
+      "candidates": ["I didn't know that."]
     },
     {
       "move": "heard-work-answer-yes",
       "subject": "heard-work",
       "role": "answer",
       "choice": "yes",
-      "candidates": ["Yes.", "Yeah.", "That's right.", "Yep.", "Right."]
+      "candidates": ["Yes.", "Yeah.", "That's right."]
     },
     {
       "move": "heard-work-answer-since",
@@ -1722,14 +1535,7 @@
       "role": "answer",
       "choice": "turn",
       "raises": "their-work",
-      "candidates": [
-        "Yes. And you?",
-        "And you?",
-        "How about you?",
-        "What about you?",
-        "What do you do?",
-        "Where do you work?"
-      ]
+      "candidates": ["Yes. And you?", "What do you do?", "Where do you work?"]
     },
     {
       "move": "heard-work-answer-brief",
@@ -1737,7 +1543,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": ["That's right.", "Yep.", "Right."]
+      "candidates": ["That's right."]
     },
     {
       "move": "home-reply-answer-own",
@@ -1753,14 +1559,6 @@
       ]
     },
     {
-      "move": "mutual-answer-turn",
-      "subject": "mutual",
-      "role": "answer",
-      "choice": "turn",
-      "raises": "next-2",
-      "candidates": ["Right.", "Okay.", "I see.", "Huh."]
-    },
-    {
       "move": "own-work-new-answer-turn",
       "subject": "own-work-new",
       "role": "answer",
@@ -1769,9 +1567,6 @@
       "candidates": [
         "At {employer}. And you?",
         "I work at {employer}. And you?",
-        "How about you?",
-        "And you?",
-        "What about you?",
         "What do you do?",
         "Where do you work?"
       ]
@@ -1813,9 +1608,6 @@
       "candidates": [
         "In {place}. And you?",
         "I live in {place}. And you?",
-        "And you?",
-        "How about you?",
-        "What about you?",
         "Where are you from?",
         "Where do you live?"
       ]
@@ -1861,12 +1653,7 @@
       "subject": "asked-mutual",
       "role": "answer",
       "choice": "turn",
-      "candidates": [
-        "Have you?",
-        "Why?",
-        "How about you?",
-        "Have you seen {name}?"
-      ]
+      "candidates": ["Have you?", "Why?", "Have you seen {name}?"]
     },
     {
       "move": "asked-mutual-answer-brief",
@@ -1916,18 +1703,7 @@
       "subject": "ack",
       "role": "reply",
       "choice": "right",
-      "candidates": [
-        "Right.",
-        "Okay.",
-        "Yeah.",
-        "Huh.",
-        "Sure.",
-        "Uh-huh.",
-        "I see.",
-        "Oh.",
-        "All right.",
-        "Got it."
-      ]
+      "candidates": ["Yeah.", "All right.", "Got it."]
     },
     {
       "move": "job-lost-raise",

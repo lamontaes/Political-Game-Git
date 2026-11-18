@@ -1860,6 +1860,30 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-county-petition-even-districts",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 848,
+    "whatItFakes": "A county board seat chosen by district asks its petition's count of one district's voters, taken as an even share of the county's voters (one over the body's districts), because no district map is read for local bodies. The seat's vote still counts the whole county.",
+    "why": "The filing data's rule for a county seat is \"5% of registered voters in the county or district\"; sized to the whole county, a district seat asked about seven times the signatures its law asks (9,024 at Cross Anchor, South Carolina), more than any candidate raised money to gather, so a special election for the seat reached its ballot day with no one on it.",
+    "addedBy": "Fable B special-election ballot fix",
+    "addedAt": "2026-11-16",
+    "replacement": "Read each county board's district boundaries into data, place every household in its district, and have the petition and the vote of a district seat count that district's registered voters (SG-GOV-home-local-district).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-filing-officer-never-runs",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 641,
+    "whatItFakes": "Whoever staffs a filing counter (the state's election chief and the counter officers drawn where the records name no clerk) never weighs standing in any race, as if no one at a counter ever ran. In real life an elected clerk runs for the clerk's own seat, and a deputy can run for another seat after stepping aside.",
+    "why": "A drawn counter officer lived in the town, weighed running like any resident and filed in the race they take filings for (Cross Anchor, South Carolina), so the filing counter's own officer stood in the race it staffs.",
+    "addedBy": "Fable B special-election ballot fix",
+    "addedAt": "2026-11-16",
+    "replacement": "A filing officer who wants a seat leaves the counter first, by the place's own rule: read each place's rule for an official who files for office (resign, take leave or recuse), weigh running as anyone else once the counter is left, and seat a replacement at the counter.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",

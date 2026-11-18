@@ -36,6 +36,7 @@ import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
 import { devViewNodes } from "./ui/dev-views.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
+import { replyWhy } from "./ui/dev-reply-why.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -361,6 +362,20 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -666,6 +681,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -694,6 +710,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -1317,7 +1340,7 @@ function electionNight(night) {
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1325,6 +1348,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
@@ -2036,13 +2061,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2166,7 +2184,15 @@ async function campaignParts() {
                   ]
                 : []),
             ],
-            does: why ? [why] : [],
+            does: why
+              ? [why]
+              : choice.outing === "doors" && petition?.gatherTarget
+                ? [
+                    petition.asksAtDoors
+                      ? T.askingWhySignatures
+                      : T.askingWhyVotes,
+                  ]
+                : [],
           }),
           ...(choice.available
             ? { go: go(() => goOut(choice.outing, choice.outletId)) }
@@ -2367,10 +2393,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),
@@ -2445,6 +2468,9 @@ async function reopenTrail(filingId) {
 // owner grades them, each marked, with the record that fired it.
 const HELD_VIEW =
   new URLSearchParams(window.location.search).get("held") === "1";
+/** The story's query flags: the grading view, and dev mode's "why these lines". */
+const storyFlags = () =>
+  `${HELD_VIEW ? "&held=1" : ""}${devModeOn() ? "&dev=1" : ""}`;
 /** Why a scene is happening: its cause record and the facts it may say, by record. */
 function whyRows(why) {
   return [
@@ -2476,9 +2502,11 @@ function gradeOf(line, momentId) {
 }
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
   $("backdrop").src = story.backdrop.url;
   drawHere(story);
   show("talk", true);
@@ -2583,9 +2611,27 @@ function playExchange(story) {
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
   talkControls({ silent: false, leave: false });
+  // Dev mode: beside the talk, why each line was placed, each record one
+  // click from the Trace box.
+  const trace = devModeOn() ? traceBox(controls.devTrace.trace) : null;
+  const devWhy = (node, heard) =>
+    trace
+      ? [
+          replyWhy(
+            controls.devReplyWhy,
+            {
+              why: talk.why,
+              lines: heard,
+              replies: node.replies.map((reply) => reply.line),
+            },
+            trace,
+          ),
+        ]
+      : [];
   const play = (node, path) => {
-    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: shown() });
+    const heard = [...node.lines, ...(node.end?.close ? [node.end.close] : [])];
+    said.push(...heard);
+    fillTalk({ lines: [...shown(), ...devWhy(node, heard)] });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -2618,7 +2664,7 @@ function playExchange(story) {
 /** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
 async function nextScene(story) {
   const next = await api(
-    `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+    `/api/story?momentId=${encodeURIComponent(story.momentId)}${storyFlags()}`,
   );
   if (next.talk && next.talk.typeKey !== story.talk.typeKey)
     showStory(story.momentId);
@@ -2630,6 +2676,24 @@ function storyStop(value) {
           row.kind === "interrupt" && row.moduleId === "p13-story-director",
       )
     : undefined;
+}
+
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
 }
 
 // ---- The person card: only what you could know about them ----
@@ -2751,7 +2815,13 @@ async function personCardNode(
           stripSection(
             2,
             controls.who.views,
-            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            introText(
+              c.view
+                ? leanWord(c.view)
+                : pronoun
+                  ? fill(controls.who.viewUnknown)
+                  : controls.who.viewUnknownThey,
+            ),
             ...(c.viewAbout
               ? [
                   introText(
@@ -2770,15 +2840,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2806,6 +2885,11 @@ async function personCardNode(
         labels: controls.devPerson,
         onDone: () => refresh(),
       }),
+      // Views registered from their own files (ui/dev-views.mjs, slot "person").
+      ...(await devViewNodes("person", {
+        personId: person.personId,
+        onDone: () => refresh(),
+      })),
     );
   if (!stillWanted()) return null;
   return {
@@ -2813,12 +2897,23 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -3017,9 +3112,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
@@ -4297,6 +4393,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5098,7 +5210,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5108,8 +5220,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5407,7 +5517,9 @@ const sheets = {
             ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : []),
+              : !mayFile && race.bar && labels.refusal[race.bar]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
+                : []),
           ),
         ),
       ];
@@ -5467,8 +5579,40 @@ const sheets = {
           ]
         : [];
     };
+    // A race of an office the player runs for (the clerk's own answer: it is
+    // not "not-your-office") is theirs; the rest are the town's and county's.
+    const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    const entryOf = (race, own) => ({
+      key: race.contestId,
+      label:
+        race.officeLevel === "county"
+          ? `${race.title} · ${labels.countyOffice}`
+          : race.title,
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
+          ? `${labels.filingOpens} ${dateWords(
+              race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                ? race.filingOpens
+                : race.cannotFile.metOn,
+              { year: today() },
+            )}`
+          : own && race.bar === "window-not-open" && race.filingOpens
+            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+            : own && race.playerMayFile && race.filingOpen
+              ? labels.fileForIt
+              : race.filers.length
+                ? status(race)
+                : "",
+      data: { contest: race.contestId },
+      race,
+    });
     const byDate = new Map();
-    for (const race of ballot.races) {
+    for (const race of ballot.races.filter(
+      (race) => race.bar === "not-your-office",
+    )) {
       const day = byDate.get(race.electionDate) ?? [];
       day.push(race);
       byDate.set(race.electionDate, day);
@@ -5488,21 +5632,22 @@ const sheets = {
             },
           ]
         : []),
+      // The offices the player runs for come first, each with when they can file.
+      ...(mine.length
+        ? [
+            {
+              title: labels.yourOffices,
+              entries: mine.map((race) => entryOf(race, true)),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: today() }),
-          entries: races.map((race) => ({
-            key: race.contestId,
-            label: race.title,
-            aside:
-              race.filers.length || filed.has(race.contestId)
-                ? status(race)
-                : "",
-            data: { contest: race.contestId },
-            race,
-          })),
-        })),
+          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
+          entries: races.map((race) => entryOf(race, false)),
+        }))
+        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({

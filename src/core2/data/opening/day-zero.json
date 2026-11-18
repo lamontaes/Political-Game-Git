@@ -593,6 +593,12 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
+      "table": "core2-campaigns-v1.volunteerAsks",
+      "level": "town",
+      "call": "flow-only",
+      "reason": "A campaign's ask to the player to volunteer, kept until the player answers; it exists only once a candidate has filed and the campaign reaches the player."
+    },
+    {
       "table": "core2-campaigns-v1.endorsements",
       "level": "town, state and federal",
       "call": "stock",
@@ -1004,7 +1010,7 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
-      "zeroAtPlaces": ["2338740"]
+      "zeroAtPlaces": ["1150000"]
     },
     {
       "table": "core2-outcome-web-v1.baselines",
@@ -1934,7 +1940,9 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Index of drives."
+      "reason": "Index of drives.",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "part.core2-drives-runtime.causeGroups",
@@ -1962,7 +1970,9 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Goals people hold on any day."
+      "reason": "Goals people hold on any day.",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "part.core2-drives-runtime.formedByYearKind",

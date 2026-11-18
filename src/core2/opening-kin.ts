@@ -78,6 +78,13 @@ export interface OpeningKinOptions {
    * were born in it. Someone born outside did not grow up in the county.
    */
   bornOutside?: (adultId: PersonId) => string | undefined;
+  /**
+   * The share of grown residents born in the state (person-birthplace.ts
+   * `bornInStateShare`). Staying in the county since childhood is the
+   * departure rates' chance for everyone; among those born in the state it is
+   * that chance over this share, so a birth outside is not counted twice.
+   */
+  bornInStateShare?: number;
 }
 
 export interface KinPerson {
@@ -382,6 +389,9 @@ export function buildOpeningKin(
     deaths: [],
     birthplaces: new Map(),
   };
+  // Each kin household by id, as it is made: a person's home is found by id,
+  // not by searching every household made so far.
+  const homesById = new Map<string, OpeningKin["households"][number]>();
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
@@ -441,10 +451,17 @@ export function buildOpeningKin(
     // lives near whom at the opening). When someone who left came to the
     // county is run by the moves engine's rule before the start
     // (src/core2/past-moves.ts, history-past-moves), not drawn here.
-    const stayed = (key: string, age: number, fromAge = adultAge) => {
+    // `given`: the share of people this one is already known to be among
+    // (born in the state), whose chance of staying is the whole chance over it.
+    const stayed = (
+      key: string,
+      age: number,
+      fromAge = adultAge,
+      given = p("one"),
+    ) => {
       const rates = options.departurePerYearByAge;
       const line = -Math.log(p("one") - rng.fork(`${key}:stayed`).next());
-      if (moveHazard(rates, fromAge, age) < line) return true;
+      if (moveHazard(rates, fromAge, age) + Math.log(given) < line) return true;
       return false;
     };
     const newHome = (key: string, local: boolean): Home => {
@@ -462,10 +479,11 @@ export function buildOpeningKin(
         memberIds: [] as PersonId[],
       };
       out.households.push(row);
+      homesById.set(row.id, row);
       return { row, ...(local && countyId ? { countyId } : {}) };
     };
     const homeOf = (person: KinPerson): Home => ({
-      row: out.households.find((row) => row.id === person.householdId)!,
+      row: homesById.get(person.householdId)!,
       ...(person.countyId ? { countyId: person.countyId } : {}),
     });
     const makePerson = (
@@ -528,8 +546,16 @@ export function buildOpeningKin(
       let lineName: string | null =
         household.couple && index === p("one") ? null : adult.familyName;
       const outside = options.bornOutside?.(adult.id);
-      const grewUpHere = stayed(`origin:${index}`, age);
-      const parentsNear = !outside && grewUpHere;
+      const parentsNear =
+        !outside &&
+        stayed(
+          `origin:${index}`,
+          age,
+          adultAge,
+          options.bornOutside
+            ? (options.bornInStateShare ?? p("one"))
+            : p("one"),
+        );
       const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
       out.birthplaces.set(
         adult.id,

@@ -15,10 +15,20 @@ import {
   lastEnactment,
 } from "./modules/laws";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { answerIn, levelMayDecide } from "./modules/world-legislating";
+import { levelMayDecide } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { policySeriesAtLevel } from "./policy-answers";
 import { coreAPI } from "./state";
 
+// The place is drawn each run (GOLDEN_PATH_SEED replays one) and printed with
+// its seed. Congress's labels are the same at every place, so any draw holds
+// the case; the state's own wage question is read at the drawn state.
+// One label per rule at a level (item
+// laws-congress-holds-two-questions-for-one-federal-wage-rule): the states'
+// wage question is Congress's federal wage question at the federal level, so
+// Congress holds and offers the federal label alone.
+// Limit: 17.6 s alone and 20.7 s beside another played-world file (Nov 16);
+// twice the slower is about 45 s.
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "canonical-policy-topics");
 const shared = "us-policy-positions:labor-workforce.raise-minimum-wage";
@@ -40,17 +50,23 @@ it(`canonical background law reads: ${place.name}, replay ${replay}`, () => {
       new Set(decisions).size,
       "Two labels must not count as two policy decisions",
     ).toBe(topics.length);
-    expect(topics).toContain(shared);
+    // Congress holds the rule under its own label, once.
+    expect(topics).toContain(canonical);
+    expect(topics).not.toContain(shared);
     expect(answerIn(api, "US", canonical)).toBe(-1);
     expect(answerIn(api, "US", shared)).toBe(answerIn(api, "US", canonical));
     const menu = billCatalog(api, "federal", "US").flatMap((s) =>
       s.topics.flatMap((t) => t.policies),
     );
-    const common = menu.find((p) => p.id === `question:${shared}`)!;
+    // The drafting menu offers each rule once: the federal label, and no
+    // two questions that Congress reads as one series.
+    const offered = menu
+      .filter((p) => p.kind === "policy-question" && p.question)
+      .map((p) => policySeriesAtLevel(p.question!, "federal"));
+    expect(offered.length - new Set(offered).size).toBe(0);
+    expect(menu.some((p) => p.id === `question:${shared}`)).toBe(false);
     const legacy = menu.find((p) => p.id === `question:${canonical}`)!;
-    expect(common.authority.allowed).toBe(true);
     expect(legacy.authority.allowed).toBe(true);
-    expect(common.inForceRecordId).toBe(legacy.inForceRecordId);
     // The state still decides its own wage question through the same gate.
     expect(levelMayDecide(api, "state", shared)).toBe(true);
     expect(levelMayDecide(api, "state", canonical)).toBe(false);
@@ -74,8 +90,8 @@ it(`canonical background law reads: ${place.name}, replay ${replay}`, () => {
     api.state.date = effectiveDate;
     expect(answerIn(api, "US", shared)).toBe(1);
     expect(answerIn(api, stateKey, shared)).toBe(stateBefore);
-    console.log(
-      JSON.stringify({
+    process.stdout.write(
+      `${JSON.stringify({
         place: place.name,
         placeKey: place.key,
         replay,
@@ -85,11 +101,10 @@ it(`canonical background law reads: ${place.name}, replay ${replay}`, () => {
         stateAnswer: stateBefore,
         federalTopics: topics.length,
         canonicalDecisions: decisions.length,
-        sharedCatalogRecord: common.inForceRecordId,
         legacyCatalogRecord: legacy.inForceRecordId,
-      }),
+      })}\n`,
     );
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 45_000);

@@ -87,7 +87,7 @@
     "id": "SG-HEALTH-premium-after-tax",
     "kind": "partial-model",
     "file": "src/core2/modules/coverage.ts",
-    "line": 700,
+    "line": 704,
     "whatItFakes": "A policyholder's share of the employer plan's premium is taken from each paycheck after the law's withholding, from the pay that lands, so income and payroll taxes are figured on the whole wage instead of the wage less the premium as a section 125 plan does.",
     "why": "The withholding engine figures tax on gross pay and has no pre-tax deduction line; taking the premium before tax needs that engine to read a deduction, which is a change to every payroll path (budgets.withholdPay and counted-money groupWithholding).",
     "addedBy": "premiums thread (PR 1b, premium from pay)",

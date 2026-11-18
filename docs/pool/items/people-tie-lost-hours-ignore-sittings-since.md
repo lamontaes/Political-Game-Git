@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/project-thread-csmftn-lost
-pr:
+pr: #9547
 after:
 blocked-on:
 lead: people
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Found by the lying thread, Nov 15 2026, building legislature-colleague-ties-stay-slight (the Account lead split it into its own pull request)
+merged-at: 2026-11-16T20:02:17.996Z
 ---
 
 **What.** A person's free company goes to the ties that have lost the most hours since the two were last together (`tiePull` in src/core2/modules/people.ts). For two colleagues with a tie row, the row's lost hours run from the row's last contact, even when the two sat in the same chamber or committee the day before. So a colleague whose row is a month old pulls as if unseen for a month, and a colleague known only through the sittings pulls as if seen at the last sitting. Whoever has a row (the player, in practice) draws the company. Seen: in a played Texas senate, once committees and caucuses are read for every member, all three pieces of company senators kept with each other in two weeks went to the player.

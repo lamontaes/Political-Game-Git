@@ -17,7 +17,7 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { taxIndexOf } from "./tax-index";
-import { transferSplit } from "./accounts";
+import { depositsHeld, transferSplit } from "./accounts";
 import {
   PAID_LEAVE_KEY,
   paidLeaveProgram,
@@ -32,12 +32,8 @@ import {
 } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  countedParameter,
-  residentsRuntime,
-  type ResidentsRuntime,
-} from "./modules/residents";
-import { stableHash } from "./kernel/ids";
+import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
+import { balanceDrawZ, balanceSpreadLog } from "./household-balance-draw";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -131,16 +127,49 @@ export function savingWeight(
   h: { readonly id: string; saving?: number },
 ): number {
   if (h.saving === undefined) {
-    const sigma = countedParameter("countedSavingsSpreadLog");
-    const uniform = (key: string) =>
-      (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
-    const key = `${seed}:counted-saving:${h.id}`;
-    const z =
-      Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-      Math.cos(2 * Math.PI * uniform(`${key}:b`));
-    h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
+    const sigma = balanceSpreadLog();
+    h.saving = Math.exp(sigma * balanceDrawZ(seed, h.id) - (sigma * sigma) / 2);
   }
   return h.saving;
+}
+
+/**
+ * A counted household's bank savings: its share of its group's deposits, by
+ * the same claim `householdCash` reads of the group's cash (its people at its
+ * savings weight over the group's claims). A group's savings are banked as the
+ * group's, under its own account (`fundOf`), because its cash is one pooled
+ * account: a household's wallet and its savings are then the same share of
+ * the group's money, and together they are its share of all of it. `standing`
+ * is the people the share is for: one real household of the record (the
+ * default) or the whole record's.
+ */
+export function countedDeposits(
+  api: CoreAPI,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  standing = Math.min(rt.store.countedCount(h), rt.store.weightedCount(h)),
+): number {
+  if (!rt.funded || h.group < 0) return 0;
+  const held = depositsHeld(api.state as CoreState, fundOf(api, rt, h.group));
+  if (held <= 0) return 0;
+  const claims = claimsInGroup(rt, h.group);
+  return claims > 0
+    ? Math.floor((held * standing * savingWeight(api.state.seed, h)) / claims)
+    : 0;
+}
+
+/** One counted household's bank savings by its id (`countedDeposits`) and the holder they are banked under; undefined when the id is not a counted household here. */
+export function countedHouseholdSavings(
+  api: CoreAPI,
+  householdId: string,
+): { holderId: string; minor: number } | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  if (!rt || !h || h.group < 0) return undefined;
+  return {
+    holderId: fundOf(api, rt, h.group),
+    minor: countedDeposits(api, rt, h),
+  };
 }
 
 /** A household's claim on its group's account: its people, each counted at its savings weight. */

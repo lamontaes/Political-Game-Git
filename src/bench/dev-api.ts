@@ -236,6 +236,11 @@ export async function handleDev(
           repeal: input.repeal === true,
           billId: input.billId === undefined ? undefined : String(input.billId),
           schedule: input.schedule === true,
+          line: input.line === undefined ? undefined : String(input.line),
+          deltaMinor:
+            input.deltaMinor === undefined
+              ? undefined
+              : Number(input.deltaMinor),
         }),
       );
       return true;
@@ -285,6 +290,11 @@ export async function handleDev(
     case "POST raise-money": {
       const input = await body(request);
       send(200, mode.raiseMoney(String(input.filingId)));
+      return true;
+    }
+    case "POST petition-short": {
+      const input = await body(request);
+      send(200, mode.petitionShort(String(input.filingId)));
       return true;
     }
     case "POST volunteer-cast": {

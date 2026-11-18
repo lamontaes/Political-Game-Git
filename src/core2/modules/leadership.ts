@@ -35,7 +35,9 @@ import {
   committeeTopics,
   topicOf,
 } from "../legislature-committees";
-import { officialOf } from "./officials";
+import { OFFICIALS_MODULE_ID, officialOf } from "./officials";
+import { bookkeeping } from "../bookkeeping";
+import { tableTraceOn } from "../module-state";
 import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-data";
 
@@ -372,15 +374,81 @@ function standing(
 }
 
 /**
+ * The engines a chamber's member list reads (`members` in legislature.ts), read
+ * when called (the modules import each other):
+ * the offices engine's seats, terms and vacancies, the officials it seats,
+ * and the voting engine's seat results, which count from their date on.
+ */
+const membershipReadIds = () =>
+  [OFFICES_MODULE_ID, OFFICIALS_MODULE_ID, "core2-voting-v1"] as const;
+interface KeptMembership {
+  readonly date: string;
+  readonly stores: readonly unknown[];
+  readonly writes: readonly number[];
+  readonly signature: string;
+}
+/** Each chamber's member signature as last read, per world. Derived; never saved. */
+const keptMembership = new WeakMap<object, Map<string, KeptMembership>>();
+function membershipReads(api: CoreAPI) {
+  const stores = membershipReadIds().map((id) =>
+    api.state.modules.has(id) ? api.moduleState(id) : null,
+  );
+  return { stores, writes: stores.map((store) => store?.writes ?? -1) };
+}
+/** The chamber's signature when nothing its member list reads has changed since it was kept. */
+function knownSignature(api: CoreAPI, chamber: string): string | undefined {
+  const kept = keptMembership.get(api.state)?.get(chamber);
+  if (!kept || kept.date !== api.state.date) return undefined;
+  const now = membershipReads(api);
+  return now.stores.every((store, i) => store === kept.stores[i]) &&
+    now.writes.every((count, i) => count === kept.writes[i])
+    ? kept.signature
+    : undefined;
+}
+/** How many times a world's chamber member lists were rebuilt to check their membership. */
+const rebuilds = new WeakMap<object, number>();
+/** The count of member-list rebuilds in a world: a diagnostic for its speed check. */
+export function membershipRebuilds(core: CoreState): number {
+  return rebuilds.get(core) ?? 0;
+}
+function keepSignature(api: CoreAPI, chamber: string, signature: string) {
+  let byChamber = keptMembership.get(api.state);
+  if (!byChamber) keptMembership.set(api.state, (byChamber = new Map()));
+  byChamber.set(chamber, {
+    date: api.state.date,
+    ...membershipReads(api),
+    signature,
+  });
+}
+
+/**
  * Organize a body if its membership changed since it last did: elect its
  * posts and assign its committees. Returns its posts.
  */
 export function organize(api: CoreAPI, body: string): readonly PostRow[] {
   const chamber = chamberOf(api, body);
-  const all = members(api, chamber);
-  const signature = all.map(memberKey).sort().join("|");
   const done = table(api, "organized").get(chamber) as unknown as
     OrganizedRow | undefined;
+  // Membership has not changed since the chamber was last read: what its
+  // member list reads (the date, and the offices, officials and voting
+  // engines' records) is as it was, so its signature is too.
+  const known = knownSignature(api, chamber);
+  if (
+    known !== undefined &&
+    done?.signature === known &&
+    !bookkeeping() &&
+    !tableTraceOn()
+  )
+    return table(api, "posts").query("byChamber", [
+      chamber,
+    ]) as unknown as PostRow[];
+  const all = members(api, chamber);
+  rebuilds.set(api.state, (rebuilds.get(api.state) ?? 0) + 1);
+  const signature = all.map(memberKey).sort().join("|");
+  // Under bookkeeping (tests) the kept signature is checked against the list.
+  if (known !== undefined && known !== signature)
+    throw new Error(`Kept membership of ${chamber} differs from its members.`);
+  keepSignature(api, chamber, signature);
   if (done?.signature === signature)
     return table(api, "posts").query("byChamber", [
       chamber,
@@ -779,6 +847,22 @@ export function committeeRoster(
     `${chamber}:${committee}`,
   ) as unknown as CommitteeRow | undefined;
   return row ? { memberIds: row.memberIds, chairId: row.chairId } : null;
+}
+
+/**
+ * A chamber's committees as leadership last seated them, without seating them
+ * again: read by the sitting reader (`office-day-state.ts` ROOMS), which
+ * leadership's own elections read through closeness, so organizing from it
+ * would loop. Empty before the chamber is first organized.
+ */
+export function seatedCommittees(
+  api: CoreAPI,
+  body: string,
+): readonly CommitteeRow[] {
+  if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
+  return table(api, "committees").query("byChamber", [
+    chamberOf(api, body),
+  ]) as unknown as CommitteeRow[];
 }
 
 /**

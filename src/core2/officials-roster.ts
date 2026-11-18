@@ -10,6 +10,7 @@
  * first-dimension spread in the 119th Congress (Voteview), pulled toward the
  * member's district as members really are.
  */
+import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
@@ -88,6 +89,7 @@ export function partyKey(party: string | null | undefined): PartyKey {
 
 /** A uniform value in (0, 1) for a key. */
 export function uniform(key: string): number {
+  recordDraw("officials hash");
   const draw = Number.parseInt(stableHash(key).slice(0, 12), 16);
   return (draw + 0.5) / 16 ** 12;
 }

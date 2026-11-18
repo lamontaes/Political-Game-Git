@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
 pr: #8606
@@ -19,6 +19,7 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:12:03.127Z
 branch: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
+merged-at: 2026-11-15T23:31:42.221Z
 ---
 
 **What.** In skipped time every race is still campaigned event by event; the only shortcut is a switch that plays one rival campaign day in four. This part decides a race the player is not in from its voters on election day, through the one election engine, and deletes the switch. A race the player or the people around them are in is not touched.

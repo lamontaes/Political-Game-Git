@@ -1,16 +1,14 @@
 ---
 name: pool-notes
 description: >
-  How pool-only changes for Our Civic Duty reach main: cause write-ups, new
-  items, status notes and relabels go as commits on the hour's own branch
-  (named for the date and the hour), with one pull request for the hour,
-  gated by Desk B and merged once an hour (owner, Nov 11), instead of one
-  pull request each. Also the
-  cap on new work while too many game pull requests are open. Use before you
-  commit any change that touches only `docs/pool/items`, when you are Desk B
-  or the CTO at the top of the hour, and before a builder takes a new item.
-  Not for a game pull request's own item (it stays in that pull request), and
-  not for rules, checks, skills or docs, which keep their own pull requests.
+  The pool's paperwork: adding or changing an item by hand (the file under
+  docs/pool/items, the Cause prefixes the standard allows, the release
+  declaration), and pool-only changes as commits on the hour's branch with one
+  pull request an hour (owner, Nov 11); also the cap on new work while too many
+  game pull requests are open. Use whenever you find something worth an item,
+  before writing an item's Cause, before committing a change that touches only
+  docs/pool/items, and before taking a new item. Not for rules, checks, skills
+  or docs.
 ---
 
 # Pool notes: one bundle an hour
@@ -42,7 +40,7 @@ Why not one rolling branch: it was tried on Nov 11 and failed twice in two hours
 
 ## How a helper adds a note
 
-1. Write the item to the standard and check it in your own copy: `npm run pool -- --check` shows nothing new against main, and prettier passes on the file.
+1. Write the item to the standard and check it in your own copy: `npm run pool -- --check` shows nothing new against main, and prettier passes on the file. The check finds the What's `Seen:` sentence only after a sentence that ends in `.`, `!` or `?`; after a closing quote (`…wait." Seen:`) it misses it, so start `Seen:` on its own line when the sentence before it ends in a quote (Playtester P1, Nov 13).
 2. Find the hour's branch. If it does not exist yet, create it from main (the GitHub tool's `create_branch` with `from_branch: main`), and after your first commit open its pull request: title `pool: the notes of <hour>:00 UTC, <date>`, line 1 `Touches pool item: this hour's notes; nothing built.`, not a draft.
 3. Commit the one file to that branch through GitHub's contents API (the GitHub tool's `create_or_update_file`; read the file on the branch first for its `sha` when it exists). One item file per commit. The message is `pool: <item id>: <what changed in five words>`. Do not push a branch of your own and do not open any other pull request.
 4. If the commit is refused because the file changed under you, read it again from the branch, put your change on top of what is there, and commit again. Never overwrite another helper's paragraph.
@@ -86,3 +84,11 @@ A note is delivered when its commit is on the hour's branch and its line is on t
 ## A merger on any tool (Nov 11)
 
 A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/file-a-pool-item.md`: whenever you add or change a pool item by hand.
+
+The hour's branch is named for the hour it closes in: a commit at 05:04Z goes on `pool/notes-<date>-06`, not `-05`. A cloud session cannot delete a branch through its proxy, so name it right the first time (Nov 18).

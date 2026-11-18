@@ -1,3 +1,4 @@
+import controls from "./data/controls.json" with { type: "json" };
 import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
 import { saidOffice, spokenOffice } from "../director/filing-visit";
@@ -31,7 +32,9 @@ import {
   filingOfficeFor,
   filingWindowOpen,
   playerContests,
-  playerMayFileFor,
+  notYourOfficeWhy,
+  playerFilingBar,
+  seatIsAnotherDistrict,
   standing,
   type ContestRow,
   type FilingRow,
@@ -440,8 +443,18 @@ export function localRaces(core: CoreState) {
   // counts them together and seats the top finishers, `atLargeGroup`): the
   // screen shows it once, as its first contest, the one the player files for,
   // with everyone filed for any of its seats.
+  // The nearest election's races, and each office the player runs for at its
+  // own next election, so the player sees when they can file for theirs
+  // wherever it falls.
+  const ownNextContests = nextOwnContests(api, contests);
   const races = contests
-    .filter((contest) => contest.electionDate === date)
+    .filter(
+      (contest) =>
+        contest.electionDate === date || ownNextContests.has(contest.id),
+    )
+    // A body elected by district shows the viewer their own district's seat,
+    // never the others (owner, Nov 16).
+    .filter((contest) => !seatIsAnotherDistrict(api, contest.id))
     .map((contest) => ({ contest, group: atLargeGroup(api, contest) }))
     .filter(({ contest, group }) => group[0]!.id === contest.id)
     .map(({ contest, group }) => {
@@ -479,6 +492,7 @@ export function localRaces(core: CoreState) {
         })
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
       const office = filingOfficeFor(api, contest.id);
+      const bar = playerFilingBar(api, contest.id);
       return {
         contestId: contest.id,
         title: raceTitle(contest.title, contest.district),
@@ -498,7 +512,16 @@ export function localRaces(core: CoreState) {
         filedWith: office?.filedWith ?? null,
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
-        playerMayFile: playerMayFileFor(api, contest.id),
+        playerMayFile: bar === null,
+        // Why it is not offered, from the clerk's own check (null when it is);
+        // a race of an office the player does not run for says so.
+        bar,
+        // Which of the office rule's two causes closes it, and the home's own offices the player runs
+        // for instead, by title, so the page says why and where to run (crew list #9747, item 3a).
+        barWhy: whyNotYours(api, contest.id),
+        // What kind of office it is, so the page names a county's offices as
+        // the county's, and groups the player's own offices first.
+        officeLevel: officeLevelOf(api, contest.officeId),
         // The first rule that stops the player filing, other than the dates
         // (the window shows those): the page says it plainly and offers no
         // filing, from the same eligibility check the clerk reads.
@@ -614,14 +637,69 @@ function cannotFileFor(
   api: CoreAPI,
   playerId: string | null | undefined,
   contestId: string,
-): { rule: string; required: string; actual: string } | null {
+): { rule: string; required: string; actual: string; metOn?: string } | null {
   if (!playerId) return null;
   const unmet = checkEligibility(api, playerId, contestId).find(
     (row) => !row.met && PERSON_RULES.includes(row.rule),
   );
   return unmet
-    ? { rule: unmet.rule, required: unmet.required, actual: unmet.actual }
+    ? {
+        rule: unmet.rule,
+        required: unmet.required,
+        actual: unmet.actual,
+        // The day a missing age is met, so the page says when they can file.
+        ...(unmet.metOn ? { metOn: unmet.metOn } : {}),
+      }
     : null;
+}
+
+/**
+ * For each office the player runs for, its contests on the first election day
+ * after today (the clerk's own check says which offices: not "not-your-office").
+ */
+function nextOwnContests(
+  api: CoreAPI,
+  contests: readonly ContestRow[],
+): Set<string> {
+  const first = new Map<string, string>();
+  for (const contest of contests)
+    if (
+      playerFilingBar(api, contest.id) !== "not-your-office" &&
+      !seatIsAnotherDistrict(api, contest.id) &&
+      (!first.has(contest.officeId) ||
+        contest.electionDate < first.get(contest.officeId)!)
+    )
+      first.set(contest.officeId, contest.electionDate);
+  return new Set(
+    contests
+      .filter((c) => first.get(c.officeId) === c.electionDate)
+      .map((c) => c.id),
+  );
+}
+
+/** The office rule's cause for a closed office, with the titles of the home's offices the player runs for instead. */
+function whyNotYours(
+  api: CoreAPI,
+  contestId: string,
+): { why: string; instead: string[] } | null {
+  const why = notYourOfficeWhy(api, contestId);
+  if (!why) return null;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const titles = why.insteadIds.flatMap((id) => {
+    const title = (offices.get(id) as unknown as { title?: string } | undefined)
+      ?.title;
+    return title ? [title] : [];
+  });
+  return { why: why.why, instead: [...new Set(titles)] };
+}
+
+/** The level of the office a contest is for (city, county, township, state, federal). */
+function officeLevelOf(api: CoreAPI, officeId: string): string {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as { level?: string } | undefined;
+  return office?.level ?? "";
 }
 
 export function fileForOffice(
@@ -630,11 +708,15 @@ export function fileForOffice(
   contestId: string,
   choices: { platform?: readonly string[]; party?: string | null } = {},
 ) {
-  if (!playerMayFileFor(coreAPI(core), contestId))
-    throw new Error(
-      "The player files only for the place's own council or its equivalent, its mayor or its equivalent, the state legislature, governor, Congress and president.",
-    );
   const api = coreAPI(core);
+  // One reason per real cause, from the clerk's own check.
+  const bar = playerFilingBar(api, contestId);
+  // Only the three bars a player's page shows have words; the others (another district's seat, another town's office, a second seat of a body already filed for) are never listed as a race to file, so a caller gets the generic words.
+  if (bar)
+    throw new Error(
+      (controls.localRaces.refusal as Record<string, string>)[bar] ??
+        controls.localRaces.refusal["not-your-office"],
+    );
   // Nothing handed in: the filing carries the filer's own stands, read from
   // their views on the questions this seat takes up (the same read a
   // simulated candidate's filing makes), and none for a question they have no

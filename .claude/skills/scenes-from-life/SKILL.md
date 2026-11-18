@@ -1,6 +1,13 @@
 ---
 name: scenes-from-life
-description: Grows Our Civic Duty's scenes and dialogue from real people's lives. Takes one episode from a real American's political life (any office, famous or not), writes it as a fact packet, asks whether the director and English engine would produce it from the records a played world keeps, and turns every gap into a producer, a bank of lines or a SMART item. Use when the owner says there are not enough scenes, when a season or office is quiet in play, when writing a new scene or its lines, and in every words-and-scenes lead pass. Never ships the real person's words or name.
+description: >
+  Grows scenes and dialogue from real political lives: take one episode from a
+  real American's life in office, write it as a fact packet, ask whether the
+  director and English engine would produce it from a played world's records,
+  and turn each gap into a producer, a bank or a SMART item. Never ships the
+  real person's words or name. Use when the owner says there are not enough
+  scenes, a season or office is quiet in play, or in a words-and-scenes lead
+  pass.
 ---
 
 # Scenes from real lives
@@ -11,7 +18,7 @@ The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life peop
 
 ## The scope (owner, Oct 27)
 
-The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through the item's pull request and, where their work meets, directly (`crew-messages`).
+The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through the item's pull request and, where their work meets, directly (`crew-coordinator` (crew-messages part)).
 
 ## The loop (one episode, one SMART item, under 4 hours)
 
@@ -57,3 +64,9 @@ When one situation (a knock at a door, a visit to office hours) needs many scene
 - Invent a cause the records do not carry (`no-dice`, `ask-why`). A quiet stretch gets a new record from its engine, not a timer.
 - Write one line per scene. Every spoken line has versions by trait and tie.
 - A new scene or setting the gap turns up gets its picture row (skill `scene-pictures`); if no painted place fits, ship on the fallback and list what it wants in `wantedScenes`. Pictures are generated later.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 03:47Z: the owner found the real-lives scene bank "a little too specific" (dinner at home, the party's meeting room, a senator who comes to campaign). Cause: scenes tied to one place and one office. Write patterns with slots for the role ("a powerful officeholder") and the setting, and let a pattern feed or merge into others.

@@ -97,7 +97,7 @@
     "src/core2/modules/crime.ts": 1,
     "src/core2/modules/elections.ts": 2,
     "src/core2/modules/employer-taxes.ts": 3,
-    "src/core2/modules/executive.ts": 9,
+    "src/core2/modules/executive.ts": 8,
     "src/core2/modules/finance.ts": 2,
     "src/core2/modules/health.ts": 1,
     "src/core2/modules/housing.ts": 6,
