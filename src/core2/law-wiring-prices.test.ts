@@ -284,7 +284,35 @@ function run(
     remittances.get(
       core.cashJournal.residualAccountByOwner.get(sellerId) ?? "",
     );
+  const repealedInPlay = new Map<string, string>();
   for (const law of PRICE_LAWS) {
+    // A year of play includes the state legislature's own sessions: where it
+    // passed a bill that sets the law to no during the year (Louisiana's
+    // 2025-08-01 bills), the test's row is no longer the one in force, the
+    // price rule ended with it and so did the rows it recorded. That is the
+    // effect landing, so it is read as such and named, not passed over.
+    const standing = lawInForce(api, law.key);
+    if (standing.value !== 1) {
+      const ending = standing.governing;
+      expect(
+        ending?.id,
+        `${where}: ${law.key} is no longer in force under the test's own row`,
+      ).not.toBe(lawIds.get(law.key));
+      expect(
+        (ending?.effectiveDate ?? "") > enactedOn,
+        `${where}: ${law.key} ended by ${ending?.id}, which is not a later law`,
+      ).toBe(true);
+      const own = current(applied(core, law.key), enactedOn).filter(
+        (r) => r.lawId === lawIds.get(law.key),
+      );
+      for (const row of own)
+        expect(
+          row.endedOn !== null && row.endedOn >= ending!.effectiveDate,
+          `${where}: ${row.id} is still open after ${ending!.id} (${ending!.effectiveDate}) ended ${law.key}`,
+        ).toBe(true);
+      repealedInPlay.set(law.key, ending!.id);
+      continue;
+    }
     const rule = rules.find((r) => r.cause.includes(law.key));
     expect(rule, `${where}: ${law.key} price rule`).toBeDefined();
     const all = current(applied(core, law.key), enactedOn);
@@ -633,6 +661,7 @@ function run(
   // Every law of the family is named by an applied row, a journal entry and
   // the household or person it reached.
   for (const key of [...YES_LAWS, SALES_TAX]) {
+    if (repealedInPlay.has(key)) continue;
     const named = evidence[key];
     expect(named, `${where}: evidence for ${key}`).toBeDefined();
     for (const value of Object.values(named!))
@@ -642,7 +671,7 @@ function run(
       ).toBeTruthy();
   }
   console.info(
-    `prices family evidence, ${where}\n${JSON.stringify(evidence, null, 1)}`,
+    `prices family evidence, ${where}, ended by the state's own bill in play ${JSON.stringify([...repealedInPlay])}\n${JSON.stringify(evidence, null, 1)}`,
   );
   void tried;
   void payers;
