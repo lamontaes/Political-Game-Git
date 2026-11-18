@@ -2,8 +2,120 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1,
+  "judged": 65,
   "no": {
+    "00t15ub627r": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+        "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go"
+      ],
+      "why": "The replies are a thank-you and a question, with no reason or condition."
+    },
+    "03fqlqzhild": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office"
+      ],
+      "why": "The replies are a question and a thank-you exit, with no reason or condition."
+    },
+    "0g3taci9ub2": {
+      "keys": [
+        "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+        "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time",
+        "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+        "scene-talk.reply-confront.who-decided-it-takes-that-many",
+        "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
+      ],
+      "why": "The replies are a confident promise, questions and a plan to knock on doors, with no because, condition or stated ground."
+    },
+    "0gii95186jo": {
+      "keys": [
+        "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+        "scene-talk.reply-agree.i-have-i-ll-have-them-back-before-then",
+        "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+        "scene-talk.reply-confront.who-decided-it-takes-that-many",
+        "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
+      ],
+      "why": "The replies are a promise, a question and a plan to knock on doors, with no because, condition or stated ground."
+    },
+    "0jd8qpfd4b9": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "The replies are a yes, a same-answer line and an exit, with no reason or condition."
+    },
+    "0nyn528br1c": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "The replies are a yes, a still-deciding line and an exit, with no because, condition or stated ground."
+    },
+    "0qke46zjfbg": {
+      "keys": [
+        "scene-talk.state-ask.what-should-someone-outside-place-know-about-where-you-stand",
+        "scene-talk.reply-answer.i-can-give-you-three-sentences-on-bill-after-that-call-the-clerk-for",
+        "scene-talk.reply-boast.tell-your-readers-place-did-the-hard-part-while-others-argued"
+      ],
+      "why": "Both replies are a sequence or a contrast with no condition, because or stated ground."
+    },
+    "0z1lwogjf2v": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go"
+      ],
+      "why": "The replies are a thank-you exit, a question and a question, with no reason or condition."
+    },
+    "13chbya4rgl": {
+      "keys": [
+        "scene-talk.state-ask.outlet-is-printing-this-either-way-your-side",
+        "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'I read all of {bill}' is an offer to talk with no argument or reason for a position, and 'Not today' has none."
+    },
+    "13ong5rsyik": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+        "scene-talk.follow-ask.is-there-anything-i-could-find-out-for-you-before-deadline"
+      ],
+      "why": "The replies are a thank-you and a question, with no reason or condition."
+    },
+    "19ayzqqdem8": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office"
+      ],
+      "why": "The replies are a question and a thank-you exit, with no reason or condition."
+    },
+    "1cxzchdjov3": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "The replies are a yes, a non-committal 'not promising' and a 'come back later', with no because, condition or stated ground."
+    },
+    "1gpctn5d8mc": {
+      "keys": [
+        "scene-talk.state-ask.bill-is-getting-attention-outside-place-where-do-you-stand-on-it-and",
+        "scene-talk.reply-answer.i-can-give-you-three-sentences-on-bill-after-that-call-the-clerk-for",
+        "scene-talk.reply-boast.tell-your-readers-place-did-the-hard-part-while-others-argued"
+      ],
+      "why": "Both replies are a sequence ('After that, call the clerk') or a contrast ('while others argued') with no condition or reason."
+    },
     "1jbucu4ftvs": {
       "keys": [
         "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y",
@@ -13,7 +125,83 @@
         "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
       ],
       "why": "Promising signatures, asking for help, asking who decided and heading out carry no reason."
+    },
+    "1q5vekwt7l5": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.is-there-anything-i-could-find-out-for-you-before-deadline"
+      ],
+      "why": "The replies are a thank-you exit, a question and a question, with no reason or condition."
+    },
+    "1sn407xw36p": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "The replies are a yes, a non-committal 'not promising' and a 'come back later', with no because, condition or stated ground."
+    },
+    "1v2pj7aqleg": {
+      "keys": [
+        "scene-talk.state-request.i-m-self-trying-to-get-on-the-ballot-for-office-would-you-sign",
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-for-office"
+      ],
+      "why": "The replies are an agreement and a 'rather keep my name off' with no reason or condition."
+    },
+    "20838h6l4r8": {
+      "keys": [
+        "scene-talk.state-ask.what-do-you-want-to-say-about-opponent-the-room-wants-blood-and-the-ca",
+        "scene-talk.reply-answer.im-honored",
+        "scene-talk.reply-tell.i-m-going-to-thank-the-people-who-knocked-doors-by-name-all-of-them-th",
+        "scene-talk.reply-ask.did-opponent-call-yet"
+      ],
+      "why": "The replies are a bare honor, a plan to thank volunteers and then mention the opponent, and a question, with no because, condition or stated ground."
+    },
+    "20dvn8xw5m4": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.what-s-the-hardest-part-of-taking-care-of-relative"
+      ],
+      "why": "The replies are a thank-you exit, a question and a question, with no reason or condition."
+    },
+    "23tewdzzvlc": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-i-hope-relative-feels-better",
+        "scene-talk.follow-ask.how-is-relative-doing-if-you-don-t-mind-me-asking"
+      ],
+      "why": "The replies are a thank-you and a question, with no reason or condition."
+    },
+    "246d0f0yfgq": {
+      "keys": [
+        "scene-talk.reply-tell.employer-let-me-go-and-the-bills-didn-t-stop-when-the-paychecks-did",
+        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office",
+        "scene-talk.follow-comfort.losing-employer-like-that-isn-t-on-you"
+      ],
+      "why": "'Losing {employer} like that isn't on you' is a reassurance with no stated ground, and the other reply is a come-back line."
+    },
+    "2631c1pwpuv": {
+      "keys": [
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office"
+      ],
+      "why": "The replies are a thank-you exit and a 'come back' line, with no reason or condition."
+    },
+    "298c7bbdjyb": {
+      "keys": [
+        "scene-talk.state-ask.i-have-questions-about-bill-you-may-not-like-them",
+        "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "'I read all of {bill}' is an offer to talk with no reason for a position, and 'No comment' has none."
     }
   },
-  "yesHash": "0wvjl67o803"
+  "yesHash": "1b61lfmwfdl"
 }
