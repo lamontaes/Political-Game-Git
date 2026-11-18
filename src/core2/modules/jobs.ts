@@ -5279,7 +5279,8 @@ function hire(
   const { template, commitment: templateCommitment, calendar } = role;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
-    api.endJob(old.id, `jobs:quit:${api.state.date}`);
+    // Someone who already worked today moves on after that shift (it stands and is paid; the old job ends tomorrow, as in leaveWork).
+    api.endJob(old.id, `jobs:quit:${api.state.date}`, workedToday(c, person));
     record(api, {
       personId: person.id,
       organizationId: old.organizationId,
