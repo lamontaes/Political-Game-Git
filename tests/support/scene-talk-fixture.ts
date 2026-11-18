@@ -74,6 +74,10 @@ const flags = [
   // The desk visit always knows what a bill costs; with no budget line the
   // record says so (deskFacts, purpose-scene.ts).
   "no-cost",
+  // A town hall's question and how the host answered it; a rally and how it looks.
+  "host-opposed",
+  "rally",
+  "turnout-group",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -136,6 +140,8 @@ export const facts: Record<string, Fact> = {
   signatures: fact("1,250"),
   due: fact("March 5"),
   said: fact("rent increases"),
+  issue: fact("rent increases"),
+  area: fact("safety on our streets"),
   // Asking someone to serve (purpose-scene's serve facts): the asked person's
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),
