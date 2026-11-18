@@ -102,6 +102,10 @@
       "made": "decision",
       "by": "src/core2/electorate-century.ts partyPositionsNow: each party stands where the members it holds in Congress stand after each even November (the mean of their seats' leans, put on the members' scale by centuryPartyLeanScale); its key issues are the policy questions where its stance and the other party's differ most (electorate-century-laws.ts partyKeyIssues, the one stance rule); its presidencies are the century's; its members of Congress are drawn around its day-one position (src/core2/officials-roster.ts drawOfficial). Under the world setting history \"today\", today's real parties."
     },
+    "town.foundedParties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters whose lean does not reach partyIdentityReach of the way to their side's party adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters. Under the world setting history \"today\", none."
+    },
     "town.congresses": {
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"
