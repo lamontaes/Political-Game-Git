@@ -186,7 +186,8 @@
     "illness": "The serious illness by its common name ('heart disease', 'cancer'), from the health record's condition.",
     "asked-has-family": "A relative of the person asked to move in, by given name, from the family records (move-in-facts.ts).",
     "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
-    "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record."
+    "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record.",
+    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites."
   },
   "maxWords": 70,
   "parts": [
@@ -26903,6 +26904,15 @@
           "key": "arrival",
           "after": "press",
           "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "solemn",
@@ -29745,6 +29755,15 @@
           "role": "asked",
           "purpose": "breakup-tell",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "contrite",
@@ -31074,6 +31093,16 @@
           "key": "departure",
           "after": "promise",
           "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "warm",
@@ -32930,6 +32959,17 @@
           "key": "diploma",
           "outcome": "resolved",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "warm",
@@ -49920,6 +49960,15 @@
           "purpose": "last-day-farewell",
           "key": "departure",
           "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "calm",
@@ -58732,6 +58781,15 @@
           "role": "asked",
           "purpose": "funeral-cause",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "guarded",
@@ -59241,6 +59299,15 @@
           "role": "asked",
           "purpose": "funeral-cause",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "guarded",
@@ -68216,6 +68283,1997 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-up-as-you-come-in-and-does-not-smile",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} looks up as you come in and does not smile.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sets-down-what-they-were-doing-and-turns-to-face-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sets down what they were doing and turns to face you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-need-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I need a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-can-you-stop-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, can you stop a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-sit-down-with-me-for-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-missed-payment-and-i-m-the-one-who-feels-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You missed {payment}, and I'm the one who feels it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-can-t-just-let-it-go-that-payment-wasn-t-paid",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I can't just let it go that {payment} wasn't paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.we-have-to-talk-about-payment-i-m-still-angry",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We have to talk about {payment}. I'm still angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.since-payment-went-unpaid-i-haven-t-known-what-to-say-to-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Since {payment} went unpaid, I haven't known what to say to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-rather-settle-payment-with-you-than-let-it-sit-between-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd rather settle {payment} with you than let it sit between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-we-talk-about-payment-i-don-t-want-us-stuck-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can we talk about {payment}? I don't want us stuck here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-keep-thinking-about-payment-can-you-say-something",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I keep thinking about {payment}. Can you say something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-about-payment-it-was-mine-to-take-care-of",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry about {payment}. It was mine to take care of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-am-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I am sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-was-wrong",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-owe-you-the-whole-story-on-payment-and-you-should-hear-it-from-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I owe you the whole story on {payment}, and you should hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.let-me-explain",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Let me explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-deserve-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You deserve that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-ashamed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was ashamed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-keep-payment-paid-on-time-from-here-on-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll keep {payment} paid on time from here on. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.word-of-honor",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Word of honor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-better",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-isn-t-as-bad-as-you-re-making-payment-sound",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It isn't as bad as you're making {payment} sound.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-that-bad",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not that bad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.everyone-slips-sometimes",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Everyone slips sometimes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-it-go",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let it go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-think-i-wanted-to-miss-payment-you-don-t-know-what-i-ve-been-dealing-with",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You think I wanted to miss {payment}? You don't know what I've been dealing with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-fair",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not fair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-do-that",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.look-who-s-talking",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Look who's talking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-now-with-payment",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens now with {payment}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.now-what",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Now what?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-help",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would help?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-ready-to-talk-about-payment",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not ready to talk about {payment}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-ve-said-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I've said sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "confront",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-truly-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm truly sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "answer",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.stop-pushing-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Stop pushing me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "press",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.not-all-mine",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Not all mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "disagree",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-all",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "answer",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-believe-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I believe you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-matters",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That matters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks-for-telling",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks for telling.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-start-but-i-need-more-than-sorry-about-payment",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start. But I need more than sorry about {payment}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.words-are-easy",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Words are easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.not-good-enough",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not good enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-start",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.prove-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Prove it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.not-an-answer",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "deflect",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-dodge",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't dodge.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "deflect",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-enough",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.doesn-t-change-anything",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Doesn't change anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-m-still-hurt",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I'm still hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.that-s-unfair",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That's unfair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.don-t-blame-me",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't blame me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.not-my-fault",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Not my fault.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.be-straight",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Be straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.tell-me-sooner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Tell me sooner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-be-honest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just be honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-means-something",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That means something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-relieved",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm relieved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-see",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.good-enough",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Good enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.okay-then",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Okay then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.noted",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Noted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.very-well",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Very well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.it-still-hurts",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "It still hurts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-hurt",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.that-stung",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "That stung.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.not-finished",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Not finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.not-settled",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Not settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.still-unresolved",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Still unresolved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-still-angry",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm still angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.still-hurt",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Still hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
       }
     }
   ]
