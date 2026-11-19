@@ -1,6 +1,8 @@
 import COUNTED_ROWS from "./data/counted/parameters.json" with { type: "json" };
-import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
-import { veteransIncomeByHousehold } from "./law-reach/group-b-veterans";
+import {
+  assistanceIncomeByHousehold,
+  veteransIncomeByHousehold,
+} from "./modules/laws";
 import { sinceOpeningIndex } from "./tax-index";
 import type { CoreAPI, CoreState } from "./types";
 
