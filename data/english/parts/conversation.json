@@ -15188,6 +15188,859 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-they-re-cutting-people",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. They're cutting people.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "layoff"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.i-lost-my-place-at-employer-when-many-of-us-did",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "I lost my place at {employer} {when}. Many of us did.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "layoff"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-laid-me-off-when-and-i-m-still-reeling",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} laid me off {when}, and I'm still reeling.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "layoff"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.they-let-me-go-at-employer-when-i-never-saw-it",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "They let me go at {employer} {when}. I never saw it.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "layoff"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-and-i-m-out-of-work",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}, and I'm out of work.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-shut-its-doors-when-my-job-went-with-it",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} shut its doors {when}. My job went with it.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-is-gone-as-of-when-and-so-is-my-job",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} is gone as of {when}, and so is my job.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-and-i-m-still-in-shock",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}, and I'm still in shock.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.i-lost-my-job-at-employer-when",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "I lost my job at {employer} {when}.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.i-m-out-at-employer-as-of-when",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "I'm out at {employer} as of {when}.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.my-job-at-employer-ended-when",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "My job at {employer} ended {when}.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-say-core.i-don-t-work-at-employer-anymore-it-ended-when",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "I don't work at {employer} anymore. It ended {when}.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["employer", "when"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-ask.what-happened-at-employer",
+      "move": "job-lost-answer-ask",
+      "kind": "spoken",
+      "text": "What happened at {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-ask",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-ask.how-did-it-come-down-at-employer",
+      "move": "job-lost-answer-ask",
+      "kind": "spoken",
+      "text": "How did it come down at {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-ask",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-ask.what-did-they-tell-you-at-employer",
+      "move": "job-lost-answer-ask",
+      "kind": "spoken",
+      "text": "What did they tell you at {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-ask",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-hope.are-you-looking-for-something-new-after-employer",
+      "move": "job-lost-answer-hope",
+      "kind": "spoken",
+      "text": "Are you looking for something new after {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-hope",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "hope",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-hope.any-leads-since-employer",
+      "move": "job-lost-answer-hope",
+      "kind": "spoken",
+      "text": "Any leads since {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-hope",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "hope",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-hope.have-you-started-looking-since-employer",
+      "move": "job-lost-answer-hope",
+      "kind": "spoken",
+      "text": "Have you started looking since {employer}?",
+      "uses": [
+        {
+          "move": "job-lost-answer-hope",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "hope",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-help.whatever-you-need-after-employer-i-m-here",
+      "move": "job-lost-answer-help",
+      "kind": "spoken",
+      "text": "Whatever you need after {employer}, I'm here.",
+      "uses": [
+        {
+          "move": "job-lost-answer-help",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-help.i-m-in-your-corner-with-employer-behind-you",
+      "move": "job-lost-answer-help",
+      "kind": "spoken",
+      "text": "I'm in your corner with {employer} behind you.",
+      "uses": [
+        {
+          "move": "job-lost-answer-help",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-help.tell-me-what-you-need-now-that-employer-is-over",
+      "move": "job-lost-answer-help",
+      "kind": "spoken",
+      "text": "Tell me what you need, now that {employer} is over.",
+      "uses": [
+        {
+          "move": "job-lost-answer-help",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-comfort.i-m-sorry-about-employer-that-s-a-hard-thing",
+      "move": "job-lost-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry about {employer}. That's a hard thing.",
+      "uses": [
+        {
+          "move": "job-lost-answer-comfort",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "comfort",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-comfort.losing-employer-was-not-your-fault",
+      "move": "job-lost-answer-comfort",
+      "kind": "spoken",
+      "text": "Losing {employer} was not your fault.",
+      "uses": [
+        {
+          "move": "job-lost-answer-comfort",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "comfort",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-answer-comfort.you-gave-employer-your-best-and-that-counts",
+      "move": "job-lost-answer-comfort",
+      "kind": "spoken",
+      "text": "You gave {employer} your best, and that counts.",
+      "uses": [
+        {
+          "move": "job-lost-answer-comfort",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "comfort",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.they-said-it-was-cuts-at-employer-and-that-was-all",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "They said it was cuts at {employer}, and that was all.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "layoff"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.it-was-a-layoff-at-employer-no-real-reason",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "It was a layoff at {employer}. No real reason.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "layoff"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.employer-cut-people-and-i-was-one-of-them",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "{employer} cut people, and I was one of them.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "layoff"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.employer-closed-and-that-was-the-whole-story",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "{employer} closed, and that was the whole story.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.there-was-no-reason-beyond-employer-closing",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "There was no reason beyond {employer} closing.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.employer-just-shut-down-and-i-went-with-it",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "{employer} just shut down, and I went with it.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.they-said-little-at-employer-just-that-i-was-done",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "They said little at {employer}. Just that I was done.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-got-no-real-answer-from-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I got no real answer from {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.employer-gave-me-nothing-but-a-goodbye",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "{employer} gave me nothing but a goodbye.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["layoff", "closure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-m-looking-but-nothing-has-come-of-it-since-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I'm looking, but nothing has come of it since {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer", "seeking"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-ve-started-looking-since-employer-it-s-slow",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I've started looking since {employer}. It's slow.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer", "seeking"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-m-looking-there-s-not-much-out-there-after-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I'm looking. There's not much out there after {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer", "seeking"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.not-yet-i-need-a-minute-after-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Not yet. I need a minute after {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-haven-t-started-since-employer-is-too-fresh",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I haven't started, since {employer} is too fresh.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.not-yet-i-can-t-think-about-it-after-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Not yet. I can't think about it after {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["hope"],
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.that-means-a-lot-with-employer-behind-me",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "That means a lot with {employer} behind me.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.thank-you-i-don-t-know-what-i-need-after-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Thank you. I don't know what I need after {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-ll-let-you-know-but-employer-has-left-me-unsure",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I'll let you know, but {employer} has left me unsure.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.thank-you-i-never-thought-employer-would-do-it",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Thank you. I never thought {employer} would do it.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.that-helps-with-employer-still-weighing-on-me",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "That helps, with {employer} still weighing on me.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-needed-to-hear-that-about-employer",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I needed to hear that about {employer}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
     }
   ]
 }
