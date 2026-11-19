@@ -218,12 +218,11 @@ describe("normal play circle and tier scope", () => {
     ).toBe(true);
   });
 
-  it("retains the explicit county-daily and watched-world exceptions", () => {
-    const detailed = createLifeCore({ ...input(), focusPlaceIds: [county] });
-    const watched = createLifeCore(input(), { observer: true });
-    for (const core of [detailed, watched]) {
-      // A husk (inactive tier) is never due, under any focus.
-      expect(duePeople(core, "2021-01-02")).toHaveLength(8);
+  it("keeps the explicit county-daily exception, and watching changes no one's cadence", () => {
+    const run = (core: ReturnType<typeof createLifeCore>) => {
+      const due = duePeople(core, "2021-01-02")
+        .map((row) => row.personId)
+        .sort();
       const activations = new Map<string, number>();
       advanceCore(core, "2021-01-02", {
         controller: (decision) => {
@@ -234,11 +233,25 @@ describe("normal play circle and tier scope", () => {
           return undefined;
         },
       });
-      for (const person of core.people.values())
-        expect(activations.get(person.id)).toBe(
-          person.id === "inactive" ? undefined : 1,
-        );
-    }
+      return { due, activations };
+    };
+    // A county under detailed focus runs every full person daily; a husk
+    // (inactive tier) is never due, under any focus.
+    const detailed = createLifeCore({ ...input(), focusPlaceIds: [county] });
+    const county8 = run(detailed);
+    expect(county8.due).toHaveLength(8);
+    for (const person of detailed.people.values())
+      expect(county8.activations.get(person.id)).toBe(
+        person.id === "inactive" ? undefined : 1,
+      );
+    // Watching (the debug observer) sets no one's cadence: the watched world
+    // runs the same people on the same day as the world nobody watches
+    // (core-observer-changes-choices, Nov 15).
+    const watched = run(createLifeCore(input(), { observer: true }));
+    const plain = run(createLifeCore(input()));
+    expect(watched.due).toEqual(plain.due);
+    expect(watched.due).not.toContain("inactive");
+    expect(watched.activations).toEqual(plain.activations);
   });
 });
 
