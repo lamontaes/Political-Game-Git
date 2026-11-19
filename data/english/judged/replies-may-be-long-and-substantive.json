@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 21,
+  "judged": 20,
   "no": {
     "01uxm8jgj3e": {
       "keys": [
@@ -20,15 +20,6 @@
         "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office"
       ],
       "why": "The replies are a question and a thanks, with no stated reason or condition."
-    },
-    "062tebggjlg": {
-      "keys": [
-        "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
-        "scene-talk.reply-agree.then-you-have-it-tell-people",
-        "scene-talk.reply-refuse.then-the-answer-is-no",
-        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
-      ],
-      "why": "The replies are a yes, a flat no and a request for a few days, with no stated reason."
     },
     "0d25vw5sc98": {
       "keys": [
