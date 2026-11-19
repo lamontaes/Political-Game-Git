@@ -1,35 +1,35 @@
 {
   "schema": "scene-sample/1",
-  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "head": "08c6b63b74696c2b5a51d65e7e8ae711fb13ce4b",
   "scene": {
     "typeKey": "becoming-friends",
     "purpose": "friend-ask",
     "title": "Becoming friends"
   },
   "world": {
-    "place": "Troutman, North Carolina",
-    "placeKey": "3768500",
-    "seed": "story-batch-4",
-    "date": "2025-04-21"
+    "place": "Earlington, Kentucky",
+    "placeKey": "2123230",
+    "seed": "r1795055661e",
+    "date": "2025-09-06"
   },
   "player": {
-    "name": "Reese Schultz",
-    "standing": "mayor at Troutman, North Carolina"
+    "name": "Sally Pratt",
+    "standing": "mayor at Earlington, Kentucky"
   },
   "cause": {
-    "id": "person_1e3c83a67fa534e1:person_2b15bfa1809ef461",
+    "id": "person_21f4011ed9413b23:person_649cfa483de6e5a7",
     "label": "tie:contact:contact"
   },
   "cast": [
     {
       "role": "asker",
-      "id": "person_1e3c83a67fa534e1",
-      "name": "Mila Sheppard"
+      "id": "person_21f4011ed9413b23",
+      "name": "Aiko Sawyer"
     },
     {
       "role": "asked",
-      "id": "person_2b15bfa1809ef461",
-      "name": "Reese Schultz"
+      "id": "person_649cfa483de6e5a7",
+      "name": "Sally Pratt"
     }
   ],
   "opening": [
@@ -37,40 +37,35 @@
       "n": 1,
       "speaker": "Narrator",
       "role": "narrator",
-      "text": "Mila has been around a lot lately, and has something to ask you.",
+      "text": "Aiko comes over to talk with you, and the Hopkins County Fiscal Court has a meeting coming up.",
       "move": "narrate",
       "pieces": [
-        "scene-talk.narrate-narrate.name-has-been-around-a-lot-lately-and-has-something-to-ask-you"
+        "scene-talk.narrate-narrate.name-comes-over-to-talk-with-you-and-the-body-has-a-meeting-coming-up"
       ],
       "wordings": [],
       "asks": false
     },
     {
       "n": 2,
-      "speaker": "Mila Sheppard",
+      "speaker": "Aiko Sawyer",
       "role": "asker",
-      "text": "I'm glad I found you. I've been meaning to ask you something.",
+      "text": "Sally, I was just thinking about you.",
       "move": "greet",
       "pieces": [
-        "scene-talk.open-greet.i-m-glad-i-found-you-first-i-ve-been-meaning-to-ask-you-something"
+        "scene-talk.open-greet.first-i-was-just-thinking-about-you"
       ],
-      "wordings": [
-        {
-          "key": "scene-talk.open-greet.hey-first-do-you-have-a-minute-i-wanted-to-ask-you-something",
-          "text": "Hey. Do you have a minute? I wanted to ask you something."
-        }
-      ],
+      "wordings": [],
       "asks": false
     }
   ],
   "ask": {
     "n": 3,
-    "speaker": "Mila Sheppard",
+    "speaker": "Aiko Sawyer",
     "role": "asker",
-    "text": "Will you come to the Iredell County Board of Commissioners meeting with me tomorrow? I'd like the company.",
+    "text": "The Hopkins County Fiscal Court meets on September 16th. I'd rather not sit through it alone. Will you come?",
     "move": "request",
     "pieces": [
-      "scene-talk.state-request.will-you-come-to-the-body-meeting-with-me-meeting-when-id-like-the-company"
+      "scene-talk.state-request.the-body-meets-meeting-when-id-rather-not-sit-through-it-alone-will-you-come"
     ],
     "wordings": [
       {
@@ -82,11 +77,11 @@
         "text": "I'm going to the {body} meeting {meeting-when}. Come with me?"
       },
       {
-        "key": "scene-talk.state-request.the-body-meets-meeting-when-id-rather-not-sit-through-it-alone-will-you-come",
-        "text": "The {body} meets {meeting-when}. I'd rather not sit through it alone. Will you come?"
+        "key": "scene-talk.state-request.will-you-come-to-the-body-meeting-with-me-meeting-when-id-like-the-company",
+        "text": "Will you come to the {body} meeting with me {meeting-when}? I'd like the company."
       }
     ],
-    "asks": false
+    "asks": true
   },
   "tree": {
     "lines": [],
@@ -96,13 +91,27 @@
           "n": 4,
           "speaker": "You",
           "role": "player",
-          "text": "Sure, you can count on me.",
+          "text": "Glad to.",
           "move": "agree",
-          "pieces": ["scene-talk.reply-agree.sure-you-can-count-on-me"],
+          "pieces": [
+            "scene-talk.reply-agree.glad-to"
+          ],
           "wordings": [
             {
-              "key": "scene-talk.reply-agree.yes-i-d-be-glad-to",
-              "text": "Yes, I'd be glad to."
+              "key": "scene-talk.reply-agree.of-course",
+              "text": "Of course."
+            },
+            {
+              "key": "scene-talk.reply-agree.sure",
+              "text": "Sure."
+            },
+            {
+              "key": "scene-talk.reply-agree.yes-i-ll-come-to-the-body-meeting-with-you-i-d-like-to-see-how-it-runs",
+              "text": "Yes, I'll come to the {body} meeting with you. I'd like to see how it runs."
+            },
+            {
+              "key": "scene-talk.reply-agree.i-ll-come-i-d-rather-hear-the-body-in-person-than-read-about-it",
+              "text": "I'll come. I'd rather hear the {body} in person than read about it."
             }
           ],
           "asks": false
@@ -111,14 +120,23 @@
           "lines": [
             {
               "n": 7,
-              "speaker": "Mila Sheppard",
+              "speaker": "Aiko Sawyer",
               "role": "asker",
-              "text": "Good. That makes my week easier.",
-              "move": "accept",
+              "text": "Thank you.",
+              "move": "thank",
               "pieces": [
-                "scene-talk.follow-accept.good-that-makes-my-week-easier"
+                "scene-talk.follow-thank.thank-you"
               ],
-              "wordings": [],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.that-helps",
+                  "text": "That helps."
+                },
+                {
+                  "key": "scene-talk.follow-thank.wonderful-news",
+                  "text": "Wonderful news."
+                }
+              ],
               "asks": false
             }
           ],
@@ -138,27 +156,50 @@
           "n": 5,
           "speaker": "You",
           "role": "player",
-          "text": "What made you think of me for it?",
+          "text": "What's on the agenda for the Hopkins County Fiscal Court? I'd like to know what I'd be walking into.",
           "move": "ask",
-          "pieces": ["scene-talk.reply-ask.what-made-you-think-of-me-for-it"],
-          "wordings": [],
-          "asks": true
+          "pieces": [
+            "scene-talk.reply-ask.what-s-on-the-agenda-for-the-body-i-d-like-to-know-what-i-d-be-walking-into"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-ask.who-else",
+              "text": "Who else?"
+            },
+            {
+              "key": "scene-talk.reply-ask.why-me",
+              "text": "Why me?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-s-it-like",
+              "text": "What's it like?"
+            },
+            {
+              "key": "scene-talk.reply-ask.do-you-go-to-the-body-often-i-ve-never-been",
+              "text": "Do you go to the {body} often? I've never been."
+            }
+          ],
+          "asks": false
         },
         "leadsTo": {
           "lines": [
             {
               "n": 8,
-              "speaker": "Mila Sheppard",
+              "speaker": "Aiko Sawyer",
               "role": "asker",
-              "text": "I thought of you because you're easy to be around.",
+              "text": "A few friends.",
               "move": "answer",
               "pieces": [
-                "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around"
+                "scene-talk.follow-answer.a-few-friends"
               ],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
-                  "text": "I thought of you because I trust you."
+                  "key": "scene-talk.follow-answer.just-us-two",
+                  "text": "Just us two."
+                },
+                {
+                  "key": "scene-talk.follow-answer.nothing-fancy",
+                  "text": "Nothing fancy."
                 }
               ],
               "asks": false
@@ -170,26 +211,44 @@
                 "n": 9,
                 "speaker": "You",
                 "role": "player",
-                "text": "Alright, that makes sense. I'll do it.",
+                "text": "That's fine.",
                 "move": "agree",
                 "pieces": [
-                  "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it"
+                  "scene-talk.reply-agree.that-s-fine"
                 ],
-                "wordings": [],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.then-yes",
+                    "text": "Then yes."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.happy-to",
+                    "text": "Happy to."
+                  }
+                ],
                 "asks": false
               },
               "leadsTo": {
                 "lines": [
                   {
                     "n": 11,
-                    "speaker": "Mila Sheppard",
+                    "speaker": "Aiko Sawyer",
                     "role": "asker",
-                    "text": "Good. That makes my week easier.",
-                    "move": "accept",
+                    "text": "Wonderful news.",
+                    "move": "thank",
                     "pieces": [
-                      "scene-talk.follow-accept.good-that-makes-my-week-easier"
+                      "scene-talk.follow-thank.wonderful-news"
                     ],
-                    "wordings": [],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-helps",
+                        "text": "That helps."
+                      }
+                    ],
                     "asks": false
                   }
                 ],
@@ -209,26 +268,40 @@
                 "n": 10,
                 "speaker": "You",
                 "role": "player",
-                "text": "I'm sorry, but I still can't do it. I just don't have the time for it.",
+                "text": "Still no, sorry.",
                 "move": "decline",
                 "pieces": [
-                  "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it"
+                  "scene-talk.reply-decline.still-no-sorry"
                 ],
-                "wordings": [],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-stall.maybe-later",
+                    "text": "Maybe later."
+                  }
+                ],
                 "asks": false
               },
               "leadsTo": {
                 "lines": [
                   {
                     "n": 12,
-                    "speaker": "Mila Sheppard",
+                    "speaker": "Aiko Sawyer",
                     "role": "asker",
-                    "text": "Alright, I understand. Thank you for telling me straight.",
+                    "text": "I understand.",
                     "move": "accept",
                     "pieces": [
-                      "scene-talk.follow-accept.alright-i-understand-thank-you-for-telling-me-straight"
+                      "scene-talk.follow-accept.i-understand"
                     ],
-                    "wordings": [],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.reply-leave.another-time",
+                        "text": "Another time."
+                      },
+                      {
+                        "key": "scene-talk.reply-stall.maybe-later",
+                        "text": "Maybe later."
+                      }
+                    ],
                     "asks": false
                   }
                 ],
@@ -251,15 +324,27 @@
           "n": 6,
           "speaker": "You",
           "role": "player",
-          "text": "I'm sorry, but I can't make that work this time.",
+          "text": "Not this time.",
           "move": "decline",
           "pieces": [
-            "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time"
+            "scene-talk.reply-decline.not-this-time"
           ],
           "wordings": [
             {
-              "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
-              "text": "I wish I could, but I don't have the time to do it right just now."
+              "key": "scene-talk.reply-leave.not-now",
+              "text": "Not now."
+            },
+            {
+              "key": "scene-talk.reply-decline.a-meeting-of-the-body-isn-t-how-i-want-to-spend-the-time-i-m-sorry",
+              "text": "A meeting of the {body} isn't how I want to spend the time. I'm sorry."
+            },
+            {
+              "key": "scene-talk.reply-decline.i-d-rather-skip-the-body-meeting-ask-me-about-something-else",
+              "text": "I'd rather skip the {body} meeting. Ask me about something else."
+            },
+            {
+              "key": "scene-talk.reply-decline.i-can-t-sorry",
+              "text": "I can't, sorry."
             }
           ],
           "asks": false
@@ -268,33 +353,149 @@
           "lines": [
             {
               "n": 13,
-              "speaker": "Mila Sheppard",
+              "speaker": "Aiko Sawyer",
               "role": "asker",
-              "text": "Alright, I understand. Thank you for telling me straight.",
-              "move": "accept",
+              "text": "Even an hour?",
+              "move": "press",
               "pieces": [
-                "scene-talk.follow-accept.alright-i-understand-thank-you-for-telling-me-straight"
+                "scene-talk.follow-press.even-an-hour"
               ],
-              "wordings": [],
-              "asks": false
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-press.is-it-me",
+                  "text": "Is it me?"
+                },
+                {
+                  "key": "scene-talk.follow-press.why-not",
+                  "text": "Why not?"
+                }
+              ],
+              "asks": true
             }
           ],
-          "replies": [],
-          "end": {
-            "outcome": "refused",
-            "ending": {
-              "id": "friend-asked-and-waited",
-              "label": "Left it open",
-              "keeps": "none"
+          "replies": [
+            {
+              "line": {
+                "n": 14,
+                "speaker": "You",
+                "role": "player",
+                "text": "Alright, yes.",
+                "move": "agree",
+                "pieces": [
+                  "scene-talk.reply-agree.alright-yes"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-yes-2",
+                    "text": "You're right, yes."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.yes-let-s",
+                    "text": "Yes, let's."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 16,
+                    "speaker": "Aiko Sawyer",
+                    "role": "asker",
+                    "text": "Wonderful news.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.wonderful-news"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-helps",
+                        "text": "That helps."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-yes-to-friend",
+                    "label": "You said you would be there",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 15,
+                "speaker": "You",
+                "role": "player",
+                "text": "Let me think.",
+                "move": "leave",
+                "pieces": [
+                  "scene-talk.reply-leave.let-me-think"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.another-time",
+                    "text": "Another time."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.gotta-go",
+                    "text": "Gotta go."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "turned-friend-down",
+                    "label": "You turned them down, and it showed",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 17,
+                    "speaker": "Aiko Sawyer",
+                    "role": "asker",
+                    "text": "Take your time.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.follow-accept.take-your-time"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-press.think-it-over",
+                        "text": "Think it over."
+                      },
+                      {
+                        "key": "scene-talk.close-press.no-hurry",
+                        "text": "No hurry."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
             }
-          }
+          ]
         }
       }
     ]
   },
   "endings": {
-    "said-yes-to-friend": 2,
-    "friend-asked-and-waited": 2
+    "said-yes-to-friend": 3,
+    "friend-asked-and-waited": 1,
+    "turned-friend-down": 1
   },
   "depth": 2,
   "gaps": []

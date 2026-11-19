@@ -1,35 +1,35 @@
 {
   "schema": "scene-sample/1",
-  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "head": "08c6b63b74696c2b5a51d65e7e8ae711fb13ce4b",
   "scene": {
     "typeKey": "gathering-missing",
     "purpose": "gathering-ask",
     "title": "Gathering missing"
   },
   "world": {
-    "place": "Tutu, U.S. Virgin Islands",
-    "placeKey": "territory:VI:tutu",
-    "seed": "story-batch-1",
-    "date": "2025-07-20"
+    "place": "Tatgua, Northern Mariana Islands",
+    "placeKey": "territory:MP:tatgua",
+    "seed": "r1795055661c",
+    "date": "2025-03-26"
   },
   "player": {
-    "name": "John Collins",
-    "standing": "a resident of Tutu, U.S. Virgin Islands, not in office"
+    "name": "Devin Banks",
+    "standing": "a resident of Tatgua, Northern Mariana Islands, not in office"
   },
   "cause": {
-    "id": "family.gathering-missed:person_2e7621c8d2e3ba5f:person_42216b55bf22b212:2025-07-19",
+    "id": "family.gathering-missed:person_2299c0a49fea37e9:person_549662fd326704d7:2025-03-25",
     "label": "feeling:event:family.gathering-missed"
   },
   "cast": [
     {
       "role": "asker",
-      "id": "person_2e7620c8d2e3b8ac",
-      "name": "Carolyn Collins"
+      "id": "person_2299bfa49fea3636",
+      "name": "Jessica Morton"
     },
     {
       "role": "asked",
-      "id": "person_2e7621c8d2e3ba5f",
-      "name": "John Collins"
+      "id": "person_2299c0a49fea37e9",
+      "name": "Devin Banks"
     }
   ],
   "opening": [
@@ -37,38 +37,64 @@
       "n": 1,
       "speaker": "Narrator",
       "role": "narrator",
-      "text": "You turned 88, and Michael wasn't at the table. Carolyn wants to talk to you about it.",
+      "text": "You turned 19 with Melissa's chair empty at the table.",
       "move": "narrate",
       "pieces": [
-        "scene-talk.narrate-narrate.you-turned-age-and-absent-wasn-t-at-the-table-name-wants-to-talk-to-you-about-it"
+        "scene-talk.narrate-narrate.you-turned-age-with-absent-s-chair-empty-at-the-table"
       ],
       "wordings": [],
       "asks": false
     },
     {
       "n": 2,
-      "speaker": "Carolyn Collins",
+      "speaker": "Jessica Morton",
       "role": "asker",
-      "text": "Do you have a minute? I keep thinking about Michael not being here.",
+      "text": "Something's been on my mind since the cake, and it's Melissa.",
       "move": "greet",
       "pieces": [
-        "scene-talk.open-greet.do-you-have-a-minute-first-i-keep-thinking-about-absent-not-being-here"
+        "scene-talk.open-greet.something-s-been-on-my-mind-since-the-cake-and-it-s-absent"
       ],
-      "wordings": [],
+      "wordings": [
+        {
+          "key": "scene-talk.open-greet.can-i-talk-to-you-about-absent",
+          "text": "Can I talk to you about {absent}?"
+        },
+        {
+          "key": "scene-talk.open-greet.do-you-have-a-minute-it-s-about-absent",
+          "text": "Do you have a minute? It's about {absent}."
+        },
+        {
+          "key": "scene-talk.open-greet.i-ve-been-wanting-to-bring-up-absent-if-that-s-alright",
+          "text": "I've been wanting to bring up {absent}, if that's alright."
+        }
+      ],
       "asks": false
     }
   ],
   "ask": {
     "n": 3,
-    "speaker": "Carolyn Collins",
+    "speaker": "Jessica Morton",
     "role": "asker",
-    "text": "Would you go see Michael in the U.S. Virgin Islands? I'd feel better if someone from the family did.",
+    "text": "With Melissa so near in the Northern Mariana Islands, a visit would be easy. Would you go?",
     "move": "request",
     "pieces": [
-      "scene-talk.state-request.would-you-go-see-absent-in-hometown-first-i-d-feel-better-if-someone-from-the-family-did"
+      "scene-talk.state-request.with-absent-so-near-in-nearby-a-visit-would-be-easy-would-you-go"
     ],
-    "wordings": [],
-    "asks": false
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.absent-is-still-in-nearby-not-so-far-could-you-call-or-even-drive-over",
+        "text": "{absent} is still in {nearby}, not so far. Could you call, or even drive over?"
+      },
+      {
+        "key": "scene-talk.state-request.absent-is-only-in-nearby-and-we-hardly-see-them-would-you-reach-out-and-visit",
+        "text": "{absent} is only in {nearby}, and we hardly see them. Would you reach out and visit?"
+      },
+      {
+        "key": "scene-talk.state-request.on-your-birthday-of-all-days-absent-wasn-t-here-would-you-reach-out",
+        "text": "On your birthday of all days, {absent} wasn't here. Would you reach out?"
+      }
+    ],
+    "asks": true
   },
   "tree": {
     "lines": [],
@@ -78,15 +104,23 @@
           "n": 4,
           "speaker": "You",
           "role": "player",
-          "text": "Yes, of course. I'll get in touch with them.",
+          "text": "Yes, I'll call Melissa. You're right that someone should.",
           "move": "agree",
           "pieces": [
-            "scene-talk.reply-agree.yes-of-course-i-ll-get-in-touch-with-them"
+            "scene-talk.reply-agree.yes-i-ll-call-absent-you-re-right-that-someone-should"
           ],
           "wordings": [
             {
-              "key": "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family",
-              "text": "Alright, yes. I'll do that for the family."
+              "key": "scene-talk.reply-agree.i-ll-reach-out-to-absent-i-ve-been-putting-it-off",
+              "text": "I'll reach out to {absent}. I've been putting it off."
+            },
+            {
+              "key": "scene-talk.reply-agree.alright-i-ll-write-to-absent-this-time-instead-of-waiting-to-be-written-to",
+              "text": "Alright. I'll write to {absent} this time instead of waiting to be written to."
+            },
+            {
+              "key": "scene-talk.reply-agree.yes-absent-should-hear-from-me-and-i-d-rather-it-was-soon",
+              "text": "Yes. {absent} should hear from me, and I'd rather it was soon."
             }
           ],
           "asks": false
@@ -95,21 +129,21 @@
           "lines": [
             {
               "n": 7,
-              "speaker": "Carolyn Collins",
+              "speaker": "Jessica Morton",
               "role": "asker",
-              "text": "Thank you, John. I feel better knowing you'll do it.",
+              "text": "Thank you for that. Melissa has been missed.",
               "move": "thank",
               "pieces": [
-                "scene-talk.follow-thank.thank-you-first-i-feel-better-knowing-you-ll-do-it"
+                "scene-talk.follow-thank.thank-you-for-that-absent-has-been-missed"
               ],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-thank.that-takes-a-weight-off-i-m-glad-you-ll-do-it",
-                  "text": "That takes a weight off. I'm glad you'll do it."
+                  "key": "scene-talk.follow-thank.thank-you-absent-will-be-glad-to-hear-from-you",
+                  "text": "Thank you. {absent} will be glad to hear from you."
                 },
                 {
-                  "key": "scene-talk.follow-thank.that-eases-my-mind-good",
-                  "text": "That eases my mind. Good."
+                  "key": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
+                  "text": "I'm glad. It'll mean a lot to {absent}."
                 }
               ],
               "asks": false
@@ -131,26 +165,48 @@
           "n": 5,
           "speaker": "You",
           "role": "player",
-          "text": "Why are you asking me about this, and why now?",
+          "text": "Do you know how Melissa is doing? I'd like to know before I reach out.",
           "move": "ask",
           "pieces": [
-            "scene-talk.reply-ask.why-are-you-asking-me-about-this-and-why-now"
+            "scene-talk.reply-ask.do-you-know-how-absent-is-doing-i-d-like-to-know-before-i-reach-out"
           ],
-          "wordings": [],
-          "asks": true
+          "wordings": [
+            {
+              "key": "scene-talk.reply-ask.why-now-what-made-you-think-of-absent",
+              "text": "Why now? What made you think of {absent}?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-would-you-want-me-to-say-to-absent",
+              "text": "What would you want me to say to {absent}?"
+            },
+            {
+              "key": "scene-talk.reply-ask.has-absent-said-anything-about-me",
+              "text": "Has {absent} said anything about me?"
+            }
+          ],
+          "asks": false
         },
         "leadsTo": {
           "lines": [
             {
               "n": 8,
-              "speaker": "Carolyn Collins",
+              "speaker": "Jessica Morton",
               "role": "asker",
-              "text": "I only want Michael to hear from you. It doesn't have to be much.",
+              "text": "Melissa was missed at the table, that's all. A call from you would be enough.",
               "move": "answer",
               "pieces": [
-                "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much"
+                "scene-talk.follow-answer.absent-was-missed-at-the-table-that-s-all-a-call-from-you-would-be-enough"
               ],
-              "wordings": [],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-answer.i-don-t-know-much-only-that-absent-wasn-t-here-say-whatever-s-true",
+                  "text": "I don't know much, only that {absent} wasn't here. Say whatever's true."
+                },
+                {
+                  "key": "scene-talk.follow-answer.start-with-how-absent-is-you-don-t-have-to-start-with-the-old-things",
+                  "text": "Start with how {absent} is. You don't have to start with the old things."
+                }
+              ],
               "asks": false
             }
           ],
@@ -160,19 +216,19 @@
                 "n": 9,
                 "speaker": "You",
                 "role": "player",
-                "text": "That makes it easier. I'll do it.",
+                "text": "That's simpler than I thought. I'll reach out to Melissa.",
                 "move": "agree",
                 "pieces": [
-                  "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it"
+                  "scene-talk.reply-agree.that-s-simpler-than-i-thought-i-ll-reach-out-to-absent"
                 ],
                 "wordings": [
                   {
-                    "key": "scene-talk.reply-agree.knowing-that-helps-i-ll-do-it",
-                    "text": "Knowing that helps. I'll do it."
+                    "key": "scene-talk.reply-agree.that-helps-yes-i-ll-call-absent-and-i-ll-start-with-how-they-are",
+                    "text": "That helps. Yes, I'll call {absent}, and I'll start with how they are."
                   },
                   {
-                    "key": "scene-talk.reply-agree.that-helps-count-me-in",
-                    "text": "That helps. Count me in."
+                    "key": "scene-talk.reply-agree.alright-i-can-do-that-much-i-ll-let-absent-know-i-was-thinking-of-them",
+                    "text": "Alright, I can do that much. I'll let {absent} know I was thinking of them."
                   }
                 ],
                 "asks": false
@@ -181,21 +237,21 @@
                 "lines": [
                   {
                     "n": 11,
-                    "speaker": "Carolyn Collins",
+                    "speaker": "Jessica Morton",
                     "role": "asker",
-                    "text": "That eases my mind. Good.",
+                    "text": "Thank you for that. Melissa has been missed.",
                     "move": "thank",
                     "pieces": [
-                      "scene-talk.follow-thank.that-eases-my-mind-good"
+                      "scene-talk.follow-thank.thank-you-for-that-absent-has-been-missed"
                     ],
                     "wordings": [
                       {
-                        "key": "scene-talk.follow-thank.thank-you-first-i-feel-better-knowing-you-ll-do-it",
-                        "text": "Thank you, {first}. I feel better knowing you'll do it."
+                        "key": "scene-talk.follow-thank.thank-you-absent-will-be-glad-to-hear-from-you",
+                        "text": "Thank you. {absent} will be glad to hear from you."
                       },
                       {
-                        "key": "scene-talk.follow-thank.that-takes-a-weight-off-i-m-glad-you-ll-do-it",
-                        "text": "That takes a weight off. I'm glad you'll do it."
+                        "key": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
+                        "text": "I'm glad. It'll mean a lot to {absent}."
                       }
                     ],
                     "asks": false
@@ -217,19 +273,19 @@
                 "n": 10,
                 "speaker": "You",
                 "role": "player",
-                "text": "I understand why you asked, but I still can't do it. I'm sorry.",
+                "text": "I understand what you're asking. My answer about Melissa is still no for now.",
                 "move": "decline",
                 "pieces": [
-                  "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
+                  "scene-talk.reply-decline.i-understand-what-you-re-asking-my-answer-about-absent-is-still-no-for-now"
                 ],
                 "wordings": [
                   {
-                    "key": "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry",
-                    "text": "Thank you for asking, but I can't do it. I'm sorry."
+                    "key": "scene-talk.reply-decline.thanks-for-telling-me-but-i-still-can-t-things-with-absent-are-too-tangled",
+                    "text": "Thanks for telling me, but I still can't. Things with {absent} are too tangled."
                   },
                   {
-                    "key": "scene-talk.reply-decline.i-see-why-you-asked-i-still-can-t-i-m-sorry",
-                    "text": "I see why you asked. I still can't. I'm sorry."
+                    "key": "scene-talk.reply-decline.that-does-help-but-i-m-not-ready-to-call-absent-i-m-sorry",
+                    "text": "That does help, but I'm not ready to call {absent}. I'm sorry."
                   }
                 ],
                 "asks": false
@@ -238,35 +294,137 @@
                 "lines": [
                   {
                     "n": 12,
-                    "speaker": "Carolyn Collins",
+                    "speaker": "Jessica Morton",
                     "role": "asker",
-                    "text": "Okay. I won't push right now.",
-                    "move": "accept",
+                    "text": "Even a short note to Melissa? It doesn't have to be much.",
+                    "move": "press",
                     "pieces": [
-                      "scene-talk.follow-accept.okay-i-won-t-push-right-now"
+                      "scene-talk.follow-press.even-a-short-note-to-absent-it-doesn-t-have-to-be-much"
                     ],
                     "wordings": [
                       {
-                        "key": "scene-talk.follow-accept.alright-i-understand-and-i-ll-leave-it-for-now",
-                        "text": "Alright. I understand, and I'll leave it for now."
+                        "key": "scene-talk.follow-press.i-understand-is-there-something-between-you-and-absent-that-i-should-know",
+                        "text": "I understand. Is there something between you and {absent} that I should know?"
                       },
                       {
-                        "key": "scene-talk.follow-accept.okay-i-understand-maybe-another-time",
-                        "text": "Okay. I understand. Maybe another time."
+                        "key": "scene-talk.follow-press.can-you-tell-me-what-s-in-the-way-with-absent",
+                        "text": "Can you tell me what's in the way with {absent}?"
                       }
                     ],
                     "asks": false
                   }
                 ],
-                "replies": [],
-                "end": {
-                  "outcome": "refused",
-                  "ending": {
-                    "id": "reaching-out-left-open",
-                    "label": "Left it for later",
-                    "keeps": "none"
+                "replies": [
+                  {
+                    "line": {
+                      "n": 13,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "You're right. I'll write Melissa a short note and see what comes back.",
+                      "move": "agree",
+                      "pieces": [
+                        "scene-talk.reply-agree.you-re-right-i-ll-write-absent-a-short-note-and-see-what-comes-back"
+                      ],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-agree.alright-yes-absent-shouldn-t-have-to-wait-on-me",
+                          "text": "Alright, yes. {absent} shouldn't have to wait on me."
+                        },
+                        {
+                          "key": "scene-talk.reply-agree.fine-i-ll-do-it-i-ve-let-absent-go-too-long-without-a-word",
+                          "text": "Fine, I'll do it. I've let {absent} go too long without a word."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 15,
+                          "speaker": "Jessica Morton",
+                          "role": "asker",
+                          "text": "Thank you for that. Melissa has been missed.",
+                          "move": "thank",
+                          "pieces": [
+                            "scene-talk.follow-thank.thank-you-for-that-absent-has-been-missed"
+                          ],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.thank-you-absent-will-be-glad-to-hear-from-you",
+                              "text": "Thank you. {absent} will be glad to hear from you."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
+                              "text": "I'm glad. It'll mean a lot to {absent}."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "said-you-would-reach-out",
+                          "label": "You said you would reach out",
+                          "keeps": "kept-in-scene"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 14,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Give me some time with this one. Melissa won't be fixed in a conversation.",
+                      "move": "leave",
+                      "pieces": [
+                        "scene-talk.reply-leave.give-me-some-time-with-this-one-absent-won-t-be-fixed-in-a-conversation"
+                      ],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.i-need-to-think-about-what-i-d-even-say-to-absent-let-me-do-that-first",
+                          "text": "I need to think about what I'd even say to {absent}. Let me do that first."
+                        },
+                        {
+                          "key": "scene-talk.reply-leave.i-can-t-answer-that-right-now-i-ll-sit-with-it-and-think-about-absent",
+                          "text": "I can't answer that right now. I'll sit with it and think about {absent}."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "would-not-reach-out",
+                          "label": "You said you would not, and they took it hard",
+                          "keeps": "relationship-strained"
+                        },
+                        "close": {
+                          "n": 16,
+                          "speaker": "Jessica Morton",
+                          "role": "asker",
+                          "text": "No rush. Just don't let Melissa wait too long.",
+                          "move": "press",
+                          "pieces": [
+                            "scene-talk.close-press.no-rush-just-don-t-let-absent-wait-too-long"
+                          ],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.close-press.take-your-time-a-word-to-absent-doesn-t-have-to-be-long",
+                              "text": "Take your time. A word to {absent} doesn't have to be long."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
                   }
-                }
+                ]
               }
             }
           ]
@@ -277,15 +435,23 @@
           "n": 6,
           "speaker": "You",
           "role": "player",
-          "text": "I'm sorry, but I'm not the right person to do that.",
+          "text": "Not yet. I'm not ready to reach out to Melissa.",
           "move": "decline",
           "pieces": [
-            "scene-talk.reply-decline.i-m-sorry-but-i-m-not-the-right-person-to-do-that"
+            "scene-talk.reply-decline.not-yet-i-m-not-ready-to-reach-out-to-absent"
           ],
           "wordings": [
             {
-              "key": "scene-talk.reply-decline.i-d-like-to-but-i-can-t-get-in-touch-with-them-right-now-i-hope-you-understand",
-              "text": "I'd like to, but I can't get in touch with them right now. I hope you understand."
+              "key": "scene-talk.reply-decline.i-can-t-do-that-things-with-absent-aren-t-that-simple",
+              "text": "I can't do that. Things with {absent} aren't that simple."
+            },
+            {
+              "key": "scene-talk.reply-decline.i-don-t-think-absent-wants-to-hear-from-me",
+              "text": "I don't think {absent} wants to hear from me."
+            },
+            {
+              "key": "scene-talk.reply-decline.that-s-not-mine-to-fix-absent-knows-where-i-am",
+              "text": "That's not mine to fix. {absent} knows where I am."
             }
           ],
           "asks": false
@@ -293,44 +459,150 @@
         "leadsTo": {
           "lines": [
             {
-              "n": 13,
-              "speaker": "Carolyn Collins",
+              "n": 17,
+              "speaker": "Jessica Morton",
               "role": "asker",
-              "text": "Alright. I understand, and I'll leave it for now.",
-              "move": "accept",
+              "text": "Even a short note to Melissa? It doesn't have to be much.",
+              "move": "press",
               "pieces": [
-                "scene-talk.follow-accept.alright-i-understand-and-i-ll-leave-it-for-now"
+                "scene-talk.follow-press.even-a-short-note-to-absent-it-doesn-t-have-to-be-much"
               ],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-accept.okay-i-understand-maybe-another-time",
-                  "text": "Okay. I understand. Maybe another time."
+                  "key": "scene-talk.follow-press.i-understand-is-there-something-between-you-and-absent-that-i-should-know",
+                  "text": "I understand. Is there something between you and {absent} that I should know?"
                 },
                 {
-                  "key": "scene-talk.follow-accept.okay-i-won-t-push-right-now",
-                  "text": "Okay. I won't push right now."
+                  "key": "scene-talk.follow-press.can-you-tell-me-what-s-in-the-way-with-absent",
+                  "text": "Can you tell me what's in the way with {absent}?"
                 }
               ],
               "asks": false
             }
           ],
-          "replies": [],
-          "end": {
-            "outcome": "refused",
-            "ending": {
-              "id": "reaching-out-left-open",
-              "label": "Left it for later",
-              "keeps": "none"
+          "replies": [
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "Fine, I'll do it. I've let Melissa go too long without a word.",
+                "move": "agree",
+                "pieces": [
+                  "scene-talk.reply-agree.fine-i-ll-do-it-i-ve-let-absent-go-too-long-without-a-word"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-i-ll-write-absent-a-short-note-and-see-what-comes-back",
+                    "text": "You're right. I'll write {absent} a short note and see what comes back."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.alright-yes-absent-shouldn-t-have-to-wait-on-me",
+                    "text": "Alright, yes. {absent} shouldn't have to wait on me."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Jessica Morton",
+                    "role": "asker",
+                    "text": "Thank you for that. Melissa has been missed.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.thank-you-for-that-absent-has-been-missed"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you-absent-will-be-glad-to-hear-from-you",
+                        "text": "Thank you. {absent} will be glad to hear from you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
+                        "text": "I'm glad. It'll mean a lot to {absent}."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-you-would-reach-out",
+                    "label": "You said you would reach out",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 19,
+                "speaker": "You",
+                "role": "player",
+                "text": "Give me some time with this one. Melissa won't be fixed in a conversation.",
+                "move": "leave",
+                "pieces": [
+                  "scene-talk.reply-leave.give-me-some-time-with-this-one-absent-won-t-be-fixed-in-a-conversation"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-need-to-think-about-what-i-d-even-say-to-absent-let-me-do-that-first",
+                    "text": "I need to think about what I'd even say to {absent}. Let me do that first."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.i-can-t-answer-that-right-now-i-ll-sit-with-it-and-think-about-absent",
+                    "text": "I can't answer that right now. I'll sit with it and think about {absent}."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "would-not-reach-out",
+                    "label": "You said you would not, and they took it hard",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 21,
+                    "speaker": "Jessica Morton",
+                    "role": "asker",
+                    "text": "Think about it. I'd still like Melissa to hear from you.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.close-press.think-about-it-i-d-still-like-absent-to-hear-from-you"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-press.no-rush-just-don-t-let-absent-wait-too-long",
+                        "text": "No rush. Just don't let {absent} wait too long."
+                      },
+                      {
+                        "key": "scene-talk.close-press.take-your-time-a-word-to-absent-doesn-t-have-to-be-long",
+                        "text": "Take your time. A word to {absent} doesn't have to be long."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
             }
-          }
+          ]
         }
       }
     ]
   },
   "endings": {
-    "said-you-would-reach-out": 2,
-    "reaching-out-left-open": 2
+    "said-you-would-reach-out": 4,
+    "would-not-reach-out": 2
   },
-  "depth": 2,
+  "depth": 3,
   "gaps": []
 }
