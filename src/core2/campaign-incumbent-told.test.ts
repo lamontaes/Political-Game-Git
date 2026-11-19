@@ -29,42 +29,45 @@ afterAll(() => {
 
 describe("a yes someone they know told them sets the incumbent reading by itself", () => {
   it("with no poll, no word and no evening of their own doors, a yes given to the challenger by someone they know in town and in touch with them since reads as a told source naming that pledge and steps them up; the same day without those yeses does not", () => {
-    const { core, api, where, race, holder, town } = wordOfDoors((found) => {
-      // The case reads what people they know tell them, with no word of a
-      // rival and no doors of their own: a place where no such yes reads as
-      // told is passed over.
-      const state = found.api.moduleState(CAMPAIGNS_MODULE_ID);
-      const wordTable = state.table("rivalWord");
-      const doorTable = state.table("doors");
-      const filingId = found.race.incumbent.id;
-      const campaignId = campaignFor(found.api, filingId).id;
-      const words = (
-        wordTable.query("byCandidate", [
-          found.holder.id,
-        ]) as unknown as ModuleRow[]
-      ).slice();
-      const doors = (
-        doorTable.query("byCampaign", [campaignId]) as unknown as ModuleRow[]
-      ).slice();
-      for (const row of words) wordTable.remove(row.id);
-      for (const row of doors) doorTable.remove(row.id);
-      try {
-        const reading = raceReading(
-          found.api,
-          filingId,
-          found.holder,
-          found.town,
-        );
-        return reading?.sourceKind === "told" &&
-          reading.rivalId === found.race.challenger.personId &&
-          reading.rivalShare > reading.ownShare
-          ? null
-          : "no yes from someone they know reads as told, with the challenger ahead";
-      } finally {
-        for (const row of words) wordTable.put(row);
-        for (const row of doors) doorTable.put(row);
-      }
-    });
+    const { core, api, where, race, holder, town } = wordOfDoors(
+      (found) => {
+        // The case reads what people they know tell them, with no word of a
+        // rival and no doors of their own: a place where no such yes reads as
+        // told is passed over.
+        const state = found.api.moduleState(CAMPAIGNS_MODULE_ID);
+        const wordTable = state.table("rivalWord");
+        const doorTable = state.table("doors");
+        const filingId = found.race.incumbent.id;
+        const campaignId = campaignFor(found.api, filingId).id;
+        const words = (
+          wordTable.query("byCandidate", [
+            found.holder.id,
+          ]) as unknown as ModuleRow[]
+        ).slice();
+        const doors = (
+          doorTable.query("byCampaign", [campaignId]) as unknown as ModuleRow[]
+        ).slice();
+        for (const row of words) wordTable.remove(row.id);
+        for (const row of doors) doorTable.remove(row.id);
+        try {
+          const reading = raceReading(
+            found.api,
+            filingId,
+            found.holder,
+            found.town,
+          );
+          return reading?.sourceKind === "told" &&
+            reading.rivalId === found.race.challenger.personId &&
+            reading.rivalShare > reading.ownShare
+            ? null
+            : "no yes from someone they know reads as told, with the challenger ahead";
+        } finally {
+          for (const row of words) wordTable.put(row);
+          for (const row of doors) doorTable.put(row);
+        }
+      },
+      { word: false },
+    );
     const filingId = race.incumbent.id;
     const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID);
     // The world as wordOfDoors left it, less the word and the incumbent's own

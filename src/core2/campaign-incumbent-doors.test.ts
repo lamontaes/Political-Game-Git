@@ -32,7 +32,9 @@ afterAll(() => {
 
 describe("the incumbent's own doors tell them the race", () => {
   it("with no word and no poll, an evening of the incumbent's own doors opens a reading by itself, naming its door row; the told yeses for the challenger step them up, the turn keeps one row for the evening, and the same day without those yeses does not", () => {
-    const { core, api, where, race, holder, town } = wordOfDoors();
+    const { core, api, where, race, holder, town } = wordOfDoors(undefined, {
+      word: false,
+    });
     const filingId = race.incumbent.id;
     const campaignId = campaignFor(api, filingId).id;
     const state = api.moduleState(CAMPAIGNS_MODULE_ID);

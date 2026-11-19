@@ -420,7 +420,15 @@ export function wordOfDoors(
     holder: NonNullable<ReturnType<CoreState["people"]["get"]>>;
     town: string;
   }) => string | null,
+  /**
+   * `word: false` is for a case that takes the word away itself (the doors and
+   * told cases): the place needs the same race and a challenger whose doors
+   * met people, not word reaching the incumbent, which only about one place in
+   * twelve shows and which each place costs minutes to find out.
+   */
+  options: { word?: boolean } = {},
 ) {
+  const needWord = options.word !== false;
   const tried: string[] = [];
   for (const place of WORD_PLACES()) {
     const w = world(place);
@@ -475,7 +483,11 @@ export function wordOfDoors(
     // Every evening of the sixty, gathered day by day: the engine keeps a
     // message only while word of it can still pass on (`foldRivalWord`).
     const evenings = new Map<string, MessageLike>();
-    for (let day = 0; day < 60 && !word; day += 1) {
+    for (
+      let day = 0;
+      day < (needWord ? 60 : 20) && !(needWord && word);
+      day += 1
+    ) {
       if (
         campaignDayChoices(api, race.challenger.id, true).find(
           (c) => c.kind === "canvass",
@@ -488,7 +500,20 @@ export function wordOfDoors(
       for (const [id, message] of canvassed()) evenings.set(id, message);
       word = wordOf();
     }
-    if (!word) {
+    if (!needWord) {
+      const holderNow = core.people.get(race.incumbent.personId)!;
+      const met = new Set(
+        [...evenings.values()].flatMap((m) =>
+          m.witnessIds.filter((id) => holderNow.knownIds.has(id as never)),
+        ),
+      );
+      if (met.size === 0) {
+        tried.push(
+          `${w.where}: in twenty days of doors (${evenings.size} evenings), none met know the incumbent`,
+        );
+        continue;
+      }
+    } else if (!word) {
       const holderNow = core.people.get(race.incumbent.personId)!;
       const met = new Set(
         [...evenings.values()].flatMap((m) =>
@@ -512,7 +537,10 @@ export function wordOfDoors(
     }
     const holder = core.people.get(race.incumbent.personId)!;
     const reading = raceReading(api, filingId, holder, town);
-    if (!reading || reading.sourceRecordId !== word.id || reading.threat <= 0) {
+    if (
+      needWord &&
+      (!reading || reading.sourceRecordId !== word?.id || reading.threat <= 0)
+    ) {
       tried.push(
         `${w.where}: the word does not show the challenger ahead among the incumbent's circle (${JSON.stringify(reading)})`,
       );
@@ -548,12 +576,21 @@ export function wordOfDoors(
       tried.push(`${w.where}: ${why}`);
       continue;
     }
-    const message = canvassed().get(word.messageId!)!;
+    const message = word ? canvassed().get(word.messageId!) : undefined;
     process.stdout.write(
       `incumbent-response (word): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
     );
     rememberGood(place);
-    return { ...w, race, holder, town, message, word, reading, calm };
+    return {
+      ...w,
+      race,
+      holder,
+      town,
+      message: message as MessageLike,
+      word: word as WordLike,
+      reading: reading as NonNullable<typeof reading>,
+      calm,
+    };
   }
   throw new Error(
     `no drawn place passed word of the challenger's doors to the incumbent with more people telling them of a yes to the challenger than to them, in the drawn places (seed ${seed}): ${tried.join("; ")}`,
