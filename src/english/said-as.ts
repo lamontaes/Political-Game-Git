@@ -445,7 +445,7 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
 }
 
 /** A government's class as its record's own name carries it ("Village of X", "X County"), or null. */
-function governmentClassWord(name: string): string | null {
+export function governmentClassWord(name: string): string | null {
   const words = data.governmentInTalk.classWords as readonly string[];
   const first = /^(\w+)\s+of\s+/i.exec(name)?.[1]?.toLowerCase();
   const last = /\s(\w+)$/.exec(name.trim())?.[1]?.toLowerCase();

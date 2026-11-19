@@ -91,6 +91,7 @@ describe("the bill-sections data", () => {
         kind: "ordinance",
         enactingClause: "Be it ordained by the Town,",
       },
+      level: "city",
       provisions: [
         {
           kind: "law-amount",
@@ -103,7 +104,7 @@ describe("the bill-sections data", () => {
       standing: true,
     })!;
     expect(made.sections[0]).toBe(
-      "Section 1. Be it ordained by the Town, That the local sales tax rate is 0.28 percent.",
+      "Section 1. Be it ordained by the Town, That the city sales tax rate is 0.28 percent.",
     );
   });
 });
@@ -364,8 +365,9 @@ describe("every law amount a body can draft has words", () => {
         BILL_SECTIONS.amounts[series],
         `${series} needs a row`,
       ).toBeTruthy();
+      // A topic names the law at every level, so a `{level}` slot says nothing in it.
       expect(storyTopicName(series), `${series}: story topic`).toBe(
-        BILL_SECTIONS.amounts[series]!.subject,
+        BILL_SECTIONS.amounts[series]!.subject.replace("{level} ", ""),
       );
       const unit =
         series === "snap-maximum"

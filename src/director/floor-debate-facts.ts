@@ -11,6 +11,7 @@
  * floor as the reason (Words lead, rule 103 and ruling Nov 14); that cause
  * stays on the record for the player to find another way.
  */
+import { billLevelOf } from "./bill-level";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
   billOf,
@@ -115,7 +116,10 @@ export function floorDebateFacts(
   };
   // What the bill does, said as people say it: its short name and the one thing
   // it does, from the bill's own sections (the number stays in narration).
-  const named = billNameOf(bill as never);
+  const named = billNameOf({
+    ...(bill as never),
+    level: billLevelOf(api, bill),
+  });
   if (named) {
     facts["bill-name"] = {
       text: billTitleSaid(named.title),

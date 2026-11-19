@@ -7,6 +7,7 @@
  * Act or Ordinance word comes from the bill's own form, and the sentence is
  * composed by the legislation bank.
  */
+import { governmentClassWord } from "./said-as";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
 /** What a budget line is for, as people say it: the bill catalog's budget row, its purpose for a raise or its repeal purpose for a cut. */
@@ -21,7 +22,38 @@ export function budgetPurposeSaid(line: string, cut: boolean): string | null {
   return (cut ? row?.repealPurpose : row?.purpose) ?? null;
 }
 
+/**
+ * The level word a bill's body goes by, said once for the bill's whole text: the
+ * level's word from the book's list ("federal", "state", "county", "township"),
+ * and for a town's own body the class word its government's record carries
+ * ("village", "borough", "town", "city", from `governmentClassWord`), so the same
+ * row reads "the village income tax" at a village. Empty where the level is
+ * not known.
+ */
+export function billLevelWord(
+  level: string | null | undefined,
+  governmentName?: string | null,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  const word = (level ? book.levels?.[level] : undefined) ?? "";
+  if (level !== "city") return word;
+  // A town's body with no government record to read says no level word, never a guessed one.
+  return governmentName ? (governmentClassWord(governmentName) ?? word) : "";
+}
+
+/**
+ * A row's `{level}` slot said: the bill's level word (`billLevelWord`). A bill
+ * whose level is not known says no level word ("the income tax", true at any
+ * level), and the space the slot leaves is closed.
+ */
+export function levelSaid(text: string, word?: string | null): string {
+  if (!text.includes("{level}")) return text;
+  return text.replace("{level}", word ?? "").replace(/ {2,}/g, " ");
+}
+
 export interface BillNameBook {
+  /** The level word a row's `{level}` slot says, by the level of the bill's body. */
+  readonly levels?: Readonly<Record<string, string>>;
   /** The article a sentence says a short title with: "the Fair Wage Act". */
   readonly article: string;
   readonly forms: Readonly<Record<string, string>>;
@@ -86,6 +118,8 @@ export function billNameFor(
   formKind: string,
   repeal: boolean,
   book: BillNameBook = billNames as BillNameBook,
+  /** The bill's level word (`billLevelWord`), for a purpose's `{level}` slot. */
+  level?: string | null,
 ): BillName | null {
   const row = book.policies[question];
   const form = book.forms[formKind];
@@ -93,10 +127,14 @@ export function billNameFor(
   return repeal
     ? {
         title: `${row.repealName} ${form}`,
-        purpose: row.repealPurpose,
+        purpose: levelSaid(row.repealPurpose, level),
         reverses: true,
       }
-    : { title: `${row.name} ${form}`, purpose: row.purpose, reverses: false };
+    : {
+        title: `${row.name} ${form}`,
+        purpose: levelSaid(row.purpose, level),
+        reverses: false,
+      };
 }
 
 /** What a bill's section carries that names it: the catalog policy or question it was drafted from, and what it does. */
@@ -122,6 +160,8 @@ const REVERSING = new Set(["repeal", "lower", "restrict"]);
 export function billNameOf(
   bill: {
     readonly form: { readonly kind: string };
+    /** The bill's level word (`billLevelWord`), so a purpose says whose tax or agency it is. */
+    readonly level?: string | null;
     readonly provisions: readonly NamedSection[];
     /** Set on a government's annual budget bill: whose budget, for which year. */
     readonly budgetFor?: unknown;
@@ -148,6 +188,7 @@ export function billNameOf(
       bill.form.kind,
       only!.value < 0,
       book,
+      bill.level,
     );
     if (named) return named;
   }
@@ -173,7 +214,7 @@ export function billNameOf(
     if (reverse === null) continue;
     for (const key of [section.policyId, section.question]) {
       const found = key
-        ? billNameFor(key, bill.form.kind, reverse, book)
+        ? billNameFor(key, bill.form.kind, reverse, book, bill.level)
         : null;
       if (found) return found;
     }
@@ -214,6 +255,7 @@ export function joinList(
 export function billTitleOf(
   bill: {
     readonly form: { readonly kind: string };
+    readonly level?: string | null;
     readonly provisions: readonly NamedSection[];
     /** Set on a government's annual budget bill: whose budget, for which year. */
     readonly budgetFor?: unknown;
@@ -232,7 +274,10 @@ export function billTitleOf(
       }),
     };
   const sections = bill.provisions.flatMap((section, index) => {
-    const named = billNameOf({ form: bill.form, provisions: [section] }, book);
+    const named = billNameOf(
+      { form: bill.form, provisions: [section], level: bill.level },
+      book,
+    );
     const key =
       section.policyId ??
       section.question ??

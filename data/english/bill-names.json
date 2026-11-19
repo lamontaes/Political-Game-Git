@@ -9,6 +9,14 @@
     "act": "Act",
     "ordinance": "Ordinance"
   },
+  "levels": {
+    "about": "The level word a purpose's {level} slot says, by the level of the body the bill is before (billReach): the one list the long title reads. A bill whose level is not known says no level word.",
+    "federal": "federal",
+    "state": "state",
+    "county": "county",
+    "township": "township",
+    "city": "city"
+  },
   "policies": {
     "us-policy-positions:transportation-infrastructure.fare-free-transit": {
       "name": "Free Fares for Riders",
@@ -168,9 +176,9 @@
     },
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "name": "Fair Chance Hiring",
-      "purpose": "a ban on asking about criminal records on state job applications",
+      "purpose": "a ban on asking about criminal records on {level} job applications",
       "repealName": "Fair Chance Hiring Repeal",
-      "repealPurpose": "an end to the ban on asking about criminal records on state job applications"
+      "repealPurpose": "an end to the ban on asking about criminal records on {level} job applications"
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "name": "Right to Work",
@@ -456,15 +464,15 @@
     },
     "law:income-tax": {
       "name": "Income Tax Increase",
-      "purpose": "a higher local income tax rate",
+      "purpose": "a higher {level} income tax rate",
       "repealName": "Income Tax Reduction",
-      "repealPurpose": "a lower local income tax rate"
+      "repealPurpose": "a lower {level} income tax rate"
     },
     "law:sales-tax": {
       "name": "Sales Tax Increase",
-      "purpose": "a higher local sales tax rate",
+      "purpose": "a higher {level} sales tax rate",
       "repealName": "Sales Tax Reduction",
-      "repealPurpose": "a lower local sales tax rate"
+      "repealPurpose": "a lower {level} sales tax rate"
     },
     "law:property-tax": {
       "name": "Property Tax Increase",

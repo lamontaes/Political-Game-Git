@@ -5,6 +5,7 @@
  */
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { amountWords } from "./bill-sections";
+import { levelSaid } from "./bill-names";
 import billSections from "../../data/english/bill-sections.json" with { type: "json" };
 import health from "../core2/data/health.json" with { type: "json" };
 import { questionAbout } from "./question-names";
@@ -29,14 +30,19 @@ const subjects = (
  * carry the series as their topic. Null where neither names it.
  */
 export function storyTopicName(topic: string): string | null {
+  // A topic names the law at every level, so a row's `{level}` slot says nothing here.
+  const said = (text: string | undefined) =>
+    text === undefined ? null : levelSaid(text);
   return (
     questionTopic(topic) ??
-    (
-      billSections as unknown as {
-        amounts: Record<string, { subject: string }>;
-      }
-    ).amounts[topic]?.subject ??
-    amountWords(topic)?.subject ??
+    said(
+      (
+        billSections as unknown as {
+          amounts: Record<string, { subject: string }>;
+        }
+      ).amounts[topic]?.subject,
+    ) ??
+    said(amountWords(topic)?.subject) ??
     null
   );
 }

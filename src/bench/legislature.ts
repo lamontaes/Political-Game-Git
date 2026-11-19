@@ -1,4 +1,5 @@
 import { coreAPI } from "../core2/state";
+import { billLevelOf } from "../director/bill-level";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
@@ -491,6 +492,7 @@ export function seatAct(
   const text =
     composeBill({
       ...bill,
+      level: billLevelOf(api, bill),
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
@@ -625,13 +627,16 @@ export function billPaper(core: CoreState, billId: string) {
     .get(billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const form = billForm(api, bill);
+  const level = billLevelOf(api, bill);
   const composed = composeBill({
     ...bill,
+    level,
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
   const titled = billTitleOf({
     form: bill.form,
+    level,
     provisions: bill.provisions,
     budgetFor: bill.budgetFor,
   });

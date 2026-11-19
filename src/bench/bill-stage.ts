@@ -3,6 +3,7 @@
 // (ui/bill-stage.mjs) read this; every fact is a record read from the one legislature
 // module (committeeRecords, learnedStakesOf, votesOn), never a count made here, and no
 // player text is written here (the screens word the codes).
+import { billLevelOf } from "../director/bill-level";
 import { legislativeSessionsOf } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 import { composeBill } from "../english/bill-sections";
@@ -211,6 +212,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     return (
       composeBill({
         ...copy,
+        level: billLevelOf(api, copy),
         effective: form.effectiveSection,
         before: form.sections.map((section) => section.before),
       })?.sections[index] ?? null
@@ -626,6 +628,7 @@ export function staffRedraft(
     return (
       composeBill({
         ...copy,
+        level: billLevelOf(api, copy),
         effective: form.effectiveSection,
         before: form.sections.map((row) => row.before),
       })?.sections[index] ?? null
@@ -773,6 +776,7 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
     return (
       composeBill({
         ...copy,
+        level: billLevelOf(api, copy),
         effective: f.effectiveSection,
         before: f.sections.map((row) => row.before),
         standing,
