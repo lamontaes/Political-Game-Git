@@ -23,6 +23,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { printStory, storiesHeard } from "../core2/modules/news";
+import { outletsHere } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import rules from "./data/conversation-rules.json" with { type: "json" };
@@ -111,8 +112,13 @@ const WEEK_DAYS = 7;
 const TURNS = 3;
 const AFTER_ADDRESS_DAYS = 28;
 // Only some towns print letters the player's habits bring to them (about one
-// in three of the draws), so the news test draws until one does.
+// in three of the draws), so the news test draws until one does. Letters are
+// a local newspaper's page (press.ts), so a town with none is passed over at
+// the opening; a town's year is played a month at a time and stops once a
+// letter the player read has been printed.
 const NEWS_DRAWS = 10;
+const MONTH_DAYS = 30;
+const YEAR_DAYS = 365;
 const VIEW_MOVES = (rules.replyMoves as Record<string, unknown>)[
   "own-view"
 ] as Record<string, string>;
@@ -279,16 +285,32 @@ it(`a letter to the editor the player reads teaches where its writer stands, and
     });
     const api = coreAPI(core);
     const me = playerId as PersonId;
-    advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    const letters = (
-      api.moduleState("news").table("stories").rows() as unknown as {
-        id: string;
-        facts: Record<string, string>;
-      }[]
-    ).filter((row) => String(row.facts.sourceRecordId).startsWith("letter:"));
+    if (
+      !outletsHere(api).some(
+        (row) => row.kind === "newspaper" && row.tier !== "national",
+      )
+    ) {
+      notes.push(`${where}: no local newspaper, so no letters`);
+      continue;
+    }
+    const printedLetters = () =>
+      (
+        api.moduleState("news").table("stories").rows() as unknown as {
+          id: string;
+          facts: Record<string, string>;
+        }[]
+      ).filter((row) => String(row.facts.sourceRecordId).startsWith("letter:"));
+    const end = addDays(makeIsoDate(core.date), YEAR_DAYS);
+    while (core.date < end) {
+      const next = addDays(makeIsoDate(core.date), MONTH_DAYS);
+      advanceCore(core, next < end ? next : end);
+      const read = new Set(storiesHeard(api, me).map((row) => row.id));
+      if (printedLetters().some((row) => read.has(row.id))) break;
+    }
+    const letters = printedLetters();
     const heard = new Set(storiesHeard(api, me).map((row) => row.id));
     notes.push(
-      `${where}: ${letters.length} letters in the year, ${letters.filter((row) => heard.has(row.id)).length} read by the player`,
+      `${where}: ${letters.length} letters by ${core.date}, ${letters.filter((row) => heard.has(row.id)).length} read by the player`,
     );
     for (const letter of letters) {
       const writer = letter.facts.personId!;
