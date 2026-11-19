@@ -838,6 +838,8 @@ export interface CountryFlow {
   leavingByBand: number[];
   /** The share of its leavers each state takes, in the tier's state order (none for itself). */
   toShare: number[];
+  /** Its prices against the nation's now (1 is the nation): its opening level moved by its own prices since, over the nation's. */
+  priceLevel: number;
 }
 
 /**
@@ -861,6 +863,7 @@ export function countryFlows(
     return {
       leavingByBand,
       toShare: weights.map((w) => (total > 0 ? w / total : 0)),
+      priceLevel: (home.priceLevel * home.prices) / tier.priceIndex,
     };
   });
 }
