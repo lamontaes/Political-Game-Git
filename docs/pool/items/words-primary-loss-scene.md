@@ -17,8 +17,8 @@ claimed-at:
 
 **Rules.** Wire to the world: the primary's own record fires the loss for each candidate it put out, read by the director as the general's count is. Replace, never layer: the same family-loss and race-lost scenes take the primary as a cause; no second loss scene. No hand-written player text: the lines come from the scene-talk bank.
 
-**Done when.** In a played world built with buildBenchWorld in a place drawn from all 56 that holds a top-two or top-four primary (seed named), every filer the primary-result record puts out has a family-loss or race-lost scene from that record on the night it plays, composed in the lines that play, named by record id; shown by src/director/purpose-scenes.test.ts or its own test.
+**Done when.** In a played world built with buildBenchWorld in a place drawn from all 56 that holds a top-two or top-four primary (seed named), every filer the primary-result record puts out has a family-loss or race-lost scene from that record on the night it plays, composed in the lines that play, named by record id; shown by src/director/purpose-scenes.test.ts (removed) or its own test.
 
-**Files.** src/core2/modules/voting.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scenes.test.ts
+**Files.** src/core2/modules/voting.ts, src/director/data/director.json, src/director/data/situation-types.json
 
 **Notes.** TODO

@@ -14,7 +14,12 @@ import {
 import type { CoreState, PersonId } from "../core2/types";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { letterFacts } from "./letter-facts";
-import { destinationSaid, purposeScene, replyInScene } from "./purpose-scene";
+import {
+  destinationSaid,
+  purposeScene,
+  relativePlaceSaid,
+  replyInScene,
+} from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -99,17 +104,24 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
       expect(scene.askedId, where).toBe(id);
       const fact = (key: string) => scene.facts.find((row) => row.key === key);
       const writer = core.people.get(writerId)!;
-      // The town the writer lives in, from their place.
+      // Where the writer lives, from their place: a town elsewhere is their
+      // hometown, and the county or state the reader's own town sits in
+      // (a relative kept at that level) is nearby. One, never both.
       const lives = destinationSaid(writer.placeId, "");
-      expect(fact("hometown")?.text ?? null, where).toBe(lives);
+      const home = fact("hometown")?.text ?? null;
+      const near = fact("nearby")?.text ?? null;
+      expect(home ?? near, where).toBe(lives);
+      expect(home !== null && near !== null, where).toBe(false);
       // Every fact the letter's records give, and no other.
+      const { placeNamed, nearNamed } = relativePlaceSaid(core, id);
       const given = letterFacts(
         core,
         "letter",
         moment.causeId,
         writerId,
         id,
-        (placeId) => destinationSaid(placeId, ""),
+        placeNamed,
+        nearNamed,
       );
       for (const [key, expected] of Object.entries(given))
         expect(fact(key)?.recordIds, `${where}: ${key}`).toEqual(
@@ -188,20 +200,21 @@ it(`a letter's facts come from the world's own records in drawn places (seed ${s
         placeKey: place.key,
       });
       advanceCore(core, addDays(makeIsoDate(core.date), 400));
-      const placeSaid = (placeId: string) => destinationSaid(placeId, "");
       for (const recordId of [
         ...(core.logByKind.get(FAMILY_CONTACT) ?? []),
       ].sort()) {
         const record = core.durableLog.get(recordId);
         if (!record) continue;
         const [readerId, writerId] = record.personIds as PersonId[];
+        const { placeNamed, nearNamed } = relativePlaceSaid(core, readerId!);
         const facts = letterFacts(
           core as CoreState,
           "letter",
           recordId,
           writerId!,
           readerId!,
-          placeSaid,
+          placeNamed,
+          nearNamed,
         );
         for (const [key, fact] of Object.entries(facts)) {
           // Each fact is cited to records that exist (a person, a place, a record).
@@ -234,7 +247,10 @@ it(`a letter's facts come from the world's own records in drawn places (seed ${s
       }
     }
     log(`LETTER FACTS\n${lines.join("\n")}`);
-    expect(found.has("hometown"), `no hometown (seed ${seed})`).toBe(true);
+    expect(
+      found.has("hometown") || found.has("nearby"),
+      `no hometown or nearby (seed ${seed})`,
+    ).toBe(true);
     expect(
       letterFacts(
         { people: new Map() } as never,

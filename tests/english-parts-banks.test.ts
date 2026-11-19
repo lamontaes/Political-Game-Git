@@ -104,6 +104,13 @@ const banks = readdirSync(PARTS_DIR)
     bank: JSON.parse(readFileSync(path.join(PARTS_DIR, name), "utf8")) as Bank,
   }));
 
+/**
+ * The banks the cut of Nov 17 emptied (owner: delete every line written before
+ * Nov 15; CTO, Nov 18 18:27Z on #9750: a named list that only shrinks). Their
+ * files and readers stay, and the screens show the records through labels.
+ */
+const CUT_BANKS = new Set<string>(["bill-paper.json"]);
+
 describe("English part banks", () => {
   it("has at least one bank", () => {
     expect(banks.length).toBeGreaterThan(0);
@@ -171,7 +178,14 @@ describe("English part banks", () => {
         expect(bank.schema).toBe("english-parts/1");
         expect(`${bank.register}.json`).toBe(name);
         expect(bank.maxWords).toBeGreaterThan(0);
-        expect(bank.parts.length).toBeGreaterThan(0);
+        // A bank the cut of Nov 17 emptied waits empty for its new lines and
+        // leaves CUT_BANKS the moment one returns; no other bank may be empty.
+        if (CUT_BANKS.has(name))
+          expect(
+            bank.parts,
+            `${name} has lines again: take it off CUT_BANKS`,
+          ).toEqual([]);
+        else expect(bank.parts.length).toBeGreaterThan(0);
         const keys = bank.parts.map((part) => part.key);
         expect(new Set(keys).size).toBe(keys.length);
         const texts = bank.parts.map((part) => part.text.toLowerCase());
@@ -279,33 +293,6 @@ describe("relative days in scene narration", () => {
 // read it tonight.") is true at any hour of the day; it is listed here, so
 // every line that names the evening is decided one way or the other.
 const EVENING_AHEAD = new Set([
-  "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
-  "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-  "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
-  "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
-  "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
-  "scene-talk.reply-press.tonight-would-be-better",
-  "scene-talk.follow-accept.tonight-then",
-  "scene-talk.follow-promise.sign-at-the-bottom-and-i-ll-write-the-reference-myself-tonight",
-  "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
-  "scene-talk.reply-agree.i-ll-call-relative-tonight",
-  "scene-talk.reply-agree.all-right-i-ll-call-tonight",
-  "scene-talk.reply-agree.okay-i-ll-go-over-there-tonight",
-  "scene-talk.reply-agree.then-i-ll-do-it-tonight",
-  "scene-talk.follow-confront.not-after-tonight-you-re-not",
-  "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
-  "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
-  "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
-  "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
-  "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
-  "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
-  "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
-  "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
-  "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
-  "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
-  "scene-talk.follow-comfort.take-it-easy-tonight",
-  "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
   // The bill's vote that evening, from its floor date (rule 22).
   "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
@@ -400,5 +387,31 @@ describe("the household's filing talk", () => {
         /\b(?:\d+|two|three|five|ten|twenty) years\b/i,
       );
     }
+  });
+});
+
+describe("the conversation's composed lines", () => {
+  // A composed subject's bank lists each piece once per line part: a piece
+  // with two uses in the same part gives the bank two variants with one key,
+  // and the composer then refuses the whole bank, so the subject goes silent
+  // (news-talk at Artesia, MS, Nov 19: no answer after the player took a side).
+  it("gives no piece two uses in the same subject and line part", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as {
+      parts: { key: string; uses: { subject?: string; role: string }[] }[];
+    };
+    const twice = bank.parts.flatMap((part) => {
+      const seen = new Set<string>();
+      return part.uses.flatMap((use) => {
+        if (!["opener", "core", "reason", "closer"].includes(use.role))
+          return [];
+        const at = `${use.subject}|${use.role}`;
+        if (seen.has(at)) return [`${part.key}: ${at}`];
+        seen.add(at);
+        return [];
+      });
+    });
+    expect(twice).toEqual([]);
   });
 });
