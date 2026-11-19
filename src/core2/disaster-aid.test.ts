@@ -9,6 +9,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -22,6 +23,8 @@ import { coreAPI } from "./state";
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
 
 it("a disaster's federal aid is in the state's budget for the year", () => {
+  // Bookkeeping is a debug switch (AGENTS.md, "Keep it simple"); a played-world check runs without it.
+  setBookkeeping(false);
   const place = drawPlace(seed, "disaster-aid");
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
