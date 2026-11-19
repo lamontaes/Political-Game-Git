@@ -181,7 +181,7 @@
     "mutual": ["family"],
     "news": ["own-view", "address"],
     "address": ["news"],
-    "address-point": ["news", "own-view"]
+    "address-point": ["own-view", "address-point", "news"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
