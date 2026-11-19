@@ -136,6 +136,9 @@ it(
           );
         } else {
           passedOver.push(result.passed);
+          // Print each place the moment it is passed over, so a draw that runs
+          // out of time still names every place played before it.
+          process.stdout.write(`PAY ON TIME passed over: ${result.passed}\n`);
           from = found.nextDraw;
         }
       }
