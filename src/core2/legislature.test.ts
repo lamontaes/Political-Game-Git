@@ -202,7 +202,13 @@ describe(
       const allowing = Object.keys(authority)
         .filter((s) => authority[s]!.answer === "yes")
         .sort();
-      const { core, api, key, council } = town(allowing, "allow");
+      // The draw uses the researched state's answer, so open Just like today.
+      const { core, api, key, council } = town(
+        allowing,
+        "allow",
+        undefined,
+        true,
+      );
       const you = council[0]!.holder!.personId!;
       const office = council[0]!.office.id;
       const floor = lawInForce(api, "minimum-wage").value!;
