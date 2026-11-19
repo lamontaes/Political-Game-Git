@@ -35988,10 +35988,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "conversation.prison-news-back-core.nobody-has-told-us-how-long-for-relation",
+      "key": "conversation.prison-news-back-core.we-haven-t-heard-how-long-for-relation",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "Nobody has told us how long for {relation}.",
+      "text": "We haven't heard how long for {relation}.",
       "uses": [
         {
           "move": "prison-news-back-core",
