@@ -72,13 +72,20 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
     // left the player off the ballot: Surgoinsville, Tennessee and La
     // Alianza, Puerto Rico, seed chk2-g).
     const { stateKey } = lawChain(api);
-    const filed = [...openContests(api)]
-      // The six offices the player may run for (owner, Oct 29).
-      .filter(
+    // The six offices the player may run for (owner, Oct 29), with the
+    // election two months out or more.
+    const enterable = () =>
+      [...openContests(api)].filter(
         (c) =>
           c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
           playerMayFileFor(api, c.id),
-      )
+      );
+    // A race's filing may open after day one (none was open on day one in
+    // Inarajan, Guam, Wakefield-Peace Dale, Rhode Island or Afao, American
+    // Samoa, seed 645e6af5…): play a week at a time, up to a year, until one is.
+    for (let day = 0; day < 365 && !enterable().length; day += 7)
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    const filed = enterable()
       .sort(
         (a, b) =>
           Number(filingRequirements(stateKey, a.family).petition.count > 0) -
@@ -95,7 +102,9 @@ it("someone close offers to run the campaign, joins its staff and is cast from i
         ),
       );
     if (!filed) {
-      tried.push(`${where}: no race two months out the player could enter`);
+      tried.push(
+        `${where}: no race two months out the player could enter by ${core.date}`,
+      );
       continue;
     }
     const filingId = `filing:${filed.id}:${me}`;
