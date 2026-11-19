@@ -26,6 +26,7 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./law-consensus";
 import { LAWS_MODULE_ID } from "./modules/laws";
+import { centuryLaw } from "./modules/elections";
 import { members } from "./modules/legislature";
 import {
   RECORD_MODULE_ID,
@@ -465,40 +466,52 @@ export function buildLawHistories(
       const row = rows.slice().sort((a, b) => a.id.localeCompare(b.id))[0]!;
       const id = ids[index]!;
       const phase = phaseOf(row);
+      // A policy question's law in a century world is the century's record (its session, its
+      // chambers' counts); one no session enacted has no history (CTO line 6935086070 on #9747).
+      const policy =
+        row.id.endsWith(":starting") && !!POLICY_QUESTIONS[row.series];
+      const century = policy
+        ? centuryLaw(town.seed, row.jurisdiction, row.series)
+        : undefined;
+      // A question no law stands on (never enacted, or repealed) has nothing to record, as a
+      // recorded answer of no.
+      if (century === null || century?.value === 0) return;
       // Answers read as in force at the opening carry no enactment date.
       const undated =
         phase === town.opening ||
         (row.id.endsWith(":starting") && !!POLICY_QUESTIONS[row.series]);
-      let enactedOn = undated
-        ? shiftDays(
-            town.opening,
-            -Math.round(
-              pastParameter(api, "pastDaysPerYear") *
-                seededBetween(
-                  town.seed,
-                  `${id}:age`,
-                  pastParameter(api, "pastUndatedLawAgeYearsLow"),
-                  pastParameter(api, "pastUndatedLawAgeYearsHigh"),
-                ),
-            ),
-          )
-        : (() => {
-            // A phase taking effect after day one was passed before it:
-            // the lag is at least the days from day one to the phase.
-            const ahead = daysBetweenText(town.opening, phase);
-            const low = Math.max(lagLow, ahead + 1);
-            return shiftDays(
-              phase,
+      let enactedOn = century
+        ? `${century.year}-01-01`
+        : undated
+          ? shiftDays(
+              town.opening,
               -Math.round(
-                seededBetween(
-                  town.seed,
-                  `${id}:lag`,
-                  low,
-                  Math.max(lagHigh, low + lagHigh - lagLow),
-                ),
+                pastParameter(api, "pastDaysPerYear") *
+                  seededBetween(
+                    town.seed,
+                    `${id}:age`,
+                    pastParameter(api, "pastUndatedLawAgeYearsLow"),
+                    pastParameter(api, "pastUndatedLawAgeYearsHigh"),
+                  ),
               ),
-            );
-          })();
+            )
+          : (() => {
+              // A phase taking effect after day one was passed before it:
+              // the lag is at least the days from day one to the phase.
+              const ahead = daysBetweenText(town.opening, phase);
+              const low = Math.max(lagLow, ahead + 1);
+              return shiftDays(
+                phase,
+                -Math.round(
+                  seededBetween(
+                    town.seed,
+                    `${id}:lag`,
+                    low,
+                    Math.max(lagHigh, low + lagHigh - lagLow),
+                  ),
+                ),
+              );
+            })();
       const previous = index
         ? groups.get(keys[index - 1]!)!.find((r) => r.tier === row.tier)
         : undefined;
@@ -506,19 +519,21 @@ export function buildLawHistories(
       const level = row.level;
       const lawChambers = chambersFor(level);
       // A law its serving members would have voted down passed before them.
-      let calls = stance
-        ? lawChambers.map((c) =>
-            rollCall(
-              api,
-              town.seed,
-              c,
-              enactedOn,
-              stance.question,
-              stance.position,
-              true,
-            ),
-          )
-        : [];
+      let calls = century
+        ? []
+        : stance
+          ? lawChambers.map((c) =>
+              rollCall(
+                api,
+                town.seed,
+                c,
+                enactedOn,
+                stance.question,
+                stance.position,
+                true,
+              ),
+            )
+          : [];
       // Each step moves the passage before an opposing member's first day,
       // so fewer serve each time and the loop ends.
       while (calls.some((c) => !c.passes)) {
@@ -548,27 +563,36 @@ export function buildLawHistories(
       }
       // Without a question the record cannot read a stance from, the roll
       // call is the chambers' seats with a generated margin.
-      const rollCalls: RollCall[] = stance
-        ? calls.map(stripPasses)
-        : lawChambers.map((c) => {
-            const yes = Math.ceil(
-              c.seats *
-                seededBetween(
-                  town.seed,
-                  `${id}:${c.body}:margin`,
-                  pastParameter(api, "pastLawMarginLow"),
-                  pastParameter(api, "pastLawMarginHigh"),
-                ),
-            );
-            return {
-              body: c.body,
-              yes: Math.max(yes, Math.floor(c.seats / 2) + 1),
-              no: c.seats - Math.max(yes, Math.floor(c.seats / 2) + 1),
-              yesIds: [],
-              noIds: [],
-              predecessors: c.seats,
-            };
-          });
+      const rollCalls: RollCall[] = century
+        ? century.chambers.map((c) => ({
+            body: c.chamber,
+            yes: c.yes,
+            no: c.no,
+            yesIds: [],
+            noIds: [],
+            predecessors: c.yes + c.no,
+          }))
+        : stance
+          ? calls.map(stripPasses)
+          : lawChambers.map((c) => {
+              const yes = Math.ceil(
+                c.seats *
+                  seededBetween(
+                    town.seed,
+                    `${id}:${c.body}:margin`,
+                    pastParameter(api, "pastLawMarginLow"),
+                    pastParameter(api, "pastLawMarginHigh"),
+                  ),
+              );
+              return {
+                body: c.body,
+                yes: Math.max(yes, Math.floor(c.seats / 2) + 1),
+                no: c.seats - Math.max(yes, Math.floor(c.seats / 2) + 1),
+                yesIds: [],
+                noIds: [],
+                predecessors: c.seats,
+              };
+            });
       const sponsor = sponsorOf(
         api,
         town,
@@ -611,7 +635,7 @@ export function buildLawHistories(
         series: row.series,
         effectiveDate: phase,
         enactedOn,
-        enactedFrom: undated ? "undated" : "effective-date",
+        enactedFrom: undated && !century ? "undated" : "effective-date",
         body: lawChambers.map((c) => c.body).join(" "),
         session,
         billId: id.replace(/^law-history:/, "enacting-bill:"),
@@ -628,14 +652,16 @@ export function buildLawHistories(
         amendedBy: ids[index + 1] ?? null,
         source: {
           tag: "ESTIMATED",
-          citation: undated
-            ? "Enactment year within pastUndatedLawAgeYearsLow..High before day one (stopgap SG-CORE-past-undated-law-age); roll call from the members serving then"
-            : "Effective date from the law's research row; passage before it within pastLawEnactmentLagDaysLow..High; roll call from the members serving then",
+          citation: century
+            ? `The century's session of ${century.year} (${century.id}): each chamber's members voted by the one stance rule${century.overridden ? ", over the executive's veto" : ""}`
+            : undated
+              ? "Enactment year within pastUndatedLawAgeYearsLow..High before day one (stopgap SG-CORE-past-undated-law-age); roll call from the members serving then"
+              : "Effective date from the law's research row; passage before it within pastLawEnactmentLagDaysLow..High; roll call from the members serving then",
         },
       };
       putPast(api, "laws", history);
       histories.push(history);
-      if (stance)
+      if (stance && !century)
         rollCalls.forEach((call, i) => {
           votes += recordVotes(
             api,

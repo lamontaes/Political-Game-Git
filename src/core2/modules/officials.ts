@@ -26,7 +26,11 @@ import senateClasses from "../../../data/research/offices/senate-classes-2026.js
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import { workFromHome } from "../places";
-import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
+import {
+  registerHuskIdentity,
+  registerHuskPromoter,
+  registerUnbuiltHolders,
+} from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
   CoreAPI,
@@ -39,7 +43,15 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
-import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
+import {
+  centuryOf,
+  centuryParties,
+  centurySignedLean,
+  historyMode,
+  publishedSenateSeats,
+  worldRoster,
+  worldSwing,
+} from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -59,11 +71,13 @@ import { nationalHomeState, recordPresident } from "../officials-president";
 import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
+export { partySide } from "../appointments";
 import {
   electedWithGovernorOnTicket,
   isOutsideOffice,
   OFFICES_MODULE_ID,
   type TermRow,
+  vacateSeat,
   vacateUnheldSeat,
 } from "./offices";
 import { filingRequirements } from "./elections";
@@ -165,12 +179,18 @@ export const OFFICIALS_MODULE: CoreModule = {
       else {
         seatUnheldFiller(api, seatId, event.facts);
         // A holder the offices engine seated by identity alone (a vacancy's filler, a
-        // successor) is a person from the day they take the seat, not the first time it is read.
-        for (const term of api
-          .moduleState(OFFICES_MODULE_ID)
+        // successor) is a person from the day they take the seat, not the first time it is read;
+        // another place's stays a name on their term until the player meets or opens them.
+        const offices = api.moduleState(OFFICES_MODULE_ID);
+        for (const term of offices
           .table("terms")
-          .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[])
-          holderOf(api, term);
+          .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]) {
+          const office = offices
+            .table("offices")
+            .get(term.officeId) as unknown as
+            Parameters<typeof isOutsideOffice>[1] | undefined;
+          if (!office || !isOutsideOffice(api, office)) holderOf(api, term);
+        }
       }
     }
     leaveEndedTerms(api, seatId);
@@ -321,12 +341,31 @@ const source = (date: string): Source => ({
   estimatedFrom: "data/officials/officials.json",
 });
 
-/** A state's lean, right positive: its 2024 presidential two-party vote, as this world's swing moved it. */
+/**
+ * A state's lean, right positive: where the century's last count left it, in a world whose day one
+ * is the century's; otherwise its 2024 presidential two-party vote, as this world's swing moved it.
+ */
 function stateLeanOf(stateKey: string, seed: string): number {
+  const century = centurySignedLean(seed, stateKey);
+  if (century !== undefined) return century;
   const share = stateShare.get(stateKey.slice(3));
   return share === null || share === undefined
     ? 0
     : 1 - 2 * (share - worldSwing(seed, stateKey.slice(3)));
+}
+
+/** Where each side's party stands on day one, by side, in a world whose day one is the century's. */
+function partyPositionsOf(
+  seed: string,
+): Readonly<Record<number, number>> | undefined {
+  const parties = centuryParties(seed);
+  if (!parties) return undefined;
+  const out: Record<number, number> = {};
+  for (const party of parties) {
+    const at = party.positions.at(-1)?.position;
+    if (at !== undefined) out[party.side] = at;
+  }
+  return out;
 }
 
 /** A seat's lean and where it's read from. */
@@ -337,7 +376,23 @@ function seatLean(
   district: string | null,
   party: string | null,
   officeKind = "",
+  seatId = "",
 ): { lean: number; source: string } {
+  // A district the century counted stands where its last count left it.
+  const century =
+    bodyKind === "legislature" && seatId
+      ? centurySignedLean(seed, stateKey, { seatId })
+      : bodyKind === "us-house" && district !== null
+        ? centurySignedLean(seed, stateKey, {
+            usps: stateKey.slice(3),
+            houseCode: /^\d+$/.test(district) ? district : "0",
+          })
+        : undefined;
+  if (century !== undefined)
+    return {
+      lean: century,
+      source: "the century's last count in the district",
+    };
   const state = stateLeanOf(stateKey, seed);
   const swing = worldSwing(seed, stateKey.slice(3));
   const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
@@ -377,9 +432,18 @@ function seatLean(
             2 * partySide(party) * campaignParameter("legislativeSeatMargin"),
         ),
       ),
-      source: "state's 2024 presidential vote and the typical seat margin",
+      source:
+        centurySignedLean(seed, stateKey) !== undefined
+          ? "the century's last count in the state and the typical seat margin"
+          : "state's 2024 presidential vote and the typical seat margin",
     };
-  return { lean: state, source: "state's 2024 presidential vote" };
+  return {
+    lean: state,
+    source:
+      centurySignedLean(seed, stateKey) !== undefined
+        ? "the century's last count in the state"
+        : "state's 2024 presidential vote",
+  };
 }
 
 interface Spec {
@@ -509,6 +573,16 @@ function unrecordedParty(
   if (rostered) return { party: partyName(rostered), partySource: "roster" };
   // stopgapId: SG-OFFICIALS-unrecorded-party
   api.stopgap("SG-OFFICIALS-unrecorded-party");
+  // In a world whose day one is the century's, the side the century left the state leaning to.
+  if (historyMode(api.state.seed) === "century") {
+    const lean = centuryOf(api.state.seed, api.state.startedAt).leans[stateKey];
+    if (lean !== undefined)
+      return {
+        party: lean >= 0.5 ? "Republican" : "Democratic",
+        partySource:
+          "estimated: the side the century left the state leaning to",
+      };
+  }
   return {
     party:
       stateLeanOf(stateKey, api.state.seed) > 0 ? "Republican" : "Democratic",
@@ -687,12 +761,19 @@ function stateAge(
     : 0;
 }
 
-function seatAll(
+/**
+ * Who each drafted holder is and what they stand for, drawn without writing
+ * anything: `seatAll` records them, and an outside session reads a holder
+ * nobody has opened through it (`unopenedStance`).
+ */
+function drawAll(
   api: CoreAPI,
   seed: string,
   drafted: readonly Spec[],
   opening: boolean,
-): void {
+) {
+  // Each party's members are drawn around where its own history put it.
+  const positions = partyPositionsOf(seed);
   // Who each holder is, and no one first served younger than the minimum
   // age (the offices engine's careers already keep to it).
   const identities = new Map(
@@ -730,6 +811,7 @@ function seatAll(
         s.district,
         s.party,
         s.officeKind,
+        s.seatId,
       ),
     ]),
   );
@@ -753,7 +835,7 @@ function seatAll(
   );
   // A member seated later (a race's winner, an appointee) leads nothing yet.
   const roles = opening ? leaders(all) : new Map<string, string>();
-  for (const spec of all) {
+  const seats = all.map((spec) => {
     const lean = leans.get(spec.key)!;
     const group = stats.get(groupOf(spec))!;
     // The roster's caucus belongs to the opening's holder only.
@@ -777,7 +859,28 @@ function seatAll(
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
       temperament: temperamentOf(api.state as CoreState, personId, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
+    return {
+      spec,
+      lean,
+      identity,
+      personId,
+      drawn,
+      leadership: roles.get(spec.key) ?? null,
+    };
+  });
+  return { all, seats };
+}
+
+function seatAll(
+  api: CoreAPI,
+  seed: string,
+  drafted: readonly Spec[],
+  opening: boolean,
+): void {
+  const { all, seats } = drawAll(api, seed, drafted, opening);
+  for (const { spec, lean, identity, personId, drawn, leadership } of seats) {
     const recorded: Omit<RecordedIdentity, "source"> = {
       id: personId,
       givenName: identity.givenName,
@@ -830,7 +933,7 @@ function seatAll(
       loyalty: drawn.loyalty,
       ambition: drawn.ambition,
       independent: drawn.independent,
-      leadership: roles.get(spec.key) ?? null,
+      leadership,
       districtLean: lean.lean,
       leanSource: lean.source,
       stateLean: stateLeanOf(spec.stateKey, api.state.seed),
@@ -903,8 +1006,19 @@ function promoteOutsideOfficial(
 ): PersonState | undefined {
   const api = coreAPI(core);
   if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
-  const row = officialOf(api, personId);
-  if (!row?.husk) return undefined;
+  let row = officialOf(api, personId);
+  if (!row) {
+    // Another place's holder nobody has opened is seated now, from the same
+    // draw their session read (`unopenedDraw`): a legislator as a husk,
+    // built below; a governor or executive as the person they are. One who
+    // has left office is not built.
+    const term = unopenedTerm(api, personId);
+    if (term?.status !== "serving") return undefined;
+    holderOf(api, term);
+    row = officialOf(api, personId);
+    if (!row?.husk) return core.people.get(personId);
+  }
+  if (!row.husk) return undefined;
   const person = fillInIdentity(core, {
     ...row.husk.identity,
     source: source(row.husk.asOf),
@@ -915,12 +1029,21 @@ function promoteOutsideOfficial(
 registerHuskPromoter(promoteOutsideOfficial);
 registerHuskIdentity((core, personId) => {
   if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
-  const husk = officialOf(coreAPI(core), personId)?.husk;
-  return husk
+  const api = coreAPI(core);
+  const husk = officialOf(api, personId)?.husk;
+  if (husk)
+    return {
+      birthDate: husk.identity.birthDate,
+      placeId: husk.identity.placeId,
+      traits: husk.identity.traits ?? {},
+    };
+  // Another place's holder nobody has opened: who their term and draw say.
+  const term = unopenedTerm(api, personId);
+  return term
     ? {
-        birthDate: husk.identity.birthDate,
-        placeId: husk.identity.placeId,
-        traits: husk.identity.traits ?? {},
+        birthDate: term.identity.birthDate,
+        placeId: term.identity.homeState,
+        traits: unopenedDraw(api, term).traits,
       }
     : undefined;
 });
@@ -1141,6 +1264,12 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
     !api.state.modules.has(OFFICIALS_MODULE_ID)
   )
     return term;
+  const row = seatOfficial(api, holderInput(api, term));
+  return { ...term, personId: row.id };
+}
+
+/** What `seatOfficial` seats a term's holder from: the seat, the office and the party their term carries. */
+function holderInput(api: CoreAPI, term: TermRow): SeatInput {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = offices.table("offices").get(term.officeId) as unknown as {
     kind: string;
@@ -1157,7 +1286,7 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
   const stateKey = office.jurisdiction.startsWith("US-")
     ? office.jurisdiction
     : town.stateKey;
-  const row = seatOfficial(api, {
+  return {
     key: `${term.seatId}:${term.startDate}`,
     seatId: term.seatId,
     term,
@@ -1189,8 +1318,7 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
       office.termYears,
       Number(api.state.date.slice(0, 4)),
     ),
-  });
-  return { ...term, personId: row.id };
+  };
 }
 
 /** A recorded election year moved forward by whole terms to `year` or later (undefined where none is recorded). */
@@ -1247,42 +1375,149 @@ export function seatOfficial(
     .moduleState(OFFICES_MODULE_ID)
     .table("loaded")
     .get("town") as unknown as { worldSeed: string };
-  const bodyKind = bodyKindOf(input.officeKind);
-  seatAll(
-    api,
-    loaded.worldSeed,
-    [
-      {
-        ...input,
-        bodyKind,
-        serviceStart:
-          input.serviceStart ?? input.term?.startDate ?? api.state.date,
-        nextElectionYear:
-          input.nextElectionYear !== undefined
-            ? input.nextElectionYear
-            : input.termYears
-              ? Number(api.state.date.slice(0, 4)) + input.termYears
-              : null,
-        role:
-          bodyKind === "executive"
-            ? "executive-officeholder-at-opening"
-            : "sitting-legislator-at-opening",
-        ...(bodyKind === "executive"
-          ? {}
-          : {
-              legalMinimumAge:
-                bodyKind === "us-senate"
-                  ? 30
-                  : bodyKind === "us-house"
-                    ? 25
-                    : 21,
-            }),
-      },
-    ],
-    false,
-  );
+  seatAll(api, loaded.worldSeed, [officialSpec(api, input)], false);
   return officialOf(api, personId)!;
 }
+
+type SeatInput = Parameters<typeof seatOfficial>[1];
+
+/** The spec one holder seated after the opening is drawn from. */
+function officialSpec(api: CoreAPI, input: SeatInput): Spec {
+  const bodyKind = bodyKindOf(input.officeKind);
+  return {
+    ...input,
+    bodyKind,
+    serviceStart: input.serviceStart ?? input.term?.startDate ?? api.state.date,
+    nextElectionYear:
+      input.nextElectionYear !== undefined
+        ? input.nextElectionYear
+        : input.termYears
+          ? Number(api.state.date.slice(0, 4)) + input.termYears
+          : null,
+    role:
+      bodyKind === "executive"
+        ? "executive-officeholder-at-opening"
+        : "sitting-legislator-at-opening",
+    ...(bodyKind === "executive"
+      ? {}
+      : {
+          legalMinimumAge:
+            bodyKind === "us-senate" ? 30 : bodyKind === "us-house" ? 25 : 21,
+        }),
+  };
+}
+
+/** What an unopened holder is drawn as: their ideal and causes, and their traits. */
+type UnopenedDraw = Pick<OfficialRow, "ideal" | "signature"> & {
+  readonly traits: Readonly<Record<string, number>>;
+};
+const unopened = new WeakMap<object, Map<string, UnopenedDraw>>();
+
+/**
+ * Another place's holder nobody has opened: a term that names no person, of
+ * an office outside the player's state, read by its holder's key
+ * (`official:<term>`). Serving or not: one who left office is still nobody
+ * built.
+ */
+function unopenedTerm(api: CoreAPI, memberId: string): TermRow | undefined {
+  if (!memberId.startsWith("official:")) return undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const term = offices
+    .table("terms")
+    .get(memberId.slice("official:".length)) as unknown as TermRow | undefined;
+  if (!term || term.personId) return undefined;
+  const office = offices.table("offices").get(term.officeId) as unknown as
+    Parameters<typeof isOutsideOffice>[1] | undefined;
+  return office && isOutsideOffice(api, office) ? term : undefined;
+}
+
+/**
+ * An unopened holder's draw: the same one that seats them when the player
+ * meets or opens them (`holderOf`), with nothing written, kept in memory
+ * per world.
+ */
+function unopenedDraw(api: CoreAPI, term: TermRow): UnopenedDraw {
+  let kept = unopened.get(api.state);
+  const held = kept?.get(term.id);
+  if (held) return held;
+  const loaded = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { worldSeed: string };
+  const [seat] = drawAll(
+    api,
+    loaded.worldSeed,
+    [officialSpec(api, holderInput(api, term))],
+    false,
+  ).seats;
+  const draw = {
+    ideal: seat!.drawn.ideal,
+    signature: seat!.drawn.signature,
+    traits: seat!.drawn.traits,
+  };
+  if (!kept) unopened.set(api.state, (kept = new Map()));
+  kept.set(term.id, draw);
+  return draw;
+}
+
+/**
+ * What another place's unopened holder stands on (their term names no
+ * person and no official row is kept), from their draw. Their session reads
+ * them through this, so other places keep only their results (owner, Oct
+ * 11, two-level population; CTO, Nov 18 13:44Z).
+ */
+function unopenedStance(
+  api: CoreAPI,
+  memberId: string,
+): Pick<OfficialRow, "ideal" | "signature"> | undefined {
+  const term = unopenedTerm(api, memberId);
+  return term ? unopenedDraw(api, term) : undefined;
+}
+
+/**
+ * Another place's unopened holders live by the same mortality rule as
+ * everyone: the health engine books their illness and death from who they
+ * are (their term's birth date and home state, their draw's traits), and
+ * their death writes only its result: the term ends and the seat falls
+ * vacant, filled by the place's own law. Nobody is built (CTO, Nov 18
+ * 15:04Z). Moves are not read for them: a husk never moved either.
+ */
+registerUnbuiltHolders({
+  // The terms table only grows: a new count is a new holder to book.
+  marker: (core) =>
+    core.modules.has(OFFICIALS_MODULE_ID)
+      ? coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms").size
+      : -1,
+  ids: (core) => {
+    if (!core.modules.has(OFFICIALS_MODULE_ID)) return [];
+    const api = coreAPI(core);
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    const outside = new Map<string, boolean>();
+    return (
+      offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]
+    )
+      .filter((term) => {
+        if (term.personId) return false;
+        if (!outside.has(term.officeId))
+          outside.set(
+            term.officeId,
+            isOutsideOffice(api, offices.table("offices").get(term.officeId)),
+          );
+        return outside.get(term.officeId)!;
+      })
+      .map((term) => `official:${term.id}`);
+  },
+  holds: (core, personId) =>
+    core.modules.has(OFFICIALS_MODULE_ID) &&
+    unopenedTerm(coreAPI(core), personId) !== undefined,
+  died: (core, personId) => {
+    const api = coreAPI(core);
+    const term = unopenedTerm(api, personId);
+    if (term?.status === "serving") vacateSeat(api, term.seatId, "death");
+  },
+});
 
 /** The parts of an official's position on a bill that are theirs alone. */
 export interface OfficialParts {
@@ -1625,6 +1860,7 @@ function rankCandidates(
     readonly exclude: ReadonlySet<string>;
   },
 ) {
+  const positions = partyPositionsOf(api.state.seed);
   const side = partySide(party);
   const facts = seatFacts(api, contest.seatId);
   if (!facts || facts.office.kind === "president") return null;
@@ -1643,6 +1879,7 @@ function rankCandidates(
     facts.seat.district,
     party,
     facts.office.kind,
+    contest.seatId,
   ).lean;
   // Anyone already running somewhere this year runs only there.
   const running = new Set(
@@ -1711,6 +1948,7 @@ function rankCandidates(
       districtLean: seatLeanNow,
       leader: false,
       temperament: temperamentOf(api.state as CoreState, id, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
     return { id, identity, drawn };
   });
@@ -1949,6 +2187,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     facts.seat.district,
     party,
     facts.office.kind,
+    seatId,
   );
   const row: OfficialRow = {
     id: personId,
@@ -1998,7 +2237,7 @@ export function officialStance(
   memberId: string,
   question: string,
 ): number | null {
-  const row = officialOf(api, memberId);
+  const row = officialOf(api, memberId) ?? unopenedStance(api, memberId);
   if (!row) return null;
   // Their opening position, moved by what they have heard since, as any
   // resident's view is (views.ts `viewOn`): a case made to them, a story
@@ -2057,5 +2296,10 @@ export function temperamentOf(
 }
 
 /** A seat-holder's own stance and the President's record facts, read through the executive family's entry. */
-export { ownStance } from "../law-consensus";
+export {
+  memberSupportAt,
+  memberSupportWith,
+  ownStance,
+} from "../law-consensus";
+export { expectedIdeal, partyKey, stanceLean } from "../officials-roster";
 export { PRESIDENT_FACT } from "../officials-president";

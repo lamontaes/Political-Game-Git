@@ -27,7 +27,8 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { personLean, personStance } from "../campaign-views";
-import { stateRightShare, stateTwoPartyVotes } from "../electorate-places";
+import { stateTwoPartyVotes } from "../electorate-places";
+import { keptStateRightShare } from "../place-leans";
 import { opinionRest, viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
 import { turnoutOn, VOTING_MODULE_ID } from "./voting";
@@ -235,8 +236,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const cast = stateTwoPartyVotes(usps, api.state.seed);
   const groups = { yes: 0, no: 0 };
   const unnamed = Math.max(0, (cast || voted) - voted);
-  const rightShare =
-    stateRightShare(usps, api.state.seed) ?? (1 + townLean(api)) / 2;
+  const rightShare = keptStateRightShare(api, usps) ?? (1 + townLean(api)) / 2;
   // Leans spread evenly from 2·right − 2 to 2·right (as named people's do);
   // the share voting yes is the part of that range whose view favors it.
   const low = 2 * rightShare - 2;

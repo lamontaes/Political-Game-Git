@@ -92,13 +92,28 @@ const generic: Record<string, Fact> = {
 };
 
 // What a donor's gift hands the scene (purpose-scene.ts, campaign-gift): the
-// amount, and the bill the donor holds the strongest view on.
+// amount, the bill the donor holds the strongest view on and what the donor's
+// reads add (donor-ask-facts.ts): where they work, the question the bill
+// answers and the side each of them is on, where the bill is and that the
+// player votes on it. A player's agree plays only where their own stand
+// matches the donor's, so the fixture hands a matching one.
 const donorFacts: Record<string, Fact> = {
   ...generic,
   money: fact("$2,500"),
   gift: fact("$2,500"),
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
+  employer: fact("the hospital"),
+  about: fact("free fares on public transit"),
+  "side-for": fact("for"),
+  "your-side": fact("for"),
+  "stand-with": fact("yes"),
+  "votes-on-it": fact("yes"),
+  "bill-filed": fact("yes"),
+  "bill-stage": fact("filed and waiting"),
+  "gift-biggest": fact("yes"),
+  "gift-weight": fact("the biggest check you've had"),
+  "asked-before": fact("yes"),
 };
 // What a reporter's call hands the scene (purpose-scene.ts, press-interview):
 // the bill, the outlet, and the facts the variant's reads add to the scene
@@ -114,11 +129,18 @@ const pressFacts: Record<string, Fact> = {
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
-// asker already voted for (`earlier`) and the reads that came to something.
+// asker already voted for (`earlier`), what the bill is about and where the
+// one asked stands on it, the sponsor's count and the vote's day
+// (vote-ask-facts.ts and the day facts, since the Nov 17 rewrite), and the
+// reads that came to something.
 const voteFacts: Record<string, Fact> = {
   ...generic,
   bill: fact("Bill 14"),
   earlier: fact("Bill 9"),
+  about: fact("free fares on public transit"),
+  stand: fact("make the buses free"),
+  "count-several": fact("yes"),
+  "vote-tomorrow": fact("yes"),
   "read-holds-post": fact("yes"),
   "read-same-party": fact("yes"),
   "read-favor-given": fact("yes"),
@@ -144,18 +166,32 @@ const helpFacts: Record<string, Fact> = {
   agency: fact("the workforce office"),
   "respond-in": fact("in seven days"),
 };
+// What a bribe hands the scene (purpose-scene.ts, the bribe's record and
+// bribe-facts.ts): the money, what the giver wants it for (a vote on a bill,
+// said as `favor-vote` with the bill; a contract as `favor-contract`), the
+// envelope against the household's living in words, and the reads.
+const bribeFacts: Record<string, Fact> = {
+  ...generic,
+  money: fact("$2,500"),
+  bill: fact("Bill 14"),
+  wanted: fact("the vote on Bill 14"),
+  "favor-vote": fact("yes"),
+  "bribe-weight": fact("about a month of what the house spends"),
+};
 const factsOf = (family: string) =>
-  family === "donor-ask"
-    ? donorFacts
-    : family === "press-comment"
-      ? pressFacts
-      : family === "conflict-accuse"
-        ? accuseFacts
-        : family === "ask-vote"
-          ? voteFacts
-          : family === "constituent-help"
-            ? helpFacts
-            : generic;
+  family === "bribe-offer" || family === "bribe-pressed"
+    ? bribeFacts
+    : family === "donor-ask"
+      ? donorFacts
+      : family === "press-comment"
+        ? pressFacts
+        : family === "conflict-accuse"
+          ? accuseFacts
+          : family === "ask-vote"
+            ? voteFacts
+            : family === "constituent-help"
+              ? helpFacts
+              : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -349,13 +385,13 @@ describe("a kind with several arcs", () => {
     const first = new Set<string>();
     for (let n = 0; n < 12; n += 1)
       first.add(
-        compose("bribe-offer", "plain", generic, `cause-${n}`).state.text,
+        compose("bribe-offer", "plain", bribeFacts, `cause-${n}`).state.text,
       );
     expect(first.size).toBeGreaterThan(1);
     // The same cause says the same words.
     expect(
-      compose("bribe-offer", "friend", generic, "cause-z").state.text,
-    ).toBe(compose("bribe-offer", "friend", generic, "cause-z").state.text);
+      compose("bribe-offer", "friend", bribeFacts, "cause-z").state.text,
+    ).toBe(compose("bribe-offer", "friend", bribeFacts, "cause-z").state.text);
   });
 
   it("reads no kind's name: a kind without a row plays its one arc", () => {

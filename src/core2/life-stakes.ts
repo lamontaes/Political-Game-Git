@@ -26,7 +26,7 @@ import {
 } from "./life-stake-rule";
 import { ageOnDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
-import { fullHouseholdIncomes, incomeBandOf } from "./counted-income-fifth";
+import { fullHouseholdIncomes, incomeBandOn } from "./counted-income-fifth";
 import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { planReaders } from "./life-plan-readers";
@@ -221,7 +221,10 @@ function fullLifeFacts(
   return {
     rents:
       lease && !lease.endedAt ? 1 : index.housed.has(person.placeId) ? 0 : null,
-    incomeFifth: incomeBandOf(incomeOf(core, index, person.householdId)),
+    incomeFifth: incomeBandOn(
+      coreAPI(core),
+      incomeOf(core, index, person.householdId),
+    ),
     noWork: working ? (job ? 0 : 1) : null,
     // A plan the coverage engine keeps no record of is not known.
     noPrivatePlan:
@@ -304,7 +307,7 @@ function countedFacts(
         : 0;
   const rents =
     h.tenure === "rent" ? 1 : monthIndex(core).housed.has(h.placeId) ? 0 : null;
-  const incomeFifth = incomeBandOf(householdIncome(rt, h));
+  const incomeFifth = incomeBandOn(coreAPI(core), householdIncome(rt, h));
   const youngChild = ages.some((a) => a < YOUNG_CHILD_UNDER) ? 1 : 0;
   const byId = new Map<string, LifeFacts>();
   members.forEach((member, at) => {

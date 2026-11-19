@@ -76,8 +76,9 @@ describe("the President's views on federal questions, in drawn places", () => {
       expect(held.length, here).toBeGreaterThanOrEqual(15);
       const stands = standsAt(api, president!, "federal", "US");
       expect(stands.length, here).toBeGreaterThanOrEqual(6);
-      // The address names at least three national points, at least two of
-      // them questions only federal law answers, each one of his stands.
+      // The address names as many national points as the President's own
+      // stands and the day call for (owner, Nov 18: no fixed count), at
+      // least one; each is one of his stands, and he holds a side on it.
       const points = [
         ...new Set(
           world.director.ledger.opening!.address.sentences.flatMap((row) =>
@@ -87,19 +88,15 @@ describe("the President's views on federal questions, in drawn places", () => {
           ),
         ),
       ];
-      expect(
-        points.length,
-        `${here}: ${points.join(", ")}`,
-      ).toBeGreaterThanOrEqual(3);
-      expect(
-        points.filter((question) => question in rows).length,
-        `${here}: ${points.join(", ")}`,
-      ).toBeGreaterThanOrEqual(2);
-      for (const question of points)
-        expect(
-          stands.some((row) => row.question === question),
-          `${here}: ${question}`,
-        ).toBe(true);
+      expect(points.length, here).toBeGreaterThanOrEqual(1);
+      for (const question of points) {
+        const stand = stands.find((row) => row.question === question);
+        expect(stand, `${here}: ${question}`).toBeTruthy();
+        expect(Math.sign(stand!.stance), `${here}: ${question}`).toBe(
+          Math.sign(stances.get(question) ?? stand!.stance),
+        );
+        expect(stand!.stance, `${here}: ${question}`).not.toBe(0);
+      }
       // A Republican President stands with most of his party on a question
       // the roll call split by party, and a Democratic one with most of hers.
       const side = president!.party === "Republican" ? 1 : -1;

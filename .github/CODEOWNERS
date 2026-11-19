@@ -35,6 +35,8 @@
 /src/core2/gov-test-report.ts @lamontaes
 /src/core2/law-test-start.ts @lamontaes
 /src/core2/resident-adults-test-kit.ts @lamontaes
+/src/core2/record-test-kit.ts @lamontaes
+/src/core2/counted-moves-balance-kit.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
@@ -54,6 +56,7 @@
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/filing-rule-office.ts @lamontaes
+/src/core2/voting-module-id.ts @lamontaes
 /src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
@@ -70,6 +73,8 @@
 /src/core2/electorate*.ts @lamontaes
 /src/core2/legislative-district-results.ts @lamontaes
 /src/core2/race-places.ts @lamontaes
+/src/core2/place-leans.ts @lamontaes
+/src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
 /src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
@@ -305,6 +310,7 @@
 /src/core2/life-stake-rule.ts @lamontaes
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
+/src/core2/modules/promises.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

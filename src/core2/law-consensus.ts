@@ -234,13 +234,28 @@ export function memberSupportAt(
   lean: number,
   question: string,
 ): number {
+  const consensus = axisOf[question] ? lawConsensus(api, question) : null;
+  return memberSupportWith(lean, question, consensus?.share ?? null);
+}
+
+/**
+ * The one stance rule a member votes by (`memberSupportAt`), given the
+ * consensus share its reader has read from its own world's laws (null where
+ * nothing in that world answers the question, which reads the lean alone).
+ * The century's sessions, which sit before a played world exists, read it
+ * from the century's own laws and roll calls (electorate-century-laws.ts).
+ */
+export function memberSupportWith(
+  lean: number,
+  question: string,
+  share: number | null,
+): number {
   const row = axisOf[question];
-  const consensus = row ? lawConsensus(api, question) : null;
   // A member's lean reads along the question's measured direction among
   // governments (what states enacted, how Congress voted), not the voters'.
   return (
     lean * questionAxis(question) +
-    (row && consensus ? Math.abs(row.axis) * (2 * consensus.share - 1) : 0)
+    (row && share !== null ? Math.abs(row.axis) * (2 * share - 1) : 0)
   );
 }
 

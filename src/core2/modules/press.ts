@@ -3370,7 +3370,12 @@ export function leakToReporter(
     sourceId: `leak:${input.crimeId}`,
     access: "told",
   });
-  api.relationship(input.leakerId, input.reporterId, "contact", 0.5);
+  api.relationship(
+    input.leakerId,
+    input.reporterId,
+    "contact",
+    api.parameter("sourceMeetingMinutes") / api.parameter("minutesPerHour"),
+  );
   return row;
 }
 

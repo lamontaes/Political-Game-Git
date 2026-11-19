@@ -530,6 +530,7 @@
     "us-policy-positions:civil-family-community.restrict-abortion": {
       "source": "State abortion restrictions after Dobbs v. Jackson Women's Health Organization, 597 U.S. 215 (2022) (Guttmacher Institute, State Policies on Abortion, 2024); reproductive age 15 to 44 (CDC).",
       "mechanic": "none",
+      "effectLevels": ["federal", "state"],
       "reaches": [
         {
           "id": "women",
