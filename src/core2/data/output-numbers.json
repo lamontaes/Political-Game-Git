@@ -606,7 +606,7 @@
         "citation": "The country tier's kept months for the state."
       },
       "fold": "december",
-      "traceInputs": [],
+      "traceInputs": ["workers", "seekers"],
       "reader": "country-state:unemploymentPct",
       "metrics": {
         "section": "state",

@@ -15,11 +15,18 @@ import {
   type MacroMonth,
 } from "./macro-model";
 import { budgetsOf, governments, type GovernmentRow } from "./modules/budgets";
-import { countryStateMonth, openingStateMonth } from "./modules/macro";
+import {
+  countryStateMonth,
+  openingStateMonth,
+  type CountryStateMonth,
+} from "./modules/macro";
 import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
+  keptOutputHistory,
   keptOutputNumber,
+  OUTPUT_NUMBERS,
   outputNumber,
+  type OutputHistoryPoint,
   type OutputReading,
 } from "./output-numbers";
 import { REGIONS } from "./regional-model";
@@ -206,6 +213,7 @@ const READERS: Readonly<
           state.before?.[key],
           state.now.id,
           state.before?.id,
+          stateInputs(state.now, key),
         )
       : null;
   },
@@ -227,6 +235,100 @@ const READERS: Readonly<
       : null;
   },
 };
+
+/**
+ * What a state's month figure is out of: the fields the registry names as its
+ * trace inputs (`traceInputs`), as the state's month row keeps them. The
+ * owning engine adds a field to the row and its name to the registry.
+ */
+function stateInputs(
+  row: CountryStateMonth,
+  key: "unemploymentPct" | "hourlyPay" | "jobs",
+): Record<string, number> {
+  const number = OUTPUT_NUMBERS.find(
+    (n) => n.reader === `country-state:${key}`,
+  );
+  const out: Record<string, number> = {};
+  for (const name of number?.traceInputs ?? []) {
+    const value = (row as unknown as Record<string, unknown>)[name];
+    if (typeof value === "number") out[name] = value;
+  }
+  return out;
+}
+
+/**
+ * A registered figure's history for the place, oldest first, at most `limit`
+ * points, each with the record it was read from: the kept months or years
+ * world-metrics holds, or the owning engine's own dated rows (the nation's
+ * months, the state's months in the country tier, the town's budgets by
+ * fiscal year). Each point is a lookup by id; nothing is scanned. Dev mode's
+ * figure trace reads it; no screen counts from it.
+ */
+export function outputNumberHistory(
+  reads: OutputReads,
+  id: string,
+  limit = 24,
+): OutputHistoryPoint[] {
+  const number = outputNumber(id);
+  if (!number) throw new Error(`No output number "${id}".`);
+  if (number.kept)
+    return keptOutputHistory(reads.core, reads.api, id, reads.placeId, limit);
+  const [name, field] = (number.reader ?? "").split(":") as [string, string];
+  const { core, api } = reads;
+  const p = (key: string) => api.parameter(key);
+  const latest = nationMonths(reads)?.now.month;
+  const monthsBack = (count: number) =>
+    latest
+      ? Array.from({ length: count }, (_, i) =>
+          shiftMonth(latest, -(count - 1 - i), p),
+        )
+      : [];
+  if (name === "macro-month") {
+    if (!core.modules.has("macro")) return [];
+    const table = api.moduleState("macro").table("months");
+    return monthsBack(limit).flatMap((month) => {
+      const row = table.get(`macro-month:${month}`) as unknown as
+        MacroMonth | undefined;
+      const value = row?.[field as keyof MacroMonth];
+      return row && typeof value === "number"
+        ? [{ date: month, value, recordId: row.id }]
+        : [];
+    });
+  }
+  if (name === "country-state") {
+    const state = stateMonths(reads);
+    if (!state) return [];
+    const key = field as "unemploymentPct" | "hourlyPay" | "jobs";
+    return monthsBack(limit).flatMap((month) => {
+      const row = countryStateMonth(api, state.fips, month);
+      if (!row) return [];
+      const inputs = stateInputs(row, key);
+      return [
+        {
+          date: month,
+          value: row[key],
+          recordId: row.id,
+          ...(Object.keys(inputs).length ? { inputs } : {}),
+        },
+      ];
+    });
+  }
+  if (name === "town-budget") {
+    const gov = townGovernment(api, reads.placeId);
+    if (!gov) return [];
+    const key = field as "revenueMinor" | "spendingMinor";
+    return [...budgetsOf(api, gov.id)]
+      .sort((a, b) => a.fiscalYear - b.fiscalYear)
+      .slice(-limit)
+      .map((row) => ({
+        date: String(row.fiscalYear),
+        value: Object.values(row[key]).reduce((n, v) => n + v, 0),
+        recordId: row.id,
+        inputs: { fiscalYear: row.fiscalYear },
+      }));
+  }
+  return [];
+}
 
 /** A registered figure for the place, this year beside last, or null where its owner holds none. */
 export function readOutputNumber(reads: OutputReads, id: string): Reading {
