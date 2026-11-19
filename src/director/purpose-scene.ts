@@ -91,7 +91,7 @@ import {
   questionTopic,
   storyTopicName,
 } from "../english/policy-names";
-import { dollars } from "../english/bill-sections";
+import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
@@ -362,6 +362,7 @@ export function purposeScene(
 /** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
 interface LawReachRow {
   readonly jurisdiction?: string;
+  readonly level?: string;
   readonly effectiveDate?: string;
   readonly endDate?: string | null;
   readonly series?: string;
@@ -578,7 +579,13 @@ export function lawFactsOfCause(
     : null;
   const series = said.series ?? lawRowOfSaid?.series;
   if (said.lawId && series) {
-    const name = lawName(series);
+    // An amount named for one level (the bank's "local income tax rate") is
+    // said at the level of the law row that set it: a state's income tax is
+    // "the state income tax rate".
+    const name =
+      (lawRowOfSaid?.level
+        ? amountSubjectAt(series, lawRowOfSaid.level)
+        : undefined) ?? lawName(series);
     if (name)
       facts.law = {
         text: name,
