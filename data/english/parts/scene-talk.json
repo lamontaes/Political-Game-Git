@@ -27309,6 +27309,15 @@
           "role": "asked",
           "purpose": "invite-debate",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
         }
       ],
       "bearing": "guarded",
@@ -37174,31 +37183,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.give-me-time",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Give me time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.i-need-time",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -37212,6 +37196,14 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -37485,6 +37477,51 @@
           "role": "asked",
           "purpose": "homecoming",
           "key": "arrival"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["schoolmate", "school"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["meeting", "body"]
         }
       ],
       "bearing": "guarded",
@@ -38789,6 +38826,64 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "outcome": "open",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["schoolmate", "school"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["meeting", "body"]
         }
       ],
       "bearing": "calm",
@@ -40040,67 +40135,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-now",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.ask-someone-else",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -41096,80 +41130,6 @@
       "tag": {
         "move": "promise",
         "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.take-your-time",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Take your time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "invite-debate",
-          "key": "favor-asked",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "outcome": "open",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "open",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "open",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "open",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
       }
     },
     {
@@ -43382,30 +43342,6 @@
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Not decided yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.i-need-time",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I need time.",
       "uses": [
         {
           "subject": "scene",
