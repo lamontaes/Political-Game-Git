@@ -1289,6 +1289,11 @@ function victimizationSubjects(
       id: `victimization:${moment.causeId}`,
       kind: "victimization",
       aboutId: moment.causeId,
+      // Tied by the crime record itself: the moment is the speaker's own (the
+      // director keeps it only for whom the record names), and the log keeps
+      // a record only for the player's circle, so a victim the player has not
+      // met has none there for the tie rule to find (subject-tie.ts).
+      tie: { kind: "record" as const, recordIds: [moment.causeId] },
       stage: type,
       facts: {
         victimized: { text: "", sourceRecordIds: [moment.causeId] },
