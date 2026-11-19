@@ -27,7 +27,10 @@ import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
-import { townOutsideOf } from "./opening-outside-market";
+import {
+  openTownOutsideAccount,
+  townOutsideOf,
+} from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -358,6 +361,18 @@ export function outsideAccountOf(api: CoreAPI): string | undefined {
   return (
     townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
   )?.id;
+}
+
+/**
+ * The account a treasury's money from outside the place moves through: the
+ * town's outside account, opened here where no payment has crossed the
+ * town's edge yet (`openTownOutsideAccount`; Putnamville, Indiana).
+ */
+export function treasuryOutsideAccount(api: CoreAPI): string {
+  return (
+    outsideAccountOf(api) ??
+    openTownOutsideAccount(api, lawChain(api).townPlaceId)
+  );
 }
 
 /**
