@@ -1978,7 +1978,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/budgets-treasury.ts",
     "line": 1629,
-    "whatItFakes": "At each monthly close a state or local treasury sends what it holds above its reserve (reserveMonthsOfSpending of yearly spending) to the town's outside account, as investment in trust funds and securities elsewhere.",
+    "whatItFakes": "At each monthly close a state or local treasury sends what it holds above its own cushion (the deepest run of months it paid out more than it collected, in its own treasury months, in months of spending, plus payroll; none swept until a whole year is recorded) to the town's outside account, as investment in trust funds and securities elsewhere.",
     "why": "The Census year the budget lines come from ran surpluses (pension and reserve deposits, federal relief) and nothing in the game spends or invests them, so the treasury piled up about $10 billion a year in a state and the outside account ran the same amount negative.",
     "addedBy": "Money",
     "addedAt": "2026-11-08",

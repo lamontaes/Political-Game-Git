@@ -2119,11 +2119,44 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
 }
 
 /**
- * What a state or local treasury holds above its reserve is invested outside
- * the town (trust funds, securities), as real governments do with a surplus,
- * so a Census year that ran a surplus does not pile up in the account month
- * after month (SG-GOV-reserve-sweep). The federal treasury pays down its
- * debt instead (`repayFederalSurplus`).
+ * How many months of its spending a government's own past shows it needs to hold: the deepest run of months, in its
+ * own recorded treasury months, in which it paid out more than it collected (borrowing is not a collection), over its
+ * mean monthly spending. A government that has only run surpluses needs none beyond payroll; one that has run
+ * shortfalls holds more. None until a whole year is recorded: with no past there is nothing to size a cushion by, and
+ * the treasury keeps what it holds. Only the last five years are read, so the read stays short as history grows.
+ */
+export function reserveCushionMonths(
+  api: CoreAPI,
+  governmentId: string,
+): number | undefined {
+  const perYear = treasuryParameter("monthsPerYear");
+  const months = [...treasuryMonthsOf(api, governmentId)]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(-perYear * 5);
+  if (months.length < perYear) return undefined;
+  let running = 0;
+  let peak = 0;
+  let deepest = 0;
+  let spentTotal = 0;
+  for (const m of months) {
+    const spent = Object.values(m.lines).reduce(
+      (n, l) =>
+        n + l.inTownMinor + l.aidMinor + l.providersMinor + l.outsideMinor,
+      0,
+    );
+    spentTotal += spent;
+    running += m.collectedMinor - m.borrowedMinor - spent;
+    peak = Math.max(peak, running);
+    deepest = Math.max(deepest, peak - running);
+  }
+  const meanSpent = spentTotal / months.length;
+  return meanSpent > 0 ? deepest / meanSpent : 0;
+}
+
+/**
+ * What a state or local treasury holds above its own cushion (`reserveCushionMonths`) is invested outside the town
+ * (trust funds, securities), as real governments do with a surplus, so a surplus does not pile up in the account
+ * month after month (SG-GOV-reserve-sweep). The federal treasury pays down its debt instead (`repayFederalSurplus`).
  */
 function sweepReserves(
   api: CoreAPI,
@@ -2137,14 +2170,16 @@ function sweepReserves(
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget || gov.level === "federal") continue;
+    const cushion = reserveCushionMonths(api, gov.id);
+    // With no year of its own to size a cushion by, a treasury keeps what it holds.
+    if (cushion === undefined) continue;
     const yearly = Object.values(budget.spendingMinor).reduce(
       (a, v) => a + v,
       0,
     );
     const main = accounts.main(gov.organizationId);
     const keep =
-      (yearly / treasuryParameter("monthsPerYear")) *
-        treasuryParameter("reserveMonthsOfSpending") +
+      (yearly / treasuryParameter("monthsPerYear")) * cushion +
       payrollReserve(api, gov);
     const excess = Math.floor(accounts.balance(main) - keep);
     if (excess <= 0) continue;
