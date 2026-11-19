@@ -40,6 +40,7 @@ import {
 } from "../public-pay-floor";
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
+import questionAmounts from "../data/laws/question-amounts.json" with { type: "json" };
 import {
   socialSecurityAgesFrom,
   type SocialSecurityAges,
@@ -249,6 +250,47 @@ export function openLaws(core: CoreState): LawChain {
     if (federal) {
       const place = isFederal ? federal.jurisdiction : chain.stateKey;
       const enacted = centuryLaw(api.state.seed, place, question);
+      // The century votes the question but not yet the amount that answers
+      // it (the income tax's rate): the question opens with the answer the
+      // amount in force gives, so a bill on the question repeals or restores
+      // that amount (CTO line 6995081181 on #9747; History's family 4).
+      const amount = enacted === undefined ? undefined : amountAnswer(question);
+      if (amount) {
+        // stopgapId: SG-HIST-century-question-follows-amount
+        api.stopgap("SG-HIST-century-question-follows-amount");
+        const level = isFederal ? "federal" : "state";
+        const governing = (
+          state
+            .table("laws")
+            .query("bySeriesOnly", [amount.series]) as unknown as LawRowInput[]
+        )
+          .filter(
+            (r) =>
+              r.jurisdiction === place &&
+              r.level === level &&
+              inForceOn(r, today),
+          )
+          .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))
+          .at(-1);
+        const row: LawRowInput = {
+          id: `law:${place}:${level}:${question}:general:starting`,
+          jurisdiction: place,
+          level,
+          series: question,
+          tier: "general",
+          value: (governing?.value ?? 0) > 0 ? 1 : 0,
+          effectiveDate: governing?.effectiveDate ?? CENTURY_LAW_START,
+          endDate: null,
+          source: governing
+            ? `The ${amount.series} in force (${governing.id}): the century's sessions do not vote it yet`
+            : `No ${amount.series} in force: the century's sessions do not vote it yet`,
+          retrieved: today,
+          estimate: false,
+        };
+        if (!state.table("laws").get(row.id))
+          state.table("laws").put(row as unknown as ModuleRow);
+        continue;
+      }
       if (enacted !== undefined) {
         // stopgapId: SG-HIST-century-federal-mandates
         api.stopgap("SG-HIST-century-federal-mandates");
@@ -366,6 +408,15 @@ export function openLaws(core: CoreState): LawChain {
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
+/** The amount whose value answers a question, where one does (question-amounts.json). */
+function amountAnswer(question: string): { series: string } | undefined {
+  return (
+    questionAmounts.questions as Readonly<
+      Record<string, { series: string; yesWhen: string }>
+    >
+  )[question];
+}
+
 /** The day a question no century session enacted has stood unenacted since: the first session's year. */
 const CENTURY_LAW_START = "1926-01-01";
 
