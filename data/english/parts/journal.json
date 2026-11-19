@@ -2885,6 +2885,448 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.memoir-againWait.i-hadnt-had-a-paycheck-since-last-employer",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "I hadn't had a paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.it-was-my-first-paycheck-since-last-employer",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "It was my first paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.last-employer-was-the-last-place-that-paid-me",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "{last_employer} was the last place that paid me.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-had-no-job-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I had no job after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-was-out-of-work-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I was out of work after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-had-no-work-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I had no work after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-deathIllness.name-had-been-after-illness",
+      "move": "memoir-deathIllness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-deathIllness",
+          "subject": "memoir",
+          "role": "deathIllness",
+          "choice": "deathIllness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-deathIllness.name-had-been-after-illness-before-the-end",
+      "move": "memoir-deathIllness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness} before the end.",
+      "uses": [
+        {
+          "move": "memoir-deathIllness",
+          "subject": "memoir",
+          "role": "deathIllness",
+          "choice": "deathIllness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.i-came-here-from-moved-from",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "I came here from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.i-had-been-living-in-moved-from-before-that",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "I had been living in {moved_from} before that.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.we-came-from-moved-from",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "We came from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.moved-with-came-with-me",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "{moved_with} came with me.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.moved-with-moved-with-me",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "{moved_with} moved with me.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.i-brought-moved-with-along",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "I brought {moved_with} along.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-my-first-child",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was my first child.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-our-first",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was our first.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-the-first-child-we-had",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was the first child we had.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
