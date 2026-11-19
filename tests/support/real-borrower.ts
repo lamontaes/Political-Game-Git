@@ -143,6 +143,9 @@ export function findTownBorrower(
     const quarrel = found[0];
     if (!quarrel) {
       passedOver.push(`${label}: no money quarrel by ${core.date}`);
+      // Printed the moment it is passed over, so a draw that runs out of time
+      // still names every place played before it.
+      process.stdout.write(`passed over: ${passedOver.at(-1)}\n`);
       continue;
     }
     const missed = missedBy.get(String(quarrel.facts!.missedId));
