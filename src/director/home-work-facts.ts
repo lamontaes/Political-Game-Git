@@ -175,7 +175,7 @@ function layoffFacts(
   lostOn: string,
   said: Readonly<Record<string, string>>,
 ): Facts {
-  const jobId = LAYOFF_CHANGE.exec(said.jobChangeId ?? "")?.[1];
+  const jobId = LAYOFF_CHANGE.exec(said.jobChangeId ?? "")?.[P.one];
   const facts = workFacts(core, jobId, causeId);
   const held = jobAndEmployer(core, jobId);
   if (!held || !jobId) return facts;
@@ -225,7 +225,7 @@ function schoolFacts(core: Readonly<CoreState>, causeId: string): Facts {
   // left it, the last high school the person's school records name.
   const last = schoolsAttended(core, result.personId)
     .filter((row) => row.stage === "high")
-    .at(-1);
+    .at(-P.one);
   const schoolId = result.schoolId ?? last?.schoolId;
   const school = schoolId ? core.organizations.get(schoolId) : undefined;
   if (school)
@@ -281,9 +281,10 @@ function partnerFacts(
   const [child] = [...core.familyLinks.values()]
     .filter(
       (row) =>
-        row.kind === "parent-child" && personIds.includes(row.personIds[0]),
+        row.kind === "parent-child" &&
+        personIds.includes(row.personIds[P.zero]!),
     )
-    .map((row) => core.people.get(row.personIds[1]))
+    .map((row) => core.people.get(row.personIds[P.one]!))
     .filter(
       (row) =>
         row?.alive &&
