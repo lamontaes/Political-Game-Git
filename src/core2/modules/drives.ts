@@ -1245,10 +1245,18 @@ export function confrontationStrain(
   const tie = api.state.relationships.get(pairKey(actorId, targetId));
   const levelBefore = tie ? currentCloseness(api.state, tie) : p("zero");
   const levelAfter = Math.max(p("zero"), levelBefore - levelLost);
+  // What the tie can't absorb above zero (two strangers, or a tie thinner
+  // than the loss) stays as strain later time together must first make up:
+  // a stranger who is confronted is someone the holder has now fallen out
+  // with, not someone the confrontation never touched.
+  const beyond = Math.max(p("zero"), levelLost - levelBefore);
   return {
     levelBefore,
     levelAfter,
-    strainHours: hoursFromLevel(p, levelBefore) - hoursFromLevel(p, levelAfter),
+    strainHours:
+      hoursFromLevel(p, levelBefore) -
+      hoursFromLevel(p, levelAfter) +
+      hoursFromLevel(p, beyond),
   };
 }
 
