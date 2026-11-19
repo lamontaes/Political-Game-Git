@@ -639,7 +639,7 @@
           "subject": "inaugural",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         },
         {
@@ -647,7 +647,7 @@
           "subject": "state-of-the-union",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         }
       ],
@@ -6856,6 +6856,151 @@
       "piece": {
         "part": "closer"
       },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-you-know-where-i-stand-on-asked-about-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "You know where I stand on {asked-about}. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-my-answer-on-asked-about-will-not-change-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "My answer on {asked-about} will not change. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-on-asked-about-my-answer-stays-no-hold-me-to-that",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {asked-about}, my answer stays no. Hold me to that.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-i-have-asked-for-action-on-asked-about-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I have asked for action on {asked-about}. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-i-asked-for-asked-about-tonight-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I asked for {asked-about} tonight. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
       "date": "2026-11-19"
