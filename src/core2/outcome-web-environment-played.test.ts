@@ -24,7 +24,8 @@
  * the day, and the run reports the records they write. Played in a place
  * drawn from all 56 on a seed nobody chose; a place that already had a law
  * whose link comes due in the days played, when the research's base levels
- * were measured, is drawn again, a bounded number of times.
+ * were measured, is drawn again, a bounded number of times. So is a place
+ * where a bill switches off a controlled price before its comparison.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -38,7 +39,7 @@ import { appliedOn } from "./law-reach/applied";
 import { BUSINESS_MODULE_ID } from "./modules/business";
 import { advanceCore } from "./life";
 import { healthDeathWebOf } from "./modules/health";
-import { enactLaw, lawChain } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import {
   lawValue,
   OUTCOME_WEB_MODULE_ID,
@@ -110,6 +111,13 @@ const MUST_RUN = LAW_LINKS.filter(
       addDays(makeIsoDate(gameStartDate()), DAYS),
 );
 const DUE = [...new Set(MUST_RUN.map(seriesOf))];
+const PRICE_COMPARISONS = [
+  [BOTTLE, [DEPOSIT_LINK]],
+  [
+    CARBON,
+    MUST_RUN.filter((row) => row.to === EMISSIONS).map((row) => row.key),
+  ],
+] as const;
 
 /** The same day `months` later, past the 28th read as the 28th, as the web reads a lag. */
 function monthsAfter(date: string, months: number): string {
@@ -180,7 +188,12 @@ function play(drawSeed: string) {
     LAWS.map((series) => [series, lawValue(api, series, CALIBRATED_AT, true)]),
   ) as Record<string, number>;
   const already = DUE.filter((series) => atBase[series] !== 0);
-  if (already.length) return { place, drawSeed, already, result: undefined };
+  if (already.length)
+    return {
+      place,
+      blockedBy: `already law at the base: ${already.join(", ")}`,
+      result: undefined,
+    };
   const effective = core.date;
   for (const series of LAWS)
     for (const level of lawChain(api).levels)
@@ -223,6 +236,21 @@ function play(drawSeed: string) {
       keepCountedUntil = "";
     }
     if (next.slice(8, 10) === "03") {
+      for (const [series, links] of PRICE_COMPARISONS) {
+        const compared = links.every((key) =>
+          settles.some((settle) => (settle.read.effects[key] ?? 0) !== 0),
+        );
+        if (compared) continue;
+        const { value, governing } = lawInForce(api, series, next);
+        if (value !== 1 && governing?.terms?.enactedBy !== undefined) {
+          setBookkeeping(false);
+          return {
+            place,
+            blockedBy: `${governing.id} took effect ${governing.effectiveDate} and switched off ${series} before the comparison at the ${next} settle`,
+            result: undefined,
+          };
+        }
+      }
       // The price engine settles on the 3rd from the latest month row, before the web writes the new month.
       const read = townRows().at(-1)!;
       const households = [...core.households.values()].filter(
@@ -340,8 +368,7 @@ function play(drawSeed: string) {
   ).filter((row) => String(row.cause ?? "").startsWith(`law:${GROUNDWATER}:`));
   return {
     place,
-    drawSeed,
-    already,
+    blockedBy: undefined,
     result: {
       farmland,
       groundwater,
@@ -398,15 +425,15 @@ describe(`environment laws reach people on the web's own lags in a played world 
       const tried: string[] = [];
       let drawSeed = seed;
       let run = play(drawSeed);
-      for (let draw = 1; draw < DRAWS && run.already.length; draw += 1) {
-        tried.push(
-          `${run.place.name}, ${run.place.state} (${drawSeed}): already law at the base: ${run.already.join(", ")}`,
-        );
+      for (let draw = 1; draw < DRAWS && run.blockedBy; draw += 1) {
+        const skipped = `${run.place.name}, ${run.place.state} (${run.place.key}), draw and world seed ${drawSeed}: ${run.blockedBy}`;
+        process.stdout.write(`Environment played passed over ${skipped}\n`);
+        tried.push(skipped);
         drawSeed = `${seed}-${draw}`;
         run = play(drawSeed);
       }
       const where = `${run.place.name}, ${run.place.state}, seed ${drawSeed}`;
-      expect(run.already, `${where} (${tried.join("; ")})`).toEqual([]);
+      expect(run.blockedBy, `${where} (${tried.join("; ")})`).toBeUndefined();
       const {
         farmland,
         groundwater,
