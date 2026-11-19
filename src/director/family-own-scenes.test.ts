@@ -143,20 +143,33 @@ describe("a person's own courtship and child always stage", () => {
     // so whoever it delivers first is someone the director reads. The engine
     // opens its tables on the first day.
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    let lastDue = core.date as string;
     for (const row of moduleState(core, RENEWAL_MODULE_ID)
       .table("pregnancies")
       .rows())
-      if (row.status === "pregnant")
+      if (row.status === "pregnant") {
+        if (String(row.dueDate) > lastDue) lastDue = String(row.dueDate);
         for (const id of [row.motherId, row.otherParentId])
           if (core.people.get(String(id) as PersonId)?.alive)
             director.watch(core, String(id) as PersonId);
-    advanceCore(core, addDays(makeIsoDate(core.date), 100));
-    const mothers = [...director.ledger.people.keys()].filter((id) =>
-      entryFor(director, id as PersonId, "", "new-baby"),
-    );
+      }
+    // The opening's pregnancies are due when the history leaves them (the
+    // first on Apr 12 before the history from 1925, May 4 after it): play a
+    // week at a time until a baby is born, up to a week past the last due
+    // date.
+    const mothersNow = () =>
+      [...director.ledger.people.keys()].filter((id) =>
+        entryFor(director, id as PersonId, "", "new-baby"),
+      );
+    while (
+      !mothersNow().length &&
+      core.date <= addDays(makeIsoDate(lastDue), 7)
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    const mothers = mothersNow();
     expect(
       mothers.length,
-      `${where}: a birth in the first 100 days`,
+      `${where}: a birth by a week past the last due date, ${lastDue} (${core.date})`,
     ).toBeGreaterThan(0);
     for (const id of mothers) {
       const entry = entryFor(director, id as PersonId, "", "new-baby")!;
