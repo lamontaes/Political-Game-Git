@@ -25,5 +25,1307 @@
     "primary": "The primary's day, as people say a date, from the contest record, while it is ahead."
   },
   "maxWords": 20,
-  "parts": []
+  "parts": [
+    {
+      "key": "campaign-standing.reached.your-campaign-has-reached-reached-voters",
+      "move": "reached",
+      "kind": "written",
+      "text": "Your campaign has reached {reached} voters.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached.reached-voters-have-heard-what-you-have-to-say",
+      "move": "reached",
+      "kind": "written",
+      "text": "{reached} voters have heard what you have to say.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached.your-message-has-gotten-to-reached-voters",
+      "move": "reached",
+      "kind": "written",
+      "text": "Your message has gotten to {reached} voters.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-one.opponents-is-running-against-you",
+      "move": "opponent-one",
+      "kind": "written",
+      "text": "{opponents} is running against you.",
+      "uses": [
+        {
+          "move": "opponent-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-one.the-only-other-candidate-is-opponents",
+      "move": "opponent-one",
+      "kind": "written",
+      "text": "The only other candidate is {opponents}.",
+      "uses": [
+        {
+          "move": "opponent-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponents.the-other-candidates-are-opponents",
+      "move": "opponents",
+      "kind": "written",
+      "text": "The other candidates are {opponents}.",
+      "uses": [
+        {
+          "move": "opponents",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-reached.name-has-gotten-to-reached-voters",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "{name} has gotten to {reached} voters.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-reached.name-s-campaign-has-reached-reached-voters",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "{name}'s campaign has reached {reached} voters.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-cost.polling-sample-voters-costs-cost",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "Polling {sample} voters costs {cost}.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-cost.it-costs-cost-to-poll-sample-voters",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "It costs {cost} to poll {sample} voters.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-result.your-last-poll-came-back-on-date-from-contacted-voters-tally",
+      "move": "poll-result",
+      "kind": "written",
+      "text": "Your last poll came back on {date} from {contacted} voters. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-result.the-poll-of-date-heard-from-contacted-voters-tally",
+      "move": "poll-result",
+      "kind": "written",
+      "text": "The poll of {date} heard from {contacted} voters. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-warmer.warmer-of-the-voters-you-reached-feel-better-about-you",
+      "move": "moved-warmer",
+      "kind": "written",
+      "text": "{warmer} of the voters you reached feel better about you.",
+      "uses": [
+        {
+          "move": "moved-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-warmer"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-warmer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-warmer.warmer-voters-you-reached-think-more-of-you-now",
+      "move": "moved-warmer",
+      "kind": "written",
+      "text": "{warmer} voters you reached think more of you now.",
+      "uses": [
+        {
+          "move": "moved-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-warmer"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-warmer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-cooler.cooler-of-the-voters-you-reached-think-less-of-you",
+      "move": "moved-cooler",
+      "kind": "written",
+      "text": "{cooler} of the voters you reached think less of you.",
+      "uses": [
+        {
+          "move": "moved-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-cooler"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-cooler"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-cooler.cooler-voters-you-reached-feel-worse-about-you",
+      "move": "moved-cooler",
+      "kind": "written",
+      "text": "{cooler} voters you reached feel worse about you.",
+      "uses": [
+        {
+          "move": "moved-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-cooler"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-cooler"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-all-warmer.all-warmer-voters-you-reached-think-more-of-you",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "All {warmer} voters you reached think more of you.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer",
+          "requiresFacts": [
+            "warmer"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-all-warmer.each-of-the-warmer-you-reached-likes-you-more",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "Each of the {warmer} you reached likes you more.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer",
+          "requiresFacts": [
+            "warmer"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.all-cooler-voters-you-reached-think-less-of-you",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "All {cooler} voters you reached think less of you.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler",
+          "requiresFacts": [
+            "cooler"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.each-of-the-cooler-you-reached-likes-you-less",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "Each of the {cooler} you reached likes you less.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler",
+          "requiresFacts": [
+            "cooler"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-both.warmer-voters-like-you-more-now-and-cooler-like-you-less",
+      "move": "moved-both",
+      "kind": "written",
+      "text": "{warmer} voters like you more now, and {cooler} like you less.",
+      "uses": [
+        {
+          "move": "moved-both",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-both"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-both"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-both.you-warmed-warmer-voters-and-cooled-cooler-among-those-you-reached",
+      "move": "moved-both",
+      "kind": "written",
+      "text": "You warmed {warmer} voters and cooled {cooler} among those you reached.",
+      "uses": [
+        {
+          "move": "moved-both",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-both"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-both"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-reached-one.one-voter-has-heard-from-name",
+      "move": "opponent-reached-one",
+      "kind": "written",
+      "text": "One voter has heard from {name}.",
+      "uses": [
+        {
+          "move": "opponent-reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponent-reached-one.name-s-campaign-has-reached-one-voter",
+      "move": "opponent-reached-one",
+      "kind": "written",
+      "text": "{name}'s campaign has reached one voter.",
+      "uses": [
+        {
+          "move": "opponent-reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-result-one.your-last-poll-taken-date-heard-from-one-voter-tally",
+      "move": "poll-result-one",
+      "kind": "written",
+      "text": "Your last poll, taken {date}, heard from one voter. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.poll-result-one.the-poll-of-date-reached-just-one-voter-tally",
+      "move": "poll-result-one",
+      "kind": "written",
+      "text": "The poll of {date} reached just one voter. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.gave.name-gave-your-campaign-amount",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} gave your campaign {amount}.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.gave.amount-came-in-from-name",
+      "move": "gave",
+      "kind": "written",
+      "text": "{amount} came in from {name}.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.not-warm.name-doesn-t-feel-like-giving-to-your-campaign-yet",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} doesn't feel like giving to your campaign yet.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.not-warm.name-is-holding-back-for-now",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} is holding back for now.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.no-spare.name-is-short-on-money-this-month",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} is short on money this month.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.no-spare.name-has-no-extra-cash-right-now",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} has no extra cash right now.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.at-limit.name-is-already-at-the-legal-limit-for-giving",
+      "move": "at-limit",
+      "kind": "written",
+      "text": "{name} is already at the legal limit for giving.",
+      "uses": [
+        {
+          "move": "at-limit",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "at-limit"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "at-limit"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.small.name-could-only-give-a-little",
+      "move": "small",
+      "kind": "written",
+      "text": "{name} could only give a little.",
+      "uses": [
+        {
+          "move": "small",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "small"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "small"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.total.you-asked-asked-people-and-gave-gave-amount-together",
+      "move": "total",
+      "kind": "written",
+      "text": "You asked {asked} people, and {gave} gave {amount} together.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.total.gave-of-the-asked-people-you-asked-came-through-amount-altogether",
+      "move": "total",
+      "kind": "written",
+      "text": "{gave} of the {asked} people you asked came through, {amount} altogether.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.none-gave.you-asked-asked-people-and-none-of-them-gave",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "You asked {asked} people, and none of them gave.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.none-gave.not-one-of-the-asked-people-you-asked-gave",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "Not one of the {asked} people you asked gave.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-bought.your-cost-ad-purchase-reached-reached-voters",
+      "move": "ad-bought",
+      "kind": "written",
+      "text": "Your {cost} ad purchase reached {reached} voters.",
+      "uses": [
+        {
+          "move": "ad-bought",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-bought"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-bought"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-bought.the-ad-you-paid-cost-for-reached-reached-voters",
+      "move": "ad-bought",
+      "kind": "written",
+      "text": "The ad you paid {cost} for reached {reached} voters.",
+      "uses": [
+        {
+          "move": "ad-bought",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-bought"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-bought"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-none.no-change-yet",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "No change yet.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none",
+          "excludesFacts": [
+            "warmer",
+            "cooler"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.moved-none.nobody-has-budged",
+      "move": "moved-none",
+      "kind": "written",
+      "text": "Nobody has budged.",
+      "uses": [
+        {
+          "move": "moved-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-none",
+          "excludesFacts": [
+            "warmer",
+            "cooler"
+          ]
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponents-none.nobody-else-has-filed-for-office-and-filing-closes-closes",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "Nobody else has filed for {office}, and filing closes {closes}.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponents-none.filing-for-office-stays-open-until-closes-with-no-one-else-in",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "Filing for {office} stays open until {closes}, with no one else in.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponents-none-closed.filing-for-office-is-over-and-you-re-the-only-candidate",
+      "move": "opponents-none-closed",
+      "kind": "written",
+      "text": "Filing for {office} is over, and you're the only candidate.",
+      "uses": [
+        {
+          "move": "opponents-none-closed",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none-closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none-closed"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.opponents-none-closed.no-one-else-filed-for-office-so-you-are-unopposed",
+      "move": "opponents-none-closed",
+      "kind": "written",
+      "text": "No one else filed for {office}, so you are unopposed.",
+      "uses": [
+        {
+          "move": "opponents-none-closed",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none-closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none-closed"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-spent.every-dollar-of-the-raised-you-raised-is-spent-so-no-ad-ran",
+      "move": "ad-none-spent",
+      "kind": "written",
+      "text": "Every dollar of the {raised} you raised is spent, so no ad ran.",
+      "uses": [
+        {
+          "move": "ad-none-spent",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-spent"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-spent"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-spent.the-raised-you-raised-is-gone-so-there-was-nothing-for-an-ad",
+      "move": "ad-none-spent",
+      "kind": "written",
+      "text": "The {raised} you raised is gone, so there was nothing for an ad.",
+      "uses": [
+        {
+          "move": "ad-none-spent",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-spent"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-spent"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-none.no-voter-has-heard-from-you-yet-and-the-vote-is-general",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "No voter has heard from you yet, and the vote is {general}.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-none.voters-pick-a-winner-general-and-no-one-has-heard-from-you",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "Voters pick a winner {general}, and no one has heard from you.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-none.the-primary-is-primary-and-no-voter-has-heard-from-you-yet",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "The primary is {primary}, and no voter has heard from you yet.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-none.primary-voters-go-to-the-polls-primary-and-none-has-heard-from-you",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "Primary voters go to the polls {primary}, and none has heard from you.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-one.one-voter-has-heard-from-you-and-the-vote-is-general",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "One voter has heard from you, and the vote is {general}.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-one.only-one-voter-has-heard-from-you-voters-decide-general",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "Only one voter has heard from you. Voters decide {general}.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-one.one-voter-has-heard-from-you-and-the-primary-is-primary",
+      "move": "reached-one",
+      "kind": "written",
+      "text": "One voter has heard from you, and the primary is {primary}.",
+      "uses": [
+        {
+          "move": "reached-one",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-one-unmoved.one-voter-has-heard-from-you-and-feels-the-same-the-vote-is-general",
+      "move": "reached-one-unmoved",
+      "kind": "written",
+      "text": "One voter has heard from you and feels the same. The vote is {general}.",
+      "uses": [
+        {
+          "move": "reached-one-unmoved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one-unmoved"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one-unmoved"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.reached-one-unmoved.one-voter-has-heard-from-you-and-feels-the-same-the-primary-is-primary",
+      "move": "reached-one-unmoved",
+      "kind": "written",
+      "text": "One voter has heard from you and feels the same. The primary is {primary}.",
+      "uses": [
+        {
+          "move": "reached-one-unmoved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-one-unmoved"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-one-unmoved"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-unraised.nobody-has-given-to-your-campaign-since-you-filed-on-filed-so-there-is-no-money",
+      "move": "ad-none-unraised",
+      "kind": "written",
+      "text": "Nobody has given to your campaign since you filed on {filed}, so there is no money for ads.",
+      "uses": [
+        {
+          "move": "ad-none-unraised",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unraised"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unraised"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-unraised.your-campaign-hasn-t-raised-a-dollar-since-filed-so-the-ad-couldn-t-run",
+      "move": "ad-none-unraised",
+      "kind": "written",
+      "text": "Your campaign hasn't raised a dollar since {filed}, so the ad couldn't run.",
+      "uses": [
+        {
+          "move": "ad-none-unraised",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unraised"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unraised"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-unsold.no-outlet-here-had-ad-time-to-sell-so-your-campaign-keeps-its-cash",
+      "move": "ad-none-unsold",
+      "kind": "written",
+      "text": "No outlet here had ad time to sell, so your campaign keeps its {cash}.",
+      "uses": [
+        {
+          "move": "ad-none-unsold",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unsold"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unsold"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.ad-none-unsold.your-campaign-keeps-its-cash-because-no-outlet-here-has-ad-time-for-sale",
+      "move": "ad-none-unsold",
+      "kind": "written",
+      "text": "Your campaign keeps its {cash}, because no outlet here has ad time for sale.",
+      "uses": [
+        {
+          "move": "ad-none-unsold",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none-unsold"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none-unsold"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }

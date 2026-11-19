@@ -13,6 +13,144 @@
   "maxWords": 12,
   "parts": [
     {
+      "key": "calendar.birthday.name-has-a-birthday",
+      "move": "birthday",
+      "text": "{name} has a birthday",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.your-birthday.it-s-your-birthday",
+      "move": "your-birthday",
+      "text": "It's your birthday",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-opens.you-can-start-filing-for-office",
+      "move": "filing-opens",
+      "text": "You can start filing for {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-opens.you-can-start-filing-for-office-count-seats",
+      "move": "filing-opens",
+      "text": "You can start filing for {office}, {count} seats",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.filing-closes-for-office",
+      "move": "filing-deadline",
+      "text": "Filing closes for {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.filing-closes-for-office-count-seats",
+      "move": "filing-deadline",
+      "text": "Filing closes for {office}, {count} seats",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.filing-deadline.own.filing-closes-for-your-race-for-office",
+      "move": "filing-deadline",
+      "text": "Filing closes for your race for {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written",
+      "own": true
+    },
+    {
+      "key": "calendar.primary.office-primary",
+      "move": "primary",
+      "text": "{office} primary",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.primary.office-primary-count-seats",
+      "move": "primary",
+      "text": "{office} primary, {count} seats",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.primary.own.your-primary-race-for-office",
+      "move": "primary",
+      "text": "Your primary race for {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written",
+      "own": true
+    },
+    {
+      "key": "calendar.election.voters-choose-office",
+      "move": "election",
+      "text": "Voters choose {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.election.voters-choose-office-count-seats",
+      "move": "election",
+      "text": "Voters choose {office}, {count} seats",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.election.own.voters-decide-your-race-for-office",
+      "move": "election",
+      "text": "Voters decide your race for {office}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written",
+      "own": true
+    },
+    {
+      "key": "calendar.meeting.the-body-holds-a-meeting",
+      "move": "meeting",
+      "text": "The {body} holds a meeting",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.holiday",
+      "move": "holiday",
+      "text": "{holiday}",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
       "key": "calendar.meeting-plan.1",
       "move": "meeting-plan",
       "text": "At {time} you said you'd sit in on the {body}.",

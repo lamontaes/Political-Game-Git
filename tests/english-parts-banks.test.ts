@@ -111,11 +111,16 @@ const banks = readdirSync(PARTS_DIR)
  */
 const CUT_BANKS = new Set<string>([
   "bill-paper.json",
+<<<<<<< HEAD
   "bring-it-up.json",
   "campaign-standing.json",
   "choice-names.json",
   "notice.json",
   "speech-stages.json",
+=======
+  "newscast.json",
+  "person-history.json",
+>>>>>>> b1da529036
 ]);
 
 describe("English part banks", () => {
