@@ -97,12 +97,15 @@ export function rememberGood(place: DrawnPlace) {
 
 export const THREATENED_PLACES = () => placesFor("threatened", 8);
 
-export const WORD_PLACES = () => placesFor("word", 16);
+export const WORD_PLACES = () => placesFor("word", 24);
 
 export const COUNTED_PLACES = () => placesFor("counted", 8);
 
 /** The played world (`buildBenchWorld`, every module, the two-level population) in a drawn place: town seats are held by residents with their own circles, as in play. */
 export function world(place: DrawnPlace) {
+  process.stdout.write(
+    `incumbent-response: looking at ${place.name}, ${place.state} (${place.key}), place seed ${place.seed}\n`,
+  );
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -448,6 +451,15 @@ export function wordOfDoors() {
           ]) as unknown as WordLike[]
       ).find((r) => !!r.messageId && messages.has(r.messageId));
     };
+    // The challenger's campaign has gained steam before the days begin: weeks
+    // of doors in town (as in the threatened case), so their yeses can outnumber
+    // the incumbent's among those who tell the incumbent. A world incumbent
+    // usually leads the yeses people tell, so a race where the challenger leads
+    // is the one this case reads.
+    takeCampaignDayChoice(api, race.challenger.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
     let word: WordLike | undefined;
     // Every evening of the sixty, gathered day by day: the engine keeps a
     // message only while word of it can still pass on (`foldRivalWord`).

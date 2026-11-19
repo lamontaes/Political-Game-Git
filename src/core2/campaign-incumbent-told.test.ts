@@ -2,7 +2,8 @@
 /**
  * A yes someone they know told them sets the incumbent reading by itself (a case of campaign-incumbent-response.test.ts, in its own file so the shard runs it beside the others).
  */
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import type { ModuleRow } from "./module-data";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -14,6 +15,17 @@ import {
   toldFromRecords,
   wordOfDoors,
 } from "./campaign-incumbent-response-test-kit";
+
+// Bookkeeping is a debug switch, off in the played world: the world's drives
+// formed in play from events its retention has since let go, which the tests'
+// per-write source check would refuse.
+let bookkeepingWas = true;
+beforeAll(() => {
+  bookkeepingWas = setBookkeeping(false);
+});
+afterAll(() => {
+  setBookkeeping(bookkeepingWas);
+});
 
 describe("a yes someone they know told them sets the incumbent reading by itself", () => {
   it("with no poll, no word and no evening of their own doors, a yes given to the challenger by someone they know in town and in touch with them since reads as a told source naming that pledge and steps them up; the same day without those yeses does not", () => {

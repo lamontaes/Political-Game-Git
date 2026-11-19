@@ -2,7 +2,8 @@
 /**
  * The incumbent's own doors tell them the race (a case of campaign-incumbent-response.test.ts, in its own file so the shard runs it beside the others).
  */
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
@@ -17,6 +18,17 @@ import {
   walkEvenings,
   wordOfDoors,
 } from "./campaign-incumbent-response-test-kit";
+
+// Bookkeeping is a debug switch, off in the played world: the world's drives
+// formed in play from events its retention has since let go, which the tests'
+// per-write source check would refuse.
+let bookkeepingWas = true;
+beforeAll(() => {
+  bookkeepingWas = setBookkeeping(false);
+});
+afterAll(() => {
+  setBookkeeping(bookkeepingWas);
+});
 
 describe("the incumbent's own doors tell them the race", () => {
   it("with no word and no poll, an evening of the incumbent's own doors opens a reading by itself, naming its door row; the told yeses for the challenger step them up, the turn keeps one row for the evening, and the same day without those yeses does not", () => {

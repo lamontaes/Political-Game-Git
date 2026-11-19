@@ -2,7 +2,8 @@
 /**
  * Word of a challenger's doors reaches the incumbent, and what the incumbent reads of the race from it (a case of campaign-incumbent-response.test.ts, in its own file so the shard runs it beside the others).
  */
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import { takeCampaignDayChoice } from "./campaign-day";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -18,6 +19,17 @@ import {
   toldFromRecords,
   wordOfDoors,
 } from "./campaign-incumbent-response-test-kit";
+
+// Bookkeeping is a debug switch, off in the played world: the world's drives
+// formed in play from events its retention has since let go, which the tests'
+// per-write source check would refuse.
+let bookkeepingWas = true;
+beforeAll(() => {
+  bookkeepingWas = setBookkeeping(false);
+});
+afterAll(() => {
+  setBookkeeping(bookkeepingWas);
+});
 
 describe("word of a challenger's doors reaches the incumbent", () => {
   it("with no poll, word sets the incumbent reading the yeses people told them; more told for the challenger makes them walk more doors, the turn keeps it by the word's id, and the same day without those yeses does not", () => {

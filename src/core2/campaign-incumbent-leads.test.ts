@@ -2,7 +2,8 @@
 /**
  * A challenger who leads the town is heard to lead at the incumbent's doors (a case of campaign-incumbent-response.test.ts, in its own file so the shard runs it beside the others).
  */
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
@@ -15,6 +16,17 @@ import {
   walkEvenings,
   wordOfDoors,
 } from "./campaign-incumbent-response-test-kit";
+
+// Bookkeeping is a debug switch, off in the played world: the world's drives
+// formed in play from events its retention has since let go, which the tests'
+// per-write source check would refuse.
+let bookkeepingWas = true;
+beforeAll(() => {
+  bookkeepingWas = setBookkeeping(false);
+});
+afterAll(() => {
+  setBookkeeping(bookkeepingWas);
+});
 
 describe("a challenger who leads the town is heard to lead at the incumbent's doors", () => {
   // Waits on campaign-door-warmth-follows-the-canvasser-not-the-platform:
