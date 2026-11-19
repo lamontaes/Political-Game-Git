@@ -374,6 +374,54 @@
         "us-federal-positions:trade.raise-tariffs"
       ]
     },
+    "lease": {
+      "about": "CTO, Nov 18 08:47Z (Story thread, order item 1): a stand can come from the lease, and money talk only when the household's real books make it matter. A housemate's reason is their lease when their household rents (the housing engine's dwelling and its lease) and a month's rent is above the burden share of the household's month of income on its books (director parameter directorRentBurdenShare, HUD's 30 percent line). A lease the books say takes too much is the household's money made hard, so it fits every question and side `stands.reasonFits` gives `hardship`, and the housing questions listed here, on the side a renter carrying that rent is on. By question, the sides; no sentence.",
+      "questions": {
+        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": [
+          "for"
+        ],
+        "us-policy-positions:housing-land-use.inclusionary-requirement": [
+          "for"
+        ],
+        "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": [
+          "for"
+        ]
+      }
+    },
+    "relative": {
+      "about": "CTO, Nov 18 08:47Z: a stand can come from a relative in the house the question touches. By question, what in another household member's records the question touches and the sides that record bears: `school`, a child of school age the school engine sends to school (schoolDayOf); `medicare`, someone on Medicare (the coverage engine's record, at or over healthMedicareAge); `retirement`, someone paid a retirement award (the opening income's retirement contract); `student`, someone in college now (the school past's college-started record, before their schooling's end). No record holds a student loan, so a student-loan question reads the student. The listener is never the relative. Matched by question, never by place; no sentence.",
+      "retirementContractKind": "income.retirement",
+      "questions": {
+        "us-federal-positions:health.medicare-drug-price-negotiation": {
+          "touches": "medicare",
+          "sides": ["for"]
+        },
+        "us-federal-positions:social-insurance.raise-retirement-age": {
+          "touches": "retirement",
+          "sides": ["against"]
+        },
+        "us-federal-positions:education.forgive-student-loans": {
+          "touches": "student",
+          "sides": ["for"]
+        },
+        "us-policy-positions:education.raise-teacher-minimum-salary": {
+          "touches": "school",
+          "sides": ["for"]
+        },
+        "us-policy-positions:education.equalize-school-funding": {
+          "touches": "school",
+          "sides": ["for", "against"]
+        },
+        "us-policy-positions:education.public-funds-for-private-schooling": {
+          "touches": "school",
+          "sides": ["for", "against"]
+        }
+      }
+    },
+    "story": {
+      "about": "CTO, Nov 18 08:47Z: a stand can come from a story read. A housemate's reason is a story they heard (the news engine's hearing record, and their knowledge row of it) of one of these kinds whose question is the point's own, or that reports the address the point is from (the story's source record: the paper prints the address under the address, not under each question), on either side: reading it is why the question is on their mind, not which way they lean. Kinds only; no sentence.",
+      "kinds": ["press.printed"]
+    },
     "back": "address-point-back",
     "claims": {
       "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",

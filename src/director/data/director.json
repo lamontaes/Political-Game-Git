@@ -806,7 +806,7 @@
     "directorRentBurdenShare": {
       "value": 0.3,
       "tag": "SOURCED",
-      "citation": "HUD's measure of housing cost burden: a household paying more than 30 percent of its income for housing is cost burdened (U.S. Department of Housing and Urban Development, Office of Policy Development and Research, 'Rental Burdens: Rethinking Affordability Measures', PD&R Edge). Read against world-metrics rentToEarnings, a year of the town's typical rent over the typical household's earnings: above it, a hearer of the address may say rent in their town takes too much."
+      "citation": "HUD's measure of housing cost burden: a household paying more than 30 percent of its income for housing is cost burdened (U.S. Department of Housing and Urban Development, Office of Policy Development and Research, 'Rental Burdens: Rethinking Affordability Measures', PD&R Edge). Read against world-metrics rentToEarnings, a year of the town's typical rent over the typical household's earnings: above it, a hearer of the address may say rent in their town takes too much. Read the same way against a household's own books (src/director/point-reasons.ts, leaseReason): a month of its lease's rent over its month of income on record (moves.householdIncome); above it, the lease is a housemate's reason for a stand (conversation-rules.json addressPoint.lease). A household with no income on its books is not weighed: HUD's CHAS tables mark its cost burden as not computed ('household has no income, so cost burden could not be computed'; HUD PD&R, CHAS data documentation, huduser.gov), and the Census Bureau leaves zero- and negative-income households out of housing cost to income ratios (Cityscape vol. 20 no. 1, ch. 2)."
     },
     "directorTalkAddressDays": {
       "value": 14,

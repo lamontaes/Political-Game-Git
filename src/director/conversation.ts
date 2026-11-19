@@ -242,6 +242,7 @@ import {
   viewRecordId,
   viewSubjectOf,
 } from "./view-learned";
+import { LIFE_REASONS, lifeReasonOf, type LifeReason } from "./point-reasons";
 
 const zero = P.zero;
 const one = P.one;
@@ -3491,6 +3492,14 @@ export function subjectsBetween(
                 : {}),
             }
           : {}),
+        // A lease, a relative or a story (./point-reasons), by the same
+        // facts the address's point gives it.
+        ...(reason &&
+        (reason.reason === "lease" ||
+          reason.reason === "relative" ||
+          reason.reason === "story")
+          ? lifeReasonFacts(core, speakerId, listenerId, reason)
+          : {}),
         ...(reason
           ? { "has-reason": { text: "yes", sourceRecordIds: reason.recordIds } }
           : {}),
@@ -3645,7 +3654,8 @@ function withoutToldFigures(
 }
 
 /** Why someone raises the point of the address they raise. */
-export type PointReason = "work" | "money" | "view" | "first";
+export type PointReason =
+  "work" | "money" | LifeReason["reason"] | "view" | "first";
 
 /** The point of the address a person raises, why, and where they stand on it. */
 export interface PointPick {
@@ -3659,6 +3669,8 @@ export interface PointPick {
   readonly employer?: Fact;
   /** The jobs engine's record that they are looking for work, for a work reason. */
   readonly seeking?: string;
+  /** A lease, a relative or a story, for those reasons (./point-reasons). */
+  readonly life?: LifeReason;
 }
 
 interface PointRules {
@@ -3713,7 +3725,9 @@ function employerFact(
  * decides it. In order: a point on work or pay when they lost a job this year
  * or are looking for one; a point on prices, rent or housing when money is
  * hard for them (the trait engine's hardship stress) or their household is
- * being evicted; else the point they hold the strongest view on; else the
+ * being evicted; then a policy point their lease, someone they live with or
+ * a story they read gives a reason for (./point-reasons, in that order); else
+ * the point they hold the strongest view on; else the
  * President's first point. A point they already talked over with the
  * listener (the record `say` keeps) is behind them, and another is raised.
  */
@@ -3781,6 +3795,7 @@ export function addressPointFor(
     reasonIds: readonly string[],
     employer?: Fact,
     seeking?: string,
+    life?: LifeReason,
   ): PointPick => {
     const view = viewAt(point);
     const side = point.stance === "for" ? one : -one;
@@ -3799,6 +3814,7 @@ export function addressPointFor(
               : "against",
       ...(employer ? { employer } : {}),
       ...(seeking ? { seeking } : {}),
+      ...(life ? { life } : {}),
     };
   };
   const work = open.find((row) => pointArea(row) === "work");
@@ -3822,6 +3838,47 @@ export function addressPointFor(
       ...(hardship ? [speakerId] : []),
       ...(evicted ? [evicted.aboutId!] : []),
     ]);
+  // Then the rest of their own life, and what they read (./point-reasons):
+  // a lease whose rent the household's books say takes too much, someone
+  // they live with whom the point touches, a printed story they heard on it.
+  // After work and money, which are their own trouble; the lease and the
+  // relative before the story, because a stand from their own life comes
+  // before one from the paper (owner, Nov 11). Each kind is looked for over
+  // every point before the next kind. A policy point only: a year point's
+  // stand is read from their life by `yearStand`, which these do not change.
+  // The lease and the relative fit only the side the speaker holds (their
+  // view's sign, the views engine's), so the reason bears their stand out.
+  const sideOn = (row: AddressPoint): "for" | "against" | null => {
+    const held = viewAt(row);
+    return held > zero ? "for" : held < zero ? "against" : null;
+  };
+  for (const kind of LIFE_REASONS)
+    for (const row of open) {
+      if (row.kind !== "policy") continue;
+      const life = lifeReasonOf(
+        kind,
+        core,
+        speakerId,
+        row.question,
+        sideOn(row),
+        {
+          ...(listenerId ? { exceptId: listenerId } : {}),
+          from: [
+            ...row.sourceRecordIds,
+            ...(director?.ledger.opening ? [director.ledger.opening.id] : []),
+          ],
+        },
+      );
+      if (life)
+        return pick(
+          row,
+          life.reason,
+          life.recordIds,
+          undefined,
+          undefined,
+          life,
+        );
+    }
   // Someone who follows politics more than the average of people like them
   // (the views engine's engagement against its survey cell) raises the policy
   // point they hold the strongest view on; anyone else talks about the year
@@ -3896,6 +3953,82 @@ function townFigures(core: Readonly<CoreState>, placeId: string): TownFigures {
 }
 const townBacks = (core: Readonly<CoreState>, placeId: string) =>
   townFigures(core, placeId).backs;
+
+/**
+ * The facts a reason from the speaker's own life beyond work and money gives
+ * a stand (./point-reasons), for the point of the address and for own-view
+ * talk alike: its mark (`why-lease`, `why-relative`, `why-story`) citing the
+ * records it stands on, and what the words need to say it without a figure.
+ * A relative: how the speaker calls them to this listener (`relative`: the
+ * family word where the two share the tie, "Mom", else their first name),
+ * the speaker's own tie (`relative-kin`, "my mother") where their family
+ * record holds one, their pronoun (`relative-he`, `-she`, `-they`) and what
+ * the question touches (`relative-school`, `-medicare`, `-retirement`,
+ * `-student`). A story: the outlet that carried it (`outlet` and its marks)
+ * and the day it ran (`story-ran`).
+ */
+function lifeReasonFacts(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  life: LifeReason,
+): Facts {
+  const ids = [...life.recordIds];
+  const facts: Facts = {
+    [`why-${life.reason}`]: { text: "yes", sourceRecordIds: ids },
+  };
+  if (life.reason === "relative") {
+    const relative = core.people.get(life.relativeId);
+    const speaker = core.people.get(speakerId);
+    const listener = core.people.get(listenerId);
+    if (!relative || !speaker) return facts;
+    const gender = relative.looks?.gender ?? "other";
+    // The speaker's own tie to them, from the speaker's family record, and
+    // the listener's: the family word only where both hold the same tie.
+    const tie = familyFactsOf(speaker).get(relative.id);
+    const shared = listener
+      ? familyFactsOf(listener).get(relative.id)
+      : undefined;
+    const word =
+      tie && shared?.relation === tie.relation
+        ? kinAddress(tie.relation, gender)
+        : undefined;
+    facts.relative = {
+      text: word ?? relative.givenName,
+      sourceRecordIds: [
+        relative.id,
+        ...(word && tie && shared ? [tie.factId, shared.factId] : []),
+      ],
+    };
+    const kin = tie
+      ? relationPhrase(tie.relation, gender, "journal")
+      : undefined;
+    if (tie && kin)
+      facts["relative-kin"] = {
+        text: kin,
+        sourceRecordIds: [tie.factId, relative.id],
+      };
+    facts[`relative-${life.touches}`] = { text: "yes", sourceRecordIds: ids };
+    facts[
+      gender === "male"
+        ? "relative-he"
+        : gender === "female"
+          ? "relative-she"
+          : "relative-they"
+    ] = { text: "yes", sourceRecordIds: [relative.id] };
+  }
+  if (life.reason === "story") {
+    const outlet = life.outletId
+      ? core.organizations.get(life.outletId as EntityId)
+      : undefined;
+    if (outlet) Object.assign(facts, outletFacts(core, outlet, ids));
+    facts["story-ran"] = {
+      text: spokenWhen(life.date, core.date),
+      sourceRecordIds: ids,
+    };
+  }
+  return facts;
+}
 
 /**
  * The point as a subject the speaker raises (`address-point`): its stage is
@@ -3979,6 +4112,11 @@ function pointSubject(
     if (pick.employer) facts.employer = pick.employer;
   }
   if (pick.reason === "money") mark("why-money", pick.reasonIds);
+  if (pick.life)
+    Object.assign(
+      facts,
+      lifeReasonFacts(core, speakerId, listenerId, pick.life),
+    );
   // A view of a policy; a year point their life speaks to has its town.
   if (pick.reason === "view" && pick.point.kind === "policy")
     mark("why-view", [...pick.reasonIds, ...said]);
@@ -8726,11 +8864,15 @@ function pointAnswerable(facts: Facts, choiceKey: string): boolean {
     return !!fact && !heardNow.has(`${HEARD_FIGURE}${fact.text}`);
   }
   if (choiceKey === POINT_INSTEAD)
-    return (
-      !!facts["stand-decided"] && !!(facts["why-work"] ?? facts["why-money"])
-    );
+    return !!facts["stand-decided"] && LIFE_MARKS.some((key) => !!facts[key]);
   return true;
 }
+/** The marks of a reason from the speaker's own life that a "what would you do instead" answers from. */
+const LIFE_MARKS = [
+  "why-work",
+  "why-money",
+  ...LIFE_REASONS.map((kind) => `why-${kind}`),
+];
 /** The point's replies that ask: what it means here, what they would do instead (conversation-rules.json replyMoves). */
 const POINT_HERE = "here";
 const POINT_INSTEAD = "instead";

@@ -35,6 +35,12 @@ import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Story } from "../core2/modules/news";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+import {
+  LIFE_REASONS,
+  lifeReason,
+  lifeReasonOf,
+  type LifeReason,
+} from "./point-reasons";
 
 const zero = P.zero;
 const one = P.one;
@@ -170,6 +176,17 @@ const FITS = (
   }
 ).stands.reasonFits;
 
+/** A reason from a person's work or money (`viewReason`'s fits). */
+export type WorkOrMoneyReason =
+  | {
+      reason: "work";
+      employer: string;
+      recordIds: readonly string[];
+      /** Which fit it is: their pay against the proposal, a job that sets pay, or a job. */
+      fit: string;
+    }
+  | { reason: "money"; recordIds: readonly string[] };
+
 /**
  * Why a person holds a view on one side of a question, from their own life,
  * only when the record supports that side (lead, Nov 12: "At about $15 an
@@ -179,22 +196,46 @@ const FITS = (
  * pay (`payroll`), a job that does not (`worker`), or the household's
  * hardship (`hardship`). A side with no fit, or a record that does not bear
  * it, gives none: they say the principle. Each reason cites its record.
+ *
+ * With `life`, a stand with none of those reads the rest of their own life
+ * and what they read by the same rows the address's point reads
+ * (./point-reasons: their lease, someone they live with whom the question
+ * touches, other than `exceptId`, a printed story they heard on it). Own-view
+ * talk passes it; a caller without words for those reasons (the door) does not.
  */
 export function viewReason(
   core: Readonly<CoreState>,
   personId: PersonId,
   question: string,
   side: "for" | "against",
-):
-  | {
-      reason: "work";
-      employer: string;
-      recordIds: readonly string[];
-      /** Which fit it is: their pay against the proposal, a job that sets pay, or a job. */
-      fit: string;
-    }
-  | { reason: "money"; recordIds: readonly string[] }
-  | null {
+): WorkOrMoneyReason | null;
+export function viewReason(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  question: string,
+  side: "for" | "against",
+  life: { readonly exceptId?: PersonId },
+): WorkOrMoneyReason | LifeReason | null;
+export function viewReason(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  question: string,
+  side: "for" | "against",
+  life?: { readonly exceptId?: PersonId },
+): WorkOrMoneyReason | LifeReason | null {
+  return (
+    workOrMoneyReason(core, personId, question, side) ??
+    (life ? lifeReason(core, personId, question, side, life) : null)
+  );
+}
+
+/** A reason from their work or their money, by the fits (`viewReason`). */
+function workOrMoneyReason(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  question: string,
+  side: "for" | "against",
+): WorkOrMoneyReason | null {
   const person = core.people.get(personId);
   const fit = FITS.questions[question]?.[side];
   if (!person || !fit) return null;
@@ -266,7 +307,7 @@ export function viewSubjectOf(
   weight: number;
   /** The question they care most about, its side and record, and why, when they have one. */
   strongest: ReturnType<typeof strongestQuestion>;
-  reason: ReturnType<typeof viewReason>;
+  reason: WorkOrMoneyReason | LifeReason | null;
 } | null {
   if (!core.modules.has(VIEWS_MODULE_ID)) return null;
   if (core.knowledgeByPerson.get(listenerId)?.has(viewKey(speakerId)))
@@ -280,16 +321,32 @@ export function viewSubjectOf(
   // speaker's own why"; the strongest view alone was a question their life
   // never touched, so the has-reason path never fired in four drawn places).
   const lean = view.lean;
+  // Their lease, someone they live with (never the listener) or a story they
+  // read gives a stand its reason too (./point-reasons), by kind after their
+  // work and money, as the address's point takes them (addressPointFor): a
+  // story on a stronger question never puts a job's reason aside.
+  const life = { exceptId: listenerId };
   const sideOf = (question: string): "for" | "against" | null => {
     const held = viewOn(api, speakerId, question, lean);
     return held > zero ? "for" : held < zero ? "against" : null;
   };
-  const reasoned = strongestQuestion(api, speakerId, (question) => {
-    const side = sideOf(question);
-    return (
-      !skip(question) && !!side && !!viewReason(core, speakerId, question, side)
+  const strongestWith = (
+    has: (question: string, side: "for" | "against") => boolean,
+  ) =>
+    strongestQuestion(api, speakerId, (question) => {
+      const side = sideOf(question);
+      return !skip(question) && !!side && has(question, side);
+    });
+  let reasoned = strongestWith(
+    (question, side) => !!viewReason(core, speakerId, question, side),
+  );
+  for (const kind of LIFE_REASONS) {
+    if (reasoned) break;
+    reasoned = strongestWith(
+      (question, side) =>
+        !!lifeReasonOf(kind, core, speakerId, question, side, life),
     );
-  });
+  }
   const strongest =
     reasoned ??
     strongestQuestion(api, speakerId, (question) => !skip(question));
@@ -299,7 +356,7 @@ export function viewSubjectOf(
     weight: viewTopicWeight(viewWillingness(core, speakerId, listenerId)),
     strongest,
     reason: strongest
-      ? viewReason(core, speakerId, strongest.question, strongest.side)
+      ? viewReason(core, speakerId, strongest.question, strongest.side, life)
       : null,
   };
 }
