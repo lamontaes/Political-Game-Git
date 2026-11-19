@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-campaign
-pr:
+pr: 10063
 after:
 blocked-on:
 lead: story
