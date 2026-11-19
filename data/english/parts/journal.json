@@ -245,6 +245,3088 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.school-line-started.i-went-to-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I went to {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-attended-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I attended {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-was-enrolled-at-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I was enrolled at {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-sat-in-class-at-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I sat in class at {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-elementary.i-started-at-school",
+      "move": "home-school-started-elementary",
+      "kind": "spoken",
+      "text": "I started at {school}.",
+      "uses": [
+        {
+          "move": "home-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "elementary",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-elementary.i-began-school-at-school",
+      "move": "home-school-started-elementary",
+      "kind": "spoken",
+      "text": "I began school at {school}.",
+      "uses": [
+        {
+          "move": "home-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "elementary",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-elementary.my-first-school-was-school",
+      "move": "home-school-started-elementary",
+      "kind": "spoken",
+      "text": "My first school was {school}.",
+      "uses": [
+        {
+          "move": "home-school-started-elementary",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "elementary",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:elementary",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-high.i-entered-school-for-high-school",
+      "move": "home-school-started-high",
+      "kind": "spoken",
+      "text": "I entered {school} for high school.",
+      "uses": [
+        {
+          "move": "home-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "high",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-high.high-school-began-for-me-at-school",
+      "move": "home-school-started-high",
+      "kind": "spoken",
+      "text": "High school began for me at {school}.",
+      "uses": [
+        {
+          "move": "home-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "high",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.home-school-started-high.i-began-high-school-at-school",
+      "move": "home-school-started-high",
+      "kind": "spoken",
+      "text": "I began high school at {school}.",
+      "uses": [
+        {
+          "move": "home-school-started-high",
+          "subject": "home",
+          "role": "school-started",
+          "choice": "high",
+          "journal": [
+            {
+              "kindPrefix": "household:school-started:high",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-passed.i-graduated-from-school",
+      "move": "life-school-finished-passed",
+      "kind": "spoken",
+      "text": "I graduated from {school}.",
+      "uses": [
+        {
+          "move": "life-school-finished-passed",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "passed",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-passed.i-got-my-diploma-at-school",
+      "move": "life-school-finished-passed",
+      "kind": "spoken",
+      "text": "I got my diploma at {school}.",
+      "uses": [
+        {
+          "move": "life-school-finished-passed",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "passed",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-passed.i-finished-high-school-at-school",
+      "move": "life-school-finished-passed",
+      "kind": "spoken",
+      "text": "I finished high school at {school}.",
+      "uses": [
+        {
+          "move": "life-school-finished-passed",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "passed",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-left.i-left-school-without-a-diploma",
+      "move": "life-school-finished-left",
+      "kind": "spoken",
+      "text": "I left {school} without a diploma.",
+      "uses": [
+        {
+          "move": "life-school-finished-left",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "left",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-left.i-finished-at-school-without-a-diploma",
+      "move": "life-school-finished-left",
+      "kind": "spoken",
+      "text": "I finished at {school} without a diploma.",
+      "uses": [
+        {
+          "move": "life-school-finished-left",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "left",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.life-school-finished-left.i-stopped-at-school-without-a-diploma",
+      "move": "life-school-finished-left",
+      "kind": "spoken",
+      "text": "I stopped at {school} without a diploma.",
+      "uses": [
+        {
+          "move": "life-school-finished-left",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "left",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-went-to-work-for-employer",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I went to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-took-a-job-with-employer",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I took a job with {employer}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-started.employer-hired-me",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "{employer} hired me.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-joined-employer",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I joined {employer}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-other-started.relation-got-a-job",
+      "move": "work-other-started",
+      "kind": "spoken",
+      "text": "{relation} got a job.",
+      "uses": [
+        {
+          "move": "work-other-started",
+          "subject": "work",
+          "role": "other",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-other-started.relation-started-work",
+      "move": "work-other-started",
+      "kind": "spoken",
+      "text": "{relation} started work.",
+      "uses": [
+        {
+          "move": "work-other-started",
+          "subject": "work",
+          "role": "other",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-other-started.relation-took-a-job",
+      "move": "work-other-started",
+      "kind": "spoken",
+      "text": "{relation} took a job.",
+      "uses": [
+        {
+          "move": "work-other-started",
+          "subject": "work",
+          "role": "other",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-at-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-again.employer-took-me-on",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "{employer} took me on.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-went-back-to-work-for-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I went back to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-in-place",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again in {place}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.employer-let-me-go",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "{employer} let me go.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-was-laid-off-from-employer",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I was laid off from {employer}.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.employer-let-me-go-and-i-was-out-of-work",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "{employer} let me go, and I was out of work.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.employer-ended-my-job",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "{employer} ended my job.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-on.i-left-employer-for-a-job-at-next",
+      "move": "work-line-on",
+      "kind": "spoken",
+      "text": "I left {employer} for a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-on.i-went-from-employer-to-next",
+      "move": "work-line-on",
+      "kind": "spoken",
+      "text": "I went from {employer} to {next}.",
+      "uses": [
+        {
+          "move": "work-line-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-on.i-quit-employer-and-took-a-job-at-next",
+      "move": "work-line-on",
+      "kind": "spoken",
+      "text": "I quit {employer} and took a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.i-stopped-working-at-employer-when-named-was-born",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "I stopped working at {employer} when {named} was born.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.when-named-was-born-i-left-employer-to-stay-home",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "When {named} was born, I left {employer} to stay home.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.i-left-employer-after-named-was-born",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "I left {employer} after {named} was born.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-retired-from-employer",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I retired from {employer}.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-retired-after-my-years-at-employer",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I retired after my years at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-left-employer-and-retired",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I left {employer} and retired.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-short.i-went-unpaid",
+      "move": "money-line-short",
+      "kind": "spoken",
+      "text": "I went unpaid.",
+      "uses": [
+        {
+          "move": "money-line-short",
+          "subject": "money",
+          "role": "line",
+          "choice": "short",
+          "journal": [
+            {
+              "kindPrefix": "unpaid-wages",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-short.i-wasnt-paid",
+      "move": "money-line-short",
+      "kind": "spoken",
+      "text": "I wasn't paid.",
+      "uses": [
+        {
+          "move": "money-line-short",
+          "subject": "money",
+          "role": "line",
+          "choice": "short",
+          "journal": [
+            {
+              "kindPrefix": "unpaid-wages",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-short.pay-never-came",
+      "move": "money-line-short",
+      "kind": "spoken",
+      "text": "Pay never came.",
+      "uses": [
+        {
+          "move": "money-line-short",
+          "subject": "money",
+          "role": "line",
+          "choice": "short",
+          "journal": [
+            {
+              "kindPrefix": "unpaid-wages",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:person-birth",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.we-welcomed-named",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "We welcomed {named}.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:person-birth",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-came-into-the-world",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} came into the world.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:person-birth",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.i-became-a-parent-when-named-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "I became a parent when {named} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:person-birth",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.death-line-died.other-died",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "{other} died.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.death-line-died.other-passed-away",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "{other} passed away.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.death-line-died.i-lost-other",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "I lost {other}.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.home-met-met.i-met-other-in-place",
+      "move": "home-met-met",
+      "kind": "spoken",
+      "text": "I met {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-met-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-met-met.other-and-i-met-in-place",
+      "move": "home-met-met",
+      "kind": "spoken",
+      "text": "{other} and I met in {place}.",
+      "uses": [
+        {
+          "move": "home-met-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-met-met.i-first-saw-other-in-place",
+      "move": "home-met-met",
+      "kind": "spoken",
+      "text": "I first saw {other} in {place}.",
+      "uses": [
+        {
+          "move": "home-met-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-parent-apart-parent-apart.named-lived-apart-from-us",
+      "move": "home-parent-apart-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived apart from us.",
+      "uses": [
+        {
+          "move": "home-parent-apart-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-parent-apart-parent-apart.named-lived-in-another-home",
+      "move": "home-parent-apart-parent-apart",
+      "kind": "spoken",
+      "text": "{named} lived in another home.",
+      "uses": [
+        {
+          "move": "home-parent-apart-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-parent-apart-parent-apart.named-kept-a-separate-home",
+      "move": "home-parent-apart-parent-apart",
+      "kind": "spoken",
+      "text": "{named} kept a separate home.",
+      "uses": [
+        {
+          "move": "home-parent-apart-parent-apart",
+          "subject": "home",
+          "role": "parent-apart",
+          "choice": "parent-apart",
+          "journal": [
+            {
+              "kindPrefix": "household:parent-apart",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-moved-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I moved to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved-back-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved back to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-came-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I came to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "journal.moved-other-away.relation-moved-away",
+      "move": "moved-other-away",
+      "kind": "spoken",
+      "text": "{relation} moved away.",
+      "uses": [
+        {
+          "move": "moved-other-away",
+          "subject": "moved",
+          "role": "other",
+          "choice": "away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.moved-other-away.relation-left-town",
+      "move": "moved-other-away",
+      "kind": "spoken",
+      "text": "{relation} left town.",
+      "uses": [
+        {
+          "move": "moved-other-away",
+          "subject": "moved",
+          "role": "other",
+          "choice": "away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.moved-other-away.relation-moved-out",
+      "move": "moved-other-away",
+      "kind": "spoken",
+      "text": "{relation} moved out.",
+      "uses": [
+        {
+          "move": "moved-other-away",
+          "subject": "moved",
+          "role": "other",
+          "choice": "away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-evicted.i-was-evicted",
+      "move": "home-line-evicted",
+      "kind": "spoken",
+      "text": "I was evicted.",
+      "uses": [
+        {
+          "move": "home-line-evicted",
+          "subject": "home",
+          "role": "line",
+          "choice": "evicted",
+          "journal": [
+            {
+              "kindPrefix": "event:housing.eviction",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.home-line-evicted.they-evicted-me",
+      "move": "home-line-evicted",
+      "kind": "spoken",
+      "text": "They evicted me.",
+      "uses": [
+        {
+          "move": "home-line-evicted",
+          "subject": "home",
+          "role": "line",
+          "choice": "evicted",
+          "journal": [
+            {
+              "kindPrefix": "event:housing.eviction",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.home-line-evicted.we-were-evicted",
+      "move": "home-line-evicted",
+      "kind": "spoken",
+      "text": "We were evicted.",
+      "uses": [
+        {
+          "move": "home-line-evicted",
+          "subject": "home",
+          "role": "line",
+          "choice": "evicted",
+          "journal": [
+            {
+              "kindPrefix": "event:housing.eviction",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.home-other-evicted.relation-was-evicted",
+      "move": "home-other-evicted",
+      "kind": "spoken",
+      "text": "{relation} was evicted.",
+      "uses": [
+        {
+          "move": "home-other-evicted",
+          "subject": "home",
+          "role": "other",
+          "choice": "evicted",
+          "journal": [
+            {
+              "kindPrefix": "event:housing.eviction",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.home-other-evicted.relation-was-put-out",
+      "move": "home-other-evicted",
+      "kind": "spoken",
+      "text": "{relation} was put out.",
+      "uses": [
+        {
+          "move": "home-other-evicted",
+          "subject": "home",
+          "role": "other",
+          "choice": "evicted",
+          "journal": [
+            {
+              "kindPrefix": "event:housing.eviction",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-met-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I met {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-saw-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I saw {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-ran-into-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I ran into {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-talked-to-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I talked to {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-stopped-to-see-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I stopped to see {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.i-owe-other-a-favor-now",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "I owe {other} a favor now.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.other-did-me-a-favor",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "{other} did me a favor.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.other-helped-me-and-i-owe-it",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "{other} helped me, and I owe it.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.other-and-i-set-a-time-to-meet",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "{other} and I set a time to meet.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.i-put-a-meeting-with-other-on-the-calendar",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "I put a meeting with {other} on the calendar.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.i-agreed-to-meet-other",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "I agreed to meet {other}.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.i-made-other-a-promise",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I made {other} a promise.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.i-gave-other-my-word",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I gave {other} my word.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.other-had-my-word",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "{other} had my word.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.other-and-i-parted-with-words-between-us",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "{other} and I parted with words between us.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.other-and-i-left-things-unsettled",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "{other} and I left things unsettled.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.other-and-i-ended-the-talk-without-agreeing",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "{other} and I ended the talk without agreeing.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.other-caught-me-in-a-lie",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "{other} caught me in a lie.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.other-learned-i-hadnt-told-the-truth",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "{other} learned I hadn't told the truth.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.i-wasnt-straight-with-other",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "I wasn't straight with {other}.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.health-line-ill.i-got-sick",
+      "move": "health-line-ill",
+      "kind": "spoken",
+      "text": "I got sick.",
+      "uses": [
+        {
+          "move": "health-line-ill",
+          "subject": "health",
+          "role": "line",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.health-line-ill.i-was-ill",
+      "move": "health-line-ill",
+      "kind": "spoken",
+      "text": "I was ill.",
+      "uses": [
+        {
+          "move": "health-line-ill",
+          "subject": "health",
+          "role": "line",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.health-line-ill.i-got-ill",
+      "move": "health-line-ill",
+      "kind": "spoken",
+      "text": "I got ill.",
+      "uses": [
+        {
+          "move": "health-line-ill",
+          "subject": "health",
+          "role": "line",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.health-other-ill.relation-was-sick",
+      "move": "health-other-ill",
+      "kind": "spoken",
+      "text": "{relation} was sick.",
+      "uses": [
+        {
+          "move": "health-other-ill",
+          "subject": "health",
+          "role": "other",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.health-other-ill.relation-got-sick",
+      "move": "health-other-ill",
+      "kind": "spoken",
+      "text": "{relation} got sick.",
+      "uses": [
+        {
+          "move": "health-other-ill",
+          "subject": "health",
+          "role": "other",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.health-other-ill.relation-was-ill",
+      "move": "health-other-ill",
+      "kind": "spoken",
+      "text": "{relation} was ill.",
+      "uses": [
+        {
+          "move": "health-other-ill",
+          "subject": "health",
+          "role": "other",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-filed-to-run-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I filed to run for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-put-my-name-in-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I put my name in for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-filed-my-papers-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I filed my papers for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-signed-up-to-run-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I signed up to run for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.i-hadnt-had-a-paycheck-since-last-employer",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "I hadn't had a paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.it-was-my-first-paycheck-since-last-employer",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "It was my first paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.last-employer-was-the-last-place-that-paid-me",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "{last_employer} was the last place that paid me.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-had-no-job-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I had no job after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-was-out-of-work-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I was out of work after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.i-had-no-work-after-lost-employer",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "I had no work after {lost_employer}.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-deathIllness.name-had-been-after-illness",
+      "move": "memoir-deathIllness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-deathIllness",
+          "subject": "memoir",
+          "role": "deathIllness",
+          "choice": "deathIllness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-deathIllness.name-had-been-after-illness-before-the-end",
+      "move": "memoir-deathIllness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness} before the end.",
+      "uses": [
+        {
+          "move": "memoir-deathIllness",
+          "subject": "memoir",
+          "role": "deathIllness",
+          "choice": "deathIllness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.i-came-here-from-moved-from",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "I came here from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.i-had-been-living-in-moved-from-before-that",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "I had been living in {moved_from} before that.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedFrom.we-came-from-moved-from",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "We came from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.moved-with-came-with-me",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "{moved_with} came with me.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.moved-with-moved-with-me",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "{moved_with} moved with me.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-movedWith.i-brought-moved-with-along",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "I brought {moved_with} along.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-my-first-child",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was my first child.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-our-first",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was our first.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birthFirst.firstborn-was-the-first-child-we-had",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} was the first child we had.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
