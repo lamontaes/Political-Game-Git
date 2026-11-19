@@ -35,4 +35,4 @@ checked:
 
 **Files.** src/director/speech-outline.test.ts, src/director/speech-outline.ts
 
-**Notes.** Filed by the Speeches builder (D). Built as its own PR after the jobs, pay and prices PR folds.
+**Notes.** Filed by the Speeches builder (D). Built as its own PR after the jobs, pay and prices PR folds. Red main, Nov 19 (CTO ruling on #9747, option a, left for the landing): Story's cut cleared the red on the train, but the planner gap stays. Cause read at `src/director/speech-outline.ts` (the `fits` and `shape` choice near line 2312): the speaker's order holds three shapes (context-first, question-first, plain-first) and a speech with more points than shapes falls back to a repeat, so on a speech of many points two points share a shape, and a complaint wording cannot open question-first. Fix, for Story after the reset: add a fourth shape a complaint can open with, and make the test a drawn-place check that no two points of one speech share a shape (print the place and the places passed over; replay with GOLDEN_PATH_SEED). The pin in the Fix above is replaced by this: pinned seeds only with a CTO line.
