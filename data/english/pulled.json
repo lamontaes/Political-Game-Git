@@ -1,10 +1,6 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "scene-talk.reply-ask.who-has-been-looking-after-child-while-i-was-gone": [
-      "plain-american-spelling-and-phrasing"
-    ]
-  },
+  "pulled": {},
   "waiting": {},
   "sample": {
     "scene-talk.close-accept.all-right-i-won-t-call-about-position-again": [
@@ -19,6 +15,6 @@
   "barred": {},
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
-    "reply-second-move-follows-the-first (pairs)": 318
+    "reply-second-move-follows-the-first (pairs)": 0
   }
 }

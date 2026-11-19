@@ -58,5 +58,770 @@
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
     "notAttested": 306
   },
-  "parts": []
+  "parts": [
+    {
+      "key": "newscast.anchor-open.good-evening",
+      "move": "anchor-open",
+      "kind": "spoken",
+      "text": "Good evening.",
+      "uses": [
+        {
+          "move": "anchor-open",
+          "subject": "anchor",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "newscast.anchor-open.evening-everyone",
+      "move": "anchor-open",
+      "kind": "spoken",
+      "text": "Evening, everyone.",
+      "uses": [
+        {
+          "move": "anchor-open",
+          "subject": "anchor",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "newscast.anchor-open.hello-and-welcome",
+      "move": "anchor-open",
+      "kind": "spoken",
+      "text": "Hello and welcome.",
+      "uses": [
+        {
+          "move": "anchor-open",
+          "subject": "anchor",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "newscast.anchor-open.you-re-watching-program",
+      "move": "anchor-open",
+      "kind": "spoken",
+      "text": "You're watching {program}.",
+      "uses": [
+        {
+          "move": "anchor-open",
+          "subject": "anchor",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "newscast.anchor-hand-off.name-is-on-the-scene-in-place",
+      "move": "anchor-hand-off",
+      "kind": "spoken",
+      "text": "{name} is on the scene in {place}.",
+      "uses": [
+        {
+          "move": "anchor-hand-off",
+          "subject": "anchor",
+          "role": "hand-off",
+          "choice": "hand-off"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "newscast.anchor-hand-off.we-go-to-name-in-place",
+      "move": "anchor-hand-off",
+      "kind": "spoken",
+      "text": "We go to {name} in {place}.",
+      "uses": [
+        {
+          "move": "anchor-hand-off",
+          "subject": "anchor",
+          "role": "hand-off",
+          "choice": "hand-off"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "newscast.anchor-hand-off.name-has-the-story-from-place",
+      "move": "anchor-hand-off",
+      "kind": "spoken",
+      "text": "{name} has the story from {place}.",
+      "uses": [
+        {
+          "move": "anchor-hand-off",
+          "subject": "anchor",
+          "role": "hand-off",
+          "choice": "hand-off"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "newscast.anchor-hand-off.over-to-name-in-place",
+      "move": "anchor-hand-off",
+      "kind": "spoken",
+      "text": "Over to {name}, in {place}.",
+      "uses": [
+        {
+          "move": "anchor-hand-off",
+          "subject": "anchor",
+          "role": "hand-off",
+          "choice": "hand-off"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "introduce"
+      }
+    },
+    {
+      "key": "newscast.anchor-close.good-night",
+      "move": "anchor-close",
+      "kind": "spoken",
+      "text": "Good night.",
+      "uses": [
+        {
+          "move": "anchor-close",
+          "subject": "anchor",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "newscast.anchor-close.that-is-all",
+      "move": "anchor-close",
+      "kind": "spoken",
+      "text": "That is all.",
+      "uses": [
+        {
+          "move": "anchor-close",
+          "subject": "anchor",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "newscast.anchor-close.see-you-soon",
+      "move": "anchor-close",
+      "kind": "spoken",
+      "text": "See you soon.",
+      "uses": [
+        {
+          "move": "anchor-close",
+          "subject": "anchor",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "newscast.anchor-close.thank-you",
+      "move": "anchor-close",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "move": "anchor-close",
+          "subject": "anchor",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "close"
+      }
+    },
+    {
+      "key": "newscast.reporter-field.i-m-reporting-from-place",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "I'm reporting from {place}.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.reporter-field.here-in-place-it-is-quiet",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "Here in {place}, it is quiet.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.reporter-field.we-are-in-place",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "We are in {place}.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.reporter-field.i-m-standing-in-place",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "I'm standing in {place}.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.reporter-field.all-are-safe",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "All are safe.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field",
+          "requiresFacts": ["no-injuries"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-election.polls-close-at-time",
+      "move": "story-election",
+      "kind": "spoken",
+      "text": "Polls close at {time}.",
+      "uses": [
+        {
+          "move": "story-election",
+          "subject": "story",
+          "role": "election",
+          "choice": "election"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-election.voting-starts-at-time",
+      "move": "story-election",
+      "kind": "spoken",
+      "text": "Voting starts at {time}.",
+      "uses": [
+        {
+          "move": "story-election",
+          "subject": "story",
+          "role": "election",
+          "choice": "election"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-election.name-has-won-the-race",
+      "move": "story-election",
+      "kind": "spoken",
+      "text": "{name} has won the race.",
+      "uses": [
+        {
+          "move": "story-election",
+          "subject": "story",
+          "role": "election",
+          "choice": "election"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-election.the-winner-is-name",
+      "move": "story-election",
+      "kind": "spoken",
+      "text": "The winner is {name}.",
+      "uses": [
+        {
+          "move": "story-election",
+          "subject": "story",
+          "role": "election",
+          "choice": "election"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-vote-or-law.the-tally-was-count",
+      "move": "story-vote-or-law",
+      "kind": "spoken",
+      "text": "The tally was {count}.",
+      "uses": [
+        {
+          "move": "story-vote-or-law",
+          "subject": "story",
+          "role": "vote-or-law",
+          "choice": "vote-or-law"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-vote-or-law.lawmakers-passed-it",
+      "move": "story-vote-or-law",
+      "kind": "spoken",
+      "text": "Lawmakers passed it.",
+      "uses": [
+        {
+          "move": "story-vote-or-law",
+          "subject": "story",
+          "role": "vote-or-law",
+          "choice": "vote-or-law",
+          "requiresFacts": ["bill-passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-vote-or-law.the-amendment-carried",
+      "move": "story-vote-or-law",
+      "kind": "spoken",
+      "text": "The amendment carried.",
+      "uses": [
+        {
+          "move": "story-vote-or-law",
+          "subject": "story",
+          "role": "vote-or-law",
+          "choice": "vote-or-law",
+          "requiresFacts": ["amendment-passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "announce-result"
+      }
+    },
+    {
+      "key": "newscast.story-economy.joblessness-in-area-is-percent-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "Joblessness in {area} is {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-economy.out-of-work-in-area-percent-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "Out of work in {area}: {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-economy.joblessness-in-area-dropped-to-percent-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "Joblessness in {area} dropped to {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-economy.fewer-people-in-area-are-out-of-work-now-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "Fewer people in {area} are out of work, now {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-economy.prices-are-rising",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "Prices are rising.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "newscast.story-death.name-has-died",
+      "move": "story-death",
+      "kind": "spoken",
+      "text": "{name} has died.",
+      "uses": [
+        {
+          "move": "story-death",
+          "subject": "story",
+          "role": "death",
+          "choice": "death"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "newscast.story-death.we-learned-that-name-died",
+      "move": "story-death",
+      "kind": "spoken",
+      "text": "We learned that {name} died.",
+      "uses": [
+        {
+          "move": "story-death",
+          "subject": "story",
+          "role": "death",
+          "choice": "death"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "newscast.story-death.name-is-gone",
+      "move": "story-death",
+      "kind": "spoken",
+      "text": "{name} is gone.",
+      "uses": [
+        {
+          "move": "story-death",
+          "subject": "story",
+          "role": "death",
+          "choice": "death"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "newscast.story-death.the-death-of-name-was-announced",
+      "move": "story-death",
+      "kind": "spoken",
+      "text": "The death of {name} was announced.",
+      "uses": [
+        {
+          "move": "story-death",
+          "subject": "story",
+          "role": "death",
+          "choice": "death"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-covers-place",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} covers {place}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.the-alert-for-place-runs-until-until",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "The {alert} for {place} runs until {until}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.place-is-under-a-alert",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "{place} is under a {alert}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-is-posted-for-place-until-until",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} is posted for {place} until {until}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    }
+  ]
 }

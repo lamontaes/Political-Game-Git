@@ -639,7 +639,7 @@
           "subject": "inaugural",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         },
         {
@@ -647,7 +647,7 @@
           "subject": "state-of-the-union",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         }
       ],
@@ -4614,6 +4614,2396 @@
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-chief-justice-speaker-addressed-members-of-congress-my-fello",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Chief Justice, {speaker-addressed}, members of Congress, my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-speaker-addressed-distinguished-guests-and-my-fellow-citizen",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{speaker-addressed}, distinguished guests, and my fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-vice-president-addressed-speaker-addressed-and-my-fellow-ame",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, {speaker-addressed}, and my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed", "vice-president-addressed"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed", "vice-president-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-speaker-addressed-members-of-congress-and-everyone-watching-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{speaker-addressed}, members of Congress, and everyone watching at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-speaker-addressed-friends-and-fellow-americans",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{speaker-addressed}, friends, and fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-vice-president-addressed-speaker-addressed-and-folks-at-home",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-addressed}, {speaker-addressed}, and folks at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed", "vice-president-addressed"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed", "vice-president-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-i-stand-here-with-vice-president-object-ready-to-get-to-work",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I stand here with {vice-president-object}, ready to get to work.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-i-thank-speaker-object-for-the-welcome-and-i-mean-to-earn-it",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I thank {speaker-object} for the welcome, and I mean to earn it.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-polished-vice-president-object-and-i-come-to-this-work-with-our-eyes-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-object} and I come to this work with our eyes open.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-vice-president-object-and-i-are-glad-to-be-here-and-ready-to",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{vice-president-object} and I are glad to be here, and ready to work.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-thanks-to-speaker-object-for-having-me-let-s-get-to-it",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thanks to {speaker-object} for having me. Let's get to it.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.n19-plain-i-m-proud-to-have-vice-president-object-beside-me-tonight",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I'm proud to have {vice-president-object} beside me tonight.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-here-is-where-we-stand-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here is where we stand: {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-as-we-meet-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we meet, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-here-is-the-plain-fact-today-clause-second",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here is the plain fact: {today-clause-second}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-as-we-meet-today-clause-second",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we meet, {today-clause-second}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-here-is-where-we-stand-today-clause-third",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here is where we stand: {today-clause-third}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-polished-as-we-meet-today-clause-third",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As we meet, {today-clause-third}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-here-s-where-things-are-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here's where things are: {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-right-now-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Right now, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-here-s-where-things-are-today-clause-second",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here's where things are: {today-clause-second}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-right-now-today-clause-second",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Right now, {today-clause-second}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-here-s-where-things-are-today-clause-third",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Here's where things are: {today-clause-third}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-plain-right-now-today-clause-third",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Right now, {today-clause-third}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-both-today",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"],
+          "tie": "stand"
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-both-today-second",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today-second}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-second"],
+          "tie": "stand"
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.today.n19-both-today-third",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today-third}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-third"],
+          "tie": "stand"
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-ask-congress-to-to-this-year",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I ask Congress to {to} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-this-administration-will-work-to-to-and-i-will-sign-the-bill",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "This administration will work to {to}, and I will sign the bill that does it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-ask-congress-to-to-because-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I ask Congress to {to}, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-believe-belief-and-so-i-ask-this-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I believe {belief}, and so I ask this Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-send-me-a-bill-to-to-and-i-ll-sign-it-the-day-it-lands",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Send me a bill to {to}, and I'll sign it the day it lands.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-it-s-time-to-to-and-i-m-asking-congress-to-get-it-done",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "It's time to {to}, and I'm asking Congress to get it done.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-i-believe-belief-that-s-why-i-want-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I believe {belief}. That's why I want Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-we-should-to-because-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "We should {to}, because {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-not-sign-a-bill-for-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will not sign a bill for {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-on-about-my-answer-to-congress-is-no",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "On {about}, my answer to Congress is no.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-not-sign-a-bill-for-about-because-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will not sign a bill for {about}, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-believe-belief-and-so-i-oppose-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I believe {belief}, and so I oppose {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-on-about-my-answer-is-no-and-it-ll-stay-no",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "On {about}, my answer is no, and it'll stay no.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-don-t-send-me-a-bill-for-about-i-won-t-sign-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Don't send me a bill for {about}. I won't sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-i-m-against-about-because-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm against {about}, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-i-believe-belief-so-on-about-the-answer-is-no",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I believe {belief}. So on {about}, the answer is no.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-ask-congress-to-repeal-law-name",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will ask Congress to repeal {law-name}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-work-to-undo-law-name-and-i-ask-congress-to-join-me",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will work to undo {law-name}, and I ask Congress to join me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-ask-congress-to-repeal-law-name-because-i-believe-bel",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will ask Congress to repeal {law-name}, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-law-name-has-to-go-and-i-m-asking-congress-to-repeal-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} has to go, and I'm asking Congress to repeal it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-send-me-a-repeal-of-law-name-and-i-ll-sign-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Send me a repeal of {law-name}, and I'll sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-i-want-law-name-repealed-because-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want {law-name} repealed, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-defend-law-name-and-i-will-veto-any-bill-that-would-r",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will defend {law-name}, and I will veto any bill that would repeal it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-law-name-stays-the-law-while-i-hold-this-office",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} stays the law while I hold this office.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "law-name"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "law-name"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-will-defend-law-name-because-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will defend {law-name}, because I believe {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "core"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-since-i-believe-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Since I believe {belief},",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-because-i-am-convinced-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I am convinced {belief},",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-since-i-think-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Since I think {belief},",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-because-i-m-sure-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I'm sure {belief},",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-first",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "First,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-first"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-first"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-second",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Second,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-second"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-second"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-third",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Third,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-third"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-third"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-first-off",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "First off,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-first"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-first"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-then",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Then,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-second"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-second"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-and-last",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And last,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-third"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-third"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-above-all",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Above all,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-and-above-all",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And above all,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-my-reason-is-simple-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "My reason is simple: {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-polished-i-hold-this-view-because-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I hold this view because {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-the-reason-s-simple-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "The reason's simple: {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-plain-i-feel-that-way-because-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I feel that way because {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.n19-both-belief-sentence",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{belief-sentence}",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after", "belief-sentence"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after", "belief-sentence"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "piece": {
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-you-know-where-i-stand-on-asked-about-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "You know where I stand on {asked-about}. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-my-answer-on-asked-about-will-not-change-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "My answer on {asked-about} will not change. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-on-asked-about-my-answer-stays-no-hold-me-to-that",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {asked-about}, my answer stays no. Hold me to that.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-against"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-i-have-asked-for-action-on-asked-about-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I have asked for action on {asked-about}. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-i-asked-for-asked-about-tonight-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I asked for {asked-about} tonight. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
     }
   ]
 }

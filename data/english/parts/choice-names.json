@@ -97,5 +97,1284 @@
       "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
     }
   },
-  "parts": []
+  "parts": [
+    {
+      "key": "choice-names.work-shift.head-to-work",
+      "move": "work-shift",
+      "kind": "spoken",
+      "text": "Head to work.",
+      "uses": [
+        {
+          "move": "work-shift",
+          "subject": "action",
+          "role": "work-shift",
+          "choice": "work-shift"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.work-shift.put-in-a-shift",
+      "move": "work-shift",
+      "kind": "spoken",
+      "text": "Put in a shift.",
+      "uses": [
+        {
+          "move": "work-shift",
+          "subject": "action",
+          "role": "work-shift",
+          "choice": "work-shift"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.rest.take-the-day-off",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Take the day off.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.rest.relax-at-home",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Relax at home.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.rest.sit-this-one-out",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Sit this one out.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.rest.get-some-rest",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Get some rest.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.contact-known-person.phone-name",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Phone {name}.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        },
+        {
+          "move": "lobby-legislator",
+          "subject": "action",
+          "role": "lobby-legislator",
+          "choice": "lobby-legislator"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.contact-known-person.drop-in-on-name",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Drop in on {name}.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.contact-known-person.stop-by-and-see-name",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Stop by and see {name}.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.contact-known-person.have-a-word-with-name",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Have a word with {name}.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.contact-known-person.reach-out-to-someone-you-know",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Reach out to someone you know.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.care-for-relative.help-out-relation",
+      "move": "care-for-relative",
+      "kind": "spoken",
+      "text": "Help out {relation}.",
+      "uses": [
+        {
+          "move": "care-for-relative",
+          "subject": "action",
+          "role": "care-for-relative",
+          "choice": "care-for-relative"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.care-for-relative.help-out-a-relative",
+      "move": "care-for-relative",
+      "kind": "spoken",
+      "text": "Help out a relative.",
+      "uses": [
+        {
+          "move": "care-for-relative",
+          "subject": "action",
+          "role": "care-for-relative",
+          "choice": "care-for-relative"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.join-association.become-a-member-of-group",
+      "move": "join-association",
+      "kind": "spoken",
+      "text": "Become a member of {group}.",
+      "uses": [
+        {
+          "move": "join-association",
+          "subject": "action",
+          "role": "join-association",
+          "choice": "join-association"
+        },
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.approach-office.phone-office",
+      "move": "approach-office",
+      "kind": "spoken",
+      "text": "Phone {office}.",
+      "uses": [
+        {
+          "move": "approach-office",
+          "subject": "action",
+          "role": "approach-office",
+          "choice": "approach-office"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.approach-office.stop-by-an-office",
+      "move": "approach-office",
+      "kind": "spoken",
+      "text": "Stop by an office.",
+      "uses": [
+        {
+          "move": "approach-office",
+          "subject": "action",
+          "role": "approach-office",
+          "choice": "approach-office"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.look-up-local-institution.read-up-on-it",
+      "move": "look-up-local-institution",
+      "kind": "spoken",
+      "text": "Read up on it.",
+      "uses": [
+        {
+          "move": "look-up-local-institution",
+          "subject": "action",
+          "role": "look-up-local-institution",
+          "choice": "look-up-local-institution"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.look-up-local-institution.learn-more-about-it",
+      "move": "look-up-local-institution",
+      "kind": "spoken",
+      "text": "Learn more about it.",
+      "uses": [
+        {
+          "move": "look-up-local-institution",
+          "subject": "action",
+          "role": "look-up-local-institution",
+          "choice": "look-up-local-institution"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.take-up-cause.speak-out",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Speak out.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.take-up-cause.back-cause",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Back {cause}.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.take-up-cause.work-for-cause",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Work for {cause}.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.take-up-cause.make-a-difference",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Make a difference.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.hold-grudge.remember-this",
+      "move": "hold-grudge",
+      "kind": "spoken",
+      "text": "Remember this.",
+      "uses": [
+        {
+          "move": "hold-grudge",
+          "subject": "action",
+          "role": "hold-grudge",
+          "choice": "hold-grudge"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.carry-on.press-on",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Press on.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.carry-on.get-back-to-it",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Get back to it.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.carry-on.shrug-it-off",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Shrug it off.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.carry-on.let-it-pass",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Let it pass.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.share-cause.tell-people-about-it",
+      "move": "share-cause",
+      "kind": "spoken",
+      "text": "Tell people about it.",
+      "uses": [
+        {
+          "move": "share-cause",
+          "subject": "action",
+          "role": "share-cause",
+          "choice": "share-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.share-cause.pass-it-along",
+      "move": "share-cause",
+      "kind": "spoken",
+      "text": "Pass it along.",
+      "uses": [
+        {
+          "move": "share-cause",
+          "subject": "action",
+          "role": "share-cause",
+          "choice": "share-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.found-cause-group.start-a-group",
+      "move": "found-cause-group",
+      "kind": "spoken",
+      "text": "Start a group.",
+      "uses": [
+        {
+          "move": "found-cause-group",
+          "subject": "action",
+          "role": "found-cause-group",
+          "choice": "found-cause-group"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.join-cause-group.add-your-name",
+      "move": "join-cause-group",
+      "kind": "spoken",
+      "text": "Add your name.",
+      "uses": [
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.join-cause-group.become-a-member",
+      "move": "join-cause-group",
+      "kind": "spoken",
+      "text": "Become a member.",
+      "uses": [
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.donate-to-cause.give-money",
+      "move": "donate-to-cause",
+      "kind": "spoken",
+      "text": "Give money.",
+      "uses": [
+        {
+          "move": "donate-to-cause",
+          "subject": "action",
+          "role": "donate-to-cause",
+          "choice": "donate-to-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.seek-standing.get-to-know-name",
+      "move": "seek-standing",
+      "kind": "spoken",
+      "text": "Get to know {name}.",
+      "uses": [
+        {
+          "move": "seek-standing",
+          "subject": "action",
+          "role": "seek-standing",
+          "choice": "seek-standing"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.run-for-office.run-for-office",
+      "move": "run-for-office",
+      "kind": "spoken",
+      "text": "Run for office.",
+      "uses": [
+        {
+          "move": "run-for-office",
+          "subject": "action",
+          "role": "run-for-office",
+          "choice": "run-for-office"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-question.what-is-your-view-on-topic",
+      "move": "stance-question",
+      "kind": "spoken",
+      "text": "What is your view on {topic}?",
+      "uses": [
+        {
+          "move": "stance-question",
+          "subject": "action",
+          "role": "stance-question",
+          "choice": "question"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-question.are-you-for-topic",
+      "move": "stance-question",
+      "kind": "spoken",
+      "text": "Are you for {topic}?",
+      "uses": [
+        {
+          "move": "stance-question",
+          "subject": "action",
+          "role": "stance-question",
+          "choice": "question"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-question.do-you-think-place-should-change",
+      "move": "stance-question",
+      "kind": "spoken",
+      "text": "Do you think {place} should {change}?",
+      "uses": [
+        {
+          "move": "stance-question",
+          "subject": "action",
+          "role": "stance-question",
+          "choice": "question"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-question.would-you-back-a-move-to-change",
+      "move": "stance-question",
+      "kind": "spoken",
+      "text": "Would you back a move to {change}?",
+      "uses": [
+        {
+          "move": "stance-question",
+          "subject": "action",
+          "role": "stance-question",
+          "choice": "question"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-answer.i-m-for-it",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I'm for it.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-answer.i-m-against-it",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I'm against it.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-answer.i-can-t-say-yet",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I can't say yet.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.stance-answer.i-haven-t-made-up-my-mind",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I haven't made up my mind.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.guard-family.watch-over-your-family",
+      "move": "guard-family",
+      "kind": "spoken",
+      "text": "Watch over your family.",
+      "uses": [
+        {
+          "move": "guard-family",
+          "subject": "action",
+          "role": "guard-family",
+          "choice": "guard-family"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.answer-calling.offer-to-help",
+      "move": "answer-calling",
+      "kind": "spoken",
+      "text": "Offer to help.",
+      "uses": [
+        {
+          "move": "answer-calling",
+          "subject": "action",
+          "role": "answer-calling",
+          "choice": "answer-calling"
+        },
+        {
+          "move": "volunteer-for-cause",
+          "subject": "action",
+          "role": "volunteer-for-cause",
+          "choice": "volunteer-for-cause"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.organize-meeting.gather-people-together",
+      "move": "organize-meeting",
+      "kind": "spoken",
+      "text": "Gather people together.",
+      "uses": [
+        {
+          "move": "organize-meeting",
+          "subject": "action",
+          "role": "organize-meeting",
+          "choice": "organize-meeting"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.office-hours.open-the-office-to-visitors",
+      "move": "office-hours",
+      "kind": "spoken",
+      "text": "Open the office to visitors.",
+      "uses": [
+        {
+          "move": "office-hours",
+          "subject": "action",
+          "role": "office-hours",
+          "choice": "office-hours"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.town-hall.take-questions-at-a-town-hall",
+      "move": "town-hall",
+      "kind": "spoken",
+      "text": "Take questions at a town hall.",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "action",
+          "role": "town-hall",
+          "choice": "town-hall"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.interview.sit-down-for-an-interview",
+      "move": "interview",
+      "kind": "spoken",
+      "text": "Sit down for an interview.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "action",
+          "role": "interview",
+          "choice": "interview"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.meet-department-head.see-a-department-head",
+      "move": "meet-department-head",
+      "kind": "spoken",
+      "text": "See a department head.",
+      "uses": [
+        {
+          "move": "meet-department-head",
+          "subject": "action",
+          "role": "meet-department-head",
+          "choice": "meet-department-head"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.name-department-head.appoint-a-department-head",
+      "move": "name-department-head",
+      "kind": "spoken",
+      "text": "Appoint a department head.",
+      "uses": [
+        {
+          "move": "name-department-head",
+          "subject": "action",
+          "role": "name-department-head",
+          "choice": "name-department-head"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.talk-to-colleague.ask-a-colleague-to-back-your-bill",
+      "move": "talk-to-colleague",
+      "kind": "spoken",
+      "text": "Ask a colleague to back your bill.",
+      "uses": [
+        {
+          "move": "talk-to-colleague",
+          "subject": "action",
+          "role": "talk-to-colleague",
+          "choice": "talk-to-colleague"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.cut-ribbon.snip-the-ribbon",
+      "move": "cut-ribbon",
+      "kind": "spoken",
+      "text": "Snip the ribbon.",
+      "uses": [
+        {
+          "move": "cut-ribbon",
+          "subject": "action",
+          "role": "cut-ribbon",
+          "choice": "cut-ribbon"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.vote.cast-your-vote",
+      "move": "vote",
+      "kind": "spoken",
+      "text": "Cast your vote.",
+      "uses": [
+        {
+          "move": "vote",
+          "subject": "action",
+          "role": "vote",
+          "choice": "vote"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.sign.sign-the-bill",
+      "move": "sign",
+      "kind": "spoken",
+      "text": "Sign the bill.",
+      "uses": [
+        {
+          "move": "sign",
+          "subject": "action",
+          "role": "sign",
+          "choice": "sign"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.veto.turn-down-a-bill",
+      "move": "veto",
+      "kind": "spoken",
+      "text": "Turn down a bill.",
+      "uses": [
+        {
+          "move": "veto",
+          "subject": "action",
+          "role": "veto",
+          "choice": "veto"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.case.work-on-a-resident-s-problem",
+      "move": "case",
+      "kind": "spoken",
+      "text": "Work on a resident's problem.",
+      "uses": [
+        {
+          "move": "case",
+          "subject": "action",
+          "role": "case",
+          "choice": "case"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.speak.make-a-speech",
+      "move": "speak",
+      "kind": "spoken",
+      "text": "Make a speech.",
+      "uses": [
+        {
+          "move": "speak",
+          "subject": "action",
+          "role": "speak",
+          "choice": "speak"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.state-of-the-city.deliver-your-yearly-address",
+      "move": "state-of-the-city",
+      "kind": "spoken",
+      "text": "Deliver your yearly address.",
+      "uses": [
+        {
+          "move": "state-of-the-city",
+          "subject": "action",
+          "role": "state-of-the-city",
+          "choice": "state-of-the-city"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.join-association.become-part-of-a-group",
+      "move": "join-association",
+      "kind": "spoken",
+      "text": "Become part of a group.",
+      "uses": [
+        {
+          "move": "join-association",
+          "subject": "action",
+          "role": "join-association",
+          "choice": "join-association"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }

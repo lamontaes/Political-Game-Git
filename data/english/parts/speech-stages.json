@@ -12,5 +12,526 @@
     "goal": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
   },
   "maxWords": 30,
-  "parts": []
+  "parts": [
+    {
+      "key": "speech-stages.stage-opener.thank-you-all-for-coming-out-to-place",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "Thank you all for coming out to {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-opener.what-a-pleasure-to-stand-here-in-place",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "What a pleasure to stand here in {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-opener.i-m-glad-to-be-among-friends-in-place",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "I'm glad to be among friends in {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-opener.it-means-a-lot-to-be-in-place-with-you",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "It means a lot to be in {place} with you.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-opener.so-many-neighbors-showed-up-here-in-place",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "So many neighbors showed up here in {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-for-hearing-me-out-place",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {place}.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-place",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "God bless you, and God bless {place}.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-closer.that-s-what-i-came-to-say-place-thank-you",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "That's what I came to say, {place}. Thank you.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-closer.let-s-go-build-a-better-place",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "Let's go build a better {place}.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-work.i-worked-at-employer-for-years-years-i-know-what-it-takes-to-earn-a-paycheck-in",
+      "move": "stage-work",
+      "kind": "spoken",
+      "text": "I worked at {employer} for {years} years. I know what it takes to earn a paycheck in {place}.",
+      "uses": [
+        {
+          "move": "stage-work",
+          "subject": "stage",
+          "role": "work",
+          "choice": "work"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-work.i-work-at-employer-and-i-earn-my-living-right-here-in-place",
+      "move": "stage-work",
+      "kind": "spoken",
+      "text": "I work at {employer}, and I earn my living right here in {place}.",
+      "uses": [
+        {
+          "move": "stage-work",
+          "subject": "stage",
+          "role": "work",
+          "choice": "work"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-home.i-call-place-home-i-know-these-streets-and-the-people-on-them",
+      "move": "stage-home",
+      "kind": "spoken",
+      "text": "I call {place} home. I know these streets and the people on them.",
+      "uses": [
+        {
+          "move": "stage-home",
+          "subject": "stage",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-children.i-m-raising-number-children-in-place-what-we-decide-now-is-what-they-inherit",
+      "move": "stage-children",
+      "kind": "spoken",
+      "text": "I'm raising {number} children in {place}. What we decide now is what they inherit.",
+      "uses": [
+        {
+          "move": "stage-children",
+          "subject": "stage",
+          "role": "children",
+          "choice": "children"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-school.i-went-to-school-what-our-kids-learn-there-is-what-we-hand-to-the-next-generatio",
+      "move": "stage-school",
+      "kind": "spoken",
+      "text": "I went to {school}. What our kids learn there is what we hand to the next generation.",
+      "uses": [
+        {
+          "move": "stage-school",
+          "subject": "stage",
+          "role": "school",
+          "choice": "school"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.let-s-talk-about-issue-goal-i-say-yes-and-i-ll-say-it-again-anywhere-in-place",
+      "move": "stage-stance-enact",
+      "kind": "spoken",
+      "text": "Let's talk about {issue}. {goal}? I say yes, and I'll say it again anywhere in {place}.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.on-issue-here-s-where-i-stand-goal-yes-ask-me-why-and-i-ll-tell-you",
+      "move": "stage-stance-enact",
+      "kind": "spoken",
+      "text": "On {issue}, here's where I stand. {goal}? Yes. Ask me why and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.i-want-to-be-clear-about-issue-goal-yes-and-i-want-you-to-hold-me-to-it",
+      "move": "stage-stance-enact",
+      "kind": "spoken",
+      "text": "I want to be clear about {issue}. {goal}? Yes, and I want you to hold me to it.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.let-s-talk-about-issue-goal-i-say-no-and-i-ll-say-it-again-anywhere-in-place",
+      "move": "stage-stance-repeal",
+      "kind": "spoken",
+      "text": "Let's talk about {issue}. {goal}? I say no, and I'll say it again anywhere in {place}.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.on-issue-here-s-where-i-stand-goal-no-ask-me-why-and-i-ll-tell-you",
+      "move": "stage-stance-repeal",
+      "kind": "spoken",
+      "text": "On {issue}, here's where I stand. {goal}? No. Ask me why and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.people-in-place-keep-telling-me-issue-has-gotten-worse-and-i-believe-them",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "People in {place} keep telling me {issue} has gotten worse, and I believe them.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.ask-around-place-about-issue-and-the-answer-is-the-same-it-is-worse-than-it-was",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "Ask around {place} about {issue} and the answer is the same: it is worse than it was.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.something-has-slipped-on-issue-in-place-and-we-should-be-honest-about-it",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "Something has slipped on {issue} in {place}, and we should be honest about it.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.issue-in-place-was-better-when-this-term-began-i-want-to-talk-about-what-changed",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "{issue} in {place} was better when this term began. I want to talk about what changed.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.i-have-good-news-on-issue-in-place-it-is-better-than-it-was-and-that-is-your-doi",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "I have good news on {issue} in {place}: it is better than it was, and that is your doing.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.not-everything-tonight-is-a-complaint-issue-in-place-has-improved-and-we-should",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "Not everything tonight is a complaint. {issue} in {place} has improved, and we should say so.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.issue-in-place-has-gotten-better-we-should-be-proud-of-that-and-keep-it-going",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "{issue} in {place} has gotten better. We should be proud of that and keep it going.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }

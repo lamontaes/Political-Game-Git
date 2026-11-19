@@ -2376,6 +2376,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
         .filter((row) => row.on === move || row.on === "resolved")
         .map((row) => row.asker),
       ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+      // The player's second turn after the asked answers an again move: the variants' `after`.
+      ...(asks && (move === asks.no || asks.relent.includes(move))
+        ? Object.values(asks.after ?? {}).flatMap((rows) =>
+            rows.map((row) => row.move),
+          )
+        : []),
     ];
   };
   /** The player's character's unprompted line after an asker line, and the asker's answer to it. */

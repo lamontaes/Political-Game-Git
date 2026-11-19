@@ -72,6 +72,7 @@ import {
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
+  LOCAL_WAGE_AUTHORITY_QUESTION,
 } from "./laws";
 import {
   inTownChain,
@@ -1902,7 +1903,15 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       .query("bySeries", [
         "local-minimum-wage-authority",
       ]) as unknown as EnactedAuthority[];
-    const authority = localAuthority(rows, enacted, chain, api.state.date);
+    const authority = localAuthority(
+      rows,
+      enacted,
+      chain,
+      api.state.date,
+      laws.query("bySeriesOnly", [
+        LOCAL_WAGE_AUTHORITY_QUESTION,
+      ]) as unknown as LawRowInput[],
+    );
     return authority.allowed
       ? {
           allowed: true,
