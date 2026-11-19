@@ -16041,6 +16041,546 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.player-news-answer-take.oh-wonderful",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Oh, wonderful.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.that-s-great-news",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "That's great news.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.i-m-so-glad",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "I'm so glad.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-glad"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.proud-of-you",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Proud of you.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.well-done",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Well done.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.look-at-you",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Look at you.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-proud"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.good-one-step",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Good. One step.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.sounds-right",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Sounds right.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.steady-does-it",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Steady does it.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-steady"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.be-careful",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Be careful.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.that-worries-me",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "That worries me.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.careful-now",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Careful, now.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-worry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.big-shot-now",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Big shot now.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.look-who-s-busy",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Look who's busy.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.fancy-fancy",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Fancy, fancy.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-tease"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.not-my-pick",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Not my pick.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.hm-we-ll-see",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Hm. We'll see.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-take.suit-yourself",
+      "move": "player-news-answer-take",
+      "kind": "spoken",
+      "text": "Suit yourself.",
+      "uses": [
+        {
+          "move": "player-news-answer-take",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "take",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.office-are-you-sure-about-this",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "{office}? Are you sure about this?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-worry", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.running-for-office-what-about-us",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "Running for {office}? What about us?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-worry", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.office-is-a-lot-are-you-ready",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "{office} is a lot. Are you ready?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-worry", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.why-that",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "Why that?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.why-though",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "Why, though?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.really-why",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "Really? Why?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-other-side"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.employer-i-ve-heard-good-things",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "{employer}? I've heard good things.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.you-re-at-employer-now-good",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "You're at {employer} now? Good.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.employer-is-lucky-to-have-you",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "{employer} is lucky to have you.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.you-filed-for-office-good-for-you",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "You filed for {office}? Good for you.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.office-that-s-a-big-step",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "{office}. That's a big step.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.player-news-answer-tell.so-it-s-office-now",
+      "move": "player-news-answer-tell",
+      "kind": "spoken",
+      "text": "So it's {office} now.",
+      "uses": [
+        {
+          "move": "player-news-answer-tell",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19"
     }
   ]
 }
