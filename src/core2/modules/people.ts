@@ -90,7 +90,7 @@ import {
 const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { coreAPI } from "../state";
-import { pastViewShifts, setPastViewShifts } from "./views";
+import { pastViewShifts, setPastViewShifts, VIEWS_MODULE_ID } from "./views";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
 import { registerWorldMapPart } from "../snapshot";
@@ -699,6 +699,9 @@ const PAST_PASSES = ["work"] as const;
 
 /** A person's view moved by their own past and their opened parents' (part 14). */
 function pastViewsOf(api: CoreAPI, person: PersonState): void {
+  // A view forms only where the views module keeps it (a world built without
+  // it, as worldGameOptions builds one): nothing reads a shift there.
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
   const parents = parentIdsOf(person).flatMap((id) => {
     const parent = api.state.people.get(id as PersonId);
     return parent && wholePastOpened(api.state, parent.id, PAST_PASSES)
