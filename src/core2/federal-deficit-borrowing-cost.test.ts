@@ -118,6 +118,20 @@ describe("the federal deficit reaches a state's bondholders", () => {
               .treasury10Pct / 100;
           const unit = treasuryParameter("basisPointsPerUnit");
           const byDate = new Map(without.months.map((m) => [m.date, m]));
+          // A state whose budget plans no interest has nothing for a dearer cost to
+          // raise (the District's opening row carries none): the draw is passed over.
+          const noInterest = withLaw.months.every((m) => {
+            const b = budgetsOf(api, withLaw.state.id).find(
+              (r) => r.id === m.budgetId,
+            );
+            return !(b?.spendingMinor.interest ?? 0);
+          });
+          if (noInterest) {
+            passed.push(
+              `${drawn.name}, ${drawn.state} (${drawn.key}): its budget plans no interest`,
+            );
+            continue;
+          }
           const checked: {
             month: TreasuryMonthRow;
             other: TreasuryMonthRow;
