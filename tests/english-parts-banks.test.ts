@@ -116,7 +116,6 @@ const CUT_BANKS = new Set<string>([
   "choice-names.json",
   "newscast.json",
   "notice.json",
-  "person-history.json",
   "speech-stages.json",
 ]);
 

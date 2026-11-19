@@ -600,7 +600,7 @@
     {
       "key": "person-history.story.partner.met.third.w4",
       "move": "story",
-      "text": "{who} got acquainted with {name} in {place}.",
+      "text": "{who} got to know {name} in {place}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -636,7 +636,7 @@
     {
       "key": "person-history.story.partner.met.they.w4",
       "move": "story",
-      "text": "They got acquainted with {name} in {place}.",
+      "text": "They got to know {name} in {place}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -672,7 +672,7 @@
     {
       "key": "person-history.story.partner.met.i.w4",
       "move": "story",
-      "text": "I got acquainted with {name} in {place}.",
+      "text": "I got to know {name} in {place}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -699,7 +699,7 @@
     {
       "key": "person-history.story.partner.home.third",
       "move": "story",
-      "text": "{who} and {name} began sharing a household.",
+      "text": "{who} and {name} started living together.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -717,7 +717,7 @@
     {
       "key": "person-history.story.partner.home.third.w3",
       "move": "story",
-      "text": "{who} and {name} became a household.",
+      "text": "{who} and {name} set up house together.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -735,7 +735,7 @@
     {
       "key": "person-history.story.partner.home.they",
       "move": "story",
-      "text": "They and {name} began sharing a household.",
+      "text": "They started living with {name}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -753,7 +753,7 @@
     {
       "key": "person-history.story.partner.home.they.w3",
       "move": "story",
-      "text": "They and {name} became a household.",
+      "text": "They set up house with {name}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -771,7 +771,7 @@
     {
       "key": "person-history.story.partner.home.i",
       "move": "story",
-      "text": "I and {name} began sharing a household.",
+      "text": "{name} and I started living together.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -789,7 +789,7 @@
     {
       "key": "person-history.story.partner.home.i.w3",
       "move": "story",
-      "text": "I and {name} became a household.",
+      "text": "{name} and I set up house together.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1599,7 +1599,7 @@
     {
       "key": "person-history.story.partner.moved-in.third.w2",
       "move": "story",
-      "text": "{who} and {name} began sharing a place in {year}.",
+      "text": "{who} and {name} moved in together in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1635,7 +1635,7 @@
     {
       "key": "person-history.story.partner.moved-in.they.w2",
       "move": "story",
-      "text": "They and {name} began sharing a place in {year}.",
+      "text": "They moved in with {name} in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1671,7 +1671,7 @@
     {
       "key": "person-history.story.partner.moved-in.i.w2",
       "move": "story",
-      "text": "I and {name} began sharing a place in {year}.",
+      "text": "{name} and I moved in together in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1797,7 +1797,7 @@
     {
       "key": "person-history.story.partner.married.i",
       "move": "story",
-      "text": "I and {name} were married in {year}.",
+      "text": "{name} and I married in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1851,7 +1851,7 @@
     {
       "key": "person-history.story.partner.separated.i",
       "move": "story",
-      "text": "I and {name} split up in {year}.",
+      "text": "{name} and I split up in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -2418,7 +2418,7 @@
     {
       "key": "person-history.story.work.out.third.w3",
       "move": "story",
-      "text": "{who} went unemployed in {year}.",
+      "text": "{who} was out of work in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -2454,7 +2454,7 @@
     {
       "key": "person-history.story.work.out.they.w3",
       "move": "story",
-      "text": "They went unemployed in {year}.",
+      "text": "They were out of work in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -2490,7 +2490,7 @@
     {
       "key": "person-history.story.work.out.i.w3",
       "move": "story",
-      "text": "I went unemployed in {year}.",
+      "text": "I was out of work in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4929,7 +4929,7 @@
     {
       "key": "person-history.story.partner.separated.parent.i",
       "move": "story",
-      "text": "I and {name}, {parent}, split up in {year}.",
+      "text": "{name}, {parent}, and I split up in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
