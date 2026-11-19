@@ -712,6 +712,8 @@ interface Plan {
   /** The will's bequests as of the death (none when no will was made). */
   readonly willAtDeath?: readonly { id: PersonId; weight: number }[] | null;
   readonly share: number;
+  /** The cash was paid while the home was still for sale: the pass after the sale pays its proceeds to the same heirs, on the whole estate's tax. */
+  readonly partial?: boolean;
   readonly fundedMinor?: number;
   readonly beneficiaries?: readonly { id: PersonId; weight: number }[];
 }
@@ -728,7 +730,8 @@ function keepProbateOpen(
 ): void {
   // The heirs, the will and its reasons stay as they stood on the day of
   // death: a probate held open for a house never reads them again later,
-  // when the estate has grown (World, #9747 07:13Z).
+  // when the estate has grown (World, #9747 07:13Z). A pass that paid the cash
+  // while the house was for sale marks the row `partial`.
   const table = api.moduleState(ESTATES_MODULE_ID).table("probate");
   table.put({
     ...(table.get(personId) ?? {}),
@@ -736,6 +739,9 @@ function keepProbateOpen(
     share: plan.share,
     ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
     ...(plan.carry === undefined ? {} : { carry: plan.carry }),
+    ...(plan.heirsAtDeath === undefined ? {} : { heirs: plan.heirsAtDeath }),
+    ...(plan.willAtDeath === undefined ? {} : { will: plan.willAtDeath }),
+    ...(plan.partial ? { partial: true } : {}),
   } as unknown as ModuleRow);
   const month = Math.round(
     api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"),
@@ -775,15 +781,20 @@ function distribute(
     });
   const listed = trust ? undefined : homeSaleOf(api, person.householdId);
   const sale = listed?.decedentId === personId ? listed : undefined;
-  if (sale?.status === "listed") {
-    keepProbateOpen(api, personId, deathEventId, plan);
-    return [];
-  }
   // The trust's part is what it holds; probate's is what is left in the account.
   const estate = trust
     ? Math.min(plan.fundedMinor ?? 0, accounts.balance(from))
     : accounts.balance(from);
+  // An estate whose house is still for sale pays the heirs its cash when probate closes, and the house's proceeds to the same heirs when it sells: the cash does not wait on a sale that may take years. Nothing in the account to pay, or the cash already paid, keeps the estate open for the sale.
+  const homeUnsold = sale?.status === "listed";
+  if (homeUnsold && (plan.partial || estate <= api.parameter("zero"))) {
+    keepProbateOpen(api, personId, deathEventId, plan);
+    return [];
+  }
   if (estate <= api.parameter("zero")) return [];
+  // What this pass paid, so the pass after the sale pays only the rest.
+  const carry: Carry | undefined =
+    plan.carry ?? (homeUnsold ? { estateTax: {}, heirs: {} } : undefined);
   api.stopgap(data.stopgapId);
   // A trust's beneficiaries take by its terms; probate follows the will or the law.
   // The will, like the heirs, is read as of the day of death and kept on the probate row; one paid with no wait reads it now.
@@ -854,7 +865,8 @@ function distribute(
   const stateKey = taxStateOf(api, person);
   const taxes: DeathTax[] = [];
   // A trust's transfers carry their own ids beside probate's.
-  const part = trust ? ":trust" : "";
+  // The pass after the house sold is its own pass beside the one that paid the cash.
+  const part = trust ? ":trust" : plan.partial ? ":home" : "";
   const payTax = (tax: DeathTax) => {
     const to = treasuryOf(api, tax.jurisdiction);
     accounts.transfer({
@@ -917,20 +929,24 @@ function distribute(
   for (const tax of assessEstateTaxes(
     api,
     stateKey,
-    inherits ? (plan.baseMinor ?? estate) : api.parameter("zero"),
+    inherits
+      ? plan.partial
+        ? (plan.baseMinor ?? api.parameter("zero")) + estate
+        : (plan.baseMinor ?? estate)
+      : api.parameter("zero"),
   )) {
     const key = `${tax.series}:${tax.jurisdiction}`;
     // The trust's pass pays its share of the tax; probate pays what is left of it.
     const due = trust
       ? Math.round(tax.amountMinor * plan.share)
-      : tax.amountMinor - (plan.carry?.estateTax[key] ?? 0);
+      : tax.amountMinor - (carry?.estateTax[key] ?? 0);
     const amountMinor = Math.min(Math.max(due, api.parameter("zero")), net);
     if (amountMinor <= api.parameter("zero")) {
       assessed(tax);
       continue;
     }
     payTax({ ...tax, amountMinor });
-    if (trust && plan.carry) plan.carry.estateTax[key] = amountMinor;
+    if ((trust || homeUnsold) && carry) carry.estateTax[key] = amountMinor;
     net -= amountMinor;
   }
   const total = takers.reduce(
@@ -950,7 +966,7 @@ function distribute(
     if (amountMinor <= api.parameter("zero")) return;
     // An heir who takes from both the trust and probate pays inheritance tax
     // on the two together, less what the first pass paid.
-    const before = plan.carry?.heirs[taker.id];
+    const before = carry?.heirs[taker.id];
     const grossMinor = amountMinor;
     const whole = inherits
       ? assessInheritanceTax(
@@ -969,8 +985,8 @@ function distribute(
       whole && dueTax > api.parameter("zero")
         ? { ...whole, amountMinor: dueTax }
         : null;
-    if (trust && plan.carry)
-      plan.carry.heirs[taker.id] = {
+    if ((trust || homeUnsold) && carry)
+      carry.heirs[taker.id] = {
         grossMinor,
         taxMinor: owed?.amountMinor ?? api.parameter("zero"),
       };
@@ -1026,6 +1042,18 @@ function distribute(
     if (inherits)
       noticeTaxes(api, personId, taker.id, amountMinor, taxes, part);
   });
+  // The house is still for sale: the cash is paid and the estate waits for its proceeds, to the same heirs, on the same plan.
+  if (homeUnsold) {
+    keepProbateOpen(api, personId, deathEventId, {
+      ...plan,
+      partial: true,
+      ...(carry ? { carry } : {}),
+      baseMinor: plan.baseMinor ?? estate,
+      heirsAtDeath: plan.heirsAtDeath ?? heirs,
+      willAtDeath: plan.willAtDeath ?? (will ? [...will] : null),
+    });
+    return paid;
+  }
   // Probate's close is a court record; the home it sold names whom it paid.
   const settledId = `estate.settled:${personId}:${api.state.date}${part}`;
   if (sale) recordEstatePaid(api, sale, settledId, paid);
@@ -1143,6 +1171,7 @@ export const ESTATES_MODULE: CoreModule = {
           baseMinor?: number;
           share: number;
           carry?: Carry;
+          partial?: boolean;
           heirs: readonly PersonId[];
           will?: readonly { id: PersonId; weight: number }[] | null;
         }
@@ -1157,6 +1186,7 @@ export const ESTATES_MODULE: CoreModule = {
             baseMinor: kept.baseMinor,
             share: kept.share,
             ...(kept.carry ? { carry: kept.carry } : {}),
+            ...(kept.partial ? { partial: true } : {}),
             heirsAtDeath: kept.heirs,
             willAtDeath: kept.will ?? null,
           }

@@ -2,11 +2,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { campaignParameter } from "./campaign-data";
 import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
-import { staffCandidates } from "./modules/staff";
+import { postHourlyMinor, staffCandidates } from "./modules/staff";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
@@ -29,7 +28,7 @@ it(`counts a counted resident earning less than the post as a candidate, and one
     const official = townSeats(api).find((seat) => seat.holder)?.holder
       ?.personId;
     expect(official, `${where}: no sitting official`).toBeDefined();
-    const post = campaignParameter("staffHourlyMinor");
+    const post = postHourlyMinor(api);
     const candidates = new Set(
       staffCandidates(api, official!)
         .filter((c) => c.counted)

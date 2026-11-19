@@ -34,6 +34,13 @@
       "role": "coefficient",
       "source": "How many voters, evenly spaced along the lean order at the typical readiness of a presidential year, stand for a place when the century counts it (stopgap SG-HIST-century-voters). The count's rule is the engine's own (electorate.ts countPlaces, each record dividing over its own stretch of the order); the number only sets how finely turnout is weighed along it. Measured against 400 (the town's coarse sample size, coarseSampleVoters) at seeds a1, b2 and c3 on Nov 17, 2026, with the record-stretch count: the century's 25 presidential winners matched at 100, 40 and 20 voters in a1 and b2, and at 100 and 40 in c3 (20 moved 10); day one's 541 seats in Congress matched at 100, and differed in 1, 0 and 0 at 40, and 2, 2 and 10 at 20. A century cost 4.7 to 5.3 s at 400, 1.5 to 1.6 s at 100 and 0.76 to 1.0 s at 40."
     },
+    "centuryHiddenVoters": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How many voters, evenly spaced along the lean order, stand for a district of another state's legislature, counted as results until someone opens its member (the played town's state and Congress keep centuryVoters). The count's rule is the engine's own; the number only sets how finely turnout is weighed. Measured against 40 on Nov 17, 2026 (seeds named in the pull request): at seeds leg-a, leg-b and leg-c (town states Texas, Texas, Ohio), 20 voters ended the century with 33, 32 and 44 of 7,419 legislative seats on the other side than 40 did (under half a percent), no two races sharing a share at either, and the legislatures' pass took 3.0 to 3.3 s against 4.7 to 5.5 s. #9883's golden-path spec M2-07 had timed out by half a second at 40.",
+      "spread": [12, 40]
+    },
     "presidentialTermYears": {
       "value": 4,
       "tag": "SOURCED",
@@ -56,7 +63,7 @@
       "value": 0.208,
       "tag": "ESTIMATED",
       "role": "opening",
-      "source": "How far a House district stands from its state when the century opens, as the spread of each district's one starting shift (electorate-century.ts centuryShift, any size between -1 and 1 of the spread equally likely, so its mean size is half of it). Sized so the mean distance is the 2024 map's: across 397 contested House districts the mean absolute gap of a district's Republican two-party share from its state's presidential share is 0.1038 (data/source/electoral-calibration-2024/corpus.json, house and presidentialByState; 0.1038 / 0.5 = 0.208). Calibration of how much districts differ; which district stands where is the world's.",
+      "source": "How far a House district stands from its state when the century opens, as the spread of each district's one starting shift (electorate-century.ts centuryShift, any size between -1 and 1 of the spread equally likely, so its mean size is half of it). Sized so the mean distance is the 2024 map's: across 397 contested House districts the mean absolute gap of a district's Republican two-party share from its state's presidential share is 0.1038 (data/source/electoral-calibration-2024/corpus.json, house and presidentialByState; 0.1038 / 0.5 = 0.208). Calibration of how much districts differ; which district stands where is the world's. State legislative districts take the same spread until their own is sourced (the 2024 state legislative returns by district).",
       "spread": [0.12, 0.3]
     },
     "senateClassOneYear": {
@@ -64,6 +71,34 @@
       "tag": "SOURCED",
       "role": "law",
       "source": "U.S. Const. art. I, sec. 3: senators are divided into three classes, one elected every second year for six-year terms. Class 1 was elected in 2024, class 2 in 2026's cycle (2020), class 3 in 2028's (2022); data/research/offices/senate-classes-2026.json names each state's classes."
+    },
+    "centuryDistrictSizeSpread": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "role": "opening",
+      "source": "How far a district's eligible voters stand from its chamber's typical (the state's eligible over its districts), as a share either side: each district's multiple is 1 + spread x (2u - 1) for its own seeded unit. Districts hold near equal people by law (Wesberry v. Sanders, 376 U.S. 1 (1964); Reynolds v. Sims, 377 U.S. 533 (1964); a state legislative plan under 10 percent total deviation is presumed valid, Brown v. Thomson, 462 U.S. 835 (1983)), but not equal citizens of voting age, who differ with age and citizenship by district. Generation of who lives where, never an outcome. Not yet sourced: the spread of citizen voting-age population across districts in the Census Bureau's CVAP special tabulation (research item history-district-size-spread).",
+      "spread": [0.05, 0.3]
+    },
+    "centuryFoundingFade": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of the founding pressure from the voters neither national party reached carries over to the next presidential cycle (pressure = last cycle's x this + this cycle's unreached share), so a gap that closes stops pushing for a new party. A strength only: no count of founded parties is a target. To be checked against how long third-party movements lasted in the twentieth century (research item history-party-founding-strengths).",
+      "spread": [0.3, 0.8]
+    },
+    "centuryFoundingCost": {
+      "value": 0.26,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once, after the unreached share became a sliding scale (the steady pressure is twice the unreached share, and the fitted party positions put it near 0.26, so a cost near it lets worlds differ in whether and when they found one); never a target count.",
+      "spread": [0.15, 0.6]
+    },
+    "centuryPartyLeanScale": {
+      "value": 1.6,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How the mean of a party's members' seats in Congress (their districts' and states' signed leans, -1 to 1) maps onto the members' left-right scale (DW-NOMINATE's first dimension): a party's position is that mean times this. Fitted once so the 2024 map's House seats put the parties near the 119th Congress's House means (Democrats -0.386, Republicans 0.524, Voteview HS119): the seats Democrats hold average about a third of the way left of even and Republicans' about a quarter right, so the one scale that fits both is about 1.6. A strength, not a target: each world's parties stand where their own seats put them. To be sourced from Voteview's party means by Congress against the districts each party held (research item history-party-position-scale).",
+      "spread": [1.1, 2.2]
     },
     "centuryCampaignMeansLogSpread": {
       "value": 1.0,

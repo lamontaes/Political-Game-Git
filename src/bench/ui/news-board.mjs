@@ -1,13 +1,11 @@
-// News as the Nov 8 play mock draws it (pl-news): the outlets as tabs, the paper's name and the
-// day, then the lead story with its text in two columns, the other stories beside it and the
-// briefs in a strip, set in type on the dark panel (never a cream sheet: owner, Nov 7). The
-// screen hands it the outlets with their stories in words, the labels, the day and how to name
-// a story. Clicking a headline swaps that story into the lead's place.
+// News (play mock pl-news, on the owner's Nov 16 ruling that every story opens on a click): the
+// outlets as tabs, the paper's name and the day, then every story as a headline in a list at the
+// left and the chosen story at the right, set in type on the dark panel (never a cream sheet:
+// owner, Nov 7). The screen hands it the outlets with their stories in words, the labels, the day and how to name
+// a story. Every story is a headline in a list at the left; clicking one opens it at the right.
 import { el } from "./dom.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
-import { stripBoard, stripSection } from "./strips.mjs";
-import { pager } from "./pager.mjs";
-import { makeButton } from "./button.mjs";
+import { pickRow } from "./list-row.mjs";
 import { dateWords } from "../../english/plain-words.mjs";
 
 /** A story's printed text: its written paragraphs, else its lede when it is not the headline again. */
@@ -63,88 +61,70 @@ export function newsBoard({
     const outlet = outlets.get(chosen);
     holder.dataset.outlet = chosen;
     const stories = outlet.stories;
-    // A brief the player opened takes the lead slot, as a front story does;
-    // the one that led goes back to its own place on the page.
-    const side = stories.filter((story) => story.brief && story !== opened);
-    const front = stories.filter((story) => !story.brief || story === opened);
-    const lead = front.includes(opened)
+    // Every story is a headline in the list at the left and opens at the right when clicked
+    // (owner, Nov 16: "News stories open on click"). The page opens on its fullest story.
+    const lead = stories.includes(opened)
       ? opened
-      : front.reduce(
+      : stories.reduce(
           (best, story) =>
             best && told(best).length >= told(story).length ? best : story,
           undefined,
         );
-    const rest = front.filter((story) => story !== lead);
-    const withText = rest.filter((story) => told(story).length);
-    const briefs = [...side, ...rest.filter((story) => !told(story).length)];
-    const headline = (story, className) => {
-      const node = el("h3", {
-        className: `news-headline ${className}`,
-        textContent: headlineOf(story),
-      });
-      node.tabIndex = 0;
-      node.setAttribute("role", "button");
-      const open = () => {
-        opened = story === lead ? null : story;
-        draw();
-      };
-      node.addEventListener("click", open);
-      node.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          open();
-        }
-      });
-      return node;
-    };
-    // The lead carries the picture of the place its record is about, when the art has painted it.
-    const photo = (story, className) => {
-      const url = className === "lead" ? photoOf?.(story) : undefined;
-      return url
-        ? [el("img", { className: "story-image", src: url, alt: "" })]
-        : [];
-    };
     // The day the story ran, as a paper says it ("February 21"); the year
     // only when it is another year. A clipping keeps its own day.
-    const dateline = (story) =>
-      story.date
-        ? [
-            el("span", {
-              className: "news-dateline",
-              textContent: dateWords(story.date, { year: date }),
-            }),
-          ]
-        : [];
-    const storyNode = (story, className) =>
-      el(
-        "article",
-        { className: `news-story ${className}` },
-        headline(story, className),
-        ...dateline(story),
-        ...photo(story, className),
-        // An opened story has its way back to the front page.
-        ...(story === opened && story === lead
-          ? [
-              makeButton({
-                className: "action small news-back",
-                textContent: labels.backFront,
-                onclick: () => {
-                  opened = null;
-                  draw();
-                },
-              }),
-            ]
-          : []),
-        el(
-          "div",
-          { className: "news-text" },
-          ...told(story).map((text) =>
-            el("p", { className: "intro", textContent: text }),
+    const when = (story) =>
+      story.date ? dateWords(story.date, { year: date }) : undefined;
+    const rows = stories.map((story) => {
+      const row = pickRow({
+        label: headlineOf(story),
+        aside: when(story),
+        className: "news-row",
+      });
+      row.querySelector("b").classList.add("news-headline");
+      row.dataset.key = story.id;
+      row.setAttribute("aria-pressed", String(story === lead));
+      row.addEventListener("click", () => {
+        opened = story;
+        draw();
+      });
+      return row;
+    });
+    // The lead carries the picture of the place its record is about, when the art has painted it.
+    const photoUrl = lead ? photoOf?.(lead) : undefined;
+    const page = lead
+      ? el(
+          "article",
+          { className: "news-story lead" },
+          el("h3", {
+            className: "news-headline lead",
+            textContent: headlineOf(lead),
+          }),
+          ...(when(lead)
+            ? [
+                el("span", {
+                  className: "news-dateline",
+                  textContent: when(lead),
+                }),
+              ]
+            : []),
+          ...(photoUrl
+            ? [el("img", { className: "story-image", src: photoUrl, alt: "" })]
+            : []),
+          el(
+            "div",
+            { className: "news-text" },
+            ...told(lead).map((text) =>
+              el("p", { className: "intro", textContent: text }),
+            ),
           ),
-        ),
-        // What the story's record opens (another state's change: its roll call).
-        ...(className === "lead" && actionOf?.(story) ? [actionOf(story)] : []),
-      );
+          // What the story's record opens (another state's change: its roll call).
+          ...(actionOf?.(lead) ? [actionOf(lead)] : []),
+        )
+      : el("p", {
+          className: "intro",
+          textContent: emptyNewsLine(outlet, followsAny, labels),
+        });
+    if (lead) page.dataset.key = lead.id;
     // One paper needs no tab over its own masthead.
     holder.replaceChildren(
       ...(outlets.size > 1 ? [tabs] : []),
@@ -159,60 +139,14 @@ export function newsBoard({
           textContent: dateWords(date, { weekday: true }),
         }),
       ),
-      stripBoard({
-        columns: [
-          lead
-            ? [storyNode(lead, "lead")]
-            : stories.length
-              ? []
-              : [
-                  el("p", {
-                    className: "intro",
-                    textContent: emptyNewsLine(outlet, followsAny, labels),
-                  }),
-                ],
-          withText.map((story) => storyNode(story, "side")),
-          briefs.length
-            ? [
-                stripSection(
-                  3,
-                  labels.briefs,
-                  pager({
-                    items: briefs,
-                    render: (story) =>
-                      // A brief with a body opens: its headline is the button
-                      // and only its first sentence is printed beside it.
-                      told(story).length > 1 && story.brief
-                        ? el(
-                            "div",
-                            { className: "news-brief news-brief-opens" },
-                            headline(story, "brief"),
-                            ...dateline(story),
-                            el("p", {
-                              className: "intro",
-                              textContent: told(story)[0],
-                            }),
-                          )
-                        : el("p", {
-                            className: `intro ${story.brief ? "news-brief" : "news-line"}`,
-                            textContent: told(story).length
-                              ? `${headlineOf(story)}. ${told(story).join(" ")}`
-                              : headlineOf(story),
-                          }),
-                    rows: 5,
-                    columns: 1,
-                    rowHeight: 86,
-                    // A long brief takes the room it needs; the box scrolls
-                    // and no brief is printed over the next.
-                    growRows: true,
-                    gap: 6,
-                    className: "news-briefs",
-                  }),
-                ),
-              ]
-            : [],
-        ].filter((column) => column.length),
-      }),
+      el(
+        "div",
+        { className: "news-screen" },
+        ...(rows.length
+          ? [el("div", { className: "pick-list news-list" }, ...rows)]
+          : []),
+        el("div", { className: "news-page" }, page),
+      ),
     );
   };
   draw();

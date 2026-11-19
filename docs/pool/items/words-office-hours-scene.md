@@ -17,8 +17,8 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: the scene fires from the case module's own visit record, read by the director, with no invented visitor. Ask why: the scene names its cause record, and the problem it speaks of comes from that record. One rule, all 56 places: the test draws places from all 56 until one has a visit.
 
-**Done when.** src/director/office-hours-scene.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the town's officials and shows each office.approached record firing the official's office-hours scene with the resident as the constituent, set in the official's office, composed with a statement about the record's own problem and citing the record id.
+**Done when.** src/director/office-hours-scene.test.ts (removed) in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the town's officials and shows each office.approached record firing the official's office-hours scene with the resident as the constituent, set in the official's office, composed with a statement about the record's own problem and citing the record id.
 
-**Files.** src/core2/modules/constituent-cases.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/office-hours-scene.test.ts
+**Files.** src/core2/modules/constituent-cases.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
 **Notes.** TODO
