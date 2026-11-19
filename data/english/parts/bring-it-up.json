@@ -67,5 +67,825 @@
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
     "notAttested": 55
   },
-  "parts": []
+  "parts": [
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-has-closed-its-doors",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} has closed its doors.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-shut-for-good",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} shut for good.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-organization.closed-closed.they-closed-subject-down",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "They closed {subject} down.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-didn-t-make-it",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} didn't make it.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.who-made-the-call",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "{who} made the call.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.the-call-was-whose",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "The call was {whose}.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.who-decided-it",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "{who} decided it.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.blame-who-for-it",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "Blame {who} for it.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.who-messed-that-up",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "{who} messed that up.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.who-brought-this-on-us",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "{who} brought this on us.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-record-record.you-can-thank-who",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "You can thank {who}.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-assumed-assumed.word-is-it-was-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "Word is it was {who}.",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.blame-assumed-assumed.could-that-have-been-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "Could that have been {who}?",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.subject-ran-something-on-topic",
+      "move": "change-news.read-read",
+      "kind": "spoken",
+      "text": "{subject} ran something on {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.i-came-across-a-story-in-subject-on-topic",
+      "move": "change-news.read-read",
+      "kind": "spoken",
+      "text": "I came across a story in {subject} on {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.did-you-see-what-subject-wrote-on-topic",
+      "move": "change-news.read-read",
+      "kind": "spoken",
+      "text": "Did you see what {subject} wrote on {topic}?",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.subject-wrote-about-topic",
+      "move": "change-news.read-read",
+      "kind": "spoken",
+      "text": "{subject} wrote about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-ordinance.subject-reports-your-ordinance-on-topic-passed",
+      "move": "your-bill-passed-ordinance",
+      "kind": "spoken",
+      "text": "{subject} reports your ordinance on {topic} passed.",
+      "uses": [
+        {
+          "move": "your-bill-passed-ordinance",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-ordinance.your-ordinance-on-topic-passed-subject-says",
+      "move": "your-bill-passed-ordinance",
+      "kind": "spoken",
+      "text": "Your ordinance on {topic} passed, {subject} says.",
+      "uses": [
+        {
+          "move": "your-bill-passed-ordinance",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-reports-your-ordinance-on-topic-failed",
+      "move": "your-bill-failed-ordinance",
+      "kind": "spoken",
+      "text": "{subject} reports your ordinance on {topic} failed.",
+      "uses": [
+        {
+          "move": "your-bill-failed-ordinance",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-on-topic-fell-short-tough-break",
+      "move": "your-bill-failed-ordinance",
+      "kind": "spoken",
+      "text": "{subject} says your ordinance on {topic} fell short. Tough break.",
+      "uses": [
+        {
+          "move": "your-bill-failed-ordinance",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-act.subject-reports-your-bill-on-topic-passed",
+      "move": "your-bill-passed-act",
+      "kind": "spoken",
+      "text": "{subject} reports your bill on {topic} passed.",
+      "uses": [
+        {
+          "move": "your-bill-passed-act",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-act.your-bill-on-topic-passed-subject-says",
+      "move": "your-bill-passed-act",
+      "kind": "spoken",
+      "text": "Your bill on {topic} passed, {subject} says.",
+      "uses": [
+        {
+          "move": "your-bill-passed-act",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-act.subject-reports-your-bill-on-topic-failed",
+      "move": "your-bill-failed-act",
+      "kind": "spoken",
+      "text": "{subject} reports your bill on {topic} failed.",
+      "uses": [
+        {
+          "move": "your-bill-failed-act",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-on-topic-fell-short",
+      "move": "your-bill-failed-act",
+      "kind": "spoken",
+      "text": "{subject} says your bill on {topic} fell short.",
+      "uses": [
+        {
+          "move": "your-bill-failed-act",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-with.my-ballot-went-to-winner-so-i-m-happy",
+      "move": "lean-with",
+      "kind": "spoken",
+      "text": "My ballot went to {winner}, so I'm happy.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": [
+            "lean",
+            "ballot"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-with.winner-is-who-i-wanted",
+      "move": "lean-with",
+      "kind": "spoken",
+      "text": "{winner} is who I wanted.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-with.winner-winning-suits-me-fine",
+      "move": "lean-with",
+      "kind": "spoken",
+      "text": "{winner} winning suits me fine.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-with.winner-is-one-of-ours-and-i-m-glad",
+      "move": "lean-with",
+      "kind": "spoken",
+      "text": "{winner} is one of ours, and I'm glad.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": [
+            "lean",
+            "ourSide"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-against.winner-wasn-t-my-choice",
+      "move": "lean-against",
+      "kind": "spoken",
+      "text": "{winner} wasn't my choice.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-against.i-m-not-happy-that-winner-won",
+      "move": "lean-against",
+      "kind": "spoken",
+      "text": "I'm not happy that {winner} won.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-against.winner-will-have-to-win-me-over",
+      "move": "lean-against",
+      "kind": "spoken",
+      "text": "{winner} will have to win me over.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.lean-against.i-ll-see-what-winner-does-with-it",
+      "move": "lean-against",
+      "kind": "spoken",
+      "text": "I'll see what {winner} does with it.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": [
+            "lean"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-named.subject-printed-that-winner-won-the-race-for-seat",
+      "move": "election-result-named",
+      "kind": "spoken",
+      "text": "{subject} printed that {winner} won the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named",
+          "requiresFacts": [
+            "paper"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-named.subject-showed-winner-winning-the-race-for-seat",
+      "move": "election-result-named",
+      "kind": "spoken",
+      "text": "{subject} showed {winner} winning the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named",
+          "requiresFacts": [
+            "television"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-named.subject-says-winner-took-the-race-for-seat",
+      "move": "election-result-named",
+      "kind": "spoken",
+      "text": "{subject} says {winner} took the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.subject-printed-how-the-race-for-seat-came-out",
+      "move": "election-result-unnamed",
+      "kind": "spoken",
+      "text": "{subject} printed how the race for {seat} came out.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed",
+          "requiresFacts": [
+            "paper"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.subject-showed-how-the-race-for-seat-came-out",
+      "move": "election-result-unnamed",
+      "kind": "spoken",
+      "text": "{subject} showed how the race for {seat} came out.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed",
+          "requiresFacts": [
+            "television"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.subject-has-word-on-the-race-for-seat",
+      "move": "election-result-unnamed",
+      "kind": "spoken",
+      "text": "{subject} has word on the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bring-it-up.election-result-known.winner-took-the-race-for-seat",
+      "move": "election-result-known",
+      "kind": "spoken",
+      "text": "{winner} took the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-known",
+          "subject": "election",
+          "role": "result",
+          "choice": "known"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }
