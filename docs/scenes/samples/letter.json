@@ -1,35 +1,35 @@
 {
   "schema": "scene-sample/1",
-  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "head": "08c6b63b74696c2b5a51d65e7e8ae711fb13ce4b",
   "scene": {
     "typeKey": "letter",
     "purpose": "letter-ask",
     "title": "Letter"
   },
   "world": {
-    "place": "Sumatra, Florida",
-    "placeKey": "1269025",
-    "seed": "story-batch-2",
+    "place": "Tatgua, Northern Mariana Islands",
+    "placeKey": "territory:MP:tatgua",
+    "seed": "r1795055661c",
     "date": "2025-07-02"
   },
   "player": {
-    "name": "Haris Michael",
-    "standing": "a resident of Sumatra, Florida, not in office"
+    "name": "Devin Banks",
+    "standing": "a resident of Tatgua, Northern Mariana Islands, not in office"
   },
   "cause": {
-    "id": "family.contact:person_5c1598b9ffd6149a:person_89ccbf61f7be1823:2025-07-01",
+    "id": "family.contact:person_2299c0a49fea37e9:person_549662fd326704d7:2025-07-01",
     "label": "feeling:event:family.contact"
   },
   "cast": [
     {
       "role": "asker",
-      "id": "person_89ccbf61f7be1823",
-      "name": "Robert Michael"
+      "id": "person_549662fd326704d7",
+      "name": "Melissa Banks"
     },
     {
       "role": "asked",
-      "id": "person_5c1598b9ffd6149a",
-      "name": "Haris Michael"
+      "id": "person_2299c0a49fea37e9",
+      "name": "Devin Banks"
     }
   ],
   "opening": [
@@ -37,43 +37,64 @@
       "n": 1,
       "speaker": "Narrator",
       "role": "narrator",
-      "text": "A letter from Robert has come from Florida, with something to ask you.",
+      "text": "The envelope from Melissa is postmarked the Northern Mariana Islands, not far off.",
       "move": "narrate",
       "pieces": [
-        "scene-talk.narrate-narrate.a-letter-from-name-has-come-from-hometown-they-have-something-to-ask-you"
+        "scene-talk.narrate-narrate.the-envelope-from-name-is-postmarked-nearby-not-far-off"
       ],
-      "wordings": [],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.a-letter-has-come-from-name-postmarked-nearby",
+          "text": "A letter has come from {name}, postmarked {nearby}."
+        },
+        {
+          "key": "scene-talk.narrate-narrate.name-has-written-from-nearby",
+          "text": "{name} has written from {nearby}."
+        },
+        {
+          "key": "scene-talk.narrate-narrate.a-letter-has-come-from-name-who-was-missing-from-your-birthday-table",
+          "text": "A letter has come from {name}, who was missing from your birthday table."
+        },
+        {
+          "key": "scene-talk.narrate-narrate.name-has-written-after-missing-your-birthday",
+          "text": "{name} has written, after missing your birthday."
+        }
+      ],
       "asks": false
     },
     {
       "n": 2,
-      "speaker": "Robert Michael",
+      "speaker": "Melissa Banks",
       "role": "asker",
-      "text": "Dear Haris, I'm writing because there is something I want to ask you.",
+      "text": "Dear Devin, I'm sorry I missed your birthday.",
       "move": "greet",
       "pieces": [
-        "scene-talk.open-greet.dear-first-i-m-writing-because-there-is-something-i-want-to-ask-you"
+        "scene-talk.open-greet.dear-first-i-m-sorry-i-missed-your-birthday"
       ],
-      "wordings": [
-        {
-          "key": "scene-talk.open-greet.dear-first-i-ve-been-meaning-to-write-for-a-while",
-          "text": "Dear {first}, I've been meaning to write for a while."
-        }
-      ],
+      "wordings": [],
       "asks": false
     }
   ],
   "ask": {
     "n": 3,
-    "speaker": "Robert Michael",
+    "speaker": "Melissa Banks",
     "role": "asker",
-    "text": "Come and see me in Florida. I would love to show you what it's like here.",
+    "text": "You're not far from us in the Northern Mariana Islands. Could you come for a meal one of these days?",
     "move": "request",
     "pieces": [
-      "scene-talk.state-request.come-and-see-me-in-hometown-first-i-would-love-to-show-you-what-it-s-like-here"
+      "scene-talk.state-request.you-re-not-far-from-us-in-nearby-could-you-come-for-a-meal-one-of-these-days"
     ],
-    "wordings": [],
-    "asks": false
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.we-re-still-in-nearby-not-so-far-will-you-come-see-us-some-weekend",
+        "text": "We're still in {nearby}, not so far. Will you come see us some weekend?"
+      },
+      {
+        "key": "scene-talk.state-request.it-s-only-nearby-and-we-hardly-see-you-would-you-come-by-for-a-visit",
+        "text": "It's only {nearby}, and we hardly see you. Would you come by for a visit?"
+      }
+    ],
+    "asks": true
   },
   "tree": {
     "lines": [],
@@ -83,13 +104,21 @@
           "n": 4,
           "speaker": "You",
           "role": "player",
-          "text": "Yes, of course. I'll do it.",
+          "text": "Yes, gladly.",
           "move": "agree",
-          "pieces": ["scene-talk.reply-agree.yes-of-course-i-ll-do-it"],
+          "pieces": ["scene-talk.reply-agree.yes-gladly"],
           "wordings": [
             {
-              "key": "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-              "text": "Alright, yes. I'm glad you asked me."
+              "key": "scene-talk.reply-agree.i-d-like-that",
+              "text": "I'd like that."
+            },
+            {
+              "key": "scene-talk.reply-agree.count-me-in",
+              "text": "Count me in."
+            },
+            {
+              "key": "scene-talk.reply-agree.i-ll-do-it",
+              "text": "I'll do it."
             }
           ],
           "asks": false
@@ -98,17 +127,19 @@
           "lines": [
             {
               "n": 7,
-              "speaker": "Robert Michael",
+              "speaker": "Melissa Banks",
               "role": "asker",
-              "text": "That means a lot. I was hoping you'd say yes.",
+              "text": "I'm so glad.",
               "move": "thank",
-              "pieces": [
-                "scene-talk.follow-thank.that-means-a-lot-i-was-hoping-you-d-say-yes-first"
-              ],
+              "pieces": ["scene-talk.follow-thank.i-m-so-glad"],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-thank.good-i-m-glad-you-ll-do-it",
-                  "text": "Good. I'm glad you'll do it."
+                  "key": "scene-talk.follow-thank.that-means-everything",
+                  "text": "That means everything."
+                },
+                {
+                  "key": "scene-talk.follow-thank.thank-you",
+                  "text": "Thank you."
                 }
               ],
               "asks": false
@@ -130,34 +161,42 @@
           "n": 5,
           "speaker": "You",
           "role": "player",
-          "text": "Why now? I'm glad to hear from you, and I'd like to know what's behind it.",
+          "text": "Why now?",
           "move": "ask",
-          "pieces": [
-            "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it"
-          ],
+          "pieces": ["scene-talk.reply-ask.why-now"],
           "wordings": [
             {
-              "key": "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-              "text": "Can you tell me more about what you're asking?"
+              "key": "scene-talk.reply-ask.what-s-wrong",
+              "text": "What's wrong?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-s-needed",
+              "text": "What's needed?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-s-this-about",
+              "text": "What's this about?"
             }
           ],
-          "asks": false
+          "asks": true
         },
         "leadsTo": {
           "lines": [
             {
               "n": 8,
-              "speaker": "Robert Michael",
+              "speaker": "Melissa Banks",
               "role": "asker",
-              "text": "Whatever you can manage. Hearing from you is what matters.",
+              "text": "Only word, really.",
               "move": "answer",
-              "pieces": [
-                "scene-talk.follow-answer.i-d-rather-ask-family-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do"
-              ],
+              "pieces": ["scene-talk.follow-answer.only-word-really"],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-                  "text": "A letter now and then, or a visit when you can. I thought of you first."
+                  "key": "scene-talk.follow-answer.nothing-is-wrong",
+                  "text": "Nothing is wrong."
+                },
+                {
+                  "key": "scene-talk.follow-answer.whatever-you-can",
+                  "text": "Whatever you can."
                 }
               ],
               "asks": false
@@ -169,17 +208,17 @@
                 "n": 9,
                 "speaker": "You",
                 "role": "player",
-                "text": "Okay, I see. I'll do it.",
+                "text": "That's easy. Yes.",
                 "move": "agree",
-                "pieces": ["scene-talk.reply-agree.okay-i-see-i-ll-do-it"],
+                "pieces": ["scene-talk.reply-agree.that-s-easy-yes"],
                 "wordings": [
                   {
-                    "key": "scene-talk.reply-agree.that-makes-sense-i-ll-do-it",
-                    "text": "That makes sense. I'll do it."
+                    "key": "scene-talk.reply-agree.then-yes-gladly",
+                    "text": "Then yes, gladly."
                   },
                   {
-                    "key": "scene-talk.reply-agree.that-s-fair-count-me-in",
-                    "text": "That's fair. Count me in."
+                    "key": "scene-talk.reply-agree.i-can-manage",
+                    "text": "I can manage."
                   }
                 ],
                 "asks": false
@@ -188,17 +227,19 @@
                 "lines": [
                   {
                     "n": 11,
-                    "speaker": "Robert Michael",
+                    "speaker": "Melissa Banks",
                     "role": "asker",
-                    "text": "That means a lot. I was hoping you'd say yes.",
+                    "text": "I'm so glad.",
                     "move": "thank",
-                    "pieces": [
-                      "scene-talk.follow-thank.that-means-a-lot-i-was-hoping-you-d-say-yes-first"
-                    ],
+                    "pieces": ["scene-talk.follow-thank.i-m-so-glad"],
                     "wordings": [
                       {
-                        "key": "scene-talk.follow-thank.good-i-m-glad-you-ll-do-it",
-                        "text": "Good. I'm glad you'll do it."
+                        "key": "scene-talk.follow-thank.that-means-everything",
+                        "text": "That means everything."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
                       }
                     ],
                     "asks": false
@@ -220,19 +261,17 @@
                 "n": 10,
                 "speaker": "You",
                 "role": "player",
-                "text": "That helps, but my answer stays no. I'm sorry.",
+                "text": "Still no, truly.",
                 "move": "decline",
-                "pieces": [
-                  "scene-talk.reply-decline.that-helps-but-my-answer-stays-no-i-m-sorry"
-                ],
+                "pieces": ["scene-talk.reply-decline.still-no-truly"],
                 "wordings": [
                   {
-                    "key": "scene-talk.reply-decline.i-understand-but-i-still-can-t-do-it-i-m-sorry",
-                    "text": "I understand, but I still can't do it. I'm sorry."
+                    "key": "scene-talk.reply-decline.still-i-can-t",
+                    "text": "Still, I can't."
                   },
                   {
-                    "key": "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry",
-                    "text": "Thanks for explaining. I still can't, though. I'm sorry."
+                    "key": "scene-talk.reply-decline.still-no-sorry",
+                    "text": "Still no, sorry."
                   }
                 ],
                 "asks": false
@@ -241,35 +280,129 @@
                 "lines": [
                   {
                     "n": 12,
-                    "speaker": "Robert Michael",
+                    "speaker": "Melissa Banks",
                     "role": "asker",
-                    "text": "Alright. I understand, and I won't ask again right away.",
-                    "move": "accept",
-                    "pieces": [
-                      "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-right-away"
-                    ],
+                    "text": "Is it me?",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-press.is-it-me"],
                     "wordings": [
                       {
-                        "key": "scene-talk.follow-accept.okay-i-understand-i-ll-give-it-some-time",
-                        "text": "Okay. I understand. I'll give it some time."
+                        "key": "scene-talk.follow-press.why-not-though",
+                        "text": "Why not, though?"
                       },
                       {
-                        "key": "scene-talk.follow-accept.okay-i-won-t-bring-it-up-again-soon",
-                        "text": "Okay. I won't bring it up again soon."
+                        "key": "scene-talk.follow-press.why-though",
+                        "text": "Why, though?"
                       }
                     ],
-                    "asks": false
+                    "asks": true
                   }
                 ],
-                "replies": [],
-                "end": {
-                  "outcome": "refused",
-                  "ending": {
-                    "id": "letter-left-open",
-                    "label": "You left it for later",
-                    "keeps": "none"
+                "replies": [
+                  {
+                    "line": {
+                      "n": 13,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Yes, I'm sorry.",
+                      "move": "agree",
+                      "pieces": ["scene-talk.reply-agree.yes-i-m-sorry"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-agree.you-re-right-yes",
+                          "text": "You're right. Yes."
+                        },
+                        {
+                          "key": "scene-talk.reply-agree.alright-yes",
+                          "text": "Alright, yes."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 15,
+                          "speaker": "Melissa Banks",
+                          "role": "asker",
+                          "text": "That means everything.",
+                          "move": "thank",
+                          "pieces": [
+                            "scene-talk.follow-thank.that-means-everything"
+                          ],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.i-m-so-glad",
+                              "text": "I'm so glad."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.thank-you",
+                              "text": "Thank you."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "wrote-back-yes",
+                          "label": "You wrote back that you would",
+                          "keeps": "kept-in-scene"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 14,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll write later.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.i-ll-write-later"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.let-me-think",
+                          "text": "Let me think."
+                        },
+                        {
+                          "key": "scene-talk.reply-leave.give-me-time",
+                          "text": "Give me time."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "wrote-back-no",
+                          "label": "You wrote back no, and it showed",
+                          "keeps": "relationship-strained"
+                        },
+                        "close": {
+                          "n": 16,
+                          "speaker": "Melissa Banks",
+                          "role": "asker",
+                          "text": "Think it over.",
+                          "move": "press",
+                          "pieces": ["scene-talk.close-press.think-it-over"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.close-press.no-rush",
+                              "text": "No rush."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
                   }
-                }
+                ]
               }
             }
           ]
@@ -280,15 +413,21 @@
           "n": 6,
           "speaker": "You",
           "role": "player",
-          "text": "I wish I could, but I can't right now. I hope you'll understand.",
+          "text": "Not this time.",
           "move": "decline",
-          "pieces": [
-            "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand"
-          ],
+          "pieces": ["scene-talk.reply-decline.not-this-time"],
           "wordings": [
             {
-              "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time",
-              "text": "I'm sorry, but I can't do that this time."
+              "key": "scene-talk.reply-decline.i-m-not-ready",
+              "text": "I'm not ready."
+            },
+            {
+              "key": "scene-talk.reply-decline.not-right-now",
+              "text": "Not right now."
+            },
+            {
+              "key": "scene-talk.reply-decline.i-can-t-sorry",
+              "text": "I can't, sorry."
             }
           ],
           "asks": false
@@ -296,44 +435,140 @@
         "leadsTo": {
           "lines": [
             {
-              "n": 13,
-              "speaker": "Robert Michael",
+              "n": 17,
+              "speaker": "Melissa Banks",
               "role": "asker",
-              "text": "Alright. I understand, and I won't ask again right away.",
-              "move": "accept",
-              "pieces": [
-                "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-right-away"
-              ],
+              "text": "Is it me?",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.is-it-me"],
               "wordings": [
                 {
-                  "key": "scene-talk.follow-accept.okay-i-understand-i-ll-give-it-some-time",
-                  "text": "Okay. I understand. I'll give it some time."
+                  "key": "scene-talk.follow-press.why-not-though",
+                  "text": "Why not, though?"
                 },
                 {
-                  "key": "scene-talk.follow-accept.okay-i-won-t-bring-it-up-again-soon",
-                  "text": "Okay. I won't bring it up again soon."
+                  "key": "scene-talk.follow-press.why-though",
+                  "text": "Why, though?"
                 }
               ],
-              "asks": false
+              "asks": true
             }
           ],
-          "replies": [],
-          "end": {
-            "outcome": "refused",
-            "ending": {
-              "id": "letter-left-open",
-              "label": "You left it for later",
-              "keeps": "none"
+          "replies": [
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "Alright, yes.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.alright-yes"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-yes",
+                    "text": "You're right. Yes."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.yes-i-m-sorry",
+                    "text": "Yes, I'm sorry."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Melissa Banks",
+                    "role": "asker",
+                    "text": "That means everything.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.that-means-everything"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.i-m-so-glad",
+                        "text": "I'm so glad."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "wrote-back-yes",
+                    "label": "You wrote back that you would",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 19,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll write later.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-ll-write-later"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.let-me-think",
+                    "text": "Let me think."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.give-me-time",
+                    "text": "Give me time."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "wrote-back-no",
+                    "label": "You wrote back no, and it showed",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 21,
+                    "speaker": "Melissa Banks",
+                    "role": "asker",
+                    "text": "Take your time.",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-accept.take-your-time"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-press.no-rush",
+                        "text": "No rush."
+                      },
+                      {
+                        "key": "scene-talk.close-press.think-it-over",
+                        "text": "Think it over."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
             }
-          }
+          ]
         }
       }
     ]
   },
   "endings": {
-    "wrote-back-yes": 2,
-    "letter-left-open": 2
+    "wrote-back-yes": 4,
+    "wrote-back-no": 2
   },
-  "depth": 2,
+  "depth": 3,
   "gaps": []
 }
