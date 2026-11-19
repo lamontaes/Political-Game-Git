@@ -239,6 +239,7 @@ import {
   learnViewQuestion,
   stanceRecordId,
   viewKey,
+  viewReason,
   viewRecordId,
   viewSubjectOf,
 } from "./view-learned";
@@ -3528,6 +3529,15 @@ export function subjectsBetween(
       },
     });
   }
+  // Right after an address point, what that point would do to this household,
+  // from its own records: a member's job or the household's money (CTO, Nov
+  // 19 10:48Z on #9750: the second related subject after a point).
+  const pointedLast = room.pointed?.at(-one);
+  const home =
+    pointedLast && takesStands(core, speakerId)
+      ? pointHomeSubject(core, speakerId, listenerId, pointedLast)
+      : null;
+  if (home) out.push(home);
   // At home, the day itself: the weekday, the last time the two spent
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
@@ -4095,6 +4105,74 @@ function pointSubject(
     facts,
     point: { question: pick.point.question, reason: pick.reason },
   };
+}
+
+/** The subject kind of what an address point would do to the speaker's household. */
+const POINT_HOME = "point-home";
+
+/**
+ * What the address point this talk just made would do to the speaker's
+ * household, from its own records (CTO, Nov 19 10:48Z on #9750): the first
+ * member, the listener first and the speaker last (the speaker's own reason
+ * is their own view's), whose job or money gives a reason on the question,
+ * on either side (`viewReason`). Null when no member has one. Its facts name
+ * the person (`name`, or the marks `you` for the listener and `mine` for the
+ * speaker),
+ * the employer for a work reason, and the kind of reason (`point-work` or
+ * `point-money`, and `home-reason` either way), each citing its records.
+ */
+function pointHomeSubject(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  question: string,
+): Subject | null {
+  const speaker = core.people.get(speakerId);
+  const household = speaker && core.households.get(speaker.householdId);
+  if (!household) return null;
+  const members = household.memberIds.filter(
+    (id) => core.people.get(id)?.alive,
+  );
+  const order = [
+    ...members.filter((id) => id === listenerId),
+    ...members.filter((id) => id !== listenerId && id !== speakerId),
+    ...members.filter((id) => id === speakerId),
+  ];
+  for (const personId of order)
+    for (const side of ["for", "against"] as const) {
+      const reason = viewReason(core, personId, question, side);
+      if (!reason) continue;
+      const person = core.people.get(personId)!;
+      const facts: Facts = {
+        // That the household has a reason on record, for the replies.
+        "home-reason": { text: "yes", sourceRecordIds: reason.recordIds },
+        ...(personId === speakerId
+          ? { mine: { text: "yes", sourceRecordIds: [speakerId] } }
+          : personId === listenerId
+            ? { you: { text: "yes", sourceRecordIds: [listenerId] } }
+            : {
+                name: { text: person.givenName, sourceRecordIds: [personId] },
+              }),
+        ...(reason.reason === "work"
+          ? {
+              "point-work": { text: "yes", sourceRecordIds: reason.recordIds },
+              employer: {
+                text: properName(reason.employer),
+                sourceRecordIds: reason.recordIds,
+              },
+            }
+          : {
+              "point-money": { text: "yes", sourceRecordIds: reason.recordIds },
+            }),
+      };
+      return {
+        id: `${POINT_HOME}:${speakerId}:${question}`,
+        kind: POINT_HOME,
+        tie: { kind: "frame", recordIds: [...reason.recordIds] },
+        facts,
+      };
+    }
+  return null;
 }
 
 /**

@@ -36596,6 +36596,546 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.point-home-say-core.that-d-hit-name-s-hours-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That'd hit {name}'s hours at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "name"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.name-would-feel-that-one-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "{name} would feel that one at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "name"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-goes-right-to-name-s-job-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That goes right to {name}'s job at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "name"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-d-land-on-your-job-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That'd land on your job at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "you"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.you-d-feel-that-one-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "You'd feel that one at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "you"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.think-what-that-means-for-you-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "Think what that means for you at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "you"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.i-d-feel-that-one-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "I'd feel that one at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "mine"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-goes-straight-to-my-job-at-employer",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That goes straight to my job at {employer}.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "mine"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-s-my-own-work-at-employer-on-the-line",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That's my own work at {employer} on the line.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-work", "employer", "mine"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.with-money-this-tight-name-would-feel-that",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "With money this tight, {name} would feel that.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "name"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.money-s-tight-enough-that-name-would-notice",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "Money's tight enough that {name} would notice.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "name"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.name-would-feel-that-the-way-money-is",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "{name} would feel that, the way money is.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "name"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.you-d-feel-that",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "You'd feel that.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "you"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.you-d-notice-that",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "You'd notice that.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "you"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-d-reach-you",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That'd reach you.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "you"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.we-d-feel-that",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "We'd feel that.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "mine"]
+        }
+      ],
+      "bearing": "anxious",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.that-hits-home",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "That hits home.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "mine"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-say-core.money-s-tight-already",
+      "move": "point-home-say-core",
+      "kind": "spoken",
+      "text": "Money's tight already.",
+      "uses": [
+        {
+          "move": "point-home-say-core",
+          "subject": "point-home-say",
+          "role": "core",
+          "requiresFacts": ["point-money", "mine"]
+        }
+      ],
+      "bearing": "solemn",
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-worry.that-s-hard-news",
+      "move": "point-home-answer-worry",
+      "kind": "spoken",
+      "text": "That's hard news.",
+      "uses": [
+        {
+          "move": "point-home-answer-worry",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "worry",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-worry.now-i-m-worried",
+      "move": "point-home-answer-worry",
+      "kind": "spoken",
+      "text": "Now I'm worried.",
+      "uses": [
+        {
+          "move": "point-home-answer-worry",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "worry",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-worry.that-s-a-worry",
+      "move": "point-home-answer-worry",
+      "kind": "spoken",
+      "text": "That's a worry.",
+      "uses": [
+        {
+          "move": "point-home-answer-worry",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "worry",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-doubt.it-won-t-happen",
+      "move": "point-home-answer-doubt",
+      "kind": "spoken",
+      "text": "It won't happen.",
+      "uses": [
+        {
+          "move": "point-home-answer-doubt",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "doubt",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-doubt.might-never-pass",
+      "move": "point-home-answer-doubt",
+      "kind": "spoken",
+      "text": "Might never pass.",
+      "uses": [
+        {
+          "move": "point-home-answer-doubt",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "doubt",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-doubt.might-not-pass",
+      "move": "point-home-answer-doubt",
+      "kind": "spoken",
+      "text": "Might not pass.",
+      "uses": [
+        {
+          "move": "point-home-answer-doubt",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "doubt",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-manage.we-ll-manage",
+      "move": "point-home-answer-manage",
+      "kind": "spoken",
+      "text": "We'll manage.",
+      "uses": [
+        {
+          "move": "point-home-answer-manage",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "manage",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-manage.we-ll-get-by",
+      "move": "point-home-answer-manage",
+      "kind": "spoken",
+      "text": "We'll get by.",
+      "uses": [
+        {
+          "move": "point-home-answer-manage",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "manage",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.point-home-answer-manage.we-ll-be-fine",
+      "move": "point-home-answer-manage",
+      "kind": "spoken",
+      "text": "We'll be fine.",
+      "uses": [
+        {
+          "move": "point-home-answer-manage",
+          "subject": "point-home",
+          "role": "answer",
+          "choice": "manage",
+          "requiresFacts": ["home-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }
