@@ -90,9 +90,25 @@ function* drawnPlaces(purpose: string, count: number): Generator<DrawnPlace> {
     };
   }
 }
-const THREATENED_PLACES = () => drawnPlaces("threatened", 8);
-const WORD_PLACES = () => drawnPlaces("word", 24);
-const COUNTED_PLACES = () => drawnPlaces("counted", 8);
+/**
+ * A drawn place where one case found its race is tried first by the cases
+ * after it: each case's needs (an open race with a serving incumbent who can
+ * run again and a challenger who can file) are the same ones, and a place
+ * that lacks them costs a world and several filing openings to find out. The
+ * place was still drawn; the later cases then go on drawing their own.
+ */
+const goodPlaces: DrawnPlace[] = [];
+function* placesFor(purpose: string, count: number): Generator<DrawnPlace> {
+  for (const place of [...goodPlaces]) yield place;
+  for (const place of drawnPlaces(purpose, count))
+    if (!goodPlaces.some((g) => g.key === place.key)) yield place;
+}
+function rememberGood(place: DrawnPlace) {
+  if (!goodPlaces.some((g) => g.key === place.key)) goodPlaces.push(place);
+}
+const THREATENED_PLACES = () => placesFor("threatened", 8);
+const WORD_PLACES = () => placesFor("word", 24);
+const COUNTED_PLACES = () => placesFor("counted", 8);
 
 /** The played world (`buildBenchWorld`, every module, the two-level population) in a drawn place: town seats are held by residents with their own circles, as in play. */
 function world(place: DrawnPlace) {
@@ -125,6 +141,15 @@ function incumbentRace(
   );
   const file = (personId: string, contestId: string) => {
     const result = fileCandidacy(api, { personId, contestId, platform: [] });
+    // An incumbent who is running again has filed already, as in play (the
+    // world files them): their filing stands, it is not a refusal.
+    if (
+      result.status === "refused" &&
+      result.unmet.some((u) => u.rule === "already-filed")
+    )
+      return (
+        ballot(api, contestId).find((f) => f.personId === personId) ?? null
+      );
     return result.status !== "refused" &&
       ["petitioning", "on-ballot"].includes(result.filing.status ?? "")
       ? result.filing
@@ -256,6 +281,7 @@ function threatenedIncumbent() {
     process.stdout.write(
       `incumbent-response (threatened): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
     );
+    rememberGood(place);
     return { ...w, race, holder, poll, reading, calm };
   }
   throw new Error(
@@ -585,6 +611,7 @@ function wordOfDoors() {
     process.stdout.write(
       `incumbent-response (word): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
     );
+    rememberGood(place);
     return { ...w, race, holder, town, message, word, reading, calm };
   }
   throw new Error(
