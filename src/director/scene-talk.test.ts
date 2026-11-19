@@ -35,7 +35,6 @@ const CUT_PURPOSES = new Set<string>([
   "no-diploma-home",
   "funeral",
   "first-day",
-  "last-day",
   "date",
   "proposal",
   "move-in",
