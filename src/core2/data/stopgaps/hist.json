@@ -265,6 +265,17 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-question-follows-amount",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/laws.ts",
+    "whatItFakes": "In a century world a policy question whose answer an amount gives (adopt-income-tax, by the income tax's rate) opens with the answer the amount in force gives, not one the century's sessions voted: the sessions vote the question but not yet the amount, so the research's rate stands.",
+    "why": "The century does not vote tax rates yet; a state opening with no income tax because no session voted the question would be the simulation's blind spot, not its result (CTO line 6995081181 on #9747).",
+    "addedBy": "Fixer A (claude/fixer-income-tax-question-follows-rate)",
+    "addedAt": "2026-11-19",
+    "replacement": "History's family 4: the century's sessions vote the amounts themselves (each bill's rate), the opening rate is what they left, and the question reads it.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
