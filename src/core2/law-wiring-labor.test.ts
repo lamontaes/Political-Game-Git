@@ -380,6 +380,16 @@ function run(specId: string) {
     leave.some((r) => r.target === "group" && r.count > 0),
     "leave: no counted group paid a premium",
   );
+  // A public unit's contract settles the day after its funding government's
+  // budget year begins (law-reach/group-a-bargaining.ts), a date the town's
+  // calendar sets, so the world runs on until the law has reached a worker
+  // (a year at most: every government's budget year begins inside it), then
+  // a payroll month, so the raise is on a paycheck.
+  for (let waited = 0; waited < 380 && !reached(KEYS.bargaining).length;) {
+    step(14);
+    waited += 14;
+  }
+  step(35);
   const bargaining = reached(KEYS.bargaining);
   need(bargaining.length > 0, "bargaining: no public worker reached");
   const rtw = reached(KEYS.rtw);
