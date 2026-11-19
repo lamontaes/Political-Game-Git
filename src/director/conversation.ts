@@ -3334,8 +3334,14 @@ export function subjectsBetween(
     : null;
   const givenOn =
     address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
+  // Only someone who saw or heard the same address can be told about it: the
+  // listener's own record of it, never the date (CTO, Nov 19 05:06Z on #9750).
+  const listenerKnows =
+    core.knowledgeByPerson.get(listenerId)?.get(ADDRESS_FACT.event)?.value ===
+    address?.value;
   if (
     address &&
+    listenerKnows &&
     quoted &&
     givenOn &&
     givenOn >
