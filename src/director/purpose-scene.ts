@@ -147,6 +147,12 @@ import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
+import { quarrelFacts } from "./quarrel-facts";
+import { lastDayFacts } from "./last-day-facts";
+import { promiseSubject } from "./promise-talk";
+
+/** The situation type a broken promise stages (`kept-fact-due`). */
+const BETRAYAL_TYPE = "betrayal";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
@@ -1058,6 +1064,24 @@ function composeBinding(
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
   const { placeNamed, nearNamed } = relativePlaceSaid(core, askedId);
+  // A promise the other broke to the one betrayed (`betrayal`): what was
+  // promised (its kind, the bill, the question, the meeting or the payment),
+  // from the promise row, as the promise talk says it.
+  if (binding.typeKey === BETRAYAL_TYPE) {
+    const broken = promiseSubject(core, director, askerId, askedId);
+    if (broken?.kind === "promise-broken")
+      for (const [key, fact] of Object.entries(broken.facts)) facts[key] = fact;
+  }
+  // A last day at a school or a job: the school, or the employer and the
+  // job, from the record that caused it.
+  for (const [key, fact] of Object.entries(
+    lastDayFacts(core, binding.typeKey, moment.causeId),
+  ))
+    facts[key] = fact;
+  // A quarrel over money (`family.quarrel`): the payment it was over, by
+  // the loan's kind, so the apology can say what it is for.
+  for (const [key, fact] of Object.entries(quarrelFacts(core, moment.causeId)))
+    facts[key] = fact;
   for (const [key, fact] of Object.entries(
     letterFacts(
       core,
@@ -1084,6 +1108,7 @@ function composeBinding(
       askedId,
       cast("honoree"),
       placeNamed,
+      nearNamed,
     ),
     ...gatheringFacts(
       core,
@@ -1126,6 +1151,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   }))
     facts[key] = fact;
