@@ -190,6 +190,8 @@ export function incumbentRace(
   return `no open contest with a serving incumbent who can run again (${seen.join("; ") || "none held"})`;
 }
 
+export type IncumbentRace = Exclude<ReturnType<typeof incumbentRace>, string>;
+
 /**
  * The race the case needs, waited for: a place's town elections open their
  * filing on the place's own calendar, so a world looked at on one day holds no
@@ -409,7 +411,16 @@ export function expectBestRival(
  * their own circle is warmer to), so up to 24 are drawn; each passed over is
  * named with why.
  */
-export function wordOfDoors() {
+export function wordOfDoors(
+  /** A further premise a case needs of the place found: a reason to pass it over, or null. */
+  needs?: (found: {
+    core: CoreState;
+    api: CoreAPI;
+    race: IncumbentRace;
+    holder: NonNullable<ReturnType<CoreState["people"]["get"]>>;
+    town: string;
+  }) => string | null,
+) {
   const tried: string[] = [];
   for (const place of WORD_PLACES()) {
     const w = world(place);
@@ -530,6 +541,11 @@ export function wordOfDoors() {
       tried.push(
         `${w.where}: the town offers the incumbent's canvass no doors`,
       );
+      continue;
+    }
+    const why = needs?.({ core, api, race, holder, town });
+    if (why) {
+      tried.push(`${w.where}: ${why}`);
       continue;
     }
     const message = canvassed().get(word.messageId!)!;
