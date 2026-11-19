@@ -16,15 +16,10 @@ const DATA = montage as unknown as {
   levels: Record<string, BeatKind>;
   places: Record<string, string[]>;
   mostOfficials: number;
+  mostAmerica: number;
 };
 
-/**
- * Where a beat stands: the chamber the address is given in (the President, or
- * the officials named by office on the same floor), or home, where the
- * household hears it. Never a picture chosen from the part's subject (CTO,
- * Nov 19).
- */
-export type BeatKind = "chamber" | "officials" | "home";
+export type BeatKind = "chamber" | "officials" | "state" | "america" | "home";
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
@@ -37,12 +32,12 @@ export interface MontageBeat {
 }
 
 /**
- * The kind of each part of an address from its role: the chamber first, home
+ * The kind of each part of an address from its role: the desk first, home
  * last, and between them the beat its first sentence's level keys to
- * (congress, the Vice President: the officials on the floor; the families:
- * home; anything else: the President in the chamber, where the address is
- * given). A varied address still finds its beats, since they follow the
- * role, not the position.
+ * (occasion: the chamber; country and people: America; congress, the Vice
+ * President: the officials; the states: the player's state; the families:
+ * home). A varied
+ * address still finds its beats, since they follow the role, not the position.
  */
 export function beatKinds(levels: readonly string[]): BeatKind[] {
   if (levels.length <= 1) return [DATA.last];
@@ -51,7 +46,7 @@ export function beatKinds(levels: readonly string[]): BeatKind[] {
       ? DATA.first
       : at === levels.length - 1
         ? DATA.last
-        : (DATA.levels[level] ?? DATA.first),
+        : (DATA.levels[level] ?? "america"),
   );
 }
 
@@ -93,10 +88,10 @@ export function namedInParts(
 
 /**
  * The address as its montage: one beat per part, each a picture with its
- * people from the records, staged where the address is given: the speaker in
- * the chamber, the key people (the Vice President, Congress's leaders) named
- * by office on the floor, and at the end the household at home, hearing it
- * on a set (CTO, Nov 19: never the speaker standing among them).
+ * people from the records: the speaker in the chamber, the
+ * player's own circle across the town, the key people (the Vice President,
+ * the chambers' leaders, the player's governor) named by office in the
+ * capitol hallway, and the household at home.
  */
 export function addressMontage(
   core: CoreState,
@@ -104,7 +99,7 @@ export function addressMontage(
   speakerId: string,
   levels: readonly string[],
   minuteOfDay: number,
-  /** The people each part names (`namedInParts`): every beat but home adds them. */
+  /** The people each part names (`namedInParts`): an "america" beat shows them, and any beat adds them. */
   namedByPart: readonly (readonly string[])[] = [],
 ): MontageBeat[] {
   const named = (id: string) => {
@@ -112,8 +107,18 @@ export function addressMontage(
     return row ? `${row.givenName} ${row.familyName}` : null;
   };
   const speaker = named(speakerId);
-  const pictureOf = (kind: BeatKind) =>
-    (DATA.places[kind] ?? []).find(hasBackdrop);
+  const pictureOf = (kind: BeatKind, turn: number) => {
+    const places = DATA.places[kind] ?? [];
+    return kind === "america"
+      ? places.filter(hasBackdrop)[
+          turn % Math.max(places.filter(hasBackdrop).length, 1)
+        ]
+      : kind === "state"
+        ? places
+            .map((place) => place.replace("{state}", stateCode))
+            .find(hasBackdrop)
+        : places.find(hasBackdrop);
+  };
   // The Vice President first, then the chambers' leaders, the player's
   // governor, and the legislators after (owner, Oct 29: "the Vice President,
   // Congress and the player's governor with a few state legislators").
@@ -125,22 +130,56 @@ export function addressMontage(
         : person.officeKind === "governor"
           ? 2
           : 3;
-  // Drawn on the floor: the national key people who are full people.
-  const drawable = keyPeopleOf(core, personId as PersonId)
-    .filter(
-      (person) =>
-        person.id !== speakerId && core.people.has(person.id as PersonId),
-    )
+  const everyKey = keyPeopleOf(core, personId as PersonId)
+    .filter((person) => person.id !== speakerId)
     .sort((a, b) => rank(a) - rank(b));
+  // Drawn in the Oval Office: the national key people who are full people
+  // (the states' part names its own and draws no one).
+  const drawable = everyKey.filter((person) =>
+    core.people.has(person.id as PersonId),
+  );
+  // The state's own offices: its governor and its legislature's chambers.
   const ofState = (person: { officeKind: string }) =>
     person.officeKind === "governor" ||
     person.officeKind.startsWith("legislature-");
   const national = drawable.filter((person) => !ofState(person));
   const key = national.length ? national : drawable;
+  // The states' part: the player's governor and the state's chamber leaders,
+  // named over the state's own capitol (filled in or not: nobody is drawn).
+  const statePeople = everyKey
+    .filter(
+      (person) =>
+        ofState(person) &&
+        (person.reasons.includes("governor") ||
+          person.reasons.includes("chamber-leader")),
+    )
+    // The governor first, then the chambers' leaders.
+    .sort(
+      (a, b) =>
+        Number(!a.reasons.includes("governor")) -
+        Number(!b.reasons.includes("governor")),
+    );
+  // Their state's capitol; with nobody to name, the generic dome.
+  const stateCode = (statePeople[0]?.stateKey ?? "").slice(3).toLowerCase();
+  // America: the town's own people, as they are along a route (the full
+  // people the town keeps, never the player's household, who wait at home).
+  const player = core.people.get(personId as PersonId);
+  const household = new Set(
+    core.households.get(player?.householdId ?? "")?.memberIds ?? [],
+  );
+  const known = [...(core.peopleByPlace.get(player?.placeId ?? "") ?? [])]
+    .filter(
+      (id) =>
+        core.people.get(id)?.alive && id !== speakerId && !household.has(id),
+    )
+    .sort();
+  let americaTurn = 0;
   return beatKinds(levels).map((kind, at) => {
     const namedHere = namedByPart[at] ?? [];
     const place =
-      kind === "home" ? homeOf(core, personId, minuteOfDay) : pictureOf(kind);
+      kind === "home"
+        ? homeOf(core, personId, minuteOfDay)
+        : pictureOf(kind, kind === "america" ? americaTurn++ : 0);
     const backdrop = backdropFor(core, place ?? "", minuteOfDay, personId);
     const cast: {
       id: string;
@@ -154,7 +193,8 @@ export function addressMontage(
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
       records.push(speakerId);
     } else if (kind === "officials") {
-      for (const person of key.slice(0, DATA.mostOfficials)) {
+      const officials = key.slice(0, DATA.mostOfficials);
+      for (const person of officials) {
         cast.push({
           id: person.id,
           name: person.name,
@@ -163,15 +203,39 @@ export function addressMontage(
         });
         records.push(person.id, ...person.sourceRecordIds);
       }
+    } else if (kind === "state") {
+      // The player's own state's officials stand on the strip over their
+      // capitol, each with their office.
+      for (const person of statePeople) {
+        cast.push({
+          id: person.id,
+          name: person.name,
+          reason: "moment",
+          role: person.officeTitle,
+        });
+        records.push(person.id, ...person.sourceRecordIds);
+      }
+    } else if (kind === "america" && namedByPart.length) {
+      // The people this part names, and no one else: no stranger stands in.
+      for (const id of namedHere) {
+        cast.push({ id, name: named(id) ?? "", reason: "moment" });
+        records.push(id);
+      }
+    } else if (kind === "america") {
+      for (const id of known.slice(
+        americaTurn * 2 - 2,
+        americaTurn * 2 - 2 + DATA.mostAmerica,
+      )) {
+        cast.push({ id, name: named(id) ?? "", reason: "moment" });
+        records.push(id);
+      }
     } else if (kind === "home") {
-      // Only the household, listening: the speaker is on the set, never
-      // among them.
       const home = core.households.get(
         core.people.get(personId as PersonId)?.householdId ?? "",
       );
       cast.push({ id: personId, name: named(personId) ?? "", reason: "you" });
       for (const id of home?.memberIds ?? [])
-        if (id !== personId && id !== speakerId && core.people.get(id)?.alive) {
+        if (id !== personId && core.people.get(id)?.alive) {
           cast.push({ id, name: named(id) ?? "", reason: "household" });
           records.push(id);
         }

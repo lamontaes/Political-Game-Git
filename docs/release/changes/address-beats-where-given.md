@@ -2,7 +2,7 @@
 id: address-beats-where-given
 impact: patch
 section: Fixed
-title: The President's address stays in the chamber where it is given.
+title: At home during the President's address, only your household is shown listening.
 ---
 
-Every part of the President's address now plays on the House floor where it is given, instead of cutting to a train platform for the President's stance. The part that cuts home shows only your household listening, with the President on the television, never standing among your family.
+When the President's address cuts to your home, the strip shows only the people you live with, and the President is on the television set under Live, never standing among your family.
