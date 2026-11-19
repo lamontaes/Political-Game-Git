@@ -45,7 +45,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { personalityCataloguePack } from "./personality-catalogue";
 import { qualifiedTraitKey } from "./trait-packs";
 import { coreAPI, fillInPerson } from "./state";
-import type { CoreState } from "./types";
+import type { CoreState, PersonId } from "./types";
 
 const seed = process.env.SCHOOL_SEED || randomBytes(8).toString("hex");
 // A drawn place whose eighth graders and seniors all sit in the upper income
@@ -367,7 +367,11 @@ describe(`a student filled in keeps the income fifth the counts gave them (seed 
           { length: schoolData.tested.graduation + 1 },
           (_, grade) => grade,
         );
+        // Only the played town: a student met in a town on a coarser tier is
+        // filled in on that tier's cadence and is never a school's student.
+        const playedPlace = core.people.get(core.playerId as PersonId)!.placeId;
         for (const [placeId, records] of countedHouseholdsByPlace(core)) {
+          if (placeId !== playedPlace) continue;
           for (const record of records) {
             const at = rt.store.householdOf.get(record.household.id);
             if (at === undefined) continue;

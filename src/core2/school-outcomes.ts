@@ -22,8 +22,8 @@
  * enroll, whether they complete a bachelor's (the six-year completion share
  * times the web's factor for the college completion outcome, which is how
  * the state's higher education line reaches a named graduate). Each share is
- * the NCES figure moved by the world's own factor for that table
- * (worldRateFactor), so no two worlds open on the same college-going rate. A
+ * one fitted national constant spread over the income fifths, so a place's
+ * college-going follows its own graduates' incomes. A
  * completer holds a bachelor's, and an enrolled graduate who does not holds
  * some college, from the day normal time ends (collegeOf), which the jobs
  * engine reads when it prices a hire.
@@ -45,12 +45,10 @@ import {
   type MoveRecord,
 } from "./modules/counted-moves";
 import { carriedLink, placeOutcome } from "./modules/outcome-web";
-import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { putOutputNumber } from "./output-numbers";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { CoreAPI, CoreState } from "./types";
-import { worldRateFactor } from "./world-base-rates";
 
 export type SchoolKind = "math" | "reading" | "graduation";
 
@@ -309,16 +307,35 @@ function gradientOf(kind: SchoolKind, fifth: number): number {
   return share * rows.eligible + (1 - share) * rows.notEligible;
 }
 
-/** A place's base for a measure: the latest web month's own base (its state's 2024 level), else the median of the places the research reports. */
+/**
+ * The fitted baseline for a measure: the share a student of the nation's
+ * average income mix clears (one fitted constant per measure, outcomes.json).
+ * A place's own rate is never set here: it is the sum of its students' own
+ * rates, which the income gradient, the class size, a switch of schools and
+ * the web's factors move. The web month row is kept only to name the record
+ * the factors stood on.
+ */
 function baseFor(
   api: CoreAPI,
   placeId: string,
   measure: string,
 ): { base: number; recordId: string | null } {
   const record = placeOutcome(api, placeId, measure);
-  return record?.base !== undefined
-    ? { base: record.base, recordId: record.recordId }
-    : { base: baseOf(measure, "", api.state.seed).value, recordId: null };
+  const kind = (
+    Object.keys(SCHOOL_MEASURE) as (keyof typeof SCHOOL_MEASURE)[]
+  ).find((key) => SCHOOL_MEASURE[key] === measure) as SchoolKind;
+  return {
+    base: data.baseline[kind].value,
+    recordId: record?.recordId ?? null,
+  };
+}
+
+/** The mean of a gradient over the nation's five equal income fifths: the divisor that makes the baseline the national mean, never a place's own mean. */
+function nationalMean(gradient: (fifth: number) => number): number {
+  const fifths = data.gradient.eligibleShareByIncomeFifth.length;
+  let sum = 0;
+  for (let fifth = 0; fifth < fifths; fifth += 1) sum += gradient(fifth);
+  return sum / fifths;
 }
 
 /** The standard normal density at x. */
@@ -493,12 +510,9 @@ export function decideSchoolOutcome(
         api.stopgap(data.stopgaps.classSize);
       }
     }
-    // Scale the researched gradient so the place's mean is its own level.
-    let norm = 0;
-    for (const [fifth, list] of byFifth)
-      norm +=
-        (list.reduce((n, s) => n + s.weight, 0) / total) *
-        gradientOf(kind, fifth);
+    // The researched gradient is scaled so the nation's mean student clears
+    // at the baseline; a place's mean then follows its own students.
+    const norm = nationalMean((fifth) => gradientOf(kind, fifth));
     const measureId = `${placeId}:${measure}:${startYear}`;
     let passedAll = 0,
       expectedAll = 0;
@@ -681,15 +695,9 @@ function decideCollege(
   const date = api.state.date;
   const { enrollment, completion } = data.college;
   const classMeasureId = `${placeId}:${SCHOOL_MEASURE.college}:${startYear}`;
-  // The NCES shares are the center; this world's own factor moves each once.
-  const worldEnrollment = worldRateFactor(api.state.seed, "collegeEnrollment");
-  const worldCompletion = worldRateFactor(api.state.seed, "collegeCompletion");
   // Enrollment, from the whole graduating class.
-  const classWeight = weightOf(graduates);
   const classFifths = groupByFifth(graduates);
-  let enrollNorm = 0;
-  for (const [fifth, list] of classFifths)
-    enrollNorm += (weightOf(list) / classWeight) * enrollmentGradient(fifth);
+  const enrollNorm = nationalMean(enrollmentGradient);
   const enrolled: Student[] = [];
   const enrollRate = new Map<number, number>();
   for (const fifth of [...classFifths.keys()].sort((a, b) => a - b)) {
@@ -697,9 +705,7 @@ function decideCollege(
     const weight = weightOf(list);
     const share = Math.min(
       1,
-      (enrollment.share.value / 100) *
-        worldEnrollment *
-        (enrollmentGradient(fifth) / enrollNorm),
+      (enrollment.share.value / 100) * (enrollmentGradient(fifth) / enrollNorm),
     );
     enrollRate.set(fifth, share);
     const { cleared, passed } = clearByStanding(
@@ -723,12 +729,8 @@ function decideCollege(
   }
   // Completion, from those who enrolled: the web's factor is read here, for
   // each fifth, the moment the engine decides it.
-  const enrolledWeight = weightOf(enrolled);
   const enrolledFifths = groupByFifth(enrolled);
-  let completeNorm = 0;
-  for (const [fifth, list] of enrolledFifths)
-    completeNorm +=
-      (weightOf(list) / enrolledWeight) * completionGradient(fifth);
+  const completeNorm = nationalMean(completionGradient);
   const decided = new Map<
     string,
     {
@@ -748,7 +750,6 @@ function decideCollege(
     const baseRate = Math.min(
       1,
       (completion.share.value / 100) *
-        worldCompletion *
         (completionGradient(fifth) / completeNorm),
     );
     const rate = Math.min(1, baseRate * reach.factor);

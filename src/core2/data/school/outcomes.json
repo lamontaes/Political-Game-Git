@@ -1,7 +1,28 @@
 {
   "version": "core2-school-outcomes-v1",
-  "citation": "School outcomes are decided each year from the place's researched base (the web's 2024 state base) times the web's factor for each student's income fifth; who clears the line is each student's own standing.",
+  "citation": "School outcomes are decided each year from one fitted national baseline per measure times the web's factor for each student's income fifth; who clears the line is each student's own standing.",
   "gradeAgeFirst": 5,
+  "baseline": {
+    "about": "The share of a student of the nation's average income mix who clears each line: one fitted constant per measure. A place's rate is the sum of its own students' rates (the income gradient, class size, a switch of schools and the web's factors move it), never this constant.",
+    "math": {
+      "role": "coefficient",
+      "value": 26.2,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "NAEP grade 8 mathematics, percent at or above Proficient: the median of the 51 places the source reports (place-outcome-bases-2024), fitted once."
+    },
+    "reading": {
+      "role": "coefficient",
+      "value": 28.6,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "NAEP grade 8 reading, percent at or above Proficient: the median of the 51 places the source reports (place-outcome-bases-2024), fitted once."
+    },
+    "graduation": {
+      "role": "coefficient",
+      "value": 86,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Four-year adjusted cohort graduation rate: the median of the 52 places the source reports (place-outcome-bases-2024), fitted once."
+    }
+  },
   "tested": {
     "math": 8,
     "reading": 8,
@@ -41,7 +62,7 @@
     }
   },
   "college": {
-    "about": "The college step of a graduating senior (owner ruling, Oct 29, 2026: the college step after high school is a background simulation built from research, never a step the player takes). On the day a senior year's graduation is decided, each graduate is ranked by the same standing within their income fifth for two things in turn: whether they enroll in college (the immediate enrollment share), and, of those who enroll, whether they complete a bachelor's degree (the six-year completion share, times the web's factor for school.college-completion-pct, which is how the state's higher education line reaches a named graduate). Within a fifth the count is filled from the top by standing, a counted graduate standing for as many students as their household's weight, and the fraction left over carries to next year, exactly as graduation is decided. Each share is the NCES figure moved once by the world's own factor for it (worldBaseRateCollegeEnrollmentSpreadShare and worldBaseRateCollegeCompletionSpreadShare), so no two worlds open on the same college-going rate. There is no roll. From the award day of the year the bachelor's takes, a completer holds a bachelor's and an enrolled graduate who does not complete holds some college; the jobs engine reads both when it prices a hire.",
+    "about": "The college step of a graduating senior (owner ruling, Oct 29, 2026: the college step after high school is a background simulation built from research, never a step the player takes). On the day a senior year's graduation is decided, each graduate is ranked by the same standing within their income fifth for two things in turn: whether they enroll in college (the immediate enrollment share), and, of those who enroll, whether they complete a bachelor's degree (the six-year completion share, times the web's factor for school.college-completion-pct, which is how the state's higher education line reaches a named graduate). Within a fifth the count is filled from the top by standing, a counted graduate standing for as many students as their household's weight, and the fraction left over carries to next year, exactly as graduation is decided. Each share is one fitted national constant spread over the income fifths, so a place's college-going follows its own graduates' incomes. There is no roll. From the award day of the year the bachelor's takes, a completer holds a bachelor's and an enrolled graduate who does not complete holds some college; the jobs engine reads both when it prices a hire.",
     "enrollment": {
       "share": {
         "value": 62,
