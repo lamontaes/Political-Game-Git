@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -22,19 +22,46 @@ import { NAMED_QUESTIONS } from "../english/question-names";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 setBookkeeping(false);
+/** Draws a world may pass over before the test says no place had a home for the player. */
+const DRAWS = 8;
 const worlds = Array.from({ length: 4 }, (_, at) => {
-  const place = drawPlace(`${seed}:${at}`, "opening-address");
-  const where = `${place.name} (${place.key}), seed ${seed}:${at}`;
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  // A place where every adult lives in group quarters has no household for
+  // the player, so no game opens there: it is passed over and printed, and
+  // the next draw is tried.
+  const passed: string[] = [];
+  for (let tries = 0; tries < DRAWS; tries++) {
+    const drawSeed = tries ? `${seed}:${at}:${tries}` : `${seed}:${at}`;
+    const place = drawPlace(drawSeed, "opening-address");
+    const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+    try {
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      return opened(where, world, passed);
+    } catch (error) {
+      if (!(error instanceof NoPlayerHereError)) throw error;
+      passed.push(`${where}: every adult in group quarters`);
+      process.stdout.write(`OPENING ADDRESS passed over ${passed.at(-1)}\n`);
+    }
+  }
+  throw new Error(
+    `no place with a home for the player in ${DRAWS} draws: ${passed.join("; ")}`,
+  );
+});
+
+function opened(
+  where: string,
+  world: ReturnType<typeof buildBenchWorld>,
+  passed: readonly string[],
+) {
+  if (passed.length) where = `${where} (passed over ${passed.length})`;
   const story = world.director.ledger.opening;
   console.log(
     `OPENING ADDRESS ${where}\n  ${(story?.address.sentences ?? []).map((row) => row.text).join("\n  ")}`,
   );
   return { where, world, story };
-});
+}
 
 /** The address's shape: each sentence's part of the speech and what it is about. */
 const shapeOf = (

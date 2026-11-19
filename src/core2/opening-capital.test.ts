@@ -346,6 +346,14 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       industry: "health-care-services",
       days: 30,
     },
+    // A hospital keeps books as every employer does (business-books.json,
+    // kind hospital, Nov 16), so its opening cash is the health-care
+    // services buffer, not the unfunded institution's zero.
+    {
+      classification: "service:hospital",
+      industry: "health-care-services",
+      days: 30,
+    },
     {
       classification: "enterprise:real-estate",
       industry: "real-estate",
@@ -376,7 +384,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
   it.each([
     { classification: "sector:local-government-office", kind: "employer" },
     { classification: "service:school", kind: "employer" },
-    { classification: "service:hospital", kind: "employer" },
     { classification: "enterprise:banking", kind: "employer" },
     { classification: "enterprise:fixture-unbound", kind: "employer" },
     { classification: "enterprise:food-service", kind: "public-institution" },

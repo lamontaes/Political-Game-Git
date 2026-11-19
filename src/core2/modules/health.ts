@@ -56,7 +56,13 @@ import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
-import { huskIdentityOf, huskIncomeOf } from "../husk-promoters";
+import {
+  huskIdentityOf,
+  huskIncomeOf,
+  unbuiltHolderEngines,
+  unbuiltHolderOf,
+  type UnbuiltHolders,
+} from "../husk-promoters";
 import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
@@ -180,6 +186,8 @@ interface HealthRuntime {
   seenPeople: number;
   /** How many husks the last pass read, so a day that adds none costs one comparison. */
   seenHusks: number;
+  /** Each unbuilt-holder engine's marker when its holders were last read. */
+  seenUnbuilt: Map<UnbuiltHolders, number>;
   cases: Map<PersonId, HealthCase>;
   onsetsByDate: Map<IsoDate, Set<PersonId>>;
   deathsByDate: Map<IsoDate, Set<PersonId>>;
@@ -246,6 +254,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       initialized: false,
       seenPeople: zero,
       seenHusks: zero,
+      seenUnbuilt: new Map(),
       cases: new Map(),
       onsetsByDate: new Map(),
       deathsByDate: new Map(),
@@ -889,7 +898,15 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       who: who as Readonly<PersonState>,
       monthly: pay.get(who.householdId) ?? null,
     })),
-    ...[...core.husks.keys()].flatMap((id) => {
+    // Another place's holders nobody has opened join the same cohort, so
+    // their episodes already under way on the opening day are booked as
+    // everyone's are (`admitUnbuilt` books the ones seated later).
+    ...[
+      ...core.husks.keys(),
+      ...[...unbuiltHolderEngines()].flatMap((holders) => [
+        ...holders.ids(core),
+      ]),
+    ].flatMap((id) => {
       const who = huskIdentityOf(core, id);
       if (!who) return [];
       const income = huskIncomeOf(core, id);
@@ -958,25 +975,50 @@ function admitHusks(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   if (core.husks.size === row.seenHusks) return;
   row.seenHusks = core.husks.size;
   const today = makeIsoDate(api.state.date);
-  for (const id of core.husks.keys()) {
-    if (row.conditionsByPerson.has(id)) continue;
-    const who = huskIdentityOf(core, id);
-    if (!who) continue;
-    const stand = {
-      id,
-      birthDate: who.birthDate,
-      traits: who.traits,
-    } as unknown as PersonState;
-    api.stopgap(data.stopgapId);
-    assignPerson(
-      api,
-      data,
-      row,
-      stand,
-      lateConditions(api, data, stand, exactAge(api, who.birthDate, today)),
-      today,
-    );
+  for (const id of core.husks.keys()) admitStandIn(api, data, row, id, today);
+}
+
+/**
+ * Another place's holders nobody has opened are not even husks (CTO, Nov 18
+ * 13:44Z), but they live by the same rule: each gets the health record a
+ * husk gets, from who their engine says they are, on the day they join.
+ */
+function admitUnbuilt(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  const core = api.state as CoreState;
+  const today = makeIsoDate(api.state.date);
+  for (const holders of unbuiltHolderEngines()) {
+    const marker = holders.marker(core);
+    if (row.seenUnbuilt.get(holders) === marker) continue;
+    row.seenUnbuilt.set(holders, marker);
+    for (const id of holders.ids(core)) admitStandIn(api, data, row, id, today);
   }
+}
+
+/** One husk's or unbuilt holder's health record, from who an engine says they are. */
+function admitStandIn(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  id: PersonId,
+  today: ReturnType<typeof makeIsoDate>,
+): void {
+  if (row.conditionsByPerson.has(id)) return;
+  const who = huskIdentityOf(api.state as CoreState, id);
+  if (!who) return;
+  const stand = {
+    id,
+    birthDate: who.birthDate,
+    traits: who.traits,
+  } as unknown as PersonState;
+  api.stopgap(data.stopgapId);
+  assignPerson(
+    api,
+    data,
+    row,
+    stand,
+    lateConditions(api, data, stand, exactAge(api, who.birthDate, today)),
+    today,
+  );
 }
 
 /**
@@ -1140,15 +1182,18 @@ function hearBookedDay(
   const date = makeIsoDate(api.state.date);
   for (const id of [...(row.onsetsByDate.get(booked) ?? [])].sort()) {
     const core = api.state as CoreState;
+    // A husk or an unbuilt holder is never filled in from the counts.
+    const kept =
+      !api.state.people.has(id) &&
+      (core.husks.has(id) || unbuiltHolderOf(core, id) !== undefined);
     const person =
-      api.state.people.get(id) ??
-      (core.husks.has(id) ? undefined : personOrFillIn(core, id));
+      api.state.people.get(id) ?? (kept ? undefined : personOrFillIn(core, id));
     const found = row.cases.get(id);
     // A husk whose illness begins is not built: nobody close to them is
     // a full person to hear it (the onset is private), so it begins
     // unseen on the same day and their death, on the day it falls due,
-    // builds them (below).
-    if (!person && found && core.husks.has(id)) {
+    // builds them (below). An unbuilt holder's begins the same way.
+    if (!person && found && kept) {
       const who = huskIdentityOf(core, id);
       if (!who) continue;
       api.stopgap(data.stopgapId);
@@ -1189,6 +1234,34 @@ function hearBookedDay(
     api.emit(event);
   }
   for (const id of [...(row.deathsByDate.get(booked) ?? [])].sort()) {
+    // An unbuilt holder's death is not built either: it is written as its
+    // result, the seat it leaves (`UnbuiltHolders.died`), and counted.
+    const holders = api.state.people.has(id)
+      ? undefined
+      : unbuiltHolderOf(api.state as CoreState, id);
+    if (holders) {
+      const found = row.cases.get(id);
+      if (!found?.onsetEventId || found.deathEventId) continue;
+      api.stopgap(data.stopgapId);
+      const who = huskIdentityOf(api.state as CoreState, id);
+      if (who)
+        row.causeOfDeath.set(
+          id,
+          assignDeathCause(api, {
+            placeId: who.placeId,
+            age: Math.floor(exactAge(api, makeIsoDate(who.birthDate), date)),
+            incomeFifth: row.plans.get(id)?.fifth,
+            substanceUse: (row.conditionsByPerson.get(id) ?? []).includes(
+              SUBSTANCE_CONDITION,
+            ),
+          }).cause,
+        );
+      found.deathEventId = `${data.deathEventKind}:${id}:${date}`;
+      found.deathDate = date;
+      row.deaths += api.parameter("one");
+      holders.died(api.state as CoreState, id);
+      continue;
+    }
     // A husk whose death falls due is built now, then dies as anyone does.
     const person =
       api.state.people.get(id) ??
@@ -1253,6 +1326,7 @@ function runHealthDay(api: CoreAPI, data: HealthData): void {
   if (!row.initialized) initialize(api, data, row);
   else admitNewcomers(api, data, row);
   if (row.initialized) admitHusks(api, data, row);
+  if (row.initialized) admitUnbuilt(api, data, row);
   if (row.initialized) {
     refreshWebFactors(api, data, row);
     refreshYouthCannabis(api, data, row);
