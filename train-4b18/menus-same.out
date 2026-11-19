@@ -1,0 +1,18 @@
+shot patch-notes
+patch notes: scrolls ["pick-list 553/414","pager 8386/502","roster-page 2954/650"]; headings ["BUILDS","Added","Improved","Fixed","Changed"]; bullets 46; paragraphs 0
+patch notes: longest bullet 130 characters
+seed 65c8eedf3a57 place Astoria, Illinois
+shot metrics
+metrics: scrolls []; buttons ["The country","Your town","Your state","Homes","Evictions","Help for the unemployed","Town of Astoria","Unemployment 4.9 % Last year 4.4 % · up 0.5 points since last year","Price growth 1.7 % Last year 2.2 % · down 0.5 points since last year","Average hourly pay $35 Last year $34 · up $1 since last year","30-year mortgage rate 7.1 % Last year 7.0 % · up 0.1 points since last year","The central bank's rate 4.1 % Last year 4.8 % · down 0.7 points since last year"]
+area: Your town
+shot metrics-area
+measure: People in town 880 Last year 866 · up 14 since last year Households 406 Last year 401 · up 5 since last year People at work 322 Last year 342 · down 20 since last year People looking for work 41 of 363 Last year 33 · up 8 since last year Jobs open 12 Last year 12 · no change since last year People in town 866 2024 880 2025
+shot metrics-timeline
+timeline: svg 1 scrolls [] text METRICS The country Your town Your state Homes Evictions Help for the unemployed Town of Astoria People in town 880 Last year 866 · up 14 since last year Households 406 Last year 401 · up 5 since last year People at work 322 Last year 342 · down 20 since last year People looking for work 41 of 363 Last year 33 · up 8 since last year Jobs open 12 Last year 12 · no change since last year People in t
+shot news
+news: scrolls []
+shot news-story-opened
+clicked headline "Letter: Audrey Meyer backs the Mixed-Income Housing Ordinance January 17"; page shows Astoria Record WTPH-TV WQCM-TV WFWH-TV WZQI-TV Liberty News Network Meridian News Network The American Ledger The Lantern Town Square Show Astoria Record Monday, January 20, 2025 Ordinance 2025-3 goes down 3 to 4 January 17 Letter: Audrey Meyer backs the Mixed-Income Housing Ordinance January 17 40 
+people heading background: none / rgba(0, 0, 0, 0)
+shot people
+errors []
