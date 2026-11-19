@@ -93,7 +93,7 @@ import {
   treasuryMonthsOf,
   treasuryMonthsPerYear,
   notePublicPay,
-  outsideAccountOf,
+  openOutsideAccountOf,
   sameGovernment,
   landTaxChange,
 } from "../budgets-treasury";
@@ -696,9 +696,7 @@ function fundOpeningTreasury(
   if (!calibration)
     throw new Error(`No opening cash calibration for ${profile}`);
   const { id: governmentId, organizationId } = government;
-  const outside = outsideAccountOf(api);
-  if (!outside)
-    throw new Error(`No outside account for opening treasury ${governmentId}`);
+  const outside = openOutsideAccountOf(api);
   api.stopgap(calibration.stopgapId);
   const offset = worldOffsetUnit(
     api.state.seed,
