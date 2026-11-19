@@ -46757,6 +46757,198 @@
         "move": "press",
         "key": "arrival"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-already-there-and-does-not-say-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is already there and does not say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-at-you-a-long-moment-before-saying-anything",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} looks at you a long moment before saying anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-a-little-apart-from-you-with-both-hands-still",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands a little apart from you with both hands still.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-up-to-you-and-cannot-quite-meet-your-eyes",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes up to you and cannot quite meet your eyes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-walks-straight-up-to-you-and-does-not-smile",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} walks straight up to you and does not smile.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-close-and-waits-until-you-look-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops close and waits until you look up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-says-your-name-once-flatly-and-waits-for-you-to-answer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} says your name once, flatly, and waits for you to answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-and-stands-squarely-in-front-of-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you and stands squarely in front of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     }
   ]
 }
