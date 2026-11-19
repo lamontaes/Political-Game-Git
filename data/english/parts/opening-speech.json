@@ -726,7 +726,7 @@
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "asked-for", "realm-bare"],
           "tie": "law"
         },
         {
@@ -734,7 +734,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "asked-for", "realm-bare"],
           "tie": "law"
         }
       ],
@@ -9348,7 +9348,7 @@
       "key": "opening-speech.meaning.plain-that-has-meant-classrooms-asking-less-of-our-kids-than-they-deserve-wi",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That has meant classrooms asking less of our kids than they deserve, with {context-name} where they're.",
+      "text": "That has meant classrooms asking less of our kids than they deserve, with {context-name} as they stand.",
       "uses": [
         {
           "move": "meaning",
@@ -11456,7 +11456,7 @@
       "key": "opening-speech.tie.plain-working-people-have-given-plenty-on-context-name-and-i-ll-not-ask-for",
       "move": "tie",
       "kind": "spoken",
-      "text": "Working people have given plenty on {context-name}, and I'll not ask for more.",
+      "text": "Working people have given plenty on {context-name}, and I won't ask for more.",
       "uses": [
         {
           "move": "tie",
@@ -19150,6 +19150,84 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.close.n19-local-stand",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{realm-bare} knows where I stand on {asked-about}. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "asked-against",
+            "realm-bare"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "asked-against",
+            "realm-bare"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "origin": "authored"
+    },
+    {
+      "key": "opening-speech.close.n19-local-stays-no",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {asked-about}, my answer stays no, {realm-bare}. Hold me to that.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "asked-against",
+            "realm-bare"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "asked-against",
+            "realm-bare"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "origin": "authored"
     }
   ]
 }
