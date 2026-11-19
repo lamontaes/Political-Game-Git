@@ -1761,7 +1761,7 @@
     {
       "key": "person-history.story.partner.married.they",
       "move": "story",
-      "text": "They and {name} were married in {year}.",
+      "text": "They married {name} in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -1842,7 +1842,7 @@
     {
       "key": "person-history.story.partner.separated.they",
       "move": "story",
-      "text": "They and {name} split up in {year}.",
+      "text": "They split up with {name} in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4920,7 +4920,7 @@
     {
       "key": "person-history.story.partner.separated.parent.they",
       "move": "story",
-      "text": "They and {name}, {parent}, split up in {year}.",
+      "text": "They split up with {name}, {parent}, in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
