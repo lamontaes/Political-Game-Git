@@ -9,10 +9,12 @@ status: open
 standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
 lead: long-game
 model: opus
 effort: medium
+root: design-one-model-two-tiers
 source: CTO line 7000691450 on #9747, Nov 19, 2026 (Fixer's trace of macro-mortgage-history, comment 7000687177)
 checked:
 ---
@@ -37,5 +39,7 @@ Seen: day by day on train/nov18 (0d4377b3), the household's own flow `household.
 **Rules.** Ask why: each month's balance change is traced to the record that wrote it. One model, two tiers: a full household and a counted one are late by the same rule. Wire to the world: holds for every mortgage in every one of the 56 places. Never loosen `macro-mortgage-history.test.ts`.
 
 **Done when.** At the place and seed above, the named loan either falls each month it is paid or counts each unpaid month in `missedMonths`, and its lender's patience reads them; a test beside `src/core2/modules/housing.ts` asserts it on a drawn place, named with its seed, and fails on the old code; a second session plays a year in dev mode at a drawn place and sees a household that stopped paying listed as behind on its mortgage.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/housing.ts, src/core2/modules/residents.ts (the flow's asked amount), src/core2/housing-foreclosure.ts (reads `missedMonths`), src/core2/macro-mortgage-history.test.ts (unchanged).
