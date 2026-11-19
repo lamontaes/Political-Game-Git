@@ -1,0 +1,52 @@
+seed 65c8eedf3a57 place Astoria, Illinois
+me Cameron Wood
+--- opening
+  line: It's the evening of January 20. The house is quiet.
+  line: Speaker John Fisher, members of the House and Senate. I thank Vice President Jamie Tyson, and I come before you with real reason for hope about the year ahead. This past year, the severe storm in Kansas was only one of the disasters that hit this country, and every one of them left families starting over. The people of Kansas will not rebuild alone, and that is a promise from this whole country.
+  line: Is it right that Medicare cannot bargain over the price of most medicines? Because I hold that a family shouldn't go broke because somebody got sick, a bill to let Medicare negotiate drug prices will have my signature.
+  line: You know what I'm asking for on Medicare negotiating drug prices, so hold me to it.
+  line: It's the evening of January 20. You stay in.
+--- room talk with Devon Wood
+  line: The President made a point of Medicare negotiating drug prices. That's the one part of his speech I agreed with. Am I wrong to see it that way?
+  replies: ["You're right about that, Devon.","I'd push back on he there."] -> You're right about that, Devon.
+  line: CAMERON WOOD You're right about that, Devon. That's two of us in Astoria, then.
+--- step 1 Wednesday, January 22, 20257:00 AM
+  line: It's early on January 22. You stay in. You caught Governor Robert Sullivan's State of the State address on WQCM-TV last night.
+  line: WQCM-TV Members of the Illinois legislature, and neighbors all over Illinois. You can feel the climb in pay in every kitchen.
+  line: WQCM-TV These days, folks on Medicaid can keep seeing a doctor without monthly paperwork. Because I've always thought nobody should lose help over a form they couldn't fill out, I'm against a work requirement for Medicaid, and if it reaches my desk, I'll veto it.
+  line: WQCM-TV Thank you, Illinois.
+--- step 4 Tuesday, February 11, 20257:00 AM
+  line: It's early on February 11. You stay in. You caught Mayor Charles Mueller's yearly address on WQCM-TV last night.
+  line: WQCM-TV Members of the Astoria Board of Trustees, and my fellow citizens. I have come to speak to Astoria about how we help people through hard times, because it bears on every family here. For 2024, we are taking in about $799,000 more than we spend here, and I mean to keep it so. Ochoa and Associates closed this year, and we all felt it.
+  line: WQCM-TV As we stand here, the assistance budget grows whether or not anyone gets back to work. Because I believe help should come with a path back to work, I will oppose any ordinance for more assistance spending.
+  line: WQCM-TV Thank you, Astoria, and good night.
+--- step 8 Sunday, March 2, 20257:00 AM
+  line: First thing on March 2nd, the mail brings a letter from Scott Stark. A letter from Scott has come from Fulton County, with something to ask you.
+  line: Dear Cameron, I'm writing because there is something I want to ask you. Come and see me in Fulton County. I would love to show you what it's like here.
+  replies: ["Alright, yes. I'm glad you asked me.","Can you tell me more about what you're asking?","I'm sorry, but I can't do that this time."] -> Alright, yes. I'm glad you asked me.
+  line: CAMERON WOOD Alright, yes. I'm glad you asked me. Good. I'm glad you'll do it.
+--- step 17 Tuesday, April 29, 20257:00 AM
+  line: First thing on April 29th, Hope Morrow calls. The phone rings. It's Hope, from Thompson's Market.
+  line: Hi. This is Hope, over at Thompson's Market. The opening at Thompson's Market is yours if you want it: a cashier, $16.41 an hour.
+  replies: ["What hours would I work at Thompson's Market?","Yes. I'll take it.","I appreciate it, but a cashier isn't the work I want to do.","Can I think it over and call you back?"] -> What hours would I work at Thompson's Market?
+  line: CAMERON WOOD What hours would I work at Thompson's Market? You'd put in 22 hours a week. Most of it you learn by doing.
+  replies: ["That's great news. Count me in.","Thank you, but I'm going to pass on working as a cashier. It isn't what I'm looking for.","I can't decide this right now."] -> That's great news. Count me in.
+  line: CAMERON WOOD That's great news. Count me in. Welcome aboard. I'll let everyone know.
+--- step 22 Tuesday, May 13, 20257:00 AM
+  line: First thing on May 6th, you open a letter from Scott Stark. A letter from Scott has come from Fulton County, with something to ask you.
+  line: Dear Cameron, I've been meaning to write for a while. My birthday is coming up. It would mean a lot to me if you wrote back before then.
+  replies: ["Alright, yes. I'm glad you asked me.","Can you tell me more about what you're asking?","I'm sorry, but I can't do that this time."] -> Alright, yes. I'm glad you asked me.
+  line: CAMERON WOOD Alright, yes. I'm glad you asked me. Good. I'm glad you'll do it.
+--- step 26 Monday, June 2, 202510:00 AM
+  line: Late in the morning on June 2nd, you knock on Leah Stark's door. Leah is leaving town and wanted to say it face to face.
+  line: After losing the place, I'm going to another part of Illinois. I didn't want to leave without telling you.
+  replies: ["Who am I going to argue with now?","Can I ask what made you decide?","Call me when you get there, and I'll call back.","I'm glad you came by. I'd have hated to hear it secondhand."] -> Who am I going to argue with now?
+  line: CAMERON WOOD Who am I going to argue with now? Thank you. It's harder to go than I let on.
+--- step 28 Saturday, June 7, 20257:00 AM
+  line: It's early on June 7. The house is quiet. The diploma didn't come through, and Devon wants to talk.
+  line: I'm not angry. I want to know what happened.
+  replies: ["I didn't pass enough classes.","I'll get it done this year.","I'm sorry. I know you wanted to see it.","I don't want to talk about it."] -> I didn't pass enough classes.
+  line: CAMERON WOOD I didn't pass enough classes. So what do you want to do now?
+  replies: ["The equivalency test. I'm done with that building.","I'm going to fix it."] -> The equivalency test. I'm done with that building.
+  line: CAMERON WOOD The equivalency test. I'm done with that building. Okay. I'll help however I can.
+errors []

@@ -1,0 +1,40 @@
+seed d3c99cf661ca place Huntingdon, Tennessee
+me Roland Jones
+--- opening
+  line: It's the evening of January 20. You stay in.
+  line: Speaker Sharon Brooks, Cabinet members. I'm glad to see Vice President Charles Gordon, and I'm glad to be here in a year when folks have something to look forward to. Before anything else, I want to talk to the folks in Kansas. The severe storm hit you hard, and the country hasn't forgotten. We'll rebuild Kansas, and this time we'll build it to last.
+  line: Is it fair that there is no national cap on the interest a lender can charge? Because I believe somebody has to look out for the little guy, and that's our job, I want to sign a bill to cap the interest on consumer loans before the year is out.
+  line: You know what I'm asking for on a cap on consumer loan interest, so hold me to it.
+  line: It's the evening of January 20. The house is quiet.
+--- room talk with Nathan Jones
+  line: So the President is for a cap on consumer loan interest. You heard that too. He got that one right, I'll give him that. What do you think about that part?
+  replies: ["I'm with you on that, Dad.","I think he has that wrong."] -> I'm with you on that, Dad.
+  line: ROLAND JONES I'm with you on that, Dad. That's two of us in Huntingdon, then.
+--- step 1 Wednesday, January 22, 20257:00 AM
+  line: It's early on January 22. You stay in. You caught Governor David Donovan's State of the State address on WVGT-TV last night.
+  line: WVGT-TV Lawmakers of Tennessee, and the people we serve. Before anything else, I want to speak to the families who lived through the flood this past year.
+  line: WVGT-TV I hear it from neighbors every week: jobs are scarce, and too many homes are waiting on a paycheck. Today, no worker can be made to pay union dues to keep a job. Because I hold that no one should have to pay a union to keep a job, the right-to-work rules stay, and I will veto any bill that would undo them.
+  line: WVGT-TV From right-to-work rules, let me turn to collective bargaining for public workers. The voters' own officials set the public payroll. I cannot support any bill for collective bargaining for public workers, and I will not pretend otherwise. I will say why: a worker's paycheck belongs to the worker, not to the union.
+  line: WVGT-TV Tennessee knows what I'm asking for on right-to-work rules, so hold me to it.
+--- step 4 Tuesday, February 11, 20257:00 AM
+  line: It's early on February 11. You stay in. You caught Mayor Michael Alvarez's yearly address on WVGT-TV last night.
+  line: WVGT-TV Members of the Huntingdon Board of Mayor and Aldermen, my fellow citizens. Tonight I want to talk with the people of Huntingdon about how we help people through hard times. For 2024, we are spending about $152,000 more than we take in, and I won't hand that bill to whoever sits here next. The race for Huntingdon council member was on your ballot this year, and I watched it closely.
+  line: WVGT-TV Is it right that the office that serves families in trouble can't keep up? Because I hold that we catch folks first when they fall on hard times and ask questions later, I will ask the Huntingdon Board of Mayor and Aldermen to get families in need what they qualify for sooner, and I will not let it rest.
+  line: WVGT-TV Thank you, Huntingdon, and good night.
+--- step 8 Sunday, March 2, 20257:00 AM
+  line: First thing on March 2nd, you open a letter from Catherine Shaw. A letter from Catherine has come from Carroll County, with something to ask you.
+  line: Dear Roland, I'm writing because there is something I want to ask you. Come and see me in Carroll County. I would love to show you what it's like here.
+  replies: ["Alright, yes. I'm glad you asked me.","Can you tell me more about what you're asking?","I'm sorry, but I can't do that this time."] -> Alright, yes. I'm glad you asked me.
+  line: ROLAND JONES Alright, yes. I'm glad you asked me. Good. I'm glad you'll do it.
+--- step 23 Friday, June 6, 20257:00 AM
+  line: It's early on June 6. You stay in. Landon turned 14, and Donna wasn't at the table. Jennifer wants to talk to you about it.
+  line: Do you have a minute? I keep thinking about Donna not being here. Would you go see Donna in Carroll County? I'd feel better if someone from the family did.
+  replies: ["Yes, of course. I'll get in touch with them.","Why are you asking me about this, and why now?","I'm sorry, but I'm not the right person to do that."] -> Yes, of course. I'll get in touch with them.
+  line: ROLAND JONES Yes, of course. I'll get in touch with them. That eases my mind. Good.
+  line: It's early on June 7. The house is quiet. The diploma didn't come through, and Nathan wants to talk.
+  line: There you are. Come here. I heard about school. It isn't the end of anything.
+  replies: ["I didn't pass enough classes.","I'm going to fix it.","Sorry. I let it slide.","I don't want to talk about it."] -> I didn't pass enough classes.
+  line: ROLAND JONES I didn't pass enough classes. So what do you want to do now?
+  replies: ["Go back, I think. One more try.","I'll finish. Summer school, or the equivalency test."] -> Go back, I think. One more try.
+  line: ROLAND JONES Go back, I think. One more try. Good. That's what I wanted to hear.
+errors []

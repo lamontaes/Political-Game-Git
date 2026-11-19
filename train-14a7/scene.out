@@ -1,0 +1,20 @@
+seed 65c8eedf3a57 place Astoria, Illinois
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x382 w676 of 1440; Michelle Wood[] h111; Devon Wood[] h111; Grace Wood[] h111"]
+shot 02-room.png
+room strips: ["here: strip x472 w928 of 1440; Devon Wood[talkable] h104; Michelle Wood[talkable] h104; Grace Wood[] h104"]
+room people 3; talkable 2; named-not-talkable 0
+shot 03-room-click-Grace-Wood.png
+after clicking Grace Wood (not talkable): sheet false card text  /          /          /          /       
+card open false name 
+close probe {"r":[0,0,0,0],"xs":["news-surface-close@1368,38"],"at":"<img id=\"backdrop-next\" alt=\"\">"}
+title box null
+after a mouse click on the close mark: card still open false
+shot 04-talk-with-Devon-Wood.png
+talk strips: ["talk: strip x382 w676 of 1440; Devon Wood[speaking] h129; Michelle Wood[quiet] h111; Grace Wood[quiet] h111"]
+shot 05-talk-click-Devon-Wood.png
+after clicking Devon Wood [busts-person speaking] on the talk strip: sheet false text  /          /          /          /       
+card open false name 
+shot 06-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []
