@@ -1,7 +1,7 @@
 ---
 id: history-century-sessions-record-each-bills-amount
 title: "A century session's enactment records only yes or no, so a passed raise has no amount of its own and the engines borrow the in-play bill's target"
-area: history
+area: world
 kind: bug
 priority: 2
 size: M
