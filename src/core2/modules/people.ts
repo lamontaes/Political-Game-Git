@@ -954,3 +954,6 @@ export { areaQuestion } from "./public-action";
 export { openingTemperaments } from "../opening-personality";
 export { namedMembers, townHouseholdSkeleton } from "../town-households";
 export { placeEarningsOf } from "../residents";
+
+// The people family's face for readers outside it (tests/guards/families.json).
+export { FAMILY_QUARREL } from "./quarrel";
