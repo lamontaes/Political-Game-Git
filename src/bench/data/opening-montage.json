@@ -1,22 +1,19 @@
 {
-  "note": "The President's address plays as a montage (owner, Oct 29 02:35: the cutaways alternate the President working with America; the Vice President, Congress and the player's governor appear named by office as the camera passes; it ends at home). One beat per part of the speech. `levels` keys each part's beat to its role (the first non-salutation level of its sentences, agreed with Words, Nov 2): the first part is always the President in the chamber where the address is given (owner, Nov 17: \"An address happens where it's given: Congress's chamber, not the Oval Office\"; the salutation names the Speaker and the guests) and the last is always home. Each kind names its tagged place picture; `america` lists the town's pictures in turn, the first that has one painted. The sequence of beats is the lane's framing, not a record. The states' part is the player's own state: its capitol painted in that light (`statePlace` names it from the state, as state-capitol-<state>), with the governor and the state's chamber leaders named over it and nobody drawn (owner, Nov 4: no people tonight). Only a place with a mannequin plate (art/people-rooms/mannequin-plates) draws people: the train depot platform (people along a route) and the home living room; the speaker in the chamber stands as the large bust on the strip.",
+  "note": "The President's address plays as a montage, one beat per part of the speech (owner, Oct 29 02:35). Every beat stages where the address is given (owner, Nov 17: \"An address happens where it's given: Congress's chamber, not the Oval Office\"; CTO, Nov 19, from the Player's beats 3 and 4 at #9995 09:40Z: never a picture chosen from the part's subject, and a beat that cuts home shows only the household listening, never the speaker standing among them). `levels` keys each part's beat to its role (the first non-salutation level of its sentences, agreed with Words, Nov 2): the first part is always the President in the chamber (the salutation names the Speaker and the guests), the parts on the country, its people and the states stay in the chamber with the President, the parts that turn to Congress or the Vice President show the officials on the same floor, named by office, and the last part, or one on families, cuts home, where the household hears it on a set. Each kind names its tagged place picture, the first that has one painted. The sequence of beats is the lane's framing, not a record.",
   "first": "chamber",
   "last": "home",
   "places": {
     "chamber": ["us-house-floor", "us-senate-floor"],
-    "officials": ["us-house-floor", "us-senate-floor"],
-    "america": ["train-depot-platform"],
-    "state": ["state-capitol-{state}", "state-capitol-dome"]
+    "officials": ["us-house-floor", "us-senate-floor"]
   },
   "mostOfficials": 4,
-  "mostAmerica": 6,
   "levels": {
     "occasion": "chamber",
-    "country": "america",
-    "people": "america",
+    "country": "chamber",
+    "people": "chamber",
     "congress": "officials",
     "vice-president": "officials",
-    "states": "state",
+    "states": "chamber",
     "families": "home",
     "close": "home"
   }

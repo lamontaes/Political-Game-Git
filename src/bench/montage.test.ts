@@ -1,11 +1,10 @@
 /**
  * The address's montage (owner, Oct 29 02:35): one beat per part of the
- * speech, each with its picture and people from the records. In places drawn
- * from all 56: the speaker in the chamber, the town's own
- * people along a route, the key people named by office, and the household at
- * home (Words' address is 7 to 11 parts, each sentence carrying its level).
+ * speech, each with its picture and people from the records, staged where the
+ * address is given (owner, Nov 17; CTO, Nov 19). In places drawn from all 56:
+ * the speaker in the chamber, the key people named by office on the floor,
+ * and the household at home, hearing it without the speaker among them.
  */
-import { keyPeopleOf } from "../core2/modules/people";
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -20,9 +19,12 @@ const runSeed =
 
 it("keys the beats to each part's role: the chamber first, home last, the level between", () => {
   expect(beatKinds(["salutation"])).toEqual(["home"]);
+  // The Player's address at #9995 (Nov 19 09:40Z): its stance part (beat 3)
+  // was on a train depot platform, a picture chosen from the subject; the
+  // stance is given in the chamber, and only the close cuts home.
   expect(beatKinds(["occasion", "country", "close"])).toEqual([
     "chamber",
-    "america",
+    "chamber",
     "home",
   ]);
   expect(
@@ -40,11 +42,11 @@ it("keys the beats to each part's role: the chamber first, home last, the level 
   ).toEqual([
     "chamber",
     "chamber",
-    "america",
+    "chamber",
     "officials",
     "officials",
-    "america",
-    "state",
+    "chamber",
+    "chamber",
     "home",
     "home",
   ]);
@@ -89,15 +91,10 @@ it.each(["a", "b", "c"])(
       20 * 60 + 30,
       named,
     );
-    // Each beat shows the people its part names (owner, Nov 12: "random
-    // busts of people ... unless it's people that he's introducing"): an
-    // "america" beat shows no one else, and every other beat but home
-    // includes them (the Vice President when the part names her).
+    // Each beat but home shows the people its part names (owner, Nov 12:
+    // "random busts of people ... unless it's people that he's
+    // introducing"), the Vice President when the part names her.
     beats.forEach((beat, at) => {
-      const shown = beat.people.map((person) => person.personId);
-      if (beat.kind === "america")
-        for (const id of shown)
-          expect(named[at], `${where}: part ${at} shows ${id}`).toContain(id);
       if (beat.kind !== "home")
         for (const id of named[at]!)
           expect(
@@ -110,54 +107,32 @@ it.each(["a", "b", "c"])(
       where,
     ).toEqual(beatKinds(levels));
     expect(beats.length, where).toBe(parts);
-    for (const beat of beats) {
-      if (beat.kind === "state") {
-        // The states' part names its people over the capitol. Nobody is
-        // painted into the picture; since the owner's call 11 (Nov 11) the
-        // people a scene names stand as busts on the strip, each with their
-        // office under their name.
-        for (const person of beat.people)
-          expect(person.role, `${where}: ${person.name}`).toMatch(/\S/);
-      } else if (beat.kind !== "america" && beat.kind !== "home")
-        expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
+    // Every beat stages where the address is given (CTO, Nov 19, from the
+    // Player's beats 3 and 4): the chamber's floor, or home for a beat that
+    // cuts there. Nothing is a picture chosen from the part's subject.
+    for (const [at, beat] of beats.entries()) {
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
+      if (beat.kind === "home") continue;
+      expect(beat.backdrop.file, `${where}: part ${at}`).toMatch(
+        /^us-(house|senate)-floor/,
+      );
+      expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
     }
-    // The speaker is the one in the chamber.
-    for (const kind of ["chamber"])
-      for (const beat of beats.filter((row) => row.kind === kind))
-        expect(
-          beat.people.map((person) => person.personId),
-          `${where}: ${kind}`,
-        ).toContain(story.president.id);
+    // The speaker is the one in the chamber, and never at home among the
+    // household (the Player's beat 4, "hold me to it").
+    for (const beat of beats)
+      expect(
+        beat.people
+          .map((person) => person.personId)
+          .includes(story.president.id),
+        `${where}: ${beat.kind}`,
+      ).toBe(beat.kind === "chamber");
     // An officials' part (an address's asks of Congress said on their own)
     // names its people by office. Since the speech outline (Nov 12) the asks
     // close the theme's paragraph, so an address may have none.
-    const officials = beats.filter((beat) => beat.kind === "officials");
-    for (const beat of officials)
+    for (const beat of beats.filter((row) => row.kind === "officials"))
       for (const person of beat.people)
         expect(person.role, `${where}: ${person.name}`).toMatch(/\S/);
-    // The states' part names the player's governor by office over their
-    // state's capitol, by the governor's own records.
-    const governor = keyPeopleOf(world.core, world.playerId!).find((person) =>
-      person.reasons.includes("governor"),
-    );
-    for (const beat of beats.filter((row) => row.kind === "state")) {
-      expect(beat.backdrop.file, where).toMatch(/^state-capitol-/);
-      if (!governor) continue;
-      // The governor stands on the strip with the office under the name.
-      expect(
-        beat.people.map((person) => `${person.role} ${person.name}`),
-        where,
-      ).toContain(`${governor.officeTitle} ${governor.name}`);
-      for (const id of governor.sourceRecordIds)
-        expect(beat.sourceRecordIds, `${where}: ${id}`).toContain(id);
-      expect(beat.backdrop.file, where).toContain(
-        `state-capitol-${governor.stateKey!.slice(3).toLowerCase()}`,
-      );
-      console.log(
-        `${where}: ${beat.people.map((person) => `${person.role} ${person.name}`).join(", ")} over ${beat.backdrop.file}`,
-      );
-    }
     // Home lists the people the player lives with (nobody, for someone who
     // lives alone), and never the player: the strip shows who else is there.
     const household = world.core.households.get(

@@ -2593,34 +2593,34 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      // A speaker heard on a broadcast is named, never drawn in the room
-      // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
-      setWho(
-        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
-        story.names[story.speech.speakerId],
-      );
-      // The part's picture and cast: the desk, the town, the colonnade, the
-      // officials on the strip with their office under their name, and home.
+      // The part's picture and cast: the chamber, the officials on the
+      // strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
         $("backdrop").src = beat.backdrop.url;
         drawHere(beat);
       }
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one in the chamber or in the
+      // room stands on the strip. A beat that cuts home shows only the
+      // household listening, the speaker on the set (CTO, Nov 19).
+      setWho(
+        (beat ? beat.kind !== "home" : story.speech.inRoom)
+          ? story.speech.speakerId
+          : null,
+        story.names[story.speech.speakerId],
+      );
       talkControls({ silent: false, leave: false });
       // Heard on a broadcast: the station over the line with its small icon
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
-      // The address cuts away from the chamber to the country and to homes:
-      // there it is heard on a set, the speaker on it with Live over them.
+      // The address cuts away from the chamber to home: there it is heard on
+      // a set, the speaker on it with Live over them.
       drawTv(
         story.speech,
         story.names[story.speech.speakerId],
-        on ??
-          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
-            ? { medium: "television" }
-            : undefined),
+        on ?? (beat?.kind === "home" ? { medium: "television" } : undefined),
       );
       fillTalk({
         lines: [

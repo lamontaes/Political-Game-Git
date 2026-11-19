@@ -3,11 +3,31 @@
 // "supposed to start with the president, like in the Oval Office or something,
 // and then doing like a montage. But here it's just like I'm just clicking
 // continue"): each Continue is the next part of the address with its own
-// picture and people: the President in the chamber, the town along a route, the
-// officials named by office, and home at the end. Run against
+// picture and people, staged where it is given (owner, Nov 17; CTO, Nov 19):
+// the President in the chamber, the officials named by office on the floor,
+// and home at the end, the household listening without the President among
+// them. Run against
 // a fresh bench: node src/bench/opening-montage.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import scenePlaces from "./data/scene-places.json" with { type: "json" };
+
+// Every picture a home can be: each dwelling's rooms, the regional houses and
+// the official residences (scene-places.json), by name.
+const homePictures = new Set(
+  [
+    scenePlaces.dwellingPlaces,
+    scenePlaces.regionalHouses,
+    scenePlaces.officialResidences,
+  ].flatMap((table) =>
+    Object.entries(table).flatMap(([key, value]) =>
+      key === "about"
+        ? []
+        : [key, ...(JSON.stringify(value).match(/[a-z0-9-]+/g) ?? [])],
+    ),
+  ),
+);
+const pictureName = (file) => file.replace(/__.*$|\.[a-z]+$/g, "");
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -46,6 +66,7 @@ try {
       const state = await page.evaluate(() => ({
         backdrop: document.getElementById("backdrop").src.split("/").at(-1),
         people: document.querySelectorAll("#talk-strip .busts-person").length,
+        strip: document.getElementById("talk-strip").innerText,
         text: document.getElementById("talk-lines").innerText,
         who: document.getElementById("talk-name").textContent,
       }));
@@ -64,8 +85,7 @@ try {
       console.log(
         `  ${at + 1}. ${beat.backdrop} · ${beat.people} people · ${beat.text.replace(/\n+/g, " / ").slice(0, 110)}`,
       );
-    const pictures = new Set(beats.map((beat) => beat.backdrop));
-    assert.ok(beats.length >= 7, `the address has only ${beats.length} parts`);
+    assert.ok(beats.length >= 2, `the address has only ${beats.length} parts`);
     assert.match(
       beats[0].backdrop,
       /^us-(house|senate)-floor/,
@@ -76,14 +96,25 @@ try {
       "the President is not on the strip in the chamber",
     );
     assert.ok(
-      pictures.size >= 3,
-      `only ${pictures.size} pictures: ${[...pictures]}`,
+      homePictures.has(pictureName(beats.at(-1).backdrop)),
+      `the address does not end at home: ${beats.at(-1).backdrop}`,
     );
-    assert.match(
-      beats.at(-1).backdrop,
-      /^house-|^apartment-|^trailer-|-living/,
-      "the address does not end at home",
-    );
+    // Every beat is the chamber's floor or home, and at home the President
+    // is on the set, never on the strip among the household (the Player's
+    // beats 3 and 4, #9995 Nov 19 09:40Z).
+    for (const [at, beat] of beats.entries()) {
+      const home = !/^us-(house|senate)-floor/.test(beat.backdrop);
+      if (!home) continue;
+      assert.equal(
+        beat.backdrop,
+        beats.at(-1).backdrop,
+        `part ${at + 1} is staged at ${beat.backdrop}, not where the address is given or at home`,
+      );
+      assert.ok(
+        !beat.strip.includes(beat.who.trim()),
+        `part ${at + 1}: ${beat.who} stands among the household at home`,
+      );
+    }
     await page.close();
   }
   assert.deepEqual(errors, []);
