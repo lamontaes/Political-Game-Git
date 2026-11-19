@@ -93,9 +93,14 @@ describe("the incumbent's own doors tell them the race", () => {
     if (reading!.threat <= 0) {
       expect(pressed.steppedUp, `${where}: no threat, no step-up`).toBeNull();
       campaignTurn(api, filingId, race.contest.electionDate);
+      // No row for this reading's source. Rows the world kept on earlier
+      // days (the finder's sixty days of the challenger's doors had word
+      // reach the incumbent) are other readings' and stay.
       expect(
-        steppedUpOf(api, filingId),
-        `${where}: the turn kept no row`,
+        steppedUpOf(api, filingId).filter(
+          (r) => r.sourceRecordId === reading!.sourceRecordId,
+        ),
+        `${where}: the turn kept no row for this reading`,
       ).toEqual([]);
       return;
     }

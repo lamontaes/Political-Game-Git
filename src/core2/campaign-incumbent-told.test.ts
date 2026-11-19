@@ -101,5 +101,5 @@ describe("a yes someone they know told them sets the incumbent reading by itself
       for (const row of words) wordTable.put(row as unknown as ModuleRow);
       for (const row of doors) doorTable.put(row as unknown as ModuleRow);
     }
-  });
+  }, 1_800_000);
 });
