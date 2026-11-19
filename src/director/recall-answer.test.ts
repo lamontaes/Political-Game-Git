@@ -95,15 +95,25 @@ it(`an official's answer at the petition table is read by the drive's count (see
         break;
     }
     const start = makeIsoDate(core.date);
+    // A petition over the vote: one over a charge or an exposure
+    // (`cause: "misconduct"`) is another scene's case, passed over by name.
     const open = () =>
       recallsOf(api).find(
-        (r) => r.status === "circulating" && members.has(r.memberId),
+        (r) =>
+          r.status === "circulating" &&
+          members.has(r.memberId) &&
+          r.cause !== "misconduct",
       );
     for (let day = 1; day <= MOST_DAYS && !open(); day += 1)
       advanceCore(core, addDays(start, day));
     const recall = open();
     if (!recall) {
-      tried.push(`${where}: no petition against a member in ${MOST_DAYS} days`);
+      const misconduct = recallsOf(api)
+        .filter((r) => members.has(r.memberId) && r.cause === "misconduct")
+        .map((r) => r.id);
+      tried.push(
+        `${where}: no petition over the vote against a member in ${MOST_DAYS} days${misconduct.length ? ` (over misconduct: ${misconduct.join(", ")})` : ""}`,
+      );
       continue;
     }
     // The scene stages from the petition's record: the organizer confronts
