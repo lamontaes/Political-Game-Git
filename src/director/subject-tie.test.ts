@@ -10,6 +10,10 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { CRIME_EVENT } from "../core2/modules/crime";
+import { coreAPI } from "../core2/state";
 import { buildBenchWorld } from "../bench/world";
 import { subjectsBetween, type Subject } from "./conversation";
 import { acceptSubjects, OWN_RECORD_KINDS, storyTie } from "./subject-tie";
@@ -116,4 +120,58 @@ it("a printed story that names the speaker as its winner, a loser, the appointee
   expect(
     storyTie(core, story({ outIds: "not json" }), speaker!.id, playerId),
   ).toBeNull();
+}, 60_000);
+
+it("only someone a crime record names raises it, tied by the record itself (Ridgeville AL)", () => {
+  setBookkeeping(false);
+  const place = drawPlace(PINNED.run, PINNED.purpose);
+  const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const playerId = world.playerId as PersonId;
+  // A household of two the player has not met: the log keeps none of its
+  // records, so only the crime record itself can tie the talk.
+  const home = [...core.households.values()].find((row) => {
+    const living = row.memberIds.filter((id) => {
+      const person = core.people.get(id);
+      return person?.alive && person.tier !== "husk";
+    });
+    return (
+      living.length >= 2 &&
+      !row.memberIds.includes(playerId) &&
+      !living.some((id) => core.focusPersonIds.has(id))
+    );
+  });
+  expect(home, `${where}: no unmet household of two`).toBeDefined();
+  const [victim, housemate] = home!.memberIds.filter(
+    (id) => core.people.get(id)?.alive,
+  ) as PersonId[];
+  director.watch(core, victim!);
+  director.watch(core, housemate!);
+  // An assault, as the crime engine records one: it names the one person it
+  // happened to.
+  const eventId = `${CRIME_EVENT}:assault:${home!.id}:${core.date}`;
+  coreAPI(core).emit({
+    id: eventId,
+    kind: CRIME_EVENT,
+    date: core.date,
+    placeId: core.people.get(victim!)!.placeId,
+    personIds: [victim!],
+    facts: { type: "assault", householdId: home!.id },
+    source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+  });
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  expect(core.durableLog.has(eventId as never), `${where}: kept`).toBe(false);
+  const raised = (speaker: PersonId, hearer: PersonId) =>
+    subjectsBetween(core, speaker, hearer, director, {}).find(
+      (row) => row.kind === "victimization",
+    );
+  expect(raised(victim!, housemate!)?.tie, `${where}: ${victim}`).toEqual({
+    kind: "record",
+    recordIds: [eventId],
+  });
+  expect(raised(housemate!, victim!), `${where}: ${housemate}`).toBeUndefined();
 }, 60_000);
