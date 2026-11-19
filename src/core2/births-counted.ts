@@ -10,6 +10,7 @@
  * per place per month records what happened; nothing is kept per counted
  * person per day.
  */
+import { fertilityAt } from "./births-plan";
 import { worldRateFactor } from "./world-base-rates";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
@@ -287,8 +288,8 @@ function partnerOf(
 
 /** The numbers a birth standing reads every time, read once per place in the order it reads them. */
 interface StandingParameters {
-  readonly ageCenter: number;
-  readonly ageSpread: number;
+  readonly fertilityHalfAge: number;
+  readonly fertilityWidth: number;
   readonly daysPerMeanYear: number;
   readonly ageWeight: number;
   readonly childWeight: number;
@@ -301,8 +302,8 @@ interface StandingParameters {
 
 function standingParameters(api: CoreAPI): StandingParameters {
   return {
-    ageCenter: renewalParameter(api, "renewalAgeCenter"),
-    ageSpread: renewalParameter(api, "renewalAgeSpread"),
+    fertilityHalfAge: renewalParameter(api, "renewalFertilityHalfAge"),
+    fertilityWidth: renewalParameter(api, "renewalFertilityWidth"),
     daysPerMeanYear: renewalParameter(api, "daysPerMeanYear"),
     ageWeight: renewalParameter(api, "renewalAgeWeight"),
     childWeight: renewalParameter(api, "renewalChildWeight"),
@@ -329,7 +330,7 @@ function birthStanding(
   p: StandingParameters,
 ): number {
   const age = ageOf(woman, date);
-  const distance = (age - p.ageCenter) / p.ageSpread;
+  const fertility = fertilityAt(age, p.fertilityHalfAge, p.fertilityWidth);
   const children = record.people.filter(
     (row) =>
       woman.familyIds.includes(row.id) &&
@@ -342,7 +343,7 @@ function birthStanding(
     (row) => row && record.jobs.some((job) => job.personId === row.id),
   ).length;
   return (
-    p.ageWeight * (2 * Math.exp(-distance * distance) - 1) +
+    p.ageWeight * (2 * fertility - 1) +
     p.childWeight * (p.noChildPull - p.perChildPull * children) +
     (p.incomeWeight * (ratio - 1)) / (ratio + 1) +
     p.jobWeight * (employed - 1) -
@@ -354,8 +355,8 @@ function birthStanding(
 
 /** The numbers a counted woman's exposure reads, read once per place in the order it reads them. */
 interface ExposureParameters {
-  readonly ageCenter: number;
-  readonly ageSpread: number;
+  readonly fertilityHalfAge: number;
+  readonly fertilityWidth: number;
   readonly moneyBufferDays: number;
   readonly one: number;
   readonly unplannedExposure: number;
@@ -363,8 +364,8 @@ interface ExposureParameters {
 
 function exposureParameters(api: CoreAPI): ExposureParameters {
   return {
-    ageCenter: renewalParameter(api, "renewalAgeCenter"),
-    ageSpread: renewalParameter(api, "renewalAgeSpread"),
+    fertilityHalfAge: renewalParameter(api, "renewalFertilityHalfAge"),
+    fertilityWidth: renewalParameter(api, "renewalFertilityWidth"),
     moneyBufferDays: renewalParameter(api, "moneyBufferDays"),
     one: renewalParameter(api, "one"),
     unplannedExposure: renewalParameter(api, "renewalUnplannedExposure"),
@@ -384,15 +385,17 @@ function countedExposure(
   date: string,
   p: ExposureParameters,
 ): number {
-  const distance = (ageOf(woman, date) - p.ageCenter) / p.ageSpread;
+  const fertility = fertilityAt(
+    ageOf(woman, date),
+    p.fertilityHalfAge,
+    p.fertilityWidth,
+  );
   const costs = record.people.reduce(
     (n, row) => n + row.livingCostDailyMinor,
     0,
   );
   const cushion = cash / (cash + costs * p.moneyBufferDays + p.one);
-  return (
-    p.unplannedExposure * Math.exp(-distance * distance) * (p.one - cushion)
-  );
+  return p.unplannedExposure * fertility * (p.one - cushion);
 }
 
 /** Monthly flows for every place with counted residents. */
