@@ -148,6 +148,7 @@ import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { quarrelFacts } from "./quarrel-facts";
+import { lastDayFacts } from "./last-day-facts";
 import { promiseSubject } from "./promise-talk";
 
 /** The situation type a broken promise stages (`kept-fact-due`). */
@@ -1063,6 +1064,12 @@ function composeBinding(
     if (broken?.kind === "promise-broken")
       for (const [key, fact] of Object.entries(broken.facts)) facts[key] = fact;
   }
+  // A last day at a school or a job: the school, or the employer and the
+  // job, from the record that caused it.
+  for (const [key, fact] of Object.entries(
+    lastDayFacts(core, binding.typeKey, moment.causeId),
+  ))
+    facts[key] = fact;
   // A quarrel over money (`family.quarrel`): the payment it was over, by
   // the loan's kind, so the apology can say what it is for.
   for (const [key, fact] of Object.entries(quarrelFacts(core, moment.causeId)))
