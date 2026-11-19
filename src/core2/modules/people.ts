@@ -227,6 +227,7 @@ export { lifeOf, type LifeEvent } from "../person-life";
 export { heldDrivesOf } from "./drives";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
+export { FAMILY_QUARREL } from "./quarrel";
 // A housemate's call for help, for the director's rescue scene.
 export { HEALTH_RESCUED } from "./rescue";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
@@ -954,6 +955,3 @@ export { areaQuestion } from "./public-action";
 export { openingTemperaments } from "../opening-personality";
 export { namedMembers, townHouseholdSkeleton } from "../town-households";
 export { placeEarningsOf } from "../residents";
-
-// The people family's face for readers outside it (tests/guards/families.json).
-export { FAMILY_QUARREL } from "./quarrel";
