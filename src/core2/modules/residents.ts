@@ -3226,6 +3226,13 @@ export function countedHouseholdJobChanged(
   if (!rt || m === undefined) return;
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
+  // A worker starting a recorded job leaves the place's unplaced payroll
+  // by their share. Read it before recording the job, then regroup using
+  // the new wage and the remaining unplaced workers together.
+  const unplaced =
+    job.endsAt === undefined && store.jobId[m] === undefined
+      ? memberUnplacedWorkers(rt, h, m, core.date, false)
+      : 0;
   const others = h.jobs.filter((row) => row.id !== job.id);
   h.jobs = job.endsAt === undefined ? [...others, job] : others;
   if (commitment) {
@@ -3247,6 +3254,7 @@ export function countedHouseholdJobChanged(
   h.wagesMinorYear = store.wagesOf(h);
   store.version++;
   store.touch(h);
+  removeMemberUnplacedWork(rt, h, m, unplaced, core.date);
 }
 
 /**
@@ -4201,22 +4209,18 @@ function shedUnplacedWorkers(
 }
 
 /**
- * A counted member leaves working age or the counts (passing the counted
- * working age, or dying): a household's out-of-town workers belong to its
- * working-age members without a recorded job in equal shares, so the member
- * takes one share with them, the household's workers over those members
- * before they left. A member who holds a recorded job keeps that job's own
- * path. `leftAge` is true on the day the member passed working age, when they
- * were still one of those members yesterday.
+ * A member's share of the household's unplaced workers, which belong equally
+ * to its working-age members without a recorded job. When a member just
+ * passed working age, they were still one of those members yesterday.
  */
-function leaveUnplacedWork(
+function memberUnplacedWorkers(
   rt: ResidentsRuntime,
   h: CountedHousehold,
   m: number,
   date: string,
   leftAge: boolean,
-): void {
-  if (h.gone || !(h.unplacedWorkers > 0)) return;
+): number {
+  if (h.gone || !(h.unplacedWorkers > 0)) return 0;
   const store = rt.store;
   const from = countedParameter("countedWorkingAgeFrom"),
     below = countedParameter("countedWorkingAgeBelow");
@@ -4228,14 +4232,41 @@ function leaveUnplacedWork(
     const age = ageOn(store.born[x]!, date);
     return age >= from && (age < below || (x === m && leftAge));
   };
-  if (!open(m)) return;
-  // Their regional work, if any, leaves with them: its later stop takes
-  // nothing more off the household.
+  if (!open(m)) return 0;
+  const members = store.countedMembers(h).filter(open).length;
+  return members > 0 ? h.unplacedWorkers / members : 0;
+}
+
+function removeMemberUnplacedWork(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  m: number,
+  workers: number,
+  date: string,
+): void {
+  if (!(workers > 0)) return;
+  const store = rt.store;
+  // A later stop of this member's regional work takes nothing more off
+  // the household.
   if (rt.regionalGains.has(store.ids[m]!))
     rt.regionalGains.set(store.ids[m]!, 0);
-  const members = store.countedMembers(h).filter(open).length;
-  if (members > 0)
-    shedUnplacedWorkers(rt, h, h.unplacedWorkers / members, date);
+  shedUnplacedWorkers(rt, h, workers, date);
+}
+
+function leaveUnplacedWork(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  m: number,
+  date: string,
+  leftAge: boolean,
+): void {
+  removeMemberUnplacedWork(
+    rt,
+    h,
+    m,
+    memberUnplacedWorkers(rt, h, m, date, leftAge),
+    date,
+  );
 }
 
 /** Index counted members by the day they pass the counted working age. */
