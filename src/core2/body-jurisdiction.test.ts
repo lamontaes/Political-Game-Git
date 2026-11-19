@@ -13,7 +13,6 @@ import { advanceCore } from "./life";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import {
   billJurisdiction,
-  billReach,
   bodyJurisdiction,
   bodyRow,
   floorCountOf,
@@ -32,6 +31,9 @@ const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const drawn = drawPlace(replay, "body-jurisdiction");
 const where = `${drawn.name} (${drawn.key}), replay ${replay}`;
 const edgeProof: Record<string, unknown>[] = [];
+// The towns the played-year check may draw before it finds one whose
+// governments enacted a law in the year.
+const YEAR_DRAWS = 4;
 
 it(`real unit identities retain the federal, county, township and city edges: ${where}`, () => {
   const chain = lawChainForPlace(drawn.key);
@@ -86,120 +88,143 @@ it(`real unit identities retain the federal, county, township and city edges: ${
 
 it(`ordinary bills and voted laws read their actual body's government: ${where}`, () => {
   setBookkeeping(false);
+  // A town whose governments enact no law in the year has nothing to read
+  // (a state whose floor leader refuses every filing); it is passed over and
+  // named, and the next draw is played.
+  const passedOver: string[] = [];
   try {
-    const core = buildBenchWorld(drawn.seed, gameStartDate(), {
-      placeKey: drawn.key,
-      twoLevel: true,
-    }).core;
-    const api = coreAPI(core);
-    const chain = lawChain(api);
-    const offices = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as OfficeInput[];
-    const outside = offices.filter(
-      (office) =>
-        office.level === "state" &&
-        office.jurisdiction !== chain.stateKey &&
-        bodyRow(office.kind)?.law === "state",
-    );
-    expect(
-      outside.length,
-      "actual other states' seated chambers",
-    ).toBeGreaterThan(0);
-    for (const office of outside) {
-      expect(bodyJurisdiction(api, office.id), office.id).toBe(
-        office.jurisdiction,
+    for (let draw = 0; draw < YEAR_DRAWS; draw++) {
+      const place =
+        draw === 0 ? drawn : drawPlace(replay, `body-jurisdiction:${draw}`);
+      const here = `${place.name} (${place.key}), replay ${replay}`;
+      const core = buildBenchWorld(place.seed, gameStartDate(), {
+        placeKey: place.key,
+        twoLevel: true,
+      }).core;
+      const api = coreAPI(core);
+      const chain = lawChain(api);
+      const offices = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .rows() as unknown as OfficeInput[];
+      const outside = offices.filter(
+        (office) =>
+          office.level === "state" &&
+          office.jurisdiction !== chain.stateKey &&
+          bodyRow(office.kind)?.law === "state",
       );
-      // Pure reader input; these chambers do not yet sit under unfinished U3.
       expect(
-        billJurisdiction(api, { bodyOfficeId: office.id } as BillRow),
-        office.id,
-      ).toBe(office.jurisdiction);
-    }
-    for (const body of [FEDERAL_HOUSE, FEDERAL_SENATE])
-      expect(bodyJurisdiction(api, body)).toBe("US");
-    expect(bodyJurisdiction(api, "test:missing-body")).toBe(
-      chain.levels.at(-1)!.jurisdiction,
-    );
-    const opened = core.date;
-    let witness: Record<string, unknown> | undefined;
-    const checked = new Set<string>();
-    for (let day = 1; day <= 365; day++) {
-      advanceCore(core, addDays(makeIsoDate(opened), day));
-      const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
-      const laws = api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .rows() as unknown as LawRowInput[];
-      for (const law of laws) {
-        const billId = law.terms?.enactedByBill;
-        if (typeof billId !== "string") continue;
-        const bill = legislature
-          .table("bills")
-          .get(billId) as unknown as BillRow;
-        expect(bill, law.id).toBeDefined();
-        expect(law.jurisdiction, law.id).toBe(billJurisdiction(api, bill));
-        // Another state's law is that state's own: it is not in the town's
-        // chain, and the town's readers below never see it.
-        if (!inTownChain(chain, law.jurisdiction)) continue;
-        expect(inTownChain(chain, law.jurisdiction), law.id).toBe(true);
-        checked.add(law.id);
-        if (witness || law.effectiveDate > core.date) continue;
-        const resolved = lawInForce(api, law.series);
-        if (!resolved.levels.some((level) => level.row?.id === law.id))
-          continue;
-        const votes = legislature.table("votes").query("byBill", [bill.id]);
-        const count = floorCountOf(api, bill.id, bill.bodyOfficeId);
-        if (!count?.carried || count.yes === 0) continue;
-        witness = {
-          on: core.date,
-          body:
-            offices.find((office) => office.id === bill.bodyOfficeId) ??
-            bill.bodyOfficeId,
-          bill,
-          law,
-          votes,
-          count,
-          consumer: {
-            reader: "lawInForce",
-            series: law.series,
-            level: law.level,
-            recordId: law.id,
-          },
-        };
-      }
-    }
-    expect(checked.size, "naturally enacted law rows").toBeGreaterThan(0);
-    expect(
-      witness,
-      "actual roll call, law and existing resolver consumer",
-    ).toBeDefined();
-    for (const session of sessionsOf(api))
-      if (session.bodyOfficeId)
-        expect(session.stateKey, session.id).toBe(
-          bodyJurisdiction(api, session.bodyOfficeId),
+        outside.length,
+        "actual other states' seated chambers",
+      ).toBeGreaterThan(0);
+      for (const office of outside) {
+        expect(bodyJurisdiction(api, office.id), office.id).toBe(
+          office.jurisdiction,
         );
-    const proof = {
-      town: drawn.name,
-      placeKey: drawn.key,
-      replay,
-      worldSeed: drawn.seed,
-      through: core.date,
-      actualOutsideChambers: outside.length,
-      checkedLawRows: checked.size,
-      witness,
-      edges: edgeProof,
-      limit:
-        "No supplied bill, law or vote enters the played year. Outside-state sitting and named-person effects remain unfinished parent work.",
-    };
-    if (process.env.LANE2_BODY_JURISDICTION_PROOF)
-      writeFileSync(
-        process.env.LANE2_BODY_JURISDICTION_PROOF,
-        JSON.stringify(proof, null, 2) + "\n",
+        // Pure reader input; these chambers do not yet sit under unfinished U3.
+        expect(
+          billJurisdiction(api, { bodyOfficeId: office.id } as BillRow),
+          office.id,
+        ).toBe(office.jurisdiction);
+      }
+      for (const body of [FEDERAL_HOUSE, FEDERAL_SENATE])
+        expect(bodyJurisdiction(api, body)).toBe("US");
+      expect(bodyJurisdiction(api, "test:missing-body")).toBe(
+        chain.levels.at(-1)!.jurisdiction,
       );
-    console.log(
-      JSON.stringify({ town: drawn.name, replay, laws: checked.size, witness }),
+      const opened = core.date;
+      let witness: Record<string, unknown> | undefined;
+      const checked = new Set<string>();
+      for (let day = 1; day <= 365; day++) {
+        advanceCore(core, addDays(makeIsoDate(opened), day));
+        const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
+        const laws = api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .rows() as unknown as LawRowInput[];
+        for (const law of laws) {
+          const billId = law.terms?.enactedByBill;
+          if (typeof billId !== "string") continue;
+          const bill = legislature
+            .table("bills")
+            .get(billId) as unknown as BillRow;
+          expect(bill, law.id).toBeDefined();
+          expect(law.jurisdiction, law.id).toBe(billJurisdiction(api, bill));
+          // Another state's law is that state's own: it is not in the town's
+          // chain, and the town's readers below never see it.
+          if (!inTownChain(chain, law.jurisdiction)) continue;
+          expect(inTownChain(chain, law.jurisdiction), law.id).toBe(true);
+          checked.add(law.id);
+          if (witness || law.effectiveDate > core.date) continue;
+          const resolved = lawInForce(api, law.series);
+          if (!resolved.levels.some((level) => level.row?.id === law.id))
+            continue;
+          const votes = legislature.table("votes").query("byBill", [bill.id]);
+          const count = floorCountOf(api, bill.id, bill.bodyOfficeId);
+          if (!count?.carried || count.yes === 0) continue;
+          witness = {
+            on: core.date,
+            body:
+              offices.find((office) => office.id === bill.bodyOfficeId) ??
+              bill.bodyOfficeId,
+            bill,
+            law,
+            votes,
+            count,
+            consumer: {
+              reader: "lawInForce",
+              series: law.series,
+              level: law.level,
+              recordId: law.id,
+            },
+          };
+        }
+      }
+      if (checked.size === 0) {
+        passedOver.push(`${here}: no law enacted in its chain in the year`);
+        continue;
+      }
+      expect(
+        witness,
+        "actual roll call, law and existing resolver consumer",
+      ).toBeDefined();
+      for (const session of sessionsOf(api))
+        if (session.bodyOfficeId)
+          expect(session.stateKey, session.id).toBe(
+            bodyJurisdiction(api, session.bodyOfficeId),
+          );
+      const proof = {
+        town: place.name,
+        placeKey: place.key,
+        replay,
+        worldSeed: place.seed,
+        passedOver,
+        through: core.date,
+        actualOutsideChambers: outside.length,
+        checkedLawRows: checked.size,
+        witness,
+        edges: edgeProof,
+        limit:
+          "No supplied bill, law or vote enters the played year. Outside-state sitting and named-person effects remain unfinished parent work.",
+      };
+      if (process.env.LANE2_BODY_JURISDICTION_PROOF)
+        writeFileSync(
+          process.env.LANE2_BODY_JURISDICTION_PROOF,
+          JSON.stringify(proof, null, 2) + "\n",
+        );
+      console.log(
+        JSON.stringify({
+          town: place.name,
+          replay,
+          laws: checked.size,
+          witness,
+          passedOver,
+        }),
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn town's governments enacted a law in a year (replay ${replay}): ${passedOver.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
