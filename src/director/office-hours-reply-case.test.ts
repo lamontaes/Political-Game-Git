@@ -65,8 +65,8 @@ it(`an office-hours reply settles the resident's case through the cases engine (
       outcome === "helped" ? where : `${where}: ${outcome}`,
     );
   }
-  console.log(
-    `office hours: helped at ${proved.join("; ")}; passed over: ${passed.join("; ") || "none"}`,
+  process.stdout.write(
+    `office hours: helped at ${proved.join("; ")}; passed over: ${passed.join("; ") || "none"}\n`,
   );
   expect(
     proved.length,
@@ -84,9 +84,17 @@ function officeHoursAt(
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  // Each town officeholder is in the player's circle before anyone visits, as
+  // the official who answers at office hours is the player in play: the game
+  // keeps a visit's record only when it names someone in the circle at the
+  // moment it is written (drawn-place-tests, "stage a test in the order play
+  // has"), so watching them without it keeps no visit to answer.
   for (const row of townSeats(api)) {
     const id = row.holder?.personId;
-    if (id && core.people.get(id)?.alive) director.watch(core, id);
+    if (id && core.people.get(id)?.alive) {
+      core.focusPersonIds.add(id);
+      director.watch(core, id);
+    }
   }
   // A day at a time, stopping the day a resident's visit lands: the office
   // settles an unanswered case itself once its response window ends.
