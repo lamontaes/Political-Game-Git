@@ -16844,6 +16844,6491 @@
       "origin": "authored",
       "author": "Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-ask.is-this-real",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Is this real?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask.did-you",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Did you?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask.are-you-guilty",
+      "move": "charge-ask",
+      "kind": "spoken",
+      "text": "Are you guilty?",
+      "uses": [
+        {
+          "move": "charge-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-ask-ask.are-they-saying-offense",
+      "move": "charge-ask-ask",
+      "kind": "spoken",
+      "text": "Are they saying {offense}?",
+      "uses": [
+        {
+          "move": "charge-ask-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-ask-ask.is-offense-what-they-charged-you-with",
+      "move": "charge-ask-ask",
+      "kind": "spoken",
+      "text": "Is {offense} what they charged you with?",
+      "uses": [
+        {
+          "move": "charge-ask-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-answer-confess.it-s-true",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "It's true.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-confess.i-m-guilty",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "I'm guilty.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-confess.i-did-yes",
+      "move": "charge-answer-confess",
+      "kind": "spoken",
+      "text": "I did, yes.",
+      "uses": [
+        {
+          "move": "charge-answer-confess",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "confess",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.it-s-complicated",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "It's complicated.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.court-decides-that",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "Court decides that.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-deflect.hard-to-say",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "Hard to say.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-refuse.no-comment",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "No comment.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-refuse.i-d-rather-not",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "I'd rather not.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.they-charged-me",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "They charged me.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.i-m-in-trouble",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "I'm in trouble.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.yes-charged",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "Yes, charged.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.the-charge-is-offense",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "The charge is {offense}.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-answer-tell.they-say-it-was-offense",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "They say it was {offense}.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-ask.what-s-the-verdict",
+      "move": "conviction-ask",
+      "kind": "spoken",
+      "text": "What's the verdict?",
+      "uses": [
+        {
+          "move": "conviction-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-ask.any-verdict-yet",
+      "move": "conviction-ask",
+      "kind": "spoken",
+      "text": "Any verdict yet?",
+      "uses": [
+        {
+          "move": "conviction-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-ask.did-court-rule",
+      "move": "acquittal-ask",
+      "kind": "spoken",
+      "text": "Did court rule?",
+      "uses": [
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-ask.did-they-decide",
+      "move": "acquittal-ask",
+      "kind": "spoken",
+      "text": "Did they decide?",
+      "uses": [
+        {
+          "move": "acquittal-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-ask-ask.the-trial-then",
+      "move": "conviction-ask-ask",
+      "kind": "spoken",
+      "text": "The trial, then?",
+      "uses": [
+        {
+          "move": "conviction-ask-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "acquittal-ask-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-ask-ask.trial-go-well",
+      "move": "conviction-ask-ask",
+      "kind": "spoken",
+      "text": "Trial go well?",
+      "uses": [
+        {
+          "move": "conviction-ask-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "acquittal-ask-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-answer-tell.they-convicted-me",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "They convicted me.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-tell.guilty-they-said",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "Guilty, they said.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-tell.they-convicted-me-of-offense",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "They convicted me of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-tell.found-guilty-of-offense-yes",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "Found guilty of {offense}, yes.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.my-apologies",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "My apologies.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.forgive-me",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "Forgive me.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-owe-you",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I owe you.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-confess.it-was-me",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "It was me.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confess",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-confess.i-ll-own-it",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "I'll own it.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confess",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.not-now",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "Not now.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.i-won-t-say",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "I won't say.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.i-m-done-talking",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "I'm done talking.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.leave-it-be",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "Leave it be.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.ask-me-later",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "Ask me later.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.let-it-rest",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "Let it rest.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.moving-on",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "Moving on.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-tell.cleared-of-offense",
+      "move": "acquittal-answer-tell",
+      "kind": "spoken",
+      "text": "Cleared of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-answer-tell.not-guilty-on-offense",
+      "move": "acquittal-answer-tell",
+      "kind": "spoken",
+      "text": "Not guilty on {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-ask.what-comes-next",
+      "move": "charge-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What comes next?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-ask.what-now",
+      "move": "charge-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What now?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "conviction-reply-answer-ask",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        },
+        {
+          "move": "acquittal-reply-answer-ask",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.hang-in-there",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Hang in there.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.you-ve-got-me",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "You've got me.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.lean-on-me",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Lean on me.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.stay-strong",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Stay strong.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.i-won-t-leave",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I won't leave.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.we-ll-get-through",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "We'll get through.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.count-on-me",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Count on me.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.so-sorry",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "So sorry.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.thank-goodness",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Thank goodness.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.glad-it-s-over",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Glad it's over.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.what-a-relief",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "What a relief.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.that-s-on-you",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "That's on you.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame",
+          "requiresFacts": ["plea"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.you-knew-better",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You knew better.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame",
+          "requiresFacts": ["plea"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.your-own-fault",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "Your own fault.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame",
+          "requiresFacts": ["plea"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.you-earned-this",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You earned this.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.shame-on-you",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "Shame on you.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.your-doing",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "Your doing.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.nobody-forced-you",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "Nobody forced you.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-blame.lucky-break",
+      "move": "acquittal-reply-answer-blame",
+      "kind": "spoken",
+      "text": "Lucky break.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-blame",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-blame.you-dodged-it",
+      "move": "acquittal-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You dodged it.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-blame",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "blame",
+          "onlyWhen": ["case"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-doubt.really-you",
+      "move": "charge-reply-answer-doubt",
+      "kind": "spoken",
+      "text": "Really? You?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-doubt",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "doubt",
+          "excludesFacts": ["told-plea", "plea", "official"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-answer-doubt.hard-to-believe",
+      "move": "charge-reply-answer-doubt",
+      "kind": "spoken",
+      "text": "Hard to believe.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-doubt",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "doubt",
+          "excludesFacts": ["told-plea", "plea", "official"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-answer-happened.what-went-wrong",
+      "move": "charge-reply-answer-happened",
+      "kind": "spoken",
+      "text": "What went wrong?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-happened",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "happened",
+          "requiresFacts": ["official", "plea"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-happened.how-d-it-start",
+      "move": "charge-reply-answer-happened",
+      "kind": "spoken",
+      "text": "How'd it start?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-happened",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "happened",
+          "requiresFacts": ["official", "plea"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-bail.what-s-the-bail",
+      "move": "charge-reply-answer-bail",
+      "kind": "spoken",
+      "text": "What's the bail?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-bail",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "bail",
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-answer-bail.set-at-what",
+      "move": "charge-reply-answer-bail",
+      "kind": "spoken",
+      "text": "Set at what?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-bail",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "bail",
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-answer-fine.what-s-the-fine",
+      "move": "conviction-reply-answer-fine",
+      "kind": "spoken",
+      "text": "What's the fine?",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-fine",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-answer-fine.fined-how-much",
+      "move": "conviction-reply-answer-fine",
+      "kind": "spoken",
+      "text": "Fined how much?",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-fine",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.victimization-raise.someone-broke-in-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone broke in {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.our-place-got-hit-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Our place got hit {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.we-had-a-break-in-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We had a break-in {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-held-me-up-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone held me up {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-was-held-up-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I was held up {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-got-mugged-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I got mugged {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-jumped-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone jumped me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-was-beaten-up-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I was beaten up {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-hurt-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone hurt me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.our-things-got-taken-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Our things got taken {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-swiped-our-stuff-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone swiped our stuff {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.we-got-stolen-from-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We got stolen from {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-ask.who-did-it",
+      "move": "victimization-reply-answer-ask",
+      "kind": "spoken",
+      "text": "Who did it?",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-ask.are-you-hurt",
+      "move": "victimization-reply-answer-ask",
+      "kind": "spoken",
+      "text": "Are you hurt?",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-comfort.that-s-terrible",
+      "move": "victimization-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's terrible.",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-comfort.awful-just-awful",
+      "move": "victimization-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Awful, just awful.",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-help.need-anything",
+      "move": "victimization-reply-answer-help",
+      "kind": "spoken",
+      "text": "Need anything?",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-help",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "help",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-reply-answer-help.can-i-help",
+      "move": "victimization-reply-answer-help",
+      "kind": "spoken",
+      "text": "Can I help?",
+      "uses": [
+        {
+          "move": "victimization-reply-answer-help",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "help",
+          "onlyWhen": ["victimized"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.lie-doubt-question.you-re-sure",
+      "move": "lie-doubt-question",
+      "kind": "spoken",
+      "text": "You're sure?",
+      "uses": [
+        {
+          "move": "lie-doubt-question",
+          "subject": "lie",
+          "role": "doubt",
+          "choice": "question"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.lie-doubt-question.that-right",
+      "move": "lie-doubt-question",
+      "kind": "spoken",
+      "text": "That right?",
+      "uses": [
+        {
+          "move": "lie-doubt-question",
+          "subject": "lie",
+          "role": "doubt",
+          "choice": "question"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.lie-doubt-question.says-who",
+      "move": "lie-doubt-question",
+      "kind": "spoken",
+      "text": "Says who?",
+      "uses": [
+        {
+          "move": "lie-doubt-question",
+          "subject": "lie",
+          "role": "doubt",
+          "choice": "question"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.lie-doubt-question.really-now",
+      "move": "lie-doubt-question",
+      "kind": "spoken",
+      "text": "Really, now?",
+      "uses": [
+        {
+          "move": "lie-doubt-question",
+          "subject": "lie",
+          "role": "doubt",
+          "choice": "question"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.charge-say-core.the-charge-is-offense-i-m-pleading-guilty",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "The charge is {offense}. I'm pleading guilty.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.it-s-offense-and-i-m-pleading-guilty",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "It's {offense}, and I'm pleading guilty.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-charged-with-offense-i-won-t-deny-it",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm charged with {offense}. I won't deny it.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-charged-with-offense-my-trial-is-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm charged with {offense}. My trial is {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-accused-of-offense-court-date-is-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm accused of {offense}. Court date is {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.it-s-offense-a-judge-hears-it-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "It's {offense}. A judge hears it {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.they-re-accusing-me-of-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They're accusing me of {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["plea", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-core.it-s-offense-and-i-ve-been-charged",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "It's {offense}, and I've been charged.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["plea", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-reason.bail-s-set-and-i-can-cover-it",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "Bail's set, and I can cover it.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailCovered"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-reason.i-can-make-bail",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "I can make bail.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailCovered"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-reason.they-set-bail-i-can-t-make-it",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "They set bail. I can't make it.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailOver"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-say-reason.bail-s-set-too-high-for-me",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "Bail's set too high for me.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailOver"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-lost-at-trial-it-s-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I lost at trial. It's {term} and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["contested", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-fought-it-and-lost-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I fought it and lost. {term}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["contested", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-they-gave-me-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. They gave me {term} and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-m-going-away-for-term-over-offense-plus-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I'm going away for {term} over {offense}, plus a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.the-sentence-is-term-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "The sentence is {term} and a fine, for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.it-s-probation-of-probation-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "It's {probation} of probation and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.probation-for-probation-and-a-fine-over-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Probation for {probation}, and a fine, over {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.the-court-gave-me-probation-for-probation-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "The court gave me probation for {probation} and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.the-verdict-came-in-guilty-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "The verdict came in. Guilty of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.it-went-against-me-i-m-convicted-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "It went against me. I'm convicted of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-say-core.the-court-convicted-me-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "The court convicted me of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.acquittal-say-core.the-court-cleared-me-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "The court cleared me of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.acquittal-say-core.cleared-on-offense-i-can-breathe-again",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "Cleared on {offense}. I can breathe again.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.acquittal-say-core.offense-didn-t-stick-not-guilty",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "{offense} didn't stick. Not guilty.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.acquittal-say-core.they-said-not-guilty-on-offense-finally",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "They said not guilty on {offense}. Finally.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-m-out-already",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'm out already.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["bailPosted"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.bail-s-been-paid",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Bail's been paid.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["bailPosted"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.next-is-sentencing",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Next is sentencing.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.then-comes-sentencing",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Then comes sentencing.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.trial-comes-next",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Trial comes next.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.court-is-coming",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Court is coming.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.it-s-bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "It's {bail}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["bail"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.they-set-bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "They set {bail}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["bail"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-earned-that",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I earned that.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.that-s-true-sorry",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "That's true. Sorry.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-did-this",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I did this.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.it-s-on-me",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "It's on me.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.thank-you",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-ll-get-through",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll get through.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.no-i-didn-t",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "No, I didn't.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["doubt"],
+          "excludesFacts": ["plea", "told-plea"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.not-me",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Not me.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["doubt"],
+          "excludesFacts": ["plea", "told-plea"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-offered-official-a-bribe-they-refused",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I offered {official} a bribe. They refused.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.official-wouldn-t-take-what-i-offered",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "{official} wouldn't take what I offered.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.mostly-check-ins",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Mostly check-ins.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-keep-clean",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I keep clean.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.going-in-soon",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Going in soon.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.then-i-serve",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Then I serve.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.sorry-for-everything",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Sorry for everything.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["contested"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.that-stings-sorry",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "That stings. Sorry.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["contested"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-ll-manage-it",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll manage it.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.don-t-worry",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Don't worry.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "onlyWhen": ["case"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.it-s-fine",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "It's {fine}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["fine"],
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.they-fined-me-fine",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "They fined me {fine}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["fine"],
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.thanks-for-your-time-i-write-for-outlet",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Thanks for your time. I write for {outlet}.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["stranger", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.hello-i-m-a-reporter-with-outlet",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Hello. I'm a reporter with {outlet}.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["stranger", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.interview-open-open.i-d-like-to-talk-about-the-race-for-seat",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "I'd like to talk about the race for {seat}.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.let-s-talk-about-the-seat-race",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Let's talk about the {seat} race.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.we-meet-again-let-s-talk-about-the-seat-race",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "We meet again. Let's talk about the {seat} race.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.hello-again-i-have-questions-on-the-seat-race",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "Hello again. I have questions on the {seat} race.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.i-m-with-outlet-covering-the-seat-race",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "I'm with {outlet}, covering the {seat} race.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "outlet", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-open-open.i-write-for-outlet-and-i-m-covering-the-seat-race",
+      "move": "interview-open-open",
+      "kind": "spoken",
+      "text": "I write for {outlet} and I'm covering the {seat} race.",
+      "uses": [
+        {
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "outlet", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-question-ask.how-do-you-see-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "How do you see {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.would-you-support-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Would you support {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.to-start-what-do-you-think-about-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "To start, what do you think about {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.let-me-begin-with-about-how-do-you-see-it",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Let me begin with {about}. How do you see it?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.i-ll-open-with-about-what-s-your-view",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I'll open with {about}. What's your view?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.turning-to-about-what-s-your-view",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Turning to {about}. What's your view?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.on-to-about-where-are-you-on-it",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "On to {about}. Where are you on it?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.let-s-talk-about-about-what-do-you-think",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Let's talk about {about}. What do you think?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.my-final-one-is-about-what-s-your-view",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "My final one is {about}. What's your view?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.to-finish-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "To finish, {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.finally-about-what-do-you-think",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Finally, {about}. What do you think?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.my-one-question-is-about-what-s-your-view",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "My one question is {about}. What's your view?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.i-came-to-ask-about-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I came to ask about {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.since-we-know-each-other-what-s-your-view-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Since we know each other: what's your view on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.so-tell-me-plainly-where-are-you-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "So tell me plainly, where are you on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.i-d-like-your-view-on-about-what-do-you-say",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "I'd like your view on {about}. What do you say?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.let-me-ask-you-about-about-where-do-you-stand",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Let me ask you about {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.you-voted-on-about-would-you-do-it-again",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "You voted on {about}. Would you do it again?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.how-do-you-feel-now-about-your-vote-on-about",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "How do you feel now about your vote on {about}?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-ask.looking-back-was-your-vote-on-about-right",
+      "move": "interview-question-ask",
+      "kind": "spoken",
+      "text": "Looking back, was your vote on {about} right?",
+      "uses": [
+        {
+          "move": "interview-question-ask",
+          "subject": "interview-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-back-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I back {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-m-in-favor-of-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm in favor of {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-d-vote-yes-on-about-it-s-in-my-platform",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'd vote yes on {about}. It's in my platform.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for", "on-platform"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.my-platform-backs-about-and-so-do-i",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "My platform backs {about}, and so do I.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-for", "on-platform"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-m-opposed-to-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm opposed to {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-won-t-back-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I won't back {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.my-platform-opposes-about-and-so-do-i",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "My platform opposes {about}, and so do I.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against", "on-platform"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-d-vote-no-on-about-my-platform-says-so",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'd vote no on {about}. My platform says so.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["stance-against", "on-platform"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-m-undecided-on-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm undecided on {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.i-m-still-weighing-about",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "I'm still weighing {about}.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-plain.about-isn-t-something-i-ve-decided",
+      "move": "interview-question-answer-plain",
+      "kind": "spoken",
+      "text": "{about} isn't something I've decided.",
+      "uses": [
+        {
+          "move": "interview-question-answer-plain",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.count-me-in",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.i-m-in-favor",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "I'm in favor.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.count-me-out",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Count me out.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.not-for-me",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Not for me.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.nothing-decided",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Nothing decided.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand", "no-record"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.haven-t-decided",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Haven't decided.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand", "no-record"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.i-d-rather-wait",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "I'd rather wait.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.not-yet",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Not yet.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-about-and-i-d-vote-that-way-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for {about} and I'd vote that way again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-vote-on-about-was-yes-and-it-still-is",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My vote on {about} was yes, and it still is.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-about-and-i-still-would",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against {about} and I still would.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-vote-on-about-was-no-and-it-still-is",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My vote on {about} was no, and it still is.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-about-but-i-ve-changed-my-mind",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for {about}, but I've changed my mind.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-backed-about-once-now-i-m-not-sure",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I backed {about} once. Now I'm not sure.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-about-but-i-ve-come-around",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against {about}, but I've come around.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-opposed-about-then-i-see-it-differently",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I opposed {about} then. I see it differently.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-yes-on-about-let-that-stand",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted yes on {about}. Let that stand.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-record-on-about-is-a-yes-vote",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My record on {about} is a yes vote.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-no-on-about-let-that-stand",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted no on {about}. Let that stand.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.my-record-on-about-is-a-no-vote",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "My record on {about} is a no vote.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.i-back-about-but-rival-doesn-t",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "I back {about}, but {rival} doesn't.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-for", "rival-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-opposes-about-i-m-on-the-other-side",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} opposes {about}. I'm on the other side.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-for", "rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.i-oppose-about-but-rival-backs-it",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "I oppose {about}, but {rival} backs it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-against", "rival-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-supports-about-i-don-t",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} supports {about}. I don't.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["stance-against", "rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-backs-about-i-m-still-deciding",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} backs {about}. I'm still deciding.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-for-about-i-haven-t-decided",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is for {about}; I haven't decided.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-opposes-about-i-haven-t-decided",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} opposes {about}. I haven't decided.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-turn.rival-is-against-about-i-m-still-weighing-it",
+      "move": "interview-question-answer-turn",
+      "kind": "spoken",
+      "text": "{rival} is against {about}; I'm still weighing it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-turn",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["no-stand", "rival-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-backed-about-when-it-came-up",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I backed {about} when it came up.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-was-one-of-the-yes-votes-on-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I was one of the yes votes on {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-said-yes-to-about-that-day",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I said yes to {about} that day.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-opposed-about-when-it-came-up",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I opposed {about} when it came up.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-was-a-no-vote-on-about",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I was a no vote on {about}.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-question-lie-lie.i-said-no-to-about-that-day",
+      "move": "interview-question-lie-lie",
+      "kind": "spoken",
+      "text": "I said no to {about} that day.",
+      "uses": [
+        {
+          "move": "interview-question-lie-lie",
+          "subject": "interview-question",
+          "role": "lie",
+          "choice": "lie",
+          "requiresFacts": ["vote-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.backing-it-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Backing it, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.on-board-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "On board, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-support-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You support it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.opposed-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Opposed, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.not-on-board",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Not on board.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-oppose-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You oppose it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.so-you-and-rival-disagree",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "So you and {rival} disagree.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.rival-sees-it-the-other-way",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "{rival} sees it the other way.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.consistent-then",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Consistent, then.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.same-as-before",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Same as before.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.you-ve-shifted",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "You've shifted.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.your-view-moved",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "Your view moved.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.no-answer-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No answer, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.skipping-it-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "Skipping it, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.i-ll-print-that",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "I'll print that.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "onlyWhen": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.noted",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "Noted.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "onlyWhen": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-take-turn-reply-take.i-ll-ask-rival-about-that",
+      "move": "interview-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "I'll ask {rival} about that.",
+      "uses": [
+        {
+          "move": "interview-take-turn-reply-take",
+          "subject": "interview-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-take-turn-reply-take.rival-will-get-the-same-question",
+      "move": "interview-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "{rival} will get the same question.",
+      "uses": [
+        {
+          "move": "interview-take-turn-reply-take",
+          "subject": "interview-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-turn-reply-take.rival-may-respond-to-that",
+      "move": "debate-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "{rival} may respond to that.",
+      "uses": [
+        {
+          "move": "debate-take-turn-reply-take",
+          "subject": "debate-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.debate-take-turn-reply-take.let-s-hear-rival-on-this",
+      "move": "debate-take-turn-reply-take",
+      "kind": "spoken",
+      "text": "Let's hear {rival} on this.",
+      "uses": [
+        {
+          "move": "debate-take-turn-reply-take",
+          "subject": "debate-take-turn",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "react"
+      }
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-i-need-it-runs-in-outlet",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all I need. It runs in {outlet}.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thank-you-look-for-it-in-outlet",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "Thank you. Look for it in {outlet}.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-outlet-will-note-the-questions-you-passed-on",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. {outlet} will note the questions you passed on.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.we-re-done-outlet-will-mention-what-you-skipped",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "We're done. {outlet} will mention what you skipped.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-everything",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's everything.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["stranger"]
+        },
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.thanks-we-re-done",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "Thanks, we're done.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["stranger"]
+        },
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-open-open.thanks-for-joining-the-outlet-debate",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Thanks for joining the {outlet} debate.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.this-is-the-outlet-debate-let-s-get-going",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "This is the {outlet} debate. Let's get going.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "conversation.debate-open-open.this-is-the-debate-for-the-seat-race",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "This is the debate for the {seat} race.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-open-open.we-re-here-to-debate-the-seat-race",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "We're here to debate the {seat} race.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-open-open.i-m-moderating-the-seat-debate",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "I'm moderating the {seat} debate.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-open-open.i-ll-moderate-this-debate-for-seat",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "I'll moderate this debate for {seat}.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-question-ask.to-open-the-debate-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "To open the debate: {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.our-first-topic-is-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Our first topic is {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.let-s-begin-with-about-what-do-you-think",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Let's begin with {about}. What do you think?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["first"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.the-next-topic-is-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "The next topic is {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.turning-now-to-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Turning now to {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.let-s-move-to-about-what-do-you-think",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Let's move to {about}. What do you think?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["next"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.our-last-topic-is-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Our last topic is {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.to-close-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "To close, {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.one-final-topic-about-what-do-you-think",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "One final topic: {about}. What do you think?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["last"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.we-have-a-single-topic-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "We have a single topic: {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.the-only-topic-is-about-where-do-you-stand",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "The only topic is {about}. Where do you stand?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "stages": ["only"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.would-you-back-about-yes-or-no",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Would you back {about}? Yes or no.",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.how-would-you-vote-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "How would you vote on {about}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.how-do-you-defend-your-vote-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "How do you defend your vote on {about}?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.was-your-vote-on-about-the-right-call",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Was your vote on {about} the right call?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.defend-your-vote-on-about",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "Defend your vote on {about}.",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["vote"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-backs-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} backs {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-in-favor-of-about-do-you-agree",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is in favor of {about}. Do you agree?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-opposes-about-what-s-your-view",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} opposes {about}. What's your view?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-is-against-about-do-you-agree",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} is against {about}. Do you agree?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-backs-about-and-you-don-t-why",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} backs {about}, and you don't. Why?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for", "stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.you-oppose-about-but-rival-backs-it-explain",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "You oppose {about}, but {rival} backs it. Explain.",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-for", "stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.rival-opposes-about-and-you-back-it-why",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "{rival} opposes {about}, and you back it. Why?",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against", "stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-question-ask.you-back-about-but-rival-opposes-it-explain",
+      "move": "debate-question-ask",
+      "kind": "spoken",
+      "text": "You back {about}, but {rival} opposes it. Explain.",
+      "uses": [
+        {
+          "move": "debate-question-ask",
+          "subject": "debate-question",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rival-against", "stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-s-the-end-of-the-seat-debate",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's the end of the {seat} debate.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.thanks-candidates-for-the-seat-debate",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "Thanks, candidates, for the {seat} debate.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-wraps-up-the-outlet-debate",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That wraps up the {outlet} debate.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.thank-you-all-for-joining-the-outlet-debate",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "Thank you all for joining the {outlet} debate.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }
