@@ -43,10 +43,16 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    // A body the member sits on and drafts for in their own name: an
+    // executive sends a bill through a member (`seatAsk`), never votes on it.
+    const sitsOn = (id: string) =>
+      seatView(core, id).bodies.filter(
+        (b) => !("byRequest" in b && b.byRequest),
+      );
     const member = [...core.people.values()]
       .filter((p) => p.alive && p.id.startsWith("person_"))
       .sort((a, b) => a.id.localeCompare(b.id))
-      .find((p) => seatView(core, p.id).bodies.length > 0);
+      .find((p) => sitsOn(p.id).length > 0);
     if (!member) {
       tried.push(`${where}: no resident member of a body`);
       continue;
@@ -55,7 +61,7 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     core.playerId = me;
     director.watch(core, me);
     const seat = seatView(core, me);
-    const body = seat.bodies[0]!;
+    const body = sitsOn(me)[0]!;
     // The member brings the question the town is most settled on (scenario
     // choice, not a rule) and votes the other way: the call about a vote the
     // town stands against. The shares are the electorate's, read before the
