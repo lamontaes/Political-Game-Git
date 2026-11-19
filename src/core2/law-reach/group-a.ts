@@ -80,8 +80,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   // sale or a cost, and records whom it applied them to (public-safety.ts).
   "public-safety": [],
   // The jobs engine's hiring weigh reads a ban on asking about a conviction
-  // where a public employer ranks applicants (jobs-record-bias.ts).
-  "hiring-record": [],
+  // where a public employer ranks applicants (jobs-record-bias.ts); the
+  // records handler writes the employers the law binds the day it takes effect.
+  "hiring-record": [records],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],

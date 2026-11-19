@@ -24,6 +24,7 @@ import { appliedOn } from "./law-reach/applied";
 import { budgetToday } from "./law-reach/group-a-money";
 import {
   currentStaff,
+  openReach,
   reachParameter,
   STAFFING,
   townOrganizations,
@@ -197,6 +198,16 @@ it(
         recordBiasAt(w.api, employer.id, employer.placeId);
       expect(biasOf(banned)?.ban, "ban world").toBe(true);
       expect(biasOf(open)?.ban, "no-ban world").toBe(false);
+      // The law binds the public employers on the day it takes effect: one
+      // reach row for each employer where it is in force, none where it is not.
+      expect(
+        openReach(banned.api, BAN_THE_BOX_KEY).map((r) => r.targetId),
+        `${where}: employers the ban binds`,
+      ).toContain(employer.id);
+      expect(
+        openReach(open.api, BAN_THE_BOX_KEY),
+        `${where}: no ban, no reach`,
+      ).toHaveLength(0);
       const person = banned.withRecord[0]!;
       expect(convictionsOf(banned.api, person).length).toBe(1);
       expect(
