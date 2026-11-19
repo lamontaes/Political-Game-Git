@@ -282,13 +282,26 @@ function schoolPeople(core: Readonly<CoreState>) {
   );
 }
 
-export function schoolHistory(
+/** People whose school years are written between two reports to the loading screen. Engineering value. */
+const SCHOOL_PEOPLE_PER_STEP = 500;
+
+/**
+ * Everyone's school years before the start, a few hundred people at a time: each step says how much of
+ * the town is done, so the loading screen moves while it runs (owner, Nov 16: "It should continue to
+ * load."). Each person's years are their own, so the records are the same as one block.
+ */
+export function* schoolHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
-): void {
-  for (const row of schoolRecords(api.state, schoolPeople(api.state), window))
-    history.record(row);
+): Generator<number, void> {
+  const people = schoolPeople(api.state);
+  for (let from = 0; from < people.length; from += SCHOOL_PEOPLE_PER_STEP) {
+    const some = people.slice(from, from + SCHOOL_PEOPLE_PER_STEP);
+    for (const row of schoolRecords(api.state, some, window))
+      history.record(row);
+    yield Math.min(1, (from + some.length) / people.length);
+  }
 }
 
 /**

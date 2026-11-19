@@ -7677,9 +7677,9 @@ function playLoadingStory(story) {
 
 /**
  * The loading card's bar and line follow the server's build (/api/newlife/progress): a new
- * life's, or a saved life's while it loads. The server builds the world in twelve steps
- * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
- * each step finished. `onStory` runs once the built world has its story to play.
+ * life's, or a saved life's while it loads. The server names the step that runs and how much
+ * of the build is done, counting each warm-up day, so the bar moves with each day (owner,
+ * Nov 16: "It should continue to load."). `onStory` runs once the built world has its story to play.
  */
 /** How long a dry loading line stays before the next one (ms). Engineering value, not a game number. */
 const QUIP_MS = 3000;
@@ -7744,10 +7744,12 @@ function followBuild(bar, onStory) {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
     if (!p || built) return;
-    // The step in plain words, and a bar that shows how many steps are done; no counts.
+    // The step in plain words, and a bar that shows how much is done; no counts.
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-    bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
+    // The bar follows the share the build reports, counting each warm-up day, in tenths of a
+    // percent so a short step still moves it (owner, Nov 16: "It should continue to load.").
+    bar.firstElementChild.style.width = `${((p.share ?? 0) * 100).toFixed(1)}%`;
     // Every step's line stays: each one the build has passed is listed in order, including any
     // that finished between two polls, so the card reads as the loading messages, not one line.
     const last = p.stage === "done" ? STEPS.length : at + 1;

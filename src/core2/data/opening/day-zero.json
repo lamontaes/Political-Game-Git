@@ -807,16 +807,15 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Dues groups collect.",
-      "knownRed": "opening-interest-groups-empty-at-day-0"
+      "knownRed": "opening-interest-groups-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-interest-groups-v1.groups",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Groups (unions, chambers, advocacy groups) exist before anyone watches.",
-      "knownRed": "opening-interest-groups-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Groups (unions, chambers, advocacy groups) exist before anyone watches."
     },
     {
       "table": "core2-interest-groups-v1.meetings",
@@ -851,8 +850,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Some people are in jail or prison on any day.",
-      "knownRed": "opening-justice-custody-empty-at-day-0"
+      "reason": "Some people are in jail or prison on any day."
     },
     {
       "table": "core2-justice-v1.custodyReferrals",
@@ -888,8 +886,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Some people are serving sentences on any day.",
-      "knownRed": "opening-justice-custody-empty-at-day-0"
+      "reason": "Some people are serving sentences on any day."
     },
     {
       "table": "core2-law-reach-a-v1.premiums",
@@ -917,8 +914,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Legislative bodies have committees on any day.",
-      "knownRed": "opening-legislature-committees-empty-at-day-0"
+      "reason": "Legislative bodies have committees on any day."
     },
     {
       "table": "core2-legislature-v1.learnedStakes",
@@ -940,9 +936,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Votes already taken this term.",
-      "knownRed": "opening-record-votes-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Votes already taken this term."
     },
     {
       "table": "core2-meetings-v1.remarks",
@@ -1009,8 +1003,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
-      "zeroAtPlaces": ["1150000"]
+      "reason": "Some seats are vacant on any day (resigned, died, not yet filled)."
     },
     {
       "table": "core2-outcome-web-v1.baselines",
@@ -1088,8 +1081,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Ads in the paper on day 0.",
-      "knownRed": "opening-press-stories-empty-at-day-0"
+      "reason": "Ads in the paper on day 0."
     },
     {
       "table": "core2-press-v1.employerEnrollment",
@@ -1161,9 +1153,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). Empty at creation at Washington (and filled by year 1) but already 9,938 rows at Lewiston, so the mark applies at Washington only.",
-      "knownRed": "opening-record-votes-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). Empty at creation at Washington (and filled by year 1) but already 9,938 rows at Lewiston, so the mark applies at Washington only."
     },
     {
       "table": "core2-renewal-v1.births",
@@ -1321,7 +1311,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Per-place returns for past races.",
-      "knownRed": "opening-voting-results-empty-at-day-0"
+      "knownRed": "opening-voting-results-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-voting-v1.races",
@@ -1329,7 +1320,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Past races are part of the world having a past; may be held in the past module.",
-      "knownRed": "opening-voting-results-empty-at-day-0"
+      "knownRed": "opening-voting-results-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-voting-v1.results",
@@ -1337,7 +1329,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "The prior election for every seat has results (OWNER-DECISIONS, Oct: the world has a past).",
-      "knownRed": "opening-voting-results-empty-at-day-0"
+      "knownRed": "opening-voting-results-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-voting-v1.returns",
@@ -1345,7 +1338,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Same as results.",
-      "knownRed": "opening-voting-results-empty-at-day-0"
+      "knownRed": "opening-voting-results-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-world-legislating-v1.sessions",
@@ -1396,8 +1390,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Households' credit profiles.",
-      "knownRed": "opening-bank-credit-empty-at-day-0"
+      "reason": "Households' credit profiles."
     },
     {
       "table": "credit.lenders",
@@ -1679,8 +1672,7 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Fed meetings already held.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Fed meetings already held."
     },
     {
       "table": "macro.members",
@@ -1946,9 +1938,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Index of drives.",
-      "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Index of drives."
     },
     {
       "table": "part.core2-drives-runtime.causeGroups",
@@ -1976,9 +1966,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Goals people hold on any day.",
-      "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Goals people hold on any day."
     },
     {
       "table": "part.core2-drives-runtime.formedByYearKind",
@@ -2146,8 +2134,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Past income per person.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Past income per person."
     },
     {
       "table": "part.core2-residents.livingArrears",
