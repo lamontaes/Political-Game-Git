@@ -176,17 +176,23 @@ it(`a campaign speech that moves a listener brings the candidate over, seed ${se
               said,
             );
             expect(result.scene.cause.id, said).toBe(moment.causeId);
-            const narration = composeScene(
+            const lines = composeScene(
               core,
               director,
               book.personId,
               entry,
-            )!
-              .narration.map((line) => line.text)
-              .join(" ");
-            expect(narration, said).toMatch(
-              /room empties|candidate who spoke/i,
-            );
+            )!.narration;
+            const narration = lines.map((line) => line.text).join(" ");
+            // The narrator leads the candidate over with one of the bank's
+            // speech-afterward leads, whichever Story's words say.
+            expect(
+              lines.some((line) =>
+                (line.parts ?? []).some((key) =>
+                  key.startsWith("scene-words.lead-speech-afterward-"),
+                ),
+              ),
+              `${said}: "${narration}"`,
+            ).toBe(true);
             told.push(
               `${said} (${act}, asked by ${speaker}): "${narration}" / "${talk.state.text}" / ${talk.tree.replies.map((reply) => `"${reply.line.text}"`).join(", ")}`,
             );
