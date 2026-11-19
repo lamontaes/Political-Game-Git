@@ -654,8 +654,10 @@ const amountUnit = (unit) =>
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 // Engineering height of a party page's facts and positions, taken from the seats' pager.
 const PARTY_FACTS_PX = 225;
+// A question with no name of its own is said by its last part ("expand passenger rail"), never
+// with its group before the dot ("transport water.expand passenger rail").
 const policyLabel = (question) =>
-  controls.policyNames?.[question] ?? words(question);
+  controls.policyNames?.[question] ?? words(String(question).split(".").pop());
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
   // A dimmed title entry's reason is a control name from data, never typed here.
