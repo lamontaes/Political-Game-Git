@@ -29,8 +29,10 @@ export function schoolsLineAboveBase(
   api.stopgap("SG-SCHOOL-spending-line-for-per-pupil");
   let base = 0,
     now = 0;
-  // Assigned inside `read` below, so it's typed with `as` to keep TypeScript from narrowing it to null at the return.
-  let furthest = null as { budgetId: string; change: number } | null;
+  // Written inside `read` below, so it lives on an object: TypeScript does not narrow a property to null at the return.
+  const stands: { furthest: { budgetId: string; change: number } | null } = {
+    furthest: null,
+  };
   const read = (gov: ReturnType<typeof governments>[number]) => {
     const budget = [...budgetsOf(api, gov.id)]
       .filter((row) => row.startsOn <= core.date)
@@ -42,8 +44,8 @@ export function schoolsLineAboveBase(
     base += line;
     now += here;
     const change = Math.abs(here - line) / line;
-    if (!furthest || change > furthest.change)
-      furthest = { budgetId: budget.id, change };
+    if (!stands.furthest || change > stands.furthest.change)
+      stands.furthest = { budgetId: budget.id, change };
   };
   for (const gov of governments(api)) {
     if (gov.level !== "city" && gov.level !== "county") continue;
@@ -58,6 +60,9 @@ export function schoolsLineAboveBase(
   if (!base)
     for (const gov of governments(api)) if (gov.level === "state") read(gov);
   return base
-    ? { pct: ((now - base) / base) * 100, recordId: furthest?.budgetId ?? null }
+    ? {
+        pct: ((now - base) / base) * 100,
+        recordId: stands.furthest?.budgetId ?? null,
+      }
     : null;
 }
