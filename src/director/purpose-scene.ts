@@ -1093,6 +1093,7 @@ function composeBinding(
       askedId,
       cast("honoree"),
       placeNamed,
+      nearNamed,
     ),
     ...gatheringFacts(
       core,
@@ -1120,6 +1121,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   }))
     facts[key] = fact;
