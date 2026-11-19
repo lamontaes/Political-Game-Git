@@ -683,6 +683,7 @@ export function composeSceneTalk(
     said: ReadonlySet<string>,
     onlyTagged = false,
     given: typeof facts = facts,
+    told?: Iterable<string>,
   ): SceneTalkLine | null => {
     const known = given === facts ? heard(said) : given;
     // The English engine picks and words the piece; the director only says
@@ -699,6 +700,7 @@ export function composeSceneTalk(
       traits,
       momentKey: `${scene}:${moment}`,
       said,
+      ...(told ? { told } : {}),
       tagged: onlyTagged,
       options: closing
         ? {
@@ -1919,6 +1921,11 @@ export function composeSceneTalk(
     // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
+    // What the player has read when they choose: the lines said on this
+    // path and the replies already on this screen (a fact is said twice at
+    // most, scene-talk-words); an earlier screen's unchosen replies were not said.
+    const onScreen: string[] = [];
+    const told = () => [...path.said, ...onScreen];
     const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
       const reply = render(
         {
@@ -1935,6 +1942,7 @@ export function composeSceneTalk(
         seen,
         false,
         heard(path.said),
+        told(),
       );
       if (!reply) {
         gap("reply", move, path.askerMove);
@@ -1943,6 +1951,7 @@ export function composeSceneTalk(
       // A line already offered or said on this path is not offered again.
       if (seen.has(reply.parts[zero] ?? "")) return [];
       reply.round = round;
+      onScreen.push(...reply.parts);
       return [reply];
     });
     // One extra option from the player's own life, where a piece fits.
@@ -1963,6 +1972,7 @@ export function composeSceneTalk(
         seen,
         true,
         heard(path.said),
+        told(),
       );
       if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
       extra.round = round;

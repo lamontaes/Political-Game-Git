@@ -1,0 +1,2424 @@
+{
+  "description": "Test fixture only, not a bank: the breakup-tell and layoff-terms pieces of the Story branch claude/story-lines-pre-office at 5c007b8ce709, copied verbatim (uses for other purposes left out), so the said-twice test can compose the two talks the cut removed from this branch. Play never reads this file.",
+  "parts": [
+    {
+      "key": "scene-talk.close-warn.don-t-hate-me",
+      "text": "Don't hate me.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-press.sleep-on-it",
+      "text": "Sleep on it.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-stay-civil",
+      "text": "We'll stay civil.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-thank.take-care",
+      "text": "Take care.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-right-now",
+      "text": "Not right now.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "plea"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.it-s-too-late",
+      "text": "It's too late.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "plea"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.let-s-be-decent",
+      "text": "Let's be decent.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "plea"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.okay-no-shouting",
+      "text": "Okay. No shouting.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "plea"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-stopping",
+      "text": "I'm stopping.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-overreacted",
+      "text": "I overreacted.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done",
+      "text": "I'm done.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "press"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.then-why-wait",
+      "text": "Then why wait?",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "press"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.okay-go-ahead",
+      "text": "Okay. Go ahead.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "press"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.why-though",
+      "text": "Why, though?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "answer"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-too",
+      "text": "I'm sorry too.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "answer"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.honest-at-least",
+      "text": "Honest, at least.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "answer"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.understood-truly",
+      "text": "Understood, truly.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "answer"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-child-will-hear",
+      "text": "Please, {child} will hear.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.not-in-anger",
+      "text": "Not in anger.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-no-shouting",
+      "text": "Please. No shouting.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-confront.i-won-t-argue",
+      "text": "I won't argue.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-confront.i-tried-though",
+      "text": "I tried, though.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "confront"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-still-over",
+      "text": "It's still over.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "apologize"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.it-changes-nothing",
+      "text": "It changes nothing.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "apologize"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.not-all-you",
+      "text": "Not all you.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "apologize"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-kind",
+      "text": "That's kind.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "apologize"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-grateful-for-together",
+      "text": "I'm grateful for {together}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "accept",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-be-gentle",
+      "text": "I'll be gentle.",
+      "bearing": "tender",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "accept"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-grateful",
+      "text": "I'm grateful.",
+      "bearing": "tender",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "accept"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-isn-t-about-child",
+      "text": "It isn't about {child}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.together-changed-us-both",
+      "text": "{together} changed us both.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-built-slowly",
+      "text": "It built slowly.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "ask"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.there-s-nobody-else",
+      "text": "There's nobody else.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "ask"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-dramatic-happened",
+      "text": "Nothing dramatic happened.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "ask"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.you-ll-tell-child-yourself-then",
+      "text": "You'll tell {child} yourself, then.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.after-together-you-just-walk-out",
+      "text": "After {together}, you just walk out?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.say-it-plainly",
+      "text": "Say it plainly.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.that-isn-t-fair",
+      "text": "That isn't fair.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.only-now",
+      "text": "Only now?",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.just-like-that",
+      "text": "Just like that?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-child-has-to-see-this",
+      "text": "I'm sorry {child} has to see this.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-took-together-for-granted",
+      "text": "I'm sorry I took {together} for granted.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-should-ve-listened",
+      "text": "I should've listened.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.that-s-on-me",
+      "text": "That's on me.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-stopped-trying",
+      "text": "I stopped trying.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry",
+      "text": "I'm sorry.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.we-ll-make-it-gentle-for-child",
+      "text": "We'll make it gentle for {child}.",
+      "bearing": "tender",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.together-was-real-and-i-won-t-fight-you",
+      "text": "{together} was real, and I won't fight you.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.then-it-ends",
+      "text": "Then it ends.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.then-it-s-done",
+      "text": "Then it's done.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.i-won-t-fight",
+      "text": "I won't fight.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.i-knew",
+      "text": "I knew.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-changed-after-together",
+      "text": "What changed after {together}?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.after-together-that-s-all-you-can-say",
+      "text": "After {together}, that's all you can say?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.someone-else",
+      "text": "Someone else?",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.why",
+      "text": "Why?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-is-hard-for-child-and-i-m-sorry",
+      "text": "This is hard for {child}, and I'm sorry.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-ll-tell-child-together",
+      "text": "We'll tell {child} together.",
+      "bearing": "tender",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.together-was-long-enough-to-know",
+      "text": "{together} was long enough to know.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-ve-been-together-together-it-s-over",
+      "text": "We've been together {together}. It's over.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.after-together-i-can-t-do-this-anymore",
+      "text": "After {together}, I can't do this anymore.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["together"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-re-done",
+      "text": "We're done.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-leaving",
+      "text": "I'm leaving.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-over",
+      "text": "It's over.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.first-come-sit",
+      "text": "{first}, come sit.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-i-need-to-talk",
+      "text": "Hi, {first}. I need to talk.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-at-the-floor-then-at-you",
+      "text": "{name} looks at the floor, then at you.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-and-doesn-t-reach-for-your-hand",
+      "text": "{name} sits and doesn't reach for your hand.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-by-the-door-without-taking-off-a-coat",
+      "text": "{name} stands by the door without taking off a coat.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-short-of-the-kitchen-table",
+      "text": "{name} stops short of the kitchen table.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.child-s-shoes-sit-by-the-door",
+      "text": "{child}'s shoes sit by the door.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-air",
+      "text": "I need air.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "answer"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-do-we-tell-child",
+      "text": "How do we tell {child}?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "requiresFacts": ["child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-changed",
+      "text": "What changed?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.since-when",
+      "text": "Since when?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-sit-with-me",
+      "text": "Hey, {first}. Sit with me.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-you-into-the-office-at-workplace",
+      "text": "{name} asks you into the office at {workplace}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-slides-a-folder-across-the-desk-at-workplace",
+      "text": "{name} slides a folder across the desk at {workplace}.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-shuts-the-office-door-behind-you",
+      "text": "{name} shuts the office door behind you.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-across-from-you-with-the-folder-open",
+      "text": "{name} sits across from you with the folder open.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-coming-in-first",
+      "text": "Thanks for coming in, {first}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.sit-down-first-this-won-t-take-long",
+      "text": "Sit down, {first}. This won't take long.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-and-close-the-door-first",
+      "text": "Come in and close the door, {first}.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.employer-is-letting-you-go-i-m-sorry",
+      "text": "{employer} is letting you go. I'm sorry.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.employer-is-cutting-your-job-as-position",
+      "text": "{employer} is cutting your job as {position}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-have-to-tell-you-that-employer-is-ending-your-employment",
+      "text": "I have to tell you that {employer} is ending your employment.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-but-employer-has-decided-to-let-you-go",
+      "text": "I'm sorry, but {employer} has decided to let you go.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.employer-is-letting-you-go-after-tenure-i-m-sorry",
+      "text": "{employer} is letting you go after {tenure}. I'm sorry.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-gave-employer-tenure-and-the-company-is-cutting-your-job",
+      "text": "You gave {employer} {tenure}, and the company is cutting your job.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-that-after-tenure-here-your-job-as-position-is-ending",
+      "text": "I'm sorry that after {tenure} here, your job as {position} is ending.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-was-decided-above-me-not-on-the-floor-at-workplace",
+      "text": "It was decided above me, not on the floor at {workplace}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.they-cut-the-job-as-position-not-you",
+      "text": "They cut the job as {position}, not you.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.read-the-folder-and-ask-me-anything-about-workplace",
+      "text": "Read the folder, and ask me anything about {workplace}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-take-it-up-the-line-your-work-as-position-counts",
+      "text": "I'll take it up the line. Your work as {position} counts.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-ask-for-more-your-time-at-workplace-deserves-it",
+      "text": "I'll ask for more. Your time at {workplace} deserves it.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-see-what-i-can-do-about-the-terms-at-workplace",
+      "text": "I'll see what I can do about the terms at {workplace}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-asked-and-they-won-t-change-the-terms-at-workplace",
+      "text": "I asked, and they won't change the terms at {workplace}.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-the-whole-offer-from-workplace-and-i-m-sorry",
+      "text": "That's the whole offer from {workplace}, and I'm sorry.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-asked-and-they-said-no-the-offer-stands-at-workplace",
+      "text": "I asked, and they said no. The offer stands at {workplace}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-m-sorry-you-deserved-better-than-this-at-workplace",
+      "text": "I'm sorry. You deserved better than this at {workplace}.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-apologize.you-re-right-to-be-angry-and-i-m-sorry-about-workplace",
+      "text": "You're right to be angry, and I'm sorry about {workplace}.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-m-sorry-the-job-as-position-had-to-end-like-this",
+      "text": "I'm sorry the job as {position} had to end like this.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-can-t-change-it-let-s-talk-about-the-terms-at-workplace",
+      "text": "I can't change it. Let's talk about the terms at {workplace}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-deflect.not-mine-to-answer-i-can-explain-the-offer-from-workplace",
+      "text": "Not mine to answer. I can explain the offer from {workplace}.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-deflect.it-isn-t-my-decision-let-s-plan-your-last-day-at-workplace",
+      "text": "It isn't my decision. Let's plan your last day at {workplace}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-give-you-a-reference-for-any-job-as-position",
+      "text": "I'll give you a reference for any job as {position}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-tell-anyone-who-asks-you-worked-well-at-workplace",
+      "text": "I'll tell anyone who asks you worked well at {workplace}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-vouch-for-you-to-anyone-hiring-for-work-as-position",
+      "text": "I'll vouch for you to anyone hiring for work as {position}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-decided-this-at-workplace-and-when",
+      "text": "Who decided this at {workplace}, and when?",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-to-my-last-paycheck-at-workplace",
+      "text": "What happens to my last paycheck at {workplace}?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-i-get-for-working-as-position-here",
+      "text": "What do I get for working as {position} here?",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-am-i-being-asked-to-sign-about-workplace",
+      "text": "What am I being asked to sign about {workplace}?",
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-won-t-sign-the-terms-at-workplace-as-they-stand",
+      "text": "I won't sign the terms at {workplace} as they stand.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.ask-for-more-i-worked-hard-at-workplace",
+      "text": "Ask for more. I worked hard at {workplace}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-want-better-than-this-for-my-time-at-workplace",
+      "text": "I want better than this for my time at {workplace}.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.take-my-case-up-and-come-back-with-more-from-workplace",
+      "text": "Take my case up and come back with more from {workplace}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.tenure-at-workplace-should-count-for-more-than-this",
+      "text": "{tenure} at {workplace} should count for more than this.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-gave-them-tenure-ask-for-more",
+      "text": "I gave them {tenure}. Ask for more.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.they-owe-me-better-after-tenure-and-you-know-it",
+      "text": "They owe me better after {tenure}, and you know it.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.employer-is-treating-me-like-i-never-mattered",
+      "text": "{employer} is treating me like I never mattered.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-tell-me-you-re-sorry-when-employer-did-this",
+      "text": "Don't tell me you're sorry when {employer} did this.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.after-everything-i-did-at-workplace-this-is-how-it-ends",
+      "text": "After everything I did at {workplace}, this is how it ends?",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.i-did-the-job-as-position-right-and-this-is-it",
+      "text": "I did the job as {position} right, and this is it?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.tenure-at-workplace-and-this-is-how-it-ends",
+      "text": "{tenure} at {workplace}, and this is how it ends?",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.i-gave-them-tenure-and-this-is-my-thanks",
+      "text": "I gave them {tenure}, and this is my thanks?",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-confront.tenure-of-my-life-and-this-is-how-you-do-it",
+      "text": "{tenure} of my life, and this is how you do it?",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace", "tenure"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.i-ll-take-the-terms-and-clean-out-my-things-at-workplace",
+      "text": "I'll take the terms and clean out my things at {workplace}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.if-they-re-set-on-this-i-ll-go-from-workplace",
+      "text": "If they're set on this, I'll go from {workplace}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.i-d-rather-leave-workplace-on-good-terms-than-fight",
+      "text": "I'd rather leave {workplace} on good terms than fight.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.thank-you-for-telling-me-in-person-i-ll-finish-at-workplace",
+      "text": "Thank you for telling me in person. I'll finish at {workplace}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-heard-enough-i-ll-read-the-papers-away-from-workplace",
+      "text": "I've heard enough. I'll read the papers away from {workplace}.",
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-air-i-ll-read-the-terms-from-workplace-at-home",
+      "text": "I need air. I'll read the terms from {workplace} at home.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-sit-here-i-ll-deal-with-workplace-from-home",
+      "text": "I can't sit here. I'll deal with {workplace} from home.",
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-go-i-ll-finish-up-at-workplace-another-day",
+      "text": "I need to go. I'll finish up at {workplace} another day.",
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-ll-use-your-name-when-i-leave-workplace",
+      "text": "Thank you. I'll use your name when I leave {workplace}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-a-good-word-will-help-me-find-work-as-position",
+      "text": "Thanks. A good word will help me find work as {position}.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.i-appreciate-that-after-how-it-went-at-workplace",
+      "text": "I appreciate that, after how it went at {workplace}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-hearing-me-out-and-for-your-work-at-workplace",
+      "text": "Thanks for hearing me out and for your work at {workplace}.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-all-you-gave-at-workplace-i-mean-it",
+      "text": "Thank you for all you gave at {workplace}. I mean it.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-taking-this-well-the-paperwork-at-workplace-is-easy",
+      "text": "Thanks for taking this well. The paperwork at {workplace} is easy.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-promise.your-paperwork-and-your-reference-as-position-will-be-ready",
+      "text": "Your paperwork and your reference as {position} will be ready.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-see-your-final-check-from-workplace-comes-on-time",
+      "text": "I'll see your final check from {workplace} comes on time.",
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-promise.you-have-my-word-on-the-reference-for-work-as-position",
+      "text": "You have my word on the reference for work as {position}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-and-the-offer-stays-open-at-workplace-a-while",
+      "text": "I understand, and the offer stays open at {workplace} a while.",
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-keep-the-papers-from-workplace-set-aside-for-you",
+      "text": "Alright. I'll keep the papers from {workplace} set aside for you.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-press-take-the-papers-from-workplace-when-ready",
+      "text": "I won't press. Take the papers from {workplace} when ready.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-warn.without-a-signature-the-offer-at-workplace-will-lapse",
+      "text": "Without a signature, the offer at {workplace} will lapse.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-but-the-terms-at-workplace-won-t-wait-forever",
+      "text": "I'm sorry, but the terms at {workplace} won't wait forever.",
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-warn.understand-that-without-your-signature-the-offer-ends-at-workplace",
+      "text": "Understand that without your signature, the offer ends at {workplace}.",
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-press.i-do-need-your-answer-on-the-terms-at-workplace-soon",
+      "text": "I do need your answer on the terms at {workplace} soon.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-press.take-your-time-but-i-need-an-answer-for-workplace-soon",
+      "text": "Take your time, but I need an answer for {workplace} soon.",
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-press.please-read-the-terms-and-tell-me-your-decision-about-workplace",
+      "text": "Please read the terms and tell me your decision about {workplace}.",
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ]
+    }
+  ]
+}
