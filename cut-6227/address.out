@@ -1,0 +1,46 @@
+seed d3c99cf661ca place Huntingdon, Tennessee scene none
+beat 1: mobile-home__night.jpg ·  · strip Nathan Jones[] h111; Jennifer Jones[] h111; Landon Jones[] h111 · It's the evening of January 20. Dishes sit drying by the sink.
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 120000ms exceeded.
+Call log:
+[2m  - waiting for locator('.dev-scene [data-scene="address"]')[22m
+[2m    - locator resolved to <button disabled type="button" data-state="none" class="action small" data-scene="address" aria-pressed="false">address</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    232 × waiting for element to be visible, enabled and stable[22m
+[2m        - element is not enabled[22m
+[2m      - retrying click action[22m
+[2m        - waiting 500ms[22m
+
+    at /tmp/claude-0/-home-claude/22ba4d3a-c88d-59e4-9c14-f567d6d0a0f7/scratchpad/player/address.mjs:47:59 {
+  log: [
+    `  - waiting for locator('.dev-scene [data-scene="address"]')`,
+    '    - locator resolved to <button disabled type="button" data-state="none" class="action small" data-scene="address" aria-pressed="false">address</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    232 × waiting for element to be visible, enabled and stable',
+    '        - element is not enabled',
+    '      - retrying click action',
+    '        - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.23.4
