@@ -48349,30 +48349,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-comes-in-after-the-long-trip-from-hometown-and-sees-a-bottle-for-kid-by-the",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} comes in after the long trip from {hometown} and sees a bottle for {kid} by the sink.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid", "hometown"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-at-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
