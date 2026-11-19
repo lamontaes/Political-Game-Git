@@ -415,3 +415,22 @@ describe("the conversation's composed lines", () => {
     expect(twice).toEqual([]);
   });
 });
+
+describe("a person slot in the conversation bank", () => {
+  // The President's slot is "he" or "she" after the first mention, so in an
+  // object's place it must be the object slot ("push back on him"), never the
+  // subject one (the Player, Nov 19: "I'd push back on he there").
+  it("takes its object form after a preposition", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as { parts: { key: string; text: string }[] };
+    const wrong = bank.parts
+      .filter((part) =>
+        /\b(on|to|with|for|about|against|from|at|by|behind|of)\s+\{president\}/i.test(
+          part.text,
+        ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(wrong).toEqual([]);
+  });
+});
