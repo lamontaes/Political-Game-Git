@@ -25,6 +25,7 @@ checked:
 Seen: dev mode's law view for the federal level, and the jobs engine's wage floor for any worker (it reads 725).
 
 **Cause.** Found in code: two functions that each assume the other has done the work.
+
 - `src/core2/modules/laws.ts`, the century branch of the opening laws (around line 244): for a federal question, `centuryLaw(seed, "US", question)` returns the century's last enactment, and the row is written as `...:general:starting` with `value: enacted?.value`, `terms.centuryRecordId` set, and no wage amount. The research row for this question is `answer: no` with a floor of 725 (`data/research/laws/starting-law-2026/labor-commerce.json`: "The question asks whether to raise the federal floor, so no preserves its existing sourced amount").
 - `src/core2/question-wages.ts`, `holdFederalWage`: `if (standing && change.lawId.endsWith(":starting")) return;`, with the comment "The opening's researched answer is the federal floor already in force". That holds for a researched answer, where yes means the floor is already the amount. It is false for a century row with `terms.centuryRecordId`: Congress passed a raise in session `enacted.year`, and nothing writes the amount.
 
