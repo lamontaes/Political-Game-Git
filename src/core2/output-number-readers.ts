@@ -19,6 +19,7 @@ import { countryStateMonth, openingStateMonth } from "./modules/macro";
 import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
   keptOutputNumber,
+  keptOutputYears,
   outputNumber,
   type OutputReading,
 } from "./output-numbers";
@@ -227,6 +228,32 @@ const READERS: Readonly<
       : null;
   },
 };
+
+/**
+ * A registered figure for the place, year by year, oldest first: every year
+ * the place's year rows keep it, or, for a figure its owner reads fresh (the
+ * nation's months, the state's), last year and this one from that reading.
+ */
+export function readOutputYears(
+  reads: OutputReads,
+  id: string,
+): { year: number; value: number }[] {
+  const number = outputNumber(id);
+  if (!number) throw new Error(`No output number "${id}".`);
+  if (number.kept)
+    return keptOutputYears(reads.core, reads.api, id, reads.placeId).map(
+      ({ year, value }) => ({ year, value }),
+    );
+  const read = readOutputNumber(reads, id);
+  if (!read) return [];
+  const thisYear = Number(reads.core.date.slice(0, 4));
+  return [
+    ...(read.before === null
+      ? []
+      : [{ year: thisYear - 1, value: read.before }]),
+    { year: thisYear, value: read.now },
+  ];
+}
 
 /** A registered figure for the place, this year beside last, or null where its owner holds none. */
 export function readOutputNumber(reads: OutputReads, id: string): Reading {

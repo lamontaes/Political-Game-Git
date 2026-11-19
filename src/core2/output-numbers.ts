@@ -314,6 +314,50 @@ function valueIn(
   return number.fold === "sum" && number.cadence === "on-change" ? 0 : null;
 }
 
+/** One year of a kept figure: the year, its value, and the year row it was read from. */
+export interface OutputYear {
+  readonly year: number;
+  readonly value: number;
+  readonly recordId: string;
+}
+
+/** How many years back a place's year rows are looked for. Engineering value: the opening's past plus a long save. */
+const YEARS_BACK = 120;
+
+/**
+ * Every year a place's year rows hold a kept figure, oldest first: what the
+ * Metrics years table and a measure's timeline read (owner, Nov 12: "go with
+ * A plus the years table"). Each year is a lookup of its row by id, from this
+ * year back until the rows stop; the screen computes nothing.
+ */
+export function keptOutputYears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  placeId: string,
+): OutputYear[] {
+  const number = NUMBERS[id];
+  if (!number?.kept || !core.modules.has(OUTPUT_NUMBERS_MODULE_ID)) return [];
+  const table = years(api);
+  const found: OutputYear[] = [];
+  const thisYear = yearOf(core.date);
+  for (let year = thisYear; year > thisYear - YEARS_BACK; year -= 1) {
+    const row = table.get(yearRowId(placeId, year)) as
+      OutputYearRow | undefined;
+    if (!row) {
+      if (found.length || year < thisYear - 1) break;
+      continue;
+    }
+    // A sum or mean stands only for a year kept from January (wholeYear),
+    // except the year in progress, which is the year so far.
+    if (year !== thisYear && number.fold !== "december" && !wholeYear(row))
+      continue;
+    const value = valueIn(row, number);
+    if (value !== null) found.push({ year, value, recordId: row.id });
+  }
+  return found.reverse();
+}
+
 /**
  * A kept figure for a place: this year's value (the latest month, or the
  * year so far) beside last year's, each a lookup of the place's year row by

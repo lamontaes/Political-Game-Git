@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: screens lane (Nov 17)
+pr: 9787
 after: metrics-output-numbers-registry, metrics-people-and-homes-by-year
 blocked-on:
 lead: screens

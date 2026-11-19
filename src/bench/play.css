@@ -158,6 +158,10 @@
   --night-nation-columns: 3;
   --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
+  /* Metrics: the areas list, and the years table's columns. */
+  --metrics-areas: 210px;
+  --metrics-year-cols: 6;
+  --metrics-year-w: 92px;
   /* The person card's bust column. */
   --card-bust: 440px;
   --pick-pad: 6px 12px;
@@ -5869,6 +5873,134 @@ body.color-blind .meeting-member.vote-abstain {
 }
 .trend-dot {
   fill: var(--gold);
+}
+
+/* Politics > Metrics, Layout A (owner, Nov 12): the areas at the left; the
+   chosen area's first figures large, then its years table, whose rows open
+   their timeline. */
+.roster-screen.metrics-board {
+  width: 100%;
+  grid-template-columns: var(--metrics-areas) minmax(0, 1fr);
+}
+#sheet-body:has(.roster-screen.metrics-board) {
+  max-width: none;
+}
+.metrics-area {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.metrics-figures {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.metrics-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font: 400 var(--t-label) / 1.35 var(--ui);
+  color: var(--text-2);
+}
+.metrics-big {
+  font: 600 var(--t-name) / 1.1 var(--ui);
+  color: var(--text-strong);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.metrics-what {
+  font: 500 var(--t-ui) / 1.3 var(--ui);
+  color: var(--text);
+}
+.metrics-years {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#sheet-body .metrics-yrow {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    repeat(var(--metrics-year-cols), var(--metrics-year-w));
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+  padding: 3px 8px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+  font: 400 var(--t-ui) / 1.3 var(--ui);
+  color: var(--text);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* A row that opens its timeline reads as one at rest: its name in the
+   clickable brass of the menu look (owner, Nov 12: rows need a visible cue). */
+#sheet-body button.metrics-yrow:not(:disabled) .metrics-ylabel {
+  color: var(--brass-hi);
+}
+#sheet-body button.metrics-yrow:not(:disabled) {
+  cursor: pointer;
+}
+#sheet-body button.metrics-yrow:not(:disabled):hover {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
+#sheet-body button.metrics-yrow:disabled {
+  opacity: 1;
+}
+.metrics-yhead {
+  font: 600 var(--t-label) / 1.3 var(--ui);
+  color: var(--text-3);
+}
+.metrics-ycell {
+  text-align: right;
+}
+.metrics-ycell.now {
+  font-weight: 700;
+  color: var(--text-strong);
+}
+.metrics-yhead .metrics-ycell.now {
+  color: var(--gold);
+}
+.metrics-timeline {
+  position: relative;
+  padding: 18px 26px;
+}
+.metrics-tl-title {
+  margin: 0 0 8px;
+  font: 700 var(--t-h2) var(--name);
+  color: var(--text-strong);
+}
+#sheet-body .metrics-tl-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  min-height: 0;
+  padding: 2px 8px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font: 400 var(--t-h2) var(--ui);
+}
+.metrics-timeline .trend-line {
+  max-width: none;
+  margin: 0;
+}
+.trend-axis {
+  stroke: var(--text-3);
+  stroke-width: 1;
+}
+.trend-point {
+  fill: var(--brass-hi);
+}
+.trend-value {
+  fill: var(--text-strong);
+  font: 500 var(--t-read) var(--ui);
+}
+.trend-year {
+  fill: var(--text-3);
+  font: 400 var(--t-ui) var(--ui);
 }
 
 /* Budgets' right column can be taller than the sheet (a governor's card and how the budget was

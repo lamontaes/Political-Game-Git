@@ -1,5 +1,9 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { outputReads, readOutputNumber } from "../core2/output-number-readers";
+import {
+  outputReads,
+  readOutputNumber,
+  readOutputYears,
+} from "../core2/output-number-readers";
 import { METRICS_SECTIONS, OUTPUT_NUMBERS } from "../core2/output-numbers";
 import type { CoreState } from "../core2/types";
 
@@ -32,6 +36,9 @@ export function metricsView(core: CoreState, placeId: string) {
             unit: shown.unit,
             now: read.now,
             before: read.before,
+            // Every year on record, oldest first: the years table and the
+            // timeline a row opens read these and compute nothing.
+            years: readOutputYears(reads, number.id),
             ...(typeof of === "number" ? { of } : {}),
           },
         ];
