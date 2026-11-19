@@ -107,7 +107,8 @@ import type {
 } from "../core2/types";
 import {
   BRING_IT_UP_ROWS,
-  bringItUp,
+  tellBroughtUp,
+  wordBringItUp,
   changesKnownTo,
   resultsKnownTo,
 } from "./bring-it-up";
@@ -6053,7 +6054,7 @@ function raiseBroughtNews(
   // are the talk's raise of that news, said once: the talk goes on from it.
   const told = occasion
     ? null
-    : bringItUp(core as CoreState, otherId, playerId);
+    : wordBringItUp(core as CoreState, otherId, playerId);
   // News someone else in the house already told the player today is not
   // told again (the telling's "said today").
   // News already talked over with the player (the listener's topic memory)
@@ -6109,7 +6110,6 @@ function raiseBroughtNews(
       : null;
   let raisedBrought = false;
   if (brought) {
-    conversation.recorded.push(brought.toldEventId);
     const storyId = storyOfReadEvent(brought.change.eventId);
     const ids = [
       `news:${brought.change.eventId}`,
@@ -6163,8 +6163,9 @@ function raiseBroughtNews(
     // A printed story is told only by what it is about and where the teller
     // stands (`printedSubject`), never by its bare mention ("There was
     // something in the paper about ..."): one with neither is not said.
+    const said = !raisedBrought && !story;
     if (!raisedBrought) {
-      for (const line of story ? [] : brought.lines)
+      for (const line of said ? brought.lines : [])
         conversation.lines.push({
           speakerId: otherId,
           subjectId: ids[zero]!,
@@ -6173,6 +6174,12 @@ function raiseBroughtNews(
           ...line,
         });
       conversation.used.push(...ids);
+    }
+    // What was said reaches the player; news passed over, or a room only
+    // looked at, tells them nothing.
+    if ((raisedBrought || said) && !conversation.look) {
+      tellBroughtUp(core as CoreState, otherId, playerId, brought);
+      conversation.recorded.push(brought.toldEventId);
     }
   }
   return raisedBrought;
