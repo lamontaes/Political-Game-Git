@@ -458,4 +458,89 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
       fixture.dispose();
     }
   });
+
+  it("needs an area on a new patch or minor note once the branch point holds the area rule, and not before", () => {
+    const fixture = historyFixture();
+    try {
+      const changes = join(fixture.root, "docs", "release", "changes");
+      const minor = (id: string, area?: "Starting out") => {
+        mkdirSync(changes, { recursive: true });
+        writeFileSync(
+          join(changes, `${id}.md`),
+          declarationText({
+            id,
+            impact: "minor",
+            section: "Added",
+            title: "People cards fill the panel",
+            ...(area ? { area } : {}),
+            body: "A person's card now fills the panel.",
+          }),
+        );
+      };
+      const touch = (name: string) =>
+        writeFileSync(
+          join(fixture.root, "src", `${name}.ts`),
+          `export const ${name} = true;\n`,
+        );
+      // A branch opened before the rule: exempt until it merges main.
+      fixture.run("checkout", "-q", "-b", "before-rule", fixture.rollout);
+      touch("before");
+      minor("before-rule");
+      const beforeHead = fixture.commit("Work opened before the area rule");
+
+      fixture.run("checkout", "-q", "main");
+      mkdirSync(join(fixture.root, "scripts", "release"), { recursive: true });
+      writeFileSync(
+        join(fixture.root, "scripts", "release", "transition.ts"),
+        'export const AREA_RULE_SINCE = "2026-11-17";\n',
+      );
+      const ruled = fixture.commit("The area rule lands");
+
+      expect(
+        checkDeclarationTransition(fixture.root, {
+          base: ruled,
+          head: beforeHead,
+          mode: "pr",
+        }).problems,
+      ).toEqual([]);
+
+      fixture.run("checkout", "-q", "-b", "no-area", ruled);
+      touch("missing");
+      minor("no-area");
+      const noArea = fixture.commit("New note without an area");
+      const missing = checkDeclarationTransition(fixture.root, {
+        base: ruled,
+        head: noArea,
+        mode: "pr",
+      }).problems;
+      expect(missing).toHaveLength(1);
+      expect(missing[0]).toMatch(/needs 'area'/);
+
+      fixture.run("checkout", "-q", "-b", "with-area", ruled);
+      touch("given");
+      minor("with-area", "Starting out");
+      const withArea = fixture.commit("New note with an area");
+      expect(
+        checkDeclarationTransition(fixture.root, {
+          base: ruled,
+          head: withArea,
+          mode: "pr",
+        }).problems,
+      ).toEqual([]);
+
+      // Merging main brings the rule into the old branch's branch point.
+      fixture.run("checkout", "-q", "before-rule");
+      fixture.run("merge", "-q", "--no-edit", ruled);
+      const merged = fixture.run("rev-parse", "HEAD");
+      expect(
+        checkDeclarationTransition(fixture.root, {
+          base: ruled,
+          head: merged,
+          mode: "pr",
+        }).problems[0],
+      ).toMatch(/needs 'area'/);
+    } finally {
+      fixture.dispose();
+    }
+  });
 });

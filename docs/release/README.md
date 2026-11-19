@@ -30,6 +30,7 @@ id: my-change-id
 impact: minor
 section: Added
 title: A short headline, the way a public update would put it.
+area: Government
 ---
 
 Prose a player would read. What they can now do, or what stopped going wrong.
@@ -49,6 +50,13 @@ writing none, so the convention has a way to say "none" out loud. Omitting the
 declaration altogether is not the same decision and fails on a fresh branch.
 
 `section` is `Added`, `Improved`, `Fixed` or `Changed`.
+
+`area` is where the note sits in the game's patch notes: `Starting out`,
+`Talk`, `Campaigns and elections`, `Government`, `Laws`, `Money and the town`,
+`News` or `Dev mode`. Every `patch` or `minor` declaration carries one (CTO,
+Nov 17), and its title is then one short player line of 60 characters or fewer,
+with no crew words. A branch opened before the rule is exempt until it next
+merges main.
 
 The prose is checked for things that do not belong in a public update: commit
 hashes, pull-request numbers, branch names, packet and corpus identifiers, CI

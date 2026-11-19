@@ -3,8 +3,15 @@ import { readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { CHANGES_DIR, parseDeclaration } from "./declarations";
 import { consumedIds, parseLedger } from "./ledger";
+import { NOTE_AREAS } from "./model";
 
 export const ROLLOUT_PATH = join("docs", "release", "rollout.json");
+
+/** The file, and the line in it, whose presence at a branch point turns the area rule on. */
+const AREA_RULE_PATH = "scripts/release/transition.ts";
+const AREA_RULE_MARK = "export const AREA_RULE_SINCE";
+/** Marks the first commit that requires `area` on patch and minor notes. */
+export const AREA_RULE_SINCE = "2026-11-17";
 
 export type DeclarationComparisonMode = "pr" | "push";
 
@@ -309,6 +316,12 @@ export function checkDeclarationTransition(
       ),
     );
   }
+  // Area is required (CTO, Nov 17) for work whose branch point already holds
+  // the area rule; a branch opened before it stays exempt until it next
+  // merges main, which brings the rule into its branch point.
+  const areaRequired =
+    gitFile(root, comparisonBase, AREA_RULE_PATH)?.includes(AREA_RULE_MARK) ??
+    false;
   const seen = new Map<string, string>();
   for (const path of declarationPaths) {
     const text = gitFile(root, head, path);
@@ -323,6 +336,15 @@ export function checkDeclarationTransition(
         );
       } else {
         seen.set(declaration.id, path);
+      }
+      if (
+        areaRequired &&
+        declaration.impact !== "none" &&
+        declaration.area === undefined
+      ) {
+        problems.push(
+          `${path}: a patch or minor note needs 'area', one of ${NOTE_AREAS.join(", ")}, so it lands under its area in the patch notes.`,
+        );
       }
       if (priorConsumed.has(declaration.id)) {
         problems.push(

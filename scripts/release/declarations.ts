@@ -14,7 +14,12 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { basename, join } from "node:path";
 import type { ChangeDeclaration, ChangeImpact, NoteSection } from "./model";
-import { NOTE_SECTIONS } from "./model";
+import {
+  MAX_AREA_TITLE_LENGTH,
+  NOTE_AREAS,
+  NOTE_SECTIONS,
+  type NoteArea,
+} from "./model";
 
 /** Where declarations wait to be released. */
 export const CHANGES_DIR = join("docs", "release", "changes");
@@ -98,11 +103,11 @@ function requireKnownKeys(
   header: ReadonlyMap<string, string>,
   where: string,
 ): void {
-  const allowed = new Set(["id", "impact", "section", "title"]);
+  const allowed = new Set(["id", "impact", "section", "title", "area"]);
   for (const key of header.keys()) {
     if (!allowed.has(key)) {
       throw new DeclarationError(
-        `${where}: unknown header key '${key}'. Allowed: id, impact, section, title.`,
+        `${where}: unknown header key '${key}'. Allowed: id, impact, section, title, area.`,
       );
     }
   }
@@ -158,6 +163,7 @@ export function parseDeclaration(
 
   const section = header.get("section");
   const title = header.get("title");
+  const area = header.get("area");
 
   if (body === "") {
     throw new DeclarationError(
@@ -184,7 +190,7 @@ export function parseDeclaration(
   }
 
   if (impact === "none") {
-    if (section !== undefined || title !== undefined) {
+    if (section !== undefined || title !== undefined || area !== undefined) {
       throw new DeclarationError(
         `${where}: impact:none must not carry 'section' or 'title'. ` +
           `A change with no player-visible effect gets no patch note.`,
@@ -206,12 +212,23 @@ export function parseDeclaration(
     );
   }
   assertProseIsPlayerFacing(`${title}\n${body}`, where);
+  if (area !== undefined) {
+    if (!NOTE_AREAS.includes(area as NoteArea))
+      throw new DeclarationError(
+        `${where}: area '${area}' must be one of ${NOTE_AREAS.join(", ")}.`,
+      );
+    if (title.length > MAX_AREA_TITLE_LENGTH)
+      throw new DeclarationError(
+        `${where}: a note filed under an area is one short line; its title is longer than ${MAX_AREA_TITLE_LENGTH} characters.`,
+      );
+  }
 
   return {
     id,
     impact,
     section: section as NoteSection,
     title,
+    ...(area !== undefined ? { area: area as NoteArea } : {}),
     body,
     path: where,
   };

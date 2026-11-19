@@ -382,12 +382,18 @@ export function patchNotesScreen({ builds, title }) {
         })),
       },
     ],
+    // Each area a strip of one-line notes; the strips flow in columns across
+    // the page's whole width, so a release reads without scrolling.
     render: ({ build }) =>
       build.groups.map((group, at) =>
         stripSection(
           Math.min(at + 2, 5),
           group.heading,
-          ...group.notes.map((note) => introText(note)),
+          el(
+            "ul",
+            { className: "patch-lines" },
+            ...group.notes.map((note) => el("li", { textContent: note })),
+          ),
         ),
       ),
   });

@@ -22,6 +22,25 @@ export const NOTE_SECTIONS: readonly NoteSection[] = [
 ];
 
 /**
+ * The parts of the game a player's note is filed under (crew line, Nov 16:
+ * "Player notes by area, one short line each"), in the order the notes show
+ * them. A declaration that names one is listed under it as its title alone.
+ */
+export const NOTE_AREAS = [
+  "Starting out",
+  "Talk",
+  "Campaigns and elections",
+  "Government",
+  "Laws",
+  "Money and the town",
+  "News",
+  "Dev mode",
+] as const;
+export type NoteArea = (typeof NOTE_AREAS)[number];
+/** The longest title a note filed under an area may have: one short line. */
+export const MAX_AREA_TITLE_LENGTH = 60;
+
+/**
  * One agent's declaration about one merged change.
  *
  * Fragments are inputs, not a changelog. They exist so two branches can each
@@ -36,6 +55,8 @@ export interface ChangeDeclaration {
   readonly section?: NoteSection;
   /** Absent when `impact` is `none`. */
   readonly title?: string;
+  /** The part of the game the note is filed under; absent for older declarations. */
+  readonly area?: NoteArea;
   /**
    * Player-facing prose for `patch`/`minor`; for `none`, the internal one-line
    * reason this change has nothing to tell a player. Requiring the reason keeps

@@ -4966,9 +4966,9 @@ const sheets = {
           })(),
           groups: (r.groups ?? []).map((group) => ({
             heading: group.heading,
-            notes: group.notes.map((note) =>
-              [note.title, note.text].filter(Boolean).join(". "),
-            ),
+            // One short line each (crew line, Nov 16): a note's headline,
+            // or its text where it has none.
+            notes: group.notes.map((note) => note.title ?? note.text),
           })),
         })),
       }),
@@ -6611,10 +6611,11 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
-  // A sheet opened from the title (Options, Patch notes) sits centered over the painting.
+  // A sheet opened from the title (Options, Saved games) sits centered over
+  // the painting; Patch notes takes the full width (crew line, Nov 16).
   $("sheet").classList.toggle(
     "options-sheet",
-    tab === "options" || !$("front").hidden,
+    tab === "options" || (!$("front").hidden && tab !== "patchNotes"),
   );
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen). Jobs and study and
