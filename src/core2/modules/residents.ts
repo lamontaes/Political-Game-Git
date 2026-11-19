@@ -1588,6 +1588,28 @@ function post(
   });
 }
 
+/**
+ * What a seller can serve in a month: what its staff and shop are projected
+ * to sell, or the most it sold in any recent month if that was more.
+ */
+export function sellerCapacityMinor(
+  projectedMonthMinor: number,
+  recentSales: readonly number[] = [],
+): number {
+  return Math.max(projectedMonthMinor, ...recentSales);
+}
+
+/** A firm's last months' sales from the business module's own books. */
+function recentSalesOf(api: CoreAPI, organizationId: string) {
+  if (!(api.state as CoreState).modules.has("business")) return undefined;
+  const row = api
+    .moduleState("business")
+    .table("owners")
+    .get(organizationId) as
+    { recent?: { sales: readonly number[] } } | undefined;
+  return row?.recent?.sales;
+}
+
 /** How much of a payment exceeds the seller's capacity this month. */
 function overCapacity(
   api: CoreAPI,
@@ -1610,10 +1632,13 @@ function overCapacity(
     book.annualPayrollMinor,
     DAYS_PER_YEAR,
   );
-  const capacity =
-    (book.annualDemandMinor * staffed) /
-    api.parameter("sellerCapacityUtilization") /
-    api.parameter("monthsPerYear");
+  // What it can serve is what its staff and shop are projected to sell, or the
+  // most it has actually sold in a recent month if that was more: the firm's
+  // own books show what it has handled, not an industry's utilization rate.
+  const capacity = sellerCapacityMinor(
+    (book.annualDemandMinor * staffed) / api.parameter("monthsPerYear"),
+    recentSalesOf(api, flow.payeeId),
+  );
   const room = Math.max(0, Math.floor(capacity - row.receivedMinor));
   const toSeller = Math.min(paid, room);
   row.receivedMinor += toSeller;
