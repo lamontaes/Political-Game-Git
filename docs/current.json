@@ -573,6 +573,12 @@
       "why": "It tested saved-identity-proof.mjs, deleted with it."
     },
     {
+      "old": "art/incoming/firefly",
+      "now": "art/backdrops (the three White House paintings, white-house-exterior__morning, __night and __rain, with their manifest rows)",
+      "when": "2026-11-17",
+      "why": "The last Firefly paintings waiting there were admitted to the game for the title's 14 (owner's title approval page, Nov 16), and the incoming folder emptied."
+    },
+    {
       "old": ".agents/skills/standing-rules-self-check",
       "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
       "when": "2026-11-16",

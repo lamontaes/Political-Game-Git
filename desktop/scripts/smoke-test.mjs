@@ -200,8 +200,9 @@ async function launch() {
       ),
       "utf8",
     )
-      .match(/TITLE_MONUMENTS = \[([^\]]*)\]/)?.[1]
-      ?.matchAll(/"([a-z0-9-]+)"/g) ?? []),
+      // The title's places, the keys of TITLE_MONUMENTS (place: monument).
+      .match(/TITLE_MONUMENTS = \{([^}]*)\}/)?.[1]
+      ?.matchAll(/"([a-z0-9-]+)":/g) ?? []),
   ].map((m) => m[1]);
   if (!monuments.length)
     throw new Error(
