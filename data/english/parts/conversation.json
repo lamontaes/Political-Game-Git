@@ -36470,6 +36470,132 @@
         "key": "loss",
         "move": "comfort"
       }
+    },
+    {
+      "key": "conversation.own-work-answer-turn.what-do-you-do-these-days-name",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "What do you do these days, {name}?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-turn.where-are-you-working-now-name",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Where are you working now, {name}?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-turn.name-what-keeps-you-busy",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "{name}, what keeps you busy?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-there-name",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you been there, {name}?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.have-you-been-there-long-name",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Have you been there long, {name}?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.name-how-long-has-it-been-there",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "{name}, how long have you worked there?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }

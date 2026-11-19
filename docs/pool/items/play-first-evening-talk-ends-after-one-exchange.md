@@ -39,8 +39,8 @@ merged-at: 2026-11-12T18:04:24.394Z
 **Notes.** Unblocks #8427 (tests-talk-history-one-exchange), whose browser check needs two exchanges in that talk.
 
 Nov 19 (Story): reopened, red again. `first-evening-talk-goes-on` fails on train/nov17b (Brooksville, MS) and on the cut (#10063), at Oaklyn, NJ (seed `b97f7385b63cd214`): "opened on address-point, ended after one exchange on address-point-back". Shown by `GOLDEN_PATH_SEED=b97f7385b63cd214 npx vitest run src/bench/first-evening-talk-goes-on.test.ts`.
+
 - The lines are written. On the cut, own-view, family, kin, home and quiet all have rows again (Nov 19).
 - The cause is in the talk's flow. After an address point, `related` offers news or own-view (conversation-rules.json). `ownViewComesUp` (src/director/conversation.ts) raises a relative's own view only on a question already in `conversation.questions` and not in `conversation.pointed`. Raising the address point puts its question in both, and only a news subject adds a question to `questions` alone.
 - On the first evening no news story has reached the house yet, so neither related subject can be raised. The address now makes one stand, so there is no second question to point at.
 - What the fix has to settle: the opening news stock (day-one-in-motion) gives the evening a story to turn to, or the address point counts its other address questions as related. That is the engine's call, not a line.
-

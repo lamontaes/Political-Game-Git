@@ -2949,7 +2949,10 @@ export function subjectsBetween(
       ...(listener.jobId
         ? { tie: { kind: "record" as const, recordIds: [listener.jobId] } }
         : {}),
-      facts: {},
+      // Asked of them by name: the asking line says who it asks.
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // Asked only right after they name their work.
   if (theirs && tenureYears(startedOf(core, listener), core.date))
@@ -2957,7 +2960,9 @@ export function subjectsBetween(
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
       tie: { kind: "record" as const, recordIds: [theirs.job.id] },
-      facts: {},
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
