@@ -85,6 +85,10 @@ A note is delivered when its commit is on the hour's branch and its line is on t
 
 A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
 
+## Gotchas
+
+- Nov 18 (Fixer A, two hand-filed items): `npm run pool -- --check` refused `status: in-pr` with no `pr:` line, and a Cause that did not begin with `Found in code:`, `Measured:`, `Design:` or `Needs cause.`. File a hand-written item as `claimed` with `claimed-by: <branch>` until its pull request exists, then set `in-pr` and `pr:` in that pull request's own commit.
+
 ## More in this folder
 
 Read each file here when its moment comes:
