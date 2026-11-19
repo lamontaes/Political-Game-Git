@@ -62,6 +62,7 @@
         "seat": "serving"
       },
       "recordKinds": ["committee-hearing"],
+      "afterDays": 1,
       "place": "seat",
       "pool": ["named"],
       "where": "pool",
@@ -69,7 +70,8 @@
       "cast": "a member of the player's body who sat on the committee that heard a bill, scored on tie and sociability",
       "typeKey": "vote-asked",
       "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
+      "everyParameter": "directorCircumstanceHallwayEveryDays",
+      "keepsDays": 14
     },
     {
       "id": "hallway-reporter",
@@ -79,6 +81,7 @@
         "seat": "serving"
       },
       "recordKinds": ["bill-held-in-committee"],
+      "afterDays": 1,
       "place": "seat",
       "pool": ["civic:press-corps"],
       "where": "pool",
@@ -86,7 +89,8 @@
       "cast": "a reporter covering the player's body after a bill dies in committee, scored on tie and sociability",
       "typeKey": "press-interview",
       "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
+      "everyParameter": "directorCircumstanceHallwayEveryDays",
+      "keepsDays": 14
     },
     {
       "id": "job-lost-calls",

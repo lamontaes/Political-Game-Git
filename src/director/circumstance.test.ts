@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { campaignDay } from "../bench/campaign";
+import { leaveHoldsToCharacter } from "../bench/office";
 import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -20,6 +21,7 @@ import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import { stateFloorHolds, voteOnStateFloor } from "../core2/office-day-state";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { CIRCUMSTANCES } from "./circumstance";
@@ -129,18 +131,22 @@ function playYear(
     const row = CIRCUMSTANCES.rows.find(
       (item) => `circumstance:${item.id}` === moment.label,
     )!;
-    if (result)
-      expect(
-        addDays(makeIsoDate(result.date), row.afterDays ?? 0),
-        moment.id,
-      ).toBe(moment.date);
+    // A row lands its days after the record; one whose news keeps
+    // (`keepsDays`) may land on any day of its window, where the day it was due
+    // went to another scene: the engine's own rule (ledger.ts, laterDays).
+    const window = (date: string) =>
+      Array.from(
+        {
+          length:
+            (row.keepsDays ?? row.afterDays ?? 0) - (row.afterDays ?? 0) + 1,
+        },
+        (_, step) => addDays(makeIsoDate(date), (row.afterDays ?? 0) + step),
+      );
+    if (result) expect(window(result.date), moment.id).toContain(moment.date);
     if (record) {
       // Its record is the day's own, or a row's days after it (the morning
-      // after the count).
-      expect(
-        addDays(makeIsoDate(record.date), row.afterDays ?? 0),
-        moment.id,
-      ).toBe(moment.date);
+      // after the count), within the row's window.
+      expect(window(record.date), moment.id).toContain(moment.date);
       if (!row.playerNamed)
         expect(record.personIds, moment.id).not.toContain(personId);
     }
@@ -276,12 +282,27 @@ function playYear(
       return undefined;
     }
   };
+  let lastStopKey = "";
   while (packet && packet.kind !== "complete") {
     if (packet.kind === "stop") {
       canvass();
       for (const stop of packet.stop.modules) {
         open(stop.recordId);
       }
+      // A hold the player has not answered brings the same stop back on
+      // resuming (a sitting member's meeting, a legislator's floor vote). Only
+      // then does the player leave it to the character, as the bench's checks
+      // do; a stop that moves on is left to play as it always did, so the
+      // meeting's own hearings and the hallway after it still happen.
+      const stopKey = packet.stop.modules
+        .map((stop) => stop.recordId)
+        .join("|");
+      if (stopKey === lastStopKey) {
+        leaveHoldsToCharacter(core, personId);
+        for (const billId of stateFloorHolds(coreAPI(core)))
+          voteOnStateFloor(coreAPI(core), personId, billId, "own");
+      }
+      lastStopKey = stopKey;
       packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
       packet = resume({
