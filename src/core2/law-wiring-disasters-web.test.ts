@@ -38,24 +38,26 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { placePopulation } from "./gov-rules/place-population";
 import { advanceCore } from "./life";
 import {
+  causeDisaster,
   DISASTERS_MODULE_ID,
   normalizedGovernmentName,
   severityOf,
 } from "./modules/disasters";
-import { ownedHomes } from "./modules/housing";
+import { hazardOfIncident, type Hazard } from "./modules/climate";
+import { HOUSING_MODULE_ID, ownedHomes } from "./modules/housing";
 import { MOVES_MODULE_ID } from "./modules/moves";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { WEB_LINKS } from "./outcome-web-model";
 import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.DISASTERS_WEB_SEED || randomBytes(20).toString("hex");
 /** The most places drawn before the test names every one it passed over and fails. */
 const MAX_DRAWS = 8000;
 /** Days after the incident begins that both worlds run: past the web's next monthly record and the moves engine's next review. */
 const RUN_DAYS = 75;
-/** The latest an incident may begin and leave RUN_DAYS inside the first year. */
-const LATEST_BEGIN_DAYS = 290;
+/** Days both worlds play before the disaster is caused: past the web's first month, which sets each cause's base. */
+const WEB_FIRST_MONTH_DAYS = 40;
 /** A disaster that reads this severe moves records by a share the test can tell from rounding. */
 const MIN_SEVERITY = 0.5;
 
@@ -70,6 +72,8 @@ interface Candidate {
   readonly number: number;
   readonly begins: string;
   readonly severity: number;
+  /** The hazard its recorded incident belongs to: the one the county's exposure makes it from. */
+  readonly hazard: Hazard;
 }
 
 /**
@@ -79,8 +83,6 @@ interface Candidate {
  */
 function screen(drawn: ReturnType<typeof drawPlace>): Candidate | undefined {
   const usps = drawn.state.replace(/^US-/, "");
-  const start = gameStartDate();
-  const latest = addDays(start, LATEST_BEGIN_DAYS);
   const town = normalizedGovernmentName(drawn.name.split(",")[0] ?? "");
   const residents = placePopulation(drawn.key.replace(/^.*:/, ""), drawn.seed);
   if (!residents) return undefined;
@@ -103,11 +105,13 @@ function screen(drawn: ReturnType<typeof drawPlace>): Candidate | undefined {
       ...(byCounty[county] ?? []),
       ...(byCounty[`${county.slice(0, 2)}000`] ?? []),
     ]) {
-      if (row[0] <= start || row[0] > latest) continue;
+      // Any recorded disaster of a hazard the county's exposure makes can be the template.
+      const hazard = hazardOfIncident(declarations.types[row[2]] ?? "");
+      if (!hazard) continue;
       const homes = figures[`${county}|${row[4]}`]?.[town]?.[2] ?? 0;
       const severity = severityOf(homes / residents);
-      if (severity >= MIN_SEVERITY && (!best || row[0] < best.begins))
-        best = { number: row[4], begins: row[0], severity };
+      if (severity >= MIN_SEVERITY && (!best || severity > best.severity))
+        best = { number: row[4], begins: row[0], severity, hazard };
     }
   }
   return best;
@@ -123,7 +127,34 @@ interface Kept {
   readonly months: Map<string, WebMonth>;
   /** Owner households' homes in the town that were valued at the opening: the value today. */
   readonly homes: Map<string, number>;
+  /**
+   * The town's home price level today, and what it is before the web's factor
+   * (scale times the market's own level): the factor is the first over the
+   * second, so the link is read apart from the market's response to the disaster.
+   */
+  readonly price?: { readonly level: number; readonly marketLevel: number };
   readonly pulls: Map<string, { webFactor?: number; webRecord?: string }>;
+}
+
+function priceRow(api: CoreAPI, town: string) {
+  const row = api
+    .moduleState(HOUSING_MODULE_ID)
+    .table("stock")
+    .get(`stock:${town}`) as
+    | {
+        priceLevelMinor?: number;
+        priceScaleMinor?: number;
+        priceLogLevel?: number;
+      }
+    | undefined;
+  return row?.priceLevelMinor &&
+    row.priceScaleMinor &&
+    row.priceLogLevel !== undefined
+    ? {
+        level: row.priceLevelMinor,
+        marketLevel: row.priceScaleMinor * Math.exp(row.priceLogLevel),
+      }
+    : undefined;
 }
 
 function keep(core: CoreState): Kept {
@@ -165,6 +196,7 @@ function keep(core: CoreState): Kept {
       : {}),
     ...(web ? { web } : {}),
     months: new Map(rows.map((row) => [row.id, row])),
+    ...(priceRow(api, town) ? { price: priceRow(api, town) } : {}),
     homes: new Map(
       ownedHomes(api, town)
         .filter((row) => opening.has(row.householdId))
@@ -190,16 +222,28 @@ function keep(core: CoreState): Kept {
 
 function run(
   drawn: ReturnType<typeof drawPlace>,
-  until: IsoDate,
   withoutDisasters: boolean,
-): Kept {
+  cause?: Candidate,
+  /** The day to run to; with a cause and no day, RUN_DAYS past the declaration of the disaster it caused. */
+  until?: IsoDate,
+): Kept & { readonly until: IsoDate } {
   const core = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
   }).core as CoreState;
   if (withoutDisasters) core.modules.delete(DISASTERS_MODULE_ID);
-  advanceCore(core, until);
-  return keep(core);
+  // The web's first month sets each cause's base, so a disaster already there at the start is in
+  // the base and moves nothing: both worlds play on past that month, then the county's own
+  // exposure makes the disaster, the recorded one the screen found.
+  advanceCore(core, addDays(makeIsoDate(core.date), WEB_FIRST_MONTH_DAYS));
+  const made =
+    !withoutDisasters && cause
+      ? causeDisaster(coreAPI(core), cause.hazard, cause.number)
+      : undefined;
+  const end =
+    until ?? addDays(makeIsoDate(made?.declared ?? core.date), RUN_DAYS);
+  advanceCore(core, end);
+  return { ...keep(core), until: end };
 }
 
 describe("a declaration is not a severe disaster", () => {
@@ -243,15 +287,14 @@ describe("a severe disaster reaches home values and moving through the outcome w
             passed.push(`${label}: no severe disaster in its FEMA records`);
             continue;
           }
-          const until = addDays(makeIsoDate(found.begins), RUN_DAYS);
-          const treated = run(drawn, until, false);
+          const treated = run(drawn, false, found);
           if (!treated.event || treated.event.severity < MIN_SEVERITY) {
             passed.push(
               `${label}: opened with no severe disaster (the player's county differs from the screen's)`,
             );
             continue;
           }
-          const control = run(drawn, until, true);
+          const control = run(drawn, true, undefined, treated.until);
           console.log(
             `disasters-web: passed over ${passed.length} drawn places with no severe disaster in the played window, e.g. ${passed
               .slice(0, 6)
@@ -291,9 +334,30 @@ describe("a severe disaster reaches home values and moving through the outcome w
           expect(ratios.length, "owner households in the town").toBeGreaterThan(
             0,
           );
+          // The link: the web's factor on the price level, read apart from the
+          // market's own response to the disaster (damaged homes put on the
+          // market and people leaving move the level's own step as well).
+          expect(treated.price, "the town keeps a price level").toBeDefined();
+          expect(
+            control.price,
+            "the control keeps a price level",
+          ).toBeDefined();
+          expect(
+            Math.abs(
+              treated.price!.level / treated.price!.marketLevel - expectedValue,
+            ),
+            "the web's factor on the treated price level",
+          ).toBeLessThan(2e-4);
+          expect(
+            Math.abs(control.price!.level / control.price!.marketLevel - 1),
+            "the control's price level carries no factor",
+          ).toBeLessThan(2e-4);
+          // Each owner's home is worth what the town's level is now: the
+          // treated level over the control's.
+          const levels = treated.price!.level / control.price!.level;
           for (const [id, value, base] of ratios)
             expect(
-              Math.abs(value / base - expectedValue),
+              Math.abs(value / base - levels),
               `${id}: ${value} against ${base}`,
             ).toBeLessThan(2e-4);
           const [household, homeTreated, homeControl] = ratios[0]!;
