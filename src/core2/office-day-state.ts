@@ -71,7 +71,7 @@ import {
   seatTerm,
   type TermRow,
 } from "./modules/offices";
-import { holderOf } from "./modules/officials";
+import { holderOf, officialStance } from "./modules/officials";
 import {
   billOf,
   castMemberVote,
@@ -87,6 +87,7 @@ import {
   scheduleVote,
   voteKeyOf,
   LEGISLATURE_MODULE_ID,
+  type Provision,
 } from "./modules/legislature";
 import {
   COMMITTEES,
@@ -2086,6 +2087,28 @@ registerBillIntroduced((api, billId) => {
   askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
 });
 
+/**
+ * How far a bill runs against the person's own position, 0 to 1: the
+ * strongest opposition on any question it moves (their stance, on the scale
+ * members vote by, against the way the bill moves it); 0 for a bill with no
+ * question in it or none they oppose.
+ */
+function crossesLeader(
+  api: CoreAPI,
+  leaderId: string,
+  bill: { readonly provisions: readonly Provision[] },
+): number {
+  let worst = 0;
+  for (const p of bill.provisions) {
+    if (p.kind !== "policy-question" || !p.question) continue;
+    const stance =
+      officialStance(api, leaderId, p.question) ??
+      personStance(leanOf(api, leaderId), p.question);
+    worst = Math.max(worst, -Math.sign(p.value) * stance);
+  }
+  return Math.min(1, worst);
+}
+
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
 export interface LeaderRequestRow {
   readonly id: string;
@@ -2167,14 +2190,16 @@ export function askLeaderForHearing(
       )
     : 0;
   const bare = reasons.party + reasons.tie + offered;
-  const traits = leanedTerm(
-    api.state,
-    leader,
-    LEADER_DECISION,
-    "grant",
-    "refuse",
-    bare,
-  );
+  // A party carries its own members' bills: the leader's temperament weighs
+  // on one only as far as that bill runs against the leader's own position
+  // on its questions (0 where it does not, 1 at their full opposite), so a
+  // stubborn leader cannot shut the floor to their own side wholesale. A
+  // bill from the other side meets the temperament whole.
+  const crossing =
+    leaderParty === office.party ? crossesLeader(api, leaderId, bill) : 1;
+  const traits =
+    crossing *
+    leanedTerm(api.state, leader, LEADER_DECISION, "grant", "refuse", bare);
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule
