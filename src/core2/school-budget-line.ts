@@ -29,7 +29,8 @@ export function schoolsLineAboveBase(
   api.stopgap("SG-SCHOOL-spending-line-for-per-pupil");
   let base = 0,
     now = 0;
-  let furthest: { budgetId: string; change: number } | null = null;
+  // Assigned inside `read` below, so it's typed with `as` to keep TypeScript from narrowing it to null at the return.
+  let furthest = null as { budgetId: string; change: number } | null;
   const read = (gov: ReturnType<typeof governments>[number]) => {
     const budget = [...budgetsOf(api, gov.id)]
       .filter((row) => row.startsOn <= core.date)
