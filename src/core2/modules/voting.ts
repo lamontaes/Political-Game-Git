@@ -3727,10 +3727,12 @@ function keepCountedPollDay(api: CoreAPI, date: string): void {
 }
 
 /** The share of a voter's people who registered at the polls and voted on the day (named: 1 or 0), for the law's record. */
-export function registeredAtPollsShare(api: CoreAPI, voterId: string): number {
-  return (
-    decisions.get(api.state)?.get(`${api.state.date}|${voterId}`)?.atPolls ?? 0
-  );
+export function registeredAtPollsShare(
+  api: CoreAPI,
+  voterId: string,
+  date: string,
+): number {
+  return decisions.get(api.state)?.get(`${date}|${voterId}`)?.atPolls ?? 0;
 }
 
 /** Where a named person stands with the rolls for an election day: on them, able to register at the polls (a state that does), or why not. */
@@ -4378,8 +4380,10 @@ function settleCount(
   // The election laws in force were applied to this electorate: who was
   // mailed a ballot, who registered at the polls, and what the election's
   // administration cost the government that ran it.
-  applyElectionLaws(api, "vote", electorateRoll(api), contestId);
-  keepCountedPollDay(api, date);
+  applyElectionLaws(api, "vote", electorateRoll(api), contestId, {
+    pollDate: contest.electionDate,
+  });
+  keepCountedPollDay(api, contest.electionDate);
   // One race, one result every reader agrees on: those the count put inside
   // the race's seats, and those who missed the cut (`outIds`, on every seat's
   // record). A seat of an at-large race names its own winner, the names tied

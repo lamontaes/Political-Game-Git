@@ -244,15 +244,28 @@ export function localAuthority(
   enacted: readonly EnactedAuthority[],
   chain: LawChain,
   date: string,
+  /**
+   * The state's rows on the policy question that grants the power, where the
+   * laws engine keeps one. Its starting row is the grant at the start: a world
+   * whose day one is the century's opens with the answer its sessions left,
+   * not the research's. A statute enacted in play on either series amends it,
+   * and the research's starting row then only says whether a "no" preempts.
+   */
+  questionRows: readonly LawRowInput[] = [],
 ): { allowed: boolean; measureId: string | null; preempts: boolean } {
   // A statute enacted in play amends the state's grant outright (`levelRow`'s
   // rule): its row competes with the questions the state answered by date, as
   // an enacted law; the research's row is the law in force at the start.
-  const inState = authorityRows.filter(
-    (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
-  );
+  const inStateOf = (rows: readonly LawRowInput[]) =>
+    rows.filter(
+      (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
+    );
+  const asked = inStateOf(questionRows);
+  const researched = inStateOf(authorityRows);
+  const inState = [...asked, ...researched];
   const amended = inState.filter((row) => row.terms?.enactedBy !== undefined);
-  const starting = inState.find((row) => row.terms?.enactedBy === undefined);
+  const isStarting = (row: LawRowInput) => row.terms?.enactedBy === undefined;
+  const starting = asked.find(isStarting) ?? researched.find(isStarting);
   const candidate = (
     answer: "yes" | "no",
     measureId: string,
@@ -307,10 +320,19 @@ export function localAuthority(
         )
       : null,
   });
+  // A "no" on the question preempts where the research says the state's own
+  // "no" does (its statute bars local wages, not merely grants none).
+  const researchPreempts =
+    asked.some(isStarting) &&
+    researched.some(
+      (row) =>
+        isStarting(row) && row.value === 0 && row.terms?.preempts === true,
+    );
   return {
     allowed: law?.answer === "yes",
     measureId: law?.measureId ?? null,
-    preempts: law?.preempts === true,
+    preempts:
+      law?.preempts === true || (law?.answer === "no" && researchPreempts),
   };
 }
 
@@ -323,6 +345,8 @@ export function resolveLawInForce(input: {
   readonly calibrationRows?: readonly LawRowInput[];
   readonly authorityRows?: readonly LawRowInput[];
   readonly enactedAuthority?: readonly EnactedAuthority[];
+  /** The state's rows on the policy question that grants local authority (`localAuthority`). */
+  readonly authorityQuestionRows?: readonly LawRowInput[];
   /** For sales tax: the state's average local rate, when the place has no local row. */
   readonly localAverage?: readonly LawRowInput[];
   /**
@@ -417,6 +441,7 @@ export function resolveLawInForce(input: {
       input.enactedAuthority ?? [],
       chain,
       date,
+      input.authorityQuestionRows ?? [],
     );
     let local: LawRowInput | null = null;
     for (const [index, l] of levels.entries()) {
