@@ -37,6 +37,7 @@ export function letterFacts(
   askerId: PersonId,
   askedId: PersonId,
   placeSaid: (placeId: string) => string | null,
+  nearSaid: (placeId: string) => string | null = () => null,
 ): Record<string, NewsFact> {
   if (typeKey !== LETTER_TYPE) return {};
   const letter = core.durableLog.get(causeId);
@@ -44,9 +45,15 @@ export function letterFacts(
   const reader = core.people.get(askedId);
   if (letter?.kind !== FAMILY_CONTACT || !writer || !reader) return {};
   const facts: Record<string, NewsFact> = {};
+  // Where the writer lives: a town elsewhere (`hometown`), or the county or
+  // state the reader's own town sits in (`nearby`), for a relative kept at
+  // that level.
   const town = placeSaid(writer.placeId);
   if (town)
     facts.hometown = { text: town, sourceRecordIds: [writer.placeId, causeId] };
+  const near = town ? null : nearSaid(writer.placeId);
+  if (near)
+    facts.nearby = { text: near, sourceRecordIds: [writer.placeId, causeId] };
 
   // The writer's last letter before this one: what changed since is the news.
   const before = recordsSince(

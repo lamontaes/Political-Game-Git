@@ -10,7 +10,7 @@
 import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
-import { placeStateKey } from "../core2/place-map";
+import { placeChain, placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
@@ -151,6 +151,7 @@ import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
+import { homeWorkFacts } from "./home-work-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -476,6 +477,47 @@ export function destinationSaid(
   const place = corePlaceByJurisdictionId(destinationId as never);
   if (place) return spoken(place);
   return name ? stateInSentence(name) : null;
+}
+
+/**
+ * How a relative's place is said to the asked person: `placeNamed` names a
+ * place elsewhere (their hometown) and is null for the asked person's own
+ * town or a county or state it sits in, which `nearNamed` names instead (a
+ * relative in the same town, or kept at that level, `lives`).
+ */
+export function relativePlaceSaid(
+  core: Readonly<CoreState>,
+  askedId: string,
+): {
+  placeNamed: (placeId: string) => string | null;
+  nearNamed: (placeId: string) => string | null;
+} {
+  const askedPlace = core.people.get(askedId as PersonId)?.placeId;
+  return {
+    placeNamed: (placeId) =>
+      askedPlace && holdsTown(placeId, askedPlace)
+        ? null
+        : destinationSaid(placeId, ""),
+    nearNamed: (placeId) =>
+      askedPlace && holdsTown(placeId, askedPlace)
+        ? destinationSaid(placeId, "")
+        : null,
+  };
+}
+
+/**
+ * Whether a recorded place is the town itself or a county or state it sits
+ * in (a relative kept at their county or state's level, `lives`).
+ */
+function holdsTown(placeId: string, townId: string): boolean {
+  if (placeId === townId) return true;
+  const town = corePlaceByJurisdictionId(townId as never)?.key;
+  if (!town) return false;
+  const held =
+    coreStateKeyOfJurisdictionId(placeId) ??
+    corePlaceByJurisdictionId(placeId as never)?.key ??
+    placeId;
+  return !!held && placeChain(town).some((row) => row.id === held);
 }
 
 /**
@@ -1015,7 +1057,7 @@ function composeBinding(
   // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
-  const placeNamed = (placeId: string) => destinationSaid(placeId, "");
+  const { placeNamed, nearNamed } = relativePlaceSaid(core, askedId);
   for (const [key, fact] of Object.entries(
     letterFacts(
       core,
@@ -1024,6 +1066,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   ))
     facts[key] = fact;
@@ -1050,6 +1093,7 @@ function composeBinding(
       askedId,
       placeNamed,
       (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
+      nearNamed,
     ),
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
@@ -1058,6 +1102,21 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // What happened in a home or work scene's cause (a layoff, a first day, a
+    // school year's end, a proposal or breakup, a death, a quarrel): the
+    // employer, the years, the school, how long together, who died, what it
+    // was over. stopgapId: none; a fact the record lacks is left out.
+    ...homeWorkFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      (id) => {
+        const person = core.people.get(id);
+        return person ? sayPerson(person) : undefined;
+      },
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
