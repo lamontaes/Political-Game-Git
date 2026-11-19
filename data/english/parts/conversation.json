@@ -23299,31 +23299,7 @@
       "key": "conversation.news-back-core.the-story-didn-t-say-who-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "The story didn't say who, {you}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-who"],
-          "excludesFacts": ["sponsor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13",
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.news-back-core.i-didn-t-see-a-name-on-it-you",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "I didn't see a name on it, {you}.",
+      "text": "The story didn't say who was behind {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -23393,7 +23369,7 @@
       "key": "conversation.address-point-back-agree.good-it-s-been-like-that-here-a-while-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "Good. It's been like that here a while, {you}.",
+      "text": "Good. It's been like that in {place} a while.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23405,7 +23381,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["year-point"]
+          "requiresFacts": ["year-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23416,7 +23392,7 @@
       "key": "conversation.address-point-back-disagree.it-looks-different-from-where-i-sit-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "It looks different from where I sit, {you}.",
+      "text": "It looks different from where I sit in {place}.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23428,7 +23404,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["year-point"]
+          "requiresFacts": ["year-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23462,7 +23438,7 @@
       "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We'll see who's right once Congress votes, {you}.",
+      "text": "Then we'll see who's right when {decider} votes.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23474,7 +23450,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "decider"]
         }
       ],
       "origin": "authored",
@@ -23485,7 +23461,7 @@
       "key": "conversation.address-point-back-disagree.fair-enough-you-we-don-t-have-to-agree",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Fair enough, {you}. We don't have to agree.",
+      "text": "Fair enough. Half of {place} would say the same.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23497,7 +23473,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23508,7 +23484,7 @@
       "key": "conversation.news-back-core.not-me-you-we-ll-have-to-disagree-on-this-one",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Not me, {you}. We'll have to disagree on this one.",
+      "text": "Not me. We'll have to disagree on {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -23530,7 +23506,7 @@
       "key": "conversation.news-back-core.good-i-m-glad-i-m-not-alone-on-it-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Good. I'm glad I'm not alone on it, {you}.",
+      "text": "Good. I'm not the only one against {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -23552,7 +23528,7 @@
       "key": "conversation.news-back-core.we-see-it-differently-then-you-i-m-still-for-it",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "We see it differently, then, {you}. I'm still for it.",
+      "text": "We see {said} differently, then. I'm still for it.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -23868,13 +23844,14 @@
       "key": "conversation.work-done-back-core.you-don-t-have-to-tell-me-twice-you",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "You don't have to tell me twice, {you}.",
+      "text": "You don't have to tell me twice after {hours}.",
       "uses": [
         {
           "move": "work-done-back-core",
           "subject": "work-done-back",
           "role": "core",
-          "stages": ["rest"]
+          "stages": ["rest"],
+          "requiresFacts": ["hours"]
         }
       ],
       "piece": {
@@ -23939,7 +23916,7 @@
       "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "I'll believe it when {decider} passes it, {you}.",
+      "text": "I'll believe it when {decider} passes it.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -23968,7 +23945,7 @@
       "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "I'll bring it up at {employer} tomorrow, {you}.",
+      "text": "I'll bring it up at {employer} tomorrow.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -24071,7 +24048,7 @@
       "key": "conversation.address-point-back-disagree.try-paying-the-bills-in-place-first-you-then-we-ll-talk",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Try paying the bills in {place} first, {you}. Then we'll talk.",
+      "text": "Try paying the bills in {place} first. Then we'll talk.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -24263,14 +24240,14 @@
       "key": "conversation.rent-due-back-core.we-re-fine-this-month-you-it-s-covered-twice-over",
       "move": "rent-due-back-core",
       "kind": "spoken",
-      "text": "We're fine this month, {you}. It's covered twice over.",
+      "text": "We're fine this month. {rent_again} is covered twice over.",
       "uses": [
         {
           "move": "rent-due-back-core",
           "subject": "rent-due-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["cash-covered"]
+          "requiresFacts": ["cash-covered", "rent-again"]
         }
       ],
       "piece": {
@@ -24279,30 +24256,6 @@
         "required": true
       },
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.rent-due-back-core.we-re-okay-you-it-s-covered-and-then-some",
-      "move": "rent-due-back-core",
-      "kind": "spoken",
-      "text": "We're okay, {you}. It's covered and then some.",
-      "uses": [
-        {
-          "move": "rent-due-back-core",
-          "subject": "rent-due-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cash-covered"]
-        }
-      ],
-      "piece": {
-        "of": "rent-due-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
@@ -24428,82 +24381,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.rent-due-back-core.that-helps-you-it-s-going-to-be-close-this-month",
-      "move": "rent-due-back-core",
-      "kind": "spoken",
-      "text": "That helps, {you}. It's going to be close this month.",
-      "uses": [
-        {
-          "move": "rent-due-back-core",
-          "subject": "rent-due-back",
-          "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["cash-tight"]
-        }
-      ],
-      "piece": {
-        "of": "rent-due-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.rent-due-back-core.every-bit-helps-we-re-short-as-it-is-you",
-      "move": "rent-due-back-core",
-      "kind": "spoken",
-      "text": "Every bit helps. We're short as it is, {you}.",
-      "uses": [
-        {
-          "move": "rent-due-back-core",
-          "subject": "rent-due-back",
-          "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["cash-short"]
-        }
-      ],
-      "piece": {
-        "of": "rent-due-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.rent-due-back-core.you-don-t-have-to-you-we-re-fine-for-it",
-      "move": "rent-due-back-core",
-      "kind": "spoken",
-      "text": "You don't have to, {you}. We're fine for it.",
-      "uses": [
-        {
-          "move": "rent-due-back-core",
-          "subject": "rent-due-back",
-          "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["cash-covered"]
-        }
-      ],
-      "piece": {
-        "of": "rent-due-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.rent-due-back-core.i-d-appreciate-it-you-it-",
       "move": "rent-due-back-core",
       "kind": "spoken",
-      "text": "I'd appreciate it, {you}. It leaves us thin, {rent_again}.",
+      "text": "I'd appreciate it. It leaves us thin, {rent_again}.",
       "uses": [
         {
           "move": "rent-due-back-core",
@@ -24575,7 +24456,7 @@
       "key": "conversation.work-day-back-core.me-too-you-hours-is-a-long-time-at-employer",
       "move": "work-day-back-core",
       "kind": "spoken",
-      "text": "Me too, {you}. {hours} is a long time at {employer}.",
+      "text": "Me too. {hours} is a long time at {employer}.",
       "uses": [
         {
           "move": "work-day-back-core",
@@ -24599,7 +24480,7 @@
       "key": "conversation.news-back-core.good-i-ll-watch-the-paper-for-what-comes-next-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Good. I'll watch the paper for what comes next, {you}.",
+      "text": "Good. I'll watch the paper for what comes of {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -24622,7 +24503,7 @@
       "key": "conversation.news-back-core.then-i-hope-it-gets-somewhere-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Then I hope it gets somewhere, {you}.",
+      "text": "Then I hope something comes of {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -24645,7 +24526,7 @@
       "key": "conversation.news-back-core.then-let-s-hope-it-never-gets-anywhere-you",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Then let's hope it never gets anywhere, {you}.",
+      "text": "Then let's hope nothing ever comes of {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -24881,52 +24762,6 @@
       "bearing": "warm"
     },
     {
-      "key": "conversation.own-work-new-give-core.i-m-between-jobs-right-now-you",
-      "move": "own-work-new-give-core",
-      "kind": "spoken",
-      "text": "I'm between jobs right now, {you}.",
-      "piece": {
-        "of": "own-work-new-give",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "own-work-new-give-core",
-          "subject": "own-work-new-give",
-          "role": "core",
-          "stages": ["none"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13",
-      "bearing": "warm"
-    },
-    {
-      "key": "conversation.own-work-new-give-core.nothing-steady-for-me-at-the-moment-you",
-      "move": "own-work-new-give-core",
-      "kind": "spoken",
-      "text": "Nothing steady for me at the moment, {you}.",
-      "piece": {
-        "of": "own-work-new-give",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "own-work-new-give-core",
-          "subject": "own-work-new-give",
-          "role": "core",
-          "stages": ["none"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13",
-      "bearing": "warm"
-    },
-    {
       "key": "conversation.asked-kin-give-core.he-s-at-kin-employer-these-days",
       "move": "asked-kin-give-core",
       "kind": "spoken",
@@ -25122,7 +24957,7 @@
       "key": "conversation.own-view-take-core.good-i-ll-say-as-much-at-employer-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Good. I'll say as much at {employer}, {you}.",
+      "text": "Good. I'll say as much at {employer}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -25170,7 +25005,7 @@
       "key": "conversation.own-view-take-core.good-then-i-m-not-the-only-one-in-place-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Good. Then I'm not the only one in {place}, {you}.",
+      "text": "Good. Then I'm not the only one in {place}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -25194,7 +25029,7 @@
       "key": "conversation.own-view-take-core.then-we-both-want-decider-to-get-it-done-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we both want {decider} to get it done, {you}.",
+      "text": "Then we both want {decider} to get it done.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -25219,7 +25054,7 @@
       "key": "conversation.own-view-take-core.work-a-year-at-employer-and-ask-me-again-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Work a year at {employer} and ask me again, {you}.",
+      "text": "Work a year at {employer} and ask me again.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -25267,7 +25102,7 @@
       "key": "conversation.own-view-take-core.we-ll-see-who-s-right-once-decider-votes-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "We'll see who's right once {decider} votes, {you}.",
+      "text": "We'll see who's right once {decider} votes.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -25289,58 +25124,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.we-ll-just-have-to-see-how-it-comes-out-you",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "We'll just have to see how it comes out, {you}.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "piece": {
-        "of": "own-view-take",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.own-view-take-core.then-we-re-on-the-same-side-you-we-ll-see",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Then we're on the same side, {you}. We'll see.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["agree"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "piece": {
-        "of": "own-view-take",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "Because the pay is thin, {you}. Do the math.",
+      "text": "Because the pay at {employer} is thin. Do the math.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -25351,7 +25138,7 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage", "employer"]
         }
       ],
       "origin": "authored",
@@ -25363,7 +25150,7 @@
       "key": "conversation.own-view-back-core.wage-an-hour-doesn-t-stretch-far-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "The pay doesn't stretch far, {you}.",
+      "text": "The pay at {employer} doesn't stretch far.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -25374,7 +25161,7 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage", "employer"]
         }
       ],
       "origin": "authored",
@@ -25386,7 +25173,7 @@
       "key": "conversation.own-view-back-core.you-try-living-on-wage-an-hour-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "You try living on what I make, {you}.",
+      "text": "You try living on what {employer} pays.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -25397,7 +25184,7 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["wage"]
+          "requiresFacts": ["wage", "employer"]
         }
       ],
       "origin": "authored",
@@ -25670,63 +25457,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.school-missed-back-core.i-needed-the-rest-you-i-m-okay",
-      "move": "school-missed-back-core",
-      "kind": "spoken",
-      "text": "I needed the rest, {you}. I'm okay.",
-      "uses": [
-        {
-          "move": "school-missed-back-core",
-          "subject": "school-missed-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "school-missed-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-missed-back-core.i-wasn-t-up-to-it-you-it-was-one-day",
-      "move": "school-missed-back-core",
-      "kind": "spoken",
-      "text": "I wasn't up to it, {you}. It was one day.",
-      "uses": [
-        {
-          "move": "school-missed-back-core",
-          "subject": "school-missed-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "school-missed-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.school-missed-back-core.i-m-going-today-you-don-t-worry",
       "move": "school-missed-back-core",
       "kind": "spoken",
-      "text": "I'm going today, {you}. Don't worry.",
+      "text": "I'm going to {school} today. Don't worry.",
       "uses": [
         {
           "move": "school-missed-back-core",
           "subject": "school-missed-back",
           "role": "core",
           "stages": ["today", "push"],
-          "requiresFacts": ["school-today"]
+          "requiresFacts": ["school-today", "school"]
         }
       ],
       "piece": {
@@ -25743,14 +25484,14 @@
       "key": "conversation.school-missed-back-core.yes-you-i-ll-be-there-today",
       "move": "school-missed-back-core",
       "kind": "spoken",
-      "text": "Yes, {you}. I'll be there today.",
+      "text": "Yes. I'll be at {school} today.",
       "uses": [
         {
           "move": "school-missed-back-core",
           "subject": "school-missed-back",
           "role": "core",
           "stages": ["today", "push"],
-          "requiresFacts": ["school-today"]
+          "requiresFacts": ["school-today", "school"]
         }
       ],
       "piece": {
@@ -25767,7 +25508,7 @@
       "key": "conversation.school-missed-back-core.there-s-no-school-today-anyway-you",
       "move": "school-missed-back-core",
       "kind": "spoken",
-      "text": "There's no {school} today anyway, {you}.",
+      "text": "There's no {school} today anyway.",
       "uses": [
         {
           "move": "school-missed-back-core",
@@ -25783,30 +25524,6 @@
         "required": true
       },
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-missed-back-core.it-was-one-day-you-it-won-t-become-a-habit",
-      "move": "school-missed-back-core",
-      "kind": "spoken",
-      "text": "It was one day, {you}. It won't become a habit.",
-      "uses": [
-        {
-          "move": "school-missed-back-core",
-          "subject": "school-missed-back",
-          "role": "core",
-          "stages": ["push"],
-          "requiresFacts": ["no-school-today"]
-        }
-      ],
-      "piece": {
-        "of": "school-missed-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
       "date": "2026-11-12"
@@ -26006,14 +25723,14 @@
       "key": "conversation.news-touch-back-core.no-you-it-was-about-the-place-not-us",
       "move": "news-touch-back-core",
       "kind": "spoken",
-      "text": "No, {you}. It was about the place, not us.",
+      "text": "No. It was about {employer}, not us.",
       "uses": [
         {
           "move": "news-touch-back-core",
           "subject": "news-touch-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["anniversary"]
+          "requiresFacts": ["anniversary", "employer"]
         }
       ],
       "piece": {
@@ -26030,14 +25747,14 @@
       "key": "conversation.news-touch-back-core.longer-than-i-ve-been-there-you",
       "move": "news-touch-back-core",
       "kind": "spoken",
-      "text": "Longer than I've been there, {you}.",
+      "text": "Longer than I've been at {employer}.",
       "uses": [
         {
           "move": "news-touch-back-core",
           "subject": "news-touch-back",
           "role": "core",
           "stages": ["glad"],
-          "requiresFacts": ["anniversary"]
+          "requiresFacts": ["anniversary", "employer"]
         }
       ],
       "piece": {
@@ -26054,7 +25771,7 @@
       "key": "conversation.news-touch-back-core.we-worked-together-you-i-ll-miss-name-there",
       "move": "news-touch-back-core",
       "kind": "spoken",
-      "text": "We worked together, {you}. I'll miss {name} there.",
+      "text": "We worked together. I'll miss {name} there.",
       "uses": [
         {
           "move": "news-touch-back-core",
@@ -26078,7 +25795,7 @@
       "key": "conversation.news-touch-back-core.well-enough-to-say-hello-you",
       "move": "news-touch-back-core",
       "kind": "spoken",
-      "text": "Well enough to say hello, {you}.",
+      "text": "Well enough to say hello to {name}.",
       "uses": [
         {
           "move": "news-touch-back-core",
@@ -26103,7 +25820,7 @@
       "key": "conversation.news-touch-back-core.i-ll-pick-one-up-for-name-you",
       "move": "news-touch-back-core",
       "kind": "spoken",
-      "text": "I'll pick one up for {name}, {you}.",
+      "text": "I'll pick one up for {name}.",
       "uses": [
         {
           "move": "news-touch-back-core",
@@ -26532,100 +26249,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.player-news-say-closer.i-m-proud-of-you-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "I'm proud of you, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": [
-            "filed",
-            "won",
-            "in-paper",
-            "job-got",
-            "job-changed",
-            "job-left"
-          ],
-          "requiresFacts": ["stance-proud"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-say-closer.good-for-you-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "Good for you, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": [
-            "filed",
-            "won",
-            "in-paper",
-            "job-got",
-            "job-changed",
-            "job-left"
-          ],
-          "requiresFacts": ["stance-glad"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-say-closer.don-t-let-it-go-to-your-head-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "Don't let it go to your head, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": ["filed", "won", "in-paper", "job-got", "job-changed"],
-          "requiresFacts": ["stance-tease"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.player-news-say-closer.i-just-worry-what-it-ll-cost-you-you",
       "move": "player-news-say-closer",
       "kind": "spoken",
-      "text": "I just worry what it'll cost you, {you}.",
+      "text": "I just worry what the {office} race will cost you.",
       "uses": [
         {
           "move": "player-news-say-closer",
           "subject": "player-news-say",
           "role": "closer",
           "stages": ["filed", "in-paper"],
-          "requiresFacts": ["stance-worry"]
+          "requiresFacts": ["stance-worry", "office"]
         }
       ],
       "piece": {
@@ -26633,52 +26267,6 @@
         "part": "closer"
       },
       "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-say-closer.i-worry-about-you-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "I worry about you, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": ["job-lost", "lost"],
-          "requiresFacts": ["stance-worry"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-say-closer.something-better-will-come-along-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "Something better will come along, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": ["job-lost"],
-          "requiresFacts": ["stance-steady"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
       "date": "2026-11-12"
@@ -26687,14 +26275,14 @@
       "key": "conversation.player-news-say-closer.there-s-always-the-next-one-you",
       "move": "player-news-say-closer",
       "kind": "spoken",
-      "text": "There's always the next one, {you}.",
+      "text": "There's always the next race for {office}.",
       "uses": [
         {
           "move": "player-news-say-closer",
           "subject": "player-news-say",
           "role": "closer",
           "stages": ["lost"],
-          "requiresFacts": ["stance-steady"]
+          "requiresFacts": ["stance-steady", "office"]
         }
       ],
       "piece": {
@@ -26702,29 +26290,6 @@
         "part": "closer"
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-say-closer.you-know-i-d-vote-the-other-way-you",
-      "move": "player-news-say-closer",
-      "kind": "spoken",
-      "text": "You know I'd vote the other way, {you}.",
-      "uses": [
-        {
-          "move": "player-news-say-closer",
-          "subject": "player-news-say",
-          "role": "closer",
-          "stages": ["filed", "won", "in-paper"],
-          "requiresFacts": ["stance-other-side"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-say",
-        "part": "closer"
-      },
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
       "date": "2026-11-12"
@@ -26912,154 +26477,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.player-news-back-core.i-mean-it-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "I mean it, {you}.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-proud"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.you-earned-it-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "You earned it, {you}.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-glad"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.somebody-has-to-keep-you-humble-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "Somebody has to keep you humble, {you}.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-tease"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.i-know-you-will-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "I know you will, {you}.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-steady"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.good-that-s-all-i-ask-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "Good. That's all I ask, {you}.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-worry"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.proud-of-you-anyway-you-just-not-my-vote",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "Proud of you anyway, {you}. Just not my vote.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["take"],
-          "requiresFacts": ["stance-other-side"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.player-news-back-core.then-go-do-it-right-you",
       "move": "player-news-back-core",
       "kind": "spoken",
-      "text": "Then go do it right, {you}.",
+      "text": "Then go do the {office} job right.",
       "uses": [
         {
           "move": "player-news-back-core",
@@ -27083,7 +26504,7 @@
       "key": "conversation.player-news-back-core.then-make-it-count-at-employer-you",
       "move": "player-news-back-core",
       "kind": "spoken",
-      "text": "Then make it count at {employer}, {you}.",
+      "text": "Then make it count at {employer}.",
       "uses": [
         {
           "move": "player-news-back-core",
@@ -27104,58 +26525,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.player-news-back-core.not-a-mistake-you-just-a-lot-to-take-on",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "Not a mistake, {you}. Just a lot to take on.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["stance-worry"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.player-news-back-core.against-your-side-you-never-against-you",
-      "move": "player-news-back-core",
-      "kind": "spoken",
-      "text": "Against your side, {you}. Never against you.",
-      "uses": [
-        {
-          "move": "player-news-back-core",
-          "subject": "player-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["stance-other-side"]
-        }
-      ],
-      "piece": {
-        "of": "player-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.own-view-back-core.i-sign-the-checks-at-employer-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "I sign the checks at {employer}, {you}.",
+      "text": "I sign the checks at {employer}.",
       "uses": [
         {
           "move": "own-view-back-core",
@@ -27178,7 +26551,7 @@
       "key": "conversation.own-view-back-core.you-try-making-payroll-at-employer-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "You try making payroll at {employer}, {you}.",
+      "text": "You try making payroll at {employer}.",
       "uses": [
         {
           "move": "own-view-back-core",
@@ -27201,7 +26574,7 @@
       "key": "conversation.own-view-back-core.every-raise-at-employer-comes-out-of-somewhere-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "Every raise at {employer} comes out of somewhere, {you}.",
+      "text": "Every raise at {employer} comes out of somewhere.",
       "uses": [
         {
           "move": "own-view-back-core",
@@ -27293,7 +26666,7 @@
       "key": "conversation.work-done-back-core.long-one-you-hours-and-my-back-knows-it",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "Long one, {you}. {hours}, and my back knows it.",
+      "text": "Long one. {hours}, and my back knows it.",
       "uses": [
         {
           "move": "work-done-back-core",
@@ -27317,7 +26690,7 @@
       "key": "conversation.work-done-back-core.just-hours-you-i-ll-take-the-early-night",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "Just {hours}, {you}. I'll take the early night.",
+      "text": "Just {hours}. I'll take the early night.",
       "uses": [
         {
           "move": "work-done-back-core",
@@ -27341,14 +26714,14 @@
       "key": "conversation.work-done-back-core.short-day-means-a-short-check-you",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "Short day means a short check, {you}.",
+      "text": "{hours} means a short check.",
       "uses": [
         {
           "move": "work-done-back-core",
           "subject": "work-done-back",
           "role": "core",
           "stages": ["rest"],
-          "requiresFacts": ["shorter"]
+          "requiresFacts": ["shorter", "hours"]
         }
       ],
       "piece": {
@@ -27365,7 +26738,7 @@
       "key": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die-you",
       "move": "address-point-back-core",
       "kind": "spoken",
-      "text": "Then let's hope {decider} lets it die, {you}.",
+      "text": "Then let's hope {decider} lets it die.",
       "uses": [
         {
           "move": "address-point-back-core",
@@ -27443,7 +26816,7 @@
       "key": "conversation.address-point-back-core.i-hope-decider-never-takes-it-up-you",
       "move": "address-point-back-core",
       "kind": "spoken",
-      "text": "I hope {decider} never takes it up, {you}.",
+      "text": "I hope {decider} never takes it up.",
       "uses": [
         {
           "move": "address-point-back-core",
@@ -27467,7 +26840,7 @@
       "key": "conversation.address-point-back-core.i-want-decider-to-pass-it-you-we-ll-see",
       "move": "address-point-back-core",
       "kind": "spoken",
-      "text": "I want {decider} to pass it, {you}. We'll see.",
+      "text": "I want {decider} to pass it. We'll see.",
       "uses": [
         {
           "move": "address-point-back-core",
@@ -27496,7 +26869,7 @@
       "key": "conversation.own-view-take-core.then-let-s-hope-decider-never-passes-it-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then let's hope {decider} never passes it, {you}.",
+      "text": "Then let's hope {decider} never passes it.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -27521,7 +26894,7 @@
       "key": "conversation.own-view-take-core.then-we-both-want-decider-to-drop-it-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we both want {decider} to drop it, {you}.",
+      "text": "Then we both want {decider} to drop it.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -27687,30 +27060,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-say-closer.i-m-all-for-it-you",
-      "move": "government-news-say-closer",
-      "kind": "spoken",
-      "text": "I'm all for it, {you}.",
-      "uses": [
-        {
-          "move": "government-news-say-closer",
-          "subject": "government-news-say",
-          "role": "closer",
-          "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-it"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "closer"
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-say-closer.i-m-for-about-for-what-it-s-worth",
       "move": "government-news-say-closer",
       "kind": "spoken",
@@ -27781,30 +27130,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.government-news-say-closer.i-m-against-it-you-and-i-ll-say-so",
-      "move": "government-news-say-closer",
-      "kind": "spoken",
-      "text": "I'm against it, {you}, and I'll say so.",
-      "uses": [
-        {
-          "move": "government-news-say-closer",
-          "subject": "government-news-say",
-          "role": "closer",
-          "stages": ["address", "meeting", "budget", "ordinance"],
-          "requiresFacts": ["wants-not"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "closer"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-say-closer.i-m-against-about-for-what-it-s-worth",
       "move": "government-news-say-closer",
       "kind": "spoken",
@@ -27873,29 +27198,6 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.government-news-say-closer.we-ll-see-if-it-goes-anywhere-you",
-      "move": "government-news-say-closer",
-      "kind": "spoken",
-      "text": "We'll see if it goes anywhere, {you}.",
-      "uses": [
-        {
-          "move": "government-news-say-closer",
-          "subject": "government-news-say",
-          "role": "closer",
-          "stages": ["address", "meeting"],
-          "excludesFacts": ["about", "wants-it", "wants-not"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "closer"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
     },
     {
       "key": "conversation.government-news-say-closer.i-don-t-know-what-i-think-about-about-yet",
@@ -28014,31 +27316,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-back-core.then-we-agree-you-let-s-hope-it-sticks",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "Then we agree, {you}. Let's hope it sticks.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["for"],
-          "requiresFacts": ["wants-it"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-back-core.then-we-both-want-about",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -28111,31 +27388,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.government-news-back-core.i-m-not-you-i-d-vote-it-down",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "I'm not, {you}. I'd vote it down.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["for"],
-          "requiresFacts": ["wants-not"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-back-core.i-still-don-t-want-about-we-ll-see-who-s-right",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -28206,31 +27458,6 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.government-news-back-core.same-here-you-i-hope-it-doesn-t-last",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "Same here, {you}. I hope it doesn't last.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["wants-not"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
     },
     {
       "key": "conversation.government-news-back-core.then-neither-of-us-wants-about",
@@ -28329,31 +27556,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.government-news-back-core.i-m-for-it-you-we-ll-see-who-s-wrong",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "I'm for it, {you}. We'll see who's wrong.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["wants-it"],
-          "excludesFacts": ["about"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-back-core.i-still-want-about-we-ll-see-who-s-right",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -28448,30 +27650,6 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.government-news-back-core.maybe-so-you-it-s-already-passed",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "Maybe so, {you}. It's already passed.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["for"],
-          "excludesFacts": ["about", "wants-it", "wants-not"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
     },
     {
       "key": "conversation.government-news-back-core.you-may-be-right-about-about",
@@ -28574,30 +27752,6 @@
       "date": "2026-11-13"
     },
     {
-      "key": "conversation.government-news-back-core.could-be-you-nobody-asked-us",
-      "move": "government-news-back-core",
-      "kind": "spoken",
-      "text": "Could be, {you}. Nobody asked us.",
-      "uses": [
-        {
-          "move": "government-news-back-core",
-          "subject": "government-news-back",
-          "role": "core",
-          "stages": ["against"],
-          "excludesFacts": ["about", "wants-it", "wants-not"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.government-news-back-core.you-may-be-right-to-doubt-about",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -28696,29 +27850,6 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.government-news-say-closer.we-ll-see-what-that-does-around-here-you",
-      "move": "government-news-say-closer",
-      "kind": "spoken",
-      "text": "We'll see what that does around here, {you}.",
-      "uses": [
-        {
-          "move": "government-news-say-closer",
-          "subject": "government-news-say",
-          "role": "closer",
-          "stages": ["budget", "ordinance"],
-          "excludesFacts": ["about", "wants-it", "wants-not"]
-        }
-      ],
-      "piece": {
-        "of": "government-news-say",
-        "part": "closer"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
-      "date": "2026-11-12"
     },
     {
       "key": "conversation.government-news-say-closer.we-ll-see-what-body-does-with-it",
@@ -30396,58 +29527,6 @@
       }
     },
     {
-      "key": "conversation.player-day-back-core.good-to-hear-you",
-      "move": "player-day-back-core",
-      "kind": "spoken",
-      "text": "Good to hear, {you}.",
-      "uses": [
-        {
-          "move": "player-day-back-core",
-          "subject": "player-day-back",
-          "role": "core",
-          "stages": ["good"],
-          "requiresFacts": ["you"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "core"
-      },
-      "piece": {
-        "of": "player-day-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.player-day-back-core.keep-it-up-you",
-      "move": "player-day-back-core",
-      "kind": "spoken",
-      "text": "Keep it up, {you}.",
-      "uses": [
-        {
-          "move": "player-day-back-core",
-          "subject": "player-day-back",
-          "role": "core",
-          "stages": ["good"],
-          "requiresFacts": ["you"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "core"
-      },
-      "piece": {
-        "of": "player-day-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.player-day-back-core.that-s-a-shame",
       "move": "player-day-back-core",
       "kind": "spoken",
@@ -30528,14 +29607,14 @@
       "key": "conversation.player-day-back-core.tell-me-if-anything-comes-up-you",
       "move": "player-day-back-core",
       "kind": "spoken",
-      "text": "Tell me if anything comes up, {you}.",
+      "text": "Tell me if anything comes up in the {office} race.",
       "uses": [
         {
           "move": "player-day-back-core",
           "subject": "player-day-back",
           "role": "core",
           "stages": ["plain"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["office"]
         }
       ],
       "origin": "authored",
@@ -36585,13 +35664,14 @@
       "key": "conversation.illness-news-back-core.i-know-you-i-can-t-stop-thinking-about-it",
       "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "I know, {you}. I can't stop thinking about it.",
+      "text": "I know. I can't stop thinking about the {illness}.",
       "uses": [
         {
           "move": "illness-news-back-core",
           "subject": "illness-news-back",
           "role": "core",
-          "stages": ["comfort"]
+          "stages": ["comfort"],
+          "requiresFacts": ["illness"]
         }
       ],
       "piece": {
@@ -36632,29 +35712,6 @@
       "move": "illness-news-back-core",
       "kind": "spoken",
       "text": "Don't know yet.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.the-doctors-haven-t-said-you-we-re-waiting",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "The doctors haven't said, {you}. We're waiting.",
       "uses": [
         {
           "move": "illness-news-back-core",
@@ -36717,29 +35774,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.not-yet-you-nothing-i-can-think-of",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Not yet, {you}. Nothing I can think of.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
       "date": "2026-11-14"
@@ -37031,29 +36065,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Not really, {you}. I keep expecting a call.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.death-news-back-core.i-m-managing",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -37095,52 +36106,6 @@
         "required": true
       },
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.just-be-here-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Just be here, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nothing-yet-you-just-stay-close",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nothing yet, {you}. Just stay close.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
       "date": "2026-11-14"
@@ -37370,52 +36335,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.prison-news-back-core.the-case-is-public-you-ask-me-later",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "The case is public, {you}. Ask me later.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["what"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.i-d-rather-not-get-into-it-you",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "I'd rather not get into it, {you}.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["what"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.prison-news-back-core.that-s-all-i-know",
       "move": "prison-news-back-core",
       "kind": "spoken",
@@ -37453,29 +36372,6 @@
       }
     },
     {
-      "key": "conversation.death-news-back-core.i-keep-waiting-for-the-phone-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "I keep waiting for the phone, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.death-news-back-core.he-had-been-sick-since-since",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -37490,54 +36386,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.you-knew-he-was-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew he was sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["he", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.he-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "He never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["he", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
       "date": "2026-11-14",
@@ -37572,54 +36420,6 @@
       }
     },
     {
-      "key": "conversation.death-news-back-core.you-knew-she-was-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew she was sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["she", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.she-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "She never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["she", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.death-news-back-core.they-had-been-sick-since-since",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -37634,54 +36434,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.you-knew-they-were-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew they were sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["they", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.they-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "They never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["they", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
       "date": "2026-11-14",
@@ -37743,7 +36495,7 @@
       "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",
       "move": "illness-news-say-core",
       "kind": "spoken",
-      "text": "It's {kin}, {you}. Something's wrong.",
+      "text": "It's {kin}. Something's wrong.",
       "uses": [
         {
           "move": "illness-news-say-core",
@@ -37791,7 +36543,7 @@
       "key": "conversation.illness-news-say-core.kin-is-in-a-bad-way-you",
       "move": "illness-news-say-core",
       "kind": "spoken",
-      "text": "{kin} is in a bad way, {you}.",
+      "text": "{kin} is in a bad way.",
       "uses": [
         {
           "move": "illness-news-say-core",
@@ -37815,7 +36567,7 @@
       "key": "conversation.illness-news-say-core.i-have-hard-news-about-kin-you",
       "move": "illness-news-say-core",
       "kind": "spoken",
-      "text": "I have hard news about {kin}, {you}.",
+      "text": "I have hard news about {kin}.",
       "uses": [
         {
           "move": "illness-news-say-core",
@@ -40529,77 +39281,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.they-didn-t-say-much-you-just-that-i-was-done",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "They didn't say much, {you}. Just that I was done.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-m-looking-you-nothing-yet",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I'm looking, {you}. Nothing yet.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["hope"],
-          "requiresFacts": ["seeking"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.not-yet-you-i-need-a-minute-first",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Not yet, {you}. I need a minute first.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["hope"],
-          "excludesFacts": ["seeking"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-it-d-be-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
@@ -40872,53 +39553,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-don-t-know-yet-you",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I don't know yet, {you}.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.years-years-there-you",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "{years} years there, {you}.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["years"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
