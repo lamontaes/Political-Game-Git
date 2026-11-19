@@ -103,7 +103,6 @@ const STATES = (
       string,
       {
         usps: string;
-        rppPct: Record<string, number>;
         perCapitaIncome: number | null;
         population: number;
       }
@@ -171,6 +170,8 @@ export interface Runtime {
   /** Next room to be discharged in each institution type's turn (admitToRooms). */
   roomRelease: Map<string, number>;
   serial: number;
+  /** Each state's prices against the nation's (1 is the nation), as the country tier keeps them this month. */
+  prices: Map<string, number>;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
 }
@@ -182,11 +183,9 @@ const orderHashes = new WeakMap<
   { seed: string; byId: Map<string, string> }
 >();
 
-/** A state's regional price level (nation = 100), latest year. */
-function priceLevel(fips: string): number {
-  const rpp = STATES[fips]?.rppPct ?? {};
-  const year = Object.keys(rpp).sort().pop();
-  return year ? rpp[year]! : 100;
+/** A state's price level now (nation = 100): the country tier's own, its opening level moved by its own prices since. */
+function priceLevel(rt: Runtime, usps: string): number {
+  return (rt.prices.get(usps) ?? 1) * 100;
 }
 
 /**
@@ -194,13 +193,13 @@ function priceLevel(fips: string): number {
  * toward housing by what a renter spends on it over what every household does
  * (BEA's housing component of the regional price parities).
  */
-function renterPriceLevel(fips: string): number {
+function renterPriceLevel(rt: Runtime, usps: string, fips: string): number {
   const row = (
     rppHousing as unknown as {
       byFips: Record<string, { allItems: number; housing: number }>;
     }
   ).byFips[fips];
-  const all = priceLevel(fips);
+  const all = priceLevel(rt, usps);
   if (!row) return all;
   const tilt =
     countedParameter("countedMovesRenterHousingWeight") -
@@ -280,7 +279,10 @@ function netIncome(
   if (value === undefined) {
     value =
       Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-      ((renter ? renterPriceLevel : priceLevel)(FIPS_OF.get(usps) ?? "") / 100);
+      ((renter
+        ? renterPriceLevel(rt, usps, FIPS_OF.get(usps) ?? "")
+        : priceLevel(rt, usps)) /
+        100);
     rt.netCache.set(key, value);
   }
   return value;
@@ -340,6 +342,7 @@ function viewStates(api: CoreAPI, rt: Runtime): void {
   rt.states.clear();
   rt.flows.clear();
   rt.draw.clear();
+  rt.prices.clear();
   const adults = states.map((st) => st.cells.reduce((n, c) => n + c.people, 0));
   const total = adults.reduce((n, v) => n + v, 0) || 1;
   states.forEach((st, index) => {
@@ -349,6 +352,7 @@ function viewStates(api: CoreAPI, rt: Runtime): void {
     rt.states.set(st.usps, { usps: st.usps, fips: st.fips, people });
     const flow = flows[index];
     if (flow) {
+      rt.prices.set(st.usps, flow.priceLevel);
       // A child moves with the household: the band's share is its adults' mean.
       const adultShare =
         flow.leavingByBand.reduce((n, v) => n + v, 0) /
@@ -385,6 +389,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     roomOwed: new Map(),
     roomRelease: new Map(),
     serial: 0,
+    prices: new Map(),
     netCache: new Map(),
   };
   viewStates(api, rt);
