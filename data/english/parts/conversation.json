@@ -16844,6 +16844,4714 @@
       "origin": "authored",
       "author": "Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.understood",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Understood.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "agree"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.makes-sense",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Makes sense.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "agree"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.whatever-you-say",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Whatever you say.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "bearing": "guarded",
+      "tag": {
+        "move": "agree"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.good-to-hear",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Good to hear.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "bearing": "glad",
+      "tag": {
+        "move": "agree"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.of-course-dear",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Of course, dear.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right",
+          "stages": ["home"]
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.ack-reply-right.i-know-dear",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "I know, dear.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right",
+          "stages": ["home"]
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-years.i-came-here-years-years-ago",
+      "move": "home-answer-years",
+      "kind": "spoken",
+      "text": "I came here {years} years ago.",
+      "uses": [
+        {
+          "move": "home-answer-years",
+          "subject": "home",
+          "role": "answer",
+          "choice": "years",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-years.going-on-years-years-living-here",
+      "move": "home-answer-years",
+      "kind": "spoken",
+      "text": "Going on {years} years living here.",
+      "uses": [
+        {
+          "move": "home-answer-years",
+          "subject": "home",
+          "role": "answer",
+          "choice": "years",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-years.it-s-been-years-years-since-i-moved-here",
+      "move": "home-answer-years",
+      "kind": "spoken",
+      "text": "It's been {years} years since I moved here.",
+      "uses": [
+        {
+          "move": "home-answer-years",
+          "subject": "home",
+          "role": "answer",
+          "choice": "years",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-always.born-and-raised-in-place",
+      "move": "home-answer-always",
+      "kind": "spoken",
+      "text": "Born and raised in {place}.",
+      "uses": [
+        {
+          "move": "home-answer-always",
+          "subject": "home",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-always.place-is-all-i-ve-known",
+      "move": "home-answer-always",
+      "kind": "spoken",
+      "text": "{place} is all I've known.",
+      "uses": [
+        {
+          "move": "home-answer-always",
+          "subject": "home",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-always.never-lived-anywhere-but-place",
+      "move": "home-answer-always",
+      "kind": "spoken",
+      "text": "Never lived anywhere but {place}.",
+      "uses": [
+        {
+          "move": "home-answer-always",
+          "subject": "home",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-always.raised-in-place-and-still-here",
+      "move": "home-answer-always",
+      "kind": "spoken",
+      "text": "Raised in {place}, and still here.",
+      "uses": [
+        {
+          "move": "home-answer-always",
+          "subject": "home",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-always.place-is-where-i-grew-up",
+      "move": "home-new-answer-always",
+      "kind": "spoken",
+      "text": "{place} is where I grew up.",
+      "uses": [
+        {
+          "move": "home-new-answer-always",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-always.born-and-bred-in-place",
+      "move": "home-new-answer-always",
+      "kind": "spoken",
+      "text": "Born and bred in {place}.",
+      "uses": [
+        {
+          "move": "home-new-answer-always",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-always.i-come-from-place-originally",
+      "move": "home-new-answer-always",
+      "kind": "spoken",
+      "text": "I come from {place} originally.",
+      "uses": [
+        {
+          "move": "home-new-answer-always",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-always.place-raised-me",
+      "move": "home-new-answer-always",
+      "kind": "spoken",
+      "text": "{place} raised me.",
+      "uses": [
+        {
+          "move": "home-new-answer-always",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "always",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-turn.and-yourself",
+      "move": "home-answer-turn",
+      "kind": "spoken",
+      "text": "And yourself?",
+      "uses": [
+        {
+          "move": "home-answer-turn",
+          "subject": "home",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-turn.how-about-you",
+      "move": "home-answer-turn",
+      "kind": "spoken",
+      "text": "How about you?",
+      "uses": [
+        {
+          "move": "home-answer-turn",
+          "subject": "home",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-brief.still-in-place",
+      "move": "home-answer-brief",
+      "kind": "spoken",
+      "text": "Still in {place}.",
+      "uses": [
+        {
+          "move": "home-answer-brief",
+          "subject": "home",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-answer-brief.not-leaving-place",
+      "move": "home-answer-brief",
+      "kind": "spoken",
+      "text": "Not leaving {place}.",
+      "uses": [
+        {
+          "move": "home-answer-brief",
+          "subject": "home",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.i-m-living-in-claimed-now",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "I'm living in {claimed} now.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "tag": {
+        "move": "lie"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.we-settled-in-claimed",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "We settled in {claimed}.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "tag": {
+        "move": "lie"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.we-relocated-to-claimed",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "We relocated to {claimed}.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "tag": {
+        "move": "lie"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.got-a-place-over-in-claimed",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "Got a place over in {claimed}.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "tag": {
+        "move": "lie"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-ask-where.where-from",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "Where from?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-ask-where.from-here",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "From here?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-turn.where-s-home",
+      "move": "home-new-answer-turn",
+      "kind": "spoken",
+      "text": "Where's home?",
+      "uses": [
+        {
+          "move": "home-new-answer-turn",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-turn.where-s-yours",
+      "move": "home-new-answer-turn",
+      "kind": "spoken",
+      "text": "Where's yours?",
+      "uses": [
+        {
+          "move": "home-new-answer-turn",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-plain.i-call-place-home",
+      "move": "home-new-answer-plain",
+      "kind": "spoken",
+      "text": "I call {place} home.",
+      "uses": [
+        {
+          "move": "home-new-answer-plain",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-plain.place-originally",
+      "move": "home-new-answer-plain",
+      "kind": "spoken",
+      "text": "{place}, originally.",
+      "uses": [
+        {
+          "move": "home-new-answer-plain",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-brief.living-in-place",
+      "move": "home-new-answer-brief",
+      "kind": "spoken",
+      "text": "Living in {place}.",
+      "uses": [
+        {
+          "move": "home-new-answer-brief",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-brief.staying-put-in-place",
+      "move": "home-new-answer-brief",
+      "kind": "spoken",
+      "text": "Staying put in {place}.",
+      "uses": [
+        {
+          "move": "home-new-answer-brief",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-reply-still.i-m-in-place-still",
+      "move": "home-reply-reply-still",
+      "kind": "spoken",
+      "text": "I'm in {place} still.",
+      "uses": [
+        {
+          "move": "home-reply-reply-still",
+          "subject": "home-reply",
+          "role": "reply",
+          "choice": "still"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-reply-still.still-living-in-place",
+      "move": "home-reply-reply-still",
+      "kind": "spoken",
+      "text": "Still living in {place}.",
+      "uses": [
+        {
+          "move": "home-reply-reply-still",
+          "subject": "home-reply",
+          "role": "reply",
+          "choice": "still"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-answer-same.then-we-share-place",
+      "move": "home-reply-answer-same",
+      "kind": "spoken",
+      "text": "Then we share {place}.",
+      "uses": [
+        {
+          "move": "home-reply-answer-same",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "same",
+          "stages": ["same"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-answer-same.place-for-me-too",
+      "move": "home-reply-answer-same",
+      "kind": "spoken",
+      "text": "{place} for me too.",
+      "uses": [
+        {
+          "move": "home-reply-answer-same",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "same",
+          "stages": ["same"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-answer-own.home-for-me-is-my-place",
+      "move": "home-reply-answer-own",
+      "kind": "spoken",
+      "text": "Home for me is {my_place}.",
+      "uses": [
+        {
+          "move": "home-reply-answer-own",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "own"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-reply-answer-own.i-m-over-in-my-place",
+      "move": "home-reply-answer-own",
+      "kind": "spoken",
+      "text": "I'm over in {my_place}.",
+      "uses": [
+        {
+          "move": "home-reply-answer-own",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "own"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.moved-to-place-these-days-i-m-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "Moved to {place}. These days I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-moved-to-place-and-now-i-m-with-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I moved to {place}, and now I'm with {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.born-in-place-these-days-i-m-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "Born in {place}. These days I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.place-born-now-i-m-with-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "{place} born. Now I'm with {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["born"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-m-from-place-and-i-m-at-my-employer-these-days",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I'm from {place}, and I'm at {my_employer} these days.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-call-place-home-and-i-work-at-my-employer-now",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I call {place} home, and I work at {my_employer} now.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-work.home-is-place-how-about-you-where-do-you-work",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "Home is {place}. How about you, where do you work?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-work.from-place-what-do-you-do-for-a-living",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "From {place}. What do you do for a living?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-work.place-for-me-where-are-you-working-these-days",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "{place} for me. Where are you working these days?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.long-story",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Long story.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.ask-me-later",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Ask me later.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.i-m-from-place-any-friends-in-common-maybe",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "I'm from {place}. Any friends in common, maybe?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.place-is-there-anyone-we-both-know",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "{place}. Is there anyone we both know?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.seen-name-lately",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Seen {name} lately?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.heard-anything-from-name",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Heard anything from {name}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.have-you-run-into-name",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Have you run into {name}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.been-in-touch-with-first",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Been in touch with {first}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-ask-how.how-is-relation-doing",
+      "move": "family-ask-how",
+      "kind": "spoken",
+      "text": "How is {relation} doing?",
+      "uses": [
+        {
+          "move": "family-ask-how",
+          "subject": "family",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-ask-how.how-s-relation-these-days",
+      "move": "family-ask-how",
+      "kind": "spoken",
+      "text": "How's {relation} these days?",
+      "uses": [
+        {
+          "move": "family-ask-how",
+          "subject": "family",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-ask-how.what-s-the-news-on-relation",
+      "move": "family-ask-how",
+      "kind": "spoken",
+      "text": "What's the news on {relation}?",
+      "uses": [
+        {
+          "move": "family-ask-how",
+          "subject": "family",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-ask-how.how-are-things-with-relation",
+      "move": "family-ask-how",
+      "kind": "spoken",
+      "text": "How are things with {relation}?",
+      "uses": [
+        {
+          "move": "family-ask-how",
+          "subject": "family",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-reply-saw.i-ran-into-name-when",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "I ran into {name} {when}.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-reply-saw.name-and-i-talked-when",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "{name} and I talked {when}.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-reply-not.i-haven-t-run-into-name",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "I haven't run into {name}.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-reply-not.no-word-from-name",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "No word from {name}.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-reply-not.not-a-word-from-first",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "Not a word from {first}.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-saw.i-last-saw-name-my-when",
+      "move": "mutual-answer-mine-saw",
+      "kind": "spoken",
+      "text": "I last saw {name} {my_when}.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-saw",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-saw",
+          "requiresFacts": ["my_when"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-saw.name-and-i-spoke-my-when",
+      "move": "mutual-answer-mine-saw",
+      "kind": "spoken",
+      "text": "{name} and I spoke {my_when}.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-saw",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-saw",
+          "requiresFacts": ["my_when"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-not.nor-have-i",
+      "move": "mutual-answer-mine-not",
+      "kind": "spoken",
+      "text": "Nor have I.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-not",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-not",
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-not.not-me-either",
+      "move": "mutual-answer-mine-not",
+      "kind": "spoken",
+      "text": "Not me either.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-not",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-not",
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-care.give-name-my-best",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Give {name} my best.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-care.tell-name-i-said-hi",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Tell {name} I said hi.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.let-s-not-get-into-name",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "Let's not get into {name}.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.name-is-a-long-story",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "{name} is a long story.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-change.where-s-work-now",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Where's work now?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.mutual-answer-change.job-these-days",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Job these days?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reply-not.haven-t-met-name-yet",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "Haven't met {name} yet.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reply-not.i-ve-never-met-name",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "I've never met {name}.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reply-not.name-is-new-to-me",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "{name} is new to me.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reply-not.i-don-t-know-name",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "I don't know {name}.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-no.never-met-name",
+      "move": "asked-kin-answer-no",
+      "kind": "spoken",
+      "text": "Never met {name}.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-no.name-doesn-t-ring-a-bell",
+      "move": "asked-kin-answer-no",
+      "kind": "spoken",
+      "text": "{name} doesn't ring a bell.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-no.no-i-d-remember-name",
+      "move": "asked-kin-answer-no",
+      "kind": "spoken",
+      "text": "No, I'd remember {name}.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-no.i-don-t-know-name-at-all",
+      "move": "asked-kin-answer-no",
+      "kind": "spoken",
+      "text": "I don't know {name} at all.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-not-yet.not-so-far",
+      "move": "asked-kin-answer-not-yet",
+      "kind": "spoken",
+      "text": "Not so far.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-not-yet.not-as-yet",
+      "move": "asked-kin-answer-not-yet",
+      "kind": "spoken",
+      "text": "Not as yet.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-not-yet.haven-t-yet",
+      "move": "asked-kin-answer-not-yet",
+      "kind": "spoken",
+      "text": "Haven't yet.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-brief.no-go-on-tell-me-about-name",
+      "move": "asked-kin-answer-brief",
+      "kind": "spoken",
+      "text": "No. Go on, tell me about {name}.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-answer-brief.haven-t-i-d-like-to-hear-about-name",
+      "move": "asked-kin-answer-brief",
+      "kind": "spoken",
+      "text": "Haven't. I'd like to hear about {name}.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-is.name-is-relation-yes",
+      "move": "kin-answer-is",
+      "kind": "spoken",
+      "text": "{name} is {relation}, yes.",
+      "uses": [
+        {
+          "move": "kin-answer-is",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "is"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-is.that-s-relation-for-you",
+      "move": "kin-answer-is",
+      "kind": "spoken",
+      "text": "That's {relation} for you.",
+      "uses": [
+        {
+          "move": "kin-answer-is",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "is"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-is.name-happens-to-be-relation",
+      "move": "kin-answer-is",
+      "kind": "spoken",
+      "text": "{name} happens to be {relation}.",
+      "uses": [
+        {
+          "move": "kin-answer-is",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "is"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-turn.another-time-maybe",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Another time, maybe.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "next-2",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-turn.not-today",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Not today.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "next-2",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-turn.sounds-good",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Sounds good.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "glad",
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-turn.happy-to",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Happy to.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "glad",
+      "tag": {
+        "move": "ask"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-brief.name-is-easy-to-like",
+      "move": "kin-answer-brief",
+      "kind": "spoken",
+      "text": "{name} is easy to like.",
+      "uses": [
+        {
+          "move": "kin-answer-brief",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-answer-brief.name-is-good-company",
+      "move": "kin-answer-brief",
+      "kind": "spoken",
+      "text": "{name} is good company.",
+      "uses": [
+        {
+          "move": "kin-answer-brief",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-raise-ask.ever-run-into-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Ever run into {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-raise-ask.have-you-crossed-paths-with-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Have you crossed paths with {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-raise-ask.did-you-get-to-know-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Did you get to know {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-raise-ask.has-anyone-introduced-you-to-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Has anyone introduced you to {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reason.settled-in-place-these-days",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Settled in {place} these days.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reason.got-a-place-out-in-place",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Got a place out in {place}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reason.working-over-at-employer",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Working over at {employer}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.kin-reason.employed-by-employer-now",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Employed by {employer} now.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.works-at-kin-employer-these-days",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Works at {kin_employer} these days.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.you-d-see-them-at-kin-employer",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "You'd see them at {kin_employer}.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.works-at-kin-employer-you-d-know-the-face",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Works at {kin_employer}. You'd know the face.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.employed-at-kin-employer-that-s-all-i-ll-say",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Employed at {kin_employer}, that's all I'll say.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.settled-over-in-kin-home-these-days",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Settled over in {kin_home} these days.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.lives-out-in-kin-home-now",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Lives out in {kin_home} now.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["kin_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.lives-in-kin-home-last-i-heard",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Lives in {kin_home}, last I heard.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.asked-kin-give-core.has-a-place-in-kin-home",
+      "move": "asked-kin-give-core",
+      "kind": "spoken",
+      "text": "Has a place in {kin_home}.",
+      "uses": [
+        {
+          "move": "asked-kin-give-core",
+          "subject": "asked-kin-give",
+          "role": "core",
+          "stages": ["unknown"],
+          "requiresFacts": ["kin_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.home-is-their-home-for-me",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "Home is {their_home} for me.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.i-m-out-in-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "I'm out in {their_home}.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.my-place-is-in-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "My place is in {their_home}.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["elsewhere"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.so-we-both-call-their-home-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "So we both call {their_home} home.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.then-we-share-a-town-their-home",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "Then we share a town, {their_home}.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.home-new-give-core.their-home-same-as-me-small-world",
+      "move": "home-new-give-core",
+      "kind": "spoken",
+      "text": "{their_home}, same as me. Small world.",
+      "uses": [
+        {
+          "move": "home-new-give-core",
+          "subject": "home-new-give",
+          "role": "core",
+          "stages": ["same"],
+          "requiresFacts": ["their_home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.here-back-core.pleased-to-meet-you-you",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "Pleased to meet you, {you}.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
+        }
+      ],
+      "tag": {
+        "move": "core"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.here-back-core.nice-meeting-you-you",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "Nice meeting you, {you}.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
+        }
+      ],
+      "tag": {
+        "move": "core"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.here-back-core.welcome-you-good-to-put-a-face-to-the-name",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "Welcome, {you}. Good to put a face to the name.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
+        }
+      ],
+      "tag": {
+        "move": "core"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.well-enough-i-ll-pass-it-on-to-name",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Well enough. I'll pass it on to {name}.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.doing-fine-name-will-hear-i-saw-you",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Doing fine. {name} will hear I saw you.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.name-is-hanging-in-there",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name} is hanging in there.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.name-is-good-we-ll-have-to-get-together",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name} is good. We'll have to get together.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.name-s-well-these-days",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name}'s well these days.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-well.not-bad-at-all-name-says",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Not bad at all, {name} says.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-thanks.that-s-kind-of-you-name-will-be-glad-you-asked",
+      "move": "family-answer-thanks",
+      "kind": "spoken",
+      "text": "That's kind of you. {name} will be glad you asked.",
+      "uses": [
+        {
+          "move": "family-answer-thanks",
+          "subject": "family",
+          "role": "answer",
+          "choice": "thanks"
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "thank"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-thanks.thanks-for-asking-about-name",
+      "move": "family-answer-thanks",
+      "kind": "spoken",
+      "text": "Thanks for asking about {name}.",
+      "uses": [
+        {
+          "move": "family-answer-thanks",
+          "subject": "family",
+          "role": "answer",
+          "choice": "thanks"
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "thank"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-relocated-to-place",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} relocated to {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "raises": "their-family",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-ended-up-in-place",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} ended up in {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "raises": "their-family",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-lives-out-in-place-now",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} lives out in {place} now.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "raises": "their-family",
+          "stages": ["moved"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-packed-up-and-left",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} packed up and left.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "raises": "their-family",
+          "stages": ["moved"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-job.name-landed-a-job-at-employer",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} landed a job at {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "raises": "their-family",
+          "stages": ["job"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-job.name-signed-on-with-employer",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} signed on with {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "raises": "their-family",
+          "stages": ["job"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-job.name-found-work-at-employer",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} found work at {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "raises": "their-family",
+          "stages": ["job"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-job.name-has-a-new-job",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} has a new job.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "raises": "their-family",
+          "stages": ["job"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-baby.name-welcomed-a-baby",
+      "move": "family-answer-baby",
+      "kind": "spoken",
+      "text": "{name} welcomed a baby.",
+      "uses": [
+        {
+          "move": "family-answer-baby",
+          "subject": "family",
+          "role": "answer",
+          "choice": "baby",
+          "raises": "their-family",
+          "stages": ["baby"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-baby.name-has-a-new-baby",
+      "move": "family-answer-baby",
+      "kind": "spoken",
+      "text": "{name} has a new baby.",
+      "uses": [
+        {
+          "move": "family-answer-baby",
+          "subject": "family",
+          "role": "answer",
+          "choice": "baby",
+          "raises": "their-family",
+          "stages": ["baby"]
+        }
+      ],
+      "tag": {
+        "move": "answer"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-came-down-sick-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} came down sick {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-got-really-sick-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} got really sick {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-wasn-t-well-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} wasn't well {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-was-taken-ill-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} was taken ill {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-passed-on-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} passed on {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-is-gone-now-it-was-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} is gone now. It was {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-didn-t-make-it-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} didn't make it {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-slipped-away-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} slipped away {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-raise-day.feels-like-ages-since-last-together",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Feels like ages since {last-together}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["last-together"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-raise-day.not-much-time-together-since-last-together",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Not much time together since {last-together}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["last-together"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-raise-day.long-day",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Long day?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-raise-day.rough-one",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Rough one?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-raise-day.day-s-done",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Day's done.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.tired-but-home",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Tired but home.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.long-don-t-ask",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Long. Don't ask.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "guarded",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.fine-nothing-much",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Fine, nothing much.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.just-fine",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Just fine.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "calm",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.missed-you-today",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "Missed you today.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "miss",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.thought-of-you",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "Thought of you.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "miss",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "tender",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.need-some-quiet",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "Need some quiet.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "guarded",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.not-right-now",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-that-way",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why that way?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-s-behind-that",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What's behind that?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-why.tell-me-why",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Tell me why.",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-say-that",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why say that?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-private.not-telling",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "Not telling.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-private.keeping-it-private",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "Keeping it private.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-private.that-s-mine",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "That's mine.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.same-side",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Same side.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.couldn-t-agree-more",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Couldn't agree more.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.exactly-right",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Exactly right.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-m-with-you",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.not-me",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "Not me.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-disagree",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I disagree.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.not-with-you",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "Not with you.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.no-not-me",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "No, not me.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.put-me-down-for-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Put me down for {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.on-about-i-m-firmly-in-favor",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "On {about}, I'm firmly in favor.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-stand-with-about-plain-and-simple",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I stand with {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.here-s-my-side-i-m-for-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Here's my side: I'm for {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-the-one-i-care-most-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is the one I care most about.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-in",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "If {about} is on the table, I'm in.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.nothing-moves-me-like-about-i-m-for-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Nothing moves me like {about}. I'm for it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.it-comes-down-to-about-i-want-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "It comes down to {about}. I want it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-wanted-about-for-a-long-time",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've wanted {about} for a long time.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["held-said"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've said it before: I want {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["held-said"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I'm for {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.you-bring-up-about-and-i-m-all-in",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "You bring up {about} and I'm all in.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.put-me-down-against-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Put me down against {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.on-about-i-m-firmly-opposed",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "On {about}, I'm firmly opposed.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-won-t-stand-for-about-plain-and-simple",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I won't stand for {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.here-s-my-side-i-m-against-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Here's my side: I'm against {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is the one that gets me riled.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "If {about} is on the table, I'm out.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.nothing-bothers-me-like-about-i-m-against-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Nothing bothers me like {about}. I'm against it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.it-comes-down-to-about-i-don-t-want-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "It comes down to {about}. I don't want it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-opposed-about-for-a-long-time",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've opposed {about} for a long time.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["held-said"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-said-it-before-i-don-t-want-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've said it before: I don't want {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["held-said"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.since-you-ask-i-m-against-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I'm against {about}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-say-core.you-bring-up-about-and-i-m-dead-set-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "You bring up {about} and I'm dead set against.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.years-at-employer-will-teach-you-that",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Years at {employer} will teach you that.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.it-s-what-i-see-at-employer-every-day",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "It's what I see at {employer} every day.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.a-week-at-employer-would-change-your-mind",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "A week at {employer} would change your mind.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.employer-showed-me-the-hard-way",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "{employer} showed me the hard way.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.try-paying-bills-in-place-on-my-pay",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Try paying bills in {place} on my pay.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.every-month-in-place-gets-tighter",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Every month in {place} gets tighter.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.look-at-what-rent-costs-in-place",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Look at what rent costs in {place}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.prices-in-place-tell-the-story",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Prices in {place} tell the story.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.pay-s-thin",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Pay's thin.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.money-s-tight",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Money's tight.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.do-the-math",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Do the math.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-make-payroll-at-employer",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I make payroll at {employer}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.payroll-at-employer-is-no-joke",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Payroll at {employer} is no joke.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-back-core.every-raise-at-employer-costs-something",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Every raise at {employer} costs something.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-payroll", "employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.good-i-ll-say-as-much-at-employer",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I'll say as much at {employer}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-you-see-why-it-comes-up-at-employer",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then you see why it comes up at {employer}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.good-then-it-isn-t-only-me-in-place",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. Then it isn't only me in {place}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.so-i-m-not-alone-in-place",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "So I'm not alone in {place}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-both-want-decider-to-get-it-done",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we both want {decider} to get it done.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-it"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-both-hope-decider-passes-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we both hope {decider} passes it.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-it"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.work-a-while-at-employer-and-ask-again",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Work a while at {employer} and ask again.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.spend-time-at-employer-and-you-d-change-your-mind",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Spend time at {employer} and you'd change your mind.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.pay-your-bills-in-place-and-see",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Pay your bills in {place} and see.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.try-place-rent-and-tell-me-again",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Try {place} rent and tell me again.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.we-ll-see-what-decider-does-with-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "We'll see what {decider} does with it.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["has-reason", "decider"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.let-s-see-how-decider-votes",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Let's see how {decider} votes.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["has-reason", "decider"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.time-will-tell",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Time will tell.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.we-ll-see",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "We'll see.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-agree",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we agree.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.same-side-then",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Same side, then.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-let-s-hope-decider-drops-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then let's hope {decider} drops it.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-both-want-decider-to-let-it-die",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we both want {decider} to let it die.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }
