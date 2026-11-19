@@ -16,7 +16,7 @@ import {
   withTraitWeight,
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
-import { meetingParameter, townHallDrives } from "./meetings";
+import { townHallDrives } from "./meetings";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
 const SEED = `${RUN_SEED}:meetings`;
@@ -210,7 +210,7 @@ describe("meetings.take-part reads one calibrated trait term", () => {
       if (Math.abs(row.drive - flat.get(row.p.id)!) > 1e-9) moved += 1;
     }
     console.log(
-      `town hall drives: ${played.length} residents driven, ${moved} moved by temperament (weight ${w}), room of ${meetingParameter("townHallSize")}`,
+      `town hall drives: ${played.length} residents driven, ${moved} moved by temperament (weight ${w}), everyone whose drive beats the evening comes`,
     );
     expect(moved).toBeGreaterThan(0);
   });

@@ -1,12 +1,6 @@
 {
   "about": "Public meetings, hearings, town halls and debates (OPUS-GOV).",
   "parameters": {
-    "publicCommentSpeakers": {
-      "value": 6,
-      "tag": "ESTIMATED",
-      "source": "Speakers at an ordinary council agenda item's public comment; local meetings commonly hear a handful (Einstein, Glick and Palmer 2019, 'Neighborhood Defenders': most meetings draw few commenters, older and more engaged residents).",
-      "spread": [2, 15]
-    },
     "commentWeight": {
       "value": 0.15,
       "tag": "TUNABLE",
@@ -18,12 +12,6 @@
       "tag": "TUNABLE",
       "source": "Speakers at which the room's balance counts in full: one speaker counts a quarter as much as a room of them.",
       "spread": [1, 6]
-    },
-    "townHallSize": {
-      "value": 40,
-      "tag": "ESTIMATED",
-      "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
-      "spread": [15, 120]
     },
     "publicCommentHours": {
       "value": 0.05,

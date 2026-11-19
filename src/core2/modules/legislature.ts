@@ -373,7 +373,12 @@ export const LEGISLATURE_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      bills: { indexes: { bySponsor: { fields: ["sponsorId"] } } },
+      bills: {
+        indexes: {
+          bySponsor: { fields: ["sponsorId"] },
+          byBody: { fields: ["bodyOfficeId"] },
+        },
+      },
       votes: { indexes: { byBill: { fields: ["billId"] } } },
       committees: {},
       /** Vetoed bills whose override vote waits on a member the player controls: the veto message awaits the body's next sitting. */
@@ -7856,6 +7861,13 @@ function billBribeScope(
   return deciders.has(officialId)
     ? null
     : "That official has no vote or signature on this bill, so there is nothing to buy from them.";
+}
+
+/** The bills a body has before it now, waiting on a vote: its agenda. */
+export function agendaOf(api: CoreAPI, officeId: string): readonly BillRow[] {
+  return (
+    table(api, "bills").query("byBody", [officeId]) as unknown as BillRow[]
+  ).filter((b) => b.status === "drafted");
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {

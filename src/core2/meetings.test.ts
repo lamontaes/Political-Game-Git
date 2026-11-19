@@ -31,6 +31,7 @@ import {
 } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
+  billOf,
   draftBill,
   holdVote,
   memberPosition,
@@ -41,6 +42,7 @@ import {
 import { openPress, platformAnswers } from "./modules/press";
 import {
   answerDebate,
+  commentRoom,
   DEBATE_ACCEPTED_EVENT,
   DEBATE_INVITED_EVENT,
   debatesIn,
@@ -232,6 +234,7 @@ describe("public meetings", () => {
       expect(memberPosition(api, bill!.id, id).lobby, where).toBeGreaterThan(
         id === memberIds[1] ? before : -Infinity,
       );
+    const room = commentRoom(api, billOf(api, bill!.id));
     const after = holdVote(api, bill!.id);
     const said = remarksOn(api, bill!.id);
     expect(said.some((r) => r.personId === you.id && r.signedUp)).toBe(true);
@@ -243,7 +246,9 @@ describe("public meetings", () => {
         Math.sign(personStance(personLean(core.people, p, 0), question)),
       );
     }
-    expect(said.filter((r) => !r.signedUp).length).toBeLessThanOrEqual(6);
+    // The comment period holds as many speakers as the meeting's length
+    // gives each item on its agenda (`commentRoom`), no more.
+    expect(said.filter((r) => !r.signedUp).length).toBeLessThanOrEqual(room);
     expect(() =>
       signUpToSpeak(api, { billId: bill!.id, personId: you.id, position: -1 }),
     ).toThrow();

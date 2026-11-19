@@ -66,22 +66,17 @@
       "source": "Months of a donor's own living costs (their share of the household's month when they carry none of their own) that the month's spare after taxes and bills is weighed against (donationAnswer): spare well under the span counts about one for one, spare many spans over counts a few spans, so a better-paid donor gives more from the month but not in proportion to the pay, the same log shape their savings slide on against their cushion (caseCushionMonths). Every household now holds living costs (a press person seated from a recorded identity gets the one-person household officials get), so every donor has a span. Fitted, not sourced: no study reports it. Refit Nov 2 with donationShareOfMonthPerWarmth on every ask of src/core2/campaign-money-calibration.test.ts's places for 101 run seeds (808 places, eight a seed): at 0.115 and share 2.1, 0.13% of 32-place pools fall outside a band on the fit half (51 run seeds, 408 places) and 0.22% on the held-out half (50 run seeds, 400 places). The spread, 0.11 to 0.12, is where 32-place pools stay under 0.5% at share 2.1 (0.11: 0.09% fit, 0.24% held out; 0.12: 0.19%, 0.34%); 0.1 reads 0.53% and 0.51%, 0.13 reads 0.75% and 0.99%.",
       "spread": [0.11, 0.12]
     },
-    "donorTypicalGiftMinor": {
-      "value": 5000,
-      "tag": "ESTIMATED",
-      "source": "A typical gift to a local candidate, in minor units: the median contribution to city races runs $35 to $100, about $50 (Portland city races 2016 and 2020, $50 without one matched candidate: OPB, Aug. 9, 2021, https://www.opb.org/article/2021/08/09/portland-elections-oregon-politics-city-hall-small-donors-campaign-funding/; NYC CFB 2025 $50, in data/research/campaign-reality/campaign-evidence.json). What a donor has to spare is weighed against it (spareAgainstGift).",
-      "spread": [3500, 10000]
-    },
-    "donorSpareGiftsAtEven": {
-      "value": 50,
+    "donorSpareMonthsAtEven": {
+      "role": "coefficient",
+      "value": 1,
       "tag": "TUNABLE",
-      "source": "How many typical gifts (donorTypicalGiftMinor) a person must have to spare (the month's income after taxes and bills plus savings beyond their cushion, giftBudget) for their money to push them neither toward giving nor against it (spareAgainstGift): with less, a gift is a larger part of what they have and a reason to keep it; with more, a reason to give. Money is the resource political giving draws on (Brady, Verba and Schlozman 1995, 'Beyond SES: A Resource Model of Political Participation', American Political Science Review 89(2)). Checked against the share of contacted people who give: 3 to 5 gifts or pledges per 10 call-time contacts (Call Time 101, https://irp.cdn-website.com/022fb584/files/uploaded/Call_Time_101.pdf). The shares quoted here are of calls whose reasons came out above zero (the decision's yes), not of people who gave: a caller with reasons above zero still gives nothing when nothing is left of their month after taxes and bills and they hold no savings beyond their cushion, or when what they would give is under a dollar (donationAnswer). Read on the played calls of campaigns.traits.test.ts: at 50 (with donorMeansWeight 0.2) 40% of calls had reasons above zero in Lyndon Center, Vermont (seed chk2-c; 57.5% before money was read), 35% in Elberta, Michigan (chk2-a), 27% in Dover-Foxcroft, Maine, 31% in Annex F, Northern Mariana Islands and 36% in Whitinsville, Massachusetts (fresh draws, Oct 30). The spread, 30 to 80, was read on the asks of campaign-money-calibration.test.ts (a first-time town candidate's ten evenings of donor calls, 47,964 asks of adults in 160 places from 20 run seeds, Nov 1, at the fitted donationShareOfMonthPerWarmth): at 50, 21.9% of asks had reasons above zero and 8.8% gave; at 30, 25.8% and 10.6%; at 80, 20.2% and 7.3%. Every share there sits below the field's 30% to 50% because those asks walk everyone the campaign reaches, not a call list of likely donors (SG-GOV-campaign-walk-order).",
-      "spread": [30, 80]
+      "source": "How many months of a person's own living costs (giftBudget's ownMonthLivingMinor: their recorded bills, or their share of the household's) they must have to spare (the month's income after taxes and bills plus savings beyond their cushion) for their money to push them neither toward giving nor against it (spareAgainstGift): with less, a gift is a larger part of what they live on and a reason to keep it; with more, a reason to give. Money is the resource political giving draws on (Brady, Verba and Schlozman 1995, 'Beyond SES: A Resource Model of Political Participation', American Political Science Review 89(2)). The scale is each donor's own month, never a dollar figure: it replaced a count of typical $50 gifts (Nov 17, 2026, owner: 'Everything comes from the simulation. Stop pegging things to real numbers'), whose even point of $2,500 was about one month of a town adult's living costs. Checked as a strength, not a level: across drawn places the share of asked adults whose reasons come out above zero must rise with what they have to spare against their own bills (src/core2/campaign-money-own-actors.test.ts).",
+      "spread": [0.5, 2]
     },
     "donorMeansWeight": {
       "value": 0.2,
       "tag": "TUNABLE",
-      "source": "How much what a person has to spare against a typical gift (spareAgainstGift, -1 to 1) adds to their reason to give, beside warmth, agreement, party (donorPartyWeight) and their tie to the candidate (donorRelationshipWeight). Checked against the trait study's odds ratio for giving between the thirds of openness (campaigns.donate in data/research/trait-effect-sizes.json, within the band of campaigns.traits.test.ts across drawn places): a weight near zero leaves most reason totals in one pile where temperament alone sorts who gives (Lyndon Center, Vermont, seed chk2-c: 357 distinct totals in 2,104 calls, an odds ratio of 8.18 against the study's 1.82), and a weight near 1 lets money alone decide. At 0.2 the same town gave 1,373 distinct totals in 1,408 calls and an odds ratio of 2.04; Elberta, Michigan (chk2-a) 1.58, Dover-Foxcroft, Maine 1.52, Annex F, Northern Mariana Islands 1.39 and Whitinsville, Massachusetts 1.93 (4.43 before), all inside the test's 0.83 to 4.01 (Oct 30). Those odds ratios are of calls with reasons above zero (the decision's yes), not of gifts, and were read at 0.2 only. The spread, 0.1 to 0.4, was read on the asks of campaign-money-calibration.test.ts (47,964 asks of adults in 160 places from 20 run seeds, Nov 1, as for donorSpareGiftsAtEven): at 0.2, 21.9% of asks had reasons above zero and 8.8% gave; at 0.1, 32.1% and 9.7%; at 0.4, 14.1% and 8.1% (at 0, 49.3% and 11.0%): across it the share with reasons to give halves while the share who give moves by about a tenth, since the asks money pushes below zero are mostly of people with nothing to give from.",
+      "source": "How much what a person has to spare against their own bills (spareAgainstGift, -1 to 1) adds to their reason to give, beside warmth, agreement, party (donorPartyWeight) and their tie to the candidate (donorRelationshipWeight). Checked against the trait study's odds ratio for giving between the thirds of openness (campaigns.donate in data/research/trait-effect-sizes.json, within the band of campaigns.traits.test.ts across drawn places): a weight near zero leaves most reason totals in one pile where temperament alone sorts who gives (Lyndon Center, Vermont, seed chk2-c: 357 distinct totals in 2,104 calls, an odds ratio of 8.18 against the study's 1.82), and a weight near 1 lets money alone decide. At 0.2 the same town gave 1,373 distinct totals in 1,408 calls and an odds ratio of 2.04; Elberta, Michigan (chk2-a) 1.58, Dover-Foxcroft, Maine 1.52, Annex F, Northern Mariana Islands 1.39 and Whitinsville, Massachusetts 1.93 (4.43 before), all inside the test's 0.83 to 4.01 (Oct 30). Those odds ratios are of calls with reasons above zero (the decision's yes), not of gifts, and were read at 0.2 only. The spread, 0.1 to 0.4, was read on the asks of campaign-money-calibration.test.ts (47,964 asks of adults in 160 places from 20 run seeds, Nov 1, as for donorSpareGiftsAtEven): at 0.2, 21.9% of asks had reasons above zero and 8.8% gave; at 0.1, 32.1% and 9.7%; at 0.4, 14.1% and 8.1% (at 0, 49.3% and 11.0%): across it the share with reasons to give halves while the share who give moves by about a tenth, since the asks money pushes below zero are mostly of people with nothing to give from.",
       "spread": [0.1, 0.4]
     },
     "donationShareOfCashPerWarmth": {
@@ -89,12 +84,6 @@
       "tag": "TUNABLE",
       "source": "Share of a supporter's savings beyond their cushion of living costs (giftBudget) they give per unit of their reason to give, before the legal limit, beside the month's share in donationShareOfMonthPerWarmth; the outside donors' rule reads it on a typical donor's balance. Checked against typical small-donor gifts (FEC: most individual contributions under $200).",
       "spread": [0.002, 0.03]
-    },
-    "adContactsPerThousandMinor": {
-      "value": 10,
-      "tag": "ESTIMATED",
-      "source": "Ten people reached per $10 of ad spending: digital and local broadcast cost per thousand impressions of about $10 to $30 (eMarketer 2024; AdImpact 2024 political CPMs), counting one person reached per several impressions.",
-      "spread": [3, 30]
     },
     "adWarmthWeight": {
       "value": 0.3,
@@ -1162,34 +1151,10 @@
       "source": "How much a person's own relationship with the candidate (-1 to 1) adds to their reason to give: a first campaign's first money comes from family and friends (Center for Responsive Politics donor studies; campaign finance guides' 'friends and family' round).",
       "spread": [0.2, 1]
     },
-    "adSpendShare": {
-      "value": 0.4,
-      "tag": "ESTIMATED",
-      "source": "Share of a campaign's spending on paid media: about 40% of U.S. House candidates' disbursements go to media and advertising (OpenSecrets, House expenditures by category, 2022 cycle: media 35 to 45%).",
-      "spread": [0.25, 0.55]
-    },
-    "mailSpendShare": {
-      "value": 0.3,
-      "tag": "ESTIMATED",
-      "source": "Share of a local campaign's spending on direct mail: state legislative and local races lean on mail more than federal ones (OpenSecrets direct-mail share 10 to 20% for House; National Institute on Money in Politics shows local campaigns' printing and postage among the largest lines).",
-      "spread": [0.15, 0.45]
-    },
-    "eventSpendShare": {
-      "value": 0.1,
-      "tag": "ESTIMATED",
-      "source": "Share of a campaign's spending on events and rallies before a sociable candidate leans further in (OpenSecrets: campaign events and fundraising events about 5 to 15% of disbursements).",
-      "spread": [0.05, 0.2]
-    },
-    "pollSpendShare": {
-      "value": 0.1,
-      "tag": "ESTIMATED",
-      "source": "Share of a campaign's spending on polling and research before a deliberate candidate leans further in (OpenSecrets 'strategy and research' about 5 to 10% of House disbursements).",
-      "spread": [0.03, 0.2]
-    },
     "spendTraitWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
+      "source": "How far a candidate's sociability moves their event share, their deliberation their poll share and their temper for conflict the share of ad money they put on a rival's record (each trait -1 to 1), on top of what the world gives each (channelWeights, attackCase).",
       "spread": [0.2, 1]
     },
     "pollSampleSize": {
@@ -1680,12 +1645,6 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
-    },
-    "attackAdShare": {
-      "value": 0.36,
-      "tag": "ESTIMATED",
-      "source": "The share of a challenger's ad money that goes on showing a rival's record in office, for a candidate of average temperament (moved by the people-mind conflict trait through spendTraitWeight, never a fixed share; register D-2 and D-5). Checked as a total against U.S. House races, the nearest measured contests: \"The percentage of negativity in U.S. House races was up slightly in the 2020 election cycle ... (41 percent compared to 32 percent in 2018)\", with positive ads at 39 percent in 2020 and 38 percent in 2018 (Wesleyan Media Project, 'Political Ads in 2020: Fast and Furious', mediaproject.wesleyan.edu/2020-summary-032321). A challenger facing no rival with a record shows none.",
-      "spread": [0.32, 0.41]
     },
     "platformRecordTilt": {
       "value": 1.0,
