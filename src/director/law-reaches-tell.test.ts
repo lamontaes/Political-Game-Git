@@ -283,14 +283,23 @@ it("a learned law's record gives the scene its law and that it is in force", () 
   expect(facts.law?.text, `${where}: the law is named`).toBeTruthy();
   // Said as the law's name, never the bare action ("Allow retail electric
   // choice took effect").
-  const series = (
-    coreAPI(core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .get(String(learned!.facts?.lawId)) as unknown as { series: string }
-  ).series;
+  const { series, level } = coreAPI(core)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(String(learned!.facts?.lawId)) as unknown as {
+    series: string;
+    level: string;
+  };
   expect(facts.law!.text, where).not.toBe(questionName(series));
-  expect(facts.law!.text, where).toBe(questionAbout(series));
+  // A catalog question is said by its noun name; an amount the bank names
+  // for one level ("the local income tax rate") is said at the level that
+  // set the law: here Illinois's own income tax, a state law.
+  const about = questionAbout(series);
+  if (about) expect(facts.law!.text, where).toBe(about);
+  else
+    expect(facts.law!.text, `${where}: ${level} law`).toMatch(
+      new RegExp(`\\b${level === "city" ? "local" : level}\\b`),
+    );
   expect(
     facts["in-force"],
     `${where}: it is in force where they live`,
