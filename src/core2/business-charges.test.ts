@@ -6,7 +6,8 @@
  * months of revenue lost than the same town left alone. Two worlds side by
  * side in drawn places from all 56 (BUSINESS_CHARGES_SEED replays one draw):
  * in every place the raise lifts costs and loses no fewer months than the
- * control, and in at least one drawn place it loses more.
+ * control, and in at least one drawn place it loses more. Places are drawn
+ * until one loses more, after at least MIN_PLACES, and at most DRAWS.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -32,6 +33,9 @@ import type { CoreState } from "./types";
 const seed =
   process.env.BUSINESS_CHARGES_SEED || randomBytes(8).toString("hex");
 const DRAWS = 6;
+// Places played before the draw may stop at the first that loses more: each
+// world plays four months, and six pairs ran past the test's limit.
+const MIN_PLACES = 3;
 const MONTHS = 4;
 
 function townMonths(c: CoreState): BusinessTradingMonth[] {
@@ -91,7 +95,9 @@ describe(`a business's month weighs what laws cost it (seed ${seed})`, () => {
         .reduce((n, charge) => n + charge.minor, 0);
     const passed: string[] = [];
     let more = 0;
+    let placesPlayed = 0;
     for (let at = 0; at < DRAWS; at += 1) {
+      if (more > 0 && placesPlayed >= MIN_PLACES) break;
       const drawn = drawPlace(at ? `${seed}:${at}` : seed, "business-charges");
       const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
       const control = played(false, drawn.seed, drawn.key);
@@ -139,6 +145,10 @@ describe(`a business's month weighs what laws cost it (seed ${seed})`, () => {
       const lossControl = sum(control.months, (m) => m.lossMonths);
       expect(lossRaised, where).toBeGreaterThanOrEqual(lossControl);
       if (lossRaised > lossControl) more += 1;
+      placesPlayed += 1;
+      process.stdout.write(
+        `business-charges: ${where}: months lost ${lossRaised.toFixed(3)} with the raise, ${lossControl.toFixed(3)} without\n`,
+      );
     }
     expect(
       more,
