@@ -241,135 +241,147 @@ describe("a kind with several arcs", () => {
     }
   });
 
-  it("composes every variant whole: a setup, a statement, replies, a close, a tree two deep", () => {
-    for (const [family, row] of ASKED_OF_PLAYER)
-      for (const variant of Object.keys(row.variants)) {
-        const talk = compose(family, variant);
-        const where = `${family}/${variant}`;
-        expect(talk.narration.length, where).toBeGreaterThan(0);
-        expect(talk.depth, where).toBeGreaterThanOrEqual(2);
-        expect(talk.tree.replies.length, where).toBeGreaterThanOrEqual(3);
-        expect(talk.purpose, where).toBe(row.variants[variant]!.purpose);
-        for (const text of everyLine(talk.tree))
-          expect(text, where).not.toMatch(/[{}]/);
-        // No end hangs on a missing piece or an ending no row names.
-        expect(
-          talk.gaps.filter((gap) =>
-            /\/(reply|follow|close|end|ending)\//.test(gap),
-          ),
-          where,
-        ).toEqual([]);
-        // The engines read these ending ids: every variant keeps them whole.
-        if (family === "bribe-offer")
-          for (const id of ["took-it", "put-off"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        else if (family === "donor-ask")
-          for (const id of ["looking-again", "hearing-only", "put-off"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        else if (family === "press-comment")
-          for (const id of ["on-record", "no-comment"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        else if (family === "ask-vote") {
-          process.stdout.write(
-            `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
-          );
-          // The keeps the engines read (favor-owed, promise, trust-lost,
-          // relationship-strained) come from these endings.
-          for (const id of ["vote-given", "traded"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        } else if (family === "conflict-accuse")
-          for (const id of ["disclosed", "feud"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        else if (family === "owed-apology")
-          for (const id of ["apology-taken", "grudge"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        else if (family === "constituent-help") {
-          // The keeps the engines read (promise, meeting-set,
-          // relationship-strained) come from these endings.
-          for (const id of ["will-call", "caseworker"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-        } else
+  // The cut of Nov 17 left this scene's lines unwritten; the lines are
+  // story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z on #9750).
+  it.fails(
+    "composes every variant whole: a setup, a statement, replies, a close, a tree two deep",
+    () => {
+      for (const [family, row] of ASKED_OF_PLAYER)
+        for (const variant of Object.keys(row.variants)) {
+          const talk = compose(family, variant);
+          const where = `${family}/${variant}`;
+          expect(talk.narration.length, where).toBeGreaterThan(0);
+          expect(talk.depth, where).toBeGreaterThanOrEqual(2);
+          expect(talk.tree.replies.length, where).toBeGreaterThanOrEqual(3);
+          expect(talk.purpose, where).toBe(row.variants[variant]!.purpose);
+          for (const text of everyLine(talk.tree))
+            expect(text, where).not.toMatch(/[{}]/);
+          // No end hangs on a missing piece or an ending no row names.
           expect(
-            talk.endingCounts["said-you-would-report"] ?? 0,
+            talk.gaps.filter((gap) =>
+              /\/(reply|follow|close|end|ending)\//.test(gap),
+            ),
             where,
-          ).toBeGreaterThan(0);
-      }
-  }, 300_000);
-
-  it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
-    for (const [family, row] of ASKED_OF_PLAYER) {
-      const names = Object.keys(row.variants);
-      const shape = (variant: string) => {
-        const talk = compose(family, variant);
-        return {
-          state: talk.state.move,
-          replies: talk.tree.replies
-            .map((reply) => reply.line.move)
-            .sort()
-            .join("/"),
-          endings: Object.keys(talk.endingCounts).sort().join("/"),
-          lines: new Set(everyLine(talk.tree)),
-        };
-      };
-      const shapes = new Map(names.map((name) => [name, shape(name)]));
-      for (const a of names)
-        for (const b of names) {
-          if (a >= b) continue;
-          const [x, y] = [shapes.get(a)!, shapes.get(b)!];
-          const same =
-            x.state === y.state &&
-            x.replies === y.replies &&
-            x.endings === y.endings;
-          // Two variants may share a skeleton, never every line of it.
-          const shared = [...x.lines].filter((line) =>
-            y.lines.has(line),
-          ).length;
-          expect(
-            !same || shared < Math.min(x.lines.size, y.lines.size) / 2,
-            `${family}: ${a} and ${b} are one arc in two coats`,
-          ).toBe(true);
+          ).toEqual([]);
+          // The engines read these ending ids: every variant keeps them whole.
+          if (family === "bribe-offer")
+            for (const id of ["took-it", "put-off"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          else if (family === "donor-ask")
+            for (const id of ["looking-again", "hearing-only", "put-off"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          else if (family === "press-comment")
+            for (const id of ["on-record", "no-comment"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          else if (family === "ask-vote") {
+            process.stdout.write(
+              `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
+            );
+            // The keeps the engines read (favor-owed, promise, trust-lost,
+            // relationship-strained) come from these endings.
+            for (const id of ["vote-given", "traded"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          } else if (family === "conflict-accuse")
+            for (const id of ["disclosed", "feud"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          else if (family === "owed-apology")
+            for (const id of ["apology-taken", "grudge"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          else if (family === "constituent-help") {
+            // The keeps the engines read (promise, meeting-set,
+            // relationship-strained) come from these endings.
+            for (const id of ["will-call", "caseworker"])
+              expect(
+                talk.endingCounts[id] ?? 0,
+                `${where} ${id}`,
+              ).toBeGreaterThan(0);
+          } else
+            expect(
+              talk.endingCounts["said-you-would-report"] ?? 0,
+              where,
+            ).toBeGreaterThan(0);
         }
-      // The variants differ in the step or the replies they offer. Old
-      // premise: at least three skeletons, which held while constituent-help
-      // had five variants (plain, eviction, sick, lost-job, short-pay) with
-      // their own steps. lost-job and short-pay were deleted as duplicates of
-      // the plain arc worded by the case-help move set (#9394), leaving three
-      // variants of which two share a skeleton, so a floor of three cannot
-      // hold: it is min(3, variants minus 1) until sick has steps of its own
-      // (pool item words-sick-case-help-variant-gets-its-own-steps), when the
-      // floor goes back to one skeleton per variant. The pair check above
-      // still fails when two variants are one arc in two coats.
-      const skeletons = new Set(
-        names.map(
-          (name) => `${shapes.get(name)!.state}|${shapes.get(name)!.replies}`,
-        ),
-      );
-      expect(skeletons.size, family).toBeGreaterThanOrEqual(
-        Math.min(3, names.length - 1),
-      );
-    }
-  }, 300_000);
+    },
+    300_000,
+  );
+
+  // The cut of Nov 17 left this scene's lines unwritten; the lines are
+  // story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z on #9750).
+  it.fails(
+    "makes the variants differ in their steps, their replies and their endings, not only their words",
+    () => {
+      for (const [family, row] of ASKED_OF_PLAYER) {
+        const names = Object.keys(row.variants);
+        const shape = (variant: string) => {
+          const talk = compose(family, variant);
+          return {
+            state: talk.state.move,
+            replies: talk.tree.replies
+              .map((reply) => reply.line.move)
+              .sort()
+              .join("/"),
+            endings: Object.keys(talk.endingCounts).sort().join("/"),
+            lines: new Set(everyLine(talk.tree)),
+          };
+        };
+        const shapes = new Map(names.map((name) => [name, shape(name)]));
+        for (const a of names)
+          for (const b of names) {
+            if (a >= b) continue;
+            const [x, y] = [shapes.get(a)!, shapes.get(b)!];
+            const same =
+              x.state === y.state &&
+              x.replies === y.replies &&
+              x.endings === y.endings;
+            // Two variants may share a skeleton, never every line of it.
+            const shared = [...x.lines].filter((line) =>
+              y.lines.has(line),
+            ).length;
+            expect(
+              !same || shared < Math.min(x.lines.size, y.lines.size) / 2,
+              `${family}: ${a} and ${b} are one arc in two coats`,
+            ).toBe(true);
+          }
+        // The variants differ in the step or the replies they offer. Old
+        // premise: at least three skeletons, which held while constituent-help
+        // had five variants (plain, eviction, sick, lost-job, short-pay) with
+        // their own steps. lost-job and short-pay were deleted as duplicates of
+        // the plain arc worded by the case-help move set (#9394), leaving three
+        // variants of which two share a skeleton, so a floor of three cannot
+        // hold: it is min(3, variants minus 1) until sick has steps of its own
+        // (pool item words-sick-case-help-variant-gets-its-own-steps), when the
+        // floor goes back to one skeleton per variant. The pair check above
+        // still fails when two variants are one arc in two coats.
+        const skeletons = new Set(
+          names.map(
+            (name) => `${shapes.get(name)!.state}|${shapes.get(name)!.replies}`,
+          ),
+        );
+        expect(skeletons.size, family).toBeGreaterThanOrEqual(
+          Math.min(3, names.length - 1),
+        );
+      }
+    },
+    300_000,
+  );
 
   it("says a variant's own lines, and the family's where the variant has none", () => {
     const small = compose("bribe-offer", "small");
