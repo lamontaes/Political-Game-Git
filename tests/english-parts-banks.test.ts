@@ -109,7 +109,7 @@ const banks = readdirSync(PARTS_DIR)
  * Nov 15; CTO, Nov 18 18:27Z on #9750: a named list that only shrinks). Their
  * files and readers stay, and the screens show the records through labels.
  */
-const CUT_BANKS = new Set<string>(["bill-paper.json"]);
+const CUT_BANKS = new Set<string>([]);
 
 describe("English part banks", () => {
   it("has at least one bank", () => {
