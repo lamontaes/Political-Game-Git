@@ -299,11 +299,15 @@ function rank(
       ...byReach(personal).slice(P.zero, count - fixed.length),
     ]).slice(P.zero, count);
   const room = count - stands.length - fixed.length;
+  // The cut to four falls on the stands and personal parts by reach, never on
+  // the world's choice, which is always offered.
   return byReach([
     ...fixed,
-    ...stands,
-    ...byReach(personal).slice(P.zero, Math.max(room, P.two)),
-  ]).slice(P.zero, count);
+    ...byReach([
+      ...stands,
+      ...byReach(personal).slice(P.zero, Math.max(room, P.two)),
+    ]).slice(P.zero, count - fixed.length),
+  ]);
 }
 
 function edgePool(
