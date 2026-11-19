@@ -85,6 +85,9 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
       `${where}: no letter in a played year`,
     ).toBeGreaterThan(0);
     let replied = false;
+    // The writer the reader said yes to, and when: their next letter holds
+    // the reader to it and does not ask again (the Player, Nov 19 on #9750).
+    let yesTo: { writerId: PersonId; at: string } | null = null;
     const found = new Set<string>();
     for (const entry of letters()) {
       const moment = book.momentsById.get(entry.momentId)!;
@@ -164,6 +167,7 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
         expect(reply?.facts?.ending, where).toBe("wrote-back-yes");
         expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
         expect(reply?.personIds, where).toContain(writerId);
+        yesTo = { writerId, at: core.date };
         const sour = endsKeeping(scene.talk.tree, "relationship-strained")[0];
         const sourId = sour
           ? replyInScene(core, director, id, entry, sour.full, {
@@ -182,6 +186,58 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
     log(
       `LETTERS ${where}: ${letters().length} letters in a played year; facts found: ${[...found].join(",") || "(where they live only)"}`,
     );
+    if (yesTo) {
+      const after = () =>
+        letters().find((entry) => {
+          const cause = core.durableLog.get(
+            book.momentsById.get(entry.momentId)!.causeId,
+          );
+          return (
+            cause?.facts?.writerId === yesTo!.writerId && cause.date > yesTo!.at
+          );
+        });
+      for (let days = 0; days < 400 && !after(); days += 30)
+        advanceCore(core, addDays(makeIsoDate(core.date), 30));
+      const next = after();
+      if (!next)
+        log(
+          `LETTER AFTER A YES ${where}: ${yesTo.writerId} wrote no letter in 400 days after the yes`,
+        );
+      else {
+        const moment = book.momentsById.get(next.momentId)!;
+        const { placeNamed, nearNamed } = relativePlaceSaid(core, id);
+        const given = letterFacts(
+          core,
+          "letter",
+          moment.causeId,
+          yesTo.writerId,
+          id,
+          placeNamed,
+          nearNamed,
+        );
+        log(
+          `AFTER A YES ${where}: ${moment.causeId} said-yes ${JSON.stringify(given["said-yes"])}`,
+        );
+        expect(given["said-yes"], `${where}: the yes is read`).toBeTruthy();
+        const again = purposeScene(core, director, id, next, {
+          typeKey: "letter",
+        });
+        expect(again?.kind, where).toBe("composed");
+        if (again?.kind === "composed") {
+          const lines = again.scene.talk.lines.map((row) => row.text);
+          expect(
+            lines.some((text) =>
+              [
+                "Still coming?",
+                "We're still hoping.",
+                "Come soon, then.",
+              ].includes(text),
+            ),
+            `${where}: the letter after a yes asks again: ${lines.join(" | ")}`,
+          ).toBe(true);
+        }
+      }
+    }
   } finally {
     setBookkeeping(true);
   }

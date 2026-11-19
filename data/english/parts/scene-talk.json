@@ -57166,7 +57166,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "nearby"]
+          "requiresFacts": ["moved", "nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57191,7 +57192,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "hometown"]
+          "requiresFacts": ["moved", "hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57216,7 +57218,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57241,7 +57244,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57266,7 +57270,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -57291,7 +57296,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57316,7 +57322,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -57341,7 +57348,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -57366,7 +57374,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57391,7 +57400,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57416,7 +57426,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57441,7 +57452,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57466,7 +57478,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57491,7 +57504,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57516,7 +57530,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65420,7 +65435,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65444,7 +65460,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65468,7 +65485,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65633,6 +65651,81 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.still-coming",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Still coming?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-still-hoping",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're still hoping.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.come-soon-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Come soon, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
         "key": "news-received"
       }
     }

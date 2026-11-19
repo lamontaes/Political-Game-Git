@@ -30,6 +30,10 @@ const {
  * The facts a letter's cause record gives a scene between the writer
  * (`askerId`) and the reader (`askedId`). Empty for any other type.
  */
+/** A scene reply record, and the letter ending that agreed to what the letter asked (purpose-arcs.json, letter-ask). */
+const SCENE_REPLY = "scene.reply";
+const WROTE_BACK_YES = "wrote-back-yes";
+
 export function letterFacts(
   core: Readonly<CoreState>,
   typeKey: string,
@@ -65,6 +69,24 @@ export function letterFacts(
   ).find(
     (row) => row.date < letter.date && row.personIds.at(P.zero) === askedId,
   );
+  // A yes the reader already wrote back to this writer closes the ask: the
+  // next letter holds them to it instead of asking again (the Player, Nov 19
+  // on #9750: "an accepted ask has to close the ask").
+  const saidYes = recordsSince(
+    core,
+    askedId,
+    SCENE_REPLY,
+    "0000-00-00",
+    letter.date,
+  ).find(
+    (row) =>
+      row.personIds.includes(askerId) && row.facts?.ending === WROTE_BACK_YES,
+  );
+  if (saidYes)
+    facts["said-yes"] = {
+      text: "yes",
+      sourceRecordIds: [saidYes.id, causeId],
+    };
   if (before)
     for (const [key, fact] of Object.entries(
       newsSince(core, askerId, before.date, reader.householdId, letter.date),
