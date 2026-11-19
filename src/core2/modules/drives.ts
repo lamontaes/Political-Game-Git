@@ -2036,13 +2036,24 @@ export function createDrivesModule(
           !data.eventRules.some((rule) => rule.eventKind === act.kind)
         )
           return;
-        for (const id of event.witnessIds ?? [])
+        for (const id of event.witnessIds ?? []) {
+          // The act's own event entered the world already, so applyCoreEvent
+          // never recorded it for this hearer; the drive that forms from it
+          // reads the hearer's knowledge of it as a witness.
+          api.observe(id, {
+            key: `event:${act.id}:experienced`,
+            value: act.id,
+            learnedAt: event.date,
+            sourceId: act.id,
+            access: "perceived",
+          });
           respond(api, data, id, {
             ...act,
             date: event.date,
             witnessIds: [id],
             source: event.source,
           });
+        }
         return;
       }
       if (!data.eventRules.some((rule) => rule.eventKind === event.kind))

@@ -10,6 +10,8 @@
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
+import { moveEverydaySellers } from "../cost-of-living";
+import { regularSeller } from "../regular-seller";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
@@ -1288,6 +1290,32 @@ function payCompliance(api: CoreAPI): void {
 }
 
 /** The town's businesses that sell each kind of good, by place and classification. */
+/**
+ * Moves full households' everyday spending between sellers the same day and
+ * records each move (who, from, to, how much a month, why); returns the
+ * monthly amount moved.
+ */
+function moveCustomers(
+  api: CoreAPI,
+  fromIds: ReadonlySet<string>,
+  to: (householdId: string, fromId: string) => string | null,
+  cause: "closed" | "opened",
+): number {
+  const c = core(api);
+  const table = store(api).table("customerMoves");
+  let moved = 0;
+  for (const move of moveEverydaySellers(c, fromIds, to)) {
+    moved += move.monthlyMinor;
+    table.put({
+      id: `${c.date}:${move.householdId}:${move.fromId}`,
+      ...move,
+      date: c.date,
+      cause,
+    });
+  }
+  return moved;
+}
+
 function townSellers(c: CoreState): Map<string, string[]> {
   const index = new Map<string, string[]>();
   for (const [id, book] of c.finance.businesses) {
@@ -1925,7 +1953,7 @@ function startupCost(api: CoreAPI, market: Market): number {
  * of that kind choose first whether to open a location there, then the
  * place's working-age adults choose whether to found one.
  */
-function foundings(api: CoreAPI): void {
+function foundings(api: CoreAPI): number {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   // A typical adult's monthly pay in each place, the measure an owner's prospect is weighed against.
@@ -2092,6 +2120,7 @@ function foundings(api: CoreAPI): void {
   // Who has founded or opened a location this month, so one person does not
   // found twice.
   const founded = new Set<string>();
+  let made = 0;
   // An unaffordable market does not prevent an entrant in another market, and
   // neither does a founding in one: each market is weighed, and founds at most
   // once a month.
@@ -2142,6 +2171,7 @@ function foundings(api: CoreAPI): void {
       });
       if (opened) {
         founded.add(ownerId);
+        made += 1;
         continue markets;
       }
     }
@@ -2181,6 +2211,7 @@ function foundings(api: CoreAPI): void {
       // A failed capital check must not block another willing founder.
       if (found(api, person.id, market)) {
         founded.add(person.id);
+        made += 1;
         continue markets;
       }
     }
@@ -2204,10 +2235,12 @@ function foundings(api: CoreAPI): void {
     for (const founder of strongestPulls(api, "found", rows)) {
       if (found(api, founder.id, market)) {
         founded.add(founder.id);
+        made += 1;
         continue markets;
       }
     }
   }
+  return made;
 }
 
 function expandOption(
@@ -2242,6 +2275,8 @@ function foundOption(
   };
 }
 
+const savingsTries = new WeakMap<CoreState, Map<string, number>>();
+
 function found(
   api: CoreAPI,
   founderId: string,
@@ -2252,9 +2287,12 @@ function found(
     p = (key: string) => api.parameter(key);
   const kindId = market.kindId;
   const founder = ownerPerson(c, founderId)!.person;
-  const id = location
+  const base = location
     ? `organization:location:${location.parentId}:${market.placeId}:${c.date}`
     : `organization:founded:${kindId}:${founderId}:${c.date}`;
+  // More than one on a day (the opening settles a market over several passes): a serial keeps each its own record.
+  let id = base;
+  for (let n = 2; c.organizations.has(id); n += 1) id = `${base}:${n}`;
   const source = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
@@ -2280,8 +2318,15 @@ function found(
     ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
     : founderSavings(api, founderId);
   const beforeSavings = founder.liquidMinor;
+  // A founding that comes up short after the withdrawal leaves its transfer: a retry the same day (the opening settles over several passes) is its own transfer.
+  // A town opened at its Census scale has each generated worker standing for several, so a firm a founder opens there stands for as many startups as the firms beside it do.
+  const countScale = Number(c.placeMetadata?.openingCountScale) || 1;
+  const tries = savingsTries.get(c) ?? new Map<string, number>();
+  savingsTries.set(c, tries);
+  const tried = tries.get(id) ?? 0;
+  tries.set(id, tried + 1);
   const withdrawn = withdrawSavings(c, api, {
-    id: `startup-savings:${id}`,
+    id: `startup-savings:${id}${tried ? `:try${tried}` : ""}`,
     holderId: savings.holderId,
     customerAccountId: api.accounts().main(ownerFrom),
     amountMinor: Math.min(savings.minor, Math.ceil(fullCost)),
@@ -2310,7 +2355,7 @@ function found(
       );
   let scale = Math.min(
     1,
-    fullStaff > 0 ? p("businessStartupStaff") / fullStaff : 1,
+    fullStaff > 0 ? (p("businessStartupStaff") * countScale) / fullStaff : 1,
   );
   if (shortOfMoney(scale)) {
     // The largest size the money reaches, by halving the interval.
@@ -2383,8 +2428,27 @@ function found(
           capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
+  // Full households switch to it where it now stands first among their
+  // regular sellers of this kind (regular-seller.ts); nobody else moves.
+  const field = [
+    ...market.incumbents
+      .filter((rid) => !c.finance.businesses.get(rid)?.closedAt)
+      .map((rid) => ({
+        id: rid,
+        weight: c.finance.businesses.get(rid)?.capacityMinor ?? 0,
+      })),
+    { id, weight: capacityMinor },
+  ];
+  const won = moveCustomers(
+    api,
+    new Set(market.incumbents),
+    (householdId) =>
+      regularSeller(c.seed, householdId, field) === id ? id : null,
+    "opened",
+  );
   const annualDemandMinor =
     households +
+    won * p("macroMonthsPerYear") +
     shiftPurchaseShare(
       c,
       new Set(market.incumbents),
@@ -2761,6 +2825,13 @@ export const BUSINESS_MODULE: PreStartModule = {
       },
       choices: {},
       [FIRM_CHARGES_TABLE]: {},
+      // Households that changed stores when one closed or opened.
+      customerMoves: {
+        indexes: {
+          byFrom: { fields: ["fromId"] },
+          byTo: { fields: ["toId"] },
+        },
+      },
     },
   },
   reasonProviders: {
@@ -2774,6 +2845,25 @@ export const BUSINESS_MODULE: PreStartModule = {
     const c = core(api);
     // The closure event's id ends with the closed business.
     const organizationId = event.id.split(":").slice(2).join(":");
+    // Its customers go to their next regular seller of its kind the same day:
+    // households here, and businesses' supplies by the outside-costs routing.
+    const placeId = c.organizations.get(organizationId)?.placeId;
+    const others = (
+      townSellers(c).get(`${placeId}|${classificationOf(c, organizationId)}`) ??
+      []
+    ).map((id) => ({
+      id,
+      weight: c.finance.businesses.get(id)?.capacityMinor ?? 0,
+    }));
+    if (others.length) {
+      moveCustomers(
+        api,
+        new Set([organizationId]),
+        (householdId) => regularSeller(c.seed, householdId, others),
+        "closed",
+      );
+      routeOutsideCosts(api);
+    }
     const row = store(api).table("owners").get(organizationId) as
       OwnerRow | undefined;
     if (!row) return;
@@ -2824,6 +2914,30 @@ export const BUSINESS_MODULE: PreStartModule = {
     scheduleMonth(api);
   },
   onDay(api) {
-    if (!store(api).table("state").get("business:state")) open(api);
+    if (store(api).table("state").get("business:state")) return;
+    open(api);
+    settleFoundings(api);
   },
 };
+
+/**
+ * The town's businesses at the opening are the ones its own demand supports
+ * (owner, Nov 17: no count dealt from a table): the town opens with one business of
+ * each kind and the founding rule runs, a pass at a time on the day the
+ * business module opens, until no market has room for another business or the
+ * passes run out. Each pass founds at most one business per market, by the
+ * same choice of the same people as any month.
+ */
+export function settleFoundings(api: CoreAPI, maxPasses = 60): number {
+  let total = 0;
+  for (let pass = 0; pass < maxPasses; pass += 1) {
+    const made = foundings(api);
+    if (!made) break;
+    total += made;
+  }
+  return total;
+}
+
+// The family's entry for what the screens read of the town's sizing (dev mode's Businesses view).
+export { TOWN_WORKPLACES } from "../town-workplaces";
+export type { TownBusinessCount } from "../town-establishments";
