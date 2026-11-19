@@ -33,6 +33,8 @@ const {
 /** A scene reply record, and the letter ending that agreed to what the letter asked (purpose-arcs.json, letter-ask). */
 const SCENE_REPLY = "scene.reply";
 const WROTE_BACK_YES = "wrote-back-yes";
+/** The fact a letter carries when the reader already wrote back yes to this writer. */
+export const SAID_YES = "said-yes";
 
 export function letterFacts(
   core: Readonly<CoreState>,
@@ -83,7 +85,7 @@ export function letterFacts(
       row.personIds.includes(askerId) && row.facts?.ending === WROTE_BACK_YES,
   );
   if (saidYes)
-    facts["said-yes"] = {
+    facts[SAID_YES] = {
       text: "yes",
       sourceRecordIds: [saidYes.id, causeId],
     };
