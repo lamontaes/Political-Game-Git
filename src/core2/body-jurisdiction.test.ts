@@ -33,6 +33,9 @@ const where = `${drawn.name} (${drawn.key}), replay ${replay}`;
 const edgeProof: Record<string, unknown>[] = [];
 // The towns the played-year check may draw before it finds one whose
 // governments enacted a law in the year.
+// stopgapId: SG-LEGISLATURE-century-majority-files-little (after a century the
+// majority's agenda is already law, so it files almost nothing; each town passed
+// over is named, and the check fails if every drawn town enacted nothing)
 const YEAR_DRAWS = 4;
 
 it(`real unit identities retain the federal, county, township and city edges: ${where}`, () => {
