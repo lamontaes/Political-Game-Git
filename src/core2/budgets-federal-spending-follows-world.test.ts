@@ -19,6 +19,39 @@ import federalLines from "./data/country/federal-lines.json" with { type: "json"
 import { budgetsOf, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 
+/** A double as the exact fraction it holds: doubling is exact, so double it until it is whole. */
+function asFraction(x: number): [bigint, bigint] {
+  let scaled = x;
+  let d = 1n;
+  while (!Number.isInteger(scaled)) {
+    scaled *= 2;
+    d *= 2n;
+  }
+  return [BigInt(scaled), d];
+}
+
+/** `value` × Π over ÷ Π under, exactly, rounded to the nearest whole cent (halves up). */
+function exactlyRounded(
+  value: number,
+  over: readonly number[],
+  under: readonly number[],
+): number {
+  let n = 1n;
+  let d = 1n;
+  for (const x of [value, ...over]) {
+    const [a, b] = asFraction(x);
+    n *= a;
+    d *= b;
+  }
+  for (const x of under) {
+    const [a, b] = asFraction(x);
+    n *= b;
+    d *= a;
+  }
+  // All positive here: debt, yield, people, prices and a line's cents.
+  return Number((2n * n + d) / (2n * d));
+}
+
 const run = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const destination = federalLines.lines as Record<string, string>;
 
@@ -47,28 +80,26 @@ describe("federal spending follows the world's own people and prices", () => {
         const prior = rows[i - 1]!;
         const row = rows[i]!;
         if (!prior.drivers || !row.drivers) continue;
-        const people = row.drivers.people / prior.drivers.people;
-        const prices = row.drivers.prices / prior.drivers.prices;
         for (const [line, was] of Object.entries(prior.baseSpendingMinor!)) {
           const now = row.baseSpendingMinor![line]!;
-          if (line === "netInterest") {
-            expect(now, `${where}: ${row.id} ${line}`).toBe(
-              Math.round(
-                was *
-                  (row.drivers.debt / prior.drivers.debt) *
-                  (row.drivers.yield / prior.drivers.yield),
-              ),
-            );
-          } else {
-            expect(now, `${where}: ${row.id} ${line}`).toBe(
-              Math.round(
-                was *
-                  (destination[line] === "households"
-                    ? people * prices
-                    : prices),
-              ),
-            );
-          }
+          // The rule: last year's line times the ratios of this world's own
+          // drivers, rounded once to the nearest cent of the exact result
+          // (CTO, #9747 6991875920), worked here in whole numbers.
+          const [over, under] =
+            line === "netInterest"
+              ? [
+                  [row.drivers.debt, row.drivers.yield],
+                  [prior.drivers.debt, prior.drivers.yield],
+                ]
+              : destination[line] === "households"
+                ? [
+                    [row.drivers.people, row.drivers.prices],
+                    [prior.drivers.people, prior.drivers.prices],
+                  ]
+                : [[row.drivers.prices], [prior.drivers.prices]];
+          expect(now, `${where}: ${row.id} ${line}`).toBe(
+            exactlyRounded(was, over, under),
+          );
           checked += 1;
           if (now !== was) moved += 1;
         }

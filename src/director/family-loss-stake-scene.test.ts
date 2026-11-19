@@ -193,6 +193,15 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
       ),
     ) as string[];
     if (outIds.includes(filer)) continue;
+    // A race for more than one seat names its losers in the count's `outIds`:
+    // a filer it does not name won another seat (Northridge, Ohio, seed
+    // 4d8295c67eac8319: the second of two trustee seats), so lost nothing.
+    const count = core.durableLog.get(`election-result:${contest.id}`)?.facts;
+    if (
+      Number(count?.seats ?? 1) > 1 &&
+      !(JSON.parse(String(count?.outIds ?? "[]")) as string[]).includes(filer)
+    )
+      continue;
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>

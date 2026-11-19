@@ -67,6 +67,10 @@ Stop at the first hit that answers; read it whole.
 - Old material is deleted, not kept; a design question gets the whole-repository search before it is asked (Nov 15; `words-reads`, rules 127 to 135).
 - Election day is the player's choice; discrimination is simulated; the Wildermyth standard for scenes; one UI and one scene system (Oct 26).
 
+## Gotchas
+
+- Nov 18 (#10135): a new hosted seed can expose a red in a different case in a repaired test file. Before claiming or dismissing it, match the failing case, assertion, place, and seed to the open repair, then replay that exact case on the repair head.
+
 ## Self-check before you send anything to the owner
 
 - [ ] I read OWNER-DECISIONS whole and the prior-rulings digest for my area.

@@ -18,9 +18,12 @@ import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 // when they have been apart some days), and a work day from the job's own hours. In a place drawn from all 56, two weeks
 // of days, every household member every day. The talk it opens says the last
 // time together in words: a slot the line never fills ("Haven't seen much of
-// you since {last-together}.") never reaches the player.
+// you since {last-together}.") never reaches the player. A player who lives
+// alone has no one at home to talk with, so the draw moves on, bounded, and
+// names each place it passed over (Livingston, Kentucky, seed
+// 7838d14bd39634e894de1262cbee3aa0118b1392: an 18-year-old living alone).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "household-quiet");
+const DRAWS = 12;
 const DAYS = 14;
 const SEEN_LITTLE =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkSeenLittleDays!.value;
@@ -48,19 +51,37 @@ function hasHours(core: CoreState, personId: string): boolean {
   }
 }
 
-it(`a household member's quiet day is the weekday, the last time together and a work day, from records, in ${place.name} (${place.key}), seed ${seed}`, () => {
+function drawHousehold() {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(draw ? `${seed}:${draw}` : seed, "household-quiet");
+    const world = buildBenchWorld(place.seed, "2025-01-20", {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const playerId = world.playerId!;
+    const player = world.core.people.get(playerId)!;
+    const household = (
+      world.core.households.get(player.householdId)?.memberIds ?? []
+    )
+      .filter((id) => id !== playerId && world.core.people.get(id)?.alive)
+      .sort();
+    if (household.length) {
+      for (const where of passed)
+        process.stdout.write(`HOUSEHOLD QUIET passed over: ${where}\n`);
+      return { place, world, playerId, player, household };
+    }
+    passed.push(`${place.name} (${place.key}), the player lives alone`);
+  }
+  throw new Error(
+    `No player with someone at home in ${DRAWS} places (seed ${seed}): ${passed.join("; ")}`,
+  );
+}
+
+it(`a household member's quiet day is the weekday, the last time together and a work day, from records, in a drawn place, seed ${seed}`, () => {
   setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, "2025-01-20", {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  const { place, world, playerId, player, household } = drawHousehold();
   const { core, director } = world;
-  const playerId = world.playerId!;
-  const player = core.people.get(playerId)!;
-  const household = (core.households.get(player.householdId)?.memberIds ?? [])
-    .filter((id) => id !== playerId && core.people.get(id)?.alive)
-    .sort();
-  expect(household.length, "a household to talk with").toBeGreaterThan(0);
   const seen = { lastTogether: 0, said: 0, dayDone: 0, workDays: 0 };
   for (let day = 0; day < DAYS; day += 1) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
