@@ -147,6 +147,7 @@ import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
+import { quarrelFacts } from "./quarrel-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
@@ -1050,6 +1051,10 @@ function composeBinding(
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
   const { placeNamed, nearNamed } = relativePlaceSaid(core, askedId);
+  // A quarrel over money (`family.quarrel`): the payment it was over, by
+  // the loan's kind, so the apology can say what it is for.
+  for (const [key, fact] of Object.entries(quarrelFacts(core, moment.causeId)))
+    facts[key] = fact;
   for (const [key, fact] of Object.entries(
     letterFacts(
       core,
