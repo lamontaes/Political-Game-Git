@@ -11,11 +11,9 @@ import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import {
-  borrowerWorld,
+  findBorrower,
   LOAN_SEED,
-  BANK_BORROWER,
   play,
-  playToQuarrel,
 } from "../../tests/support/real-borrower";
 
 // A quarrel over a missed payment (the partnerships engine's own
@@ -68,19 +66,20 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${L
   const tried: string[] = [];
   let proven = 0;
   try {
-    // A player who really borrowed: the bank's personal loan and the missed
-    // payment are the credit engine's own (tests/support/real-borrower.ts).
-    for (const { draw, birth } of [BANK_BORROWER]) {
-      const { core, director, playerId, where } = borrowerWorld(draw, birth);
+    // A player who really borrowed, found by drawing places (CTO, Nov 17:
+    // no pinned borrower): the loan and the missed payment are the credit
+    // engine's own (tests/support/real-borrower.ts).
+    for (const found of [findBorrower()]) {
+      expect(
+        "quarrel" in found,
+        `seed ${LOAN_SEED}: no household borrowed in ${found.passedOver.length} played draws:\n${found.passedOver.join("\n")}`,
+      ).toBe(true);
+      if (!("quarrel" in found)) continue;
+      const { core, director, playerId, where, quarrel: first } = found;
       const id = playerId as PersonId;
-      director.watch(core, id);
       const book = director.ledger.people.get(id)!;
       const player = core.people.get(id)!;
-      // The longer run is the game's own: the player's days until the loan's
-      // payment goes unpaid and the housemate quarrels over it.
-      const first = playToQuarrel(core, id);
-      expect(first, `${where}: no missed payment by ${core.date}`).toBeTruthy();
-      const missedId = String(first!.facts?.missedId);
+      const missedId = String(first.facts?.missedId);
       expect(core.durableLog.get(missedId)?.kind, where).toBe(
         "credit.payment-missed",
       );

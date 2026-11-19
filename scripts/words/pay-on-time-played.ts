@@ -7,7 +7,7 @@
  *
  * (A played world outgrows node's default heap.)
  *
- * Plays each borrower in `PLAYED` from the New game creator's birthday
+ * Plays the drawn borrower from the New game creator's birthday
  * (`buildBenchWorld`'s playerBirthDate) on the player's own clock, through
  * tests/support/promise-play.ts, the same flow promises.test.ts asserts:
  * the loan the credit engine writes, the missed payment and the quarrel over
@@ -20,20 +20,15 @@
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import {
-  type Check,
-  type PayBorrower,
-  playPayOnTime,
-} from "../../tests/support/promise-play";
-import { BANK_BORROWER } from "../../tests/support/real-borrower";
+import { type Check, playPayOnTime } from "../../tests/support/promise-play";
 
 /**
- * The borrower whose talk says the payment name (data/english/payment-words.json):
- * the bank personal loan of the pinned player (tests/support/real-borrower.ts),
- * broken by the next missed payment. No played borrower keeps it on the Train
- * (item world-loan-bill-before-first-payday-no-borrower-keeps).
+ * The borrower whose talk says the payment name (data/english/payment-words.json)
+ * is found by drawing places (tests/support/real-borrower.ts `findBorrower`,
+ * CTO, Nov 17: never pinned): a bank loan the credit engine wrote, broken by
+ * the next missed payment. No played borrower keeps it on the Train (item
+ * world-loan-bill-before-first-payday-no-borrower-keeps).
  */
-const PLAYED: readonly PayBorrower[] = [BANK_BORROWER];
 
 const stop: Check = (holds, message) => {
   if (!holds) throw new Error(message);
@@ -45,11 +40,7 @@ function main(): void {
   if (!out) throw new Error("usage: --out <file.md>");
   const head = execFileSync("git", ["rev-parse", "HEAD"]).toString().trim();
   setBookkeeping(false);
-  const played: string[] = [];
-  for (const borrower of PLAYED) {
-    played.push(playPayOnTime(borrower, stop));
-    process.stderr.write(`played ${borrower.birth}\n`);
-  }
+  const played: string[] = [playPayOnTime(stop)];
   writeFileSync(
     out,
     `# Pay-on-time promises played at ${head}\n\nWritten by scripts/words/pay-on-time-played.ts at ${head}. Nothing is staged by hand: each loan is one the credit engine wrote, each missed payment one it billed and was not paid, on the player's own clock from the New game creator's birthday.\n\n\`\`\`\nPAY ON TIME\n  ${played.join("\n  ")}\n\`\`\`\n`,
