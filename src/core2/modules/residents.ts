@@ -4368,6 +4368,8 @@ export function returnCommuterPay(
   core: CoreState,
   householdId: string,
   amountMinor: number,
+  /** The jobs in the town the household returns with: their members are not out-of-town workers. */
+  localJobs = 0,
 ): void {
   const rt = runtimes.get(core);
   const ix = rt?.store.householdOf.get(householdId);
@@ -4388,17 +4390,32 @@ export function returnCommuterPay(
     if (!(level > 0)) return;
     pooledAmount = Math.round(amountMinor / level);
   }
-  base.amountMinor += pooledAmount;
-  // As many of the place's unplaced workers as the pay it brings back, at
-  // the place's pay per unplaced worker (the rate a counted household's
-  // income reads). A share of the other counted households' workers came to
-  // none once they were all filled in (Bentonia, Mississippi).
   const perYear =
     base.cadence.kind === "days"
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
   const perWorker = unplacedPayPerWorkerBase(rt, h);
-  h.unplacedWorkers = perWorker > 0 ? (pooledAmount * perYear) / perWorker : 0;
+  if (!(perWorker > 0)) return;
+  // The commuters are the place's unplaced workers again, each at the pool's
+  // pay per worker (the rate a counted household's income reads): as many as
+  // the pay they bring at that rate, never more than the household has
+  // working-age members without a job in the town to do the work. A worker
+  // above the pool's average comes back at the average.
+  const from = countedParameter("countedWorkingAgeFrom"),
+    below = countedParameter("countedWorkingAgeBelow");
+  const free = Math.max(
+    0,
+    rt.store.countedMembers(h).filter((m) => {
+      const age = ageOn(rt.store.born[m]!, core.date);
+      return age >= from && age < below;
+    }).length - localJobs,
+  );
+  const workers = Math.min(free, (pooledAmount * perYear) / perWorker);
+  if (!(workers > 0)) return;
+  base.amountMinor += Math.round(
+    (workers * rt.store.weightOf(h) * perWorker) / perYear,
+  );
+  h.unplacedWorkers = workers;
   regroupHousehold(rt, h, core.date);
 }
 
