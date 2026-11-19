@@ -54,4 +54,38 @@ describe("event ids past their dates leave the set in play", () => {
     expect(run(false)).toEqual({ dated: false, undated: true, queued: true });
     expect(run(true)).toEqual({ dated: true, undated: true, queued: true });
   });
+
+  it("keeps an id a live drive still cites, and drops it at the first monthly pass after the drive is gone", () => {
+    const previous = setBookkeeping(false);
+    try {
+      const core = createLifeCore(piecesInput());
+      const api = coreAPI(core);
+      const id = `test.happened:${core.date}`;
+      api.emit({
+        id,
+        date: core.date,
+        kind: "test.happened",
+        personIds: [],
+        placeId: "place",
+        source: piecesSource,
+      });
+      const person = [...core.people.values()][0]!;
+      api.updateDrive(person.id, {
+        id: "drive:test",
+        sourceEventId: id,
+        topic: "test",
+        desiredChange: "up",
+        strength: 1,
+      });
+      advanceCore(core, addDays(makeIsoDate(core.date), 470));
+      forgetOldEventIds(core);
+      expect(core.eventIds.has(id)).toBe(true);
+      person.drives.delete("drive:test");
+      advanceCore(core, addDays(makeIsoDate(core.date), 35));
+      forgetOldEventIds(core);
+      expect(core.eventIds.has(id)).toBe(false);
+    } finally {
+      setBookkeeping(previous);
+    }
+  });
 });

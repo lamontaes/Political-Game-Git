@@ -26,7 +26,11 @@ import senateClasses from "../../../data/research/offices/senate-classes-2026.js
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import { workFromHome } from "../places";
-import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
+import {
+  registerHuskIdentity,
+  registerHuskPromoter,
+  registerUnbuiltHolders,
+} from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
   CoreAPI,
@@ -75,6 +79,7 @@ import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
   type TermRow,
+  vacateSeat,
   vacateUnheldSeat,
 } from "./offices";
 import { filingRequirements } from "./elections";
@@ -1003,8 +1008,19 @@ function promoteOutsideOfficial(
 ): PersonState | undefined {
   const api = coreAPI(core);
   if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
-  const row = officialOf(api, personId);
-  if (!row?.husk) return undefined;
+  let row = officialOf(api, personId);
+  if (!row) {
+    // Another place's holder nobody has opened is seated now, from the same
+    // draw their session read (`unopenedDraw`): a legislator as a husk,
+    // built below; a governor or executive as the person they are. One who
+    // has left office is not built.
+    const term = unopenedTerm(api, personId);
+    if (term?.status !== "serving") return undefined;
+    holderOf(api, term);
+    row = officialOf(api, personId);
+    if (!row?.husk) return core.people.get(personId);
+  }
+  if (!row.husk) return undefined;
   const person = fillInIdentity(core, {
     ...row.husk.identity,
     source: source(row.husk.asOf),
@@ -1015,12 +1031,21 @@ function promoteOutsideOfficial(
 registerHuskPromoter(promoteOutsideOfficial);
 registerHuskIdentity((core, personId) => {
   if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
-  const husk = officialOf(coreAPI(core), personId)?.husk;
-  return husk
+  const api = coreAPI(core);
+  const husk = officialOf(api, personId)?.husk;
+  if (husk)
+    return {
+      birthDate: husk.identity.birthDate,
+      placeId: husk.identity.placeId,
+      traits: husk.identity.traits ?? {},
+    };
+  // Another place's holder nobody has opened: who their term and draw say.
+  const term = unopenedTerm(api, personId);
+  return term
     ? {
-        birthDate: husk.identity.birthDate,
-        placeId: husk.identity.placeId,
-        traits: husk.identity.traits ?? {},
+        birthDate: term.identity.birthDate,
+        placeId: term.identity.homeState,
+        traits: unopenedDraw(api, term).traits,
       }
     : undefined;
 });
@@ -1384,44 +1409,117 @@ function officialSpec(api: CoreAPI, input: SeatInput): Spec {
   };
 }
 
-/** What an unopened holder stands on: the ideal and causes their draw gives. */
-type Stance = Pick<OfficialRow, "ideal" | "signature">;
-const unopened = new WeakMap<object, Map<string, Stance>>();
+/** What an unopened holder is drawn as: their ideal and causes, and their traits. */
+type UnopenedDraw = Pick<OfficialRow, "ideal" | "signature"> & {
+  readonly traits: Readonly<Record<string, number>>;
+};
+const unopened = new WeakMap<object, Map<string, UnopenedDraw>>();
 
 /**
- * Another place's holder nobody has opened (their term names no person and
- * no official row is kept): what they stand on, from the same draw that
- * seats them when the player meets or opens them (`holderOf`), with nothing
- * written. Their session reads them through this, so other places keep only
- * their results (owner, Oct 11, two-level population; CTO, Nov 18 13:44Z).
+ * Another place's holder nobody has opened: a term that names no person, of
+ * an office outside the player's state, read by its holder's key
+ * (`official:<term>`). Serving or not: one who left office is still nobody
+ * built.
  */
-function unopenedStance(api: CoreAPI, memberId: string): Stance | undefined {
+function unopenedTerm(api: CoreAPI, memberId: string): TermRow | undefined {
   if (!memberId.startsWith("official:")) return undefined;
-  const termId = memberId.slice("official:".length);
-  let kept = unopened.get(api.state);
-  const held = kept?.get(termId);
-  if (held) return held;
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices.table("terms").get(termId) as unknown as
-    TermRow | undefined;
+  const term = offices
+    .table("terms")
+    .get(memberId.slice("official:".length)) as unknown as TermRow | undefined;
   if (!term || term.personId) return undefined;
   const office = offices.table("offices").get(term.officeId) as unknown as
     Parameters<typeof isOutsideOffice>[1] | undefined;
-  if (!office || !isOutsideOffice(api, office)) return undefined;
-  const loaded = offices.table("loaded").get("town") as unknown as {
-    worldSeed: string;
-  };
+  return office && isOutsideOffice(api, office) ? term : undefined;
+}
+
+/**
+ * An unopened holder's draw: the same one that seats them when the player
+ * meets or opens them (`holderOf`), with nothing written, kept in memory
+ * per world.
+ */
+function unopenedDraw(api: CoreAPI, term: TermRow): UnopenedDraw {
+  let kept = unopened.get(api.state);
+  const held = kept?.get(term.id);
+  if (held) return held;
+  const loaded = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { worldSeed: string };
   const [seat] = drawAll(
     api,
     loaded.worldSeed,
     [officialSpec(api, holderInput(api, term))],
     false,
   ).seats;
-  const stance = { ideal: seat!.drawn.ideal, signature: seat!.drawn.signature };
+  const draw = {
+    ideal: seat!.drawn.ideal,
+    signature: seat!.drawn.signature,
+    traits: seat!.drawn.traits,
+  };
   if (!kept) unopened.set(api.state, (kept = new Map()));
-  kept.set(termId, stance);
-  return stance;
+  kept.set(term.id, draw);
+  return draw;
 }
+
+/**
+ * What another place's unopened holder stands on (their term names no
+ * person and no official row is kept), from their draw. Their session reads
+ * them through this, so other places keep only their results (owner, Oct
+ * 11, two-level population; CTO, Nov 18 13:44Z).
+ */
+function unopenedStance(
+  api: CoreAPI,
+  memberId: string,
+): Pick<OfficialRow, "ideal" | "signature"> | undefined {
+  const term = unopenedTerm(api, memberId);
+  return term ? unopenedDraw(api, term) : undefined;
+}
+
+/**
+ * Another place's unopened holders live by the same mortality rule as
+ * everyone: the health engine books their illness and death from who they
+ * are (their term's birth date and home state, their draw's traits), and
+ * their death writes only its result: the term ends and the seat falls
+ * vacant, filled by the place's own law. Nobody is built (CTO, Nov 18
+ * 15:04Z). Moves are not read for them: a husk never moved either.
+ */
+registerUnbuiltHolders({
+  // The terms table only grows: a new count is a new holder to book.
+  marker: (core) =>
+    core.modules.has(OFFICIALS_MODULE_ID)
+      ? coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms").size
+      : -1,
+  ids: (core) => {
+    if (!core.modules.has(OFFICIALS_MODULE_ID)) return [];
+    const api = coreAPI(core);
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    const outside = new Map<string, boolean>();
+    return (
+      offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]
+    )
+      .filter((term) => {
+        if (term.personId) return false;
+        if (!outside.has(term.officeId))
+          outside.set(
+            term.officeId,
+            isOutsideOffice(api, offices.table("offices").get(term.officeId)),
+          );
+        return outside.get(term.officeId)!;
+      })
+      .map((term) => `official:${term.id}`);
+  },
+  holds: (core, personId) =>
+    core.modules.has(OFFICIALS_MODULE_ID) &&
+    unopenedTerm(coreAPI(core), personId) !== undefined,
+  died: (core, personId) => {
+    const api = coreAPI(core);
+    const term = unopenedTerm(api, personId);
+    if (term?.status === "serving") vacateSeat(api, term.seatId, "death");
+  },
+});
 
 /** The parts of an official's position on a bill that are theirs alone. */
 export interface OfficialParts {

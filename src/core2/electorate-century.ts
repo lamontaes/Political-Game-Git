@@ -313,8 +313,10 @@ export interface CenturyFounding {
 
 /**
  * One presidential cycle's founding step. The voters a party reaches are those whose lean goes
- * `partyIdentityReach` of the way to where their side's party stands (the same rule party ties
- * use, parties.ts centuryTies); the rest are unreached, and their share adds to a pressure that
+ * `partyIdentityReach` of the way to where their side's party stands (the same reach party ties
+ * use, parties.ts centuryTies), each unreached by the part of that reach they fall short of (a
+ * sliding scale, so the pressure moves continuously with where the parties stand, never in steps
+ * of one voter); that unreached share adds to a pressure that
  * fades each cycle (`centuryFoundingFade`). Where the parties stand far from the voters the
  * pressure builds, and where one moves back it shrinks. A party is founded when the pressure
  * outweighs `centuryFoundingCost` (stopgap SG-HIST-century-founding-cost), at the centroid of
@@ -337,11 +339,19 @@ export function foundingStep(
   for (const voter of voters) {
     const v = 2 * voter.rank - 1;
     weight += voter.weight;
+    // A sliding scale, no threshold: a voter at their party's reach is wholly reached, one at
+    // the center not at all, and between them the unreached part falls in a straight line.
     const position = at[Math.sign(v)];
-    if (position !== undefined && Math.abs(v) >= reach * Math.abs(position))
-      continue;
-    unreached += voter.weight;
-    lean += voter.weight * v;
+    const reachesTo = position === undefined ? 0 : reach * Math.abs(position);
+    const part =
+      position === undefined
+        ? 1
+        : reachesTo > 0
+          ? Math.max(0, 1 - Math.abs(v) / reachesTo)
+          : 0;
+    if (part <= 0) continue;
+    unreached += voter.weight * part;
+    lean += voter.weight * part * v;
   }
   const share = weight ? unreached / weight : 0;
   const next = pressure * centuryParameter("centuryFoundingFade") + share;

@@ -32,6 +32,7 @@ import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.BORROWING_SEED ?? randomBytes(20).toString("hex");
 const LAW = "us-policy-positions:fiscal.balanced-operating-budget";
+const LAW_LINK = "balanced-budget-to-borrowing-cost";
 const MEASURE = "gov.borrowing-cost";
 const LINKS = WEB_LINKS.filter((l) => l.to === MEASURE).map((l) => l.key);
 /** Past the balanced budget link's 12-month lag (links.json), to a few monthly closes after it. */
@@ -51,7 +52,7 @@ function addedOn(core: CoreState, placeId: string, date: string) {
     .sort((a, b) => b.month.localeCompare(a.month))[0];
   if (!row) return null;
   const added = LINKS.reduce((n, key) => n + (row.effects[key] ?? 0), 0);
-  return { added, recordId: row.id };
+  return { added, fromLaw: row.effects[LAW_LINK] ?? 0, recordId: row.id };
 }
 
 function stateMonths(api: CoreAPI) {
@@ -130,7 +131,7 @@ describe("a state's fiscal laws reach its bondholders", () => {
           const checked: {
             month: TreasuryMonthRow;
             other: TreasuryMonthRow;
-            added: number;
+            lawChange: number;
             recordId: string;
           }[] = [];
           for (const month of withLaw.months) {
@@ -139,7 +140,9 @@ describe("a state's fiscal laws reach its bondholders", () => {
             if (!other || !line) continue;
             const web = addedOn(lawWorld, chain.townPlaceId, month.date);
             const webControl = addedOn(control, chain.townPlaceId, month.date);
-            if (!web || !webControl || web.added === webControl.added) continue;
+            if (!web || !webControl) continue;
+            const lawChange = web.fromLaw - webControl.fromLaw;
+            if (web.added === webControl.added && lawChange === 0) continue;
             const budget = budgetsOf(api, withLaw.state.id).find(
               (b) => b.id === month.budgetId,
             )!;
@@ -161,23 +164,26 @@ describe("a state's fiscal laws reach its bondholders", () => {
             checked.push({
               month,
               other,
-              added: web.added - webControl.added,
+              lawChange,
               recordId: web.recordId,
             });
           }
-          if (!checked.length) {
+          // Other borrowing links can diverge before this law's lag expires.
+          const first = checked.find((close) => close.lawChange !== 0);
+          if (!first) {
             passed.push(
               `${drawn.name}, ${drawn.state} (${drawn.key}): no close in a month the law moved`,
             );
             continue;
           }
-          const first = checked[0]!;
           const bonds = (m: TreasuryMonthRow) =>
             m.paymentIds.find((id) =>
               id.startsWith(`treasury-bonds:bondholders:${m.governmentId}:`),
             );
           // Repealed, the state pays more to borrow; enacted, less.
-          expect(Math.sign(first.added), first.month.id).toBe(inForce ? 1 : -1);
+          expect(Math.sign(first.lawChange), first.month.id).toBe(
+            inForce ? 1 : -1,
+          );
           expect(
             Math.sign(
               first.month.lines.interest!.dueMinor -
@@ -186,7 +192,7 @@ describe("a state's fiscal laws reach its bondholders", () => {
             first.month.id,
           ).toBe(inForce ? 1 : -1);
           process.stdout.write(
-            `BORROWING ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} (${inForce ? "repealed" : "enacted"}); ${checked.length} closes in moved months; ${first.month.id}: borrowing cost ${first.added > 0 ? "+" : ""}${first.added.toFixed(1)} basis points against the control (${first.recordId}), state rate ${(rateOn(first.month.date) * 100).toFixed(2)}%, interest owed ${first.month.lines.interest!.dueMinor} against ${first.other.lines.interest!.dueMinor} in the control world, bondholders paid in ${bonds(first.month) ?? "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
+            `BORROWING ${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed}): law ${row.id} (${inForce ? "repealed" : "enacted"}); checked interest at ${checked.length} closes; ${first.month.id}: balanced-budget link ${first.lawChange > 0 ? "+" : ""}${first.lawChange.toFixed(1)} basis points against the control (${first.recordId}), state rate ${(rateOn(first.month.date) * 100).toFixed(2)}%, interest owed ${first.month.lines.interest!.dueMinor} against ${first.other.lines.interest!.dueMinor} in the control world, bondholders paid in ${bonds(first.month) ?? "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }

@@ -2260,7 +2260,12 @@ export function seatWinner(
     reached: winner.reached,
     status: "serving",
   } as unknown as ModuleRow);
-  if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
+  // A regular term's start leaves no unexpired term for a special election
+  // still waiting to fill: the new term fills the vacancy, and its special
+  // election, finding it filled, is not held.
+  const filledVacancy =
+    winner.vacancyId ?? awaitingVacancy(api, winner.seatId)?.id;
+  if (filledVacancy) vacancyFilled(api, filledVacancy, termId);
   api.emit({
     id: `took-office:${winner.seatId}:${date}`,
     date,
