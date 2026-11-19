@@ -1280,14 +1280,19 @@ function hearBookedDay(
       data.deathSeverity,
       true,
     );
-    const died = assignDeathCause(api, {
-      placeId: person.placeId,
-      age: Math.floor(exactAge(api, person.birthDate, date)),
-      incomeFifth: row.plans.get(id)?.fifth,
-      substanceUse: (row.conditionsByPerson.get(id) ?? []).includes(
-        SUBSTANCE_CONDITION,
-      ),
-    });
+    const substanceUse = (row.conditionsByPerson.get(id) ?? []).includes(
+      SUBSTANCE_CONDITION,
+    );
+    // A death that follows a recorded illness is of that illness: its cause is the condition the case follows. Only a death with no illness on record (or an overdose of someone with the substance-use condition) takes its cause from the place's age-band shares.
+    const died =
+      found.conditionKey && !substanceUse
+        ? { cause: found.conditionKey, recordId: null }
+        : assignDeathCause(api, {
+            placeId: person.placeId,
+            age: Math.floor(exactAge(api, person.birthDate, date)),
+            incomeFifth: row.plans.get(id)?.fifth,
+            substanceUse,
+          });
     found.deathEventId = event.id;
     // A death booked on a day the clock passed over is heard, and dated, today.
     found.deathDate = date;
