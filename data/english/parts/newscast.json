@@ -394,9 +394,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "no-injuries"
-          ]
+          "requiresFacts": ["no-injuries"]
         }
       ],
       "origin": "authored",
@@ -518,9 +516,7 @@
           "subject": "story",
           "role": "vote-or-law",
           "choice": "vote-or-law",
-          "requiresFacts": [
-            "bill-passed"
-          ]
+          "requiresFacts": ["bill-passed"]
         }
       ],
       "origin": "authored",
@@ -541,9 +537,7 @@
           "subject": "story",
           "role": "vote-or-law",
           "choice": "vote-or-law",
-          "requiresFacts": [
-            "amendment-passed"
-          ]
+          "requiresFacts": ["amendment-passed"]
         }
       ],
       "origin": "authored",
@@ -606,9 +600,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         }
       ],
       "origin": "authored",
@@ -630,9 +622,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         }
       ],
       "origin": "authored",
@@ -654,9 +644,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "prices-up"
-          ]
+          "requiresFacts": ["prices-up"]
         }
       ],
       "origin": "authored",

@@ -373,9 +373,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-all-warmer",
-          "requiresFacts": [
-            "warmer"
-          ]
+          "requiresFacts": ["warmer"]
         }
       ],
       "tag": {
@@ -397,9 +395,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-all-warmer",
-          "requiresFacts": [
-            "warmer"
-          ]
+          "requiresFacts": ["warmer"]
         }
       ],
       "tag": {
@@ -421,9 +417,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-all-cooler",
-          "requiresFacts": [
-            "cooler"
-          ]
+          "requiresFacts": ["cooler"]
         }
       ],
       "tag": {
@@ -445,9 +439,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-all-cooler",
-          "requiresFacts": [
-            "cooler"
-          ]
+          "requiresFacts": ["cooler"]
         }
       ],
       "tag": {
@@ -889,10 +881,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-none",
-          "excludesFacts": [
-            "warmer",
-            "cooler"
-          ]
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "tag": {
@@ -914,10 +903,7 @@
           "subject": "campaign",
           "role": "standing",
           "choice": "moved-none",
-          "excludesFacts": [
-            "warmer",
-            "cooler"
-          ]
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "tag": {

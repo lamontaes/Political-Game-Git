@@ -605,10 +605,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": [
-            "lean",
-            "ballot"
-          ]
+          "requiresFacts": ["lean", "ballot"]
         }
       ],
       "origin": "authored",
@@ -626,9 +623,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -646,9 +641,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -666,10 +659,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": [
-            "lean",
-            "ourSide"
-          ]
+          "requiresFacts": ["lean", "ourSide"]
         }
       ],
       "origin": "authored",
@@ -687,9 +677,7 @@
           "subject": "lean",
           "role": "against",
           "choice": "against",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -707,9 +695,7 @@
           "subject": "lean",
           "role": "against",
           "choice": "against",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -727,9 +713,7 @@
           "subject": "lean",
           "role": "against",
           "choice": "against",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -747,9 +731,7 @@
           "subject": "lean",
           "role": "against",
           "choice": "against",
-          "requiresFacts": [
-            "lean"
-          ]
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -767,9 +749,7 @@
           "subject": "election",
           "role": "result",
           "choice": "named",
-          "requiresFacts": [
-            "paper"
-          ]
+          "requiresFacts": ["paper"]
         }
       ],
       "origin": "authored",
@@ -787,9 +767,7 @@
           "subject": "election",
           "role": "result",
           "choice": "named",
-          "requiresFacts": [
-            "television"
-          ]
+          "requiresFacts": ["television"]
         }
       ],
       "origin": "authored",
@@ -824,9 +802,7 @@
           "subject": "election",
           "role": "result",
           "choice": "unnamed",
-          "requiresFacts": [
-            "paper"
-          ]
+          "requiresFacts": ["paper"]
         }
       ],
       "origin": "authored",
@@ -844,9 +820,7 @@
           "subject": "election",
           "role": "result",
           "choice": "unnamed",
-          "requiresFacts": [
-            "television"
-          ]
+          "requiresFacts": ["television"]
         }
       ],
       "origin": "authored",

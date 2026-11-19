@@ -195,10 +195,7 @@
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": [
-            "name",
-            "disaster"
-          ]
+          "requiresFacts": ["name", "disaster"]
         }
       ],
       "origin": "authored",
@@ -220,9 +217,7 @@
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": [
-            "disaster"
-          ]
+          "requiresFacts": ["disaster"]
         }
       ],
       "origin": "authored",
@@ -244,9 +239,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -268,9 +261,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -292,9 +283,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -316,9 +305,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -361,9 +348,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -385,9 +370,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -409,10 +392,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "up",
-            "federal"
-          ]
+          "requiresFacts": ["up", "federal"]
         }
       ],
       "origin": "authored",
@@ -434,9 +414,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -458,9 +436,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -482,10 +458,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "down",
-            "federal"
-          ]
+          "requiresFacts": ["down", "federal"]
         }
       ],
       "origin": "authored",
@@ -507,9 +480,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "same"
-          ]
+          "requiresFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -573,9 +544,7 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "federal"
-          ]
+          "requiresFacts": ["federal"]
         }
       ],
       "origin": "authored",
@@ -660,9 +629,7 @@
           "subject": "headline",
           "role": "law-passed",
           "choice": "headline",
-          "requiresFacts": [
-            "federal"
-          ]
+          "requiresFacts": ["federal"]
         }
       ],
       "origin": "authored",
@@ -1364,9 +1331,7 @@
           "subject": "headline",
           "role": "organization.opened",
           "choice": "headline",
-          "requiresFacts": [
-            "reopened"
-          ]
+          "requiresFacts": ["reopened"]
         }
       ],
       "origin": "authored",
@@ -1388,9 +1353,7 @@
           "subject": "headline",
           "role": "organization.opened",
           "choice": "headline",
-          "requiresFacts": [
-            "reopened"
-          ]
+          "requiresFacts": ["reopened"]
         }
       ],
       "origin": "authored",
@@ -1475,9 +1438,7 @@
           "subject": "headline",
           "role": "law",
           "choice": "headline",
-          "requiresFacts": [
-            "effective"
-          ]
+          "requiresFacts": ["effective"]
         }
       ],
       "origin": "authored",
@@ -1499,9 +1460,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -1523,9 +1482,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -1547,9 +1504,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -1571,9 +1526,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -1595,9 +1548,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -1619,9 +1570,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -1643,9 +1592,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "changed"
-          ]
+          "requiresFacts": ["changed"]
         }
       ],
       "origin": "authored",
@@ -1667,9 +1614,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "changed"
-          ]
+          "requiresFacts": ["changed"]
         }
       ],
       "origin": "authored",
@@ -1691,9 +1636,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "same"
-          ]
+          "requiresFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1715,9 +1658,7 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": [
-            "same"
-          ]
+          "requiresFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1739,9 +1680,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -1763,9 +1702,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -1787,9 +1724,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -1811,9 +1746,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -1835,9 +1768,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -1859,9 +1790,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -1883,9 +1812,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -1907,9 +1834,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -1931,9 +1856,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -1955,9 +1878,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -1979,9 +1900,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -2003,9 +1922,7 @@
           "subject": "headline",
           "role": "override",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -2027,9 +1944,7 @@
           "subject": "headline",
           "role": "override",
           "choice": "headline",
-          "requiresFacts": [
-            "passed"
-          ]
+          "requiresFacts": ["passed"]
         }
       ],
       "origin": "authored",
@@ -2051,9 +1966,7 @@
           "subject": "headline",
           "role": "override",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -2075,9 +1988,7 @@
           "subject": "headline",
           "role": "override",
           "choice": "headline",
-          "requiresFacts": [
-            "failed"
-          ]
+          "requiresFacts": ["failed"]
         }
       ],
       "origin": "authored",
@@ -2099,9 +2010,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "signed"
-          ]
+          "requiresFacts": ["signed"]
         }
       ],
       "origin": "authored",
@@ -2123,9 +2032,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "signed"
-          ]
+          "requiresFacts": ["signed"]
         }
       ],
       "origin": "authored",
@@ -2147,9 +2054,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "vetoed"
-          ]
+          "requiresFacts": ["vetoed"]
         }
       ],
       "origin": "authored",
@@ -2171,9 +2076,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "vetoed"
-          ]
+          "requiresFacts": ["vetoed"]
         }
       ],
       "origin": "authored",
@@ -2195,9 +2098,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "unsigned"
-          ]
+          "requiresFacts": ["unsigned"]
         }
       ],
       "origin": "authored",
@@ -2219,9 +2120,7 @@
           "subject": "headline",
           "role": "signed",
           "choice": "headline",
-          "requiresFacts": [
-            "unsigned"
-          ]
+          "requiresFacts": ["unsigned"]
         }
       ],
       "origin": "authored",
@@ -2243,9 +2142,7 @@
           "subject": "headline",
           "role": "hearing",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -2351,9 +2248,7 @@
           "subject": "headline",
           "role": "budget-line",
           "choice": "headline",
-          "requiresFacts": [
-            "cut"
-          ]
+          "requiresFacts": ["cut"]
         }
       ],
       "origin": "authored",
@@ -2375,9 +2270,7 @@
           "subject": "headline",
           "role": "budget-line",
           "choice": "headline",
-          "requiresFacts": [
-            "cut"
-          ]
+          "requiresFacts": ["cut"]
         }
       ],
       "origin": "authored",
@@ -2399,9 +2292,7 @@
           "subject": "headline",
           "role": "budget-line",
           "choice": "headline",
-          "requiresFacts": [
-            "added"
-          ]
+          "requiresFacts": ["added"]
         }
       ],
       "origin": "authored",
@@ -2423,9 +2314,7 @@
           "subject": "headline",
           "role": "budget-line",
           "choice": "headline",
-          "requiresFacts": [
-            "added"
-          ]
+          "requiresFacts": ["added"]
         }
       ],
       "origin": "authored",
@@ -2573,10 +2462,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "unemployment",
-            "up"
-          ]
+          "requiresFacts": ["unemployment", "up"]
         }
       ],
       "origin": "authored",
@@ -2598,10 +2484,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "unemployment",
-            "up"
-          ]
+          "requiresFacts": ["unemployment", "up"]
         }
       ],
       "origin": "authored",
@@ -2623,10 +2506,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "unemployment",
-            "down"
-          ]
+          "requiresFacts": ["unemployment", "down"]
         }
       ],
       "origin": "authored",
@@ -2648,10 +2528,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "unemployment",
-            "down"
-          ]
+          "requiresFacts": ["unemployment", "down"]
         }
       ],
       "origin": "authored",
@@ -2673,11 +2550,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "unemployment",
-            "down",
-            "nobody"
-          ]
+          "requiresFacts": ["unemployment", "down", "nobody"]
         }
       ],
       "origin": "authored",
@@ -2699,10 +2572,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "burglary",
-            "up"
-          ]
+          "requiresFacts": ["burglary", "up"]
         }
       ],
       "origin": "authored",
@@ -2724,10 +2594,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "burglary",
-            "down"
-          ]
+          "requiresFacts": ["burglary", "down"]
         }
       ],
       "origin": "authored",
@@ -2749,10 +2616,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "robbery",
-            "up"
-          ]
+          "requiresFacts": ["robbery", "up"]
         }
       ],
       "origin": "authored",
@@ -2774,10 +2638,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "robbery",
-            "down"
-          ]
+          "requiresFacts": ["robbery", "down"]
         }
       ],
       "origin": "authored",
@@ -2799,10 +2660,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "assault",
-            "up"
-          ]
+          "requiresFacts": ["assault", "up"]
         }
       ],
       "origin": "authored",
@@ -2824,10 +2682,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "assault",
-            "down"
-          ]
+          "requiresFacts": ["assault", "down"]
         }
       ],
       "origin": "authored",
@@ -2849,10 +2704,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "vandalism",
-            "up"
-          ]
+          "requiresFacts": ["vandalism", "up"]
         }
       ],
       "origin": "authored",
@@ -2874,10 +2726,7 @@
           "subject": "headline",
           "role": "conditions",
           "choice": "headline",
-          "requiresFacts": [
-            "vandalism",
-            "down"
-          ]
+          "requiresFacts": ["vandalism", "down"]
         }
       ],
       "origin": "authored",
@@ -2899,9 +2748,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -2923,9 +2770,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "up"
-          ]
+          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -2947,9 +2792,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -2971,9 +2814,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -2995,9 +2836,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -3019,9 +2858,7 @@
           "subject": "headline",
           "role": "rate",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -3064,9 +2901,7 @@
           "subject": "headline",
           "role": "town-hall",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -3088,10 +2923,7 @@
           "subject": "headline",
           "role": "body-meeting",
           "choice": "headline",
-          "requiresFacts": [
-            "number",
-            "several"
-          ]
+          "requiresFacts": ["number", "several"]
         }
       ],
       "origin": "authored",
@@ -3113,10 +2945,7 @@
           "subject": "headline",
           "role": "body-meeting",
           "choice": "headline",
-          "requiresFacts": [
-            "designation",
-            "one"
-          ]
+          "requiresFacts": ["designation", "one"]
         }
       ],
       "origin": "authored",
@@ -3138,10 +2967,7 @@
           "subject": "headline",
           "role": "body-meeting",
           "choice": "headline",
-          "requiresFacts": [
-            "purpose",
-            "one"
-          ]
+          "requiresFacts": ["purpose", "one"]
         }
       ],
       "origin": "authored",
@@ -3163,9 +2989,7 @@
           "subject": "headline",
           "role": "body-meeting",
           "choice": "headline",
-          "requiresFacts": [
-            "purpose"
-          ]
+          "requiresFacts": ["purpose"]
         }
       ],
       "origin": "authored",
@@ -3187,10 +3011,7 @@
           "subject": "headline",
           "role": "body-meeting",
           "choice": "headline",
-          "requiresFacts": [
-            "designation",
-            "several"
-          ]
+          "requiresFacts": ["designation", "several"]
         }
       ],
       "origin": "authored",
@@ -3443,15 +3264,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won"
-          ],
-          "excludesFacts": [
-            "contested",
-            "unopposed",
-            "atLarge",
-            "seat"
-          ]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -3473,15 +3287,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won"
-          ],
-          "excludesFacts": [
-            "contested",
-            "unopposed",
-            "atLarge",
-            "seat"
-          ]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -3566,9 +3373,7 @@
           "subject": "headline",
           "role": "vacancy",
           "choice": "headline",
-          "requiresFacts": [
-            "died"
-          ]
+          "requiresFacts": ["died"]
         }
       ],
       "origin": "authored",
@@ -3590,9 +3395,7 @@
           "subject": "headline",
           "role": "vacancy",
           "choice": "headline",
-          "requiresFacts": [
-            "left"
-          ]
+          "requiresFacts": ["left"]
         }
       ],
       "origin": "authored",
@@ -3683,9 +3486,7 @@
           "subject": "headline",
           "role": "chamber",
           "choice": "headline",
-          "requiresFacts": [
-            "presides"
-          ]
+          "requiresFacts": ["presides"]
         }
       ],
       "origin": "authored",
@@ -3707,9 +3508,7 @@
           "subject": "headline",
           "role": "chamber",
           "choice": "headline",
-          "requiresFacts": [
-            "presides"
-          ]
+          "requiresFacts": ["presides"]
         }
       ],
       "origin": "authored",
@@ -3773,9 +3572,7 @@
           "subject": "headline",
           "role": "recall",
           "choice": "headline",
-          "requiresFacts": [
-            "kept"
-          ]
+          "requiresFacts": ["kept"]
         }
       ],
       "origin": "authored",
@@ -3797,9 +3594,7 @@
           "subject": "headline",
           "role": "recall",
           "choice": "headline",
-          "requiresFacts": [
-            "removed"
-          ]
+          "requiresFacts": ["removed"]
         }
       ],
       "origin": "authored",
@@ -3884,9 +3679,7 @@
           "subject": "headline",
           "role": "bail",
           "choice": "headline",
-          "requiresFacts": [
-            "released"
-          ]
+          "requiresFacts": ["released"]
         }
       ],
       "origin": "authored",
@@ -3908,9 +3701,7 @@
           "subject": "headline",
           "role": "bail",
           "choice": "headline",
-          "requiresFacts": [
-            "money"
-          ]
+          "requiresFacts": ["money"]
         }
       ],
       "origin": "authored",
@@ -3995,10 +3786,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "floor-session",
-            "missed"
-          ]
+          "requiresFacts": ["floor-session", "missed"]
         }
       ],
       "origin": "authored",
@@ -4020,10 +3808,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "floor-session",
-            "attended"
-          ]
+          "requiresFacts": ["floor-session", "attended"]
         }
       ],
       "origin": "authored",
@@ -4045,10 +3830,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "committee",
-            "missed"
-          ]
+          "requiresFacts": ["committee", "missed"]
         }
       ],
       "origin": "authored",
@@ -4070,9 +3852,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "state-of-the-state"
-          ]
+          "requiresFacts": ["state-of-the-state"]
         }
       ],
       "origin": "authored",
@@ -4094,10 +3874,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "executive-order",
-            "issued"
-          ]
+          "requiresFacts": ["executive-order", "issued"]
         }
       ],
       "origin": "authored",
@@ -4119,10 +3896,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "executive-order",
-            "revoked"
-          ]
+          "requiresFacts": ["executive-order", "revoked"]
         }
       ],
       "origin": "authored",
@@ -4144,9 +3918,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "budget-proposal"
-          ]
+          "requiresFacts": ["budget-proposal"]
         }
       ],
       "origin": "authored",
@@ -4168,10 +3940,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "clemency",
-            "granted"
-          ]
+          "requiresFacts": ["clemency", "granted"]
         }
       ],
       "origin": "authored",
@@ -4193,10 +3962,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "clemency",
-            "denied"
-          ]
+          "requiresFacts": ["clemency", "denied"]
         }
       ],
       "origin": "authored",
@@ -4218,10 +3984,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "legislative-leaders",
-            "attended"
-          ]
+          "requiresFacts": ["legislative-leaders", "attended"]
         }
       ],
       "origin": "authored",
@@ -4243,10 +4006,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "caucus",
-            "attended"
-          ]
+          "requiresFacts": ["caucus", "attended"]
         }
       ],
       "origin": "authored",
@@ -4268,10 +4028,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "caucus",
-            "missed"
-          ]
+          "requiresFacts": ["caucus", "missed"]
         }
       ],
       "origin": "authored",
@@ -4293,10 +4050,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "committee",
-            "attended"
-          ]
+          "requiresFacts": ["committee", "attended"]
         }
       ],
       "origin": "authored",
@@ -4318,10 +4072,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "interim-committee",
-            "attended"
-          ]
+          "requiresFacts": ["interim-committee", "attended"]
         }
       ],
       "origin": "authored",
@@ -4343,10 +4094,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "interim-committee",
-            "missed"
-          ]
+          "requiresFacts": ["interim-committee", "missed"]
         }
       ],
       "origin": "authored",
@@ -4368,10 +4116,7 @@
           "subject": "headline",
           "role": "office-act",
           "choice": "headline",
-          "requiresFacts": [
-            "legislative-leaders",
-            "missed"
-          ]
+          "requiresFacts": ["legislative-leaders", "missed"]
         }
       ],
       "origin": "authored",
@@ -4393,9 +4138,7 @@
           "subject": "headline",
           "role": "staff-cut",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -4774,9 +4517,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -4798,9 +4539,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "one"
-          ]
+          "requiresFacts": ["one"]
         }
       ],
       "origin": "authored",
@@ -4822,9 +4561,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "one"
-          ]
+          "requiresFacts": ["one"]
         }
       ],
       "origin": "authored",
@@ -4846,9 +4583,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "one"
-          ]
+          "requiresFacts": ["one"]
         }
       ],
       "origin": "authored",
@@ -4870,9 +4605,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "one"
-          ]
+          "requiresFacts": ["one"]
         }
       ],
       "origin": "authored",
@@ -4894,9 +4627,7 @@
           "subject": "headline",
           "role": "homeless-count",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -4918,9 +4649,7 @@
           "subject": "headline",
           "role": "homeless-count",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -5047,10 +4776,7 @@
           "subject": "headline",
           "role": "life.death",
           "choice": "headline",
-          "requiresFacts": [
-            "age",
-            "place"
-          ]
+          "requiresFacts": ["age", "place"]
         }
       ],
       "origin": "authored",
@@ -5072,10 +4798,7 @@
           "subject": "headline",
           "role": "life.death",
           "choice": "headline",
-          "requiresFacts": [
-            "age",
-            "place"
-          ]
+          "requiresFacts": ["age", "place"]
         }
       ],
       "origin": "authored",
@@ -5097,9 +4820,7 @@
           "subject": "headline",
           "role": "address",
           "choice": "headline",
-          "requiresFacts": [
-            "inaugural"
-          ]
+          "requiresFacts": ["inaugural"]
         }
       ],
       "origin": "authored",
@@ -5121,9 +4842,7 @@
           "subject": "headline",
           "role": "address",
           "choice": "headline",
-          "requiresFacts": [
-            "inaugural"
-          ]
+          "requiresFacts": ["inaugural"]
         }
       ],
       "origin": "authored",
@@ -5145,9 +4864,7 @@
           "subject": "headline",
           "role": "address",
           "choice": "headline",
-          "requiresFacts": [
-            "inaugural"
-          ]
+          "requiresFacts": ["inaugural"]
         }
       ],
       "origin": "authored",
@@ -5169,9 +4886,7 @@
           "subject": "headline",
           "role": "address",
           "choice": "headline",
-          "requiresFacts": [
-            "joint-session"
-          ]
+          "requiresFacts": ["joint-session"]
         }
       ],
       "origin": "authored",
@@ -5193,9 +4908,7 @@
           "subject": "headline",
           "role": "address",
           "choice": "headline",
-          "requiresFacts": [
-            "joint-session"
-          ]
+          "requiresFacts": ["joint-session"]
         }
       ],
       "origin": "authored",
@@ -5259,9 +4972,7 @@
           "subject": "headline",
           "role": "recall",
           "choice": "headline",
-          "requiresFacts": [
-            "on-ballot"
-          ]
+          "requiresFacts": ["on-ballot"]
         }
       ],
       "origin": "authored",
@@ -5283,9 +4994,7 @@
           "subject": "headline",
           "role": "recall",
           "choice": "headline",
-          "requiresFacts": [
-            "short"
-          ]
+          "requiresFacts": ["short"]
         }
       ],
       "origin": "authored",
@@ -5412,9 +5121,7 @@
           "subject": "headline",
           "role": "bail",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -5436,9 +5143,7 @@
           "subject": "headline",
           "role": "member-vote",
           "choice": "headline",
-          "requiresFacts": [
-            "yes"
-          ]
+          "requiresFacts": ["yes"]
         }
       ],
       "origin": "authored",
@@ -5460,9 +5165,7 @@
           "subject": "headline",
           "role": "member-vote",
           "choice": "headline",
-          "requiresFacts": [
-            "no"
-          ]
+          "requiresFacts": ["no"]
         }
       ],
       "origin": "authored",
@@ -5568,11 +5271,7 @@
           "subject": "headline",
           "role": "vacancy",
           "choice": "headline",
-          "requiresFacts": [
-            "died",
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["died", "post", "place"]
         }
       ],
       "origin": "authored",
@@ -5594,11 +5293,7 @@
           "subject": "headline",
           "role": "vacancy",
           "choice": "headline",
-          "requiresFacts": [
-            "left",
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["left", "post", "place"]
         }
       ],
       "origin": "authored",
@@ -5620,10 +5315,7 @@
           "subject": "headline",
           "role": "vacancy",
           "choice": "headline",
-          "requiresFacts": [
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["post", "place"]
         }
       ],
       "origin": "authored",
@@ -5645,9 +5337,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "bribe"
-          ]
+          "requiresFacts": ["bribe"]
         }
       ],
       "origin": "authored",
@@ -5669,9 +5359,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "bribe"
-          ]
+          "requiresFacts": ["bribe"]
         }
       ],
       "origin": "authored",
@@ -5693,9 +5381,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "conflict"
-          ]
+          "requiresFacts": ["conflict"]
         }
       ],
       "origin": "authored",
@@ -5717,10 +5403,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "conflict",
-            "firm"
-          ]
+          "requiresFacts": ["conflict", "firm"]
         }
       ],
       "origin": "authored",
@@ -5742,10 +5425,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "again",
-            "firm"
-          ]
+          "requiresFacts": ["again", "firm"]
         }
       ],
       "origin": "authored",
@@ -5767,10 +5447,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "again",
-            "firm"
-          ]
+          "requiresFacts": ["again", "firm"]
         }
       ],
       "origin": "authored",
@@ -5792,10 +5469,7 @@
           "subject": "headline",
           "role": "took-office",
           "choice": "headline",
-          "requiresFacts": [
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["post", "place"]
         }
       ],
       "origin": "authored",
@@ -5817,10 +5491,7 @@
           "subject": "headline",
           "role": "took-office",
           "choice": "headline",
-          "requiresFacts": [
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["post", "place"]
         }
       ],
       "origin": "authored",
@@ -5842,10 +5513,7 @@
           "subject": "headline",
           "role": "took-office",
           "choice": "headline",
-          "requiresFacts": [
-            "post",
-            "place"
-          ]
+          "requiresFacts": ["post", "place"]
         }
       ],
       "origin": "authored",
@@ -5867,9 +5535,7 @@
           "subject": "headline",
           "role": "hiring",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -5912,9 +5578,7 @@
           "subject": "headline",
           "role": "petition-check",
           "choice": "headline",
-          "requiresFacts": [
-            "on-ballot"
-          ]
+          "requiresFacts": ["on-ballot"]
         }
       ],
       "origin": "authored",
@@ -5936,9 +5600,7 @@
           "subject": "headline",
           "role": "petition-check",
           "choice": "headline",
-          "requiresFacts": [
-            "short"
-          ]
+          "requiresFacts": ["short"]
         }
       ],
       "origin": "authored",
@@ -5960,10 +5622,7 @@
           "subject": "headline",
           "role": "committee",
           "choice": "headline",
-          "requiresFacts": [
-            "failed",
-            "count"
-          ]
+          "requiresFacts": ["failed", "count"]
         }
       ],
       "origin": "authored",
@@ -6006,10 +5665,7 @@
           "subject": "headline",
           "role": "budget-request",
           "choice": "headline",
-          "requiresFacts": [
-            "cut",
-            "purpose"
-          ]
+          "requiresFacts": ["cut", "purpose"]
         }
       ],
       "origin": "authored",
@@ -6115,9 +5771,7 @@
           "subject": "headline",
           "role": "emergency",
           "choice": "headline",
-          "requiresFacts": [
-            "incident"
-          ]
+          "requiresFacts": ["incident"]
         }
       ],
       "origin": "authored",
@@ -6139,10 +5793,7 @@
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": [
-            "name",
-            "disaster"
-          ]
+          "requiresFacts": ["name", "disaster"]
         }
       ],
       "origin": "authored",
@@ -6164,9 +5815,7 @@
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": [
-            "disaster"
-          ]
+          "requiresFacts": ["disaster"]
         }
       ],
       "origin": "authored",
@@ -6209,9 +5858,7 @@
           "subject": "headline",
           "role": "succession",
           "choice": "headline",
-          "requiresFacts": [
-            "acting"
-          ]
+          "requiresFacts": ["acting"]
         }
       ],
       "origin": "authored",
@@ -6233,9 +5880,7 @@
           "subject": "headline",
           "role": "recall-reply",
           "choice": "headline",
-          "requiresFacts": [
-            "answered"
-          ]
+          "requiresFacts": ["answered"]
         }
       ],
       "origin": "authored",
@@ -6257,9 +5902,7 @@
           "subject": "headline",
           "role": "recall-reply",
           "choice": "headline",
-          "requiresFacts": [
-            "dismissed"
-          ]
+          "requiresFacts": ["dismissed"]
         }
       ],
       "origin": "authored",
@@ -6281,9 +5924,7 @@
           "subject": "headline",
           "role": "measure-result",
           "choice": "headline",
-          "requiresFacts": [
-            "approved"
-          ]
+          "requiresFacts": ["approved"]
         }
       ],
       "origin": "authored",
@@ -6305,9 +5946,7 @@
           "subject": "headline",
           "role": "measure-result",
           "choice": "headline",
-          "requiresFacts": [
-            "rejected"
-          ]
+          "requiresFacts": ["rejected"]
         }
       ],
       "origin": "authored",
@@ -6371,10 +6010,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "passed",
-            "count"
-          ]
+          "requiresFacts": ["passed", "count"]
         }
       ],
       "origin": "authored",
@@ -6396,10 +6032,7 @@
           "subject": "headline",
           "role": "roll-call",
           "choice": "headline",
-          "requiresFacts": [
-            "passed",
-            "count"
-          ]
+          "requiresFacts": ["passed", "count"]
         }
       ],
       "origin": "authored",
@@ -6421,10 +6054,7 @@
           "subject": "headline",
           "role": "carry",
           "choice": "headline",
-          "requiresFacts": [
-            "name",
-            "designation"
-          ]
+          "requiresFacts": ["name", "designation"]
         }
       ],
       "origin": "authored",
@@ -6446,10 +6076,7 @@
           "subject": "headline",
           "role": "carry",
           "choice": "headline",
-          "requiresFacts": [
-            "name",
-            "designation"
-          ]
+          "requiresFacts": ["name", "designation"]
         }
       ],
       "origin": "authored",
@@ -6471,10 +6098,7 @@
           "subject": "headline",
           "role": "carry",
           "choice": "headline",
-          "requiresFacts": [
-            "name",
-            "designation"
-          ]
+          "requiresFacts": ["name", "designation"]
         }
       ],
       "origin": "authored",
@@ -6496,9 +6120,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "burglary"
-          ]
+          "requiresFacts": ["burglary"]
         }
       ],
       "origin": "authored",
@@ -6520,9 +6142,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "burglary"
-          ]
+          "requiresFacts": ["burglary"]
         }
       ],
       "origin": "authored",
@@ -6544,9 +6164,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "property"
-          ]
+          "requiresFacts": ["property"]
         }
       ],
       "origin": "authored",
@@ -6568,9 +6186,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "vandalism"
-          ]
+          "requiresFacts": ["vandalism"]
         }
       ],
       "origin": "authored",
@@ -6592,9 +6208,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "vandalism"
-          ]
+          "requiresFacts": ["vandalism"]
         }
       ],
       "origin": "authored",
@@ -6616,9 +6230,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "robbery"
-          ]
+          "requiresFacts": ["robbery"]
         }
       ],
       "origin": "authored",
@@ -6640,9 +6252,7 @@
           "subject": "headline",
           "role": "crime",
           "choice": "headline",
-          "requiresFacts": [
-            "assault"
-          ]
+          "requiresFacts": ["assault"]
         }
       ],
       "origin": "authored",
@@ -6664,9 +6274,7 @@
           "subject": "headline",
           "role": "graduation",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6688,9 +6296,7 @@
           "subject": "headline",
           "role": "graduation",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6712,9 +6318,7 @@
           "subject": "headline",
           "role": "school-tests",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6736,9 +6340,7 @@
           "subject": "headline",
           "role": "school-tests",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6760,10 +6362,7 @@
           "subject": "headline",
           "role": "homes-built",
           "choice": "headline",
-          "requiresFacts": [
-            "apartments",
-            "several"
-          ]
+          "requiresFacts": ["apartments", "several"]
         }
       ],
       "origin": "authored",
@@ -6785,9 +6384,7 @@
           "subject": "headline",
           "role": "birth",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6851,9 +6448,7 @@
           "subject": "headline",
           "role": "birthday",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -6875,9 +6470,7 @@
           "subject": "headline",
           "role": "retirement",
           "choice": "headline",
-          "requiresFacts": [
-            "employer"
-          ]
+          "requiresFacts": ["employer"]
         }
       ],
       "origin": "authored",
@@ -6899,9 +6492,7 @@
           "subject": "headline",
           "role": "retirement",
           "choice": "headline",
-          "requiresFacts": [
-            "years"
-          ]
+          "requiresFacts": ["years"]
         }
       ],
       "origin": "authored",
@@ -6965,9 +6556,7 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "supports"
-          ]
+          "requiresFacts": ["supports"]
         }
       ],
       "origin": "authored",
@@ -6989,9 +6578,7 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "supports"
-          ]
+          "requiresFacts": ["supports"]
         }
       ],
       "origin": "authored",
@@ -7013,9 +6600,7 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "opposes"
-          ]
+          "requiresFacts": ["opposes"]
         }
       ],
       "origin": "authored",
@@ -7037,9 +6622,7 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "opposes"
-          ]
+          "requiresFacts": ["opposes"]
         }
       ],
       "origin": "authored",
@@ -7061,9 +6644,7 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "excludesFacts": [
-            "law"
-          ]
+          "excludesFacts": ["law"]
         }
       ],
       "origin": "authored",
@@ -7085,12 +6666,8 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "supports"
-          ],
-          "excludesFacts": [
-            "law"
-          ]
+          "requiresFacts": ["supports"],
+          "excludesFacts": ["law"]
         }
       ],
       "origin": "authored",
@@ -7112,12 +6689,8 @@
           "subject": "headline",
           "role": "letter",
           "choice": "headline",
-          "requiresFacts": [
-            "opposes"
-          ],
-          "excludesFacts": [
-            "law"
-          ]
+          "requiresFacts": ["opposes"],
+          "excludesFacts": ["law"]
         }
       ],
       "origin": "authored",
@@ -7139,9 +6712,7 @@
           "subject": "headline",
           "role": "retirement",
           "choice": "headline",
-          "requiresFacts": [
-            "government"
-          ]
+          "requiresFacts": ["government"]
         }
       ],
       "origin": "authored",
@@ -7226,9 +6797,7 @@
           "subject": "headline",
           "role": "home-sale",
           "choice": "headline",
-          "requiresFacts": [
-            "place"
-          ]
+          "requiresFacts": ["place"]
         }
       ],
       "origin": "authored",
@@ -7292,9 +6861,7 @@
           "subject": "headline",
           "role": "police-log",
           "choice": "headline",
-          "requiresFacts": [
-            "several"
-          ]
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",
@@ -7316,9 +6883,7 @@
           "subject": "headline",
           "role": "police-log",
           "choice": "headline",
-          "requiresFacts": [
-            "one"
-          ]
+          "requiresFacts": ["one"]
         }
       ],
       "origin": "authored",
@@ -7361,10 +6926,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "bee-local",
-            "name"
-          ]
+          "requiresFacts": ["bee-local", "name"]
         }
       ],
       "origin": "authored",
@@ -7386,9 +6948,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "bee-local"
-          ]
+          "requiresFacts": ["bee-local"]
         }
       ],
       "origin": "authored",
@@ -7410,10 +6970,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "bee-regional",
-            "name"
-          ]
+          "requiresFacts": ["bee-regional", "name"]
         }
       ],
       "origin": "authored",
@@ -7435,9 +6992,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "bee-regional"
-          ]
+          "requiresFacts": ["bee-regional"]
         }
       ],
       "origin": "authored",
@@ -7459,10 +7014,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "signing",
-            "several"
-          ]
+          "requiresFacts": ["signing", "several"]
         }
       ],
       "origin": "authored",
@@ -7484,11 +7036,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "signing",
-            "one",
-            "name"
-          ]
+          "requiresFacts": ["signing", "one", "name"]
         }
       ],
       "origin": "authored",
@@ -7510,10 +7058,7 @@
           "subject": "headline",
           "role": "honor",
           "choice": "headline",
-          "requiresFacts": [
-            "signing",
-            "one"
-          ]
+          "requiresFacts": ["signing", "one"]
         }
       ],
       "origin": "authored",
@@ -7535,9 +7080,7 @@
           "subject": "headline",
           "role": "endorsement",
           "choice": "headline",
-          "excludesFacts": [
-            "plural-subject"
-          ]
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
@@ -7559,9 +7102,7 @@
           "subject": "headline",
           "role": "endorsement",
           "choice": "headline",
-          "excludesFacts": [
-            "plural-subject"
-          ]
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
@@ -7583,9 +7124,7 @@
           "subject": "headline",
           "role": "endorsement",
           "choice": "headline",
-          "requiresFacts": [
-            "plural-subject"
-          ]
+          "requiresFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
@@ -7607,9 +7146,7 @@
           "subject": "headline",
           "role": "endorsement",
           "choice": "headline",
-          "requiresFacts": [
-            "plural-subject"
-          ]
+          "requiresFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
@@ -7631,9 +7168,7 @@
           "subject": "headline",
           "role": "endorsement",
           "choice": "headline",
-          "requiresFacts": [
-            "unnamed-group"
-          ]
+          "requiresFacts": ["unnamed-group"]
         }
       ],
       "origin": "authored",
@@ -7676,10 +7211,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "protest",
-            "issue"
-          ]
+          "requiresFacts": ["protest", "issue"]
         }
       ],
       "origin": "authored",
@@ -7701,10 +7233,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "protest",
-            "issue"
-          ]
+          "requiresFacts": ["protest", "issue"]
         }
       ],
       "origin": "authored",
@@ -7726,10 +7255,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "strike",
-            "issue"
-          ]
+          "requiresFacts": ["strike", "issue"]
         }
       ],
       "origin": "authored",
@@ -7751,10 +7277,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "strike",
-            "issue"
-          ]
+          "requiresFacts": ["strike", "issue"]
         }
       ],
       "origin": "authored",
@@ -7776,9 +7299,7 @@
           "subject": "headline",
           "role": "local-address",
           "choice": "headline",
-          "requiresFacts": [
-            "state"
-          ]
+          "requiresFacts": ["state"]
         }
       ],
       "origin": "authored",
@@ -7800,9 +7321,7 @@
           "subject": "headline",
           "role": "local-address",
           "choice": "headline",
-          "requiresFacts": [
-            "state"
-          ]
+          "requiresFacts": ["state"]
         }
       ],
       "origin": "authored",
@@ -7824,9 +7343,7 @@
           "subject": "headline",
           "role": "local-address",
           "choice": "headline",
-          "requiresFacts": [
-            "town"
-          ]
+          "requiresFacts": ["town"]
         }
       ],
       "origin": "authored",
@@ -7848,9 +7365,7 @@
           "subject": "headline",
           "role": "local-address",
           "choice": "headline",
-          "requiresFacts": [
-            "town"
-          ]
+          "requiresFacts": ["town"]
         }
       ],
       "origin": "authored",
@@ -7872,10 +7387,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "rally",
-            "area"
-          ]
+          "requiresFacts": ["rally", "area"]
         }
       ],
       "origin": "authored",
@@ -7897,10 +7409,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "rally",
-            "area"
-          ]
+          "requiresFacts": ["rally", "area"]
         }
       ],
       "origin": "authored",
@@ -7922,10 +7431,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "rally",
-            "area"
-          ]
+          "requiresFacts": ["rally", "area"]
         }
       ],
       "origin": "authored",
@@ -7947,9 +7453,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "offered"
-          ]
+          "requiresFacts": ["offered"]
         }
       ],
       "origin": "authored",
@@ -7971,9 +7475,7 @@
           "subject": "headline",
           "role": "exposed",
           "choice": "headline",
-          "requiresFacts": [
-            "offered"
-          ]
+          "requiresFacts": ["offered"]
         }
       ],
       "origin": "authored",
@@ -7995,10 +7497,7 @@
           "subject": "headline",
           "role": "address-response",
           "choice": "headline",
-          "requiresFacts": [
-            "opponent",
-            "issue"
-          ]
+          "requiresFacts": ["opponent", "issue"]
         }
       ],
       "origin": "authored",
@@ -8020,10 +7519,7 @@
           "subject": "headline",
           "role": "address-response",
           "choice": "headline",
-          "requiresFacts": [
-            "opponent",
-            "issue"
-          ]
+          "requiresFacts": ["opponent", "issue"]
         }
       ],
       "origin": "authored",
@@ -8045,10 +7541,7 @@
           "subject": "headline",
           "role": "floor-debate",
           "choice": "headline",
-          "requiresFacts": [
-            "opponent",
-            "designation"
-          ]
+          "requiresFacts": ["opponent", "designation"]
         }
       ],
       "origin": "authored",
@@ -8070,10 +7563,7 @@
           "subject": "headline",
           "role": "floor-debate",
           "choice": "headline",
-          "requiresFacts": [
-            "opponent",
-            "designation"
-          ]
+          "requiresFacts": ["opponent", "designation"]
         }
       ],
       "origin": "authored",
@@ -8095,10 +7585,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "movement",
-            "issue"
-          ]
+          "requiresFacts": ["movement", "issue"]
         }
       ],
       "origin": "authored",
@@ -8120,10 +7607,7 @@
           "subject": "headline",
           "role": "public-action",
           "choice": "headline",
-          "requiresFacts": [
-            "movement",
-            "issue"
-          ]
+          "requiresFacts": ["movement", "issue"]
         }
       ],
       "origin": "authored",
@@ -8334,9 +7818,7 @@
           "subject": "headline",
           "role": "budget-adopted",
           "choice": "headline",
-          "requiresFacts": [
-            "federal"
-          ]
+          "requiresFacts": ["federal"]
         }
       ],
       "origin": "authored",
@@ -8358,9 +7840,7 @@
           "subject": "headline",
           "role": "budget-adopted",
           "choice": "headline",
-          "requiresFacts": [
-            "federal"
-          ]
+          "requiresFacts": ["federal"]
         }
       ],
       "origin": "authored",
@@ -8382,9 +7862,7 @@
           "subject": "headline",
           "role": "hearing",
           "choice": "headline",
-          "requiresFacts": [
-            "budget"
-          ]
+          "requiresFacts": ["budget"]
         }
       ],
       "origin": "authored",
@@ -8406,9 +7884,7 @@
           "subject": "headline",
           "role": "hearing",
           "choice": "headline",
-          "requiresFacts": [
-            "budget"
-          ]
+          "requiresFacts": ["budget"]
         }
       ],
       "origin": "authored",
@@ -8430,9 +7906,7 @@
           "subject": "headline",
           "role": "study-formed",
           "choice": "headline",
-          "requiresFacts": [
-            "body"
-          ]
+          "requiresFacts": ["body"]
         }
       ],
       "origin": "authored",
@@ -8454,10 +7928,7 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": [
-            "members-for",
-            "changed"
-          ]
+          "requiresFacts": ["members-for", "changed"]
         }
       ],
       "origin": "authored",
@@ -8479,10 +7950,7 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": [
-            "members-against",
-            "changed"
-          ]
+          "requiresFacts": ["members-against", "changed"]
         }
       ],
       "origin": "authored",
@@ -8504,12 +7972,8 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": [
-            "members-for"
-          ],
-          "excludesFacts": [
-            "changed"
-          ]
+          "requiresFacts": ["members-for"],
+          "excludesFacts": ["changed"]
         }
       ],
       "origin": "authored",
@@ -8531,12 +7995,8 @@
           "subject": "headline",
           "role": "study-reported",
           "choice": "headline",
-          "requiresFacts": [
-            "members-against"
-          ],
-          "excludesFacts": [
-            "changed"
-          ]
+          "requiresFacts": ["members-against"],
+          "excludesFacts": ["changed"]
         }
       ],
       "origin": "authored",
@@ -8558,12 +8018,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "contested",
-            "short",
-            "office"
-          ]
+          "requiresFacts": ["won", "contested", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8585,12 +8040,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "contested",
-            "short",
-            "office"
-          ]
+          "requiresFacts": ["won", "contested", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8612,13 +8062,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "contested",
-            "short",
-            "rival",
-            "office"
-          ]
+          "requiresFacts": ["won", "contested", "short", "rival", "office"]
         }
       ],
       "origin": "authored",
@@ -8640,13 +8084,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "contested",
-            "short",
-            "office",
-            "place"
-          ]
+          "requiresFacts": ["won", "contested", "short", "office", "place"]
         }
       ],
       "origin": "authored",
@@ -8668,15 +8106,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "unopposed",
-            "short",
-            "office"
-          ],
-          "excludesFacts": [
-            "atLarge"
-          ]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8698,15 +8129,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "unopposed",
-            "short",
-            "office"
-          ],
-          "excludesFacts": [
-            "atLarge"
-          ]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8728,15 +8152,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "unopposed",
-            "short",
-            "office"
-          ],
-          "excludesFacts": [
-            "atLarge"
-          ]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8758,15 +8175,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "lasts",
-            "body"
-          ],
-          "excludesFacts": [
-            "unopposed"
-          ]
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8788,15 +8198,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "lasts",
-            "body"
-          ],
-          "excludesFacts": [
-            "unopposed"
-          ]
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8818,15 +8221,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "seats",
-            "body"
-          ],
-          "excludesFacts": [
-            "unopposed"
-          ]
+          "requiresFacts": ["won", "atLarge", "seats", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8848,16 +8244,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "lasts",
-            "seats"
-          ],
-          "excludesFacts": [
-            "body",
-            "unopposed"
-          ]
+          "requiresFacts": ["won", "atLarge", "lasts", "seats"],
+          "excludesFacts": ["body", "unopposed"]
         }
       ],
       "origin": "authored",
@@ -8879,12 +8267,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "seat",
-            "short",
-            "office"
-          ]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8906,12 +8289,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "seat",
-            "short",
-            "office"
-          ]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8933,12 +8311,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "seat",
-            "short",
-            "office"
-          ]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8960,13 +8333,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "unopposed",
-            "lasts",
-            "body"
-          ]
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
         }
       ],
       "origin": "authored",
@@ -8988,13 +8355,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "unopposed",
-            "lasts",
-            "body"
-          ]
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
         }
       ],
       "origin": "authored",
@@ -9016,13 +8377,7 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": [
-            "won",
-            "atLarge",
-            "unopposed",
-            "seats",
-            "body"
-          ]
+          "requiresFacts": ["won", "atLarge", "unopposed", "seats", "body"]
         }
       ],
       "origin": "authored",
@@ -9065,9 +8420,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -9089,9 +8442,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "down"
-          ]
+          "requiresFacts": ["down"]
         }
       ],
       "origin": "authored",
@@ -9113,9 +8464,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
@@ -9137,9 +8486,7 @@
           "subject": "headline",
           "role": "approval",
           "choice": "headline",
-          "requiresFacts": [
-            "held"
-          ]
+          "requiresFacts": ["held"]
         }
       ],
       "origin": "authored",
