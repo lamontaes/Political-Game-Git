@@ -366,6 +366,9 @@ export function openLaws(core: CoreState): LawChain {
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
+/** The policy question whose state answer grants places their own minimum wage (`localAuthority`). */
+export const LOCAL_WAGE_AUTHORITY_QUESTION =
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority";
 /** The day a question no century session enacted has stood unenacted since: the first session's year. */
 const CENTURY_LAW_START = "1926-01-01";
 
@@ -732,6 +735,7 @@ function readLawInForce(
     ...(floor
       ? {
           authorityRows: seriesRows(api, "local-minimum-wage-authority"),
+          authorityQuestionRows: seriesRows(api, LOCAL_WAGE_AUTHORITY_QUESTION),
           enactedAuthority: api
             .moduleState(LAWS_MODULE_ID)
             .table("enactments")
