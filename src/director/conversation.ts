@@ -1471,6 +1471,7 @@ function jobLost(
     id: `job-lost:${lost.causeId}`,
     kind: "job-lost",
     aboutId: lost.causeId,
+    weight: lost.impact,
     facts,
   };
 }
