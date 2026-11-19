@@ -9,5 +9,78 @@
     "item": "The one open item's title as the panel shows it (\"Budget Ordinance\"), from the bill's title record; unsaid when the bill has none."
   },
   "maxWords": 16,
-  "parts": []
+  "parts": [
+    {
+      "key": "meeting.empty-agenda.1",
+      "move": "empty-agenda",
+      "text": "The {body} meets on {date} with no business on the table.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.empty-agenda.1.w2",
+      "move": "empty-agenda",
+      "text": "Nobody has put anything in front of the {body} for {date}.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.empty-agenda.1.w3",
+      "move": "empty-agenda",
+      "text": "The agenda for the {body} on {date} is blank.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak.1",
+      "move": "resident-can-speak",
+      "text": "Any of the {count} items can be argued from the floor before the {body} votes.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-two.1",
+      "move": "resident-can-speak-two",
+      "text": "Either of the two items can be argued from the floor before the {body} votes.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one.1",
+      "move": "resident-can-speak-one",
+      "text": "The one item can be argued from the floor before the {body} votes.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1",
+      "move": "resident-can-speak-one-named",
+      "text": "The {item} can be argued from the floor before the {body} votes.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1.w2",
+      "move": "resident-can-speak-one-named",
+      "text": "The {body} has only the {item} left, and the floor is open on it.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    }
+  ]
 }

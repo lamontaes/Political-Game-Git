@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 156,
+  "judged": 155,
   "no": {
     "00ta9exztsf": {
       "keys": [
@@ -691,18 +691,6 @@
         "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
       ],
       "why": "'You've got my vote for {office}.' restates 'Okay. Put me down for {office}.' and 'I've heard you out. I'm still deciding my vote for {office}.' restates 'I'll think about my vote for {office}. Come back later.', so two of three rehash and only 'I have to go. Good luck' is new."
-    },
-    "1e49u1q1s2b": {
-      "keys": [
-        "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
-        "scene-talk.reply-agree.you-have-my-endorsement",
-        "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
-        "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer",
-        "scene-talk.reply-agree.then-you-have-it-tell-people",
-        "scene-talk.reply-refuse.then-the-answer-is-no",
-        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
-      ],
-      "why": "All three new replies restate the first options: 'Then you have it' repeats the yes option, 'Then the answer is no' repeats the no option, and 'A few days, that's all I'm asking' repeats the give-me-days option."
     },
     "1e5wq18wrw3": {
       "keys": [

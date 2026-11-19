@@ -91,7 +91,7 @@ import {
   questionTopic,
   storyTopicName,
 } from "../english/policy-names";
-import { dollars } from "../english/bill-sections";
+import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
@@ -157,6 +157,7 @@ import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
+import { homeWorkFacts } from "./home-work-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -367,6 +368,7 @@ export function purposeScene(
 /** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
 interface LawReachRow {
   readonly jurisdiction?: string;
+  readonly level?: string;
   readonly effectiveDate?: string;
   readonly endDate?: string | null;
   readonly series?: string;
@@ -487,7 +489,7 @@ export function destinationSaid(
  * How a relative's place is said to the asked person: `placeNamed` names a
  * place elsewhere (their hometown) and is null for the asked person's own
  * town or a county or state it sits in, which `nearNamed` names instead (a
- * relative kept at that level, `lives`).
+ * relative in the same town, or kept at that level, `lives`).
  */
 export function relativePlaceSaid(
   core: Readonly<CoreState>,
@@ -503,7 +505,7 @@ export function relativePlaceSaid(
         ? null
         : destinationSaid(placeId, ""),
     nearNamed: (placeId) =>
-      askedPlace && placeId !== askedPlace && holdsTown(placeId, askedPlace)
+      askedPlace && holdsTown(placeId, askedPlace)
         ? destinationSaid(placeId, "")
         : null,
   };
@@ -583,7 +585,13 @@ export function lawFactsOfCause(
     : null;
   const series = said.series ?? lawRowOfSaid?.series;
   if (said.lawId && series) {
-    const name = lawName(series);
+    // An amount named for one level (the bank's "local income tax rate") is
+    // said at the level of the law row that set it: a state's income tax is
+    // "the state income tax rate".
+    const name =
+      (lawRowOfSaid?.level
+        ? amountSubjectAt(series, lawRowOfSaid.level)
+        : undefined) ?? lawName(series);
     if (name)
       facts.law = {
         text: name,
@@ -1119,6 +1127,21 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // What happened in a home or work scene's cause (a layoff, a first day, a
+    // school year's end, a proposal or breakup, a death, a quarrel): the
+    // employer, the years, the school, how long together, who died, what it
+    // was over. stopgapId: none; a fact the record lacks is left out.
+    ...homeWorkFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      (id) => {
+        const person = core.people.get(id);
+        return person ? sayPerson(person) : undefined;
+      },
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
