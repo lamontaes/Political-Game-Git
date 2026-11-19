@@ -291,6 +291,8 @@ export class CountedStore {
   membersVersion = 0;
   /** Bumped when a household record's weight changes (not on a regroup). */
   weightsVersion = 0;
+  /** Told by every move of a record's weight (the households it stands for), with the change: whatever is kept per household reads it (the unplaced workers' pool pay). */
+  weightHook?: (h: CountedHousehold, delta: number) => void;
 
   get groupsVersion(): number {
     return groupReadRevisions.get(this)?.version ?? 0;
@@ -599,6 +601,7 @@ export class CountedStore {
   releaseWeight(h: CountedHousehold): number {
     const rest = this.weightOf(h) - 1;
     if (rest <= 0) return 0;
+    this.weightHook?.(h, -rest);
     return this.spreadPeople(h, rest * this.countedCount(h));
   }
 
@@ -615,6 +618,7 @@ export class CountedStore {
     if (!(share > 0) || share >= weight) return 0;
     const survivors = share * (this.countedCount(h) - 1);
     h.weight = weight - share;
+    this.weightHook?.(h, -share);
     this.version++;
     this.weightsVersion++;
     this.changedGroup(h.group);
@@ -665,6 +669,7 @@ export class CountedStore {
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      this.weightHook?.(other, added);
       this.weightsVersion++;
       this.changedGroup(other.group);
       other.wagesMinorYear = this.wagesOf(other);

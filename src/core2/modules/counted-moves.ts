@@ -46,6 +46,7 @@ import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
   countedParameter,
+  bringUnplacedPay,
   departCountedHousehold,
   householdIncome,
   residentsRuntime,
@@ -1562,6 +1563,8 @@ function arrivals(
       // Working-age newcomers share the place's unplaced workers at its rate.
       rates ??= unplacedRates(residents, date);
       h.unplacedWorkers = jobShare(residents, h, rates, date);
+      // The pay of those workers joins the place's pool, as the leavers' came off it.
+      bringUnplacedPay(core, record.household.id);
       rt.serial++;
       api
         .moduleState(COUNTED_MOVES_MODULE_ID)

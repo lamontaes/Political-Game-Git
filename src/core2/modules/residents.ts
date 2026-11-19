@@ -956,6 +956,9 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     workingAgePassedThrough: core.date,
     regionalGains: new Map(),
   };
+  // A record's weight moving takes its out-of-town workers' pay with it: the pool pays for the
+  // workers the records hold times the households they stand for.
+  store.weightHook = (h, delta) => moveUnplacedPay(rt, h, delta);
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
     if (rt.flows.has(row.id)) throw new Error(`Duplicate flow: ${row.id}`);
@@ -2271,6 +2274,10 @@ export function releaseResidentHousehold(
         unplaced.amountMinor -= share;
       }
     }
+    // A household with no member free to take the job leaves the counts with
+    // its workers' pay still in the pool: it comes off.
+    else if (unplaced)
+      unplaced.amountMinor -= Math.round(unplaced.amountMinor * cash.unplaced);
   }
   // Its bills to someone outside the town (a mortgage held outside, outside
   // purchases) are paid from its payer as flows of its own.
@@ -3337,6 +3344,7 @@ export function removeCountedPerson(
     (rt.openingCashByPlace.get(h.placeId) ?? 0) - store.liquid[m]!,
   );
   writeOffArrears(rt, h, takeArrearsShare(rt, h, store.weightedCount(h)));
+  dropUnplacedPay(rt, h);
   store.retire(h, MemberState.Dead);
   return [];
 }
@@ -3535,6 +3543,7 @@ export function departCountedHousehold(
       source: rt.input.source,
     });
   writeOffArrears(rt, h, takeArrearsShare(rt, h, store.weightedCount(h)));
+  dropUnplacedPay(rt, h);
   store.retire(h, MemberState.Moved);
   return {
     cashShare: paidFromFund ? 0 : remaining > 0 ? own / remaining : 0,
@@ -4135,6 +4144,73 @@ export function startRegionalWork(
   if (!startCommuterJob(core, rt, personId, unplaced, amount, role))
     return undefined;
   return commuterJobId(personId, addDays(makeIsoDate(core.date), 1));
+}
+
+/**
+ * What a place's unplaced-workers pool pays per period for `workers` per
+ * household of a counted record: that many workers for each household the
+ * record stands for, each at the pool's pay per worker. Zero where the place
+ * has no pool.
+ */
+function poolPayFor(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  workers: number,
+): { base: ReturnType<typeof unplacedFlowOf>; minor: number } {
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
+  if (!base || !(perWorker > 0)) return { base: undefined, minor: 0 };
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  return {
+    base,
+    minor: Math.round((workers * rt.store.weightOf(h) * perWorker) / perYear),
+  };
+}
+
+/** A record's weight moves by `delta` households: the pool's pay for its out-of-town workers moves with it. */
+function moveUnplacedPay(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  delta: number,
+): void {
+  if (!(h.unplacedWorkers > 0) || !delta) return;
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
+  if (!base || !(perWorker > 0)) return;
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  base.amountMinor = Math.max(
+    0,
+    base.amountMinor +
+      Math.round((h.unplacedWorkers * delta * perWorker) / perYear),
+  );
+}
+
+/** A counted household leaves the counts (moves away, or its last member dies): the pool no longer pays for its out-of-town workers. */
+function dropUnplacedPay(rt: ResidentsRuntime, h: CountedHousehold): void {
+  if (!(h.unplacedWorkers > 0)) return;
+  const { base, minor } = poolPayFor(rt, h, h.unplacedWorkers);
+  if (base) base.amountMinor = Math.max(0, base.amountMinor - minor);
+}
+
+/**
+ * A household that moves into the counts brings its out-of-town workers' pay
+ * with it: the place's pool pays for them as for the workers it already has,
+ * so a household filled in later is handed its own share of that pay, not a
+ * fraction of it. The household's `unplacedWorkers` is already set.
+ */
+export function bringUnplacedPay(core: CoreState, householdId: string): void {
+  const rt = runtimes.get(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  const h = ix === undefined ? undefined : rt!.store.households[ix];
+  if (!rt || !h || h.gone || !(h.unplacedWorkers > 0)) return;
+  const { base, minor } = poolPayFor(rt, h, h.unplacedWorkers);
+  if (base) base.amountMinor += minor;
 }
 
 /**
