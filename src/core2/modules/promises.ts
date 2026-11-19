@@ -309,6 +309,30 @@ function endPromise(
     outcome === "kept" ? promiseParam("promiseKeptHours") : -(cost ?? zero);
   const priced: PromiseRow =
     cost === undefined ? ended : { ...ended, tieCost: cost };
+  // A broken word is on record against the one who gave it: the one owed
+  // answers it by their own temperament (a grudge, proving themselves, a
+  // cause or carrying on), never by a roll. Apart or together, it was broken.
+  if (
+    outcome === "broken" &&
+    api.state.people.get(row.otherId)?.alive &&
+    api.state.people.get(row.holderId)?.alive
+  )
+    api.emit({
+      id: `promise.broken:${row.id}`,
+      date: api.state.date,
+      kind: "promise.broken",
+      personIds: [row.otherId],
+      placeId: api.state.people.get(row.otherId)!.placeId,
+      publicRecord: false,
+      topic: row.holderId,
+      desiredChange: "promise.broken",
+      facts: { promiseId: row.id, holderId: row.holderId, kind: row.kind },
+      source: {
+        tag: "SOURCED",
+        citation: `Promise ${row.id} broken`,
+        asOf: api.state.date,
+      },
+    });
   if (!together) {
     table(api).put({ ...priced, tieOwed: hours } as unknown as ModuleRow);
     return;

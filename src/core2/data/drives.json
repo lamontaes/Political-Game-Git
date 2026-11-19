@@ -563,6 +563,19 @@
       "impulseParameter": "driveAttackedImpulse"
     },
     {
+      "id": "promise-broken",
+      "eventKind": "promise.broken",
+      "roles": ["subject"],
+      "channels": ["injustice", "threat"],
+      "responses": [
+        "hold-grudge",
+        "prove-oneself",
+        "take-up-cause",
+        "carry-on"
+      ],
+      "impulseParameter": "driveBrokenPromiseImpulse"
+    },
+    {
       "id": "press-snubbed",
       "eventKind": "press.snubbed",
       "roles": ["subject"],
@@ -781,6 +794,7 @@
     "press.attacked",
     "race.lost",
     "bill.vetoed",
-    "campaign.attacked"
+    "campaign.attacked",
+    "promise.broken"
   ]
 }
