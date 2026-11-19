@@ -55,6 +55,7 @@ First used Nov 16, 2026, on crew line #9747: six lanes and a watcher, 20 pull re
 - **Every GitHub list read paginates; a count of exactly 100 is a warning.** Nov 17: the CTO's fold desk read only the first 100 of 156 open pull requests, and one the owner was waiting on sat for three hours (CTO, 01:30Z). A list helper reads every page, and a crew-line read that returns exactly 100 comments goes on to the next page.
 - **List a pull request as ready only from its lane's own ready line.** Nov 17: an hourly status listed two pull requests as ready because the CTO had written that they fold "once green"; neither lane had posted ready, and the status had to be corrected.
 - **Check a helper's copied table against the source before posting it.** Nov 17: a helper retyped 169 pull-request heads for the handoff by hand. Compare every head with `git ls-remote origin 'refs/pull/*/head'` and refresh them from it right before you post; four had moved since the helper read them.
+- **A word-match watcher wakes on the wrong line, and a shell watcher dies at its time limit.** Nov 18: Pins' watcher, which woke on "CI open", fired twice on CTO lines that only said "wait for CI open" or "CI is open for it" (one PR). Exclude "wait(s|ing) (for|until) CI open" and read the whole line before acting. The background shell job stops at its two-hour limit, and a container restart kills it with no notice. When the job is stopped, read the threads since its last read, then keep watching with a scheduled check-in (`send_later`) instead of a longer job.
 
 ## The hourly status
 
