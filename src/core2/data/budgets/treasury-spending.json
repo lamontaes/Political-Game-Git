@@ -161,10 +161,7 @@
         }
       },
       "administration": {
-        "classifications": [
-          "enterprise:professional-services",
-          "enterprise:legal-services"
-        ],
+        "classifications": ["enterprise:professional-services"],
         "purchasedShare": {
           "value": 0.1,
           "tag": "ESTIMATED",
@@ -185,12 +182,82 @@
         }
       },
       "healthAndHospitals": {
-        "classifications": ["enterprise:health-care", "enterprise:health"],
+        "classifications": ["service:clinic", "service:nursing-home"],
         "purchasedShare": {
           "value": 0.15,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: health spending other than public hospitals' own payroll, taken as care bought from private providers.",
           "spread": [0.1, 0.25]
+        }
+      },
+      "police": {
+        "classifications": ["enterprise:repair", "enterprise:retail"],
+        "purchasedShare": {
+          "value": 0.04,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "Census Bureau, Annual Survey of State and Local Government Finances: police spending other than salaries, benefits and capital is about a tenth of the line (spending-payees.json contractors 0.1); the part bought in town, vehicle repair, fuel and supplies, taken as somewhat under half of it. From memory, not fetched.",
+          "spread": [0.02, 0.08]
+        }
+      },
+      "fire": {
+        "classifications": ["enterprise:repair", "enterprise:retail"],
+        "purchasedShare": {
+          "value": 0.04,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "As police: fire spending other than salaries is about a tenth of the line (spending-payees.json contractors 0.1); apparatus repair, fuel and supplies bought in town taken as somewhat under half of it. From memory, not fetched.",
+          "spread": [0.02, 0.08]
+        }
+      },
+      "corrections": {
+        "classifications": [
+          "enterprise:food-service",
+          "service:clinic",
+          "enterprise:building-services"
+        ],
+        "purchasedShare": {
+          "value": 0.12,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "Bureau of Justice Statistics, State Prison Expenditures: food, medical care and upkeep are a third of a jail's operating cost (spending-payees.json contractors 0.35); the part a county jail buys from the town's kitchens, clinic and building services taken as about a third of that. From memory, not fetched.",
+          "spread": [0.06, 0.2]
+        }
+      },
+      "naturalResources": {
+        "classifications": [
+          "enterprise:construction",
+          "enterprise:professional-services"
+        ],
+        "purchasedShare": {
+          "value": 0.2,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "Census Bureau, Annual Survey of State and Local Government Finances: natural resources spending is largely capital outlay and contracted work (spending-payees.json contractors 0.6); the part done by local builders and surveyors taken as a third of it. From memory, not fetched.",
+          "spread": [0.1, 0.35]
+        }
+      },
+      "higherEducation": {
+        "classifications": [
+          "enterprise:building-services",
+          "enterprise:food-service"
+        ],
+        "purchasedShare": {
+          "value": 0.08,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "NCES, IPEDS finance: auxiliary enterprises and plant operations are about a fifth of a public college's spending; the part contracted to local cleaning, grounds and food service taken as about two fifths of that. From memory, not fetched.",
+          "spread": [0.04, 0.15]
+        }
+      },
+      "otherPrograms": {
+        "classifications": ["enterprise:professional-services"],
+        "purchasedShare": {
+          "value": 0.1,
+          "tag": "ESTIMATED",
+          "role": "coefficient",
+          "source": "As administration: other programs' spending other than salaries and grants, taken as contracted professional services (spending-payees.json contractors 0.4, of which a quarter bought in town). From memory, not fetched.",
+          "spread": [0.05, 0.2]
         }
       }
     }
