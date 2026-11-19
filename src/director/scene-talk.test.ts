@@ -28,8 +28,6 @@ import {
  */
 const CUT_PURPOSES = new Set<string>([
   "argument",
-  "apology",
-  "last-day",
   "date",
   "betrayal",
   "prison-visit",

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 155,
+  "judged": 145,
   "no": {
     "00ta9exztsf": {
       "keys": [
@@ -1185,21 +1185,6 @@
       ],
       "why": "'Okay... I'll vote yes' repeats 'I'm a yes on {bill}' and 'I can't get there on {bill}. I'm sorry.' repeats 'Count me against {bill}', so two of three rehash and only 'I can't stay on {bill} any longer.' moves on."
     },
-    "29xrfuryvmf": {
-      "keys": [
-        "scene-talk.follow-press.enough-that-yours-matters-where-are-you-on-bill",
-        "scene-talk.reply-agree.i-m-a-yes-on-bill-and-i-ll-say-so-out-loud",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
-        "scene-talk.reply-bargain.section-section-is-what-stops-me-on-bill-fix-that-and-i-m-with-you",
-        "scene-talk.reply-deflect.how-many-do-you-have-on-bill-without-me",
-        "scene-talk.reply-lie.you-ve-got-me-on-bill",
-        "scene-talk.reply-relent.okay-you-ve-been-straight-with-me-so-i-ll-vote-yes-on-bill",
-        "scene-talk.reply-decline.i-won-t-work-against-bill-i-can-t-vote-for-it-either",
-        "scene-talk.reply-bargain.if-section-section-of-bill-were-different-i-could-vote-yes",
-        "scene-talk.reply-leave.i-can-t-stay-on-bill-any-longer"
-      ],
-      "why": "'Okay... I'll vote yes' restates '{bill} has my vote.', 'I won't work against {bill}' restates 'I can't vote for {bill}...', and 'If section {section}... I could vote yes' restates the conditional, so three of four rehash."
-    },
     "2a280hk0bl8": {
       "keys": [
         "scene-talk.follow-bargain.i-ll-speak-for-yours-i-won-t-promise-bill-a-vote-back",
@@ -1291,5 +1276,5 @@
       "why": "'Okay... I'll vote yes' repeats '{bill} has my vote.', 'I won't work against {bill}' repeats 'I'm a no on {bill}', and 'If section {section}... I could vote yes' repeats the section condition, so three of four rehash."
     }
   },
-  "yesHash": "1xsmtkjdmdh"
+  "yesHash": "1spnd4gb53l"
 }
