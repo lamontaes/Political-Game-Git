@@ -8319,14 +8319,7 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "ran"]
-        },
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "about", "ran"],
-          "excludesFacts": ["ask-told"]
+          "requiresFacts": ["said-no", "ran"]
         }
       ],
       "bearing": "calm",
@@ -16578,6 +16571,276 @@
           "requiresFacts": ["office"]
         }
       ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.glad-we-agree-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Glad we agree, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.same-here-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Same here, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-with-you-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm with you, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-you-i-m-against-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me, {you}. I'm against it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.we-differ-there-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We differ there, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.i-can-t-agree-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I can't agree, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.me-neither-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me neither, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.glad-it-s-not-just-me-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Glad it's not just me, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-against-it-too-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm against it too, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-for-it-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm for it, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.i-see-it-the-other-way-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I see it the other way, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-you-i-like-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me, {you}. I like it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.maybe-so-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Maybe so, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.could-be-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Could be, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "story"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "conversation.news-back-core.hard-to-say-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Hard to say, {you}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "story"]
+        }
+      ],
+      "bearing": "glad",
       "origin": "authored",
       "author": "Story lead",
       "date": "2026-11-19"

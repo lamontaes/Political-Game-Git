@@ -398,3 +398,29 @@ describe("the household's filing talk", () => {
     }
   });
 });
+
+describe("the conversation's composed lines", () => {
+  // A composed subject's bank lists each piece once per line part: a piece
+  // with two uses in the same part gives the bank two variants with one key,
+  // and the composer then refuses the whole bank, so the subject goes silent
+  // (news-talk at Artesia, MS, Nov 19: no answer after the player took a side).
+  it("gives no piece two uses in the same subject and line part", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as {
+      parts: { key: string; uses: { subject?: string; role: string }[] }[];
+    };
+    const twice = bank.parts.flatMap((part) => {
+      const seen = new Set<string>();
+      return part.uses.flatMap((use) => {
+        if (!["opener", "core", "reason", "closer"].includes(use.role))
+          return [];
+        const at = `${use.subject}|${use.role}`;
+        if (seen.has(at)) return [`${part.key}: ${at}`];
+        seen.add(at);
+        return [];
+      });
+    });
+    expect(twice).toEqual([]);
+  });
+});

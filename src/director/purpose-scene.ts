@@ -482,7 +482,7 @@ export function destinationSaid(
  * How a relative's place is said to the asked person: `placeNamed` names a
  * place elsewhere (their hometown) and is null for the asked person's own
  * town or a county or state it sits in, which `nearNamed` names instead (a
- * relative kept at that level, `lives`).
+ * relative in the same town, or kept at that level, `lives`).
  */
 export function relativePlaceSaid(
   core: Readonly<CoreState>,
@@ -498,7 +498,7 @@ export function relativePlaceSaid(
         ? null
         : destinationSaid(placeId, ""),
     nearNamed: (placeId) =>
-      askedPlace && placeId !== askedPlace && holdsTown(placeId, askedPlace)
+      askedPlace && holdsTown(placeId, askedPlace)
         ? destinationSaid(placeId, "")
         : null,
   };
