@@ -112,10 +112,8 @@ const banks = readdirSync(PARTS_DIR)
 const CUT_BANKS = new Set<string>([
   "bill-paper.json",
   "bring-it-up.json",
-  "calendar.json",
   "campaign-standing.json",
   "choice-names.json",
-  "meeting.json",
   "newscast.json",
   "notice.json",
   "person-history.json",
