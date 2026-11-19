@@ -11,5 +11,33 @@
     "time": "The meeting's start time from its own record, as people say it (\"7 p.m.\")."
   },
   "maxWords": 12,
-  "parts": []
+  "parts": [
+    {
+      "key": "calendar.meeting-plan.1",
+      "move": "meeting-plan",
+      "text": "At {time} you said you'd sit in on the {body}.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.meeting-plan.1.w2",
+      "move": "meeting-plan",
+      "text": "The {body} gavels in at {time} and you plan to be there.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.meeting-plan.1.w3",
+      "move": "meeting-plan",
+      "text": "At {time} you are headed to the {body}.",
+      "origin": "authored",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "kind": "written"
+    }
+  ]
 }
