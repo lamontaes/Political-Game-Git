@@ -408,6 +408,9 @@ export function openLaws(core: CoreState): LawChain {
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
+/** The day a question no century session enacted has stood unenacted since: the first session's year. */
+const CENTURY_LAW_START = "1926-01-01";
+
 /** The amount whose value answers a question, where one does (question-amounts.json). */
 function amountAnswer(question: string): { series: string } | undefined {
   return (
@@ -416,9 +419,6 @@ function amountAnswer(question: string): { series: string } | undefined {
     >
   )[question];
 }
-
-/** The day a question no century session enacted has stood unenacted since: the first session's year. */
-const CENTURY_LAW_START = "1926-01-01";
 
 type WageStep = {
   effectiveDate: string;
