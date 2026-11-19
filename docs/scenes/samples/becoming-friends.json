@@ -51,9 +51,7 @@
       "role": "asker",
       "text": "Sally, I was just thinking about you.",
       "move": "greet",
-      "pieces": [
-        "scene-talk.open-greet.first-i-was-just-thinking-about-you"
-      ],
+      "pieces": ["scene-talk.open-greet.first-i-was-just-thinking-about-you"],
       "wordings": [],
       "asks": false
     }
@@ -93,9 +91,7 @@
           "role": "player",
           "text": "Glad to.",
           "move": "agree",
-          "pieces": [
-            "scene-talk.reply-agree.glad-to"
-          ],
+          "pieces": ["scene-talk.reply-agree.glad-to"],
           "wordings": [
             {
               "key": "scene-talk.reply-agree.of-course",
@@ -124,9 +120,7 @@
               "role": "asker",
               "text": "Thank you.",
               "move": "thank",
-              "pieces": [
-                "scene-talk.follow-thank.thank-you"
-              ],
+              "pieces": ["scene-talk.follow-thank.thank-you"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-thank.that-helps",
@@ -189,9 +183,7 @@
               "role": "asker",
               "text": "A few friends.",
               "move": "answer",
-              "pieces": [
-                "scene-talk.follow-answer.a-few-friends"
-              ],
+              "pieces": ["scene-talk.follow-answer.a-few-friends"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-answer.just-us-two",
@@ -213,9 +205,7 @@
                 "role": "player",
                 "text": "That's fine.",
                 "move": "agree",
-                "pieces": [
-                  "scene-talk.reply-agree.that-s-fine"
-                ],
+                "pieces": ["scene-talk.reply-agree.that-s-fine"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-agree.then-yes",
@@ -236,9 +226,7 @@
                     "role": "asker",
                     "text": "Wonderful news.",
                     "move": "thank",
-                    "pieces": [
-                      "scene-talk.follow-thank.wonderful-news"
-                    ],
+                    "pieces": ["scene-talk.follow-thank.wonderful-news"],
                     "wordings": [
                       {
                         "key": "scene-talk.follow-thank.thank-you",
@@ -270,9 +258,7 @@
                 "role": "player",
                 "text": "Still no, sorry.",
                 "move": "decline",
-                "pieces": [
-                  "scene-talk.reply-decline.still-no-sorry"
-                ],
+                "pieces": ["scene-talk.reply-decline.still-no-sorry"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-stall.maybe-later",
@@ -289,9 +275,7 @@
                     "role": "asker",
                     "text": "I understand.",
                     "move": "accept",
-                    "pieces": [
-                      "scene-talk.follow-accept.i-understand"
-                    ],
+                    "pieces": ["scene-talk.follow-accept.i-understand"],
                     "wordings": [
                       {
                         "key": "scene-talk.reply-leave.another-time",
@@ -326,9 +310,7 @@
           "role": "player",
           "text": "Not this time.",
           "move": "decline",
-          "pieces": [
-            "scene-talk.reply-decline.not-this-time"
-          ],
+          "pieces": ["scene-talk.reply-decline.not-this-time"],
           "wordings": [
             {
               "key": "scene-talk.reply-leave.not-now",
@@ -357,9 +339,7 @@
               "role": "asker",
               "text": "Even an hour?",
               "move": "press",
-              "pieces": [
-                "scene-talk.follow-press.even-an-hour"
-              ],
+              "pieces": ["scene-talk.follow-press.even-an-hour"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-press.is-it-me",
@@ -381,9 +361,7 @@
                 "role": "player",
                 "text": "Alright, yes.",
                 "move": "agree",
-                "pieces": [
-                  "scene-talk.reply-agree.alright-yes"
-                ],
+                "pieces": ["scene-talk.reply-agree.alright-yes"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-agree.you-re-right-yes-2",
@@ -404,9 +382,7 @@
                     "role": "asker",
                     "text": "Wonderful news.",
                     "move": "thank",
-                    "pieces": [
-                      "scene-talk.follow-thank.wonderful-news"
-                    ],
+                    "pieces": ["scene-talk.follow-thank.wonderful-news"],
                     "wordings": [
                       {
                         "key": "scene-talk.follow-thank.thank-you",
@@ -438,9 +414,7 @@
                 "role": "player",
                 "text": "Let me think.",
                 "move": "leave",
-                "pieces": [
-                  "scene-talk.reply-leave.let-me-think"
-                ],
+                "pieces": ["scene-talk.reply-leave.let-me-think"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-leave.another-time",
@@ -469,9 +443,7 @@
                     "role": "asker",
                     "text": "Take your time.",
                     "move": "press",
-                    "pieces": [
-                      "scene-talk.follow-accept.take-your-time"
-                    ],
+                    "pieces": ["scene-talk.follow-accept.take-your-time"],
                     "wordings": [
                       {
                         "key": "scene-talk.close-press.think-it-over",

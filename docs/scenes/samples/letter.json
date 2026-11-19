@@ -106,9 +106,7 @@
           "role": "player",
           "text": "Yes, gladly.",
           "move": "agree",
-          "pieces": [
-            "scene-talk.reply-agree.yes-gladly"
-          ],
+          "pieces": ["scene-talk.reply-agree.yes-gladly"],
           "wordings": [
             {
               "key": "scene-talk.reply-agree.i-d-like-that",
@@ -133,9 +131,7 @@
               "role": "asker",
               "text": "I'm so glad.",
               "move": "thank",
-              "pieces": [
-                "scene-talk.follow-thank.i-m-so-glad"
-              ],
+              "pieces": ["scene-talk.follow-thank.i-m-so-glad"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-thank.that-means-everything",
@@ -167,9 +163,7 @@
           "role": "player",
           "text": "Why now?",
           "move": "ask",
-          "pieces": [
-            "scene-talk.reply-ask.why-now"
-          ],
+          "pieces": ["scene-talk.reply-ask.why-now"],
           "wordings": [
             {
               "key": "scene-talk.reply-ask.what-s-wrong",
@@ -194,9 +188,7 @@
               "role": "asker",
               "text": "Only word, really.",
               "move": "answer",
-              "pieces": [
-                "scene-talk.follow-answer.only-word-really"
-              ],
+              "pieces": ["scene-talk.follow-answer.only-word-really"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-answer.nothing-is-wrong",
@@ -218,9 +210,7 @@
                 "role": "player",
                 "text": "That's easy. Yes.",
                 "move": "agree",
-                "pieces": [
-                  "scene-talk.reply-agree.that-s-easy-yes"
-                ],
+                "pieces": ["scene-talk.reply-agree.that-s-easy-yes"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-agree.then-yes-gladly",
@@ -241,9 +231,7 @@
                     "role": "asker",
                     "text": "I'm so glad.",
                     "move": "thank",
-                    "pieces": [
-                      "scene-talk.follow-thank.i-m-so-glad"
-                    ],
+                    "pieces": ["scene-talk.follow-thank.i-m-so-glad"],
                     "wordings": [
                       {
                         "key": "scene-talk.follow-thank.that-means-everything",
@@ -275,9 +263,7 @@
                 "role": "player",
                 "text": "Still no, truly.",
                 "move": "decline",
-                "pieces": [
-                  "scene-talk.reply-decline.still-no-truly"
-                ],
+                "pieces": ["scene-talk.reply-decline.still-no-truly"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-decline.still-i-can-t",
@@ -298,9 +284,7 @@
                     "role": "asker",
                     "text": "Is it me?",
                     "move": "press",
-                    "pieces": [
-                      "scene-talk.follow-press.is-it-me"
-                    ],
+                    "pieces": ["scene-talk.follow-press.is-it-me"],
                     "wordings": [
                       {
                         "key": "scene-talk.follow-press.why-not-though",
@@ -322,9 +306,7 @@
                       "role": "player",
                       "text": "Yes, I'm sorry.",
                       "move": "agree",
-                      "pieces": [
-                        "scene-talk.reply-agree.yes-i-m-sorry"
-                      ],
+                      "pieces": ["scene-talk.reply-agree.yes-i-m-sorry"],
                       "wordings": [
                         {
                           "key": "scene-talk.reply-agree.you-re-right-yes",
@@ -379,9 +361,7 @@
                       "role": "player",
                       "text": "I'll write later.",
                       "move": "leave",
-                      "pieces": [
-                        "scene-talk.reply-leave.i-ll-write-later"
-                      ],
+                      "pieces": ["scene-talk.reply-leave.i-ll-write-later"],
                       "wordings": [
                         {
                           "key": "scene-talk.reply-leave.let-me-think",
@@ -410,9 +390,7 @@
                           "role": "asker",
                           "text": "Think it over.",
                           "move": "press",
-                          "pieces": [
-                            "scene-talk.close-press.think-it-over"
-                          ],
+                          "pieces": ["scene-talk.close-press.think-it-over"],
                           "wordings": [
                             {
                               "key": "scene-talk.close-press.no-rush",
@@ -437,9 +415,7 @@
           "role": "player",
           "text": "Not this time.",
           "move": "decline",
-          "pieces": [
-            "scene-talk.reply-decline.not-this-time"
-          ],
+          "pieces": ["scene-talk.reply-decline.not-this-time"],
           "wordings": [
             {
               "key": "scene-talk.reply-decline.i-m-not-ready",
@@ -464,9 +440,7 @@
               "role": "asker",
               "text": "Is it me?",
               "move": "press",
-              "pieces": [
-                "scene-talk.follow-press.is-it-me"
-              ],
+              "pieces": ["scene-talk.follow-press.is-it-me"],
               "wordings": [
                 {
                   "key": "scene-talk.follow-press.why-not-though",
@@ -488,9 +462,7 @@
                 "role": "player",
                 "text": "Alright, yes.",
                 "move": "agree",
-                "pieces": [
-                  "scene-talk.reply-agree.alright-yes"
-                ],
+                "pieces": ["scene-talk.reply-agree.alright-yes"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-agree.you-re-right-yes",
@@ -511,9 +483,7 @@
                     "role": "asker",
                     "text": "That means everything.",
                     "move": "thank",
-                    "pieces": [
-                      "scene-talk.follow-thank.that-means-everything"
-                    ],
+                    "pieces": ["scene-talk.follow-thank.that-means-everything"],
                     "wordings": [
                       {
                         "key": "scene-talk.follow-thank.i-m-so-glad",
@@ -545,9 +515,7 @@
                 "role": "player",
                 "text": "I'll write later.",
                 "move": "leave",
-                "pieces": [
-                  "scene-talk.reply-leave.i-ll-write-later"
-                ],
+                "pieces": ["scene-talk.reply-leave.i-ll-write-later"],
                 "wordings": [
                   {
                     "key": "scene-talk.reply-leave.let-me-think",
@@ -576,9 +544,7 @@
                     "role": "asker",
                     "text": "Take your time.",
                     "move": "press",
-                    "pieces": [
-                      "scene-talk.follow-accept.take-your-time"
-                    ],
+                    "pieces": ["scene-talk.follow-accept.take-your-time"],
                     "wordings": [
                       {
                         "key": "scene-talk.close-press.no-rush",
