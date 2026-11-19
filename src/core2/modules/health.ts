@@ -1460,3 +1460,6 @@ export function healthHazardOf(
 // Re-exported so other engine families read the coverage engine's bills through this entry (families guard).
 export { COVERAGE_MODULE_ID } from "../coverage-module-id";
 export type { MedicalBillRow } from "../medical-bills";
+
+// The people family's face for readers outside it (tests/guards/families.json).
+export { DEATH_CAUSE_FACT_KEY };

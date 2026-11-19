@@ -12,14 +12,13 @@
  * invented, so the lines that need it never play.
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
-import { heldSinceRecord } from "../core2/past-work";
-import { schoolsAttended } from "../core2/past-school";
+import { heldSinceRecord, schoolsAttended } from "../core2/past";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
-import { FAMILY_QUARREL } from "../core2/modules/quarrel";
+import { FAMILY_QUARREL } from "../core2/modules/people";
 import { unionStart } from "../core2/modules/partnerships";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import { DEATH_CAUSE_FACT_KEY } from "../core2/death-cause";
+import { DEATH_CAUSE_FACT_KEY } from "../core2/modules/health";
 import type { CoreState, PersonId } from "../core2/types";
 import { countSaid } from "../english/count-words";
 import { withArticle } from "../english/journal-words";
@@ -30,7 +29,7 @@ import type { NewsFact } from "./life-news";
 import { schoolResult } from "./school";
 import { employerWords, organizationName } from "./words";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/modules/business";
 
 /** The jobs engine's layoff record (`work.job-lost`). */
 const JOB_LOST = "work.job-lost";
