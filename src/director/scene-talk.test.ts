@@ -91,7 +91,6 @@ const CUT_PURPOSES = new Set<string>([
   "study-reported",
   "job-offer",
   "rival-word",
-  "petition-short",
   "budget-cut",
   "notice-home",
   "home-damaged",
