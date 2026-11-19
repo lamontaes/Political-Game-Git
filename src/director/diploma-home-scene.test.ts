@@ -6,6 +6,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import {
+  kindergartenYear,
+  SCHOOL_STAGE_CALENDAR,
+} from "../core2/past-school-calendar";
+import { schoolStartYear } from "../core2/school-outcomes";
+import schoolDays from "../core2/data/school-days.json" with { type: "json" };
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
@@ -14,6 +20,7 @@ import type { Director } from "./ledger";
 import { purposeScene, replyInScene, typeForCause } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import { graduationResults } from "./school";
 import type { Moment } from "./types";
 
 // The day after the player graduates (situation type `diploma-home`, cause
@@ -23,8 +30,12 @@ import type { Moment } from "./types";
 // school year's end as the bench plays it; the scene composes from its cause,
 // every line carries the diploma key, the four root replies are four moves,
 // opposite speakers say it differently, and the reply is written back.
+// The player starts at 18 (owner, Nov 16), so only some are seniors, and a
+// senior's graduation is decided by their standing, not drawn: at seed
+// 934f87c4 the seniors in Washington, D.C., Salem, Oregon and Fremont, North
+// Carolina did not pass. The draw goes on, naming each place and why.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 4;
+const ATTEMPTS = 12;
 const DAYS = 210;
 const LABEL = "circumstance:graduation-home";
 const TYPE_KEY = "diploma-home";
@@ -104,9 +115,34 @@ it(`the day after graduating, someone at home marks it and asks what comes next 
     });
     const { core, director } = world;
     const personId = core.playerId as PersonId;
+    // Only a senior graduates this school year: a player who starts at 18
+    // and was born before the school-age cutoff finished the year before
+    // (Bingham, Maine at this test's red seed), and is passed over unplayed.
+    const grade =
+      schoolStartYear(core.date, schoolDays.schoolYear.firstDay) -
+      kindergartenYear(makeIsoDate(core.people.get(personId)!.birthDate));
+    if (grade !== SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1) {
+      tried.push(`${where}: the player is not a senior (grade ${grade})`);
+      continue;
+    }
+    // Someone at home marks it: a player who lives alone has no one to
+    // (Dyckesville, Wisconsin at seed 934f87c4: graduated, alone).
+    const home = core.households.get(core.people.get(personId)!.householdId);
+    if (!home?.memberIds.some((id) => id !== personId)) {
+      tried.push(`${where}: the player lives alone`);
+      continue;
+    }
     const hit = lastDay(core, director, personId);
     if (!hit) {
-      tried.push(`${where}: no graduation at home in ${DAYS} days`);
+      tried.push(
+        `${where}: no graduation at home in ${DAYS} days (${
+          graduationResults(core, personId)
+            .map(
+              (row) => `${row.date} ${row.passed ? "passed" : "did not pass"}`,
+            )
+            .join(", ") || "no result"
+        })`,
+      );
       continue;
     }
     const { entry, moment } = hit;

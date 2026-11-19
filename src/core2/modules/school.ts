@@ -1,6 +1,9 @@
 /**
- * School days (M0-13: school-age people attend school). A full person aged
- * 5 to 17 has a school day to attend on each weekday of the school year: the
+ * School days (M0-13: school-age people attend school). A full person in
+ * kindergarten through grade 12 that school year (their class, from the same
+ * school-age cutoff the past's school years and the graduation decision read,
+ * so a senior who turns 18 in the spring still finishes the year) has a
+ * school day to attend on each weekday of the school year: the
  * need is the state's compulsory attendance, and attending is a choice the
  * chooser weighs like any other (their traits and the day's other pulls
  * decide; there is no roll). The school is the town's public school district,
@@ -8,7 +11,7 @@
  * or the town itself where a world opened without that step.
  * Attending takes a school day's hours and is recorded for the day.
  */
-import { ageInYears } from "../kernel/dates";
+import { makeIsoDate } from "../kernel/dates";
 import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
@@ -40,11 +43,27 @@ import {
 } from "../school-outcomes";
 import { decideSchoolHonors } from "../school-honors";
 import { placeStateKey } from "../place-map";
+import {
+  kindergartenYear,
+  SCHOOL_STAGE_CALENDAR,
+} from "../past-school-calendar";
 import outcomes from "../data/school/outcomes.json" with { type: "json" };
 
 export { SCHOOL_MODULE_ID };
 
-const ageOn = ageInYears;
+/**
+ * Whether someone is in school in the school year a date falls in: from
+ * kindergarten through grade 12 of their class (the fall they start
+ * kindergarten, from the school-age cutoff), the rule the past's school
+ * years and the graduation decision read. Age on the day is not it: a senior
+ * born after the cutoff turns 18 during the year and still finishes it.
+ */
+function inSchoolYear(birthDate: string, date: string): boolean {
+  const grade =
+    schoolStartYear(date, data.schoolYear.firstDay) -
+    kindergartenYear(makeIsoDate(birthDate));
+  return grade >= 0 && grade < SCHOOL_STAGE_CALENDAR.endsAfterYears.high;
+}
 
 /** A weekday inside the base school year, outside its recorded breaks. */
 function onBaseCalendar(date: string): boolean {
@@ -165,12 +184,7 @@ function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
 function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
   const date = api.state.date;
   if (!isSchoolDay(date, schoolState(api))) return false;
-  const age = ageOn(actor.birthDate, date);
-  if (
-    age < api.parameter("openingSchoolAgeFirst") ||
-    age > api.parameter("openingSchoolAgeLast")
-  )
-    return false;
+  if (!inSchoolYear(actor.birthDate, date)) return false;
   return table(api).get(actor.id)?.date !== date;
 }
 
@@ -199,12 +213,7 @@ export function schoolDayOf(
   if (!person?.alive) return null;
   const date = api.state.date;
   const usps = schoolState(api);
-  const age = ageOn(person.birthDate, date);
-  if (
-    age < api.parameter("openingSchoolAgeFirst") ||
-    age > api.parameter("openingSchoolAgeLast")
-  )
-    return null;
+  if (!inSchoolYear(person.birthDate, date)) return null;
   const row = table(api).get(personId) as unknown as
     { date?: string; days?: number } | undefined;
   const shift = (days: number) =>
