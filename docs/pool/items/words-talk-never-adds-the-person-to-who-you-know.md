@@ -36,7 +36,7 @@ merged-at: 2026-11-11T18:53:41.909Z
 2. **Who is met.** The person talked to, once per pair, only when the talk really opens (they said a line), not when a card is opened. Whether the others standing in the room are met too is not part of this item.
 3. **The jobs gap.** The jobs engine's hire writes no event naming the person, so an unwatched person's new job is never news. It is registered as `SG-JOBS-job-start-not-a-person-event` in src/core2/data/stopgaps/jobs.json, with no new record kind.
 4. **The People screen lists everyone known.** The card (src/bench/card.ts) carries `known`, every relationship record of the person, closest first; its own `ties` page stays the closest eight. The People screen (src/bench/play.mjs) lists all of `known` by group, closest first in each.
-5. **Test** in src/director/family-news-talk.test.ts, on drawn places: the room's probe over everyone present changes nobody's `knownIds`; one talk opened the route's way meets exactly that person. Before any talk the player does not know two people who know each other; after a talk with each, each knows the player, and when one moves away (the moves engine's own `person.moved-away`), the other has them as someone both know.
+5. **Test** in src/director/family-news-talk.test.ts (removed), on drawn places: the room's probe over everyone present changes nobody's `knownIds`; one talk opened the route's way meets exactly that person. Before any talk the player does not know two people who know each other; after a talk with each, each knows the player, and when one moves away (the moves engine's own `person.moved-away`), the other has them as someone both know.
 
 **Time box.** 3 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -46,7 +46,7 @@ merged-at: 2026-11-11T18:53:41.909Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/core2/encounters.ts, src/core2/state.ts (read only), src/bench/handler.ts, src/bench/card.ts, src/bench/play.mjs, src/director/family-news-talk.test.ts, the jobs engine's hire (for part 2).
+**Files.** src/director/conversation.ts, src/core2/encounters.ts, src/core2/state.ts (read only), src/bench/handler.ts, src/bench/card.ts, src/bench/play.mjs, the jobs engine's hire (for part 2).
 
 **Notes.** Found by Words builder W4 while taking the pictures for PR 8801 and PR 8816 (Nov 11). With dev mode's illness, Kingsville, Maryland (seed w4seed-d) gave "How's your partner?" / "James took sick yesterday." on day 4: the relative is in the player's starting circle. A person met that week never was.
 

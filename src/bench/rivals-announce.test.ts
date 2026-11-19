@@ -9,6 +9,7 @@ import {
   CANDIDACY_MODULE_ID,
   type CandidacyDecision,
   filingWindowOpens,
+  weighingDate,
 } from "../core2/modules/candidacy";
 import {
   ELECTIONS_MODULE_ID,
@@ -22,15 +23,23 @@ import {
 // page under Who's running marked as announced, counts on the campaign board,
 // and files when the window opens with the day they announced kept. The test
 // draws places and plays each forward until a rival announces in a race the
-// race page lists; every place passed over is named.
+// race page lists; every place passed over is named. A place whose listed
+// races are weighed only after the days the test can play is passed over at
+// the opening, by the race's own weighing day, not played to no purpose: the
+// state and federal races rivals announce for early are not on the race page.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const opening = "2026-10-12";
-const DRAWS = 4;
+const DRAWS = 8;
 const DAYS = 150;
 const addDay = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
     .toISOString()
     .slice(0, 10);
+const last = (() => {
+  let date = opening;
+  for (let day = 0; day < DAYS; day++) date = addDay(date);
+  return date;
+})();
 
 interface Found {
   readonly world: ReturnType<typeof buildBenchWorld>;
@@ -47,9 +56,33 @@ function findAnnouncedRival(passed: string[]): Found {
     const label = `${world.place.context.jurisdiction.name ?? world.place.key} (seed ${drawSeed})`;
     const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
     const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+    // A listed race is announced for between its weighing day and the day
+    // its filing opens; one whose weighing comes after the last day played
+    // cannot be the case.
+    const windows = localRaces(world.core)
+      .races.flatMap((race) => race.contestIds)
+      .map((id) => contests.get(id) as unknown as ContestRow | undefined)
+      .filter((contest): contest is ContestRow => Boolean(contest))
+      .map((contest) => ({
+        weighed: weighingDate(api, contest),
+        opens: filingWindowOpens(api, contest),
+      }))
+      .filter((w) => w.weighed < w.opens && w.opens > opening);
+    const reachable = windows.filter((w) => w.weighed <= last);
+    if (!reachable.length) {
+      passed.push(
+        `${label}: ${
+          windows.length
+            ? `its listed races are weighed from ${windows.map((w) => w.weighed).sort()[0]}, after ${last}`
+            : "no listed race is announced for before its filing opens"
+        }`,
+      );
+      continue;
+    }
+    const until = reachable.map((w) => w.opens).sort()[reachable.length - 1]!;
     let date = opening;
     let announcedAnywhere = 0;
-    for (let day = 0; day < DAYS; day++) {
+    for (let day = 0; day < DAYS && date < until; day++) {
       date = addDay(date);
       advanceCore(world.core, date);
       const announced = (filings.rows() as unknown as FilingRow[]).filter(

@@ -5,7 +5,9 @@ import { screenLine } from "./screen-words";
 // (governing phase B, gov-m3-01-city-attorney-warning-on-the-bill): worded
 // from the records the paper holds, and nothing when a slot is missing.
 describe("the bill paper's disputed-authority warning", () => {
-  it("names the lawyer by title where the records give one", () => {
+  // The cut of Nov 17 (#10063) emptied the bill paper's bank; its lines come back with pool item
+  // story-lines-office-bill-paper-and-inaugural (CTO, #9750 and #9747, Nov 19 04:53Z).
+  it.fails("names the lawyer by title where the records give one", () => {
     expect(
       screenLine("bill-paper", "bill-paper.authority.disputed", {
         lawyer: "city attorney",
@@ -16,20 +18,25 @@ describe("the bill paper's disputed-authority warning", () => {
     );
   });
 
-  it("names only the body where they don't, and says nothing without it", () => {
-    expect(
-      screenLine("bill-paper", "bill-paper.authority.disputed-body", {
-        body: "County Board of Commissioners",
-      }),
-    ).toBe(
-      // A full name ending in s is never made possessive (governing lead,
-      // Oct 30: "Board of Commissioners's lawyer").
-      "The lawyer for the County Board of Commissioners warns that it may not have the power to do this.",
-    );
-    expect(
-      screenLine("bill-paper", "bill-paper.authority.disputed", {
-        body: "council",
-      }),
-    ).toBeNull();
-  });
+  // The cut of Nov 17 (#10063) emptied the bill paper's bank; its lines come back with pool item
+  // story-lines-office-bill-paper-and-inaugural (CTO, #9750 and #9747, Nov 19 04:53Z).
+  it.fails(
+    "names only the body where they don't, and says nothing without it",
+    () => {
+      expect(
+        screenLine("bill-paper", "bill-paper.authority.disputed-body", {
+          body: "County Board of Commissioners",
+        }),
+      ).toBe(
+        // A full name ending in s is never made possessive (governing lead,
+        // Oct 30: "Board of Commissioners's lawyer").
+        "The lawyer for the County Board of Commissioners warns that it may not have the power to do this.",
+      );
+      expect(
+        screenLine("bill-paper", "bill-paper.authority.disputed", {
+          body: "council",
+        }),
+      ).toBeNull();
+    },
+  );
 });

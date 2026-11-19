@@ -36,7 +36,7 @@ merged-at: 2026-11-11T19:00:03.034Z
 6. **What it writes back.** When the player says where they stand on a story's question, the listener learns the player's view through `learnView` (src/director/view-learned.ts) with the views engine's stance record, so their card and a later talk read it. Name the record id in the pull request.
 7. **Delete what this replaces, with every reference.** The 24 lines with no insert under `news`; a piece that also serves another subject (9 do) loses only its `news` use. None is graded good. Then `npm run words:grade` and `npm run words:rules` twice.
 8. **Lower the guard's count** for `conversation` in tests/guards/english/line-inserts-baseline.json.
-9. **Tests.** In src/director/household-news.test.ts or a new src/director/news-talk.test.ts, on drawn places: two people with opposite views on a story's question answer it on opposite sides; someone who worked at a place that closed says so with its name; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+9. **Tests.** In src/director/household-news.test.ts (removed) or a new src/director/news-talk.test.ts, on drawn places: two people with opposite views on a story's question answer it on opposite sides; someone who worked at a place that closed says so with its name; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -46,6 +46,6 @@ merged-at: 2026-11-11T19:00:03.034Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/bring-it-up.ts, src/director/view-learned.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/household-news.test.ts, src/director/news-talk.test.ts (new), src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/bring-it-up.ts, src/director/view-learned.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/news-talk.test.ts (new), src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 58 lines, 24 with no insert and not excused. Three today: "What do you make of the news?", "I think it's terrible.", "I heard about that." The opening's own news talk (the President's address) is words-opening-evening-talk-raises-what-the-president-said; this item does not touch the `address` subjects.

@@ -27,7 +27,7 @@ import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
-import { townOutsideOf } from "./opening-outside-market";
+import { outsideMarketAccount, townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -358,6 +358,24 @@ export function outsideAccountOf(api: CoreAPI): string | undefined {
   return (
     townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
   )?.id;
+}
+
+/**
+ * The outside account, opened when public money is the first thing to come
+ * from beyond the town: a town whose firms keep no books has bought and sold
+ * nothing outside yet, so its one outside account (`outsideMarketAccount`)
+ * opens with the treasury's opening stock, as a campaign's first purchase
+ * from outside opens it (campaigns.ts, `outsideSeller`).
+ */
+export function openOutsideAccountOf(api: CoreAPI): string {
+  const found = outsideAccountOf(api);
+  if (found) return found;
+  const account = outsideMarketAccount(
+    lawChain(api).townPlaceId,
+    api.state.date,
+  );
+  api.addOrganization(account);
+  return account.id;
 }
 
 /**

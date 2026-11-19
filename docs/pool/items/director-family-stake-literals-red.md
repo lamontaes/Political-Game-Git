@@ -20,7 +20,7 @@ claimed-at: 2026-10-27T09:50:02.186Z
 
 **Rules.** Every number lives in a parameter table (AGENTS.md, Placeholders). Red main comes first (owner, Oct 15). Replace, never layer.
 
-**Done when.** src/director/director.test.ts passes on the PR head with family-stake.ts unchanged in behavior; src/director/family-stake-scene.test.ts and src/director/purpose-scenes.test.ts pass, run as one test file at a time.
+**Done when.** src/director/director.test.ts passes on the PR head with family-stake.ts unchanged in behavior; src/director/family-stake-scene.test.ts (removed) and src/director/purpose-scenes.test.ts pass, run as one test file at a time.
 
 **Files.** src/director/family-stake.ts, src/director/data/scene-talk-rules.json
 
