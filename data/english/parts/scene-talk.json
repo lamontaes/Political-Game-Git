@@ -37223,26 +37223,6 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "guarded",
@@ -38801,26 +38781,6 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["you-back"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "warm",
@@ -47743,26 +47703,6 @@
           "role": "asked",
           "purpose": "last-day-farewell",
           "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
           "after": "answer",
           "onlyWhen": ["school-day"]
         },
@@ -47774,42 +47714,6 @@
           "purpose": "last-day-farewell",
           "key": "departure",
           "after": "answer",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-d-better-go",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'd better go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
           "onlyWhen": ["work-day"]
         }
       ],
@@ -47835,26 +47739,6 @@
           "role": "asked",
           "purpose": "last-day-farewell",
           "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
           "after": "answer",
           "onlyWhen": ["school-day"]
         },
@@ -47879,103 +47763,11 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.hard-to-say",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Hard to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.don-t-ask",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Don't ask.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.stay-well",
       "move": "reply-promise",
       "kind": "spoken",
       "text": "Stay well.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -48019,26 +47811,6 @@
           "role": "asked",
           "purpose": "last-day-farewell",
           "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
           "after": "answer",
           "onlyWhen": ["school-day"]
         },
@@ -48059,114 +47831,6 @@
       "date": "2026-11-19",
       "tag": {
         "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.anything-but-this",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Anything but this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.work-i-hope",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Work, I hope.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.somewhere-quieter",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Somewhere quieter.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell",
         "key": "school-goodbye"
       }
     },
@@ -48671,114 +48335,6 @@
       "date": "2026-11-19",
       "tag": {
         "move": "accept",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.miss-what-exactly",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Miss what, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "tell",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.and-after-that",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "And after that?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "tell",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.what-s-next-though",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "What's next, though?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "tell",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "ask",
         "key": "school-goodbye"
       }
     },
