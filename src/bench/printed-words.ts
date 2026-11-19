@@ -72,6 +72,7 @@ import {
   stanceGroupAmong,
 } from "../english/group-names";
 import { areaName } from "../english/area-names";
+import { SAID_AS_DATA } from "../english/said-as";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -518,15 +519,14 @@ class Reader {
     const bank = board.districts.find(
       (district) => district.id === member.districtId,
     )?.institution;
-    return {
-      office:
-        member.seatKind === "governor"
-          ? "Federal Reserve governor"
-          : bank
-            ? `president of the ${bank}`
-            : "Federal Reserve Bank president",
-      since: member.appointedAt,
-    };
+    // Every president's seat is made from a district in board.json, and
+    // every district names its bank, so a president is said by their bank.
+    const said = SAID_AS_DATA.centralBank;
+    const office =
+      member.seatKind === "governor"
+        ? said.governor
+        : bank && said.districtPresident.replace("{bank}", bank);
+    return office ? { office, since: member.appointedAt } : null;
   }
   /** What a business does, in a few words ("retail trade"), by its classification. */
   industry(organizationId: string | undefined): string | null {
