@@ -14,7 +14,6 @@ import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { SeededRng } from "../kernel/rng";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
-import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
@@ -124,7 +123,6 @@ import type {
   JobInput,
   OrganizationInput,
   WorkCommitmentInput,
-  PersonState,
   Source,
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
@@ -132,7 +130,7 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
-import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
+import { worldOffsetShare, worldOffsetUnit } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -674,247 +672,6 @@ function endSpell(api: CoreAPI, personId: string): void {
 }
 
 /**
- * The unemployment rate in a place at the opening, in percent: its region's
- * (the regional series, from the state's and county's labor statistics), else
- * the nation's where the place has no region, else the long-run rate.
- */
-function openingRate(api: CoreAPI, placeId: string): number {
-  const c = core(api);
-  const macro = c.modules.has("macro")
-    ? (api.moduleState("macro").table("state").get("macro:state") as
-        { latestMonth: string } | undefined)
-    : undefined;
-  if (macro) {
-    const regional = c.modules.has("regional")
-      ? regionalMonth(api, placeId, macro.latestMonth)
-      : undefined;
-    if (regional?.unemploymentPct !== undefined)
-      return regional.unemploymentPct;
-    const nation = api
-      .moduleState("macro")
-      .table("months")
-      .get(`macro-month:${macro.latestMonth}`) as
-      { unemploymentPct: number } | undefined;
-    if (nation) return nation.unemploymentPct;
-  }
-  return api.parameter("macroNaturalUnemploymentPct");
-}
-
-/** An age's band in the labor-force table. */
-function ageBand(age: number): number {
-  const index = ageUnemployment.bands.findIndex(
-    (band) => age >= band.from && age < band.to,
-  );
-  return Math.max(0, index);
-}
-
-/** A band's published unemployment rate over the overall rate (calibration). */
-export function publishedBandRatio(index: number): number {
-  const band = ageUnemployment.bands[index]!,
-    total = ageUnemployment.total;
-  return (
-    band.unemployed / band.laborForce / (total.unemployed / total.laborForce)
-  );
-}
-
-/**
- * A band's unemployment rate over the overall rate in this world; a place's
- * rate times it is the band's rate there. The band's rate is the published
- * one moved once by the world's offset, relative to its nearer bound (owner,
- * Oct 27: realistic, not real).
- */
-export function bandRatio(index: number, seed: string): number {
-  const band = ageUnemployment.bands[index]!,
-    total = ageUnemployment.total;
-  return (
-    worldRate(
-      band.unemployed / band.laborForce,
-      seed,
-      `age-unemployment:${index}`,
-      "jobsWorldAgeRateSpreadShare",
-    ) /
-    (total.unemployed / total.laborForce)
-  );
-}
-
-/** The fraction of a place's expected seekers the opening has rounded away so far, by place. */
-const owedAtOpening = new WeakMap<CoreState, Map<string, number>>();
-function openingOwed(c: CoreState): Map<string, number> {
-  let owed = owedAtOpening.get(c);
-  if (!owed) owedAtOpening.set(c, (owed = new Map()));
-  return owed;
-}
-
-/**
- * The seekers each age band holds in each place: a band's jobs held times its
- * rate over one minus its rate, the place's rate scaled by the band's ratio.
- * A place's seekers are the sum over its bands, rounded once, and handed to
- * the bands by largest remainder, so a small place keeps its seekers.
- * `held` is keyed `place|band`; the result is keyed the same way.
- */
-// stopgapId: SG-LABOR-opening-band-ratios-town-mix (the bands' ratios are scaled to the town's own worker age mix, not the county's)
-function bandQuotas(
-  api: CoreAPI,
-  held: Map<string, number>,
-): Map<string, number> {
-  stopgap("SG-LABOR-opening-band-ratios-town-mix");
-  const hundred = api.parameter("macroHundred"),
-    byPlace = new Map<string, { key: string; exact: number }[]>();
-  // The region's rate already holds the region's own age mix, so the bands'
-  // ratios are scaled to average one over the jobs held (SG-LABOR-opening-band-ratios-town-mix:
-  // the town's own mix stands for the county's, which the opening does not read).
-  const weighted = new Map<string, { jobs: number; ratio: number }>();
-  for (const [key, jobs] of held) {
-    const [placeId, index] = key.split("|") as [string, string];
-    const row = weighted.get(placeId) ?? { jobs: 0, ratio: 0 };
-    row.jobs += jobs;
-    row.ratio += jobs * bandRatio(Number(index), core(api).seed);
-    weighted.set(placeId, row);
-  }
-  for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
-    const [placeId, index] = key.split("|") as [string, string];
-    const mix = weighted.get(placeId)!;
-    const mean = mix.jobs > 0 ? mix.ratio / mix.jobs : 1;
-    const rate =
-      (bandRatio(Number(index), core(api).seed) / mean) *
-      openingRate(api, placeId);
-    byPlace.set(placeId, [
-      ...(byPlace.get(placeId) ?? []),
-      { key, exact: (jobs * rate) / (hundred - rate) },
-    ]);
-  }
-  const quotas = new Map<string, number>();
-  const owed = openingOwed(core(api));
-  for (const [placeId, rows] of byPlace) {
-    // The named and the counted are two calls on one place's rate: the
-    // fraction one call rounds away is carried into the next, so together
-    // they hold the place's whole expected count (2.6% of 102 workers is
-    // three seekers, not one and one).
-    const exact = rows.reduce((sum, row) => sum + row.exact, 0);
-    const whole = Math.round(exact + (owed.get(placeId) ?? 0));
-    owed.set(placeId, exact + (owed.get(placeId) ?? 0) - whole);
-    let left =
-      whole - rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
-    for (const row of rows) quotas.set(row.key, Math.floor(row.exact));
-    for (const row of [...rows].sort(
-      (a, b) => (b.exact % 1) - (a.exact % 1) || a.key.localeCompare(b.key),
-    )) {
-      if (left <= 0) break;
-      quotas.set(row.key, quotas.get(row.key)! + 1);
-      left--;
-    }
-  }
-  return quotas;
-}
-
-/**
- * Who among a place's jobless counted adults the opening makes seekers: each age band takes
- * as many as its quota, the neediest first; a band with fewer jobless adults
- * than its quota (a town whose workers are mostly middle-aged and whose
- * jobless are young) hands the rest to the place's other jobless adults, in
- * the same order, so the place keeps the seekers its rate implies.
- */
-function pickSeekers<T>(
-  candidates: readonly T[],
-  keyOf: (row: T) => string,
-  order: (a: T, b: T) => number,
-  quotas: ReadonlyMap<string, number>,
-): T[] {
-  const placeOf = (key: string) => key.split("|")[0]!;
-  const picked: T[] = [];
-  const taken = new Set<T>();
-  const left = new Map<string, number>();
-  for (const [key, quota] of quotas)
-    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) + quota);
-  for (const key of [...new Set(candidates.map(keyOf))].sort()) {
-    const take = [...candidates]
-      .filter((row) => keyOf(row) === key)
-      .sort(order)
-      .slice(0, quotas.get(key) ?? 0);
-    for (const row of take) {
-      picked.push(row);
-      taken.add(row);
-    }
-    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) - take.length);
-  }
-  for (const [placeId, more] of [...left].sort(([a], [b]) =>
-    a.localeCompare(b),
-  ))
-    if (more > 0)
-      picked.push(
-        ...candidates
-          .filter((row) => placeOf(keyOf(row)) === placeId && !taken.has(row))
-          .sort(order)
-          .slice(0, more),
-      );
-  return picked;
-}
-
-/**
- * The opening's seekers among the named people: jobless working-age adults
- * with the most pressing need to work, in each place as many as that place's
- * rate implies against the jobs its named workers hold. (The wider
- * population's seekers are chosen the same way by `openCountedSeekers`.)
- */
-function openSeekers(api: CoreAPI): void {
-  const c = core(api),
-    [young, old] = jobsData.workingAge as [number, number];
-  const ageOf = (person: PersonState) =>
-    daysBetweenText(person.birthDate, c.date) /
-    api.parameter("jobsDaysPerYear");
-  // The jobs held, counted by place and age band: the place's labor force.
-  const heldBy = new Map<string, number>();
-  for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined) continue;
-    const holder = c.people.get(job.personId);
-    if (!holder) continue;
-    const key = `${holder.placeId}|${ageBand(ageOf(holder))}`;
-    heldBy.set(key, (heldBy.get(key) ?? 0) + 1);
-  }
-  const jobless = [...c.people.values()].filter((person) => {
-    const age = ageOf(person);
-    return (
-      person.alive &&
-      !person.jobId &&
-      !controlled(c, person.id) &&
-      !livesElsewhere(c, person) &&
-      age >= young &&
-      age < old &&
-      c.households.has(person.householdId)
-    );
-  });
-  // Need to work: the fewest days the person's money covers.
-  const days = (person: PersonState) =>
-    person.livingCostDailyMinor > 0
-      ? person.liquidMinor / person.livingCostDailyMinor
-      : Number.POSITIVE_INFINITY;
-  // In each place and age band, as many as the band's rate there implies
-  // against the jobs held in the band; the neediest within the band seek.
-  const groups = new Map<string, PersonState[]>();
-  for (const person of jobless) {
-    const key = `${person.placeId}|${ageBand(ageOf(person))}`;
-    groups.set(key, [...(groups.get(key) ?? []), person]);
-  }
-  const quotas = bandQuotas(api, heldBy);
-  for (const key of [...groups.keys()].sort()) {
-    groups
-      .get(key)!
-      .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
-      .slice(0, quotas.get(key) ?? 0)
-      .forEach((person) =>
-        startSeeking(
-          api,
-          person.id,
-          false,
-          OPENING_UNEMPLOYED,
-          0,
-          openingProgress(c, person.id),
-        ),
-      );
-  }
-}
-
-/**
  * Which of a counted household's working-age members without a recorded job
  * are at work through its out-of-town workers (`unplacedWorkers`, workers per
  * household of the record, as its members are): they hold jobs, so they are
@@ -937,82 +694,6 @@ function awayByShare(
   );
   carry.placed += away.size;
   return away;
-}
-
-/** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
-function openCountedSeekers(api: CoreAPI): void {
-  const c = core(api),
-    rt = residentsRuntime(c);
-  if (!rt) return;
-  const [young, old] = jobsData.workingAge as [number, number];
-  const working = new Set(
-    [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
-  );
-  const candidates: {
-    personId: string;
-    placeId: string;
-    share: number;
-    band: number;
-  }[] = [];
-  const workingBy = new Map<string, number>();
-  const counted = rt.store;
-  const ageAt = (m: number) =>
-    daysBetweenText(counted.born[m]!, c.date) /
-    api.parameter("jobsDaysPerYear");
-  const carry = { unplaced: 0, placed: 0 };
-  for (const h of counted.liveHouseholds()) {
-    // People in custody or in the armed forces seek no civilian work.
-    if (outsideLaborForce(h.quarters)) continue;
-    const adults = counted.countedMembers(h).filter((m) => {
-      const age = ageAt(m);
-      return age >= young && age < old;
-    });
-    if (!adults.length) continue;
-    // The opening's employment target also puts working-age members of the
-    // household to work outside a recorded job (they take a commuter job
-    // when the household is filled in): they hold jobs, so they are in the
-    // band's jobs and not among the jobless. Whole workers by a running
-    // carry through the households in order, never a roll.
-    const idle = adults.filter((m) => !working.has(counted.ids[m]!));
-    const away = awayByShare(counted, h, idle, h.unplacedWorkers, carry);
-    const share =
-      adults.filter((m) => working.has(counted.ids[m]!) || away.has(m)).length /
-      adults.length;
-    for (const m of adults) {
-      const personId = counted.ids[m]!;
-      const placeId = counted.strings[counted.placeIx[m]!]!,
-        band = ageBand(ageAt(m));
-      if (working.has(personId) || away.has(m)) {
-        const key = `${placeId}|${band}`;
-        workingBy.set(key, (workingBy.get(key) ?? 0) + 1);
-      }
-      if (!working.has(personId) && !away.has(m) && !inCustody(api, personId))
-        candidates.push({ personId, placeId, share, band });
-    }
-  }
-  // In each place and age band, as many as the band's rate there implies
-  // against the jobs its counted workers hold: the same rule as the named
-  // people, times the count.
-  const quotas = bandQuotas(api, workingBy);
-  for (const row of pickSeekers(
-    candidates,
-    (row) => `${row.placeId}|${row.band}`,
-    (a, b) => a.share - b.share || a.personId.localeCompare(b.personId),
-    quotas,
-  ))
-    store(api)
-      .table("countedSeekers")
-      .put({
-        id: row.personId,
-        isSeeker: true,
-        personId: row.personId,
-        placeId: row.placeId,
-        employed: false,
-        since: c.date,
-        reasonKey: OPENING_UNEMPLOYED,
-        referenceHourlyMinor: 0,
-        regionalPull: openingProgress(c, row.personId),
-      });
 }
 
 /**
@@ -1143,9 +824,7 @@ function open(api: CoreAPI): void {
         mix: roleMix(jobs, fullJobs(api, id), (job) => headsOf(c, job)),
       });
   }
-  openCountedSeekers(api);
-  openSeekers(api);
-  // The adults who would be looking at the opening are found now, partway through their spells, not all at the first monthly review with their progress at zero.
+  // The adults who would be looking at the opening are found now, by the same entry choice the monthly review makes, partway through their spells, not all at the first monthly review with their progress at zero.
   reviewCountedEntry(api, true);
   reviewJobless(api, true);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
@@ -3400,7 +3079,7 @@ export function reviewJobless(api: CoreAPI, opening = false): void {
           api,
           person.id,
           false,
-          jobsData.reasons.startedLooking,
+          opening ? OPENING_UNEMPLOYED : jobsData.reasons.startedLooking,
           lastPay(api, person.id),
           opening ? openingProgress(c, person.id) : undefined,
         ),
@@ -4639,8 +4318,8 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
     let days: number | undefined;
-    // The household's out-of-town workers hold jobs (the opening's rule,
-    // `openCountedSeekers`): those members are not jobless, so they neither
+    // The household's out-of-town workers hold jobs (the same rule at the
+    // opening and after it): those members are not jobless, so they neither
     // wait nor look. A member in regional work is one of those workers by
     // name; the rest of the household's workers are its first free members.
     const members = counted.countedMembers(h);
@@ -4708,7 +4387,9 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
             placeId,
             employed: false,
             since: c.date,
-            reasonKey: jobsData.reasons.startedLooking,
+            reasonKey: opening
+              ? OPENING_UNEMPLOYED
+              : jobsData.reasons.startedLooking,
             referenceHourlyMinor: 0,
             reasons: reasonsOf(result),
             ...(opening ? { regionalPull: openingProgress(c, personId) } : {}),

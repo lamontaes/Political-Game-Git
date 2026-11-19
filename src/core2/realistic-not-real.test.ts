@@ -58,13 +58,8 @@ import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
 import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
 import { coreAPI } from "./state";
-import {
-  seasonalStaffing,
-  bandRatio,
-  publishedBandRatio,
-} from "./modules/jobs";
+import { seasonalStaffing } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
-import ageUnemployment from "./data/jobs/age-unemployment.json" with { type: "json" };
 import seasonal from "./data/jobs/seasonal.json" with { type: "json" };
 import {
   DEFAULT_RESIDENT_EMPLOYMENT,
@@ -458,7 +453,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       );
   });
 
-  it("age unemployment, seasonal staffing, employment rates, pay, sector mix and place earnings (audit rows 4, 10, 11, 12, 13)", () => {
+  it("seasonal staffing, employment rates, pay, sector mix and place earnings (audit rows 4, 10, 11, 12, 13)", () => {
     const differs = (
       what: string,
       mine: number,
@@ -468,15 +463,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       expect(mine, `${where} ${what}: published`).not.toBe(real);
       expect(mine, `${where} ${what}: other world`).not.toBe(other);
     };
-    // Row 4: each age band's unemployment ratio, and each industry's season.
-    ageUnemployment.bands.forEach((_, i) =>
-      differs(
-        `age band ${i}`,
-        bandRatio(i, a.seed),
-        publishedBandRatio(i),
-        bandRatio(i, b.seed),
-      ),
-    );
+    // Row 4: each industry's season (the age bands' unemployment ratios are gone: the opening's jobless come from the people's own entry choice).
     for (const kind of Object.keys(seasonal.kinds)) {
       const at = (s?: string) =>
         seasonalStaffing(kind, "2027-07-15", "2027-01-15", s);
