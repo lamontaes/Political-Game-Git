@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: S8 (claude/words-address-place-and-board-said-as)
+pr: 9125
 after:
 blocked-on:
 lead: words
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** T42's #9081 (`boardBodyName`) being on main.
 
-**Files.** src/director/speech-outline.ts, src/director/local-address.ts, src/english/said-as.ts, src/director/speech-outline.test.ts
+**Files.** src/core2/government-proper-name.ts (`governmentSaidName`, the one rule), src/director/local-address.ts, src/director/local-address-place-names.test.ts. The board's own name is the offices engine's (`boardBodyName` in src/core2/offices-local.ts, fixed by the job-titles thread's `placeOfBody`).
 
 **Notes.** Filed by the Speeches builder (D) from the Words lead's round 6 read of #9074.
