@@ -17,10 +17,15 @@ import { purposeScene } from "./purpose-scene";
 // under the minimum wage) come to the official they know best, and records
 // the visit (office.approached); the official's office-hours scene fires from
 // it with the resident asking, and the talk is about that problem. Places are
-// drawn in turn until one has a visit to an official who is a full person.
+// drawn in turn until one has a visit to an official who is a full person,
+// each played until its first visit: office hours come once a month
+// (officeHoursPerMonth), and in a drawn town a month's hours often bring no
+// one (2 of 12 towns at one session, seed fbec4669…), so a town waits up to
+// six sessions.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const DAYS = 45;
-const ATTEMPTS = 4;
+const DAYS = 180;
+const STEP = 15;
+const ATTEMPTS = 6;
 const SAYS: Readonly<Record<string, RegExp>> = {
   // The plain arc says the problem; a variant (a layoff, pay under the floor)
   // says the same problem in its own words.
@@ -47,11 +52,17 @@ it(`a resident's visit to office hours is the official's scene, about the proble
       const id = row.holder?.personId;
       if (id && core.people.get(id)?.alive) director.watch(core, id);
     }
-    advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
-    const visits = [...core.durableLog.values()].filter(
-      (row) =>
-        row.kind === "office.approached" &&
-        director.ledger.people.has(String(row.facts?.officialId) as PersonId),
+    const visitsNow = () =>
+      [...core.durableLog.values()].filter(
+        (row) =>
+          row.kind === "office.approached" &&
+          director.ledger.people.has(String(row.facts?.officialId) as PersonId),
+      );
+    for (let day = 0; day < DAYS && !visitsNow().length; day += STEP)
+      advanceCore(core, addDays(makeIsoDate(core.date), STEP));
+    const visits = visitsNow();
+    process.stdout.write(
+      `OFFICE HOURS ${where}: ${visits.length} visits by ${core.date}\n`,
     );
     if (!visits.length) {
       tried.push(place.name);
@@ -96,6 +107,6 @@ it(`a resident's visit to office hours is the official's scene, about the proble
   throw new Error(
     `no resident brought a problem to an official in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
   );
-  // The visit case measured 12 seconds; allow four drawn towns plus runner
-  // overhead without giving this 45-day check an hour to finish.
+  // A town played 180 days measured about 60 seconds; six drawn towns plus
+  // runner overhead fit in ten minutes.
 }, 600_000);
