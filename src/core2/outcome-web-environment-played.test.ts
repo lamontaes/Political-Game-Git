@@ -44,8 +44,9 @@ import {
   OUTCOME_WEB_MODULE_ID,
   type WebMonth,
 } from "./modules/outcome-web";
+import { householdComposition, useFactor } from "./modules/place-prices";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
-import { countedHouseholdsByPlace, incomeBandOf } from "./modules/residents";
+import { countedHouseholdsByPlace, incomeBandOn } from "./modules/residents";
 import { CALIBRATED_AT, WEB_LINKS } from "./outcome-web-model";
 import { webLevel, webReach } from "./outcome-web-reach";
 import { coreAPI } from "./state";
@@ -131,7 +132,12 @@ function householdBasis(api: CoreAPI, householdId: string) {
     if (job && job.endsAt === undefined)
       pay += (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / 12;
   }
-  return { persons: members.length, pay, fifth: incomeBandOf(pay * 12) };
+  return {
+    persons: members.length,
+    pay,
+    fifth: incomeBandOn(api, pay * 12),
+    fuelUse: useFactor(api, "fuel", "share", householdComposition(c, members)),
+  };
 }
 
 /** One monthly price settle: the web month it read and what each full household paid under each law. */
@@ -375,6 +381,9 @@ function sameHouseholds(was: Settle, now: Settle, which: "deposit" | "carbon") {
     .map(([id, row]) => ({
       id,
       fifth: now.before.get(id)!.fifth,
+      wasFifth: was.before.get(id)!.fifth,
+      wasFuelUse: was.before.get(id)!.fuelUse,
+      nowFuelUse: now.before.get(id)!.fuelUse,
       was: was[which].get(id)!.amount,
       now: row.amount,
       rowId: row.rowId,
@@ -475,9 +484,14 @@ describe(`environment laws reach people on the web's own lags in a played world 
           `${where}: ${row.key}: households under the carbon price`,
         ).toBeGreaterThan(0);
         for (const one of households) {
-          const ratio =
-            around.now.factor[one.fifth]! / around.was.factor[one.fifth]!;
-          expect(ratio, `${row.key}: ${one.id}`).toBeLessThan(1);
+          const emissions =
+            around.now.factor[one.fifth]! / around.was.factor[one.wasFifth]!;
+          expect(emissions, `${row.key}: ${one.id} emissions`).toBeLessThan(1);
+          expect(
+            one.wasFuelUse,
+            `${row.key}: ${one.id} prior fuel use`,
+          ).toBeGreaterThan(0);
+          const ratio = emissions * (one.nowFuelUse / one.wasFuelUse);
           expect(
             Math.abs(one.now - one.was * ratio),
             `${where}: ${row.key}: ${one.id} carbon ${one.was} -> ${one.now} at ${ratio}`,
