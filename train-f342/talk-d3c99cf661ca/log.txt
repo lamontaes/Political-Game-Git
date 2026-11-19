@@ -1,0 +1,39 @@
+seed d3c99cf661ca place Huntingdon, Tennessee
+me Roland Jones
+--- opening
+  line: It's the evening of January 20. You switch on the lamp by the couch.
+  line: Speaker Sharon Brooks, members of Congress, and everyone watching at home. I'm proud to have Vice President Charles Gordon beside me tonight. Before anything else, I want to talk to the folks in Kansas. The severe storm hit you hard, and the country hasn't forgotten. We'll rebuild Kansas, and this time we'll build it to last.
+  line: Because I'm sure nobody should be charged a crushing rate on a loan, it's time to cap the interest on consumer loans, and I'm asking Congress to get it done.
+  line: You know what I'm asking for on a cap on consumer loan interest, so hold me to it.
+  line: It's the evening of January 20. Dishes sit drying by the sink.
+--- room talk with Nathan Jones
+  line: So the President is for a cap on consumer loan interest. You heard that too. He got that one right, I'll give him that. What do you think about that part?
+  replies: ["I'm with you on that, Dad.","I think he has that wrong."] -> I'm with you on that, Dad.
+  line: ROLAND JONES I'm with you on that, Dad. That's two of us in Huntingdon, then.
+--- step 1 Wednesday, January 22, 20257:00 AM
+  line: It's early on January 22. You hang your coat by the door. WVGT-TV carried Governor David Donovan's State of the State address, and you watched.
+  line: WVGT-TV No part of this year matters more than the flood and the families still putting their lives back together. Rebuilding Tennessee comes first this year, and the rest of what I ask for has to fit around it. The right-to-work rules stay, and I will veto any bill that would undo them.
+  line: WVGT-TV From right-to-work rules, let me turn to collective bargaining for public workers.
+  line: WVGT-TV Tennessee knows what I'm asking for on right-to-work rules, so hold me to it.
+--- step 4 Tuesday, February 11, 20257:00 AM
+  line: It's early on February 11. A stack of mail sits on the counter. Mayor Michael Alvarez's yearly address played on WVGT-TV in front of you.
+  line: WVGT-TV The race for Huntingdon council member was on your ballot this year, and I watched it closely.
+  line: WVGT-TV Thank you, Huntingdon.
+--- step 8 Sunday, March 2, 20257:00 AM
+  line: First thing on March 2nd, you slit open an envelope from Catherine Shaw. The envelope from Catherine is postmarked Carroll County, not far off.
+  line: Dear Roland, I hope this finds you well. You're not far from us in Carroll County. Could you come for a meal one of these days?
+  replies: ["Yes, gladly.","Why now?","Not right now."] -> Yes, gladly.
+  line: ROLAND JONES Yes, gladly. That means everything.
+--- step 23 Friday, June 6, 20257:00 AM
+  line: It's early on June 6. A stack of mail sits on the counter. Landon turned 14, and Donna was not at the table.
+  line: I've been wanting to bring up Donna, if that's alright. Donna is still in Carroll County, not so far. Could you call, or even drive over?
+  replies: ["Yes. Donna should hear from me, and I'd rather it was soon.","What would you want me to say to Donna?","I can't do that. Things with Donna aren't that simple."] -> Yes. Donna should hear from me, and I'd rather it was soon.
+  line: ROLAND JONES Yes. Donna should hear from me, and I'd rather it was soon. Thank you. Donna will be glad to hear from you.
+  line: It's early on June 7. You hang your coat by the door. Nathan sits at the table with two cups and no radio.
+  line: I'm glad you're home, Roland. People do come back and finish what Huntingdon Public Schools started.
+  replies: ["I thought I'd be okay at Huntingdon Public Schools, and I wasn't.","I'll finish it.","I'm sorry I didn't ask for help at Huntingdon.","Not now."] -> I thought I'd be okay at Huntingdon Public Schools, and I wasn't.
+  line: ROLAND JONES I thought I'd be okay at Huntingdon Public Schools, and I wasn't. What does Huntingdon say you can do now?
+  replies: ["Huntingdon says I can retake what I missed.","I'll try again."] -> Huntingdon says I can retake what I missed.
+  line: ROLAND JONES Huntingdon says I can retake what I missed. That was brave.
+journal: At 16 years old, I moved to Huntingdon, Tennessee. When I was 17, I entered Huntingdon Public Schools for high school. I turned eighteen.
+errors []

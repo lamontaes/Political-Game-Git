@@ -1,0 +1,12 @@
+seed d3c99cf661ca place Huntingdon, Tennessee scene person_d02ad5efb0c36210:2025-01-20:president.address:2025-01-20
+beat 1: mobile-home__night.jpg ·  · strip Nathan Jones[] h111; Jennifer Jones[] h111; Landon Jones[] h111 · It's the evening of January 20. You switch on the lamp by the couch.
+beat 2: us-house-floor__night.jpg · President Marc Khan · strip Marc Khan[speaking] h129; Sharon Brooks[quiet] h111; Charles Gordon[quiet] h111 · Speaker Sharon Brooks, members of Congress, and everyone watching at home. I'm proud to have Vice President Charles Gordon beside me tonight. Before a
+beat 3: train-depot-platform__midday.jpg · President Marc Khan · strip  · Because I'm sure nobody should be charged a crushing rate on a loan, it's time to cap the interest on consumer loans, and I'm asking Congress to get i
+beat 4: mobile-home__night.jpg · President Marc Khan · strip President Marc Khan[speaking] h129; Nathan Jones[quiet] h111; Jennifer Jones[quiet] h111; Landon Jones[quiet] h111 · You know what I'm asking for on a cap on consumer loan interest, so hold me to it.
+beat 5: mobile-home__night.jpg ·  · strip Nathan Jones[] h111; Jennifer Jones[] h111; Landon Jones[] h111 · It's the evening of January 20. Dishes sit drying by the sink.
+talk 1: mobile-home__morning.jpg ·  · It's early on February 11. You hang your coat by the door. You watched Mayor Michael Alvarez's yearly address on WVGT-TV. / Good / Bad
+talk 2: mobile-home__morning.jpg · Mayor Michael Alvarez · WVGT-TV / Before anything else, I want to speak to the families who lived through the winter storm this past year. The work of bringing Hunt
+tv seen true
+set: LIVE / Mayor Michael Alvarez / WVGT-TV; date Wednesday, February 11, 20267:00 AM
+card after clicking the set: true Michael Alvarez
+errors []
