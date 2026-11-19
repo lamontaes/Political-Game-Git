@@ -49,6 +49,7 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import {
   LOAN_SEED,
   findTownBorrower,
+  MAX_PLACES,
   play,
 } from "../../tests/support/real-borrower";
 import {
@@ -100,7 +101,19 @@ function world(attempt: number, label: string) {
  * the world, pool item world-loan-bill-before-first-payday-no-borrower-keeps,
  * and comes back when that item lands.
  */
-const PAY_TIMEOUT = 270_000;
+/**
+ * The limit is the search's own bound, not one guessed number (CTO, Nov 19:
+ * "a timeout that fires before the search's own bound is a wrong limit"):
+ * `findTownBorrower` draws up to MAX_PLACES places, each a world build and the
+ * days to its first money quarrel (49 s and 57 s measured for two places at
+ * seed ce982b4d98156199 on a cloud container, Nov 19, so twice the slower is
+ * 120 s), and then the nine months above are played once (270 s, the figure
+ * this case had before). The runner's own per-place time replaces these
+ * figures when its logs print them (the search prints each place's seconds).
+ */
+const FIND_PLACE_BUDGET = 120_000;
+const PLAY_BUDGET = 270_000;
+const PAY_TIMEOUT = MAX_PLACES * FIND_PLACE_BUDGET + PLAY_BUDGET;
 
 /**
  * Each broken promise this file plays, with what the break cost the tie
