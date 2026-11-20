@@ -1,0 +1,40 @@
+body {
+  background:#f2e5c9 url(../art/broadside.webp) center/1440px 900px no-repeat;
+  color:#273830;
+}
+main {position:relative;width:100%;height:100%}
+.mast {
+  position:absolute;inset:28px 67px auto;
+  display:flex;align-items:end;justify-content:space-between;
+}
+.mast h1 {font-size:88px;letter-spacing:-.045em}
+.mast .label {color:#7b3d2a}
+.identity {padding-bottom:10px;text-align:right}
+.identity strong {display:block;font-size:24px}
+.identity time {font-size:19px}
+.races {
+  position:absolute;top:238px;left:579px;right:70px;
+  display:grid;grid-template-columns:1fr 229px;gap:26px;
+}
+.races .label {color:#753d2e}
+.offices {display:flex;gap:9px;margin:9px 0 24px}
+.offices .pick {padding-inline:15px}
+.hero-date time {display:block;font-size:65px;font-weight:600;line-height:1.08;letter-spacing:-.045em}
+.milestones {display:grid;grid-template-columns:repeat(2,1fr);gap:21px;margin-top:22px}
+.milestones time {display:block;margin-top:4px;font-size:24px;font-weight:600}
+.place {position:absolute;bottom:52px;left:67px;font-size:25px;color:#56392c}
+.standing {margin-top:9px;border-left:1px solid #805c4263;padding:19px 0 0 22px}
+.standing dd {font-size:38px;margin:3px 0 18px;font-weight:600}
+.standing p {margin-top:7px;max-width:190px}
+.record {position:absolute;left:579px;right:70px;bottom:41px}
+.record-head {
+  display:flex;align-items:end;justify-content:space-between;
+  padding-bottom:10px;border-bottom:2px solid #536654;
+}
+.record h2 {font-size:26px}
+.record-head .label {color:#753d2e}
+.holders {display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.holder {display:grid;justify-items:center;text-align:center}
+.holder .bust {width:139px;height:140px}
+.holder strong {display:block;font-size:18px}
+.holder .score {font-size:18px;color:#753d2e}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Election</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+<main>
+  <header class="top">
+    <div>
+      <h1>On my ballot</h1>
+      <p>Grano, North Dakota</p>
+    </div>
+    <div><time datetime="2025-01-20">2025-01-20</time></div>
+  </header>
+  <div class="offices">
+    <button type="button" class="pick" aria-pressed="true" id="council">Council member</button>
+    <button type="button" class="pick" aria-pressed="false" id="mayor">Mayor</button>
+  </div>
+  <div class="dates">
+  <div><span class="label">Filing opens</span><time datetime="2026-01-29">2026-01-29</time></div>
+  <div><span class="label">Filing closes</span><time datetime="2026-03-30">2026-03-30</time></div>
+  <div><span class="label">Election day</span><time datetime="2026-06-02">2026-06-02</time></div>
+</div>
+  <div class="race-detail">
+    <section class="standing">
+      <span class="label">Where the race stands</span>
+      <p>Filing for this race hasn&#x27;t opened yet.</p>
+      <div class="filing-meta"><span class="label">Seats to fill</span><span id="seats">3</span></div>
+    </section>
+    <section class="last">
+      <figure class="bust"><img src="../art/shirley.webp" alt=""></figure>
+      <div>
+        <span class="label">Last time</span>
+        <time datetime="2022-05-01">2022-05-01</time>
+        <strong id="winner">Shirley Pratt</strong>
+        <p><span id="share">54</span> <span>percent</span></p>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+  const mayor = document.querySelector('#mayor');
+  mayor.addEventListener('click', () => {
+    document.querySelector('#council').setAttribute('aria-pressed', 'false');
+    mayor.setAttribute('aria-pressed', 'true');
+    document.querySelector('#seats').textContent = "1";
+    document.querySelector('#winner').textContent = "Chris Munoz";
+    document.querySelector('#share').textContent = "61";
+    document.querySelector('.last img').src = '../art/chris.webp';
+  }, { once: true });
+</script>
+</body>
+</html>
