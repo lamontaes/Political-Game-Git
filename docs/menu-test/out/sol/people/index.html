@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>People · Our Civic Duty</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+body {background-image:url(../art/house-suburban-living__midday.jpg)}
+.layout {display:grid;grid-template-columns:220px 364px 1fr;column-gap:34px;row-gap:23px;margin-top:35px;align-items:start}
+.people-list {grid-row:span 2;padding-top:7px}
+.people-list .label {margin:21px 0 5px}
+.people-list button {display:block;width:100%;margin:2px 0}
+.people-list small {display:block}
+.intro {text-align:center}
+.intro .portrait {height:377px;margin-top:12px}
+.intro .label {margin-top:8px}
+.details {display:grid;grid-template-columns:1.1fr 1fr;gap:27px 23px;padding-top:15px}
+.details .label,.story .label {margin-bottom:8px}
+.details .bio {grid-column:1/-1}
+.details p + p {margin-top:4px}
+.details strong {font-weight:600}
+.story {grid-column:2/-1;display:grid;grid-template-columns:108px 1fr;gap:17px;align-items:start;margin-top:7px}
+.story img {margin-top:7px}
+.story p {font-size:19px;max-width:752px}
+</style>
+<body>
+<main class="panel menu">
+  <i class="corner tl"></i><i class="corner tr"></i><i class="corner br"></i><i class="corner bl"></i>
+  <header class="top"><span class="plate">People</span></header>
+  <div class="layout">
+    <aside class="people-list">
+      <h2>My people</h2>
+      <span class="label">Home</span>
+      <button class="control lit">Ashley Lucas<small>Partner</small></button>
+      <span class="label">Family</span>
+      <button class="control">Laura Summers<small>Daughter</small></button>
+      <button class="control">Monique Summers<small>Mother</small></button>
+      <span class="label">Work</span>
+      <button class="control">Shane Harrison<small>Coworker</small></button>
+    </aside>
+    <section class="intro">
+      <h1>Ashley Lucas</h1>
+      <span class="label">Partner · Age 45</span>
+      <figure class="portrait"><img src="../art/ashley.webp" alt=""></figure>
+    </section>
+    <div class="details">
+      <section class="bio">
+        <span class="label">Who she is</span>
+        <p>Has served as a commissioner since 2024.</p>
+        <p>Works outside Grano, North Dakota.</p>
+        <p>Born in Grano, North Dakota, in 1979.</p>
+      </section>
+      <section><span class="label">How I see her</span><p>Conciliatory<br>Takes chances</p></section>
+      <section><span class="label">Between us</span><p>Lives with you</p></section>
+      <section><span class="label">Politics</span><p>You don’t know where she stands yet.</p></section>
+      <section><span class="label">Her people</span><p><strong>Shane Harrison</strong><br><small>Council member</small></p><p><strong>Shirley Pratt</strong><br><small>Council member</small></p></section>
+    </div>
+    <section class="story">
+      <img src="../art/leaf.svg" width="108" height="28" alt="">
+      <div><span class="label">Her story</span><p>Ashley was in middle school in 1991. She started high school at 14 and went to college in 1998. She moved within Grano in 2001, the year she started a life with you and her daughter Laura was born. She graduated in 2002 and spent three months without work that year.</p></div>
+    </section>
+  </div>
+</main>
+</body>
+</html>
