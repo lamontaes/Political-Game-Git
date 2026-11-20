@@ -288,8 +288,16 @@ export function electionNight(core: CoreState, personId: string) {
   const place = townName(api);
   const office = fact(race.title, race.contestId);
   const names = new Map(race.candidates.map((row) => [row.id, row.name]));
-  const steps: { lines: Line[]; totals: { name: string; votes: number }[] }[] =
-    [];
+  const steps: {
+    lines: Line[];
+    totals: { name: string; votes: number }[];
+    /** Each place that has reported by this step, with what each candidate got there. */
+    places: { name: string; votes: { name: string; votes: number }[] }[];
+  }[] = [];
+  const reported: {
+    name: string;
+    votes: { name: string; votes: number }[];
+  }[] = [];
   const open = electionDayLine(
     "returns-open",
     { office, ...(place ? { place: fact(place) } : {}) },
@@ -302,7 +310,7 @@ export function electionNight(core: CoreState, personId: string) {
       name: row.name,
       votes: running[row.id] ?? 0,
     }));
-  steps.push({ lines: open ? [open] : [], totals: board({}) });
+  steps.push({ lines: open ? [open] : [], totals: board({}), places: [] });
   if (!race.unopposed)
     places.forEach((row, index) => {
       const here = Object.entries(row.votes)
@@ -348,7 +356,18 @@ export function electionNight(core: CoreState, personId: string) {
         );
         if (lead) lines.push(lead);
       }
-      steps.push({ lines, totals: board(row.running) });
+      reported.push({
+        name: placeWords(row.placeId, row.name, race.district),
+        votes: race.candidates.map((cand) => ({
+          name: cand.name,
+          votes: row.votes[cand.id] ?? 0,
+        })),
+      });
+      steps.push({
+        lines,
+        totals: board(row.running),
+        places: reported.map((r) => ({ ...r })),
+      });
     });
   // The call: the count's own totals, every ballot in the race.
   const winnerName = result.winnerId ? nameOf(api, result.winnerId) : null;
@@ -397,6 +416,7 @@ export function electionNight(core: CoreState, personId: string) {
       name: row.name,
       votes: row.votes,
     })),
+    places: reported.map((r) => ({ ...r })),
   });
   return {
     contestId: race.contestId,
