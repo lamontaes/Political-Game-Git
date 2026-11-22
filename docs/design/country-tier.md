@@ -23,7 +23,7 @@ Measured and read in the audit, and confirmed on main on November 10:
 - **The nation is one formula.** `stepMacroMonth` in `src/core2/macro-model.ts` computes unemployment, prices and rates from last month's figures. Its cycle is built in. The town's income enters at a weight that rounds to nothing, and no tax, budget or disaster enters at all.
 - **Each state follows the nation.** `stepRegionMonth` in `src/core2/regional-model.ts` sets a region's unemployment to the nation's plus last month's gap, shrunk a little.
 - **Moves are forced to the Census.** Every month `src/core2/modules/counted-moves.ts` adjusts each state's pull until arrivals match the survey, and pins departures to the survey rate.
-- **Layoffs follow a fixed pace.** `reviewTurnover` in `src/core2/modules/jobs.ts` fills a meter at a national rate. Without it, firms almost never let anyone go, because about 80% of a small town's sales come from outside buyers who follow one smooth factor.
+- **Layoffs lean on a fitted baseline.** Each employer reviews its own workers (`reviewKeeping` in `src/core2/modules/jobs.ts`, Nov 17): the worker's tenure and record and the firm's own staffing and losses move the pull. Its baseline still stands where firm-level demand shocks will be, because about 80% of a small town's sales come from outside buyers who follow one smooth factor. People who work in the wider region are still let go at a national pace (`reviewRegionalTurnover`).
 - **The result.** In Woods Cross, Utah (seed f61d987b2e0e), with both income taxes set to zero, national unemployment after three years was 5.722% against 5.727%, and the region's population was 729,822 in both worlds.
 - **The clock.** Everything steps day by day. Twenty years take 17 to 51 minutes where they finish at all.
 
@@ -82,7 +82,7 @@ The federal government is one more ledger. The played town and its county stay a
 | `stepMacroMonth` and its built-in cycle                             | The sum of the states                                                        |
 | The pull in `stepRegionMonth`                                       | Each state's own month                                                       |
 | The monthly re-fit of arrivals to the Census, and pinned departures | Place constants fitted once at the opening; flows then follow causes         |
-| `reviewTurnover` (the fixed layoff pace)                            | Firms losing and gaining customers, in the town and in every state's sectors |
+| `reviewKeeping`'s baseline and `reviewRegionalTurnover`'s pace      | Firms losing and gaining customers, in the town and in every state's sectors |
 | Other states' budgets as a published figure times a factor          | Each state's ledger                                                          |
 | The campaign-stride fast-forward switch                             | The monthly clock                                                            |
 | Two of the three per-place summaries                                | The tier's cells                                                             |

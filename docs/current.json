@@ -1705,6 +1705,36 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the first letter from a relative to stage as a scene so the repeat a month later could go to the journal; the letter scene has no lines since the cut, so it is not staged."
+    },
+    {
+      "old": ".agents/skills/labor-market-proof",
+      "now": ".agents/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/labor-market-proof",
+      "now": ".claude/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/owners-words-to-threads",
+      "now": ".agents/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/owners-words-to-threads",
+      "now": ".claude/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/core2/town-turnover.test.ts",
+      "now": "src/core2/employer-keep-review.test.ts",
+      "when": "2026-11-17",
+      "why": "The town's layoffs at a national pace (reviewTurnover) were replaced by each employer's own review of its workers (reviewKeeping); the test of the pace went with it."
     }
   ]
 }
