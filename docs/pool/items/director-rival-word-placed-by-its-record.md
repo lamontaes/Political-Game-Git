@@ -33,6 +33,6 @@ Seen: the Salado TX play, seed review1:2, class F of the Words lead's read.
 
 **Waits on.** Nothing: it builds on the campaigns engine's rival-word record as it stands.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/modules/elections.ts, src/director/purpose-scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json, data/english/parts/scene-talk.json, src/core2/data/campaigns/parameters.json, src/director/rival-word-record.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/modules/elections.ts, src/director/purpose-scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json, data/english/parts/scene-talk.json, src/core2/data/campaigns/parameters.json
 
 **Notes.** Filed Nov 15 by hand with its PR. Left out for lack of a record: "last night" for a night of doors, "more than one showing" for an ad, "nothing about you" (the message holds no attack flag) and the close-tie answer. The answer "{opponent} is against {about}." and the ask for a rival who argued against a question were cut: no drawn place played a rival arguing against (ten places scanned, every row "for"), so no line ships unplayed; add them when a place plays one.

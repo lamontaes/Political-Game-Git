@@ -24,9 +24,13 @@ import reachParameters from "./data/laws/reach-group-a-parameters.json" with { t
 import { countedPersonOf } from "./counted-actor";
 import { careNeedOf } from "./modules/health";
 import { enactLaw, lawChain } from "./modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import {
+  lawValue,
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "./modules/outcome-web";
 import { residentsRuntime } from "./modules/residents";
-import { WEB_LINKS } from "./outcome-web-model";
+import { CALIBRATED_AT, WEB_LINKS } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { initialPersonState } from "./person-state";
 import { parameterValues } from "./parameters";
@@ -98,7 +102,7 @@ function read(core: CoreState, row: PersonInput, stored?: number) {
 function prove(
   drawn: ReturnType<typeof drawPlace>,
   passed: string[],
-  openedWithLaw: boolean,
+  requireLawAtCalibration: boolean,
 ): string | null {
   const where = `${drawn.name}, ${drawn.state} (${drawn.key})`;
   const build = () =>
@@ -108,6 +112,12 @@ function prove(
       placeKey: drawn.key,
     }).core;
   const worlds = { law: build(), twin: build() };
+  const openedWithLaw = Boolean(
+    lawValue(coreAPI(worlds.law), QUESTION, CALIBRATED_AT, true),
+  );
+  if (requireLawAtCalibration) {
+    expect(openedWithLaw, `${where}: law in force at calibration`).toBe(true);
+  }
   const enactedOn = worlds.law.date;
   for (const [name, value] of [
     ["law", 1],

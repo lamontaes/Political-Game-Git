@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** gov-serve-ask-price-said-aloud.
 
-**Files.** src/core2/data/promises/promise-kinds.json, src/director/promise-talk.ts, data/english/parts/conversation.json, src/director/serve-price-scene.test.ts
+**Files.** src/core2/data/promises/promise-kinds.json, src/director/promise-talk.ts, data/english/parts/conversation.json

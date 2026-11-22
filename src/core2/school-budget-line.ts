@@ -2,7 +2,8 @@
  * How far a town's schools budget lines stand above their Census base: the
  * cause the school engine's graduation reads through the outcome web
  * (school-spending-to-attainment). A change a mayor or council enacts to the
- * city's or county's schools line moves it; until one does it is zero.
+ * city's or county's schools line moves it (or the state's, where the state
+ * runs the schools); until one does it is zero.
  */
 import {
   BUDGETS_MODULE_ID,
@@ -28,25 +29,34 @@ export function schoolsLineAboveBase(
   api.stopgap("SG-SCHOOL-spending-line-for-per-pupil");
   let base = 0,
     now = 0;
-  let furthest: { budgetId: string; change: number } | null = null;
-  for (const gov of governments(api)) {
-    if (gov.level !== "city" && gov.level !== "county") continue;
-    // A government's budget belongs to its town; other places are not funded by it.
-    if (core.organizations.get(gov.organizationId)?.placeId !== placeId)
-      continue;
+  // Assigned inside `read` below, so it's typed with `as` to keep TypeScript from narrowing it to null at the return.
+  let furthest = null as { budgetId: string; change: number } | null;
+  const read = (gov: ReturnType<typeof governments>[number]) => {
     const budget = [...budgetsOf(api, gov.id)]
       .filter((row) => row.startsOn <= core.date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
-    if (!budget) continue;
+    if (!budget) return;
     const line = lineWithoutBills(api, gov, budget.fiscalYear, "schools");
-    if (!line) continue;
+    if (!line) return;
     const here = budget.spendingMinor["schools"] ?? 0;
     base += line;
     now += here;
     const change = Math.abs(here - line) / line;
     if (!furthest || change > furthest.change)
       furthest = { budgetId: budget.id, change };
+  };
+  for (const gov of governments(api)) {
+    if (gov.level !== "city" && gov.level !== "county") continue;
+    // A government's budget belongs to its town; other places are not funded by it.
+    if (core.organizations.get(gov.organizationId)?.placeId !== placeId)
+      continue;
+    read(gov);
   }
+  // Where no city or county budget carries a schools line (a state that runs
+  // its schools as one system), the town's schools are funded by the state's
+  // line, and its change from its own base moves them the same way.
+  if (!base)
+    for (const gov of governments(api)) if (gov.level === "state") read(gov);
   return base
     ? { pct: ((now - base) / base) * 100, recordId: furthest?.budgetId ?? null }
     : null;
