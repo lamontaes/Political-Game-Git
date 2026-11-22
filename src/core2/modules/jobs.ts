@@ -90,16 +90,14 @@ import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import {
   forgetWorkElsewhere,
+  findPullMonth,
+  layoffPullMonth,
   regionalConditions,
+  type WorkAt,
   reviewWorkElsewhere,
 } from "../jobs-elsewhere";
 import { livesElsewhere } from "./people";
-import {
-  findPerQuarter,
-  layoffPerQuarter,
-  workAgeFactor,
-  workLeans,
-} from "../past";
+import { workAgeFactor, workLeans } from "../past";
 import { townOutsideOf } from "../opening-outside-market";
 import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
@@ -2503,7 +2501,8 @@ function reviewWorkers(api: CoreAPI): void {
   reviewCountedWorkers(api, going);
   reviewCountedEntry(api);
   reviewRegionalFinds(api);
-  reviewTurnover(api);
+  reviewKeeping(api);
+  reviewRegionalTurnover(api);
   reviewAbsence(api);
   raisePay(api);
 }
@@ -2525,7 +2524,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
-  const conditions = new Map<string, ReturnType<typeof regionalConditions>>();
+  const conditions = new Map<string, WorkAt>();
   const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
@@ -2563,7 +2562,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
         : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean, age) * month;
+        findPullMonth(api, at, lean, age, month);
       if (pull >= p("one")) {
         // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
         // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
@@ -2583,7 +2582,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
 }
 
 /** The private employers' live jobs the turnover pull reads, named and counted, by id. */
-function turnoverJobs(api: CoreAPI): JobInput[] {
+export function turnoverJobs(api: CoreAPI): JobInput[] {
   const c = core(api);
   const jobs: JobInput[] = [];
   const consider = (job: JobInput) => {
@@ -2736,14 +2735,13 @@ function loseAwayWorkByTurnover(
     const lost = Math.min(
       away,
       away *
-        layoffPerQuarter(
+        layoffPullMonth(
           api,
-          at.rise,
+          at,
           p("zero"),
           workAgeFactor(api, ages / adults),
-        ) *
-        at.separation *
-        month,
+          month,
+        ),
     );
     if (!loseAwayWork(c, h, lost)) continue;
     carry += lost;
@@ -2787,31 +2785,82 @@ function loseAwayWorkByTurnover(
 }
 
 /**
- * The town's workers are let go at the rate working people are everywhere
- * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
- * rule the lives elsewhere use (`layoffPerQuarter`): the quarterly pull moved
- * by the rise in their state's unemployment, their age and, for a named
- * person, their traits' lean in the employer's own decision. A pull builds a
- * month at a time and the employer lets the worker go when it reaches one
- * whole, never by a roll; the firm then refills the job from the people
- * looking, as it does any leaver's. Without this the town has the finding of
- * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
- * drains to nothing.
+ * What an employer weighs when it reviews whether to keep a worker, as the
+ * logit of a month's pull to let them go: less for a worker it values more
+ * (their tenure with it and how they work, the years `workerValues` gives,
+ * against the typical tenure), more where the firm holds more staff than its
+ * sales call for (the share its last staffing review found it over; a firm
+ * short of staff reads below zero and lets almost nobody go), and more with
+ * its months of loss. Sliding in each; no rate from outside the firm's own
+ * records moves it. The baseline is fitted once (see `jobsLetGoBaseline`).
  */
-// stopgapId: SG-LABOR-turnover-fixed-rate (a fixed JOLTS layoff pace stands in for firms' own demand shocks)
-function reviewTurnover(api: CoreAPI): void {
-  stopgap("SG-LABOR-turnover-fixed-rate");
+export function letGoScore(
+  p: (key: string) => number,
+  reasons: {
+    /** The worker's tenure and record in years of tenure (`workerValues`). */
+    valueYears: number;
+    /** Staff over the staff its sales call for, as a share of staff; below zero when short. */
+    staffOver: number;
+    /** The firm's months of loss in a row. */
+    lossMonths: number;
+  },
+): number {
+  const typical = Math.log1p(p("jobsTypicalTenureYears"));
+  const valued = Math.log1p(Math.max(p("zero"), reasons.valueYears));
+  return (
+    p("jobsLetGoBaseline") +
+    p("jobsLetGoValueWeight") * typical -
+    p("jobsLetGoValueWeight") * valued +
+    p("jobsLetGoStaffOverWeight") * reasons.staffOver +
+    (p("jobsLetGoLossWeight") * reasons.lossMonths) /
+      (p("one") + reasons.lossMonths)
+  );
+}
+
+/** What an employer's keep review read for one of its jobs: the worker's value to it and its own books. */
+export function letGoReasons(
+  api: CoreAPI,
+  job: JobInput,
+): { valueYears: number; staffOver: number; lossMonths: number } {
+  const p = (key: string) => api.parameter(key);
+  const employer = store(api).table("employers").get(job.organizationId) as
+    EmployerRow | undefined;
+  const read = employer?.staffing;
+  const staffOver =
+    read && read.staff > p("zero")
+      ? Math.max(
+          -p("one"),
+          Math.min(p("one"), (read.staff - read.target) / read.staff),
+        )
+      : p("zero");
+  return {
+    valueYears:
+      tenureYears(api, job) +
+      howTheyWork(api, job.personId) / p("jobsKeepTenureWeight"),
+    staffOver,
+    lossMonths:
+      businessTradingMonth(api, job.organizationId)?.lossMonths ?? p("zero"),
+  };
+}
+
+/**
+ * Each private employer in the town reviews its workers once a month: for
+ * each it weighs letting them go (`letGoScore`) from the worker's tenure and
+ * record with it and from its own books at its last staffing review. The
+ * month's pull is the logistic of that score; it builds a month at a time and
+ * the employer lets the worker go when it reaches one whole, never by a roll,
+ * and the firm then refills the job from the people looking, as it does any
+ * leaver's. A counted job is weighed by the same rule and stands for its
+ * heads. The record keeps what the review read, so a separation names its
+ * firm and its reasons.
+ */
+// stopgapId: SG-LABOR-let-go-baseline (the review's baseline also holds the separations firm-level demand shocks will make)
+function reviewKeeping(api: CoreAPI): void {
+  stopgap("SG-LABOR-let-go-baseline");
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const month =
-    p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const pulls = store(api).table("turnover");
-  const jobs = turnoverJobs(api);
-  const born = (personId: string) =>
-    c.people.get(personId)?.birthDate ?? residentFacts(c, personId)?.birthDate;
-  const placeOf = (job: JobInput) =>
-    c.organizations.get(job.organizationId)?.placeId ?? "";
-  for (const job of jobs) {
+  for (const job of turnoverJobs(api)) {
     const person = c.people.get(job.personId);
     if (
       person &&
@@ -2821,26 +2870,18 @@ function reviewTurnover(api: CoreAPI): void {
         c.organizations.get(job.organizationId) === undefined)
     )
       continue;
-    const birth = born(job.personId);
-    if (!birth) continue;
-    const age = daysBetweenText(birth, c.date) / p("jobsDaysPerYear");
-    const lean =
-      person && !isCounted(api, person.id)
-        ? workLeans(c, person).layoffLean
-        : p("zero");
-    const at = regionalConditions(api, placeOf(job));
+    // The owner does not review themselves.
+    if (ownerOf(api, job.organizationId) === job.personId) continue;
+    const reasons = letGoReasons(api, job);
+    const score = letGoScore(p, reasons);
     // A job with no pull yet (day one, or a new hire) stands somewhere along
     // it from the worker's own seeded line, as the lives elsewhere seed theirs
     // (generation of who exists, no roll): starting every new job at zero
-    // would let the layoffs die out as the first workers are replaced.
+    // would let the separations die out as the first workers are replaced.
     const held =
       (pulls.get(job.id) as { pull?: number } | undefined)?.pull ??
       new SeededRng(api.state.seed).fork(`town-turnover:${job.id}`).next();
-    const pull =
-      held +
-      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) *
-        at.separation *
-        month;
+    const pull = held + p("one") / (p("one") + Math.exp(-score));
     if (pull < p("one")) {
       pulls.put({ id: job.id, pull } as never);
       continue;
@@ -2851,7 +2892,15 @@ function reviewTurnover(api: CoreAPI): void {
       job.organizationId,
       staff.filter((row) => row.id === job.id),
       headsOf(c, job),
-      { turnoverPull: pull },
+      {
+        letGoPull: pull,
+        letGoScore: score,
+        valueYears: reasons.valueYears,
+        staffOver: reasons.staffOver,
+        lossMonths: reasons.lossMonths,
+      },
+      businessTradingMonth(api, job.organizationId)?.id,
+      job.id,
     );
     // A worker the employer could not let go today keeps the pull and is weighed at the next review.
     if (laid === "over" || laid === undefined) {
@@ -2860,6 +2909,26 @@ function reviewTurnover(api: CoreAPI): void {
     }
     pulls.remove(job.id);
   }
+}
+
+/**
+ * The town's people who work in the wider region (counted people in regional
+ * work, and the counted households' away workers) are let go at the pace
+ * working people are everywhere (`layoffPerQuarter`): the quarterly pull
+ * moved by the rise in their state's unemployment and their age. A pull
+ * builds a month at a time and acts at one whole, never by a roll.
+ */
+// stopgapId: SG-LABOR-turnover-fixed-rate (a fixed layoff pace stands in for the wider market's own month)
+function reviewRegionalTurnover(api: CoreAPI): void {
+  stopgap("SG-LABOR-turnover-fixed-rate");
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const month =
+    p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
+  const pulls = store(api).table("turnover");
+  const jobs = turnoverJobs(api);
+  const born = (personId: string) =>
+    c.people.get(personId)?.birthDate ?? residentFacts(c, personId)?.birthDate;
   // Counted people working in the wider region face the same pull; the full people there hold commuter jobs (outside account), read as any job.
   for (const row of store(api).table("regional").rows() as unknown as {
     id: string;
@@ -2877,9 +2946,7 @@ function reviewTurnover(api: CoreAPI): void {
     const here = regionalConditions(api, row.placeId);
     const pull =
       held +
-      layoffPerQuarter(api, here.rise, p("zero"), workAgeFactor(api, age)) *
-        here.separation *
-        month;
+      layoffPullMonth(api, here, p("zero"), workAgeFactor(api, age), month);
     if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
       pulls.put({ id: key, pull } as never);
       continue;

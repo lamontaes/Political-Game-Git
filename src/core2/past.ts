@@ -21,6 +21,7 @@ import { openPastModule, pastTable, putPast } from "./past-module";
 export * from "./past-module";
 // The working life's shared quarterly pulls, for the review of lives elsewhere.
 export {
+  findAgeFactor,
   findPerQuarter,
   layoffPerQuarter,
   PAST_WORK_SPELL,
