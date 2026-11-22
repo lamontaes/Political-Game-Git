@@ -79,6 +79,20 @@
       "source": "How far a district's eligible voters stand from its chamber's typical (the state's eligible over its districts), as a share either side: each district's multiple is 1 + spread x (2u - 1) for its own seeded unit. Districts hold near equal people by law (Wesberry v. Sanders, 376 U.S. 1 (1964); Reynolds v. Sims, 377 U.S. 533 (1964); a state legislative plan under 10 percent total deviation is presumed valid, Brown v. Thomson, 462 U.S. 835 (1983)), but not equal citizens of voting age, who differ with age and citizenship by district. Generation of who lives where, never an outcome. Not yet sourced: the spread of citizen voting-age population across districts in the Census Bureau's CVAP special tabulation (research item history-district-size-spread).",
       "spread": [0.05, 0.3]
     },
+    "centuryFoundingFade": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of the founding pressure from the voters neither national party reached carries over to the next presidential cycle (pressure = last cycle's x this + this cycle's unreached share), so a gap that closes stops pushing for a new party. A strength only: no count of founded parties is a target. To be checked against how long third-party movements lasted in the twentieth century (research item history-party-founding-strengths).",
+      "spread": [0.3, 0.8]
+    },
+    "centuryFoundingCost": {
+      "value": 0.26,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once, after the unreached share became a sliding scale (the steady pressure is twice the unreached share, and the fitted party positions put it near 0.26, so a cost near it lets worlds differ in whether and when they found one); never a target count.",
+      "spread": [0.15, 0.6]
+    },
     "centuryPartyLeanScale": {
       "value": 1.6,
       "tag": "TUNABLE",

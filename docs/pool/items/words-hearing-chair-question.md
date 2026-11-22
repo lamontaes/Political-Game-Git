@@ -35,7 +35,7 @@ branch: claude/pool-words-hearing-chair-question
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/hearing.json, src/core2/office-day-state.ts, src/core2/office-day-state.test.ts, src/core2/modules/meetings.ts
+**Files.** src/core2/office-day-state.ts, src/core2/office-day-state.test.ts, src/core2/modules/meetings.ts
 
 **Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it. Released from idle draft #5196 by the CTO, Oct 26.
 

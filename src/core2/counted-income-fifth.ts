@@ -1,4 +1,8 @@
 import COUNTED_ROWS from "./data/counted/parameters.json" with { type: "json" };
+import {
+  assistanceIncomeByHousehold,
+  veteransIncomeByHousehold,
+} from "./modules/laws";
 import { sinceOpeningIndex } from "./tax-index";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -33,11 +37,9 @@ const DAYS_PER_YEAR = 365;
 const MONTHS_PER_YEAR = 12;
 
 /**
- * Each full household's yearly income, from its members' jobs and its
- * recorded income awards: the sources a counted household's income is read
- * from (residents' householdIncome), so a household filled in keeps the
- * income it had. A counted household's unplaced workers' pay is a job by then
- * (fill-in starts it as a job outside the town).
+ * Each full household's yearly income, from its members' jobs, its income
+ * awards, and its recorded public benefits. A counted household's unplaced
+ * workers' pay is a job by then (fill-in starts it as a job outside town).
  */
 export function fullHouseholdIncomes(core: CoreState): Map<string, number> {
   const income = new Map<string, number>();
@@ -59,6 +61,13 @@ export function fullHouseholdIncomes(core: CoreState): Map<string, number> {
         (contract.amountMinor * MONTHS_PER_YEAR) / contract.periodMonths,
     );
   }
+  for (const benefits of [
+    assistanceIncomeByHousehold(core),
+    veteransIncomeByHousehold(core),
+  ])
+    for (const [householdId, amount] of benefits)
+      if (core.households.has(householdId))
+        income.set(householdId, (income.get(householdId) ?? 0) + amount);
   return income;
 }
 

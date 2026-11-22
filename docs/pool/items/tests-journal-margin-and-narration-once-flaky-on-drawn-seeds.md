@@ -39,7 +39,7 @@ checked: fable 2026-11-10
 
 **Waits on.** The Story session wiring the journal's margin lines (data/english/parts/journal.json, the three election-line-own-result margin parts).
 
-**Files.** src/director/journal.ts, src/director/scene.ts, src/director/journal-race-margin.test.ts, src/director/scene-narration-once.test.ts
+**Files.** src/director/journal.ts, src/director/scene.ts, src/director/journal-race-margin.test.ts
 
 **Notes.** Merger 7, Oct 27 13:10 UTC: "Flaky on drawn seeds, worth a pool item: journal-race-margin, scene-narration-once." The third one it named (opening-unemployment-scope) is `tests-opening-unemployment-scope-red-on-drawn-seed`. Lead: director.
 
