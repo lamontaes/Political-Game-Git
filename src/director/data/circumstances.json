@@ -612,6 +612,11 @@
     },
     {
       "id": "study-formed-member",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "recordKinds": ["study-formed"],
       "playerNamed": true,
       "afterDays": 1,
@@ -629,6 +634,11 @@
     },
     {
       "id": "study-reported-member",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "recordKinds": ["study-reported"],
       "playerNamed": true,
       "lived": true,

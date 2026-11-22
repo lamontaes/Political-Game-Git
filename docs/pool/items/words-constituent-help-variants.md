@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T13:00:00.000Z
 
 **Rules.** One engine for every kind of scene (`arc-variant.ts`). No dice, no thresholds: scores slide, and a variant with no read scores 0. Weights are TUNABLE under SG-STORY-arc-variant-weights. Facts the lines name (`employer`, `since`, `owed`, `deadline`, `pay`, `floor`, `relative`) come from `constituent-help-facts.ts`, each cited to the record it came from, and every line that names one is gated by `requiresFacts`.
 
-**Done when.** src/director/constituent-help-variants.test.ts, in towns of drawn places and seeds, shows every office-hours visit playing the variant with the highest score with its reads equal to the records, and labeled probes moving lost-job by a layoff, eviction by a rent notice, short-pay by a wage case and sick by a serious illness (own, and a relative's) on separate residents, each composed whole with its own opening piece; src/director/arc-variant.test.ts composes every variant.
+**Done when.** src/director/constituent-help-variants.test.ts (removed), in towns of drawn places and seeds, shows every office-hours visit playing the variant with the highest score with its reads equal to the records, and labeled probes moving lost-job by a layoff, eviction by a rent notice, short-pay by a wage case and sick by a serious illness (own, and a relative's) on separate residents, each composed whole with its own opening piece; src/director/arc-variant.test.ts composes every variant.
 
 **Files.** src/director/arc-variant.ts, src/director/constituent-help-facts.ts, src/director/purpose-scene.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json
 

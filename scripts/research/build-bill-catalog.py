@@ -30,7 +30,7 @@ QUESTION_POWERS = json.loads((ROOT / "data/research/powers-catalog/question-powe
 
 
 # Names of programs keep their capital inside a name read as words.
-PROPER_WORDS = {"medicaid": "Medicaid", "medicare": "Medicare"}
+PROPER_WORDS = {"medicaid": "Medicaid", "medicare": "Medicare", "dc": "D.C."}
 
 
 def proper(words):

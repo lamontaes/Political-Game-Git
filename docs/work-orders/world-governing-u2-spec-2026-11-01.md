@@ -148,7 +148,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - laws.test.ts:412-470
   - world-legislating.test.ts:52 and :514
   - public-pay-floor-hire.test.ts, press-amount-law.test.ts
-  - src/director/bring-it-up-law.test.ts, src/director/journal-law-effect.test.ts
+  - src/director/bring-it-up-law.test.ts, src/director/journal-law-effect.test.ts (removed)
   - laws-death-taxes.test.ts:164-221. It enacts other states' rows through `enactLaw` and keeps passing.
 - **Proof:** the edge fixture in section 3, plus one new assertion in laws-death-taxes.test.ts:164-221: no `law-took-effect` exists for the other states' rows, and their own readers still tax.
 
@@ -380,7 +380,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - `votesAreTownNews` (officials.ts:1717-1725) is unchanged, so its two-argument test calls stay valid. The critic wanted `votesAreTownNews` to call `bodyJurisdiction`. That would make officials.ts import legislature.ts, which imports officials.ts. So the gate comes from the one caller as an option instead.
 - **Today:** no change.
 - **Tests:**
-  - src/director/journal-bill-names.test.ts:145-161, journal-relative-acts.test.ts:94-103, ask-before-the-roll.test.ts:271
+  - src/director/journal-bill-names.test.ts (removed):145-161, journal-relative-acts.test.ts:94-103, ask-before-the-roll.test.ts:271
   - record-vote-per-question.test.ts:108-119, :266-283, :433, :458
   - record.test.ts:416-436
 - **Proof:** in the edge fixture, the outside roll call emits no `office.voted` except for the one member put in `focusPersonIds`, and no `vote-recorded`. Its record rows exist under that body.
@@ -433,7 +433,7 @@ Message the governing lead before editing `fileChanges`; its co-sponsor work sit
 - **Tests:**
   - interest-groups.test.ts:48 (`it.each` over chain bodies)
   - interest-groups.traits.test.ts (unaffected)
-  - src/director/desk-visit-scene.test.ts:48 and :340
+  - src/director/desk-visit-scene.test.ts (removed):48 and :340
   - tests/golden-path/played-world-modules.node-test.ts:83
 - **Proof:** in the edge fixture, the outside wage bill forms no group and posts no dues.
 
