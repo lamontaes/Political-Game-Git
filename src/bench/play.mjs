@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
 import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
@@ -66,6 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
+import { tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -281,6 +283,43 @@ function drawTalkStrip() {
       : []),
   );
 }
+
+/**
+ * A speech heard on television (the speech's own record says its station and
+ * medium): the speaker's bust on a set over the room, with the station under
+ * their name and Live over it. Anything else clears it.
+ */
+let tvRequest = 0;
+async function drawTv(speech, name, on) {
+  const request = ++tvRequest;
+  const set = $("tv");
+  set.hidden = true;
+  set.replaceChildren();
+  if (!on || on.medium !== "television") return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
+  ).catch(() => undefined);
+  if (!c?.face || request !== tvRequest) return;
+  set.replaceChildren(
+    ...tvSet({
+      live: controls.tv.live,
+      speaker: { personId: speech.speakerId, name, face: c.face },
+      station: on.station,
+      onClick: (person) => showPerson({ personId: person.personId }),
+    }),
+  );
+  set.hidden = false;
+}
+
+// Each Continue clears the set before the next part draws its own, so the
+// narration after a speech is never under it (capture runs before the button's own handler).
+$("talk").addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("#talk-next")) drawTv();
+  },
+  true,
+);
 
 /**
  * That night's news at home, as a toast top right: it fades by itself after
@@ -613,6 +652,8 @@ const amountUnit = (unit) =>
           ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
           : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
+// Engineering height of a party page's facts and positions, taken from the seats' pager.
+const PARTY_FACTS_PX = 225;
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
@@ -2336,12 +2377,21 @@ async function campaignParts() {
               words: controls.debate,
               // The day in words ("October 20, 2026"), never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
-              questionLabel: policyLabel,
-              onAnswer: async (answers) => {
+              // Yes: the sitting goes on the record, and the director stages it.
+              onAccept: async () => {
+                await post(
+                  `/api/campaign/debate/accept?${new URLSearchParams({
+                    debateId: debate.id,
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              // No: the debate is held without the player's answers.
+              onDecline: async () => {
                 await post(
                   `/api/campaign/debate?${new URLSearchParams({
                     debateId: debate.id,
-                    answers: JSON.stringify(answers),
+                    answers: "[]",
                   })}`,
                 );
                 reopenTrail(filing.id);
@@ -2543,13 +2593,6 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      // A speaker heard on a broadcast is named, never drawn in the room
-      // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
-      setWho(
-        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
-        story.names[story.speech.speakerId],
-      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2557,11 +2600,31 @@ async function showStory(momentId) {
         $("backdrop").src = beat.backdrop.url;
         drawHere(beat);
       }
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip. A beat that cuts home shows only the
+      // household listening, the speaker on the set (CTO, Nov 19).
+      setWho(
+        (beat ? beat.kind !== "home" : story.speech.inRoom)
+          ? story.speech.speakerId
+          : null,
+        story.names[story.speech.speakerId],
+      );
       talkControls({ silent: false, leave: false });
       // Heard on a broadcast: the station over the line with its small icon
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
+      // The address cuts away from the chamber to the country and to homes:
+      // there it is heard on a set, the speaker on it with Live over them.
+      drawTv(
+        story.speech,
+        story.names[story.speech.speakerId],
+        on ??
+          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
+            ? { medium: "television" }
+            : undefined),
+      );
       fillTalk({
         lines: [
           talkLine({
@@ -2923,6 +2986,21 @@ function markLife(node) {
   node.dataset.life = "1";
   return node;
 }
+/**
+ * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
+ * story sits under the bust; when it does not fit there it moves to the card's
+ * second column, which has the room, and stays under the bust when the panel
+ * holds it either way.
+ */
+function fitLifeStory(facts) {
+  const life = facts.querySelector('[data-life="1"]');
+  if (!life || life.closest(".mx3col")) return;
+  const panel = $("person").getBoundingClientRect();
+  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
+  const columns = facts.querySelectorAll(".mx3col");
+  const target = columns[columns.length - 1];
+  if (target) target.append(life);
+}
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
@@ -2933,6 +3011,7 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
+  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
@@ -5377,7 +5456,11 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
@@ -6224,10 +6307,60 @@ const sheets = {
                   node.tagName === "BUTTON" && party.parties[at]?.name === name,
               )
             : [];
+      // What the party's records hold: its chair, its members here, the town's
+      // next party meeting and the questions it takes the strongest side on.
+      // What they do not hold is said so, never left blank.
+      const facts = v.partyFacts?.[name.trim().toLowerCase()];
+      const about = facts
+        ? [
+            stripSection(
+              1,
+              labels.partyAbout,
+              facts.chair
+                ? personCard({
+                    name: facts.chair.name,
+                    line: labels.partyChair,
+                    party: name,
+                    face: facts.chair.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: facts.chair.cardId });
+                    },
+                  })
+                : row(labels.partyChair, labels.partyNone),
+              row(labels.partyMembers, String(facts.members)),
+              facts.nextMeeting
+                ? row(labels.partyNextMeeting, dateWords(facts.nextMeeting))
+                : row(labels.partyNextMeeting, labels.partyNone),
+            ),
+            stripSection(
+              2,
+              labels.partyStandsFor,
+              // Each side's label once, on its first position; the rest sit under it.
+              ...(facts.standsFor.length
+                ? [true, false].flatMap((favors) =>
+                    facts.standsFor
+                      .filter((s) => !!s.favors === favors)
+                      .map((s, at) =>
+                        row(
+                          at
+                            ? ""
+                            : favors
+                              ? labels.partyFavors
+                              : labels.partyOpposes,
+                          policyLabel(s.question),
+                        ),
+                      ),
+                  )
+                : [row(labels.partyStandsFor, labels.partyNone)]),
+            ),
+          ]
+        : [];
       return [
         rosterTitle(name),
+        ...about,
         stripSection(
-          1,
+          3,
           labels.inOffice,
           seats.length
             ? pager({
@@ -6245,7 +6378,12 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
+                  Math.min(
+                    5,
+                    Math.floor(
+                      (viewHeight() - 420 - (facts ? PARTY_FACTS_PX : 0)) / 72,
+                    ),
+                  ),
                 ),
                 columns: 2,
                 rowHeight: 64,
@@ -6254,7 +6392,7 @@ const sheets = {
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
         ...(meNodes.length
-          ? [stripSection(2, controls.party.me, ...meNodes)]
+          ? [stripSection(4, controls.party.me, ...meNodes)]
           : []),
       ];
     };
@@ -7546,6 +7684,8 @@ function playLoadingStory(story) {
  * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
  * each step finished. `onStory` runs once the built world has its story to play.
  */
+/** How long a dry loading line stays before the next one (ms). Engineering value, not a game number. */
+const QUIP_MS = 3000;
 function followBuild(bar, onStory) {
   const STEPS = [
     "people",
@@ -7567,6 +7707,42 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
+  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // never the same line twice in one load. Each load starts at the next place in the pool, so
+  // two loads in a row do not open on the same line.
+  let quip = { stage: "", text: "" };
+  const used = new Set();
+  let started = 0;
+  try {
+    started = Number(localStorage.getItem("loading-quip-start") ?? 0) || 0;
+    localStorage.setItem("loading-quip-start", String(started + 1));
+  } catch {
+    // Private windows and blocked storage just start at the top of each pool.
+  }
+  const nextQuip = (stage) => {
+    const pool = controls.loadingLines?.[stage] ?? [];
+    const fresh = pool.filter((line) => !used.has(line));
+    if (!fresh.length) return quip.stage === stage ? quip.text : "";
+    const text = fresh[started % fresh.length];
+    used.add(text);
+    return text;
+  };
+  let lit = "";
+  const render = (stage, last) => {
+    const now = stage === "done" ? -1 : last - 1;
+    $("front-status").replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        now,
+        now >= 0 ? quip.text : "",
+      ),
+    );
+  };
+  const turn = setInterval(() => {
+    if (built || !lit) return;
+    quip = { stage: lit, text: nextQuip(lit) };
+    render(lit, STEPS.indexOf(lit) + 1);
+  }, QUIP_MS);
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
@@ -7577,20 +7753,16 @@ function followBuild(bar, onStory) {
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
     // Every step's line stays: each one the build has passed is listed in order, including any
     // that finished between two polls, so the card reads as the loading messages, not one line.
-    const box = $("front-status");
     const last = p.stage === "done" ? STEPS.length : at + 1;
-    box.replaceChildren(
-      ...STEPS.slice(0, last).map((step, i) => {
-        const line = document.createElement("span");
-        line.className = i === last - 1 && p.stage !== "done" ? "now" : "past";
-        line.textContent = controls.loading?.[step] ?? "";
-        return line;
-      }),
-    );
+    lit = p.stage === "done" ? "" : p.stage;
+    // A new step opens on a new line at once.
+    if (lit && quip.stage !== lit) quip = { stage: lit, text: nextQuip(lit) };
+    render(p.stage, last);
   }, 400);
   return {
     stop() {
       clearInterval(poll);
+      clearInterval(turn);
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";

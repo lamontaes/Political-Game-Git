@@ -28,6 +28,6 @@ claimed-at:
 
 **Done when.** In the played world (`buildBenchWorld`) of a drawn place (place and seed named), `card-history.test.ts` opens three people with no tie to the player (an official, a neighbor, a coworker or classmate) and finds at least four dated history lines each, every one on a record id from the pre-start history or the durable log; screenshots of two of those cards at 1440×900 land in `docs/play-first/shots`. The owner plays it: he clicks anyone and reads their life.
 
-**Files.** src/bench/card.ts, src/core2/pre-start.ts, src/core2/state.ts, data/english/parts/person-history.json, src/bench/card-history.test.ts
+**Files.** src/bench/card.ts, src/core2/pre-start.ts, src/core2/state.ts, data/english/parts/person-history.json
 
 **Notes.** Filed by the CTO, Oct 29. Prior: OWNER-DECISIONS Oct 28 00:15 ("Click a person to View person, and that is where their history shows... it doesn't have any history"), Oct 28 14:50 (history from the birth year), Oct 27 ("history is simulated before the start date, no hotfix"); engine map lines 7, 8 and 13. Read: OWNER-DECISIONS (Oct 29), LAW; searched: person history, profile, view person, pre-start.

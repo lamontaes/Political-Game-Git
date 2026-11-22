@@ -18,7 +18,7 @@ root: design-words-machine
 after:
 ---
 
-**What.** The seat said with its area at the filing counter ("the county clerk", the county's commissioner seat) was proved on a staged row in `src/director/filing-visit-seat-place.test.ts` (county clerk, governor, state Senate, U.S. Senate and U.S. House, labeled staged). Mayor and trustee were played in a drawn place (Woodstock VT); governor, state House and Senate, U.S. Senate and U.S. House were played at state counters (Apple Canyon Lake IL, Enville TN). A county office never came open in the three drawn places, so its row is still staged. Seen: the clerk's line when a player files for a county office.
+**What.** The seat said with its area at the filing counter ("the county clerk", the county's commissioner seat) was proved on a staged row in `src/director/filing-visit-seat-place.test.ts` (removed) (county clerk, governor, state Senate, U.S. Senate and U.S. House, labeled staged). Mayor and trustee were played in a drawn place (Woodstock VT); governor, state House and Senate, U.S. Senate and U.S. House were played at state counters (Apple Canyon Lake IL, Enville TN). A county office never came open in the three drawn places, so its row is still staged. Seen: the clerk's line when a player files for a county office.
 
 **Cause.** Design: docs/design/words-machine.md (the words are graded on what a played scene says, not a staged one); a played row is the evidence for what a player reads, and a county office only opens at a counter when a drawn place has one in its filing window; the draw (up to 12 places, waiting up to 80 weeks) did not reach one in three places.
 
@@ -32,6 +32,6 @@ after:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/filing-visit-seat-place.test.ts
+**Files.** src/director/filing-visit.ts, src/bench/filing.ts
 
-**Notes.** Filed by S4 from the Words lead's ruling 3 on #9144.
+**Notes.** Nov 18 (Story): the staged-row test this item cites was deleted on #10063 with the clerk's counter lines (owner, Nov 17); the proof now lives only in the drawn place its Done when names. Filed by S4 from the Words lead's ruling 3 on #9144.

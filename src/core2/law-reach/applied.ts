@@ -228,6 +228,23 @@ export function appliedTo(
     .query("byTarget", [targetId]) as unknown as LawAppliedRow[];
 }
 
+/**
+ * The engine stopped applying a law: end every open row it recorded on the
+ * key, and no other engine's (a lower level still saying yes keeps the
+ * treasury's rows, while an engine that reads the law in force, the price
+ * engine, stops charging it).
+ */
+export function endAppliedBy(api: CoreAPI, key: string, engine: string): void {
+  if (!api.state.modules.has(HOST_ID)) return;
+  const table = api.moduleState(HOST_ID).table(LAW_APPLIED_TABLE);
+  for (const row of table.query("byKey", [
+    key,
+    null,
+  ]) as unknown as LawAppliedRow[])
+    if (row.engine === engine)
+      table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
+}
+
 /** A repeal: end every open row on the key. */
 export function endApplied(api: CoreAPI, key: string): void {
   if (!api.state.modules.has(HOST_ID)) return;

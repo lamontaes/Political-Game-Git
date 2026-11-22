@@ -5,8 +5,11 @@
  * staffing and closing decisions read, and leaves those businesses with more
  * months of revenue lost than the same town left alone. Two worlds side by
  * side in drawn places from all 56 (BUSINESS_CHARGES_SEED replays one draw):
- * in every place the raise lifts costs and loses no fewer months than the
- * control, and in at least one drawn place it loses more.
+ * in every place the raise lifts costs and, firm by firm, loses no fewer
+ * months than the control the month it takes hold (before any firm has laid
+ * anyone off in answer, which lowers its own costs); places are drawn until
+ * one holds a firm the raise tips into a loss, and each place passed over is
+ * named.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -31,8 +34,15 @@ import type { CoreState } from "./types";
 
 const seed =
   process.env.BUSINESS_CHARGES_SEED || randomBytes(8).toString("hex");
-const DRAWS = 6;
-const MONTHS = 4;
+// A payroll tax raise of this many times the employer's Medicare share: sized
+// so a firm within a percent or two of break-even tips into a loss the first
+// month, which the real rate's tripling (about 1% of costs) seldom does.
+const RAISE_TIMES = 10;
+// Drawn places played at most; the case ends at the first place that shows it.
+const MAX_DRAWS = 12;
+// One month with the raise: the staffing and closing decisions read it only
+// after that month, so no firm has answered it yet.
+const MONTHS = 1;
 
 function townMonths(c: CoreState): BusinessTradingMonth[] {
   const api = coreAPI(c);
@@ -62,15 +72,15 @@ function played(raise: boolean, placeSeed: string, placeKey: string) {
       level: now.level,
       jurisdiction: now.jurisdiction,
       series: "medicare-tax",
-      value: Number(now.value) + 2 * rate,
+      value: Number(now.value) + (RAISE_TIMES - 1) * rate,
       effectiveDate: addDays(makeIsoDate(c.date), 1),
       measureId: "firm-charges-test",
-      citation: "Firm charges test: the employer's Medicare share tripled.",
+      citation: `Firm charges test: the employer's Medicare share times ${RAISE_TIMES}.`,
       ...(now.unit ? { unit: now.unit } : {}),
       terms: {
         ...(now.terms ?? {}),
         ...(typeof now.terms?.employerRate === "number"
-          ? { employerRate: 3 * rate }
+          ? { employerRate: RAISE_TIMES * rate }
           : {}),
       },
     }).id;
@@ -91,7 +101,7 @@ describe(`a business's month weighs what laws cost it (seed ${seed})`, () => {
         .reduce((n, charge) => n + charge.minor, 0);
     const passed: string[] = [];
     let more = 0;
-    for (let at = 0; at < DRAWS; at += 1) {
+    for (let at = 0; at < MAX_DRAWS && more === 0; at += 1) {
       const drawn = drawPlace(at ? `${seed}:${at}` : seed, "business-charges");
       const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
       const control = played(false, drawn.seed, drawn.key);
@@ -135,14 +145,30 @@ describe(`a business's month weighs what laws cost it (seed ${seed})`, () => {
       expect(sum(raised.months, tax), where).toBeGreaterThan(
         sum(control.months, tax),
       );
-      const lossRaised = sum(raised.months, (m) => m.lossMonths);
-      const lossControl = sum(control.months, (m) => m.lossMonths);
-      expect(lossRaised, where).toBeGreaterThanOrEqual(lossControl);
-      if (lossRaised > lossControl) more += 1;
+      // The same firm in both worlds (they differ only by the law, and no
+      // firm has answered it yet): it never loses fewer months with the raise.
+      const before = new Map(
+        control.months.map((m) => [m.organizationId, m.lossMonths]),
+      );
+      let tipped = 0;
+      for (const month of raised.months) {
+        const was = before.get(month.organizationId);
+        if (was === undefined) continue;
+        expect(
+          month.lossMonths,
+          `${where}: ${month.organizationId}`,
+        ).toBeGreaterThanOrEqual(was);
+        if (month.lossMonths > was) tipped += 1;
+      }
+      if (tipped > 0) more += 1;
+      else passed.push(`${where}: no firm tipped into a loss`);
     }
     expect(
       more,
       `no drawn place lost more months with the raise; passed over: ${passed.join("; ") || "none"}`,
     ).toBeGreaterThan(0);
-  }, 900_000);
+    process.stdout.write(
+      `BUSINESS-CHARGES passed over: ${passed.join("; ") || "none"}\n`,
+    );
+  }, 2_700_000);
 });

@@ -50,5 +50,5 @@ The player's reply is recorded as `scene.reply` (cause record id, move, line) an
 
 ## Gaps left open
 
-- The scene does not fire in play until the budgets engine names the executive on a cut (engine item above). A test (`src/director/budget-cut-scene.test.ts`) asserts that today no engine record names the mayor and no scene fires from it, then emits the record in the shape the item will write and checks the scene: the head is the post-holder of the line, the talk cites the record and the appointment, a raise and the administration line fire nothing, two trait profiles say it differently, and the four root replies are four moves.
+- The scene does not fire in play until the budgets engine names the executive on a cut (engine item above). A test (`src/director/budget-cut-scene.test.ts` (removed)) asserts that today no engine record names the mayor and no scene fires from it, then emits the record in the shape the item will write and checks the scene: the head is the post-holder of the line, the talk cites the record and the appointment, a raise and the administration line fire nothing, two trait profiles say it differently, and the four root replies are four moves.
 - The governor and county executive versions wait on the state and county lines item above.

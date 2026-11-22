@@ -342,6 +342,11 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   "local-minimum-wage-authority": ["labor.minimum-wage-change-pct"],
   "budget-line:police": ["police.officers-per-1000"],
   "budget-line:schools": ["budget.schools-added-pct"],
+  // A federal grant line a bill raised is spent by the states, counties and
+  // towns that receive it on their own line (`aid.matchLines`, treasury-spending.json).
+  "budget-line:transportation": ["budget.highways-added-pct"],
+  "budget-line:education": ["budget.schools-added-pct"],
+  "budget-line:health": ["budget.healthAndHospitals-added-pct"],
   "snap-maximum": ["program.snap-maximum-change-pct"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
   "us-policy-positions:civil-family-community.dedicated-parks-funding": [
