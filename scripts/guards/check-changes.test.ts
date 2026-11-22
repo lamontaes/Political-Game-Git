@@ -106,6 +106,28 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ).toEqual([]);
   });
 
+  it("refuses a test that names a place key or a seed as a bare literal", () => {
+    for (const pin of [
+      'yearsOf(seed, "1150000", 3);',
+      'const SEED = "8d04db587cd640d7";',
+      'const place = drawPlace("dpA", "drift-played");',
+    ])
+      expect(ids("src/a.test.ts", plain, plain + pin), pin).toEqual([
+        "pinned-key-or-seed-literal",
+      ]);
+    // A seed built from a drawn one, and a short number, are not pins.
+    for (const fine of [
+      'const place = drawPlace(`${seed}:0`, "a");',
+      'const n = "12345";',
+      'const hash = "abc";',
+    ])
+      expect(ids("src/a.test.ts", plain, plain + fine), fine).toEqual([]);
+    // Taking a literal out is not a finding.
+    expect(ids("src/a.test.ts", plain + 'const k = "1150000";', plain)).toEqual(
+      [],
+    );
+  });
+
   it("refuses a drawn seed taken out of a test, the commonest pin", () => {
     const drawn = (from: string) =>
       `const seed = ${from};\nconst place = drawPlace(\`\${seed}:0\`, "a");\n${plain}`;

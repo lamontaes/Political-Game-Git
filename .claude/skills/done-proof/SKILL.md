@@ -123,7 +123,9 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 00:00Z (#9754): a test asserted that the player's job never changes, and a layoff on record failed it. Cause: the assertion tested the wrong claim. Rewrite it to the real claim (no hire without an application) as a test that was wrong (category c), not as a loosening.
 - Nov 16, 23:49Z (#9757): raising a count can be the stricter change, when it recounts lines an old excuse let through. Cause: a count is judged by what it counts. Ask for the CTO line and say why it is stricter.
 - Nov 17, 02:44Z (row 46, Glasgow, Delaware): an ask to exempt a case hid a real fault, two races with the identical share. Cause: the case was the check working. Never exempt a case that found a fault; fix the cause.
+- Nov 17, 13:06Z (CTO line 6948900249, `electorate-house-side`): a test of the published 2024 path fails by design once the world's own history replaces that path. Cause: the test checks a path the change moved to the world setting "just like today". With a CTO line, run the old case under "today" and add a case for the new path that fails on the base; never drop the old case.
 - Nov 17, 01:22Z (#9795): a check that does not pass yet cannot ride in a pull request. Cause: under rule 1 a check ships in the pull request that makes it pass. Split the work and let the next pull request carry the check.
+- Nov 18, 15:30Z (#10121, #10123): `guards` failed on `reading-line` with "none" written in the body. Cause: the guard reads the OWNER DECISIONS NEEDED section from the line that holds the phrase to the next heading or bold lead-in, so the phrase inline at the end of a bold paragraph made the whole paragraph the section. Give the phrase its own `## OWNER DECISIONS NEEDED` heading with `None.` under it, and check the body with `PR_BODY_FILE=<file> node scripts/guards/reading-line.mjs`.
 
 ## More in this folder
 

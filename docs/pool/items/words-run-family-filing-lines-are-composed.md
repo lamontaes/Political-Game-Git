@@ -34,7 +34,7 @@ branch:
 5. **What it writes back.** `replyInScene` in purpose-scene.ts already writes the `scene.reply` record with the stake, the ending's `keeps` (`not-yet` strains the tie through `ENDING_STRAIN`), and enlists the relative as a volunteer (`enlistVolunteer` in src/core2/modules/campaigns.ts) after a request answered with a promise. Name those record ids in the pull request.
 6. **Delete what this replaces, with every reference.** The 111 lines with no insert under `family-filing`, except the two the owner graded good that have no insert ("I can't do this alone. I need help with phones and door knocking. ..." and "Can we even afford this? It's not like we have a ton of savings, right? ..."), which keep their grade rows and stay where they play now, as openers of the new sentences where they fit. The third good line ("... Who's going to take care of {child}?") carries an insert and stays. A piece that also serves another purpose (8 do) loses only its `family-filing` use. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `scene-talk` in tests/guards/english/line-inserts-baseline.json.
-8. **Tests.** In src/director/family-stake-scene.test.ts, on drawn places: a household short on savings hears its own days named; a household with a young child hears the child's name; the two never share a reply; every reply set passes `expectUpToFourDifferent`; a request answered with a promise enlists the relative. Run tests/guards/english and the bank tests yourself.
+8. **Tests.** In src/director/family-stake-scene.test.ts (removed), on drawn places: a household short on savings hears its own days named; a household with a young child hears the child's name; the two never share a reply; every reply set passes `expectUpToFourDifferent`; a request answered with a promise enlists the relative. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -44,7 +44,7 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/director/family-stake-scene.test.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 134 lines, 111 with no insert and not excused. Three today: "So. You did it.", "I didn't tell you because I wasn't sure I'd go through with it.", "I'm running because somebody has to."
 

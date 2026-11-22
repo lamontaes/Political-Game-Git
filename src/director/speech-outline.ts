@@ -1033,12 +1033,17 @@ function beliefWords(
   /** The points (question-names.json `points`) the belief must not make: the ones every wording of how the question stands makes. */
   avoid: ReadonlySet<string> = new Set(),
 ): { text: string; piece: string } | null {
-  const move = openingMove(kind, voice, "belief-words");
-  if (!move) return null;
   // Only a principle the question's own row says argues this side (the
   // words lead, Nov 12): the family and pole's clauses, by their place in
-  // key order; otherwise the side's own reason.
+  // key order; otherwise the side's own reason, which is said even where
+  // the bank holds no belief clause for this kind and voice.
   const { principles, reason } = questionReasons(question, side);
+  const own =
+    reason && !avoid.has(questionPoint(question, reason))
+      ? { text: reason, piece: `reason:${question}:${side}` }
+      : null;
+  const move = openingMove(kind, voice, "belief-words");
+  if (!move) return own;
   const ofPole = OPENING_SPEECH_BANK.parts
     .filter((part) =>
       part.uses.some(
@@ -1071,10 +1076,6 @@ function beliefWords(
     ),
   );
   const variants = fitting.filter((variant) => apart.has(textOf(variant.key)));
-  const own =
-    reason && !avoid.has(questionPoint(question, reason))
-      ? { text: reason, piece: `reason:${question}:${side}` }
-      : null;
   if (!variants.length) return own;
   const result = composeAddress(
     packet(
@@ -2393,6 +2394,9 @@ export function planSpeech(
       ...(asks.length
         ? {
             asked: fact("yes", cited),
+            // Which side the ask took, so a close that holds the speaker to
+            // it says the side the speech asked for (CTO, Nov 19).
+            [`asked-${side}`]: fact("yes", cited),
             // The ask's own question by its name, said in the close.
             ...(questionAbout(first.question)
               ? { "asked-about": fact(questionAbout(first.question)!, cited) }

@@ -810,7 +810,12 @@ export function hireStaff(
     ...(lives ? { livedThrough: api.state.date } : {}),
   };
   table(api, "staff").put(row as unknown as ModuleRow);
-  api.relationship(input.officialId, input.personId, "contact", 0.1);
+  api.relationship(
+    input.officialId,
+    input.personId,
+    "contact",
+    api.parameter("hiringTalkMinutes") / api.parameter("minutesPerHour"),
+  );
   return row;
 }
 

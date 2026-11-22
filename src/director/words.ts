@@ -1,6 +1,8 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
+import type { OrganizationInput } from "../core2/types";
+import { employerSaidAs } from "../english/said-as";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
@@ -150,4 +152,19 @@ export function organizationName(org: {
     ? org.name.slice(P.zero, treasury.index)
     : org.name;
   return `${governmentProperName(government, key)}${treasury ? " treasury" : ""}`;
+}
+
+/**
+ * An employer as the one said-as reader says it, from its record: a
+ * government's payroll as the government, a business by its name, and never
+ * the outside market that stands in for work out of town (null).
+ */
+export function employerWords(org: Readonly<OrganizationInput>): string | null {
+  return employerSaidAs({
+    name: businessNameSaid(org),
+    kind: org.kind,
+    outside: !!org.outsideFlow,
+    ...(org.classification ? { classification: org.classification } : {}),
+    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
+  });
 }

@@ -21,7 +21,6 @@ import { budgetsOf, governments } from "./modules/budgets";
 import {
   countedHouseholdsByPlace,
   householdIncome,
-  incomeBandOf,
   residentsRuntime,
 } from "./modules/residents";
 import {
@@ -39,7 +38,7 @@ import {
 } from "./school-outcomes";
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
-import { fullHouseholdIncomes } from "./counted-income-fifth";
+import { fullHouseholdIncomes, incomeBandOn } from "./counted-income-fifth";
 import { webReach } from "./outcome-web-reach";
 import { setBookkeeping } from "./bookkeeping";
 import { personalityCataloguePack } from "./personality-catalogue";
@@ -381,7 +380,7 @@ describe(`a student filled in keeps the income fifth the counts gave them (seed 
             const nonJob = total - h.wagesMinorYear;
             if (
               nonJob <= 0 ||
-              incomeBandOf(total) === incomeBandOf(h.wagesMinorYear)
+              incomeBandOn(api, total) === incomeBandOn(api, h.wagesMinorYear)
             )
               continue;
             for (const grade of grades) {

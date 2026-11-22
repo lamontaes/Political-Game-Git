@@ -36,6 +36,7 @@ export function gatheringFacts(
   askedId: PersonId,
   placeSaid: (placeId: string) => string | null,
   quarreled: (aId: PersonId, bId: PersonId) => boolean,
+  nearSaid: (placeId: string) => string | null = () => null,
 ): Record<string, NewsFact> {
   if (typeKey !== GATHERING_TYPE) return {};
   const record = core.durableLog.get(causeId);
@@ -70,6 +71,14 @@ export function gatheringFacts(
     if (town)
       facts.hometown = {
         text: town,
+        sourceRecordIds: [absent.placeId, causeId],
+      };
+    // Or the county or state the player's town sits in, for a relative kept
+    // at that level.
+    const near = town ? null : nearSaid(absent.placeId);
+    if (near)
+      facts.nearby = {
+        text: near,
         sourceRecordIds: [absent.placeId, causeId],
       };
   }

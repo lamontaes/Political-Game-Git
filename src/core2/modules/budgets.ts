@@ -20,6 +20,7 @@
  *   each government's account through the journal on payday.
  */
 import { taxIndexOf } from "../tax-index";
+import { budgetPassThroughs } from "../budgets-line-payers";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
@@ -29,6 +30,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { roundExactProduct } from "../kernel/fixed-point";
 import { headsExecutive } from "../offices-executives";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -92,7 +94,7 @@ import {
   treasuryMonthsOf,
   treasuryMonthsPerYear,
   notePublicPay,
-  outsideAccountOf,
+  openOutsideAccountOf,
   sameGovernment,
   landTaxChange,
 } from "../budgets-treasury";
@@ -273,6 +275,12 @@ export interface BudgetRow {
   readonly collectedMonths?: readonly string[];
   /** The month ("2026-04") the revenue plan stands for: the opening's, or the middle of the year whose collections set it. */
   readonly revenuePlanMonth?: string;
+  /**
+   * What other governments' bills added to these lines (a federal grant line a bill raised, spent by the state,
+   * county or town that receives it), already in `spendingMinor` and not in `baseSpendingMinor`, so it reads as a
+   * raise. Kept so a later change is applied as the difference.
+   */
+  readonly passThroughMinor?: Readonly<Record<string, number>>;
 }
 
 interface WithholdingRecord {
@@ -689,9 +697,7 @@ function fundOpeningTreasury(
   if (!calibration)
     throw new Error(`No opening cash calibration for ${profile}`);
   const { id: governmentId, organizationId } = government;
-  const outside = outsideAccountOf(api);
-  if (!outside)
-    throw new Error(`No outside account for opening treasury ${governmentId}`);
+  const outside = openOutsideAccountOf(api);
   api.stopgap(calibration.stopgapId);
   const offset = worldOffsetUnit(
     api.state.seed,
@@ -1587,17 +1593,19 @@ function lineGrowth(
   line: string,
   prior: BudgetRow,
   now: BudgetDrivers | undefined,
-  receipts: number,
-): number {
-  if (gov.level !== "federal") return receipts;
+  receipts: { over: number; under: number } | undefined,
+): { over: number[]; under: number[] } {
+  if (gov.level !== "federal")
+    return receipts
+      ? { over: [receipts.over], under: [receipts.under] }
+      : { over: [], under: [] };
   const then = prior.drivers;
-  if (!then || !now) return 1;
+  if (!then || !now) return { over: [], under: [] };
   if (line === "netInterest")
-    return (now.debt / then.debt) * (now.yield / then.yield);
-  const prices = now.prices / then.prices;
+    return { over: [now.debt, now.yield], under: [then.debt, then.yield] };
   return FEDERAL_DESTINATION[line] === "households"
-    ? (now.people / then.people) * prices
-    : prices;
+    ? { over: [now.people, now.prices], under: [then.people, then.prices] }
+    : { over: [now.prices], under: [then.prices] };
 }
 
 /**
@@ -1636,18 +1644,63 @@ function carriedLines(
     prior.fiscalYear === fy - 1 &&
     took !== undefined &&
     planned > 0
-      ? took / planned
-      : 1;
+      ? { over: took, under: planned }
+      : undefined;
   if (gov.level === "state" || gov.level === "county")
     api.stopgap("SG-GOV-spending-vote-state-county");
   const spending: Record<string, number> = {};
-  for (const [line, v] of Object.entries(prior.baseSpendingMinor!))
-    spending[line] = Math.round(
-      v * lineGrowth(gov, line, prior, drivers, receipts),
-    );
+  // Each line is last year's times its ratios, rounded once to the cent from
+  // the exact product (CTO, #9747 6991875920).
+  for (const [line, v] of Object.entries(prior.baseSpendingMinor!)) {
+    const growth = lineGrowth(gov, line, prior, drivers, receipts);
+    spending[line] = roundExactProduct(v, growth.over, growth.under);
+  }
   for (const [line, v] of Object.entries(published.spendingMinor))
     if (!(line in spending)) spending[line] = v;
   return { spending, drivers, collected, prior };
+}
+
+/** The sum of what every registered pass-through adds to each line of a government's budget (`budgetPassThroughs`). */
+function passThroughOf(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  revenueMinor: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const through of budgetPassThroughs)
+    for (const [line, delta] of Object.entries(through(api, gov, revenueMinor)))
+      if (delta !== 0) out[line] = (out[line] ?? 0) + delta;
+  return out;
+}
+
+/**
+ * A federal bill moved a grant line: each state, county and town's budget in
+ * force takes the difference in what it spends that grant on, the same day,
+ * so the line it pays from changes when the extra aid starts to arrive.
+ */
+function refreshPassThroughs(api: CoreAPI): void {
+  for (const gov of governments(api)) {
+    if (gov.level === "federal") continue;
+    const budget = budgetsOf(api, gov.id)
+      .filter((b) => b.startsOn <= api.state.date)
+      .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
+    if (!budget) continue;
+    const next = passThroughOf(api, gov, budget.revenueMinor);
+    const was = budget.passThroughMinor ?? {};
+    const spending = { ...budget.spendingMinor };
+    let changed = false;
+    for (const line of new Set([...Object.keys(next), ...Object.keys(was)])) {
+      const delta = (next[line] ?? 0) - (was[line] ?? 0);
+      if (!delta) continue;
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+      changed = true;
+    }
+    if (!changed) continue;
+    const row: Record<string, unknown> = { ...budget, spendingMinor: spending };
+    if (Object.keys(next).length) row["passThroughMinor"] = next;
+    else delete row["passThroughMinor"];
+    table(api, "budgets").put(row as unknown as ModuleRow);
+  }
 }
 
 function legislatedBudget(
@@ -1687,6 +1740,9 @@ function legislatedBudget(
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  const through = passThroughOf(api, gov, revenue);
+  for (const [line, delta] of Object.entries(through))
+    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
   // A plan set from a year's collections stands at that year's middle; a plan that was not re-budgeted keeps its month.
   const planMonth =
     collected !== undefined
@@ -1699,6 +1755,7 @@ function legislatedBudget(
     revenueMinor: revenue,
     spendingMinor: spending,
     baseSpendingMinor: carried,
+    ...(Object.keys(through).length ? { passThroughMinor: through } : {}),
     ...(prior ? { carriedFrom: prior.id } : {}),
     ...(collected !== undefined
       ? { collectedMonths: collectedMonthIds(api, gov, fy) }
@@ -2648,6 +2705,7 @@ export function amendBudget(
     },
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
+  if (gov.level === "federal" && !revenue) refreshPassThroughs(api);
   // The change reaches whatever that line pays for (law-effects handlers).
   api.emit({
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
@@ -2863,3 +2921,5 @@ export {
 } from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";
+// The director reads the awards a government made (and their bids) through this entry.
+export { awardsOn } from "./contracts";
