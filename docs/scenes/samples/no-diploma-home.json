@@ -1,0 +1,2476 @@
+{
+  "schema": "scene-sample/1",
+  "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9",
+  "scene": {
+    "typeKey": "no-diploma-home",
+    "purpose": "no-diploma-home",
+    "title": "No diploma home"
+  },
+  "world": {
+    "place": "Seven Mile, Arizona",
+    "placeKey": "0465780",
+    "seed": "nov19c",
+    "date": "2025-06-07"
+  },
+  "player": {
+    "name": "Daniel Wooten",
+    "standing": "a resident of Seven Mile, Arizona, not in office"
+  },
+  "cause": {
+    "id": "school.graduation-pct:person_a0c6027b9208cad4:2024",
+    "label": "circumstance:no-graduation-home"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_a0c6037b9208cc87",
+      "name": "Jaden Wooten"
+    },
+    {
+      "role": "asked",
+      "id": "person_a0c6027b9208cad4",
+      "name": "Daniel Wooten"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Jaden sits at the table with two cups and no radio.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-sits-at-the-table-with-two-cups-and-no-radio"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.name-turns-the-radio-off-as-you-come-in",
+          "text": "{name} turns the radio off as you come in."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 2,
+    "speaker": "Jaden Wooten",
+    "role": "asker",
+    "text": "People do come back and finish what Seven Mile Public Schools started.",
+    "move": "comfort",
+    "pieces": [
+      "scene-talk.state-comfort.people-do-come-back-and-finish-what-school-started"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-comfort.i-heard-about-school-this-isn-t-the-end-of-anything",
+        "text": "I heard about {school}. This isn't the end of anything."
+      },
+      {
+        "key": "scene-talk.state-comfort.not-finishing-at-school-doesn-t-change-how-i-see-you",
+        "text": "Not finishing at {school} doesn't change how I see you."
+      },
+      {
+        "key": "scene-talk.state-comfort.tell-me-what-happened-at-school-i-m-not-mad",
+        "text": "Tell me what happened at {school}. I'm not mad."
+      }
+    ],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 3,
+          "speaker": "You",
+          "role": "player",
+          "text": "I thought I'd be okay at Seven Mile Public Schools, and I wasn't.",
+          "move": "tell",
+          "pieces": [
+            "scene-talk.reply-tell.i-thought-i-d-be-okay-at-school-and-i-wasn-t"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-tell.i-didn-t-pass-at-school-i-couldn-t-make-it-up",
+              "text": "I didn't pass at {school}. I couldn't make it up."
+            },
+            {
+              "key": "scene-talk.reply-tell.i-fell-behind-at-school-and-never-caught-up",
+              "text": "I fell behind at {school} and never caught up."
+            },
+            {
+              "key": "scene-talk.reply-tell.i-should-have-told-you-sooner-about-school",
+              "text": "I should have told you sooner about {school}."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Jaden Wooten",
+              "role": "asker",
+              "text": "What happened?",
+              "move": "ask",
+              "pieces": ["scene-talk.follow-ask.what-happened"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-ask.what-happened-at-school-short-tell-me-what-you-can",
+                  "text": "What happened at {school-short}? Tell me what you can."
+                },
+                {
+                  "key": "scene-talk.follow-ask.what-does-school-short-say-you-can-do-now",
+                  "text": "What does {school-short} say you can do now?"
+                }
+              ],
+              "asks": true
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 8,
+                "speaker": "You",
+                "role": "player",
+                "text": "Seven Mile says I can retake what I missed.",
+                "move": "answer",
+                "pieces": [
+                  "scene-talk.reply-answer.school-short-says-i-can-retake-what-i-missed"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-answer.i-need-another-semester-at-school-short-maybe-night-classes",
+                    "text": "I need another semester at {school-short}, maybe night classes."
+                  },
+                  {
+                    "key": "scene-talk.reply-answer.i-was-behind-in-two-classes-at-school-short-and-stopped-going",
+                    "text": "I was behind in two classes at {school-short} and stopped going."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 10,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "That took courage.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.that-took-courage"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.good-thank-you",
+                        "text": "Good. Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-was-brave",
+                        "text": "That was brave."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "a-plan",
+                    "label": "You talked about what comes next",
+                    "keeps": "none"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll go back and finish what I missed at Seven Mile.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.i-ll-go-back-and-finish-what-i-missed-at-school-short"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-finish-it",
+                    "text": "I'll finish it."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-try-again",
+                    "text": "I'll try again."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 11,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "Please think about when you'll start at Seven Mile.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.follow-press.please-think-about-when-you-ll-start-at-school-short"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one",
+                        "text": "Pick a day to call {school-short}, even a small one."
+                      },
+                      {
+                        "key": "scene-talk.follow-press.first-step",
+                        "text": "First step?"
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 12,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll try again.",
+                      "move": "promise",
+                      "pieces": ["scene-talk.reply-promise.i-ll-try-again"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-promise.i-ll-finish-it",
+                          "text": "I'll finish it."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 14,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "First step?",
+                          "move": "press",
+                          "pieces": ["scene-talk.follow-press.first-step"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one",
+                              "text": "Pick a day to call {school-short}, even a small one."
+                            }
+                          ],
+                          "asks": true
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 15,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I'll finish it.",
+                            "move": "promise",
+                            "pieces": [
+                              "scene-talk.reply-promise.i-ll-finish-it"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 17,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "Pick a day to call Seven Mile, even a small one.",
+                                "move": "press",
+                                "pieces": [
+                                  "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [],
+                            "end": {
+                              "outcome": "resolved",
+                              "ending": {
+                                "id": "a-plan",
+                                "label": "You talked about what comes next",
+                                "keeps": "none"
+                              },
+                              "close": {
+                                "n": 18,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "Come here.",
+                                "move": "thank",
+                                "pieces": ["scene-talk.close-thank.come-here"],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.close-thank.get-some-rest",
+                                    "text": "Get some rest."
+                                  },
+                                  {
+                                    "key": "scene-talk.close-thank.we-ll-be-fine",
+                                    "text": "We'll be fine."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 16,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I'll go upstairs.",
+                            "move": "leave",
+                            "pieces": [
+                              "scene-talk.reply-leave.i-ll-go-upstairs"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-leave.i-need-air",
+                                "text": "I need air."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [],
+                            "replies": [],
+                            "end": {
+                              "outcome": "open",
+                              "ending": {
+                                "id": "not-tonight",
+                                "label": "Not tonight",
+                                "keeps": "none"
+                              },
+                              "close": {
+                                "n": 19,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll ask again.",
+                                "move": "press",
+                                "pieces": [
+                                  "scene-talk.close-press.i-ll-ask-again"
+                                ],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.close-press.come-find-me",
+                                    "text": "Come find me."
+                                  },
+                                  {
+                                    "key": "scene-talk.close-press.tell-me-when",
+                                    "text": "Tell me when."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 13,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Excuse me.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.excuse-me"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.i-ll-go-upstairs",
+                          "text": "I'll go upstairs."
+                        },
+                        {
+                          "key": "scene-talk.reply-leave.i-need-air",
+                          "text": "I need air."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "not-tonight",
+                          "label": "Not tonight",
+                          "keeps": "none"
+                        },
+                        "close": {
+                          "n": 20,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "Come find me.",
+                          "move": "press",
+                          "pieces": ["scene-talk.close-press.come-find-me"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.close-press.tell-me-when",
+                              "text": "Tell me when."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'll ask Seven Mile what a second try looks like.",
+          "move": "promise",
+          "pieces": [
+            "scene-talk.reply-promise.i-ll-ask-school-short-what-a-second-try-looks-like"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-promise.i-ll-go-back-and-finish-what-i-missed-at-school-short",
+              "text": "I'll go back and finish what I missed at {school-short}."
+            },
+            {
+              "key": "scene-talk.reply-promise.i-ll-finish-it",
+              "text": "I'll finish it."
+            },
+            {
+              "key": "scene-talk.reply-promise.i-ll-try-again",
+              "text": "I'll try again."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 21,
+              "speaker": "Jaden Wooten",
+              "role": "asker",
+              "text": "Please think about when you'll start at Seven Mile.",
+              "move": "press",
+              "pieces": [
+                "scene-talk.follow-press.please-think-about-when-you-ll-start-at-school-short"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one",
+                  "text": "Pick a day to call {school-short}, even a small one."
+                },
+                {
+                  "key": "scene-talk.follow-press.first-step",
+                  "text": "First step?"
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 22,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll finish it.",
+                "move": "promise",
+                "pieces": ["scene-talk.reply-promise.i-ll-finish-it"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-go-back-and-finish-what-i-missed-at-school-short",
+                    "text": "I'll go back and finish what I missed at {school-short}."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-try-again",
+                    "text": "I'll try again."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 24,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "Pick a day to call Seven Mile, even a small one.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-press.first-step",
+                        "text": "First step?"
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 25,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll go back and finish what I missed at Seven Mile.",
+                      "move": "promise",
+                      "pieces": [
+                        "scene-talk.reply-promise.i-ll-go-back-and-finish-what-i-missed-at-school-short"
+                      ],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-promise.i-ll-try-again",
+                          "text": "I'll try again."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 27,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "First step?",
+                          "move": "press",
+                          "pieces": ["scene-talk.follow-press.first-step"],
+                          "wordings": [],
+                          "asks": true
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 28,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I'll try again.",
+                            "move": "promise",
+                            "pieces": [
+                              "scene-talk.reply-promise.i-ll-try-again"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 30,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "That took courage.",
+                                "move": "thank",
+                                "pieces": [
+                                  "scene-talk.follow-thank.that-took-courage"
+                                ],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.follow-thank.good-thank-you",
+                                    "text": "Good. Thank you."
+                                  },
+                                  {
+                                    "key": "scene-talk.follow-thank.that-was-brave",
+                                    "text": "That was brave."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [],
+                            "end": {
+                              "outcome": "resolved",
+                              "ending": {
+                                "id": "a-plan",
+                                "label": "You talked about what comes next",
+                                "keeps": "none"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 29,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Excuse me.",
+                            "move": "leave",
+                            "pieces": ["scene-talk.reply-leave.excuse-me"],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [],
+                            "replies": [],
+                            "end": {
+                              "outcome": "open",
+                              "ending": {
+                                "id": "not-tonight",
+                                "label": "Not tonight",
+                                "keeps": "none"
+                              },
+                              "close": {
+                                "n": 31,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "Come find me.",
+                                "move": "press",
+                                "pieces": [
+                                  "scene-talk.close-press.come-find-me"
+                                ],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.close-press.i-ll-ask-again",
+                                    "text": "I'll ask again."
+                                  },
+                                  {
+                                    "key": "scene-talk.close-press.tell-me-when",
+                                    "text": "Tell me when."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 26,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I need air.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.i-need-air"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.excuse-me",
+                          "text": "Excuse me."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "not-tonight",
+                          "label": "Not tonight",
+                          "keeps": "none"
+                        },
+                        "close": {
+                          "n": 32,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "Tell me when.",
+                          "move": "press",
+                          "pieces": ["scene-talk.close-press.tell-me-when"],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 23,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll go upstairs.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-ll-go-upstairs"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.excuse-me",
+                    "text": "Excuse me."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.i-need-air",
+                    "text": "I need air."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "not-tonight",
+                    "label": "Not tonight",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 33,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "Please, don't hide.",
+                    "move": "warn",
+                    "pieces": ["scene-talk.close-warn.please-don-t-hide"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-warn.stay-close",
+                        "text": "Stay close."
+                      },
+                      {
+                        "key": "scene-talk.close-warn.don-t-vanish",
+                        "text": "Don't vanish."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'm sorry I didn't ask for help at Seven Mile.",
+          "move": "apologize",
+          "pieces": [
+            "scene-talk.reply-apologize.i-m-sorry-i-didn-t-ask-for-help-at-school-short"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-apologize.i-m-sorry-i-know-you-counted-on-me-at-school-short",
+              "text": "I'm sorry. I know you counted on me at {school-short}."
+            },
+            {
+              "key": "scene-talk.reply-apologize.i-m-so-sorry",
+              "text": "I'm so sorry."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 34,
+              "speaker": "Jaden Wooten",
+              "role": "asker",
+              "text": "Not the end.",
+              "move": "comfort",
+              "pieces": ["scene-talk.follow-comfort.not-the-end"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-comfort.you-re-not-the-first-to-fall-short-at-school-short",
+                  "text": "You're not the first to fall short at {school-short}."
+                },
+                {
+                  "key": "scene-talk.follow-comfort.you-ll-be-alright",
+                  "text": "You'll be alright."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 35,
+                "speaker": "You",
+                "role": "player",
+                "text": "That helps.",
+                "move": "thank",
+                "pieces": ["scene-talk.follow-thank.that-helps"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-thank.thanks-for-listening",
+                    "text": "Thanks for listening."
+                  },
+                  {
+                    "key": "scene-talk.reply-thank.i-needed-this",
+                    "text": "I needed this."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 37,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "We'll manage.",
+                    "move": "promise",
+                    "pieces": ["scene-talk.follow-promise.we-ll-manage"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.reply-agree.i-ll-be-there",
+                        "text": "I'll be there."
+                      },
+                      {
+                        "key": "scene-talk.reply-agree.i-m-with-you",
+                        "text": "I'm with you."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 38,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I needed this.",
+                      "move": "thank",
+                      "pieces": ["scene-talk.reply-thank.i-needed-this"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-thank.thanks-for-listening",
+                          "text": "Thanks for listening."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 41,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "I'm with you.",
+                          "move": "promise",
+                          "pieces": ["scene-talk.reply-agree.i-m-with-you"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.reply-agree.i-ll-be-there",
+                              "text": "I'll be there."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 42,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Thanks for listening.",
+                            "move": "thank",
+                            "pieces": [
+                              "scene-talk.reply-thank.thanks-for-listening"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 45,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 46,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 48,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Don't vanish.",
+                                      "move": "warn",
+                                      "pieces": [
+                                        "scene-talk.close-warn.don-t-vanish"
+                                      ],
+                                      "wordings": [],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 47,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 49,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "A plan, together.",
+                                      "move": "promise",
+                                      "pieces": [
+                                        "scene-talk.close-promise.a-plan-together"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.reply-comfort.i-m-here",
+                                          "text": "I'm here."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-promise.i-ll-call-school-short-with-you-when-you-re-ready",
+                                          "text": "I'll call {school-short} with you when you're ready."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 43,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I need help with the forms for Seven Mile.",
+                            "move": "request",
+                            "pieces": [
+                              "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short",
+                                "text": "Help me work out a retake at {school-short}."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 50,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 51,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 53,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Stay close.",
+                                      "move": "warn",
+                                      "pieces": [
+                                        "scene-talk.close-warn.stay-close"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-warn.please-don-t-hide",
+                                          "text": "Please, don't hide."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-warn.don-t-vanish",
+                                          "text": "Don't vanish."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 52,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 54,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'm here.",
+                                      "move": "promise",
+                                      "pieces": [
+                                        "scene-talk.reply-comfort.i-m-here"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-promise.i-ll-call-school-short-with-you-when-you-re-ready",
+                                          "text": "I'll call {school-short} with you when you're ready."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 44,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Alright, please do.",
+                            "move": "accept",
+                            "pieces": [
+                              "scene-talk.reply-accept.alright-please-do"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-accept.yes-thanks",
+                                "text": "Yes, thanks."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 55,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 56,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 58,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Stay close.",
+                                      "move": "warn",
+                                      "pieces": [
+                                        "scene-talk.close-warn.stay-close"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-warn.please-don-t-hide",
+                                          "text": "Please, don't hide."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-warn.don-t-vanish",
+                                          "text": "Don't vanish."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 57,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 59,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "We'll be fine.",
+                                      "move": "thank",
+                                      "pieces": [
+                                        "scene-talk.close-thank.we-ll-be-fine"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-thank.get-some-rest",
+                                          "text": "Get some rest."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 39,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Sit with me while I call Seven Mile.",
+                      "move": "request",
+                      "pieces": [
+                        "scene-talk.reply-request.sit-with-me-while-i-call-school-short"
+                      ],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short",
+                          "text": "I need help with the forms for {school-short}."
+                        },
+                        {
+                          "key": "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short",
+                          "text": "Help me work out a retake at {school-short}."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 60,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "I'll be there.",
+                          "move": "promise",
+                          "pieces": ["scene-talk.reply-agree.i-ll-be-there"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.reply-agree.i-m-with-you",
+                              "text": "I'm with you."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 61,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Thanks for listening.",
+                            "move": "thank",
+                            "pieces": [
+                              "scene-talk.reply-thank.thanks-for-listening"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 64,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'm with you.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-m-with-you"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 65,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "I need help with the forms for Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 67,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'll ask again.",
+                                      "move": "press",
+                                      "pieces": [
+                                        "scene-talk.close-press.i-ll-ask-again"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-press.come-find-me",
+                                          "text": "Come find me."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-press.tell-me-when",
+                                          "text": "Tell me when."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 66,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Alright, please do.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.alright-please-do"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 68,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Get some rest.",
+                                      "move": "thank",
+                                      "pieces": [
+                                        "scene-talk.close-thank.get-some-rest"
+                                      ],
+                                      "wordings": [],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 62,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Help me work out a retake at Seven Mile.",
+                            "move": "request",
+                            "pieces": [
+                              "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short",
+                                "text": "I need help with the forms for {school-short}."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 69,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'm with you.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-m-with-you"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 70,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "I need help with the forms for Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 72,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'll ask again.",
+                                      "move": "press",
+                                      "pieces": [
+                                        "scene-talk.close-press.i-ll-ask-again"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-press.come-find-me",
+                                          "text": "Come find me."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-press.tell-me-when",
+                                          "text": "Tell me when."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 71,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Alright, please do.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.alright-please-do"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 73,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'll call Seven Mile with you when you're ready.",
+                                      "move": "promise",
+                                      "pieces": [
+                                        "scene-talk.close-promise.i-ll-call-school-short-with-you-when-you-re-ready"
+                                      ],
+                                      "wordings": [],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 63,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Yes, thanks.",
+                            "move": "accept",
+                            "pieces": ["scene-talk.reply-accept.yes-thanks"],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-accept.alright-please-do",
+                                "text": "Alright, please do."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 74,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'm with you.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-m-with-you"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 75,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "I need help with the forms for Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 77,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'll ask again.",
+                                      "move": "press",
+                                      "pieces": [
+                                        "scene-talk.close-press.i-ll-ask-again"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-press.come-find-me",
+                                          "text": "Come find me."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-press.tell-me-when",
+                                          "text": "Tell me when."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 76,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Alright, please do.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.alright-please-do"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 78,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Get some rest.",
+                                      "move": "thank",
+                                      "pieces": [
+                                        "scene-talk.close-thank.get-some-rest"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-thank.come-here",
+                                          "text": "Come here."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-thank.we-ll-be-fine",
+                                          "text": "We'll be fine."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 40,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'd like that.",
+                      "move": "accept",
+                      "pieces": ["scene-talk.reply-agree.i-d-like-that"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-accept.alright-please-do",
+                          "text": "Alright, please do."
+                        },
+                        {
+                          "key": "scene-talk.reply-accept.yes-thanks",
+                          "text": "Yes, thanks."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 79,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "I'm with you.",
+                          "move": "promise",
+                          "pieces": ["scene-talk.reply-agree.i-m-with-you"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.reply-agree.i-ll-be-there",
+                              "text": "I'll be there."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 80,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Thanks for listening.",
+                            "move": "thank",
+                            "pieces": [
+                              "scene-talk.reply-thank.thanks-for-listening"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 83,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 84,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 86,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Stay close.",
+                                      "move": "warn",
+                                      "pieces": [
+                                        "scene-talk.close-warn.stay-close"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-warn.please-don-t-hide",
+                                          "text": "Please, don't hide."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-warn.don-t-vanish",
+                                          "text": "Don't vanish."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 85,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 87,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Come here.",
+                                      "move": "thank",
+                                      "pieces": [
+                                        "scene-talk.close-thank.come-here"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-thank.get-some-rest",
+                                          "text": "Get some rest."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-thank.we-ll-be-fine",
+                                          "text": "We'll be fine."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 81,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I need help with the forms for Seven Mile.",
+                            "move": "request",
+                            "pieces": [
+                              "scene-talk.reply-request.i-need-help-with-the-forms-for-school-short"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short",
+                                "text": "Help me work out a retake at {school-short}."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 88,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 89,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 91,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Tell me when.",
+                                      "move": "press",
+                                      "pieces": [
+                                        "scene-talk.close-press.tell-me-when"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-press.come-find-me",
+                                          "text": "Come find me."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-press.i-ll-ask-again",
+                                          "text": "I'll ask again."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 90,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 92,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Come here.",
+                                      "move": "thank",
+                                      "pieces": [
+                                        "scene-talk.close-thank.come-here"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-thank.get-some-rest",
+                                          "text": "Get some rest."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-thank.we-ll-be-fine",
+                                          "text": "We'll be fine."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 82,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "Alright, please do.",
+                            "move": "accept",
+                            "pieces": [
+                              "scene-talk.reply-accept.alright-please-do"
+                            ],
+                            "wordings": [
+                              {
+                                "key": "scene-talk.reply-accept.yes-thanks",
+                                "text": "Yes, thanks."
+                              }
+                            ],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 93,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "I'll be there.",
+                                "move": "promise",
+                                "pieces": [
+                                  "scene-talk.reply-agree.i-ll-be-there"
+                                ],
+                                "wordings": [],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [
+                              {
+                                "line": {
+                                  "n": 94,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Help me work out a retake at Seven Mile.",
+                                  "move": "request",
+                                  "pieces": [
+                                    "scene-talk.reply-request.help-me-work-out-a-retake-at-school-short"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "open",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 96,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "Don't vanish.",
+                                      "move": "warn",
+                                      "pieces": [
+                                        "scene-talk.close-warn.don-t-vanish"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.close-warn.stay-close",
+                                          "text": "Stay close."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-warn.please-don-t-hide",
+                                          "text": "Please, don't hide."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "line": {
+                                  "n": 95,
+                                  "speaker": "You",
+                                  "role": "player",
+                                  "text": "Yes, thanks.",
+                                  "move": "accept",
+                                  "pieces": [
+                                    "scene-talk.reply-accept.yes-thanks"
+                                  ],
+                                  "wordings": [],
+                                  "asks": false
+                                },
+                                "leadsTo": {
+                                  "lines": [],
+                                  "replies": [],
+                                  "end": {
+                                    "outcome": "resolved",
+                                    "ending": {
+                                      "id": "left-there",
+                                      "label": "Left it there",
+                                      "keeps": "none"
+                                    },
+                                    "close": {
+                                      "n": 97,
+                                      "speaker": "Jaden Wooten",
+                                      "role": "asker",
+                                      "text": "I'll call Seven Mile with you when you're ready.",
+                                      "move": "promise",
+                                      "pieces": [
+                                        "scene-talk.close-promise.i-ll-call-school-short-with-you-when-you-re-ready"
+                                      ],
+                                      "wordings": [
+                                        {
+                                          "key": "scene-talk.reply-comfort.i-m-here",
+                                          "text": "I'm here."
+                                        },
+                                        {
+                                          "key": "scene-talk.close-promise.a-plan-together",
+                                          "text": "A plan, together."
+                                        }
+                                      ],
+                                      "asks": false
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 36,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll go upstairs.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-ll-go-upstairs"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.excuse-me",
+                    "text": "Excuse me."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.i-need-air",
+                    "text": "I need air."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "not-tonight",
+                    "label": "Not tonight",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 98,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "I'll ask again.",
+                    "move": "press",
+                    "pieces": ["scene-talk.close-press.i-ll-ask-again"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-press.come-find-me",
+                        "text": "Come find me."
+                      },
+                      {
+                        "key": "scene-talk.close-press.tell-me-when",
+                        "text": "Tell me when."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "I can't go through what happened at Seven Mile again.",
+          "move": "decline",
+          "pieces": [
+            "scene-talk.reply-decline.i-can-t-go-through-what-happened-at-school-short-again"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-decline.not-now",
+              "text": "Not now."
+            },
+            {
+              "key": "scene-talk.reply-deflect.not-yet",
+              "text": "Not yet."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 99,
+              "speaker": "Jaden Wooten",
+              "role": "asker",
+              "text": "Pick a day to call Seven Mile, even a small one.",
+              "move": "press",
+              "pieces": [
+                "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-press.please-think-about-when-you-ll-start-at-school-short",
+                  "text": "Please think about when you'll start at {school-short}."
+                },
+                {
+                  "key": "scene-talk.follow-press.first-step",
+                  "text": "First step?"
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 100,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll go back and finish what I missed at Seven Mile.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.i-ll-go-back-and-finish-what-i-missed-at-school-short"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-finish-it",
+                    "text": "I'll finish it."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-try-again",
+                    "text": "I'll try again."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 102,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "Please think about when you'll start at Seven Mile.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.follow-press.please-think-about-when-you-ll-start-at-school-short"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-press.first-step",
+                        "text": "First step?"
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 103,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll try again.",
+                      "move": "promise",
+                      "pieces": ["scene-talk.reply-promise.i-ll-try-again"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-promise.i-ll-finish-it",
+                          "text": "I'll finish it."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 105,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "First step?",
+                          "move": "press",
+                          "pieces": ["scene-talk.follow-press.first-step"],
+                          "wordings": [],
+                          "asks": true
+                        }
+                      ],
+                      "replies": [
+                        {
+                          "line": {
+                            "n": 106,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I'll finish it.",
+                            "move": "promise",
+                            "pieces": [
+                              "scene-talk.reply-promise.i-ll-finish-it"
+                            ],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [
+                              {
+                                "n": 108,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "Good. Thank you.",
+                                "move": "thank",
+                                "pieces": [
+                                  "scene-talk.follow-thank.good-thank-you"
+                                ],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.follow-thank.that-took-courage",
+                                    "text": "That took courage."
+                                  },
+                                  {
+                                    "key": "scene-talk.follow-thank.that-was-brave",
+                                    "text": "That was brave."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            ],
+                            "replies": [],
+                            "end": {
+                              "outcome": "resolved",
+                              "ending": {
+                                "id": "a-plan",
+                                "label": "You talked about what comes next",
+                                "keeps": "none"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "line": {
+                            "n": 107,
+                            "speaker": "You",
+                            "role": "player",
+                            "text": "I need air.",
+                            "move": "leave",
+                            "pieces": ["scene-talk.reply-leave.i-need-air"],
+                            "wordings": [],
+                            "asks": false
+                          },
+                          "leadsTo": {
+                            "lines": [],
+                            "replies": [],
+                            "end": {
+                              "outcome": "open",
+                              "ending": {
+                                "id": "not-tonight",
+                                "label": "Not tonight",
+                                "keeps": "none"
+                              },
+                              "close": {
+                                "n": 109,
+                                "speaker": "Jaden Wooten",
+                                "role": "asker",
+                                "text": "Come find me.",
+                                "move": "press",
+                                "pieces": [
+                                  "scene-talk.close-press.come-find-me"
+                                ],
+                                "wordings": [
+                                  {
+                                    "key": "scene-talk.close-press.i-ll-ask-again",
+                                    "text": "I'll ask again."
+                                  },
+                                  {
+                                    "key": "scene-talk.close-press.tell-me-when",
+                                    "text": "Tell me when."
+                                  }
+                                ],
+                                "asks": false
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 104,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Excuse me.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.excuse-me"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.i-need-air",
+                          "text": "I need air."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "not-tonight",
+                          "label": "Not tonight",
+                          "keeps": "none"
+                        },
+                        "close": {
+                          "n": 110,
+                          "speaker": "Jaden Wooten",
+                          "role": "asker",
+                          "text": "Come find me.",
+                          "move": "press",
+                          "pieces": ["scene-talk.close-press.come-find-me"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.close-press.i-ll-ask-again",
+                              "text": "I'll ask again."
+                            },
+                            {
+                              "key": "scene-talk.close-press.tell-me-when",
+                              "text": "Tell me when."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 101,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll go upstairs.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-ll-go-upstairs"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.excuse-me",
+                    "text": "Excuse me."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.i-need-air",
+                    "text": "I need air."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "not-tonight",
+                    "label": "Not tonight",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 111,
+                    "speaker": "Jaden Wooten",
+                    "role": "asker",
+                    "text": "Stay close.",
+                    "move": "warn",
+                    "pieces": ["scene-talk.close-warn.stay-close"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-warn.don-t-vanish",
+                        "text": "Don't vanish."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "a-plan": 4,
+    "not-tonight": 9,
+    "left-there": 18
+  },
+  "depth": 5,
+  "gaps": ["no-diploma-home/reply/press after promise"]
+}

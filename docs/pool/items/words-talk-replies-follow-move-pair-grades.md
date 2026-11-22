@@ -20,7 +20,7 @@ branch: lane3/talk-one-engine
 
 **Done when.** In a played world (buildBenchWorld) in two drawn places with the seed printed, grading the first offered reply's move-pair unnatural after the other person's last line moves a reply of another move ahead of it, in talks the player opens over 30 days.
 
-**Files.** src/director/conversation.ts, src/director/talk-move-pairs.test.ts
+**Files.** src/director/conversation.ts
 
 **Notes.** Lane 3, Nov 4: built on lane3/talk-one-engine.
 

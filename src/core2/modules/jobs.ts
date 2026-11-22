@@ -3437,9 +3437,11 @@ export function reviewJobless(api: CoreAPI, opening = false): void {
     // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
     // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
     if (!twoLevel && !worked.has(person.id)) continue;
+    // Working age bounds who starts looking; someone already looking who has
+    // passed it is weighed again, as a counted seeker is.
     const age =
       daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
-    if (age < young || age >= old) continue;
+    if (!seeking && (age < young || age >= old)) continue;
     const enter = participationShift(
       api,
       person.placeId,
@@ -4738,14 +4740,17 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
       const personId = counted.ids[m]!;
       if (working.has(personId) || abroad.has(personId) || away.has(m))
         continue;
+      const seeking = seekers.get(personId) as SeekerRow | undefined;
+      // Working age bounds who starts looking; someone already looking who
+      // has passed it is weighed again like everyone looking, or their search
+      // would stay open with no review ever ending it.
       const age = ageOf(m);
-      if (age < young || age >= old) continue;
+      if (!seeking && (age < young || age >= old)) continue;
       // The custody query after the age test, so children and retirees skip it.
       if (inCustody(api, personId)) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
       days ??= countedDaysOfMoney(rt, h, cashOf);
-      const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
         offer("look", personId, {

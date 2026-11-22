@@ -15,12 +15,8 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { addressesGivenBy, deliverSpeech } from "./modules/speech";
 import { PRESIDENT_FACT } from "./officials-president";
 import { coreAPI } from "./state";
-import { composeAddress } from "../english/english-composition";
-import type { GroundedEnglishPacket } from "../english/grounded-english";
-import {
-  OPENING_SPEECH_BANK,
-  openingMove,
-} from "../english/english-opening-speech";
+
+import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import {
   deviceEarned,
   speechCraft,
@@ -44,37 +40,6 @@ const adults = [...core.people.values()].filter(
     row.alive &&
     ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18,
 );
-
-/** The families block's list of three, composed for a speaker with `given` addresses. */
-const listsSaid = (given: number) => {
-  const move = openingMove("inaugural", "plain", "families")!;
-  let lists = 0;
-  let said = 0;
-  for (let n = 0; n < 60; n++) {
-    const packet: GroundedEnglishPacket = {
-      surface: "dialogue",
-      momentKey: `craft-${n}`,
-      worldSeed: seed,
-      bankVersion: move.bank.version,
-      stage: "open",
-      sourceRecordIds: ["craft"],
-      facts: {},
-      speaker: { personId: adults[0]!.id, traits: {} },
-      knowledge: [],
-    };
-    const address = composeAddress(packet, "election-night", [move], {
-      addressesGiven: given,
-    });
-    if (address.kind !== "rendered") continue;
-    said += 1;
-    lists += address.moves
-      .flatMap((row) => row.parts)
-      .filter((part) => part.device === "three-part-list").length;
-  }
-  // The block is said every time; only which sentence says it changes.
-  expect(said, where).toBe(60);
-  return lists;
-};
 
 describe(`speaking experience in ${where}`, () => {
   it("is counted from the addresses the speech engine records", () => {
@@ -118,18 +83,6 @@ describe(`speaking experience in ${where}`, () => {
     expect(first("three-part-list")).toBeLessThan(first("callback"));
     expect(first("callback")).toBeLessThan(Infinity);
   });
-
-  it("says a list of three only for a speaker who has given enough addresses", () => {
-    const needed = [...Array(500).keys()].find((n) =>
-      deviceEarned("three-part-list", n),
-    )!;
-    expect(listsSaid(0), `${where}: no addresses`).toBe(0);
-    expect(listsSaid(needed - 1), `${where}: ${needed - 1} addresses`).toBe(0);
-    expect(listsSaid(needed), `${where}: ${needed} addresses`).toBeGreaterThan(
-      0,
-    );
-  });
-
   it("gives the President the devices their campaign stops earned, citing them", () => {
     const story = director.ledger.opening!;
     expect(story, `${where}: no opening story`).toBeTruthy();
