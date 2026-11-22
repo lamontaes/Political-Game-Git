@@ -177,6 +177,7 @@ it(
           const voted = session.bills.filter((b) => b.fate === "voted");
           let refused = 0;
           let committeeHeld = 0;
+          let committeeVotedDown = 0;
           let heard = 0;
           for (const filing of session.filings) {
             const bill = filing.billId ? bills.get(filing.billId) : undefined;
@@ -196,6 +197,14 @@ it(
             const hold = committees.find(
               (c) => c.billId === bill.id && !c.heard,
             );
+            const downInCommittee = committees.find(
+              (c) =>
+                c.billId === bill.id &&
+                c.heard &&
+                !c.reported &&
+                !c.discharge?.discharged &&
+                c.no >= c.yes,
+            );
             if (request && !request.granted) {
               refused += 1;
               if (held.length < 4)
@@ -207,6 +216,14 @@ it(
               if (held.length < 4)
                 held.push(
                   `${bill.id} held by committee record ${hold.id} (chair ${hold.chairId})`,
+                );
+            } else if (downInCommittee) {
+              // Heard, then voted down in committee: the committee's own
+              // record (its yes and no votes, `reported` false) left it off.
+              committeeVotedDown += 1;
+              if (held.length < 4)
+                held.push(
+                  `${bill.id} voted down in committee record ${downInCommittee.id} (${downInCommittee.yes} yes, ${downInCommittee.no} no)`,
                 );
             } else {
               expect
@@ -221,7 +238,7 @@ it(
             ["enacted", "signed", "overridden"].includes(b.status),
           );
           process.stdout.write(
-            `STATE-SESSION ${where} | ${session.id}: filed=${session.filings.length}, heardInCommittee=${heard}, votedOnFloor=${voted.length} (${new Set(voted.map((b) => b.question)).size} questions), enacted=${enacted.length} (${new Set(enacted.map((b) => b.question)).size} questions), leaderRefused=${refused}, committeeHeld=${committeeHeld} | researched pace beside it, not a target: ${RESEARCHED_PACE}\n`,
+            `STATE-SESSION ${where} | ${session.id}: filed=${session.filings.length}, heardInCommittee=${heard}, votedOnFloor=${voted.length} (${new Set(voted.map((b) => b.question)).size} questions), enacted=${enacted.length} (${new Set(enacted.map((b) => b.question)).size} questions), leaderRefused=${refused}, committeeHeld=${committeeHeld}, committeeVotedDown=${committeeVotedDown} | researched pace beside it, not a target: ${RESEARCHED_PACE}\n`,
           );
         }
         process.stdout.write(

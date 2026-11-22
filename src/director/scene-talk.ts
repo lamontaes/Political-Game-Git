@@ -2127,7 +2127,16 @@ export function composeSceneTalk(
       const settled = answers.filter(
         (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
-      const pool = last && settled.length ? settled : answers;
+      // The first exchange never wraps the scene up where the asker has a
+      // question or a push left (owner, Oct 16: "quick resolution. That's
+      // not how normal people talk"); the last round never leaves one hanging.
+      const open = answers.filter((row) => !settled.includes(row));
+      const pool =
+        last && settled.length
+          ? settled
+          : round === one && open.length
+            ? open
+            : answers;
       const [best] = [...pool].sort(
         (a, b) =>
           leanOf(core, b.candidate, askerTraits) -
@@ -2367,6 +2376,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
         .filter((row) => row.on === move || row.on === "resolved")
         .map((row) => row.asker),
       ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+      // The player's second turn after the asked answers an again move: the variants' `after`.
+      ...(asks && (move === asks.no || asks.relent.includes(move))
+        ? Object.values(asks.after ?? {}).flatMap((rows) =>
+            rows.map((row) => row.move),
+          )
+        : []),
     ];
   };
   /** The player's character's unprompted line after an asker line, and the asker's answer to it. */

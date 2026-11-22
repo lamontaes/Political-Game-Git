@@ -124,6 +124,12 @@ interface Kept {
   /** Owner households' homes in the town that were valued at the opening: the value today. */
   readonly homes: Map<string, number>;
   readonly pulls: Map<string, { webFactor?: number; webRecord?: string }>;
+  /** The town's home price level: its log level from pay, rate and buyers, and the web factor its last step read. */
+  readonly price?: {
+    log: number;
+    webFactor: number;
+    webRecordId: string | null;
+  };
 }
 
 function keep(core: CoreState): Kept {
@@ -151,7 +157,25 @@ function keep(core: CoreState): Kept {
       .filter((row) => row.tenure === "own" && row.basis === "opening")
       .map((row) => row.householdId),
   );
+  const stock = api
+    .moduleState("housing")
+    .table("stock")
+    .get(`stock:${town}`) as unknown as
+    | {
+        priceLogLevel?: number;
+        priceRead?: { webFactor: number; webRecordId: string | null };
+      }
+    | undefined;
   return {
+    ...(stock?.priceLogLevel !== undefined && stock.priceRead
+      ? {
+          price: {
+            log: stock.priceLogLevel,
+            webFactor: stock.priceRead.webFactor,
+            webRecordId: stock.priceRead.webRecordId,
+          },
+        }
+      : {}),
     town,
     date: core.date,
     ...(events[0]
@@ -279,8 +303,21 @@ describe("a severe disaster reaches home values and moving through the outcome w
           expect(control.web!.effects[OUT_MIGRATION.key] ?? 0).toBe(0);
           expect(control.web!.effects[HOME_VALUES.key] ?? 0).toBe(0);
 
-          // The housing engine: every owner household's home is worth the link's share less.
+          // The housing engine: the town's price level reads the web's month
+          // and its factor, and every owner household's home is worth the
+          // link's share less than in the control world, beyond what the
+          // level's own step moved: the disaster's other reads (a buyer more
+          // or fewer that month moves the level's log, seed
+          // 29f44abf, Nov 19) are the price engine's, not the web link's.
           const expectedValue = 1 + HOME_VALUES.size! * severity;
+          const price = treated.price!;
+          const controlPrice = control.price!;
+          expect(price.webRecordId, "the level reads the web's month").toBe(
+            web.id,
+          );
+          expect(price.webFactor).toBeCloseTo(expectedValue, 12);
+          expect(controlPrice.webFactor).toBe(1);
+          const levelStep = Math.exp(price.log - controlPrice.log);
           const ratios = [...treated.homes]
             .filter(([id]) => control.homes.has(id))
             .map(
@@ -293,8 +330,8 @@ describe("a severe disaster reaches home values and moving through the outcome w
           );
           for (const [id, value, base] of ratios)
             expect(
-              Math.abs(value / base - expectedValue),
-              `${id}: ${value} against ${base}`,
+              Math.abs(value / base - expectedValue * levelStep),
+              `${id}: ${value} against ${base}, the level's own step ${levelStep}`,
             ).toBeLessThan(2e-4);
           const [household, homeTreated, homeControl] = ratios[0]!;
 
@@ -355,7 +392,7 @@ describe("a severe disaster reaches home values and moving through the outcome w
           );
 
           console.log(
-            `disasters-web proof: ${drawn.name}, ${drawn.state}, seed ${seed}, draw ${attempt}: disaster ${found.number} began ${treated.event.date}, severity ${severity.toFixed(3)} on ${treated.event.id}; web ${web.id} at ${treated.date}: disaster.severe ${web.values["disaster.severe"]}, ${HOME_VALUES.key} ${web.effects[HOME_VALUES.key]!.toFixed(4)}, ${OUT_MIGRATION.key} ${web.effects[OUT_MIGRATION.key]!.toFixed(4)}; household ${household} home ${homeTreated} against ${homeControl} cents in the control world (x${(homeTreated / homeControl).toFixed(4)}, expected ${expectedValue.toFixed(4)}) across ${ratios.length} owner households; ${person} pull factor ${leaving.toFixed(4)} against ${leavingControl.toFixed(4)} (x${(leaving / leavingControl).toFixed(4)}, expected ${expectedLeaving.toFixed(4)}) on ${record} across ${people.length} people`,
+            `disasters-web proof: ${drawn.name}, ${drawn.state}, seed ${seed}, draw ${attempt}: disaster ${found.number} began ${treated.event.date}, severity ${severity.toFixed(3)} on ${treated.event.id}; web ${web.id} at ${treated.date}: disaster.severe ${web.values["disaster.severe"]}, ${HOME_VALUES.key} ${web.effects[HOME_VALUES.key]!.toFixed(4)}, ${OUT_MIGRATION.key} ${web.effects[OUT_MIGRATION.key]!.toFixed(4)}; household ${household} home ${homeTreated} against ${homeControl} cents in the control world (x${(homeTreated / homeControl).toFixed(4)}, expected ${expectedValue.toFixed(4)} times the level's own step ${levelStep.toFixed(6)}) across ${ratios.length} owner households; ${person} pull factor ${leaving.toFixed(4)} against ${leavingControl.toFixed(4)} (x${(leaving / leavingControl).toFixed(4)}, expected ${expectedLeaving.toFixed(4)}) on ${record} across ${people.length} people`,
           );
           return;
         }

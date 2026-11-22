@@ -9,7 +9,7 @@
  * when it checks a row's date. While the set lived in pre-start.ts, a program
  * that loaded pre-start.ts first met those files part-way through its own
  * load and failed with "Cannot access 'OWN_PAST_KINDS' before initialization"
- * (src/director/journal-opening.test.ts on main, Nov 10, 2026).
+ * (src/director/journal-opening.test.ts (removed) on main, Nov 10, 2026).
  */
 const OWN_PAST_KINDS = new Set<string>();
 

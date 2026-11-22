@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T03:53:02.709Z
 
 **Rules.** Replace, never layer. Owner rulings Oct 14 (speeches one of four parts at a time) and Oct 15 (built as given, stages) both stand in the kept builder.
 
-**Done when.** The deleted file, test and parameters have no readers left (grep), and src/director/speech-builder.test.ts and src/bench/speech-screen.test.ts pass.
+**Done when.** The deleted file, test and parameters have no readers left (grep), and src/director/speech-builder.test.ts (removed) and src/bench/speech-screen.test.ts pass.
 
 **Files.** src/core2/speech-composition.ts, src/core2/speech-composition.test.ts, src/core2/data/campaigns/parameters.json
 

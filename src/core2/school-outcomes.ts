@@ -35,7 +35,7 @@ import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
   groupKeyOf,
-  incomeBandOf,
+  incomeBandOn,
   residentsRuntime,
 } from "./modules/residents";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
@@ -218,8 +218,8 @@ export function studentsByPlace(
       .filter((tier) => tier.cadence === "inactive")
       .map((tier) => tier.id),
   );
-  // Full students: the household's income from its jobs and recorded awards,
-  // the sources a counted household's income fifth is read from.
+  // Full students use the same wages, awards, and public benefits as the
+  // counted students.
   const incomes = fullHouseholdIncomes(core);
   /** Full students' recorded attendance shares, by place. */
   const fullShares = new Map<string, number[]>();
@@ -244,7 +244,7 @@ export function studentsByPlace(
     fullStudents.push({
       placeId: person.placeId,
       id: person.id,
-      fifth: incomeBandOf(incomes.get(person.householdId) ?? 0),
+      fifth: incomeBandOn(api, incomes.get(person.householdId) ?? 0),
       trait: traitMean(person.traits),
       attended,
       movedIn: moved.get(person.householdId)?.id,

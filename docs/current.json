@@ -358,9 +358,22 @@
     "docs/release/changes/",
     "PATCH_NOTES.md",
     "docs/current.json",
-    "docs/CURRENT.md"
+    "docs/CURRENT.md",
+    "docs/words-lead-handoff-2026-11-16/"
   ],
   "replaced": [
+    {
+      "old": "src/core2/data/moves/destinations.json",
+      "now": "src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor)",
+      "when": "2026-11-17",
+      "why": "Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to."
+    },
+    {
+      "old": "data/research/renewal/derive-destinations.py",
+      "now": "nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it",
+      "when": "2026-11-17",
+      "why": "Pins family 29: the file it derived is gone."
+    },
     {
       "old": "src/core2/fast-forward.ts",
       "now": "src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6",
@@ -572,6 +585,12 @@
       "why": "It tested saved-identity-proof.mjs, deleted with it."
     },
     {
+      "old": "src/director/data/promise-kinds.json",
+      "now": "src/core2/data/promises/promise-kinds.json (the kinds, windows, answers and parameters) and src/director/data/promise-endings.json (which scene endings keep a promise)",
+      "when": "2026-11-15",
+      "why": "The promise record, its settlement and the tie it moves moved into the promises engine (core2-promises-v1); the director only words it."
+    },
+    {
       "old": ".agents/skills/standing-rules-self-check",
       "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
       "when": "2026-11-16",
@@ -687,13 +706,13 @@
     },
     {
       "old": ".agents/skills/labor-market-proof",
-      "now": ".agents/skills/played-world-proof/references/labor-market-proof.md",
+      "now": ".agents/skills/done-proof/references/labor-market-proof.md",
       "when": "2026-11-17",
       "why": "Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/labor-market-proof",
-      "now": ".claude/skills/played-world-proof/references/labor-market-proof.md",
+      "now": ".claude/skills/done-proof/references/labor-market-proof.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
@@ -747,13 +766,13 @@
     },
     {
       "old": ".agents/skills/owners-words-to-threads",
-      "now": ".agents/skills/crew-messages/references/owners-words-to-threads.md",
+      "now": ".agents/skills/crew-coordinator/references/owners-words-to-threads.md",
       "when": "2026-11-17",
       "why": "Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/owners-words-to-threads",
-      "now": ".claude/skills/crew-messages/references/owners-words-to-threads.md",
+      "now": ".claude/skills/crew-coordinator/references/owners-words-to-threads.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
@@ -876,6 +895,816 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/crew-messages",
+      "now": ".agents/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-coordinator skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into crew-coordinator/references/."
+    },
+    {
+      "old": ".claude/skills/crew-messages",
+      "now": ".claude/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/seen-in-game",
+      "now": ".agents/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/seen-in-game",
+      "now": ".claude/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/played-world-proof",
+      "now": ".agents/skills/done-proof/references/played-world-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/played-world-proof",
+      "now": ".claude/skills/done-proof/references/played-world-proof.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "data/english/parts/address.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held the chair's \"The motion carries.\" and its kin, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/hearing.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held a witness's thanks to the chair, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/legislation.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held short titles, long titles and repeal clauses, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/minutes.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held four lines of a meeting's minutes, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "scripts/english-corpus/newscast-bank.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/card-history-ways.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/card-history.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/dev-director-day.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/own-ordinance-in-the-paper.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/address-openers-by-kind.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/address-render-join.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-election.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-law.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up-press.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-it-up.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/bring-up-ordinance.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/home-alone-arrival.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/journal-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/opening-address-versions.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-leads.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-narration-once.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/scene-opens-day-place-person.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/director/school-year-end-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/election-opponent-outcome.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/mined/scene-bank.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-closing-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-honor-story.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-police-log.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/news-side-bodies.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/english/opener-comma.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted words from bank lines written before Nov 15, deleted in one pass; the engine it exercised keeps its other tests."
+    },
+    {
+      "old": "src/bench/printed-honor-body.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit 99b153081dd12a52a34f4ff591add360472a15b6",
+      "when": "2026-11-17",
+      "why": "It asserted the spelling bee's printed body from news lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/address-response.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played a legislator's answer to the governor's address, worded from lines written before Nov 15 and the address scene, both deleted."
+    },
+    {
+      "old": "src/director/asked-mutual-give-back.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It asked about someone both knew from talk lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/asked-mutual-no-against-record.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It read the talk's mutual-acquaintance replies from lines written before Nov 15, deleted in one pass."
+    },
+    {
+      "old": "src/director/bargain-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the section bargain, a scene kind the cut deleted, and the vote ask's trade from deleted lines."
+    },
+    {
+      "old": "src/director/birth-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the new-baby visit, a scene kind the cut deleted."
+    },
+    {
+      "old": "src/director/budget-cut-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the budget-cut scene, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/campaign-answer.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It read campaign asks answered from talk lines written before Nov 15, deleted in one pass, and the volunteer offer, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/campaign-manager-household.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the campaign manager's offer at home, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/campaign-manager.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the campaign manager's offer, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/campaign-season.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played a campaign season's scenes, among them the volunteer offer, a kind the cut deleted, from lines written before Nov 15."
+    },
+    {
+      "old": "src/director/care-visit-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the care visit, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/case-help-moves.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played office hours' case help, a kind the cut deleted, and counted its lines."
+    },
+    {
+      "old": "src/director/celebration-gathering-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the celebration and the missing-relative gathering, kinds the cut deleted."
+    },
+    {
+      "old": "src/director/concession-reported.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played the concession call after the count, race-lost, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/constituent-help-variants.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It played office hours' variants, a kind the cut deleted."
+    },
+    {
+      "old": "src/director/conversation-kin-address.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It asserted how a relative who lives apart asks after a shared parent, a wording the cut deleted."
+    },
+    {
+      "old": "src/director/conversation-introduction-first.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It asserted the stranger's introduction line that says who they are, which the cut deleted."
+    },
+    {
+      "old": "src/director/conversation-lie-reach.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "It asserted the false-place reply to a stranger's question, a lie line the cut deleted."
+    },
+    {
+      "old": "src/director/waiting-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a waiting scene to open with a line; with the lines deleted none opens, so it checked nothing until the scenes are rebuilt."
+    },
+    {
+      "old": "src/director/conversation-out-of-town-work.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case walked a talk to the work question; with the talk's choice lines deleted no talk raises work, so across eight drawn places it found nobody to ask and checked nothing until the work topic is rebuilt. The four out-of-town answer lines dated Nov 15 or later stay in the bank."
+    },
+    {
+      "old": "src/director/volunteer-offer-weight.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the volunteer-offer scene to play before it read the campaign record; the scene's lines are deleted, so no offer joined and it checked nothing."
+    },
+    {
+      "old": "src/director/conversation-replies-fit.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read every reply to a question put to the player over 30 days; with the talk lines deleted no question is put, so it checked nothing until the talks are rebuilt."
+    },
+    {
+      "old": "src/director/couple-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case asserted the date, proposal, wedding and breakup scenes were worded; those kinds' lines are deleted, so the date is skipped and nothing after it was reached."
+    },
+    {
+      "old": "src/director/court-case-talk-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its eight cases asserted the words of the court case talk (charges, pleas, convictions and the replies back), all deleted; every case threw on a missing line."
+    },
+    {
+      "old": "src/director/veto-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the sponsor's veto line at the next talk, which the cut deleted."
+    },
+    {
+      "old": "src/director/town-hall-question-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the town hall scene to compose; its lines are deleted and none composes."
+    },
+    {
+      "old": "src/director/debate-sitting-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its four cases asserted the debate's questions, moves and closing from the bank the debate names; those lines are deleted and every case ran on empty text."
+    },
+    {
+      "old": "src/director/desk-visit-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Both cases needed the desk-visit scene (the sponsor or the group against a bill coming in to the executive) to compose; its lines are deleted and it is skipped unworded."
+    },
+    {
+      "old": "src/director/diploma-home-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed someone at home to mark a graduation the day after; the scene's lines are deleted, so no drawn place played it."
+    },
+    {
+      "old": "src/director/talk-move-pairs.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a talk to open to grade its reply pairs; without talk lines the room offers no one to talk to."
+    },
+    {
+      "old": "src/director/talk-ends-with-a-goodbye.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the stranger's reply that turns the question back, a line the cut deleted."
+    },
+    {
+      "old": "src/director/swearing-in-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case played the swearing-in scene, a kind whose lines the cut deleted."
+    },
+    {
+      "old": "src/director/speech-world.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Both cases read the first speech part the planner offers from the opening-speech bank; with that bank cut to its post-Nov-15 lines the planner offers nothing for the town's worst area or its good news, and the test threw on the missing part."
+    },
+    {
+      "old": "src/director/speech-builder.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Both cases needed the speech bank's parts to offer four choices at four stages; the cut left none for them, so nothing was offered and the second threw on a missing part. The four-choices rule returns with the rebuilt speech bank."
+    },
+    {
+      "old": "src/director/speech-afterward.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the after-the-speech scene (a moved listener comes over) to compose; its lines are deleted and it is skipped unworded."
+    },
+    {
+      "old": "src/director/serve-price-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its four cases needed the priced no (a member names the price of their vote) to be offered in the serve scene; those reply lines are deleted, so no offer came and every case failed on it."
+    },
+    {
+      "old": "src/director/employer-said-once-route.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted talks that name an employer once (more than ten); without talk lines no talk names one, so it checked nothing until the talks are rebuilt."
+    },
+    {
+      "old": "src/director/serve-ask-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its seven cases needed the serve-sought scene to open (a running mate or a stranger asked to serve); the request that opens it cannot be worded from the records since the cut, so every case failed on the missing offer. The scene's opener is on the rebuild list."
+    },
+    {
+      "old": "src/director/school-answers.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases counted the player's replies to a school question, enrolled and graduated; those reply lines are deleted and none is offered."
+    },
+    {
+      "old": "src/director/eviction-host-at-home.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read every answer of the eviction host-at-home talk for the player's home said as you; those answer lines are deleted and none is said."
+    },
+    {
+      "old": "src/director/family-loss-stake-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the family-loss talk after a lost race to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/scene-repeat-record.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a speech to stage its own scene twice in thirty days; the speech scene has no lines since the cut, so nothing stages and the repeat rule ran on nothing. It returns with the rebuilt speech scene."
+    },
+    {
+      "old": "src/director/rival-word-record.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the rival-word scene (news of a rival's message) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/family-stake-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the family-filing talk to compose at its pinned seed; the ask that states it cannot be worded from the records since the cut thinned its lines. The family-filing ask is on the rebuild list."
+    },
+    {
+      "old": "src/director/filing-greeting-area.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the filing clerk's greeting for the town's name at a town counter and none at a state or county one; the greeting lines are deleted and the greeting is empty. The clerk's greeting is on the rebuild list."
+    },
+    {
+      "old": "src/director/filing-visit-seat-place.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case (two pinned counters) chose an office at the filing counter; the clerk offers no office without the counter lines the cut deleted, so the choice threw. The counter's offers are on the rebuild list."
+    },
+    {
+      "old": "src/director/rescue-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the rescue scene (a rescue asks the player for something) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/released-lines.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a scene to say a line the owner had graded good; the cut deleted every graded line with the rest (owner, Nov 17: delete it even if graded), so no scene says one."
+    },
+    {
+      "old": "src/director/recall-answer.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the recall-confront scene at the petition table to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/debate-opponent-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the after-the-debate scene (the other candidate comes over) to compose; it is skipped unworded since the cut."
+    },
+    {
+      "old": "src/director/purpose-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the household's filing and count scenes to compose over a year; they are skipped unworded since the cut."
+    },
+    {
+      "old": "src/director/family-news-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its four cases needed the relative news talk's answers (a recorded move, an ill or dead relative, a relative not met) and a talk that says something so someone is met; those lines are deleted and every talk said nothing."
+    },
+    {
+      "old": "src/director/rally-word-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the rally scene (the officials' talk about what went well) to compose; none composes since the cut."
+    },
+    {
+      "old": "src/director/rally-opponent-lines.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted rally-opponent openers that name the player's speech; those lines are deleted."
+    },
+    {
+      "old": "src/director/floor-debate-ahead.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its five pinned cases needed a reply pressed on the floor in the floor-debate scene; the scene has no narration since the cut, so no reply is pressed."
+    },
+    {
+      "old": "src/director/floor-debate-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a floor-debate scene in a year at its pinned places; the scene has no narration since the cut, so none stages."
+    },
+    {
+      "old": "src/director/goodbye-met-before.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted goodbyes said to someone known from an earlier day; the goodbye lines are deleted and none is said."
+    },
+    {
+      "old": "src/director/goodbye-where.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case checked a goodbye is said only where and when it is true; no goodbye is said without its lines."
+    },
+    {
+      "old": "src/director/prison-visit-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the prison visit scene to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/hearing-witness.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case (two drawn places) needed the witness-stake scene after a hearing to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/hold-scenes.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a held bill's hearing-ask scene for the chair to compose; the hearing-ask narration is deleted."
+    },
+    {
+      "old": "src/director/home-damaged-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its three cases needed the home-damaged scene to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/post-ask-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case (a town post and a state post) needed the post-ask scene's offer; those lines are deleted and no offer comes."
+    },
+    {
+      "old": "src/director/homecoming-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the homecoming scene (after a prison term) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/household-news.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a relative to hear a printed story in 200 days and raise it by headline; with the news bank cut to its post-Nov-15 lines almost nothing prints, so no relative heard one. It returns with the news rebuild."
+    },
+    {
+      "old": "src/director/player-news-reply-stage.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted the replies offered to the player's own news; those reply lines are deleted and none is offered."
+    },
+    {
+      "old": "src/director/housemate-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the move-in scene (someone joining the household) to compose; its lines are deleted and it composes nothing."
+    },
+    {
+      "old": "src/director/household-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a housemate to open from the day with a point of the address; the address-talk lines are deleted and no housemate has a point to raise."
+    },
+    {
+      "old": "src/director/interview-invite-seat.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two pinned cases needed the reporter's interview invitation to reach the player and name the seat; the invite-interview scene has no narration since the cut, so no invitation reaches anyone."
+    },
+    {
+      "old": "src/director/party-welcome.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its five cases needed the party leader's welcome scene to compose on joining; it is skipped unworded since the cut."
+    },
+    {
+      "old": "src/director/party-recruit.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the party-recruit scene (a party with no one filed asks a member to run) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/interview-printed.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed an interview to be sat for and printed the same day; the interview sitting's lines are deleted, so none is sat for."
+    },
+    {
+      "old": "src/director/interview-sitting-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its seven cases asserted the interview sitting's questions, moves, answers and close from the bank; those lines are deleted and every case ran on empty text."
+    },
+    {
+      "old": "src/director/interview-sitting.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the reporter's invitation to reach the player before election day so the sitting could be played; the invite-interview scene has no narration since the cut, so no invitation reaches anyone. The sitting's mechanics return with the rebuilt invitation."
+    },
+    {
+      "old": "src/director/debate-sitting.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a debate invitation the player could accept so the sitting could be played; the invite-debate scene has no narration since the cut, so none reaches anyone. The sitting's mechanics return with the rebuilt invitation."
+    },
+    {
+      "old": "src/director/party-ask-refused.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases needed the party-recruit scene to compose so the player could say no and the party ask its next member; the scene is skipped unworded since the cut."
+    },
+    {
+      "old": "src/director/interview-story-stands.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one pinned case needed an interview to be sat for so the story could say the stand on every question; the sitting's lines are deleted, so none is sat for."
+    },
+    {
+      "old": "src/director/job-lost-talk-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases asserted the job-lost telling's words (the employer and when; every reply answered); those lines are deleted and nothing is told."
+    },
+    {
+      "old": "src/director/outlet-name-said.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed an outlet's staff to say where they work in a talk; those lines are deleted and no outlet's name is said."
+    },
+    {
+      "old": "src/director/journal-bill-names.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read a member's journal line for the bill they introduced and their vote; the journal bank is cut to four lines and no such line is written."
+    },
+    {
+      "old": "src/director/journal-household.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the journal's lines for the first school day and the day partners set up home; the journal bank is cut to four lines and neither is written."
+    },
+    {
+      "old": "src/director/office-hours-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the office-hours scene (a resident's case brought to the official) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/office-hours-reply-case.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed an office-hours reply to be played so the cases engine could settle the resident's case; the scene has no narration since the cut, so no reply is played (and one drawn place had no resident bring a problem in 45 days)."
+    },
+    {
+      "old": "src/director/journal-kin-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a Journal line that names a relative as mother or father; the journal bank is cut to four lines and none names a relative."
+    },
+    {
+      "old": "src/director/journal-law-effect.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a resident's journal line naming the law they learned changed what they pay; the journal bank is cut to four lines and the line is empty. It returns with the law-reaches-your-household scene."
+    },
+    {
+      "old": "src/director/journal-life-stories.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted life events told as small stories in the journal; the journal bank is cut to four lines and none is told."
+    },
+    {
+      "old": "src/director/journal-office.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the journal's lines for taking office, a vote, a town hall and an interview; the journal bank is cut to four lines and the line is undefined."
+    },
+    {
+      "old": "src/director/journal-opening.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two cases needed the first evening's journal chapter (the family and each parent's employer); the journal bank is cut to four lines and no opening chapter is written."
+    },
+    {
+      "old": "src/director/journal-own-race.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the journal's line for the player's own race; the journal bank is cut to four lines and no such line is written."
+    },
+    {
+      "old": "src/director/journal-player-race.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its three cases read the journal's lines for the player's race; the journal bank is cut to four lines and none is written."
+    },
+    {
+      "old": "src/director/new-baby-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the new-baby scene to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/name-once-at-home-news.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case counted talks about the news at home that say the player's name once (more than ten); the housemates' news lines are deleted and no such talk opens."
+    },
+    {
+      "old": "src/director/journal-relative-acts.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the journal's lines for a relative's acts; the journal bank is cut to four lines and none is written."
+    },
+    {
+      "old": "src/director/journal-revision.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read a journal line's revision; the journal bank is cut to four lines and no line is written to revise."
+    },
+    {
+      "old": "src/director/moving-goodbye-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the moving-goodbye scene to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/justice-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the accused and a friend to talk about a charge and its verdict; the court talk's lines are deleted and no charge is told."
+    },
+    {
+      "old": "src/director/local-address-economy.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the governor's address to open on prices and pay; the address's speech lines are deleted and nothing is stated."
+    },
+    {
+      "old": "src/director/letter-repeat.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the first letter from a relative to stage as a scene so the repeat a month later could go to the journal; the letter scene has no lines since the cut, so it is not staged."
     }
   ]
 }
