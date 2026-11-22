@@ -255,6 +255,13 @@ export interface CountryState {
   matchEfficiency: number | null;
   /** The share looking for work in each of the last few months, oldest first. */
   unemploymentMonths: number[];
+  /**
+   * The month's own pace of its labor market, kept for the jobs engine to read (the wider
+   * market a town's commuters and seekers work in): the share of the jobs its sectors held
+   * that ended, and the share of those looking who found work. Unset before the first month.
+   */
+  endedShare?: number;
+  foundShare?: number;
   expectedInflation: number;
   /** Fitted once at the opening, then fixed: what draws people here beyond pay and work, and what holds its own people. */
   draw: number;
@@ -1725,6 +1732,9 @@ export function stepCountry(
       seekers * (1 - Math.exp(-state.matchEfficiency * reach)),
     );
     state.openings -= hires;
+    const jobsHeld = sum(plans.map((plan) => plan.row.jobs));
+    state.endedShare = jobsHeld > 0 ? Math.min(1, ended / jobsHeld) : 0;
+    state.foundShare = seekers > 0 ? hires / seekers : 0;
     const tightness = seekers > 0 ? state.openings / seekers : state.tightness;
     state.usualTightness ??= tightness;
     // Pay rises with the price rises people expect and with what a worker makes, faster where
