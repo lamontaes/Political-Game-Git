@@ -24,6 +24,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { pressParameter } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
+import { CRIME_MODULE_ID } from "../core2/modules/crime";
+import { lawChain } from "../core2/modules/laws";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
 
@@ -52,10 +54,13 @@ const figure = (text: string) =>
  * reports prints. After renters-buy folded (#9117) Surrency keeps more renting
  * households, whose property-crime exposure moves a theft report from
  * December into November, so its November log has July behind it and a usual
- * to compare: that premise is gone too. The check now runs at St. Marys, Iowa
- * (seed pl42), which reports crime in one month (October 2025) of its first
- * eleven, found by a search of seeds pl10 to pl60 on Train head 29ef4685 run
- * outside the test (Nov 15). The comparison case runs at Hesperia, Michigan
+ * to compare: that premise is gone too. The check then ran at St. Marys, Iowa
+ * (seed pl42), which reported crime in one month (October 2025) of its first
+ * eleven (Nov 15); by train head 6e0572b6 (Nov 19) it reports in July,
+ * October and December, so October has July behind it. The check now reads
+ * the months whose earlier months hold no reports, by the crime engine's own
+ * month rows, which every town has in its first reported month; St. Marys's
+ * is July 2025. The comparison case runs at Hesperia, Michigan
  * (seed pl8), which reports in ten of its first eleven months, so the
  * comparison does not hang on one report.
  */
@@ -92,14 +97,53 @@ function playedWire(seed: string) {
   return { core, api, wire, where };
 }
 
-it("a town with no earlier reports compares no month and says nothing of the usual (St. Marys, seed pl42)", () => {
+it("a month with no earlier reports compares nothing and says nothing of the usual (St. Marys, seed pl42)", () => {
   const { core, api, wire, where } = playedWire("pl42");
   expect(wire.size, `${where}: a month reached the wire`).toBeGreaterThan(0);
-  // The town's earlier closed months hold no reports, so there is no usual.
-  for (const [id, facts] of wire)
-    expect(facts.vsUsual, `${where}: ${id} has no usual to compare`).toBe(
-      undefined,
-    );
+  // What the crime engine recorded the town's people reporting, month by month.
+  const town = lawChain(api).townPlaceId;
+  const reported = new Map(
+    (
+      api
+        .moduleState(CRIME_MODULE_ID)
+        .table("months")
+        .query("byPlace", [town]) as unknown as {
+        month: string;
+        types?: Record<string, { reported?: number }>;
+      }[]
+    ).map((row) => [
+      row.month,
+      Object.values(row.types ?? {}).reduce(
+        (sum, type) => sum + (type.reported ?? 0),
+        0,
+      ),
+    ]),
+  );
+  // A month whose earlier closed months hold no reports has no usual to
+  // compare: the town's first reported month always is one.
+  const fresh = new Set(
+    [...wire.keys()].filter((id) => {
+      const month = id.slice("police-log:".length);
+      return [...reported].every(([m, n]) => m >= month || n === 0);
+    }),
+  );
+  process.stdout.write(
+    `${where}: months with no earlier reports ${[...fresh].join(", ")}; reported ${[
+      ...reported,
+    ]
+      .sort()
+      .map(([m, n]) => `${m}:${n}`)
+      .join(" ")}\n`,
+  );
+  expect(
+    fresh.size,
+    `${where}: a month with no earlier reports`,
+  ).toBeGreaterThan(0);
+  for (const id of fresh)
+    expect(
+      wire.get(id)!.vsUsual,
+      `${where}: ${id} has no usual to compare`,
+    ).toBe(undefined);
   const printed = (
     api.moduleState("news").table("stories").rows() as unknown as {
       id: string;
@@ -109,7 +153,7 @@ it("a town with no earlier reports compares no month and says nothing of the usu
   ).filter(
     (story) =>
       story.kind === "press.printed" &&
-      String(story.facts.sourceRecordId).startsWith("police-log:"),
+      fresh.has(String(story.facts.sourceRecordId)),
   );
   for (const story of printed) {
     const worded = wordPrintedStory(core, story)!;

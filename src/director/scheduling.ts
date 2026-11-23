@@ -26,7 +26,7 @@ import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
-import { LETTER_TYPE, letterFacts } from "./letter-facts";
+import { LETTER_TYPE, letterFacts, SAID_YES } from "./letter-facts";
 import { nextMeetingFacts } from "./meeting-facts";
 import { isPayrollOrganization } from "../english/journal-words";
 
@@ -1044,7 +1044,9 @@ export function scheduleMoment(
       reader,
       () => null,
     );
-    return Object.keys(said).length === zero;
+    // A yes the reader already wrote back is not news: it changes what the
+    // letter asks, never whether it is staged (letter-facts.ts, said-yes).
+    return Object.keys(said).filter((key) => key !== SAID_YES).length === zero;
   };
   // The same scene with the same people about the same record again is not
   // staged: an earlier day's scene of this cast was staged for a cause record of

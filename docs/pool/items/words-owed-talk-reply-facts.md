@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T13:40:25.595Z
 
 **Done when.** In a played world (family-stake-scene.test.ts, drawn places, place and seed named), a deflected filing talk's reply record names the relative, the stake and a due day after the reply.
 
-**Files.** src/director/purpose-scene.ts, src/director/data/scene-talk-rules.json, src/director/family-stake-scene.test.ts
+**Files.** src/director/purpose-scene.ts, src/director/data/scene-talk-rules.json
 
 **Notes.** Lane 3, Nov 4: built on lane3/owed-talk-facts. Lane 2's record: people-owed-talk-record.

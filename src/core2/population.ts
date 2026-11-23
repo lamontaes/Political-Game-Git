@@ -1,5 +1,3 @@
-import { resolveLawInForce } from "./laws-in-force";
-import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import {
   DEFAULT_RESIDENT_EMPLOYMENT,
   openingEmploymentFromRecordedRoles,
@@ -63,6 +61,7 @@ import {
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
+import { startingMinimumHourlyAt } from "./laws-in-force";
 import { hudRentRowFor } from "./hud-rents";
 import { householdDailyCostMinor } from "./household-cost";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
@@ -266,21 +265,6 @@ function countyContexts(place: CorePlace): readonly CountyContext[] {
 }
 
 /** The minimum wage in force on a date at a place, from the starting law, in dollars an hour; null where none is recorded. */
-function startMinimumWage(placeKey: string, date: string): number | null {
-  const chain = lawChainForPlace(placeKey);
-  const answer = resolveLawInForce({
-    series: "minimum-wage",
-    chain,
-    date,
-    // Local minimums are not modeled in pay: the state and federal rows only.
-    rows: startingLawRows(chain).filter(
-      (row) =>
-        row.series === "minimum-wage" &&
-        (row.level === "federal" || row.level === "state"),
-    ),
-  });
-  return answer.value === null ? null : answer.value / p("minorPerDollar");
-}
 
 /** An initialization identity choice among real records, never a behavioral roll. */
 function selectedPlace(
@@ -593,7 +577,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const town = place.context.jurisdiction.id;
   // The floor the opening's pay rests on is the minimum wage the starting law
   // gives on the start date (dollars an hour), not a later year's rate.
-  const startMinimumHourly = startMinimumWage(place.key, startedAt);
+  const startMinimumHourly = startingMinimumHourlyAt(place.key, startedAt);
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
   if (place.stateJurisdictionKey) {
@@ -644,7 +628,30 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // some housemates are a parent and grown child (opening-partnership.ts).
   // Then the household's children, minor and grown, are born months apart.
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
-    spaceSiblings(drawAged(index, shape));
+    distinctHouseholdNames(spaceSiblings(drawAged(index, shape)));
+  // No two people in a household carry one full name (a father and his grown
+  // son both "Andrew Yarbrough"): a repeat takes another given name.
+  const distinctHouseholdNames = (drawn: ReturnType<typeof drawAged>) => {
+    const taken: string[] = [];
+    const seen = new Set<string>();
+    const people = drawn.people.map((person) => {
+      const key = `${person.givenName}|${person.familyName}`.toLowerCase();
+      const givenName = seen.has(key)
+        ? distinctSiblingGivenName(
+            seedWorld.seed,
+            person.stableKey,
+            { ...person, gender: person.identity?.gender },
+            [...taken, person.givenName],
+          )
+        : person.givenName;
+      taken.push(givenName);
+      seen.add(`${givenName}|${person.familyName}`.toLowerCase());
+      return givenName === person.givenName ? person : { ...person, givenName };
+    });
+    return people.every((person, n) => person === drawn.people[n])
+      ? drawn
+      : { ...drawn, people };
+  };
   const spaceSiblings = (drawn: ReturnType<typeof drawAged>) => {
     const siblings = drawn.skeleton.members.flatMap((member, n) =>
       member.role === "child" || drawn.grownChildren.includes(n) ? [n] : [],
@@ -824,14 +831,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // place's own split of every kind of household (the nation's where the
   // place shows none), and the first holding a person that age moves in,
   // every member aged from the place's records as above, so the player is a
-  // resident who lived that age's life. A town may go without.
+  // resident who lived that age's life. A town may go without, and a town
+  // with no household of its own (every resident in group quarters: a
+  // colony, a dormitory, a barracks) gets none for the player; a new game
+  // passes it over (src/bench/world.ts `passOver`).
   const everyShape = mix.shares.some(([, share]) => share > p("zero"))
     ? mix.shares.filter(([, share]) => share > p("zero"))
     : householdMixForJurisdiction(null).shares;
   const playerAge = options.playerAge;
   const ofPlayerAge = (person: CharacterHistoryContextPersonInput) =>
     ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === playerAge;
-  if (playerAge !== undefined && !inputs.some(ofPlayerAge)) {
+  if (playerAge !== undefined && inputs.length && !inputs.some(ofPlayerAge)) {
     const total = everyShape.reduce((sum, [, share]) => sum + share, p("zero"));
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.

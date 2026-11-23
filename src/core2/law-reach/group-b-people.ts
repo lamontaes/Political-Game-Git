@@ -11,6 +11,7 @@ import { parameter } from "../parameters";
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { placeStateKey } from "../place-map";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
+import { sinceOpeningIndex } from "../tax-index";
 import {
   countedJob,
   countedParameter,
@@ -126,6 +127,8 @@ export interface TownFacts {
   readonly households: ReadonlyMap<string, HouseholdFacts>;
   /** Residents the town's records count, modeled (named plus counted). */
   readonly modeled: number;
+  /** How far this world's prices have moved since it opened, read once when the day's facts are built. */
+  readonly priceIndex: number;
 }
 
 /** Each day's facts by the places read (their ids joined), so a pass reads each set once a day. */
@@ -373,20 +376,30 @@ export function placesFacts(
     residents,
     households,
     modeled: residents.reduce((n, r) => n + (r.scale ?? 1), 0),
+    priceIndex: sinceOpeningIndex(api, "prices"),
   };
   day.byPlaces.set(key, facts);
   return facts;
 }
 
-/** The poverty line for a household of `size` in the town's state. */
-export function povertyLineDollars(stateKey: string, size: number): number {
+/**
+ * The poverty line for a household of `size` in the town's state. The table is
+ * written in 2026 dollars; `priceIndex` (the day's facts' `priceIndex`) moves
+ * it with this world's own prices since it opened, 1 on day one.
+ * stopgapId: SG-WORLD-tax-index-january
+ */
+export function povertyLineDollars(
+  stateKey: string,
+  size: number,
+  priceIndex = 1,
+): number {
   const row = table.povertyGuidelineByState[stateKey];
   const first =
     row?.firstPerson ?? reachParameter("povertyGuidelineFirstPersonDollars");
   const added =
     row?.perAddedPerson ??
     reachParameter("povertyGuidelinePerAddedPersonDollars");
-  return first + added * Math.max(0, size - 1);
+  return (first + added * Math.max(0, size - 1)) * priceIndex;
 }
 
 /** The residents a selector reaches, in id order. */
@@ -434,7 +447,8 @@ export function selectResidents(
     if (
       incomeShare !== undefined &&
       household.incomeDollars >=
-        incomeShare * povertyLineDollars(stateKey, household.size)
+        incomeShare *
+          povertyLineDollars(stateKey, household.size, facts.priceIndex)
     )
       continue;
     if (
