@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T14:00:00.000Z
 
 **Rules.** No new engine. A reply is written back on the scene.reply record by id; the endings keep a promise (agreed to a stay or help, agreed to the ask) or strain the tie (a talk put off, a refusal pressed). No dice: the asker's answers follow the traits through the shared decision table.
 
-**Done when.** src/director/homecoming-scene.test.ts and src/director/prison-visit-scene.test.ts, in a world drawn from all 56 places (a release or a sentence from the justice engine's records where the played years give one, a clearly labeled staged cause otherwise), compose each purpose's tree whole, write a reply by record id and keep the ending's record; the English guards and the bank tests pass.
+**Done when.** src/director/homecoming-scene.test.ts and src/director/prison-visit-scene.test.ts (removed), in a world drawn from all 56 places (a release or a sentence from the justice engine's records where the played years give one, a clearly labeled staged cause otherwise), compose each purpose's tree whole, write a reply by record id and keep the ending's record; the English guards and the bank tests pass.
 
 **Files.** src/director/custody-facts.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/circumstances.json, src/director/data/stopgaps.json, data/english/parts/scene-talk.json, scripts/scene-web/domains.json
 

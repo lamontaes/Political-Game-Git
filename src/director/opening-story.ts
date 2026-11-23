@@ -118,6 +118,8 @@ export interface OpeningStory {
   readonly speechKind: OpeningSpeechKind;
   /** The kind of address it is (crisis, combative, hopeful, victory, mourning, policy), picked from the world and the President. */
   readonly addressKind: AddressKind;
+  /** The world's story the address opens on (address-story.ts), "steady" when none. */
+  readonly story: string;
   /** The one theme the speech is about (a bill catalog subject), from the speech outline; null when the record gives none. */
   readonly theme: string | null;
   /** The questions the speech asks for or against, each once, by question. */
@@ -259,6 +261,7 @@ function composeAddressOf(
 ): {
   sentences: OpeningSentence[];
   addressKind: AddressKind;
+  story: string;
   theme: string | null;
   asks: readonly string[];
   points: readonly PlannedPoint[];
@@ -274,6 +277,7 @@ function composeAddressOf(
     ? {
         sentences,
         addressKind: plan.addressKind,
+        story: plan.story,
         theme: plan.theme,
         asks: plan.asks,
         points: plan.points,
@@ -805,7 +809,7 @@ export function composeOpeningStory(
     : "state-of-the-union";
   const composed = composeAddressOf(core, president, official, kind);
   if (!composed?.sentences.length) return null;
-  const { sentences, addressKind, theme, asks, points } = composed;
+  const { sentences, addressKind, story, theme, asks, points } = composed;
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -825,6 +829,7 @@ export function composeOpeningStory(
     date: core.date,
     speechKind: kind,
     addressKind,
+    story,
     theme,
     asks,
     points,

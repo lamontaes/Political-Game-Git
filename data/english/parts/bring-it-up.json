@@ -69,10 +69,10 @@
   },
   "parts": [
     {
-      "key": "bring-it-up.change-organization.closed-closed.subject-closed",
+      "key": "bring-it-up.change-organization.closed-closed.subject-has-closed-its-doors",
       "move": "change-organization.closed-closed",
       "kind": "spoken",
-      "text": "{subject} closed.",
+      "text": "{subject} has closed its doors.",
       "uses": [
         {
           "move": "change-organization.closed-closed",
@@ -81,29 +81,19 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "hearings": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "COVID CHILD CARE CHALLENGES: SUPPORTING FAMILIES AND CAREGIVERS",
-        "date": "2022-03-02",
-        "granule": "CHRG-117hhrg47066",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47066/html/CHRG-117hhrg47066.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-organization.closed-closed.subject-shut-down",
+      "key": "bring-it-up.change-organization.closed-closed.subject-shut-for-good",
       "move": "change-organization.closed-closed",
       "kind": "spoken",
-      "text": "{subject} shut down.",
+      "text": "{subject} shut for good.",
       "uses": [
         {
           "move": "change-organization.closed-closed",
@@ -112,27 +102,19 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "hearings": 3
-      },
-      "source": {
-        "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
-        "date": "2024-04-23",
-        "granule": "CHRG-118hhrg55545",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55545/html/CHRG-118hhrg55545.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-organization.closed-closed.subject-is-closed",
+      "key": "bring-it-up.change-organization.closed-closed.they-closed-subject-down",
       "move": "change-organization.closed-closed",
       "kind": "spoken",
-      "text": "{subject} is closed.",
+      "text": "They closed {subject} down.",
       "uses": [
         {
           "move": "change-organization.closed-closed",
@@ -141,30 +123,19 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "blm": 2,
-        "crec": 1,
-        "hearings": 1
-      },
-      "source": {
-        "document": "TURBULENCE AHEAD: CONSEQUENCES OF DELAYING A LONG-TERM FAA BILL",
-        "date": "2023-11-30",
-        "granule": "CHRG-118hhrg54742",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54742/html/CHRG-118hhrg54742.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-organization.closed-closed.subject-is-gone",
+      "key": "bring-it-up.change-organization.closed-closed.subject-didn-t-make-it",
       "move": "change-organization.closed-closed",
       "kind": "spoken",
-      "text": "{subject} is gone.",
+      "text": "{subject} didn't make it.",
       "uses": [
         {
           "move": "change-organization.closed-closed",
@@ -173,33 +144,20 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 19,
-      "bySource": {
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "crec": 1,
-        "dcpd": 9,
-        "hearings": 5,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks at a Rose Garden Club Dinner With Farmers",
-        "date": "2026-06-25",
-        "granule": "DCPD-202600429",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600429/html/DCPD-202600429.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "deliver-news",
         "key": "loss"
       },
-      "bearing": "solemn"
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.that-was-whose-doing",
+      "key": "bring-it-up.blame-record-record.who-made-the-call",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "That was {whose} doing.",
+      "text": "{who} made the call.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -208,28 +166,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa2": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Joseph H. Rothenberg oral history (hubble-space-telescope collection)",
-        "date": "2016-09-27",
-        "granule": "hubble-space-telescope-rothenbergjr-9-27-16",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/rothenbergjr-9-27-16.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "calm"
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.it-was-whose-decision",
+      "key": "bring-it-up.blame-record-record.the-call-was-whose",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "It was {whose} decision.",
+      "text": "The call was {whose}.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -238,29 +187,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "hearings": 1,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "THE ECONOMIC OUTLOOK",
-        "date": "2016-11-17",
-        "granule": "CHRG-114jhrg23027",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114jhrg23027/html/CHRG-114jhrg23027.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "calm"
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.its-whose-fault",
+      "key": "bring-it-up.blame-record-record.who-decided-it",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "It's {whose} fault.",
+      "text": "{who} decided it.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -269,28 +208,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 5
-      },
-      "source": {
-        "document": "Remarks Following a Cabinet Meeting and an Exchange With Reporters",
-        "date": "2025-07-08",
-        "granule": "DCPD-202500755",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500755/html/DCPD-202500755.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "braced"
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.thats-on-who",
+      "key": "bring-it-up.blame-record-record.blame-who-for-it",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "That's on {who}.",
+      "text": "Blame {who} for it.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -299,27 +229,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks During a Telerally for Wisconsin Republican Congressional Candidate Michael Alfonso",
-        "date": "2026-07-29",
-        "granule": "DCPD-202600504",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600504/html/DCPD-202600504.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "braced"
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.who-did-that",
+      "key": "bring-it-up.blame-record-record.who-messed-that-up",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "{who} did that.",
+      "text": "{who} messed that up.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -328,39 +250,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 36,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Senate Historical Office oral history": 5,
-        "briefing": 3,
-        "crec": 3,
-        "dcpd": 6,
-        "hearings": 3,
-        "nasa": 4,
-        "nasa2": 3,
-        "nps": 2,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
-        "date": "2026-07-06",
-        "granule": "DCPD-202600446",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600446/html/DCPD-202600446.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "braced"
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.who-is-responsible",
+      "key": "bring-it-up.blame-record-record.who-brought-this-on-us",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "{who} is responsible.",
+      "text": "{who} brought this on us.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -369,28 +271,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks on the Reported Death of Russian Opposition Leader Alexei Navalny and an Exchange With Reporters",
-        "date": "2024-02-16",
-        "granule": "DCPD-202400109",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400109/html/DCPD-202400109.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "calm"
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-record-record.who-is-to-blame",
+      "key": "bring-it-up.blame-record-record.you-can-thank-who",
       "move": "blame-record-record",
       "kind": "spoken",
-      "text": "{who} is to blame.",
+      "text": "You can thank {who}.",
       "uses": [
         {
           "move": "blame-record-record",
@@ -399,28 +292,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks on Signing a Proclamation Commemorating the 90th Anniversary of the Social Security Act and an Exchange With Reporters",
-        "date": "2025-08-14",
-        "granule": "DCPD-202500850",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500850/html/DCPD-202500850.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "braced"
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
+      "key": "bring-it-up.blame-assumed-assumed.word-is-it-was-who",
       "move": "blame-assumed-assumed",
       "kind": "spoken",
-      "text": "I think it was {who}.",
+      "text": "Word is it was {who}.",
       "uses": [
         {
           "move": "blame-assumed-assumed",
@@ -429,41 +313,19 @@
           "choice": "assumed"
         }
       ],
-      "transcriptsUsing": 64,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 7,
-        "U.S. Senate Historical Office oral history": 6,
-        "briefing": 1,
-        "dcpd": 1,
-        "hearings": 4,
-        "house": 3,
-        "nasa": 12,
-        "nasa2": 8,
-        "nps": 13,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600487",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "nervous"
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.blame-assumed-assumed.it-must-have-been-who",
+      "key": "bring-it-up.blame-assumed-assumed.could-that-have-been-who",
       "move": "blame-assumed-assumed",
       "kind": "spoken",
-      "text": "It must have been {who}.",
+      "text": "Could that have been {who}?",
       "uses": [
         {
           "move": "blame-assumed-assumed",
@@ -472,28 +334,19 @@
           "choice": "assumed"
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "house": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks Commemorating the 25th Anniversary of the Belfast/Good Friday Agreement at Ulster University in Belfast, Northern Ireland, United Kingdom",
-        "date": "2023-04-12",
-        "granule": "DCPD-202300291",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300291/html/DCPD-202300291.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "blame"
       },
-      "bearing": "curious"
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",
+      "key": "bring-it-up.change-news.read-read.subject-ran-something-on-topic",
       "move": "change-news.read-read",
-      "text": "I read in {subject} about {topic}.",
+      "kind": "spoken",
+      "text": "{subject} ran something on {topic}.",
       "uses": [
         {
           "move": "change-news.read-read",
@@ -507,14 +360,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-news.read-read.subject-had-a-story-about-topic",
+      "key": "bring-it-up.change-news.read-read.i-came-across-a-story-in-subject-on-topic",
       "move": "change-news.read-read",
-      "text": "{subject} had a story about {topic}.",
+      "kind": "spoken",
+      "text": "I came across a story in {subject} on {topic}.",
       "uses": [
         {
           "move": "change-news.read-read",
@@ -528,14 +381,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-news.read-read.i-saw-subject-ran-a-story-on-topic",
+      "key": "bring-it-up.change-news.read-read.did-you-see-what-subject-wrote-on-topic",
       "move": "change-news.read-read",
-      "text": "I saw {subject} ran a story on {topic}.",
+      "kind": "spoken",
+      "text": "Did you see what {subject} wrote on {topic}?",
       "uses": [
         {
           "move": "change-news.read-read",
@@ -549,14 +402,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.change-news.read-read.there-was-something-in-subject-about-top",
+      "key": "bring-it-up.change-news.read-read.subject-wrote-about-topic",
       "move": "change-news.read-read",
-      "text": "There was something in {subject} about {topic}.",
+      "kind": "spoken",
+      "text": "{subject} wrote about {topic}.",
       "uses": [
         {
           "move": "change-news.read-read",
@@ -570,14 +423,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-passed-ordinance.i-read-in-subject-that-your-ordinance-on",
+      "key": "bring-it-up.your-bill-passed-ordinance.subject-reports-your-ordinance-on-topic-passed",
       "move": "your-bill-passed-ordinance",
-      "text": "I read in {subject} that your ordinance on {topic} passed.",
+      "kind": "spoken",
+      "text": "{subject} reports your ordinance on {topic} passed.",
       "uses": [
         {
           "move": "your-bill-passed-ordinance",
@@ -591,14 +444,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-passed-ordinance.subject-says-your-ordinance-passed-good",
+      "key": "bring-it-up.your-bill-passed-ordinance.your-ordinance-on-topic-passed-subject-says",
       "move": "your-bill-passed-ordinance",
-      "text": "{subject} says your ordinance passed. Good for you.",
+      "kind": "spoken",
+      "text": "Your ordinance on {topic} passed, {subject} says.",
       "uses": [
         {
           "move": "your-bill-passed-ordinance",
@@ -612,14 +465,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-failed-ordinance.i-read-in-subject-that-your-ordinance-on",
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-reports-your-ordinance-on-topic-failed",
       "move": "your-bill-failed-ordinance",
-      "text": "I read in {subject} that your ordinance on {topic} failed.",
+      "kind": "spoken",
+      "text": "{subject} reports your ordinance on {topic} failed.",
       "uses": [
         {
           "move": "your-bill-failed-ordinance",
@@ -633,14 +486,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-didnt-pass-i",
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-on-topic-fell-short-tough-break",
       "move": "your-bill-failed-ordinance",
-      "text": "{subject} says your ordinance didn't pass. I'm sorry.",
+      "kind": "spoken",
+      "text": "{subject} says your ordinance on {topic} fell short. Tough break.",
       "uses": [
         {
           "move": "your-bill-failed-ordinance",
@@ -654,14 +507,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-passed-act.i-read-in-subject-that-your-bill-on-topi",
+      "key": "bring-it-up.your-bill-passed-act.subject-reports-your-bill-on-topic-passed",
       "move": "your-bill-passed-act",
-      "text": "I read in {subject} that your bill on {topic} passed.",
+      "kind": "spoken",
+      "text": "{subject} reports your bill on {topic} passed.",
       "uses": [
         {
           "move": "your-bill-passed-act",
@@ -675,14 +528,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-passed-act.subject-says-your-bill-passed-good-for-y",
+      "key": "bring-it-up.your-bill-passed-act.your-bill-on-topic-passed-subject-says",
       "move": "your-bill-passed-act",
-      "text": "{subject} says your bill passed. Good for you.",
+      "kind": "spoken",
+      "text": "Your bill on {topic} passed, {subject} says.",
       "uses": [
         {
           "move": "your-bill-passed-act",
@@ -696,14 +549,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-failed-act.i-read-in-subject-that-your-bill-on-topi",
+      "key": "bring-it-up.your-bill-failed-act.subject-reports-your-bill-on-topic-failed",
       "move": "your-bill-failed-act",
-      "text": "I read in {subject} that your bill on {topic} failed.",
+      "kind": "spoken",
+      "text": "{subject} reports your bill on {topic} failed.",
       "uses": [
         {
           "move": "your-bill-failed-act",
@@ -717,14 +570,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor",
+      "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-on-topic-fell-short",
       "move": "your-bill-failed-act",
-      "text": "{subject} says your bill didn't pass.",
+      "kind": "spoken",
+      "text": "{subject} says your bill on {topic} fell short.",
       "uses": [
         {
           "move": "your-bill-failed-act",
@@ -738,14 +591,14 @@
         "key": "news-received"
       },
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-with.i-voted-for-winner-so-im-not-complaining",
+      "key": "bring-it-up.lean-with.my-ballot-went-to-winner-so-i-m-happy",
       "move": "lean-with",
-      "text": "I voted for {winner}, so I'm not complaining.",
+      "kind": "spoken",
+      "text": "My ballot went to {winner}, so I'm happy.",
       "uses": [
         {
           "move": "lean-with",
@@ -756,14 +609,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-with.its-the-result-i-was-hoping-for",
+      "key": "bring-it-up.lean-with.winner-is-who-i-wanted",
       "move": "lean-with",
-      "text": "It's the result I was hoping for.",
+      "kind": "spoken",
+      "text": "{winner} is who I wanted.",
       "uses": [
         {
           "move": "lean-with",
@@ -774,14 +627,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-with.thats-how-id-have-called-it",
+      "key": "bring-it-up.lean-with.winner-winning-suits-me-fine",
       "move": "lean-with",
-      "text": "That's how I'd have called it.",
+      "kind": "spoken",
+      "text": "{winner} winning suits me fine.",
       "uses": [
         {
           "move": "lean-with",
@@ -792,14 +645,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-with.good-night-for-our-side",
+      "key": "bring-it-up.lean-with.winner-is-one-of-ours-and-i-m-glad",
       "move": "lean-with",
-      "text": "Good night for our side.",
+      "kind": "spoken",
+      "text": "{winner} is one of ours, and I'm glad.",
       "uses": [
         {
           "move": "lean-with",
@@ -810,14 +663,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-against.it-wasnt-my-pick",
+      "key": "bring-it-up.lean-against.winner-wasn-t-my-choice",
       "move": "lean-against",
-      "text": "It wasn't my pick.",
+      "kind": "spoken",
+      "text": "{winner} wasn't my choice.",
       "uses": [
         {
           "move": "lean-against",
@@ -828,14 +681,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-against.not-the-way-id-have-voted",
+      "key": "bring-it-up.lean-against.i-m-not-happy-that-winner-won",
       "move": "lean-against",
-      "text": "Not the way I'd have voted.",
+      "kind": "spoken",
+      "text": "I'm not happy that {winner} won.",
       "uses": [
         {
           "move": "lean-against",
@@ -846,14 +699,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-against.hard-to-swallow-honestly",
+      "key": "bring-it-up.lean-against.winner-will-have-to-win-me-over",
       "move": "lean-against",
-      "text": "Hard to swallow, honestly.",
+      "kind": "spoken",
+      "text": "{winner} will have to win me over.",
       "uses": [
         {
           "move": "lean-against",
@@ -864,14 +717,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-against.im-not-thrilled-about-it",
+      "key": "bring-it-up.lean-against.i-ll-see-what-winner-does-with-it",
       "move": "lean-against",
-      "text": "I'm not thrilled about it.",
+      "kind": "spoken",
+      "text": "I'll see what {winner} does with it.",
       "uses": [
         {
           "move": "lean-against",
@@ -882,68 +735,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.lean-against.winner-has-to-earn-it-now",
-      "move": "lean-against",
-      "text": "{winner} has to earn it now.",
-      "uses": [
-        {
-          "move": "lean-against",
-          "subject": "lean",
-          "role": "against",
-          "choice": "against",
-          "requiresFacts": ["lean"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
-      "key": "bring-it-up.lean-against.winner-gets-a-chance-and-ill-be-watching",
-      "move": "lean-against",
-      "text": "{winner} gets a chance, and I'll be watching.",
-      "uses": [
-        {
-          "move": "lean-against",
-          "subject": "lean",
-          "role": "against",
-          "choice": "against",
-          "requiresFacts": ["lean"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
-      "key": "bring-it-up.lean-against.ill-judge-winner-by-what-gets-done",
-      "move": "lean-against",
-      "text": "I'll judge {winner} by what gets done.",
-      "uses": [
-        {
-          "move": "lean-against",
-          "subject": "lean",
-          "role": "against",
-          "choice": "against",
-          "requiresFacts": ["lean"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
-      "key": "bring-it-up.election-result-named.i-read-in-subject-that-winner-won-the-race-for-seat",
+      "key": "bring-it-up.election-result-named.subject-printed-that-winner-won-the-race-for-seat",
       "move": "election-result-named",
-      "text": "I read in {subject} that {winner} won the race for {seat}.",
+      "kind": "spoken",
+      "text": "{subject} printed that {winner} won the race for {seat}.",
       "uses": [
         {
           "move": "election-result-named",
@@ -954,14 +753,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-named.i-saw-on-subject-that-winner-won-the-race-for-seat",
+      "key": "bring-it-up.election-result-named.subject-showed-winner-winning-the-race-for-seat",
       "move": "election-result-named",
-      "text": "I saw on {subject} that {winner} won the race for {seat}.",
+      "kind": "spoken",
+      "text": "{subject} showed {winner} winning the race for {seat}.",
       "uses": [
         {
           "move": "election-result-named",
@@ -972,14 +771,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-named.subject-says-winner-won-the-race-for-seat",
+      "key": "bring-it-up.election-result-named.subject-says-winner-took-the-race-for-seat",
       "move": "election-result-named",
-      "text": "{subject} says {winner} won the race for {seat}.",
+      "kind": "spoken",
+      "text": "{subject} says {winner} took the race for {seat}.",
       "uses": [
         {
           "move": "election-result-named",
@@ -989,14 +788,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-unnamed.i-read-the-results-for-seat-in-subject",
+      "key": "bring-it-up.election-result-unnamed.subject-printed-how-the-race-for-seat-came-out",
       "move": "election-result-unnamed",
-      "text": "I read the results for {seat} in {subject}.",
+      "kind": "spoken",
+      "text": "{subject} printed how the race for {seat} came out.",
       "uses": [
         {
           "move": "election-result-unnamed",
@@ -1007,14 +806,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-unnamed.i-saw-the-results-for-seat-on-subject",
+      "key": "bring-it-up.election-result-unnamed.subject-showed-how-the-race-for-seat-came-out",
       "move": "election-result-unnamed",
-      "text": "I saw the results for {seat} on {subject}.",
+      "kind": "spoken",
+      "text": "{subject} showed how the race for {seat} came out.",
       "uses": [
         {
           "move": "election-result-unnamed",
@@ -1025,14 +824,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-unnamed.subject-has-the-results-for-seat",
+      "key": "bring-it-up.election-result-unnamed.subject-has-word-on-the-race-for-seat",
       "move": "election-result-unnamed",
-      "text": "{subject} has the results for {seat}.",
+      "kind": "spoken",
+      "text": "{subject} has word on the race for {seat}.",
       "uses": [
         {
           "move": "election-result-unnamed",
@@ -1042,14 +841,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "bring-it-up.election-result-known.winner-won-the-race-for-seat",
+      "key": "bring-it-up.election-result-known.winner-took-the-race-for-seat",
       "move": "election-result-known",
-      "text": "{winner} won the race for {seat}.",
+      "kind": "spoken",
+      "text": "{winner} took the race for {seat}.",
       "uses": [
         {
           "move": "election-result-known",
@@ -1059,9 +858,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }

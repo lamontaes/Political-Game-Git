@@ -11,6 +11,9 @@
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
+import { ownUpkeep, reserveHours } from "../core2/free-block";
+import { homeUpkeep } from "../core2/closeness";
+import { heldDrivesOf, PEOPLE_MODULE_ID } from "../core2/modules/people";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -46,7 +49,14 @@ import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_FLOOR_UNIT,
+  TEACHER_FLOOR_AMOUNT,
 } from "../core2/public-pay-floor";
+import {
+  LOCAL_SEAT_PAY_SERIES,
+  SALARY_SERIES,
+} from "../core2/modules/office-day";
+import { PAID_LEAVE_PREMIUM } from "../core2/modules/laws";
+import { DEBT_LIMIT } from "../core2/budgets-treasury";
 import {
   billEnding,
   billJurisdiction,
@@ -77,6 +87,8 @@ import {
   memberKey,
 } from "../core2/modules/legislature";
 import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { governmentOfJurisdiction } from "../core2/modules/budgets";
+import { budgetInForce } from "../core2/budgets-treasury";
 import {
   ELECTIONS_MODULE_ID,
   petitionOf,
@@ -342,6 +354,12 @@ export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
     ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
+    // The amounts beside the law a body sets (pins family 16): each engine reads its row in force.
+    ...SALARY_SERIES,
+    TEACHER_FLOOR_AMOUNT,
+    PAID_LEAVE_PREMIUM,
+    ...LOCAL_SEAT_PAY_SERIES,
+    DEBT_LIMIT,
     ...Object.keys(POLICY_QUESTIONS),
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
@@ -1104,6 +1122,9 @@ export class DevMode {
     billId?: string;
     /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
     schedule?: boolean;
+    /** A budget bill: the body's own government's spending line it changes, by `deltaMinor` a year. */
+    line?: string;
+    deltaMinor?: number;
   }) {
     let provisions: Provision[];
     let sponsorId = input.sponsorId;
@@ -1119,6 +1140,27 @@ export class DevMode {
       sponsorId ??= roster.some((term) => memberKey(term) === shown.sponsorId)
         ? shown.sponsorId
         : memberKey(roster[0]!);
+    } else if (input.line) {
+      // A budget bill moves one line of the body's own government's budget
+      // in force, as a member's budget section does (legislature: the line
+      // is amended by the section's value the day the bill becomes law).
+      if (!sponsorId) throw new Error("A bill needs a sponsor.");
+      const delta = input.deltaMinor;
+      if (delta === undefined || !Number.isInteger(delta) || delta === 0)
+        throw new Error("A budget bill needs a whole change in cents.");
+      const gov = governmentOfJurisdiction(
+        this.api,
+        billJurisdiction(this.api, {
+          bodyOfficeId: input.bodyOfficeId,
+        } as BillRow),
+      );
+      const budget = gov ? budgetInForce(this.api, gov.id) : undefined;
+      const of = budget?.spendingMinor[input.line];
+      if (of === undefined)
+        throw new Error(`That body's budget has no line ${input.line}.`);
+      provisions = [
+        { kind: "budget-line", line: input.line, value: delta, of },
+      ];
     } else {
       const { series, value } = input;
       if (!series || !lawSeriesCatalog(this.api).includes(series))
@@ -2473,6 +2515,8 @@ export class DevMode {
         case: healthCase(core, personId),
       },
       drives: [...person.drives.values()],
+      // Each drive's own half-life (a grudge's follows its holder's traits).
+      heldDrives: heldDrivesOf(this.api, personId),
       relationships: [...(core.relationshipsByPerson.get(personId) ?? [])]
         .map((id) => core.relationships.get(id))
         .filter((row) => row !== undefined),
@@ -2487,6 +2531,19 @@ export class DevMode {
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
       laws: this.lawsOn(personId, person.householdId),
+      // What the person's day keeps back before their free time, and their
+      // home's week together: each from their own home and job (Pins 31).
+      reservedHours: {
+        hours: reserveHours(this.api, person),
+        ownUpkeep: ownUpkeep(this.api, person),
+        home: homeUpkeep(this.core, person.householdId),
+      },
+      homeTime: core.modules.get(PEOPLE_MODULE_ID)?.state
+        ? (this.api
+            .moduleState(PEOPLE_MODULE_ID)
+            .table("home-time")
+            .get(`home-time:${person.householdId}`) ?? null)
+        : null,
     };
   }
 

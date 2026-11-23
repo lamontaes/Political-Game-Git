@@ -258,7 +258,7 @@
     "kind": "partial-model",
     "file": "src/bench/whole-figures.ts",
     "line": 90,
-    "whatItFakes": "A person's origin narrows which of the pack's people draw them, by a hand-written table of skin-tone thirds per origin (src/bench/data/whole-figures.json originTones); the pack paints only three skin tones per sex, so a Hispanic, white or Asian person may share a tone.",
+    "whatItFakes": "A person's origin narrows which of the pack's people draw them, by a hand-written table of skin-tone thirds per origin (src/bench/data/whole-figures.json originTones); the bust bank paints six shades per sex and the full-body pack three, so skin tones fall into thirds, so a Hispanic, white or Asian person may share a tone.",
     "why": "The pack has six painted people; real variety in skin, hair and features needs the modular busts (CTO, Nov 7).",
     "addedBy": "Tiers (Nov 8)",
     "addedAt": "2026-11-08",

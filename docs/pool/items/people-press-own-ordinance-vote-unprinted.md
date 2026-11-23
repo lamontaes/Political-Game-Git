@@ -21,4 +21,4 @@ source: story/bring-up-ordinance, failing draw GOLDEN_PATH_SEED=c8d4012d006c5ddc
 
 **Done when.** In Raynham Center, Massachusetts at seed 906aa625 (GOLDEN_PATH_SEED=c8d4012d006c5ddc03f2), the 2025-01-28 vote on the player's property-tax ordinance has a printed story at the local outlets, and src/director/bring-up-ordinance.test.ts passes on that draw without skipping the candidate; the paper still prints no more than the outlet's weekly space.
 
-**Files.** src/core2/press-desk.ts, src/core2/data/press/parameters.json, src/director/bring-up-ordinance.test.ts
+**Files.** src/core2/press-desk.ts, src/core2/data/press/parameters.json

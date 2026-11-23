@@ -1308,7 +1308,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 15"
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
@@ -4207,7 +4207,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
@@ -5833,6 +5833,120 @@
         "Can we talk later?",
         "What's in it for my district?"
       ]
+    },
+    {
+      "id": "address-argues-not-announces",
+      "says": "An address argues its points: no promise to speak plainly, no \"now I'll go do it\", no law kept \"on the books\", no bare \"I intend to\", no past office said for its own sake. It says what the speaker will do and why.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "I'm thinking of the president's speech and how they all follow the very same format. This is this point, this percent up. I intend to do this, and for those people out there, I did not forget about you. Like, no, that's not how they go."
+        },
+        {
+          "date": "2026-11-16",
+          "words": "With Vice President Sandra Solomon here, I'll tell you plainly... what does that have to do with anything? And then I'll tell you plainly. I don't like that. Americans don't talk like that."
+        },
+        {
+          "date": "2026-11-16",
+          "words": "I came to this job from serving as governor. No, that's bad... before I was elected president, I was a governor... It needs to be more natural... what was the point in that?"
+        },
+        {
+          "date": "2026-11-16",
+          "words": "I've told you what I want done on more passenger rail, and now I'll go do it. All right, that's entirely unnatural."
+        },
+        {
+          "date": "2026-11-16",
+          "words": "I will keep collective bargaining for public workers on the books. Well, that's not her decision. And what do you mean on the books?"
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "note": "Story thread #9750, part 4, unit 2 (the addresses' line faults the owner named on Nov 14 and 16). The pieces it caught were deleted, not pulled; the keep-a-law asks were redrafted to say the veto or the fight. A past office comes back only where it does work for a point (unit 3).",
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "\\bplainly\\b",
+          "\\bnow I(?:'ll| will) go do it\\b",
+          "\\bon the books\\b",
+          "\\bI intend to\\b",
+          "\\bI came to this (?:job|office) from serving as\\b"
+        ]
+      },
+      "applies": {
+        "banks": ["opening-speech", "address", "speech-stages"]
+      },
+      "catches": [
+        "With the Vice President here, I'll tell you plainly: things are looking up.",
+        "I've told you what I want done on more passenger rail, and now I'll go do it.",
+        "I will keep collective bargaining for public workers on the books.",
+        "I intend to say what we will do about it.",
+        "I came to this job from serving as Governor, and I'm excited about what's next."
+      ],
+      "spares": [
+        "Collective bargaining for public workers stays, and I will veto any bill that would undo it.",
+        "Before I was President, I was governor of Delaware, and Delaware already does this."
+      ]
+    },
+    {
+      "id": "address-name-check-does-work",
+      "says": "A speech does not name someone only to say they are in the room (\"With Vice President X here,\"); a name said in a speech does work for the point it is in.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-16",
+          "words": "With Vice President Sandra Solomon here, I'll tell you plainly... what does that have to do with anything?"
+        }
+      ],
+      "note": "Story thread #9750, part 4: composed over whole addresses played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["name-check-does-work"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
+      }
+    },
+    {
+      "id": "address-close-names-the-body",
+      "says": "A speech's close names something the speech said: what is in front of the body, from the points made, never a bare \"That's the work in front of X\".",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-16",
+          "words": "That's the work in front of California... She didn't really say anything that's in front of it."
+        }
+      ],
+      "note": "Story thread #9750, part 4: composed over whole addresses played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["close-names-the-body"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
+      }
+    },
+    {
+      "id": "address-no-capital-after-comma",
+      "says": "Two sentences are never glued at a comma: a word that takes a capital only at a sentence's start is said lower case after a comma (\"..., don't look for my name\").",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-17",
+          "words": "...a permission slip to protect their family, Don't look for my name on any bill... (a capital after a comma: two sentences glued as one)",
+          "via": "Story lead's read of #9831"
+        }
+      ],
+      "note": "Story thread #9750, part 4: composed over whole texts played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line; the composer lowers the word (english-composition.ts SENTENCE_WORDS).",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-capital-after-comma"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
     }
   ]
 }
