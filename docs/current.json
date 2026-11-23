@@ -1705,6 +1705,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the first letter from a relative to stage as a scene so the repeat a month later could go to the journal; the letter scene has no lines since the cut, so it is not staged."
+    },
+    {
+      "old": "src/core2/world-races-no-district.test.ts",
+      "now": "src/core2/town-in-every-district.test.ts",
+      "when": "2026-11-17",
+      "why": "Its premise (a town the district files place in no district) cannot arise: every town sits in a district of each chamber its state has. The new test proves that and fails on a fixture where a town is dropped from the join."
     }
   ]
 }
