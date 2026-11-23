@@ -25,18 +25,23 @@ import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { firmCharged } from "../business-charges";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
 import { placeStateKey } from "../place-map";
-import { incomeBandOf } from "./residents";
+import { incomeBandOn } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
 import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
-import { lawApplied, type AppliedTarget } from "../law-reach/applied";
+import {
+  endAppliedBy,
+  lawApplied,
+  type AppliedTarget,
+} from "../law-reach/applied";
 import type {
   CoreAPI,
   CoreModule,
@@ -959,12 +964,12 @@ function settle(
     readonly target: AppliedTarget;
     readonly count?: number;
   },
-): void {
+): number {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
-  if (!outside) return;
+  if (!outside) return 0;
   // A sale with no seller in town stays where it was: nothing moves.
-  if (rule.kind === "sale" && !sellers.length) return;
+  if (rule.kind === "sale" && !sellers.length) return 0;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
@@ -1033,10 +1038,12 @@ function settle(
         reasonKey: "price",
         source: rule.source,
       });
-    return;
+    return 0;
   }
+  // What the account owner paid, less what came back: a business's books read it.
+  let net = 0;
   if (refund > 0)
-    transferCash(
+    net -= transferCash(
       api,
       `${sourceId}:refund`,
       outside,
@@ -1047,26 +1054,37 @@ function settle(
   if (pay > 0 && rule.kind === "sale") {
     const parts = splitBy(pay, sellers);
     sellers.forEach((seller, i) => {
-      if (parts[i]! > 0)
+      if (parts[i]! > 0) {
+        const paid = transferCash(
+          api,
+          `${sourceId}:pay:${seller.id}`,
+          accountOwnerId,
+          seller.id,
+          parts[i]!,
+          rule.source,
+        );
+        net += paid;
         saleReceipt(
           api,
           rule,
           `${sourceId}:pay:${seller.id}`,
           seller.id,
           [accountOwnerId],
-          transferCash(
-            api,
-            `${sourceId}:pay:${seller.id}`,
-            accountOwnerId,
-            seller.id,
-            parts[i]!,
-            rule.source,
-          ),
+          paid,
           false,
         );
+      }
     });
   } else if (pay > 0 && to !== accountOwnerId)
-    transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
+    net += transferCash(
+      api,
+      `${sourceId}:pay`,
+      accountOwnerId,
+      to,
+      pay,
+      rule.source,
+    );
+  return net;
 }
 
 /** The statutes the price engine prices, by policy question. */
@@ -1139,8 +1157,12 @@ function readPriceLaws(api: CoreAPI): void {
       // End only this statute's price, not a separately recorded service rule.
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
-      )
+      ) {
         endPlaceRule(api, placeId, rule.good, rule.kind, question);
+        // The price is no longer charged, so the law no longer reaches those
+        // it was charged to, even where a lower level still says yes.
+        endAppliedBy(api, question, PLACE_PRICES_MODULE_ID);
+      }
       return;
     }
     if (gap) api.stopgap(gap);
@@ -1293,6 +1315,30 @@ export function businessEnergyCostYear(
       : "pricesBusinessFuelShare",
   );
   return Math.round(annualOtherCostsMinor * share * row.value);
+}
+
+/**
+ * The share of a business's other operating costs the energy price laws in
+ * force today add to its bills: for each statute `readPriceLaws` would price,
+ * the business share of that fuel times the law's price change, the same rule
+ * the monthly settlement charges before the outcome web adjusts it.
+ */
+export function businessEnergyLawShare(api: CoreAPI): number {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return 0;
+  let share = 0;
+  for (const question of PRICE_LAW_QUESTIONS) {
+    const law = lawInForce(api, question);
+    if (law.value !== 1 || !law.governing) continue;
+    const row = energyPriceRule(api, question);
+    if (!row) continue;
+    share +=
+      api.parameter(
+        row.good === "electricity"
+          ? "pricesBusinessElectricityShare"
+          : "pricesBusinessFuelShare",
+      ) * row.value;
+  }
+  return share;
 }
 
 /**
@@ -1513,7 +1559,7 @@ function month(api: CoreAPI): void {
   // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
   const bands = new Map<string, ReturnType<typeof webUse>>();
   const useFor = (rule: Rule, payMonthlyMinor: number) => {
-    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const fifth = incomeBandOn(api, payMonthlyMinor * MONTHS);
     const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
     let use = bands.get(key);
     if (!use) {
@@ -1657,7 +1703,7 @@ function month(api: CoreAPI): void {
             share *
             webUse(api, rule, {}).rule.value) /
           MONTHS;
-        settle(
+        const paid = settle(
           api,
           `price:${rule.id}:${c.date}:${organizationId}`,
           rule,
@@ -1669,6 +1715,14 @@ function month(api: CoreAPI): void {
           undefined,
           [],
           { targetId: organizationId, target: "organization" },
+        );
+        const law = lawOf(rule);
+        firmCharged(
+          api,
+          organizationId,
+          "energy-laws",
+          paid,
+          law ? [law.lawId] : [],
         );
       }
   }

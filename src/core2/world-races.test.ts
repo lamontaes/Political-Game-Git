@@ -92,7 +92,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);
@@ -113,12 +113,19 @@ describe("M2-10 state and federal races in the world", () => {
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
       // Counted in its places: the share is the places' votes, and every
-      // race keeps each party's reasons.
+      // race keeps the reasons of each party that stood a nominee in it (a
+      // party stands one only where its chance covers the cost, so a seat
+      // one side cannot win is the other's uncontested; `partyFieldsNominee`).
       // The count is the one writer's result record, with its places and
       // the night's returns.
       const result = raceResult(api, r)!;
       expect(result, r.seatId).not.toBeNull();
-      expect(result.electorateReasons?.length).toBe(2);
+      const stood = Object.keys(result.totals).sort();
+      expect(stood.length, r.seatId).toBeGreaterThan(0);
+      expect(
+        (result.electorateReasons ?? []).map((c) => c.id).sort(),
+        r.seatId,
+      ).toEqual(stood);
       const votes = raceVotes(api, r);
       // A territory's delegate race is sized by its 2024 votes cast
       // (house-delegates-2024.json, votesCast) wherever one is on record;
@@ -255,7 +262,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);
@@ -326,7 +333,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);

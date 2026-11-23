@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-sew1gc
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 source: "Interview check thread, Nov 15, 2026, from the second reader's played file at Fairmont, Nebraska (seed s03)"
 root: none
 claimed-at:
+branch: claude/project-thread-sew1gc
 ---
 
 **What.** At Fairmont, Nebraska (seed s03), three TV stations interview the player for the village board on three days running. Each reporter "walks up to you on the street". A village that size is not news to a market's stations, and three reporters do not each happen upon the candidate in the street.
@@ -40,3 +41,5 @@ Creve Coeur, Illinois (seed pl5) shows the same class: four TV stations and two 
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/director/data/situation-types.json
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-sew1gc since 2026-11-15 19:13 UTC, more than twice its 4-hour time box. Continue on branch claude/project-thread-sew1gc.

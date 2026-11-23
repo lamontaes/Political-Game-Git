@@ -26,15 +26,19 @@ import { registerWorldMapPart } from "../snapshot";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { lawChain } from "./laws";
+import { lawChain, lawInForce } from "./laws";
 import { federalParameter } from "../office-day-federal";
 import { closenessBetween } from "../closeness";
 import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
+export { SALARY_SERIES } from "./official-pay";
+export { LOCAL_SEAT_PAY_SERIES } from "../office-day-pay";
 import { startPublicJob } from "../public-payroll";
-import { seatPay } from "../office-day-pay";
+import { chargeOfficeHours } from "./work";
+import { campaignParameter } from "../campaign-data";
+import { seatPay, localSeatPaySeries, seatPayRow } from "../office-day-pay";
 import {
   localOfficeKit,
   type OfficeActHost,
@@ -96,6 +100,7 @@ import {
 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { headsLocalExecutive } from "../offices-executives";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -320,6 +325,16 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
     Object.assign(handlers, kit.handlers ?? {});
   }
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
+  // The acts read their hours from the core's data, which is fixed when the
+  // core is made: a world that opens the office day is built on
+  // officeDayData, the one builder the played world uses.
+  const missing = officeActKits()
+    .flatMap((kit) => Object.keys(kit.parameters ?? {}))
+    .filter((key) => !(key in core.data.parameters));
+  if (missing.length)
+    throw new Error(
+      `The office day opened on a world built without officeDayData (missing ${missing.join(", ")}).`,
+    );
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
   table(api, "world").put({
@@ -398,7 +413,7 @@ export function openingActs(api: CoreAPI): void {
   const executives = [
     ...new Set(
       townSeats(api)
-        .filter((row) => ADDRESS_KINDS.has(row.office.kind))
+        .filter((row) => headsLocalExecutive(row.office.kind))
         .map((row) => row.holder?.personId)
         .filter((id): id is string => !!id && api.state.people.has(id)),
     ),
@@ -427,8 +442,6 @@ const OPENING_KINDS: readonly (readonly [string, string])[] = [
   ["office-hours", "officeHoursIntervalDays"],
   ["town-hall", "townHallIntervalDays"],
 ];
-/** The seats whose holder gives the yearly address (a mayor or county executive). */
-const ADDRESS_KINDS = new Set(["mayor", "county-executive"]);
 
 // ---- Stops -------------------------------------------------------------
 
@@ -1169,6 +1182,15 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
     castStatedOrAbstain(api, billId);
     voteItem(api, billId);
   }
+  // The player who sat through it as a member gave it the evening
+  // (office-hours-never-fill-an-officials-day).
+  if (row.playerPresent && row.audience === undefined)
+    chargeOfficeHours(
+      api,
+      playerOf(api)!,
+      campaignParameter("sittingHours"),
+      row.id,
+    );
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
@@ -1759,6 +1781,34 @@ export interface OfficeJobRow {
 
 const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
 
+/**
+ * The pay ordinance the town or county has in force for a local seat on a
+ * date, by the seat's pay row; none before a body enacts one, when the seat
+ * is paid its band's opening estimate.
+ * stopgapId: SG-LAWS-local-seat-pay-opening-band
+ */
+function enactedSeatPay(
+  api: CoreAPI,
+  officeKind: string,
+  date: string,
+): { annualMinor: number; citation: string } | null {
+  const row = seatPayRow(officeKind);
+  if (!row) return null;
+  const level = COUNTY_KINDS.has(officeKind) ? "county" : "city";
+  const law = lawInForce(api, localSeatPaySeries(row), date).levels.find(
+    (l) =>
+      l.level === level && typeof l.row?.value === "number" && l.row.value >= 0,
+  )?.row;
+  if (!law) {
+    api.stopgap("SG-LAWS-local-seat-pay-opening-band");
+    return null;
+  }
+  return {
+    annualMinor: Math.round(law.value! * 100),
+    citation: `${law.series}: the law in force, ${law.id}`,
+  };
+}
+
 /** Seat new local holders in their office job; end the job of a term that ended. */
 export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
@@ -1799,13 +1849,18 @@ export function reviewOfficeJobs(api: CoreAPI): void {
     const county = COUNTY_KINDS.has(office.kind);
     const payer = govs.find((g) => g.level === (county ? "county" : "city"));
     if (!payer) continue;
-    const pay = seatPay({
+    const band = seatPay({
       officeKind: office.kind,
       officeId: office.id,
       population: bodyPopulation(api, office.kind, countyGeoid),
       worldSeed: seed,
     });
-    if (!pay) continue;
+    if (!band) continue;
+    // The seat's pay ordinance in force, where the body has enacted one.
+    const pay = {
+      ...band,
+      ...(enactedSeatPay(api, office.kind, api.state.date) ?? {}),
+    };
     // A full-time seat is the holder's job, paid on the payroll like any
     // public post; a part-time holder keeps their own job.
     const jobId = pay.fullTime
@@ -1844,8 +1899,16 @@ export function reviewOfficeJobs(api: CoreAPI): void {
 function payStipends(api: CoreAPI): void {
   const today = api.state.date;
   for (const raw of table(api, "officeJobs").rows()) {
-    const row = raw as unknown as OfficeJobRow;
+    let row = raw as unknown as OfficeJobRow;
     if (row.jobId) continue;
+    // The stipend is the pay ordinance in force on the first day it pays for.
+    const kind = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").get(row.officeId) as
+        { kind?: string } | undefined
+    )?.kind;
+    const law = kind ? enactedSeatPay(api, kind, row.paidFrom) : null;
+    if (law && law.annualMinor !== row.annualMinor)
+      row = { ...row, annualMinor: law.annualMinor, citation: law.citation };
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.round(
       (Date.parse(`${through}T00:00:00Z`) -
@@ -1968,6 +2031,8 @@ export {
   actOn,
   appointGovernor,
   doEntry,
+  seatCoveringTown,
+  seatPlayerInStateOffice,
   stopKindOf,
   waitingEntries,
 } from "../office-day-state";

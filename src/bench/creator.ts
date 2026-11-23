@@ -14,10 +14,13 @@ import {
 import { governmentUnitsForPlace } from "../core2/reference/government-units";
 import { placeCountyGeoids, placeStateKey } from "../core2/place-map";
 import { originForChosen } from "./whole-figures";
+import { PLAYER_MIN_AGE } from "./world";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
+import { SeededRng } from "../core2/kernel/rng";
+import { generatePersonIdentity } from "../core2/gov-rules/person-identity";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 import { selectBenchPlace } from "./place-selection.mjs";
 
@@ -28,8 +31,11 @@ import { selectBenchPlace } from "./place-selection.mjs";
  */
 export const GENDERS = ["female", "male", "nonbinary"] as const;
 export type CreatorGender = (typeof GENDERS)[number];
-/** The ages a life can begin at on the new core: the opening is the year before 18. */
-export const CREATOR_MIN_AGE = 17;
+/**
+ * The youngest a life can begin at (owner, Nov 16: "Just do 18 and up right now. Life before 18
+ * will come after early access."; world.ts `PLAYER_MIN_AGE`).
+ */
+export const CREATOR_MIN_AGE = PLAYER_MIN_AGE;
 /** The old creator's upper bound (MAXIMUM_START_AGE). */
 export const CREATOR_MAX_AGE = 70;
 
@@ -50,6 +56,39 @@ export function drawName(seed: string, draw: number, gender?: string) {
       corpus.familyNames[
         hash(`${seed}:family:${draw}`) % corpus.familyNames.length
       ]!,
+  };
+}
+
+/**
+ * The gender Random gives a whole character: drawn by the generator the world
+ * uses for every person it invents (`generatePersonIdentity`, with its
+ * published weights), on the visit's seed and draw, so Random makes the same
+ * kind of person the world does and adds no pick of its own.
+ */
+export function drawGender(seed: string, draw: number): CreatorGender {
+  const { gender } = generatePersonIdentity(
+    new SeededRng(`${seed}:gender:${draw}`),
+  );
+  return gender === "unstated" ? "nonbinary" : gender;
+}
+
+/**
+ * The whole character Random draws (owner, Nov 17: "you should be able to
+ * randomize an entire character"): a gender, a name for it, a birthday, a
+ * place from all 56. The look is drawn by the page's next request for the
+ * gender's appearance, on the same seed and draw.
+ */
+export function drawCharacter(seed: string, draw: number) {
+  const gender = drawGender(seed, draw);
+  const birthday = drawBirthday(seed, draw);
+  return {
+    gender,
+    name: drawName(seed, draw, gender),
+    birthday: {
+      ...birthday,
+      age: ageAtStart(birthday.year, birthday.month, birthday.day),
+    },
+    place: creatorRandomPlace(seed, draw),
   };
 }
 
@@ -86,9 +125,7 @@ export function drawBirthday(seed: string, draw: number) {
   const month = 1 + (hash(`${seed}:month:${draw}`) % 12);
   const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
   const day = 1 + (hash(`${seed}:day:${draw}`) % length);
-  const years = birthYears(month, day).filter(
-    (row) => ageAtStart(row.year, month, day) >= 18,
-  );
+  const years = birthYears(month, day);
   const { year } = years[hash(`${seed}:year:${draw}`) % years.length]!;
   return { year, month, day };
 }
@@ -312,10 +349,19 @@ export function applyChosenPerson(
         placeStateKey(core.placeMetadata?.placeKey ?? "") ?? "",
       )
     : undefined;
+  // The chosen birthday moves the player's birthday only within their own age: a stand-in of
+  // another age (a town with nobody the chosen age, `entrantBornNear`) keeps the birth date their
+  // life was drawn for, so a partner, children or school never meet an age they do not fit.
+  const before = core.people.get(id)?.birthDate;
+  const startAge = (born: string) =>
+    ageOnDate(makeIsoDate(born), makeIsoDate(gameStartDate()));
+  const sameAge =
+    before === undefined ||
+    startAge(before) === startAge(chosenBirthDate(chosen));
   coreAPI(core).chooseIdentityV1(id, {
     givenName: chosen.givenName,
     familyName: chosen.familyName,
-    birthDate: chosenBirthDate(chosen),
+    birthDate: sameAge ? chosenBirthDate(chosen) : makeIsoDate(before!),
     looks: {
       gender: chosen.gender,
       ...(chosen.recipe ? { recipe: JSON.stringify(chosen.recipe) } : {}),

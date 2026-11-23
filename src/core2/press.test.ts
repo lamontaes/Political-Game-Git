@@ -47,6 +47,7 @@ import type { ModuleRow } from "./module-data";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -101,7 +102,7 @@ describe("campaign interviews", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -121,15 +122,12 @@ describe("campaign interviews", () => {
           expect(town, where).toContain(id);
       // The candidates are the town's own adults: the world also keeps
       // relatives who live in other states, and the clerk turns them away.
-      const adults = town
-        .map((id) => core.people.get(id)!)
-        .filter(
-          (p) =>
-            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const townIds = new Set(town);
+      const adults = townResidentsByCash(core, api).filter(
+        (p) =>
+          townIds.has(p.id) &&
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+      );
       const platformA = [
         `${pick(PLATFORM_QUESTIONS, "q1")}=1`,
         `${pick(PLATFORM_QUESTIONS, "q2")}=-1`,
@@ -354,7 +352,7 @@ describe("a reporter who runs", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -428,7 +426,7 @@ describe("interviews with state and federal candidates", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);

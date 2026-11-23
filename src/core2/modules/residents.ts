@@ -16,7 +16,6 @@ import {
   unplacedPoolOf,
 } from "../residents";
 import {
-  depositsHeld,
   drawSavingsToCover,
   transfer,
   transferSplit,
@@ -70,10 +69,14 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
-import { incomeBandOf } from "../counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+  wageIndexToday,
+} from "../counted-income-fifth";
 import { parameter } from "../parameters";
 
-export { incomeBandOf };
+export { incomeBandOf, incomeBandOn };
 /** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -98,6 +101,7 @@ import {
   fundGroups,
   HOUSING_KINDS,
   fundBalance,
+  countedDeposits,
   fundOf,
   moveShare,
   payGroups,
@@ -113,6 +117,9 @@ export const DAYS_PER_YEAR = 365;
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
+// A counted household's share of its group's bank savings, its opening savings draw and its group's account, for dev mode's money panel.
+export { countedDeposits, fundOf } from "../counted-money";
+export { householdBalanceDraw } from "../household-balance-draw";
 // The counted jobs of an employer, for engines outside this family (the patrol-hours record).
 export { countedJobHeads, countedJobsOf };
 
@@ -234,6 +241,8 @@ export interface ResidentsRuntime {
     {
       group: number;
       amount: number;
+      /** Its share of its group's bank savings (`countedDeposits`), paid to its people on release. */
+      deposits: number;
       unplaced: number;
       weight: number;
       /** Its share of its group's living-cost arrears, owed on its own flow once it is a full household. */
@@ -277,6 +286,8 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+/** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
+const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
 registerSnapshotPart("core2-residents", {
   save: (core) => {
@@ -306,7 +317,7 @@ registerSnapshotPart("core2-residents", {
       "store" | "households" | "householdOfPerson"
     > & { store: unknown; moneySerial?: number };
     const store = decodeStore(saved.store);
-    runtimes.set(core, {
+    const restored: ResidentsRuntime = {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: moneySerial ?? 0 },
@@ -317,7 +328,9 @@ registerSnapshotPart("core2-residents", {
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
-    });
+    };
+    runtimes.set(core, restored);
+    coreOfRuntime.set(restored, core);
   },
 });
 
@@ -377,7 +390,19 @@ function householdKeys(
   return out;
 }
 
-/** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
+/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
+type AssistanceReader = (core: CoreState, householdId: string) => number;
+let assistanceReader: AssistanceReader | undefined;
+export function setAssistanceReader(reader: AssistanceReader): void {
+  assistanceReader = reader;
+}
+
+function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
+  const core = coreOfRuntime.get(rt);
+  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+}
+
+/** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
 export function householdIncome(
   rt: ResidentsRuntime,
   h: CountedHousehold,
@@ -385,7 +410,8 @@ export function householdIncome(
   return (
     h.wagesMinorYear +
     h.retirementMinorYear +
-    h.unplacedWorkers * unplacedPayPerWorker(rt, h)
+    h.unplacedWorkers * unplacedPayPerWorker(rt, h) +
+    assistanceYear(rt, h.id)
   );
 }
 
@@ -463,7 +489,10 @@ export function groupKeyOf(
     placeId: h.placeId,
     district: h.district ?? "town",
     kind,
-    incomeBand: incomeBandOf(householdIncome(rt, h)),
+    incomeBand: incomeBandOf(
+      householdIncome(rt, h),
+      rt.api ? wageIndexToday(rt.api) : 1,
+    ),
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,
@@ -478,14 +507,35 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  // Its claim on the old group's money, and all the claims there, before it leaves.
+  const key = groupKeyOf(rt, h, date);
+  // Its claim on the old group's money, and all the claims there, before it
+  // leaves. The old group's claims are read only when the household leaves
+  // it: most regroups keep the household where it is (a share of away work
+  // lost each month).
+  const leaving = before >= 0 && rt.store.group(key).index !== before;
   const claim = rt.api ? savingClaim(rt, h) : 0;
-  const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
-  rt.store.regroup(h, groupKeyOf(rt, h, date));
+  const groupBefore = rt.api && leaving ? claimsInGroup(rt, before) : 0;
+  // And its share of the old group's bank savings, for every household of the record.
+  const banked =
+    rt.api && leaving
+      ? countedDeposits(rt.api, rt, h, rt.store.weightedCount(h))
+      : 0;
+  rt.store.regroup(h, key);
   if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
-  if (rt.api && before !== h.group)
+  if (rt.api && before !== h.group) {
     moveShare(rt.api, rt, before, h.group, claim, groupBefore);
+    // Its savings leave the old group's deposits for the new group's account,
+    // whose next bank review banks them with the rest of its savings.
+    if (banked > 0)
+      withdrawSavings(rt.api.state as CoreState, rt.api, {
+        id: `counted-regroup-savings:${h.id}:${date}:${rt.moneyCache.serial++}`,
+        holderId: fundOf(rt.api, rt, before),
+        customerAccountId: fundOf(rt.api, rt, h.group),
+        amountMinor: banked,
+        source: rt.input.source,
+      });
+  }
   // A group left with no people owes nothing: its creditors write it off.
   if (before >= 0 && before !== h.group)
     writeOffEmptyGroup(rt, before, h.placeId);
@@ -937,6 +987,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     schedule(rt, flow);
   }
   runtimes.set(core, rt);
+  coreOfRuntime.set(rt, core);
 }
 
 /** Cash an owner can spend now: its cash less amounts set aside in other funds. */
@@ -1193,8 +1244,7 @@ function settle(
     if (flow.kind === "purchase") shiftToOpenSellers(core, rt, flow);
     return end(flow, date, "payee-closed");
   }
-  let base = flow.amountMinor;
-  if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
+  let base = indexedFlowPay(core, flow, flow.amountMinor);
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -2179,17 +2229,16 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
-    // Its bank savings were banked for every household the record stood
-    // for: the one filled in keeps its own share, and the rest go back to
-    // its group, which still stands for the others.
-    const held = depositsHeld(core, householdId);
-    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
-    if (others > 0)
+    // Its share of its group's bank savings comes out to its people, as its
+    // share of the group's cash did; the rest stay banked for the households
+    // the group still stands for. Its own bank review banks them again.
+    const saver = record.people.find((row) => core.people.has(row.id));
+    if (cash.deposits > 0 && saver)
       withdrawSavings(core, rt.api, {
         id: `fill-in:${householdId}:${sequence}:deposits`,
-        holderId: householdId,
-        customerAccountId: fundOf(rt.api, rt, cash.group),
-        amountMinor: others,
+        holderId: fundOf(rt.api, rt, cash.group),
+        customerAccountId: rt.api.accounts().main(saver.id),
+        amountMinor: cash.deposits,
         source: rt.input.source,
       });
   }
@@ -2213,12 +2262,13 @@ export function releaseResidentHousehold(
       return age >= from && age < below;
     });
     if (unplaced && worker) {
-      const amount = Math.round(unplaced.amountMinor * cash.unplaced);
+      const share = Math.round(unplaced.amountMinor * cash.unplaced);
+      const amount = indexedFlowPay(core, unplaced, share);
       if (
         amount > 0 &&
         startCommuterJob(core, rt, worker.id, unplaced, amount)
       ) {
-        unplaced.amountMinor -= amount;
+        unplaced.amountMinor -= share;
       }
     }
   }
@@ -2325,6 +2375,7 @@ export function takeResidentHousehold(
   rt.fillInCash.set(h.id, {
     group: h.group,
     amount: householdCash(rt, h),
+    deposits: rt.api ? countedDeposits(rt.api, rt, h) : 0,
     unplaced: unplacedShare(rt, h),
     weight: store.weightOf(h),
     arrears,
@@ -2365,23 +2416,9 @@ export function keepOneCountedHousehold(
   const rt = runtimes.get(core);
   const weight = rt?.store.weightOf(h) ?? 1;
   if (!rt || h.gone || weight === 1) return;
+  // Its bank savings are its group's (`countedDeposits`): the households it
+  // no longer stands for keep their part of them through the group's claims.
   releaseToOne(core, rt, h);
-  // Its bank savings were banked for every household the record stood for:
-  // the one removed keeps its own share, and the rest go back to its group,
-  // which still stands for the others (as at fill-in).
-  if (rt.api && rt.funded) {
-    const others = Math.floor(
-      (depositsHeld(core, h.id) * (weight - 1)) / weight,
-    );
-    if (others > 0)
-      withdrawSavings(core, rt.api, {
-        id: `kept-one:${h.id}:${core.date}:deposits`,
-        holderId: h.id,
-        customerAccountId: fundOf(rt.api, rt, h.group),
-        amountMinor: others,
-        source: rt.input.source,
-      });
-  }
   delete h.weight;
   const members = new Set(rt.store.memberIdsOf(h));
   for (const job of rt.jobs.values())
@@ -2506,6 +2543,17 @@ function payLevel(core: CoreState, placeId: string): number {
   for (const row of conditions)
     if (row.at <= core.date) factor = row.wagePriceFactor;
   return factor;
+}
+
+/** Converts a wage flow's stored amount into the pay due today. */
+function indexedFlowPay(
+  core: CoreState,
+  flow: FlowState,
+  amount: number,
+): number {
+  return flow.payIndexed
+    ? Math.round(amount * payLevel(core, flow.placeId))
+    : amount;
 }
 
 export function residentWageShortfall(
@@ -2653,7 +2701,11 @@ export function residentsPart(
   for (const job of core.jobs.values())
     if (job.endsAt === undefined && !fullJob.has(job.personId))
       fullJob.set(job.personId, job.organizationId);
-  const heads = new Map<string, { band: number; heads: number }>();
+  // `looking`: how many of the people a counted member stands for can be looking at once.
+  const heads = new Map<
+    string,
+    { band: number; heads: number; looking?: { left: number } }
+  >();
   for (const person of core.people.values()) {
     // A demoted person is counted again: their group counts them.
     if (!person.alive || isDemoted(person) || !placeIds.has(person.placeId))
@@ -2685,6 +2737,11 @@ export function residentsPart(
       }
       const open: number[] = [];
       const adults: number[] = [];
+      // Its members a county employer names, by band and the employer's sector.
+      const named: { band: number; sector: string }[] = [];
+      // Shared by the household's members: the people of the households it stands for who are
+      // without work, set below once its members are read.
+      const looking = { left: weight };
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         const full = core.people.get(id);
@@ -2696,21 +2753,43 @@ export function residentsPart(
           part.adults[band]! += weight;
           adults.push(band);
         }
-        heads.set(id, { band, heads: weight });
+        const standsFor = { band, heads: weight, looking };
+        heads.set(id, standsFor);
         const job = best.get(id);
         // A county sample worker's employer is its household's record of the county's employment.
         const county = h.employment?.find((row) => row.personId === id);
         // A counted job's heads can exceed the household's weight (a hire stands for the
         // position's heads): the member is at work for no more people than they stand for.
         if (job) atWork(band, job.employer, Math.min(job.heads, weight));
-        else if (county)
-          atWork(band, county.sector, weight, part.workersByIndustry);
+        else if (county && band >= 0)
+          named.push({ band, sector: county.sector });
         else if (band >= 0 && age >= from && age < below) open.push(band);
       }
-      // Its workers outside a recorded employer are its working-age members without a job, shared alike.
-      const unplaced = h.unplacedWorkers * weight;
+      // Its workers outside a recorded employer (`unplacedWorkers`, the count the world moves:
+      // regional work found, away work lost, a member past working age) are its members
+      // without a recorded job. The ones a county employer names are those same workers, and
+      // the name says which sector they work in: they take the household's unplaced workers
+      // first, one each, and what is left is shared alike by its other working-age members.
+      // (Counting the named beside the unplaced put every working-age adult of a sampled
+      // county at work.)
+      let left = h.unplacedWorkers;
+      for (const row of named) {
+        const share = Math.min(1, left);
+        if (share <= 0) break;
+        atWork(row.band, row.sector, share * weight, part.workersByIndustry);
+        left -= share;
+      }
       const among = open.length ? open : adults;
-      for (const band of among) unplacedPool[band]! += unplaced / among.length;
+      for (const band of among)
+        unplacedPool[band]! += (left * weight) / among.length;
+      // A record that stands for many households loses away work a part of a worker at a time
+      // (half a worker in each of 2,380 households is 1,190 people), and the member the jobs
+      // engine then has looking stands for the people who lost it, not for every household of
+      // the record: no more than its members without work, and never less than the one person.
+      looking.left = Math.max(
+        1,
+        weight * Math.max(0, named.length + open.length - h.unplacedWorkers),
+      );
     }
     // A band holds no more workers than it has adults: the unplaced share fills only what its
     // recorded jobs leave of them.
@@ -2737,7 +2816,11 @@ export function residentsPart(
         if (row.employed || !who || who.band < 0 || looked.has(row.personId))
           continue;
         looked.add(row.personId);
-        part.seekers[who.band]! += who.heads;
+        const looking = who.looking
+          ? Math.min(who.heads, who.looking.left)
+          : who.heads;
+        if (who.looking) who.looking.left -= looking;
+        part.seekers[who.band]! += looking;
       }
   }
   return part;
@@ -4222,7 +4305,14 @@ export function returnCommuterPay(
       !flow.quarters === !h.quarters,
   );
   if (!base) return;
-  base.amountMinor += amountMinor;
+  // A named job pays in current dollars. The pool stores its opening basis.
+  let pooledAmount = amountMinor;
+  if (base.payIndexed) {
+    const level = payLevel(core, base.placeId);
+    if (!(level > 0)) return;
+    pooledAmount = Math.round(amountMinor / level);
+  }
+  base.amountMinor += pooledAmount;
   // As many of the place's unplaced workers as the pay it brings back, at
   // the place's pay per unplaced worker (the rate a counted household's
   // income reads). A share of the other counted households' workers came to
@@ -4232,7 +4322,7 @@ export function returnCommuterPay(
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
   const perWorker = unplacedPayPerWorkerBase(rt, h);
-  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
+  h.unplacedWorkers = perWorker > 0 ? (pooledAmount * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }
 
@@ -4270,6 +4360,9 @@ export function rerateCountedRetirement(
   const rt = runtimes.get(core);
   if (!rt || !(level > 0)) return [];
   const changed: { flowId: string; fromMinor: number; toMinor: number }[] = [];
+  // Each award a pooled flow pays is a counted household's own income row:
+  // the same ratio moves it, so the household's income follows the line.
+  const byContract = new Map<string, number>();
   for (const flow of rt.flows.values()) {
     if (flow.kind !== "retirement" || flow.endedAt) continue;
     const ratio = level / (rt.retirementLevel.get(flow.id) ?? 1);
@@ -4282,12 +4375,27 @@ export function rerateCountedRetirement(
       for (const [id, amount] of Object.entries(flow.amountByContract)) {
         amounts[id] = Math.round(amount * ratio);
         total += amounts[id];
+        byContract.set(id, ratio);
       }
       flow.amountByContract = amounts;
       flow.amountMinor = total;
     } else flow.amountMinor = Math.round(flow.amountMinor * ratio);
     changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
   }
+  if (byContract.size)
+    for (const h of rt.store.liveHouseholds()) {
+      if (!h.incomeContracts.some((row) => byContract.has(row.id))) continue;
+      h.incomeContracts = h.incomeContracts.map((row) => {
+        const ratio = byContract.get(row.id);
+        return ratio === undefined
+          ? row
+          : { ...row, amountMinor: Math.round(row.amountMinor * ratio) };
+      });
+      h.retirementMinorYear = h.incomeContracts.reduce(
+        (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
+        0,
+      );
+    }
   return changed;
 }
 

@@ -1,5 +1,5 @@
 {
-  "about": "One engine per mechanic: every source file belongs to one engine family, and a file of one family reaches another family only through that family's entry files (its src/core2/modules file, or the folder's index). Paths are globs from the repository root; ** crosses folders, * does not. shared is the kernel every family may import. .github/CODEOWNERS is written from this file (scripts/guards/codeowners.ts). The guard is tests/guards/families.test.ts; docs/design/guards.md explains it.",
+  "about": "One engine per mechanic: every source file belongs to one engine family, and a file of one family reaches another family only through that family's entry files (its src/core2/modules file, or the folder's index). Paths are globs from the repository root; ** crosses folders, * does not. shared is the kernel every family may import. .github/CODEOWNERS is written from this file (scripts/guards/codeowners.ts); protected lists the instructions, workflows, guards and baselines the owner reviews, which are not a family. The guard is tests/guards/families.test.ts; docs/design/guards.md explains it.",
   "owner": "@lamontaes",
   "shared": [
     "src/core2/kernel/**",
@@ -15,6 +15,7 @@
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",
     "src/core2/world-base-rates.ts",
+    "src/core2/scene-replies.ts",
     "src/core2/shares.ts",
     "src/core2/world-draw.ts",
     "src/core2/union-rate.ts",
@@ -32,6 +33,10 @@
     "src/core2/bug-report.ts",
     "src/core2/gov-test-report.ts",
     "src/core2/law-test-start.ts",
+    "src/core2/resident-adults-test-kit.ts",
+    "src/core2/record-test-kit.ts",
+    "src/core2/campaign-incumbent-response-test-kit.ts",
+    "src/core2/counted-moves-balance-kit.ts",
     "src/core2/free-block.ts",
     "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",
@@ -43,6 +48,21 @@
     "src/core2/gov-rules/person-identity.ts",
     "src/core2/government-level.ts",
     "src/core2/fee-levels.ts"
+  ],
+  "protected": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".agents/**",
+    ".claude/**",
+    ".github/workflows/**",
+    ".github/CODEOWNERS",
+    "tests/guards/**",
+    "scripts/guards/**",
+    "tests/**/*baseline*.json",
+    "scripts/**/*baseline*.json",
+    "data/runtime-text/**/*baseline*.json",
+    "tests/**/*ceiling*.json",
+    "scripts/**/*ceiling*.json"
   ],
   "families": [
     {
@@ -56,7 +76,8 @@
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
-        "src/core2/filing-rule-office.ts"
+        "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -65,6 +86,7 @@
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
         "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
@@ -81,6 +103,8 @@
         "src/core2/electorate*.ts",
         "src/core2/legislative-district-results.ts",
         "src/core2/race-places.ts",
+        "src/core2/place-leans.ts",
+        "src/core2/voting-module-id.ts",
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
@@ -122,7 +146,8 @@
         "src/core2/modules/president-acts.ts",
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
-        "src/core2/government-proper-name.ts"
+        "src/core2/government-proper-name.ts",
+        "src/core2/offices-executives.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -291,6 +316,7 @@
         "src/core2/modules/life.ts",
         "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
+        "src/core2/modules/coverage.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
         "src/core2/modules/views.ts",
@@ -306,7 +332,9 @@
         "src/core2/modules/moves.ts",
         "src/core2/person-work.ts",
         "src/core2/home-distance.ts",
-        "src/core2/life-stake-rule.ts"
+        "src/core2/life-stake-rule.ts",
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -403,7 +431,9 @@
         "src/core2/household-cost.ts",
         "src/core2/life-plan-readers.ts",
         "src/core2/life-stake-rule.ts",
-        "src/core2/life-stakes.ts"
+        "src/core2/life-stakes.ts",
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ]
     },
     {

@@ -44,7 +44,12 @@ import {
   recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
-import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  socialSecurityAges,
+  minimumHourlyAt,
+} from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -1086,6 +1091,14 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     unemploymentReads.set(c, (cache = { date: c.date, byPlace: new Map() }));
   const known = cache.byPlace.get(placeId);
   if (known !== undefined) return known;
+  const gap = readUnemploymentGap(api, placeId);
+  cache.byPlace.set(placeId, gap);
+  return gap;
+}
+
+/** The gap read fresh from the macro engine's latest month row. */
+export function readUnemploymentGap(api: CoreAPI, placeId: string): number {
+  const c = core(api);
   let gap = 0;
   const macro = c.modules.has("macro")
     ? (api.moduleState("macro").table("state").get("macro:state") as
@@ -1095,19 +1108,19 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     const regional = c.modules.has("regional")
       ? regionalMonth(api, placeId, macro.latestMonth)
       : undefined;
-    const rate =
-      regional?.unemploymentPct ??
-      (
-        api
-          .moduleState("macro")
-          .table("months")
-          .get(`macro-month:${macro.latestMonth}`) as
-          { unemploymentPct: number } | undefined
-      )?.unemploymentPct;
+    const month = api
+      .moduleState("macro")
+      .table("months")
+      .get(`macro-month:${macro.latestMonth}`) as
+      { unemploymentPct: number; naturalUnemploymentPct?: number } | undefined;
+    const rate = regional?.unemploymentPct ?? month?.unemploymentPct;
+    // Against the world's own normal rate, which drifts with the unemployment it has lived at (the macro engine's month row), never a published 4.5%.
     if (rate !== undefined)
-      gap = rate - api.parameter("macroNaturalUnemploymentPct");
+      gap =
+        rate -
+        (month?.naturalUnemploymentPct ??
+          api.parameter("macroNaturalUnemploymentPct"));
   }
-  cache.byPlace.set(placeId, gap);
   return gap;
 }
 
@@ -1474,9 +1487,9 @@ export function raiseUnfilledPay(
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
-  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review. The trading month's costs already hold all three.
+  // What the last month left after every operating cost (wages, purchases, outside costs, compliance, payroll and premises taxes, energy law charges, premiums), in a month's days, less raises already given this review. The trading month's costs already hold them all.
   let room = (trading.salesMinor - trading.costsMinor) * perMonth;
-  // What one head's seat can carry in a month: sales less purchases and compliance (the costs less the wages they hold), shared across the heads.
+  // What one head's seat can carry in a month: sales less every operating cost but wages (the costs less the wages they hold), shared across the heads.
   const carriesMonthly =
     ((trading.salesMinor - trading.costsMinor + trading.payrollMinor) *
       perMonth) /
@@ -2021,6 +2034,24 @@ export function tenureYears(api: CoreAPI, job: JobInput): number {
   );
 }
 
+/**
+ * The owner who decides for a business today: its recorded owner, unless that
+ * person has died. Until the estate settles the business
+ * (`world-estate-settles-loans-and-businesses`), the owners table can still
+ * name the dead, and a dead owner decides nothing: the decision falls to whoever
+ * the caller names next (Washington, District of Columbia, seed 23bc2900…c7289:
+ * a layoff on July 1 named an owner who died on June 2).
+ */
+function decidingOwnerOf(
+  api: CoreAPI,
+  organizationId: string,
+): string | undefined {
+  const owner = ownerOf(api, organizationId);
+  return owner && core(api).people.get(owner)?.alive === false
+    ? undefined
+    : owner;
+}
+
 /** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
 function managerOf(
   c: CoreState,
@@ -2130,7 +2161,7 @@ export function layOff(
       kind: "staff-shed",
       reasonKey,
       decidedBy:
-        ownerOf(api, organizationId) ??
+        decidingOwnerOf(api, organizationId) ??
         managerOf(c, staff, job) ??
         organizationId,
       values: {
@@ -2160,7 +2191,8 @@ export function layOff(
   // The owner decides; a firm with no recorded owner is run by its best-paid
   // full worker still on the staff, ties by id. Only a firm with no one left
   // to decide it lets go of its last worker as itself (it is closing).
-  const decidedBy = ownerOf(api, organizationId) ?? managerOf(c, staff, job);
+  const decidedBy =
+    decidingOwnerOf(api, organizationId) ?? managerOf(c, staff, job);
   record(api, {
     personId: job.personId,
     organizationId,
@@ -2990,7 +3022,7 @@ function hireRegional(
         occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
-        undefined,
+        minimumHourlyAt(api, seeker.placeId),
         c.seed,
       )
     : null;
@@ -3267,7 +3299,8 @@ function raisePay(api: CoreAPI): void {
         jobId: job.id,
         personId: job.personId,
         organizationId: job.organizationId,
-        decidedBy: ownerOf(api, job.organizationId) ?? job.organizationId,
+        decidedBy:
+          decidingOwnerOf(api, job.organizationId) ?? job.organizationId,
         heads: headsOf(c, job),
         counted: !c.jobs.has(job.id),
         values: {
@@ -3347,9 +3380,11 @@ export function reviewJobless(api: CoreAPI, opening = false): void {
     // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
     // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
     if (!twoLevel && !worked.has(person.id)) continue;
+    // Working age bounds who starts looking; someone already looking who has
+    // passed it is weighed again, as a counted seeker is.
     const age =
       daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
-    if (age < young || age >= old) continue;
+    if (!seeking && (age < young || age >= old)) continue;
     const enter = participationShift(
       api,
       person.placeId,
@@ -3586,6 +3621,14 @@ function runWeek(api: CoreAPI): void {
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
+  // The player's applications stand while their opening does: one for a filled or withdrawn opening is dropped.
+  const applied = store(api).table("playerApplications");
+  for (const row of applied.rows()) {
+    const held = store(api)
+      .table("positions")
+      .get(row.id as string) as PositionRow | undefined;
+    if (held?.status !== "open") applied.remove(row.id as string);
+  }
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
     if (outOfCivilianWork(api, seeker.personId)) return;
@@ -3652,9 +3695,16 @@ function runWeek(api: CoreAPI): void {
   // considered for every opening near them; an employer that picks them makes
   // an offer, and the player answers it.
   const player = openToOffers(api);
+  // Only where someone at the employer knows them (owner, Oct 27: an offer
+  // comes through a person; Nov 16: "I didn't even apply for one"): a person
+  // the player knows or is kin to, on that employer's staff, speaks for them.
   if (player)
     for (const position of byPlace.get(player.placeId) ?? [])
-      apply(position.id, player);
+      if (
+        speaksForPlayer(api, position.organizationId, player.personId) ||
+        store(api).table("playerApplications").get(position.id)
+      )
+        apply(position.id, player);
   // Counted seekers apply by the same rule as full people, each record for the household it stands for.
   const counted = store(api)
     .table("countedSeekers")
@@ -4264,7 +4314,8 @@ function hireCounted(
     jobId,
     kind: "hire",
     reasonKey: jobsData.reasons.hired,
-    decidedBy: ownerOf(api, position.organizationId) ?? position.organizationId,
+    decidedBy:
+      decidingOwnerOf(api, position.organizationId) ?? position.organizationId,
     values: {
       fit,
       referral: referralStanding(api, seeker.personId),
@@ -4632,14 +4683,17 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
       const personId = counted.ids[m]!;
       if (working.has(personId) || abroad.has(personId) || away.has(m))
         continue;
+      const seeking = seekers.get(personId) as SeekerRow | undefined;
+      // Working age bounds who starts looking; someone already looking who
+      // has passed it is weighed again like everyone looking, or their search
+      // would stay open with no review ever ending it.
       const age = ageOf(m);
-      if (age < young || age >= old) continue;
+      if (!seeking && (age < young || age >= old)) continue;
       // The custody query after the age test, so children and retirees skip it.
       if (inCustody(api, personId)) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
       days ??= countedDaysOfMoney(rt, h, cashOf);
-      const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
         offer("look", personId, {
@@ -4875,6 +4929,35 @@ function hiringPerson(
 }
 
 /**
+ * The full person on an employer's staff whom the applicant knows or is kin to
+ * (closest by longest tenure, ties by id): the one who puts their name
+ * forward, so an offer always has a cause the applicant can name. Null when
+ * nobody there knows them.
+ */
+function speaksForPlayer(
+  api: CoreAPI,
+  organizationId: string,
+  applicantId: string,
+): string | null {
+  const c = core(api),
+    applicant = c.people.get(applicantId);
+  if (!applicant) return null;
+  const staff = fullJobs(api, organizationId)
+    .filter((job) => job.personId !== applicantId)
+    .filter((job) => {
+      const who = c.people.get(job.personId)!;
+      return (
+        who.alive &&
+        !isDemoted(who) &&
+        (applicant.knownIds.has(who.id) || applicant.familyIds.has(who.id))
+      );
+    })
+    .map((job) => ({ job, years: tenureYears(api, job) }))
+    .sort((a, b) => b.years - a.years || a.job.id.localeCompare(b.job.id));
+  return staff[0]?.job.personId ?? null;
+}
+
+/**
  * The person the player controls as an applicant this week: out of work, of
  * working age, at home in town, with no offer waiting on them. They decide
  * nothing by applying; an offer is the employer's act.
@@ -4981,7 +5064,9 @@ function offerToPlayer(
   const c = core(api);
   const id = `job-offer:${position.id}:${personId}`;
   if (store(api).table("offers").get(id)) return;
-  const offeredBy = hiringPerson(api, position.organizationId, personId);
+  const offeredBy =
+    speaksForPlayer(api, position.organizationId, personId) ??
+    hiringPerson(api, position.organizationId, personId);
   if (!offeredBy) return;
   const deadline = addDays(makeIsoDate(c.date), api.parameter("jobsOfferDays"));
   const row: JobOfferRow = {
@@ -5073,6 +5158,29 @@ function settleOffer(
       .table("positions")
       .put({ ...rest });
   }
+}
+
+/**
+ * The player applies for an opening in their own town (owner ruling: "the
+ * player can apply or get a job through someone they know"). The employer
+ * weighs them with the week's other applicants; an offer then has this
+ * record as its cause. False when the opening is not open to them.
+ */
+export function applyForOpening(api: CoreAPI, positionId: string): boolean {
+  const c = core(api),
+    player = c.playerId ? c.people.get(c.playerId) : undefined;
+  const position = store(api).table("positions").get(positionId) as
+    PositionRow | undefined;
+  if (
+    !player ||
+    position?.status !== "open" ||
+    position.placeId !== player.placeId
+  )
+    return false;
+  store(api)
+    .table("playerApplications")
+    .put({ id: positionId, personId: player.id, appliedAt: c.date } as never);
+  return true;
 }
 
 /** The job offers made to a person, newest first. */
@@ -5191,7 +5299,8 @@ function hire(
   const { template, commitment: templateCommitment, calendar } = role;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
-    api.endJob(old.id, `jobs:quit:${api.state.date}`);
+    // Someone who already worked today moves on after that shift (it stands and is paid; the old job ends tomorrow, as in leaveWork).
+    api.endJob(old.id, `jobs:quit:${api.state.date}`, workedToday(c, person));
     record(api, {
       personId: person.id,
       organizationId: old.organizationId,
@@ -5487,6 +5596,8 @@ export const JOBS_MODULE: CoreModule = {
       },
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
+      // The openings the player applied to themselves, by position (the cause of an offer from a stranger).
+      playerApplications: {},
       pay: {},
       raises: { indexes: { byPerson: { fields: ["personId"] } } },
       referrals: { indexes: { byPerson: { fields: ["personId"] } } },
@@ -5581,7 +5692,7 @@ export const JOBS_MODULE: CoreModule = {
         jobId: job.id,
         kind: "closure",
         reasonKey: jobsData.reasons.closure,
-        decidedBy: ownerOf(api, organizationId) ?? organizationId,
+        decidedBy: decidingOwnerOf(api, organizationId) ?? organizationId,
       });
       if (inCustody(api, job.personId)) continue;
       store(api)
@@ -5620,7 +5731,7 @@ export const JOBS_MODULE: CoreModule = {
         kind: "closure",
         reasonKey: jobsData.reasons.closure,
         // The owner answers for the closure; a business without one answers as itself.
-        decidedBy: ownerOf(api, organizationId) ?? organizationId,
+        decidedBy: decidingOwnerOf(api, organizationId) ?? organizationId,
       });
       startSeeking(
         api,

@@ -6,7 +6,6 @@ import {
   makeIsoDate,
   yearOf,
 } from "./kernel/dates";
-import { stableHash } from "./kernel/ids";
 import {
   classifyBusiness,
   projectOpeningBusiness,
@@ -16,6 +15,7 @@ import dataJson from "./data/opening-capital.json" with { type: "json" };
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { plannedWorkMinutesBetween } from "./modules/work";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
+import { seededUnit } from "./seeded";
 import { stopgap } from "./stopgaps";
 import type {
   CoreInput,
@@ -245,9 +245,6 @@ export function openingEmployerCashBufferPrior(
   options: OpeningCapitalOptions = {},
 ): OpeningEmployerCashBufferPrior {
   const data = options.data ?? DEFAULT_OPENING_CAPITAL_DATA;
-  const registry =
-    options.parameters ?? options.books?.parameters ?? PARAMETERS;
-  const { zero, one, two } = openingCapitalUnits(registry);
   if (
     typeof seed !== "string" ||
     !seed.trim() ||
@@ -258,34 +255,13 @@ export function openingEmployerCashBufferPrior(
     throw new Error(
       "Opening employer startup prior requires a world seed, firm identity and domain",
     );
-  const radix = parameter("seedPlaceHashRadix", registry);
-  const digits = parameter("seedHashDigits", registry);
-  const hash = stableHash(
-    JSON.stringify([data.openingPriorNamespace, seed, organizationId]),
+  // The business's place in the startup spread is the world's one seeded
+  // unit keyed by the business (src/core2/seeded.ts), the draw every other
+  // opening figure takes; a unit of zero is the spread's low end.
+  const startupQuantile = seededUnit(
+    seed,
+    `${data.openingPriorNamespace}:${organizationId}`,
   );
-  const denominator = radix ** digits;
-  if (
-    radix !== two ** (two * two) ||
-    !Number.isSafeInteger(digits) ||
-    digits <= zero ||
-    digits > hash.length ||
-    !Number.isSafeInteger(denominator) ||
-    denominator <= one
-  )
-    throw new Error(
-      "Opening employer stable hash requires safe hexadecimal representation parameters",
-    );
-  const integer = Number.parseInt(hash.slice(zero, digits), radix);
-  const startupQuantile = (integer + one / two) / denominator;
-  if (
-    !Number.isSafeInteger(integer) ||
-    integer < zero ||
-    integer >= denominator ||
-    !Number.isFinite(startupQuantile) ||
-    startupQuantile <= zero ||
-    startupQuantile >= one
-  )
-    throw new Error("Opening employer stable startup quantile is invalid");
   return openingEmployerCashBufferAtQuantile(
     industry,
     startupQuantile,

@@ -32,17 +32,6 @@
       "citation": "Owners smooth draws rather than take everything (IRS SOI sole proprietor and S-corporation distributions against net income)."
     }
   },
-  "businessCushionMonths": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016).",
-    "spread": {
-      "low": 0.5,
-      "high": 3,
-      "unit": "months of payroll",
-      "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016)."
-    }
-  },
   "businessDaysPerMonth": {
     "value": 30.4,
     "tag": "SOURCED",
@@ -405,6 +394,19 @@
       "high": 0.018,
       "unit": "share of other operating costs",
       "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): about 1.8% of 2018 California gross state product in the first year."
+    }
+  },
+  "businessDataPrivacyMinSalesMinor": {
+    "value": 2500000000,
+    "tag": "ESTIMATED",
+    "role": "law",
+    "citation": "California Consumer Privacy Act (Cal. Civ. Code 1798.140(d)): a business is bound with yearly gross revenues over $25 million (raised for inflation to $26,625,000 in 2023), or if it buys, sells or shares the data of 100,000 consumers or households, or makes half its revenue selling data; the Virginia Consumer Data Protection Act (2021) and most later state laws bind controllers of the data of 100,000 consumers. From memory, not fetched.",
+    "estimatedFrom": "The California revenue test, standing for the consumer-count tests of the other states: a business with 100,000 customers' data is one with sales of the same order.",
+    "spread": {
+      "low": 1000000000,
+      "high": 2662500000,
+      "unit": "yearly sales, in cents",
+      "citation": "Low: a business serving 100,000 customers at about $100 a year each; high: California's 2023 revenue test."
     }
   },
   "businessAgeVerificationShareOfCosts": {

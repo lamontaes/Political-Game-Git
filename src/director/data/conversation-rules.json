@@ -181,7 +181,7 @@
     "mutual": ["family"],
     "news": ["own-view", "address"],
     "address": ["news"],
-    "address-point": ["news", "own-view"]
+    "address-point": ["own-view", "address-point", "news"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
@@ -193,11 +193,6 @@
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
     "news-ask-core": ["for", "against", "why"],
     "shared-school-ask-together": ["plain", "brief", "years"]
-  },
-  "answeredBy": {
-    "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
-    "their-tenure": "years",
-    "their-position": "position"
   },
   "namesOnce": {
     "about": "Lead, Nov 11, 2026, from the reviews of PR 8736 and PR 8750: one screen names a thing once. For these kinds of line, no two of the player's replies say the same record's words (the employer, the job, a name); the reply ranked first keeps it. Kinds only; no sentence.",
@@ -828,9 +823,7 @@
   },
   "askedWho": {
     "about": "Lead, Nov 13, 2026 (\"Who's behind it?\" answered \"Not that I read.\"): the reply pieces that ask who is behind a story. They are offered as the why move but answered as a who: the answer reads `said-who` and names the bill's sponsor where the record has one.",
-    "pieces": [
-      "conversation.news-answer-why.who-s-behind-it-i-d-want-to-know-before-my-place-tries-it"
-    ]
+    "pieces": ["conversation.news-answer-why.who-s-behind-about"]
   },
   "givesBack": {
     "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",

@@ -175,6 +175,18 @@ export function wireItem(
     level = String(event.placeId) === `state:${usps}` ? "state" : null;
   } else if (event.placeId === town.stateKey) level = "state";
   if (!level) return null;
+  // A birth is its own place's news. One outside the town reaches its
+  // papers only because a parent holds an office they cover (officeLevel):
+  // a state lawmaker's child is printed statewide, and its story says who
+  // the parent is (printed-words.ts birth). The household of a named
+  // official sits at the state's own place, which alone does not make the
+  // birth the state's news.
+  if (
+    event.kind === "person-birth" &&
+    event.placeId !== town.placeId &&
+    !authority
+  )
+    return null;
   // Another state's measure result has no place in its news bank yet, so it
   // would read as local; the law it enacts reaches the national press as the
   // law (stopgap SG-NATION-outside-measure-news-unworded).

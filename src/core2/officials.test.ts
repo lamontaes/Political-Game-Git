@@ -19,7 +19,7 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "./modules/offices";
-import { openElections } from "./modules/elections";
+import { centuryParties, openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
@@ -110,7 +110,7 @@ function worldAt(places: readonly { key: string }[], attempt: number) {
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openRecord(core);
@@ -187,14 +187,24 @@ describe(
           where,
         ).toBeGreaterThan(0.3);
       }
-      // Independents in the Senate keep the roster's caucus and a reason.
-      const independents = officials.filter(
-        (o) => o.bodyKind === "us-senate" && o.independent,
+      // Every seated senator belongs to a party that exists in this world's
+      // own century, or to none: the count of independents is whatever the
+      // century produced (CTO line 6948452631, on #9747). An independent keeps
+      // a caucus and a reason.
+      const parties = new Set(
+        (centuryParties(core.seed) ?? []).map((party) => party.name),
       );
-      expect(independents.length, where).toBe(2);
-      for (const o of independents) {
-        expect(o.independent!.caucus).toBe("Democratic");
-        expect(o.independent!.reason.length).toBeGreaterThan(0);
+      for (const o of officials.filter((row) => row.bodyKind === "us-senate")) {
+        if (o.independent) {
+          expect(o.independent.reason.length, where).toBeGreaterThan(0);
+          if (parties.size)
+            expect(parties.has(o.independent.caucus), `${o.id} ${where}`).toBe(
+              true,
+            );
+        } else if (parties.size)
+          expect(parties.has(o.party), `${o.id}: ${o.party} ${where}`).toBe(
+            true,
+          );
       }
       // Votes: across the policy questions, some split within a party, and
       // the caucusing independents vote with their caucus most of the time.
@@ -260,9 +270,9 @@ describe(
       expect(withinSplit, where).toBeGreaterThan(0);
       // Not every question is a party vote: popular policies draw both parties.
       expect(partyVotes, where).toBeLessThan(PLATFORM_QUESTIONS.length);
-      expect(withCaucus / Math.max(1, independentVotes), where).toBeGreaterThan(
-        0.75,
-      );
+      // Where the century seated independents, they vote with their caucus.
+      if (independentVotes > 0)
+        expect(withCaucus / independentVotes, where).toBeGreaterThan(0.75);
     });
 
     it("names who runs for a state or federal seat from the officials, and moves the winner's record", () => {

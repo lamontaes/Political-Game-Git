@@ -1,7 +1,7 @@
 /**
  * Campaigning the way real races are won, in a played world (pool item
- * campaign-like-real-races, the done-when's second half): in a pinned
- * place (named under PINNED_PLACES, with its seed), the town
+ * campaign-like-real-races, the done-when's second half): in a drawn
+ * place with an elected council (drawn from all 56 by the run seed), the town
  * as the player gets it (buildBenchWorld, two-level, every module), the
  * player turns 18, files for the soonest council race they may file for at
  * the office that takes it, and campaigns every week to election day the way
@@ -44,22 +44,29 @@
  * Every clause is read before election day (`readOn` before the contest's
  * election date).
  *
- * The places are pinned (owner rule: no drawn test): each is named below with
- * its place seed, the seed the world is built from, and was checked to show
- * every clause. A clause the pinned place cannot show (no group backed the
- * player, the player's petition short, an open seat with no incumbent running,
- * or the incumbent never stepped up) fails the test naming the place, seed and
- * clause. A place that stops showing all four is a change in the game, to be
- * read, never a draw to redo.
- * REAL_RACE_SMOKE_WEEKS=<n> plays one place for n campaign weeks and only
- * prints what it found (a quick check that the play loop runs).
+ * The places are drawn (drawn-place-tests): the run seed is GOLDEN_PATH_SEED
+ * when set, else a fresh one, and is printed. A draw is passed over, and named
+ * with its place, seed and reason, when it cannot hold the case: no council
+ * race the player may file for, a filing the counter did not take, a petition
+ * short, or, on the filing day, no cause group in town with a stand the seat
+ * takes up (cause groups grow from drives after day one, so a young town may
+ * have none yet). Bennington, Kansas was pinned here until Nov 18, when the
+ * town's day one began to come from the century (the History stack, #9982)
+ * and the two Feb 3, 2025 bills whose remarks had founded its only cause
+ * groups were no longer brought. A draw that reaches the campaign and shows
+ * fewer than four clauses is kept as a try, and the test fails naming every
+ * place it tried when none shows all four.
+ * REAL_RACE_SMOKE_WEEKS=<n> plays one drawn place for n campaign weeks and
+ * only prints what it found (a quick check that the play loop runs).
  */
+import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { campaignDay } from "../bench/campaign";
 import { chooseAtCounter, openBenchFilingVisit } from "../bench/filing";
 import { governmentView } from "../bench/government";
 import { BenchPlayer } from "../bench/player";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { campaignDayChoices } from "./campaign-day";
 import { candidatePlatform } from "./campaign-stances";
@@ -114,20 +121,16 @@ const SMOKE_WEEKS = Math.max(
  * fails the draw, naming the place, instead of running on.
  */
 const MAX_CAMPAIGN_WEEKS = 110;
-/** One pinned place is a played year: building the town, living to 18 and a campaign (about 90 s). */
+/** One drawn place is a played year: building the town, living to 18 and a campaign (about 90 s). */
 const PLACE_TIMEOUT = 300_000;
-
-/**
- * The pinned places: where the real race is played, each with the place seed
- * the world is built from. Every one shows all four clauses by record id.
- */
-const PINNED_PLACES = [
-  {
-    name: "Bennington, Kansas",
-    key: "2006075",
-    seed: "d3e80a0a852ebb1850f1420f52bfa167ccf63d7cd1446c0457af35a5162a3507",
-  },
-] as const;
+/** The run seed the places are drawn from, printed with every result. */
+const runSeed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256")
+    .update(`campaign-real-race-played:${Date.now()}`)
+    .digest("hex");
+/** Places drawn, each on its own salt, before the test gives up. */
+const DRAWS = 12;
 
 /** What a clause found, by record id, or why the drawn place could not show it. */
 type Clause = { readonly found: string } | { readonly missing: string };
@@ -397,13 +400,20 @@ function playRace(
         b.memberIds.length - a.memberIds.length ||
         a.organizationId.localeCompare(b.organizationId),
     )[0];
+  // With no such group the player's filing can earn no endorsement by its
+  // stand, so the draw cannot hold clause (a): it is passed over here, before
+  // the campaign is played.
+  if (!stand)
+    return {
+      tried: `${where}: on ${core.date} no cause group in town holds a stand ${contest.title} (${contest.id}) takes up (${organizedGroupsIn(api, townAt).filter((g) => g.kind === "cause-group").length} cause groups in town)`,
+    };
   const ownPlatform = candidatePlatform(
     api,
     me,
     null,
     contestPositions(api, contest),
   );
-  const standStances = (stand?.stance ?? []).filter((s) =>
+  const standStances = stand.stance.filter((s) =>
     seatQuestions.has(s.question),
   );
   const platform = [
@@ -413,9 +423,7 @@ function playRace(
     ...standStances,
   ].map((stance) => `${stance.question}=${stance.position}`);
   notes.push(
-    stand
-      ? `the player takes the stand of ${stand.organizationId} (${stand.memberIds.length} members): ${standStances.map((s) => `${s.question}=${s.position}`).join(", ")}`
-      : "no cause group in town holds a stand the seat takes up",
+    `the player takes the stand of ${stand.organizationId} (${stand.memberIds.length} members): ${standStances.map((s) => `${s.question}=${s.position}`).join(", ")}`,
   );
   if (file) visit = chooseAtCounter(core, visit, file.key, { platform });
   const filing = governmentView(core, me).filings.find(
@@ -437,7 +445,7 @@ function playRace(
       !petition ||
       !petitionCirculating(api, filing.id) ||
       petitionSigners(api, filing.id).length >=
-        signaturesToGather(petition.needed)
+        signaturesToGather(api, filing.id)
     )
       break;
     liveUntil(addDays(makeIsoDate(core.date), 1));
@@ -914,11 +922,20 @@ function clauseSteppedUp(played: Race): Clause {
 
 type Draw = { readonly proven: string } | { readonly tried: string };
 
-/** One pinned place: play the race, reading each clause's records on the eve. */
-function attemptPlace(place: (typeof PINNED_PLACES)[number]): Draw {
+/** One drawn place: play the race, reading each clause's records on the eve. */
+function attemptPlace(place: ReturnType<typeof drawPlace>): Draw {
   setBookkeeping(false);
-  const where = `${place.name} (${place.key}), place seed ${place.seed}`;
-  const played = playRace(where, place.seed, place.key);
+  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  let played: ReturnType<typeof playRace>;
+  try {
+    played = playRace(where, place.seed, place.key);
+  } catch (error) {
+    // A place with no household for the player to live in (every adult in
+    // group quarters) has no race for them to play.
+    if (error instanceof NoPlayerHereError)
+      return { tried: `${where}: ${error.message}` };
+    throw error;
+  }
   if ("tried" in played) return played;
   const { clauses } = played;
   // Every clause is read before the count: on a day before election day.
@@ -953,25 +970,33 @@ function attemptPlace(place: (typeof PINNED_PLACES)[number]): Draw {
   return { tried: text };
 }
 
-for (const place of PINNED_PLACES)
-  it(
-    `${place.name}: a played race shows a group's volunteers, the player's forum, named donors and the incumbent stepping up, each by record id`,
-    () => {
-      expect(
-        hasCouncilSeat(place.key),
-        `${place.name} (${place.key}) has an elected council`,
-      ).toBe(true);
+it(
+  "a drawn place: a played race shows a group's volunteers, the player's forum, named donors and the incumbent stepping up, each by record id",
+  () => {
+    const tried: string[] = [];
+    for (let salt = 0; salt < (SMOKE_WEEKS ? 1 : DRAWS); salt += 1) {
+      const place = drawPlace(
+        runSeed,
+        `campaign-real-race-played:${salt}`,
+        hasCouncilSeat,
+      );
       const result = attemptPlace(place);
       if (SMOKE_WEEKS) {
         // A smoke run plays a few weeks only: it shows the loop ran, not the clauses.
         process.stdout.write(`SMOKE: ${JSON.stringify(result)}\n`);
         return;
       }
-      expect(
-        "proven" in result,
-        `pinned place did not show all four clauses: ${"tried" in result ? result.tried : ""}`,
-      ).toBe(true);
-      process.stdout.write(`PROVEN: ${JSON.stringify(result)}\n`);
-    },
-    PLACE_TIMEOUT,
-  );
+      if ("proven" in result) {
+        if (tried.length)
+          process.stdout.write(`passed over:\n${tried.join("\n")}\n`);
+        process.stdout.write(`PROVEN: ${JSON.stringify(result)}\n`);
+        return;
+      }
+      tried.push(result.tried);
+    }
+    expect.fail(
+      `no drawn place showed all four clauses (run seed ${runSeed}):\n${tried.join("\n")}`,
+    );
+  },
+  PLACE_TIMEOUT * DRAWS,
+);

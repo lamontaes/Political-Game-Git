@@ -68,7 +68,7 @@ describe("M2-08 parties", () => {
         minimumPeople: 300,
       }),
     );
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);
@@ -123,9 +123,42 @@ describe("M2-08 parties", () => {
     expect(mean("no-party"), `${place} seed ${seed}`).toBeLessThanOrEqual(
       mean("independent"),
     );
-    const share = ties.filter((t) => t.tie === "party").length / ties.length;
-    expect(share).toBeGreaterThan(0.4);
-    expect(share).toBeLessThan(0.7);
+    // A tie comes from the person's own views: the share that takes a party is
+    // the world's, never a band (owner, Nov 16: "Everything comes from the
+    // simulation"). What holds in every world is the relationship: a party
+    // member leans the party's way, and those who take a party lean harder,
+    // on average, than those who take none.
+    const sides = new Map(parties.map((p) => [p.id, p.side]));
+    for (const t of ties.filter(
+      (t) => t.tie === "party" && t.reason !== "minor-party",
+    ))
+      expect(
+        Math.sign(t.lean),
+        `${place} seed ${seed}: ${t.personId} in ${t.partyId}`,
+      ).toBe(sides.get(t.partyId!));
+    // Among those who lean at all, the ones who take a party lean harder than
+    // the ones who don't, by more than chance would give: four standard errors
+    // of the difference in mean firmness.
+    const leaning = ties.filter((t) => t.lean !== 0);
+    const stats = (rows: readonly TieRow[]) => {
+      const n = Math.max(1, rows.length);
+      const mean = rows.reduce((a, t) => a + Math.abs(t.lean), 0) / n;
+      const variance =
+        rows.reduce((a, t) => a + (Math.abs(t.lean) - mean) ** 2, 0) /
+        Math.max(1, rows.length - 1);
+      return { n, mean, variance };
+    };
+    const tied = stats(leaning.filter((t) => t.tie === "party"));
+    const untied = stats(leaning.filter((t) => t.tie !== "party"));
+    const error = Math.sqrt(
+      tied.variance / tied.n + untied.variance / untied.n,
+    );
+    process.stdout.write(
+      `PARTIES ${place} seed ${seed}: ${tied.n} of ${leaning.length} who lean take a party; mean lean ${tied.mean.toFixed(3)} against ${untied.mean.toFixed(3)}, error ${error.toFixed(3)}\n`,
+    );
+    expect(tied.mean - untied.mean, `${place} seed ${seed}`).toBeGreaterThan(
+      4 * error,
+    );
     // Two members of the same party file for one seat; its primary picks one.
     const party = parties
       .filter((p) => p.side !== 0)

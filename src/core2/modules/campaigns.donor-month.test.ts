@@ -33,6 +33,7 @@ import { openParties } from "./parties";
 import { openPress } from "./press";
 import { viewsModule } from "./views";
 import type { CoreState } from "../types";
+import { townResidentsByCash } from "../resident-adults-test-kit";
 
 /** The pinned places: where the cause-finder measured the fault, with the seed it used. */
 const PLACES = [
@@ -63,7 +64,7 @@ function worldAt(place: (typeof PLACES)[number]) {
     { modules: [viewsModule] },
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -73,16 +74,13 @@ function worldAt(place: (typeof PLACES)[number]) {
   const town = lawChain(api).townPlaceId;
   // The richest adults who live in the town stand for the open races, a few
   // for each: the candidates a donor is asked by.
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.tier !== "husk" &&
-        Number(place.start.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
-          35 &&
-        p.placeId === town,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.tier !== "husk" &&
+      Number(place.start.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35 &&
+      p.placeId === town,
+  );
   const filings: FilingRow[] = [];
   for (const candidate of adults.slice(0, 300)) {
     if (filings.length >= 60) break;

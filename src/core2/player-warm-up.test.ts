@@ -5,7 +5,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildBenchWorld,
-  entrantChoice,
+  PLAYER_MIN_AGE,
   OPENING_WARMUP_DAYS,
 } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
@@ -66,8 +66,13 @@ describe("opening warm-up", () => {
       expect(book.schedule).toEqual([]);
     }
     const player = world.core.people.get(world.playerId!)!;
-    // The golden path: the 17-year-old whose 18th birthday comes soonest after the start.
-    expect(ageOnDate(makeIsoDate(player.birthDate), start)).toBe(17);
-    expect(typeof entrantChoice).toBe("function");
+    // The player's age is read on the start date, not on the day the world is built before the
+    // warm-up: the age the pick recorded, 18 or older (owner, Nov 16: "Just do 18 and up").
+    const pick = JSON.parse(world.core.placeMetadata.openingPlayerPick!) as {
+      age: number;
+    };
+    const age = ageOnDate(makeIsoDate(player.birthDate), start);
+    expect(age).toBe(pick.age);
+    expect(age).toBeGreaterThanOrEqual(PLAYER_MIN_AGE);
   }, 140_000);
 });

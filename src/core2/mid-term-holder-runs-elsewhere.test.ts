@@ -7,13 +7,23 @@
  *
  * Utah, seed aa11: a state senator (four-year term, seat not on the 2028
  * ballot) is on the lieutenant governor's ballot, loses, and keeps the seat.
- * Nevada, seed bb22: the lieutenant governor is on a state senate ballot,
- * wins, and the incompatibility rule ends the old term and the vacancy
- * engine fills the seat.
+ * Nevada, seed bb22: the lieutenant governor files mid-term for another
+ * office, wins it, and the incompatibility rule ends the old term and the
+ * vacancy engine fills the seat. The premise is the mid-term filing and its
+ * consequences; the seat the pick lands on is a pin, and a change that moves
+ * the pick fails here on the seat, for that stated reason.
+ *   Old pin (until the Train's fold of main b208ec35): state senate seat
+ *   seat:US-NV:upper:019:0.
+ *   New pin: U.S. House seat seat:US-NV:us-house:02, term from 2029-01-03.
+ *   Why it moved: main's f271995a took the filing fee out of the game (owner,
+ *   Nov 15), so filings the fee used to refuse go through and the official's
+ *   pick changed. Found by bisecting the Train's folds (ef708196 green,
+ *   543b3cd8 red).
  *
  * The runs are the game's own days from the opening in October 2026 to the
- * swearing-in of January 2029, so each takes about 105 seconds alone and
- * 109 beside another file; the limit is twice the slower.
+ * swearing-in of January 2029. Measured on a62a2fda: Utah 88.8 s alone and
+ * 90.6 s beside open-seat-when-holder-runs-elsewhere; Nevada 77.7 s alone and
+ * 69.1 s beside. The limits are near twice the slower: 180 s and 160 s.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -69,7 +79,7 @@ function playTo(seed: string, date: string) {
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -151,17 +161,17 @@ it("a state senator mid-term on the lieutenant governor's ballot who loses keeps
   expect(
     w.vacancies.filter((v) => v.seatId === "seat:US-UT:upper:010:0"),
   ).toEqual([]);
-}, 220_000);
+}, 180_000);
 
-it("a lieutenant governor mid-term who wins a state senate seat leaves the old seat to the vacancy engine", () => {
+it("a lieutenant governor mid-term who wins a U.S. House seat leaves the old seat to the vacancy engine", () => {
   const w = playTo("bb22", "2029-01-10");
   const filing = w.midTermFiling(
     "seat:US-NV:lieutenant-governor",
-    "seat:US-NV:upper:019:0",
+    "seat:US-NV:us-house:02",
     "2028-11-07",
   );
-  const senate = serving(w.terms, "seat:US-NV:upper:019:0");
-  expect(senate.map((t) => t.personId)).toEqual([filing.personId]);
+  const house = serving(w.terms, "seat:US-NV:us-house:02");
+  expect(house.map((t) => t.personId)).toEqual([filing.personId]);
   const old = w.terms.filter(
     (t) =>
       t.seatId === "seat:US-NV:lieutenant-governor" &&
@@ -182,4 +192,4 @@ it("a lieutenant governor mid-term who wins a state senate seat leaves the old s
   const lieutenant = serving(w.terms, "seat:US-NV:lieutenant-governor");
   expect(lieutenant.length).toBe(1);
   expect(lieutenant[0]!.personId).not.toBe(filing.personId);
-}, 220_000);
+}, 160_000);

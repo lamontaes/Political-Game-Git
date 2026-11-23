@@ -40,6 +40,7 @@ import {
   sceneMovesWritten,
   wordSceneMove,
   type Fact,
+  type Placed,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
@@ -234,6 +235,8 @@ export interface SceneTalkLine {
   asks: boolean;
   /** The English engine says the line hands the floor over ("Go ahead."). */
   invites: boolean;
+  /** Why the English engine placed this wording here (dev mode's "why this reply"). */
+  placed?: Placed;
 }
 
 export interface SceneTalkRound {
@@ -351,6 +354,8 @@ export interface AskStanding {
   favor: number;
   /** They ask the player one thing before they answer (`asks.first`). */
   asksFirst?: boolean;
+  /** They would say no but no reason of theirs has a line: they stall first, then say the answer is given. */
+  noReason?: boolean;
   /** Their position were the player to leave their own stance unsaid. */
   hedged?: number;
   /**
@@ -738,6 +743,7 @@ export function composeSceneTalk(
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
       invites: worded.invites,
+      ...(worded.placed ? { placed: worded.placed } : {}),
     };
   };
   let unusedGap = "";
@@ -1149,7 +1155,11 @@ export function composeSceneTalk(
             ? [ask.absent ?? ask.relent[zero]!]
             : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero
+        ? [ask.yes]
+        : carried || standing.noReason
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,
@@ -2117,7 +2127,16 @@ export function composeSceneTalk(
       const settled = answers.filter(
         (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
-      const pool = last && settled.length ? settled : answers;
+      // The first exchange never wraps the scene up where the asker has a
+      // question or a push left (owner, Oct 16: "quick resolution. That's
+      // not how normal people talk"); the last round never leaves one hanging.
+      const open = answers.filter((row) => !settled.includes(row));
+      const pool =
+        last && settled.length
+          ? settled
+          : round === one && open.length
+            ? open
+            : answers;
       const [best] = [...pool].sort(
         (a, b) =>
           leanOf(core, b.candidate, askerTraits) -
@@ -2357,6 +2376,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
         .filter((row) => row.on === move || row.on === "resolved")
         .map((row) => row.asker),
       ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+      // The player's second turn after the asked answers an again move: the variants' `after`.
+      ...(asks && (move === asks.no || asks.relent.includes(move))
+        ? Object.values(asks.after ?? {}).flatMap((rows) =>
+            rows.map((row) => row.move),
+          )
+        : []),
     ];
   };
   /** The player's character's unprompted line after an asker line, and the asker's answer to it. */

@@ -1,10 +1,13 @@
 import { familyTakesChosenOrigin } from "./family-origin";
-import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
+import {
+  promoteHusk as promoteHuskOfficial,
+  unbuiltHolderOf,
+} from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
-  lastTogether,
+  lastMetOnRow,
   openingClosenessHours,
   sharedHoursBetween,
   temperedHours,
@@ -57,6 +60,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  recordOfficeTime,
   rehourNamedJob,
 } from "./work-state";
 import {
@@ -1152,6 +1156,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
+    recordOfficeTime(personId, minutes) {
+      return recordOfficeTime(core, api, personId, minutes);
+    },
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
@@ -1318,7 +1325,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.level = nextLevel;
       // A change made apart keeps the day the two were last together.
       if (reason?.apart)
-        row.lastMetDate = previous ? lastTogether(previous) : null;
+        row.lastMetDate = previous ? lastMetOnRow(previous) : null;
       else delete row.lastMetDate;
       if (next.owedHours) row.owedHours = next.owedHours;
       else delete row.owedHours;
@@ -1697,7 +1704,26 @@ export function coreAPI(core: CoreState): CoreAPI {
         siblings.map((row) => row.birthDate),
         [identity.birthDate],
       );
-      const siblingNames = [given];
+      // Nobody else in the player's family carries the chosen full name: the
+      // household and relatives who took the family name keep their given
+      // names, and the brothers and sisters are renamed around them.
+      const siblingIds = new Set(siblings.map((row) => row.id));
+      const siblingNames = [
+        given,
+        ...[
+          ...(core.households.get(actor.householdId)?.memberIds ?? []),
+          ...actor.familyIds,
+        ].flatMap((id) => {
+          const other = core.people.get(id);
+          return other &&
+            id !== actor.id &&
+            !siblingIds.has(id) &&
+            other.alive &&
+            other.familyName.toLowerCase() === family.toLowerCase()
+            ? [other.givenName]
+            : [];
+        }),
+      ];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
         // A brother or sister living elsewhere carries the family name too (C27).
@@ -2363,7 +2389,12 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
-  if (!full && core.husks.has(personId)) {
+  // A husk, or another place's holder nobody has opened, is built by the
+  // engine that keeps them.
+  if (
+    !full &&
+    (core.husks.has(personId) || unbuiltHolderOf(core, personId) !== undefined)
+  ) {
     const promoted = promoteHuskOfficial(core, personId);
     if (promoted) return promoted;
   }

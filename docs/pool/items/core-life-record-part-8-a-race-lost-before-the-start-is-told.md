@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
 pr: #8616
@@ -19,6 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:19:32.947Z
 branch: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
+merged-at: 2026-11-15T22:57:52.102Z
 ---
 
 **What.** The simulated past elects the town's officials and records each race's challenger as a party and a lean, not a person. So nobody in town ever lost a race before the game began, and no card says so. This part keeps the person who fits the challenger on the race, so their card tells the race they lost. Seen: the card of the person who lost a race before the game began.

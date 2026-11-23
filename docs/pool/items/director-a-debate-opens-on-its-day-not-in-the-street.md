@@ -34,6 +34,6 @@ merged-at: 2026-11-13T08:16:41.005Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/debate-sitting.test.ts
+**Files.** src/director/scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json
 
 **Notes.** Built by the Life records builder (opus-lr), Nov 13. P3's items 9 (the "nice speech" lines on a rival's ad) and 10 (the moderator as informant) are traced on #8928 at 06:59Z and 07:33Z and are not this item.
