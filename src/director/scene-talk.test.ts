@@ -28,9 +28,7 @@ import {
  */
 const CUT_PURPOSES = new Set<string>([
   "argument",
-  "apology",
   "celebration",
-  "last-day",
   "date",
   "betrayal",
   "prison-visit",
