@@ -15561,10 +15561,10 @@
       }
     },
     {
-      "key": "news.organization-closed.subject-has-closed-number-people-worked-there",
+      "key": "news.organization-closed.subject-has-closed-it-employed-number-people",
       "move": "organization-closed",
       "kind": "written",
-      "text": "{subject} has closed. {number} people worked there.",
+      "text": "{subject} has closed. It employed {number} people.",
       "uses": [
         {
           "move": "organization-closed",
@@ -15583,10 +15583,10 @@
       }
     },
     {
-      "key": "news.organization-closed.subject-the-largest-employer-in-place-has-closed",
+      "key": "news.organization-closed.subject-the-largest-employer-in-place-has-closed-it-employed-number-people",
       "move": "organization-closed",
       "kind": "written",
-      "text": "{subject}, the largest employer in {place}, has closed. {number} people worked there.",
+      "text": "{subject}, the largest employer in {place}, has closed. It employed {number} people.",
       "uses": [
         {
           "move": "organization-closed",
@@ -15594,50 +15594,6 @@
           "role": "organization.closed",
           "choice": "lede",
           "requiresFacts": ["largest", "place", "number", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pool item play-local-layoffs-on-screen)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.the-business-had-been-losing-money",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "The business had been losing money.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["losses"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pool item play-local-layoffs-on-screen)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.the-business-ran-out-of-money",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "The business ran out of money.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["broke"]
         }
       ],
       "origin": "authored",
