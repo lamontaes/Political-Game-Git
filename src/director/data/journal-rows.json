@@ -670,6 +670,11 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "scene-ending:heard",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "scene-ending:relationship-strained",
       "turn": false,
       "entry": "story"

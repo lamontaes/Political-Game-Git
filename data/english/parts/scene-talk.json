@@ -4212,6 +4212,15 @@
           "purpose": "donor-ask.small",
           "key": "favor-asked",
           "requiresFacts": ["gift"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -7879,6 +7888,15 @@
           "key": "favor-asked",
           "requiresFacts": ["about"],
           "setsFacts": ["turned-down"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
         }
       ],
       "bearing": "calm",
@@ -7910,6 +7928,15 @@
           "key": "favor-asked",
           "requiresFacts": ["about"],
           "setsFacts": ["turned-down"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
         }
       ],
       "bearing": "calm",
@@ -33568,6 +33595,22 @@
           "role": "asker",
           "purpose": "breakup-tell",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -70269,6 +70312,901 @@
       "tag": {
         "move": "warn",
         "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's not a conversation for today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then I'll find a candidate who listens.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.don-t-count-on-my-help-next-time",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Don't count on my help next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-won-t-forget-this",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I won't forget this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-expect-the-next-one-to-come-easy",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't expect the next one to come easy.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "purpose": "donor-ask.hearing-small",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        },
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "purpose": "donor-ask.hearing-large",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-discussing-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not discussing this.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask.hearing-small",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        },
+        {
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask.hearing-large",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-a-no",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not a no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-a-yes-either",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not a yes either.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask.hearing-small",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-didn-t-answer-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You didn't answer me.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask.hearing-small",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-i-m-not-one-of-the-big-names-i-won-t-take-long",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know I'm not one of the big names. I won't take long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-gave-what-i-could-i-d-like-a-minute-if-you-have-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I gave what I could. I'd like a minute, if you have one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-listening-that-s-more-than-i-expected",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for listening. That's more than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-now-name-wants-something-for-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} gave {money} to your campaign. Now {name} wants something for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-get-to-it-i-know-you-re-busy",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll get to it. I know you're busy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-know-why-i-m-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You know why I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-not-here-for-a-thank-you-note-i-m-here-to-find-out-what-my-suppor",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm not here for a thank-you note. I'm here to find out what my support gets me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-tell-the-others-you-re-listening",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll tell the others you're listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-can-give-again-next-time-or-i-can-give-to-your-opponent-think-about",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I can give again next time, or I can give to your opponent. Think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-understand-each-other-good-day",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we understand each other. Good day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-the-time-i-have-thank-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all the time I have. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-took-your-money-and-i-ll-hear-you-i-won-t-take-instructions",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I took your money and I'll hear you. I won't take instructions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-asks-people-like-me-what-we-think-hear-me-on-about",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody asks people like me what we think. Hear me on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-not-asking-for-a-promise-i-m-asking-you-to-hear-me-once",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm not asking for a promise. I'm asking you to hear me once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-gave-a-lot-i-d-like-to-know-you-ll-hear-me-when-i-ask",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I gave a lot. I'd like to know you'll hear me when I ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.go-ahead-i-m-listening",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Go ahead. I'm listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-hear-you-out-tell-me-all-of-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll hear you out. Tell me all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.a-gift-doesn-t-change-what-i-d-do-in-office-i-ll-still-hear-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "A gift doesn't change what I'd do in office. I'll still hear you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-now-i-can-t-get-into-it-here",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not now. I can't get into it here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-deflect",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-heard-the-threat-my-answer-is-the-same",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I heard the threat. My answer is the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (donor ask, after a threat, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.it-s-about-i-m-for-it-that-s-why-i-gave",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "It's {about}. I'm for it. That's why I gave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-for"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-for"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Words lead call a, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.it-s-about-i-m-against-it-that-s-why-i-gave",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "It's {about}. I'm against it. That's why I gave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-against"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask.hearing-large",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-against"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Words lead call a, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
       }
     }
   ]

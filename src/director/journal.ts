@@ -1001,6 +1001,16 @@ export function composeJournal(
 
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
+  // Someone the person talked with in a scene is known by name to them, an
+  // official who came to them as a donor among the rest (the reply record
+  // names both people).
+  const metInScene = new Set<string>(
+    (book?.schedule ?? []).flatMap((entry) =>
+      (entry.replies ?? []).flatMap(
+        (id) => core.durableLog.get(id)?.personIds ?? [],
+      ),
+    ),
+  );
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
   const other = (id: PersonId): Fact | undefined => {
@@ -1041,7 +1051,7 @@ export function composeJournal(
       }
     }
     const known = person.knownIdSources?.[id];
-    if (!person.knownIds.has(id)) return undefined;
+    if (!person.knownIds.has(id) && !metInScene.has(id)) return undefined;
     const first = !named.has(id);
     named.add(id);
     return {

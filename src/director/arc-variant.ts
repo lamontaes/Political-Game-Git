@@ -162,6 +162,14 @@ type ReadKind =
     }
   | {
       /**
+       * 1 where the cause record carries this fact, else 0 (a gift names a
+       * bill, or names none).
+       */
+      kind: "fact-present";
+      fact: string;
+    }
+  | {
+      /**
        * How many earlier bills of the asked person's own the asker voted for
        * (the vote records of the asker, the bill's sponsor), as count /
        * (count + scale): a vote already given the asked person's way.
@@ -254,6 +262,12 @@ interface VariantRow {
    * the player for the same thing).
    */
   onlyFor?: { fact: string; is: string };
+  /**
+   * Reads that must come out as given for this variant to play (a hearing plays only where the gift names no bill): each is a read by name, true for a read above nothing.
+   */
+  onlyWhen?: readonly { read: string; is: boolean }[];
+  /** The variant plays on its own lines only (a candidate's hearing never borrows the officeholder's lines of the family). */
+  standalone?: boolean;
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -383,6 +397,8 @@ export interface VariantChoice {
   /** The purpose id the scene plays. */
   readonly purpose: string;
   readonly family: string;
+  /** The variant plays on its own lines only: the family's pieces do not serve it. */
+  readonly standalone?: boolean;
   /** Every variant's score, highest first. */
   readonly scores: readonly VariantScore[];
   /** Every read that mattered, between 0 and 1. */
@@ -555,6 +571,11 @@ function readOf(
       .find((row) => (row as { holderId?: string }).holderId === input.askerId);
     if (!post) return P.zero;
     recordIds.add(post.id);
+    return P.one;
+  }
+  if (spec.kind === "fact-present") {
+    if (!input.cause.facts[spec.fact]) return P.zero;
+    recordIds.add(input.cause.id);
     return P.one;
   }
   if (spec.kind === "favor-given") {
@@ -769,15 +790,19 @@ export function chooseVariant(
   if (chosen && (!input.play || chosen.variant === input.play)) return chosen;
   // No variant is open to this cause: the purpose plays its own arc
   // (`hasArcFor`, which the scene's caller asks before composing).
-  const open = Object.entries(family.variants).filter(([, row]) =>
-    variantOpen(row, input.cause.facts),
-  );
-  if (!open.length) return null;
-  directorStopgap("SG-STORY-arc-variant-weights", WORDS_STOPGAP_HITS);
   const recordIds = new Set<string>();
   const reads: Record<string, number> = {};
   const read = (name: string) =>
     (reads[name] ??= readOf(core, DATA.reads[name]!, input, recordIds));
+  const open = Object.entries(family.variants).filter(
+    ([, row]) =>
+      variantOpen(row, input.cause.facts) &&
+      (row.onlyWhen ?? []).every(
+        (gate) => read(gate.read) > P.zero === gate.is,
+      ),
+  );
+  if (!open.length) return null;
+  directorStopgap("SG-STORY-arc-variant-weights", WORDS_STOPGAP_HITS);
   // Every read the family names is read, whichever variants are open: the
   // scene's facts cite them (`read-...`), and a closed variant's records are
   // still true of the asker.
@@ -821,6 +846,7 @@ export function chooseVariant(
     variant: best.variant,
     purpose: best.purpose,
     family: input.family,
+    ...(family.variants[best.variant]?.standalone ? { standalone: true } : {}),
     scores,
     reads,
     recordIds: [...recordIds].sort(),

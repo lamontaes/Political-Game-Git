@@ -83,7 +83,12 @@ import {
 import { BRIBE_TYPES, bribeReads } from "./bribe-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
+import {
+  DONOR_ASK_TYPE,
+  donorAskFacts,
+  donorReads,
+  donorViewFacts,
+} from "./donor-ask-facts";
 import { voteAskFacts } from "./vote-ask-facts";
 import {
   causeTopicSaid,
@@ -2599,6 +2604,16 @@ function composeBinding(
           ...(options.variant ? { play: options.variant } : {}),
         })
       : null;
+  // A donor's ask the gift names no bill for is a hearing: the donor names what
+  // they care about from their own strongest view on record, which the player
+  // learns if they hear it out. A donor with no view past zero has nothing to
+  // say, and the hearing is not staged.
+  if (type.key === DONOR_ASK_TYPE && variant?.standalone) {
+    const view = donorViewFacts(core, askerId, moment.causeId);
+    if (!view.about)
+      return { kind: "skipped", reason: "the donor holds no view to name" };
+    Object.assign(facts, view);
+  }
   // What the records gave the variant, for the lines that say it: every read
   // that came to more than nothing is a fact of the scene, cited to the records
   // it came from (`read-town-against`, `read-scandal`), so a line about the
@@ -2669,7 +2684,9 @@ function composeBinding(
   }
   const played =
     variant && variant.purpose !== type.purpose
-      ? { ...type, purpose: variant.purpose, family: type.purpose }
+      ? variant.standalone
+        ? { ...type, purpose: variant.purpose, family: undefined }
+        : { ...type, purpose: variant.purpose, family: type.purpose }
       : type;
   // At a door, the pieces of the player's earlier door scenes (earlier days)
   // are shown: an unused fitting piece is said first, so the opening and the
@@ -3815,6 +3832,24 @@ export function replyInScene(
       scene.askerId === personId ? scene.askedId : scene.askerId;
     learnView(coreAPI(core), personId, residentId, question.recordIds, id);
     learnViewQuestion(coreAPI(core), personId, residentId, question.text, id);
+  }
+  // Agreeing to hear a donor out is hearing what they care about: the player
+  // learns the donor's strongest question and side as a talk's listener does
+  // (the same learned-view keys the door scene writes), citing this reply.
+  if (
+    scene.typeKey === DONOR_ASK_TYPE &&
+    question &&
+    asked?.move === "agree" &&
+    core.modules.has(VIEWS_MODULE_ID)
+  ) {
+    learnView(coreAPI(core), personId, scene.askerId, question.recordIds, id);
+    learnViewQuestion(
+      coreAPI(core),
+      personId,
+      scene.askerId,
+      question.text,
+      id,
+    );
   }
   // A swearing-in that ended in an address: the speech engine records it as
   // heard by the people the scene named in the room (swearing-in.ts).
