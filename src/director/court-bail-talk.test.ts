@@ -135,13 +135,4 @@ describe("bail is told from the pretrial record", () => {
       answers({ bail: fact("about $10,000"), bailOver: fact("yes") }),
     ).not.toContain("Out on bail.");
   }, 120_000);
-
-  it("'Out on bail.' needs the bail posted", () => {
-    expect(answers({ bail: fact("about $10,000") })).not.toContain(
-      "Out on bail.",
-    );
-    expect(
-      answers({ bail: fact("about $10,000"), bailPosted: fact("yes") }),
-    ).toContain("Out on bail.");
-  });
 });

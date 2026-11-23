@@ -2,6 +2,13 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { gameStartDate } from "../core2/game-start";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  stateLawInForce,
+} from "../core2/modules/laws";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
 import { wordArchiveStory } from "./archive-words";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -89,9 +96,25 @@ describe(`archive story bodies (${world.place.key}, seed ${seed})`, () => {
   }, 120_000);
 });
 
+// What an archived law's story can say beyond its name comes from its record:
+// an amount moved from a law in force the day before, or the bill catalog's
+// purpose for a policy (CTO, Nov 19, 10:41Z). Since the history from 1925 dates
+// each opening row by the session that enacted it, the year before day one
+// archives mostly the yearly published amounts, with no law in force before
+// them, so this world may hold no law with a body; the check is the
+// relationship, with no floor. A played law's printed story is checked in
+// play by printed-words.test.ts ("words Ohio's minimum wage change from the
+// law in force before and after", and the year's stories with a body).
+const POLICY_PURPOSES = (
+  billNames as unknown as {
+    policies: Record<string, { purpose?: string; repealPurpose?: string }>;
+  }
+).policies;
+
 describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
-  it("words an archived law that took effect, naming the law and the date", () => {
-    const stories = coreAPI(world.core)
+  it("words an archived law that took effect, naming the law and the date, with a body only when its record holds more than its name", () => {
+    const api = coreAPI(world.core);
+    const stories = api
       .moduleState(NEWS_MODULE_ID)
       .table("stories")
       .rows() as unknown as {
@@ -108,19 +131,52 @@ describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
       .map((story) => ({ story, words: wordArchiveStory(world.core, story) }))
       .filter((row) => row.words);
     expect(worded.length, "a law has a name on the catalog").toBeGreaterThan(0);
+    let bodies = 0;
     for (const { story, words } of worded) {
       // Told as the press tells a law in play, from the law's own row.
       expect(words!.lede, story.id).toBeTruthy();
       expect(words!.sourceRecordIds, story.id).toContain(story.id);
       expect(words!.sourceRecordIds, story.id).toContain(story.facts.lawId);
+      const row = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .get(story.facts.lawId!) as unknown as {
+        series: string;
+        level: string;
+        jurisdiction: string;
+        unit?: string;
+        value?: number;
+      };
+      const amount = !!row.unit && row.unit !== "program";
+      const before =
+        row.level === "state"
+          ? stateLawInForce(
+              api,
+              row.jurisdiction,
+              row.series,
+              addDays(makeIsoDate(story.date), -1),
+            ).value
+          : lawInForce(api, row.series, addDays(makeIsoDate(story.date), -1))
+              .value;
+      const more = amount
+        ? typeof before === "number"
+        : !!(row.value === 0
+            ? POLICY_PURPOSES[row.series]?.repealPurpose
+            : POLICY_PURPOSES[row.series]?.purpose);
+      const body = (words!.paragraphs?.length ?? 0) > 1;
+      // A body only from the record: never one for a law whose record holds
+      // only its name. (The converse is the bank's: on main at this seed a
+      // policy law with a catalog purpose was told in one paragraph.)
+      if (body) {
+        bodies += 1;
+        expect(
+          more,
+          `${story.id}: ${amount ? `amount, in force the day before: ${String(before)}` : "policy with no catalog purpose"}`,
+        ).toBe(true);
+      }
     }
-    // At least one archived law carries a body after its lede (the bill's purpose).
-    expect(
-      worded.some((row) => (row.words!.paragraphs?.length ?? 0) > 1),
-      "no archived law has a body",
-    ).toBe(true);
     process.stdout.write(
-      `ARCHIVED LAWS ${world.place.key}, seed ${seed}: ${worded.length} of ${laws.length} worded, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
+      `ARCHIVED LAWS ${world.place.key}, seed ${seed}: ${worded.length} of ${laws.length} worded, ${bodies} with a body, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
     );
   }, 120_000);
 });

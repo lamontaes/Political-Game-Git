@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T00:46:39.336Z
 
 **Done when.** In a played world in a drawn place, a reader of a law-took-effect story brings it up and names the official the story says decided it, with the story's record id as the source, shown by a test beside src/director/bring-it-up-law.test.ts.
 
-**Files.** src/director/bring-it-up.ts, data/english/parts/bring-it-up.json, src/director/bring-it-up-law.test.ts
+**Files.** src/director/bring-it-up.ts, data/english/parts/bring-it-up.json
 
 **Notes.** Found Oct 19 verifying M4-05 (people raise it and know who was responsible). The outlet-only rule may be the owner's intent; if so, drop this.
 

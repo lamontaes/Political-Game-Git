@@ -28,10 +28,10 @@ source: added with npm run pool -- add
 
 **Rules.** Director and English files belong to the Words and director owner (Review: words). No dice. One engine: reuse causeMatches, add no second scheduler. One rule, all 56 places.
 
-**Done when.** A second session draws a place with a held bill, re-lists it through the chair's agreed scene reply, and sees no bill-held-member or bill-held-chair scene offered for that hold; a test in src/director/hold-scenes.test.ts shows it in a drawn place with its seed named.
+**Done when.** A second session draws a place with a held bill, re-lists it through the chair's agreed scene reply, and sees no bill-held-member or bill-held-chair scene offered for that hold; a test in src/director/hold-scenes.test.ts (removed) shows it in a drawn place with its seed named.
 
 **Waits on.** Waits on the pull request that makes a held bill re-listable (#8972) reaching main.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/hold-scenes.test.ts
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json
 
 **Notes.** Another case (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): the day after the player lost the council race (Nov 6, 2025), Nikhil Wallace: 'Quinn Pugh's people got to me about planning and zoning. Thought you should know.' with the reply 'Let them talk. I'm running my own race.' And the debate moderator, Rebecca Lopez of KGZU-TV, came to the house two days after the debate with the same line.

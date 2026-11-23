@@ -214,103 +214,109 @@ function printStories(core: CoreState, played: readonly Played[]): string[] {
   return out;
 }
 
-it("the story prints the official's own answer on the call, a decline, or nothing without a call (Gilbert IA, seed reporters-call-1)", () => {
-  setBookkeeping(false);
-  const { core, director } = buildBenchWorld(SEED, gameStartDate(), {
-    twoLevel: true,
-    placeKey: PLACE,
-  });
-  const api = coreAPI(core);
-  const out: string[] = [];
-
-  // Bribes: each member takes one in the offer scene while the player
-  // plays them, and the one who paid leaks it to the town paper.
-  const staff = new Set(outletsHere(api).flatMap((row) => row.reporterIds));
-  const members = [...core.people.values()]
-    .filter((p) => p.alive && p.id.startsWith("person_"))
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .filter((p) => {
-      const body = seatView(core, p.id).bodies[0];
-      return body && !("byRequest" in body && body.byRequest);
+// The cut of Nov 17 left this scene's lines unwritten; the lines are
+// story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z on #9750).
+it.fails(
+  "the story prints the official's own answer on the call, a decline, or nothing without a call (Gilbert IA, seed reporters-call-1)",
+  () => {
+    setBookkeeping(false);
+    const { core, director } = buildBenchWorld(SEED, gameStartDate(), {
+      twoLevel: true,
+      placeKey: PLACE,
     });
-  const played: Played[] = [];
-  let next = 0;
-  for (const c of CALLS) {
-    const member = members[next++]!;
-    const who = member.id as PersonId;
-    core.playerId = who;
-    const offerer = townResidentsByCash(core, coreAPI(core)).filter(
-      (p) =>
-        p.alive &&
-        p.id !== who &&
-        p.placeId === member.placeId &&
-        !staff.has(p.id) &&
-        !members.some((m) => m.id === p.id) &&
-        // A relative of the member pays only where the call asks for one.
-        member.familyIds.has(p.id) === Boolean(c.close),
-    )[0]!;
-    expect(offerer, `${c.name}: one who pays`).toBeTruthy();
-    const seat = seatView(core, who);
-    let bill = { id: "", status: "blocked" };
-    for (const question of [...seat.questions].slice(0, 6)) {
-      if (bill.status !== "blocked") break;
-      bill = seatAct(core, who, {
-        kind: "draft",
-        officeId: seat.bodies[0]!.officeId,
-        question,
-        value: 1,
-      }) as { id: string; status: string };
-    }
-    const offered = considerBribe(api, {
-      offererId: offerer.id,
-      officialId: who,
-      stakeMinor: offerer.liquidMinor * 1000,
-      subjectId: bill.id,
-      pick: { offer: true },
-    })!;
-    if (offered.pending)
-      api.emit({
-        id: `scene.reply:printed-test:${offered.id}`,
-        date: core.date,
-        kind: "scene.reply",
-        personIds: [who, offerer.id],
-        placeId: member.placeId,
-        facts: {
-          typeKey: "bribe-offer",
-          causeId: `${BRIBE_OFFERED}:${offered.id}`,
-          ending: "took-it",
-        },
-        source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+    const api = coreAPI(core);
+    const out: string[] = [];
+
+    // Bribes: each member takes one in the offer scene while the player
+    // plays them, and the one who paid leaks it to the town paper.
+    const staff = new Set(outletsHere(api).flatMap((row) => row.reporterIds));
+    const members = [...core.people.values()]
+      .filter((p) => p.alive && p.id.startsWith("person_"))
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .filter((p) => {
+        const body = seatView(core, p.id).bodies[0];
+        return body && !("byRequest" in body && body.byRequest);
       });
-    expect(crimeRecord(api, offered.id)?.taken, c.name).toBe(true);
-    const outlet = c.outlet
-      ? outletsHere(api).find((row) => row.kind === c.outlet)!
-      : townOutlet(api)!;
-    const tip = leakToReporter(api, {
-      leakerId: offerer.id,
-      reporterId: outlet.reporterIds[0]!,
-      crimeId: offered.id,
-    }) as { exposedId?: string | null };
-    expect(tip.exposedId, c.name).toBeTruthy();
-    const { said, answer, days } = c.moves
-      ? playCall(core, director, who, tip.exposedId!, c.moves)
-      : { said: [], answer: null, days: undefined };
-    played.push({
-      name: c.name,
-      exposedId: tip.exposedId!,
-      who,
-      said,
-      answer,
-      days,
-    });
-  }
-  // The player plays the "no call" member when the paper prints.
-  core.playerId = played.find((p) => p.name === "no call, the player")!.who;
+    const played: Played[] = [];
+    let next = 0;
+    for (const c of CALLS) {
+      const member = members[next++]!;
+      const who = member.id as PersonId;
+      core.playerId = who;
+      const offerer = townResidentsByCash(core, coreAPI(core)).filter(
+        (p) =>
+          p.alive &&
+          p.id !== who &&
+          p.placeId === member.placeId &&
+          !staff.has(p.id) &&
+          !members.some((m) => m.id === p.id) &&
+          // A relative of the member pays only where the call asks for one.
+          member.familyIds.has(p.id) === Boolean(c.close),
+      )[0]!;
+      expect(offerer, `${c.name}: one who pays`).toBeTruthy();
+      const seat = seatView(core, who);
+      let bill = { id: "", status: "blocked" };
+      for (const question of [...seat.questions].slice(0, 6)) {
+        if (bill.status !== "blocked") break;
+        bill = seatAct(core, who, {
+          kind: "draft",
+          officeId: seat.bodies[0]!.officeId,
+          question,
+          value: 1,
+        }) as { id: string; status: string };
+      }
+      const offered = considerBribe(api, {
+        offererId: offerer.id,
+        officialId: who,
+        stakeMinor: offerer.liquidMinor * 1000,
+        subjectId: bill.id,
+        pick: { offer: true },
+      })!;
+      if (offered.pending)
+        api.emit({
+          id: `scene.reply:printed-test:${offered.id}`,
+          date: core.date,
+          kind: "scene.reply",
+          personIds: [who, offerer.id],
+          placeId: member.placeId,
+          facts: {
+            typeKey: "bribe-offer",
+            causeId: `${BRIBE_OFFERED}:${offered.id}`,
+            ending: "took-it",
+          },
+          source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+        });
+      expect(crimeRecord(api, offered.id)?.taken, c.name).toBe(true);
+      const outlet = c.outlet
+        ? outletsHere(api).find((row) => row.kind === c.outlet)!
+        : townOutlet(api)!;
+      const tip = leakToReporter(api, {
+        leakerId: offerer.id,
+        reporterId: outlet.reporterIds[0]!,
+        crimeId: offered.id,
+      }) as { exposedId?: string | null };
+      expect(tip.exposedId, c.name).toBeTruthy();
+      const { said, answer, days } = c.moves
+        ? playCall(core, director, who, tip.exposedId!, c.moves)
+        : { said: [], answer: null, days: undefined };
+      played.push({
+        name: c.name,
+        exposedId: tip.exposedId!,
+        who,
+        said,
+        answer,
+        days,
+      });
+    }
+    // The player plays the "no call" member when the paper prints.
+    core.playerId = played.find((p) => p.name === "no call, the player")!.who;
 
-  out.push(...printStories(core, played));
-  if (process.env.PLAYED_OUT)
-    writeFileSync(process.env.PLAYED_OUT, out.join("\n"));
-}, 60_000);
+    out.push(...printStories(core, played));
+    if (process.env.PLAYED_OUT)
+      writeFileSync(process.env.PLAYED_OUT, out.join("\n"));
+  },
+  60_000,
+);
 
 /**
  * Conflicts on awards the game itself makes. No hand-made record: each body
@@ -393,67 +399,75 @@ const CONFLICT_WORLDS: readonly {
   },
 ];
 
+// The cut of Nov 17 left this scene's lines unwritten; the lines are
+// story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z on #9750).
 for (const world of CONFLICT_WORLDS)
-  it(`a conflict on an award the game makes plays its call and prints (${world.name} ${world.place}, seed ${world.seed})`, () => {
-    setBookkeeping(false);
-    const { core, director } = buildBenchWorld(world.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: world.place,
-    });
-    const api = coreAPI(core);
-    const awards = () =>
-      (
-        api
-          .moduleState(CONTRACTS_MODULE_ID)
-          .table("awards")
-          .rows() as unknown as ContractAwardRow[]
+  it.fails(
+    `a conflict on an award the game makes plays its call and prints (${world.name} ${world.place}, seed ${world.seed})`,
+    () => {
+      setBookkeeping(false);
+      const { core, director } = buildBenchWorld(world.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: world.place,
+      });
+      const api = coreAPI(core);
+      const awards = () =>
+        (
+          api
+            .moduleState(CONTRACTS_MODULE_ID)
+            .table("awards")
+            .rows() as unknown as ContractAwardRow[]
+        )
+          .filter((row) => row.conflicts.length)
+          .sort((a, b) => a.id.localeCompare(b.id));
+      const exposedFor = (award: ContractAwardRow) =>
+        [...(core.logByKind.get(PRESS_EXPOSED) ?? [])]
+          .map((id) => core.durableLog.get(String(id))!)
+          .find((e) =>
+            Object.keys(e.facts ?? {}).includes(`award:${award.id}`),
+          );
+      // The fiscal year's awards, then the desk's week (press.ts DESK_WEEK).
+      const until = "2025-02-20";
+      while (
+        core.date < until &&
+        !(awards().length >= world.calls.length && awards().every(exposedFor))
       )
-        .filter((row) => row.conflicts.length)
-        .sort((a, b) => a.id.localeCompare(b.id));
-    const exposedFor = (award: ContractAwardRow) =>
-      [...(core.logByKind.get(PRESS_EXPOSED) ?? [])]
-        .map((id) => core.durableLog.get(String(id))!)
-        .find((e) => Object.keys(e.facts ?? {}).includes(`award:${award.id}`));
-    // The fiscal year's awards, then the desk's week (press.ts DESK_WEEK).
-    const until = "2025-02-20";
-    while (
-      core.date < until &&
-      !(awards().length >= world.calls.length && awards().every(exposedFor))
-    )
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const found = awards();
-    expect(found.length, "the conflicted awards").toBe(world.calls.length);
-    const played: Played[] = world.calls.map((c, at) => {
-      const exposure = exposedFor(found[at]!);
-      expect(exposure, `${c.name}: the desk exposes it`).toBeTruthy();
-      const who = exposure!.personIds[0] as PersonId;
-      const name = `${c.name} (${world.name}, ${found[at]!.id})`;
-      if (c.moves)
-        return {
-          name,
-          exposedId: exposure!.id,
-          who,
-          ...playCall(core, director, who, exposure!.id, c.moves),
-        };
-      // Its moment is staged, with no scandal call bound to it.
-      const entry = director.stageOwnPress(core, who, exposure!.id);
-      expect(entry, `${c.name}: a moment of its own`).toBeTruthy();
-      expect(
-        entry!.bindings.some((b) => b.typeKey === "scandal"),
-        `${c.name}: no second call`,
-      ).toBe(false);
-      return { name, exposedId: exposure!.id, who, said: [], answer: null };
-    });
-    const out = printStories(core, played);
-    // Two found the same day: the first is told as the first, the next as
-    // the second (printed-words.ts exposed).
-    if (played.length > 1) {
-      const at = (p: Played) => out.indexOf(`## ${p.name}`);
-      const first = out.slice(at(played[0]!), at(played[1]!)).join(" ");
-      const second = out.slice(at(played[1]!)).join(" ");
-      expect(first).not.toMatch(/again|second time|A second/);
-      expect(second).toMatch(/again|second time|A second/);
-    }
-    if (process.env.PLAYED_OUT)
-      appendFileSync(process.env.PLAYED_OUT, `\n${out.join("\n")}`);
-  }, 135_000);
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const found = awards();
+      expect(found.length, "the conflicted awards").toBe(world.calls.length);
+      const played: Played[] = world.calls.map((c, at) => {
+        const exposure = exposedFor(found[at]!);
+        expect(exposure, `${c.name}: the desk exposes it`).toBeTruthy();
+        const who = exposure!.personIds[0] as PersonId;
+        const name = `${c.name} (${world.name}, ${found[at]!.id})`;
+        if (c.moves)
+          return {
+            name,
+            exposedId: exposure!.id,
+            who,
+            ...playCall(core, director, who, exposure!.id, c.moves),
+          };
+        // Its moment is staged, with no scandal call bound to it.
+        const entry = director.stageOwnPress(core, who, exposure!.id);
+        expect(entry, `${c.name}: a moment of its own`).toBeTruthy();
+        expect(
+          entry!.bindings.some((b) => b.typeKey === "scandal"),
+          `${c.name}: no second call`,
+        ).toBe(false);
+        return { name, exposedId: exposure!.id, who, said: [], answer: null };
+      });
+      const out = printStories(core, played);
+      // Two found the same day: the first is told as the first, the next as
+      // the second (printed-words.ts exposed).
+      if (played.length > 1) {
+        const at = (p: Played) => out.indexOf(`## ${p.name}`);
+        const first = out.slice(at(played[0]!), at(played[1]!)).join(" ");
+        const second = out.slice(at(played[1]!)).join(" ");
+        expect(first).not.toMatch(/again|second time|A second/);
+        expect(second).toMatch(/again|second time|A second/);
+      }
+      if (process.env.PLAYED_OUT)
+        appendFileSync(process.env.PLAYED_OUT, `\n${out.join("\n")}`);
+    },
+    135_000,
+  );
