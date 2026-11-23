@@ -19,3 +19,13 @@ press Sim to (Sim to Mar 20, 2028)
   scene 5: Tracy Castillo Kiara Castillo Aiden Castillo It's early on January 22. You sit down at the kitchen table. Governor Thomas Mercer's State of the State address played on KHLH-TV in front of you. Continue
   scene 6: Tracy Castillo Kiara Castillo Aiden Castillo It's early on February 11. A stack of mail sits on the counter. Chair River Phillips's yearly address played on KHLH-TV in front of you. Continue
 press Sim to (Sim to Mar 20, 2028)
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.waitForResponse: Target page, context or browser has been closed
+    at /tmp/claude-0/-home-claude/22ba4d3a-c88d-59e4-9c14-f567d6d0a0f7/scratchpad/player/elections.mjs:95:20 {
+  log: []
+}
+
+Node.js v22.23.4
