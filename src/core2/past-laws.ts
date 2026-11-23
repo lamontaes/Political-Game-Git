@@ -23,6 +23,7 @@ import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
+import { policyAuthority } from "./policy-authority";
 import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./officials-roster";
 import { LAWS_MODULE_ID } from "./modules/laws";
@@ -283,7 +284,17 @@ export function buildPriorTerms(
     // Questions the members ran on, then the catalog's, in a seeded order.
     // Only questions this chamber's level can decide: a county board never
     // voted on raising the federal minimum wage, whatever its members ran on.
-    const askable = CATALOG_QUESTIONS[catalogLevel(chamber.office.level)];
+    // The catalog lists a series (the income tax) at every level that sets a
+    // rate, but whether this level may take up a given question (a New Jersey
+    // borough's graduated income tax) is the state's law: the same authority
+    // check the live bill catalog applies.
+    const askable = CATALOG_QUESTIONS[
+      catalogLevel(chamber.office.level)
+    ].filter(
+      (question) =>
+        policyAuthority(api, question, catalogLevel(chamber.office.level))
+          .allowed,
+    );
     const own = chamber.members
       .flatMap((term) => promised.get(term.personId!) ?? [])
       .filter((question) => askable.includes(question));
