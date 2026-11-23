@@ -1,0 +1,50 @@
+seed 65c8eedf3a57 place Astoria, Illinois
+me Cameron Wood
+--- opening
+  line: It's the evening of January 20. Dishes sit drying by the sink.
+  line: Speaker John Fisher, distinguished guests, and my fellow citizens. I stand here with Vice President Jamie Tyson, ready to get to work. This past year, the severe storm in Kansas was only one of the disasters that hit this country, and every one of them left families starting over. The people of Kansas will not rebuild alone, and that is a promise from this whole country.
+  line: Is it right that Medicare pays whatever the drug makers charge? Since I believe Medicare should get the best price for the people it covers, this administration will work to let Medicare negotiate drug prices, and I will sign the bill that does it.
+  line: You know what I'm asking for on Medicare negotiating drug prices, so hold me to it.
+  line: It's the evening of January 20. You switch on the lamp by the couch.
+--- room talk with Devon Wood
+  line: The President made a point of Medicare negotiating drug prices. That's the one part of his speech I agreed with. Am I wrong to see it that way?
+  replies: ["You're right about that, Devon.","I'd push back on him there."] -> You're right about that, Devon.
+  line: CAMERON WOOD You're right about that, Devon. That's two of us in Astoria, then.
+--- step 1 Wednesday, January 22, 20257:00 AM
+  line: It's early on January 22. You hang your coat by the door. You watched Governor Robert Sullivan's State of the State address on WQCM-TV.
+  line: WQCM-TV Thank you, Illinois.
+--- step 4 Tuesday, February 11, 20257:00 AM
+  line: It's early on February 11. You sit down at the kitchen table. You watched Mayor Charles Mueller's yearly address on WQCM-TV.
+  line: WQCM-TV Ochoa and Associates closed this year, and we all felt it.
+  line: WQCM-TV Astoria knows what I'm asking for on more assistance spending, so hold me to it.
+--- step 8 Sunday, March 2, 20257:00 AM
+  line: First thing on March 2nd, you unfold a letter from Scott Stark. A letter has come from Scott, postmarked Fulton County.
+  line: Dear Cameron, I've been meaning to write for a long while. You're not far from us in Fulton County. Could you come for a meal one of these days?
+  replies: ["Count me in.","Why now?","I can't, sorry."] -> Count me in.
+  line: CAMERON WOOD Count me in. I'm so glad.
+--- step 17 Tuesday, April 29, 20257:00 AM
+  line: First thing on April 29th, the phone rings, and Hope Morrow is on the line. The phone rings. It's Hope, from Thompson's Market.
+  line: Hi. This is Hope, over at Thompson's Market. The opening at Thompson's Market is yours if you want it: a cashier, $16.41 an hour.
+  replies: ["What hours would I work at Thompson's Market?","I accept. I've been hoping to hear from Thompson's Market.","I'm grateful for the offer from Thompson's Market, but I have to say no.","I need to think it over before I answer Thompson's Market."] -> What hours would I work at Thompson's Market?
+  line: CAMERON WOOD What hours would I work at Thompson's Market? You'd work 22 hours a week alongside 13 of us.
+  replies: ["I'll gladly work as a cashier. Thank you for the chance.","Thank you, but I'm going to pass on working as a cashier. It isn't what I'm looking for.","This isn't a good moment to decide about Thompson's Market. I'm sorry."] -> I'll gladly work as a cashier. Thank you for the chance.
+  line: CAMERON WOOD I'll gladly work as a cashier. Thank you for the chance. Good. I'll let everyone here know a cashier is filled.
+--- step 20 Friday, May 2, 20257:00 AM
+  line: First thing on May 2nd, you unfold a letter from Scott Stark. Scott has written from Fulton County.
+  line: Dear Cameron, there is something I wanted to ask you, and I'd rather ask it on paper. We're still in Fulton County, not so far. Will you come see us some weekend?
+  replies: ["Yes, gladly.","Why now?","Not this time."] -> Yes, gladly.
+  line: CAMERON WOOD Yes, gladly. That means everything.
+--- step 26 Saturday, June 7, 20257:00 AM
+  line: It's early on June 7. You hang your coat by the door. Devon turns the radio off as you come in.
+  line: Not finishing at Astoria Public Schools doesn't change how I see you.
+  replies: ["I didn't pass at Astoria Public Schools. I couldn't make it up.","I'll go back and finish what I missed at Astoria.","I'm sorry I didn't ask for help at Astoria.","Not yet."] -> I didn't pass at Astoria Public Schools. I couldn't make it up.
+  line: CAMERON WOOD I didn't pass at Astoria Public Schools. I couldn't make it up. What happened?
+  replies: ["Astoria says I can retake what I missed.","I'll finish it."] -> Astoria says I can retake what I missed.
+  line: CAMERON WOOD Astoria says I can retake what I missed. Good. Thank you.
+--- step 29 Sunday, June 22, 20257:00 AM
+  line: It's early on June 22. A stack of mail sits on the counter. Michelle turned 41, and Scott was not at the table.
+  line: With Scott so near in Fulton County, a visit would be easy. Would you go?
+  replies: ["Alright. I'll write to Scott this time instead of waiting to be written to.","Do you know how Scott is doing? I'd like to know before I reach out.","I don't think Scott wants to hear from me."] -> Alright. I'll write to Scott this time instead of waiting to be written to.
+  line: CAMERON WOOD Alright. I'll write to Scott this time instead of waiting to be written to. Good. That's all I wanted for Scott.
+journal: My family lived in Astoria, Illinois when I was born. My parents made their home in Astoria, Illinois. My parent Devon and my mother Michelle raised me. My sisters Fatima and Grace are younger than I am. At 5 years old, my first school was Astoria Public Schools. When I was 16, my mother went from Chen Family Clinic to Thompson's Market. I turned eighteen. Four months later, I made Hope Morrow a promise. One month after that, I was told a law on the local income tax rate was in effect. My aunt Leah left town. Because of that, my aunt Leah moved out. My aunt Vanessa moved away. For that reason, my aunt Vanessa moved out.
+errors []
