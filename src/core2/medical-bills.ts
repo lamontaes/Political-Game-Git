@@ -4,23 +4,22 @@
  * premiums). Background simulation from research (owner, Oct 29 13:30 UTC):
  * the player takes no step.
  *
- * Each household's average is the Consumer Expenditure Survey's medical
- * services line for its own place's region and its size (BLS series
- * CXUMEDSERVSLB0101M, 2024, the opening-customer parent parameters), less
- * the clinic component its everyday-living plan already buys, at the world's
- * price level. Each member's part of it follows two records read the day it
- * is billed:
+ * A person's month of care is priced in the place they live: a month of
+ * ordinary care takes a fitted amount of a health worker's time
+ * (medicalCareUnitHealthPayDays), at what the place's own hospitals and
+ * clinics pay their staff today (carePrices), so the price of care moves
+ * with the town's own health pay. Each member's part follows two records
+ * read the day it is billed:
  *
  * - the care their health asks: the health engine's care need (one for a
  *   serious illness under way, a share for held conditions, none otherwise;
  *   a counted member's serious illness is the counted-illness row), on a
- *   sliding scale up to the top 5 percent of spenders' care (MEPS #533); the
- *   town's people are scaled so their average is the survey's;
+ *   sliding scale up to the top 5 percent of spenders' care (MEPS #533). A
+ *   town with more illness has more care and larger bills;
  * - the part of that care their coverage leaves them: their coverage record
  *   (an employer plan, Medicare at 65), their Medicaid coverage where the
  *   law reach keeps it by person id (coverageSpellsNow, named and counted
- *   alike), or none, at the share MEPS #441 finds each pays out of pocket,
- *   against the average share.
+ *   alike), or none, at the share MEPS #441 finds each pays out of pocket.
  *
  * The household pays the bill from what its members hold, less what they
  * keep back for their home (as for everyday living, cost-of-living.ts), to
@@ -31,9 +30,12 @@
  * it still owes, oldest bill first, and asks again each month; a bill unpaid
  * 120 days after it was billed (26 CFR 1.501(r)-6) is placed for collection
  * as a medical-debt record on its books (the credit engine's loans, kind
- * "medical"), at the share providers send to collections rather than write
- * off, times the outcome web's factor for finance.medical-debt-in-collections,
- * the measure the expansion's medicaid-expansion-to-medical-debt link moves.
+ * "medical"). The provider weighs each household: the further its income
+ * sits under the poverty guideline for its size, the more of the bill is
+ * written off as financial assistance and the less is sent to collections
+ * (collectionsShare), times the outcome web's factor for
+ * finance.medical-debt-in-collections, the measure the expansion's
+ * medicaid-expansion-to-medical-debt link moves.
  * No roll: the bill goes unpaid because the household's cash and coverage
  * say so.
  *
@@ -56,13 +58,12 @@
  * collections, its one path there.
  *
  * Only households in the places whose money the world keeps are billed
- * (billedPlaces); the care norm is theirs.
+ * (billedPlaces).
  */
 import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
-import customers from "./data/opening-customers.json" with { type: "json" };
 import { chargeGroups, fundGroups } from "./counted-money";
-import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
+import { incomeBandOn, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import {
@@ -91,20 +92,21 @@ import {
   medicaidCoverageSpells,
   payMedicaidCare,
   payMedicareLinePart,
+  povertyLineDollars,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import {
+  countedJob,
+  householdIncome,
+  residentsRuntime,
+  unplacedPayPerWorker,
+} from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 
 /** The engine named on the law-reach rows these bills write. */
 const MEDICAL_BILLS_ENGINE = "medical-bills";
 import { parameter, type Parameter } from "./parameters";
-import {
-  livingCostsRegionForState,
-  type LivingCostsRegion,
-} from "./reference/living-costs-data";
-import { worldLevel } from "./world-draw";
 import type {
   CoreAPI,
   CoreState,
@@ -139,6 +141,12 @@ const SHARE_KEY: Readonly<Record<BillPlan, string>> = {
   medicare: "medicalPatientShareMedicare",
   none: "medicalPatientShareUninsured",
 };
+
+/** A month of the employer plans' care: what their insurers owed, and the real people on the plans. */
+export interface PlanCareMonth {
+  readonly insurerMinor: number;
+  readonly members: number;
+}
 
 /** One member's part of a month's bill. */
 export interface BilledMember {
@@ -195,8 +203,13 @@ export interface MedicalBillRow {
   /** Who was paid, and the cash journal entries that paid them. */
   readonly sellerId: string | null;
   readonly journalIds: readonly string[];
-  /** The share of what is unpaid past the wait sent to collections (the web's factor; the rest the provider writes off), and the web month row. */
+  /** The share of what is unpaid past the wait sent to collections (the provider's weighing of the household's income, times the web's factor; the rest the provider writes off), and the web month row. */
   readonly collectionsShare: number;
+  /** The household's income over the poverty guideline for its size, as the provider weighed it. */
+  readonly incomeOverPoverty: number;
+  /** The place's price of a month of ordinary care the bill was priced at, and the health pay it was read from (carePrices). */
+  readonly careUnitMonthlyMinor: number;
+  readonly carePayDailyMinor: number;
   readonly webRecordId: string | null;
   readonly webLinks: readonly string[];
   /** Links read from the household's own records instead of the web (the place-level twin). */
@@ -205,18 +218,6 @@ export interface MedicalBillRow {
   /** The medical-debt record on the household's books, if any part went to collections. */
   readonly debtId: string | null;
   readonly source: Source;
-}
-
-/**
- * The survey's region for a place's own state. A town household keeps the
- * place id of its governing unit, which the place lookup may not know (a
- * consolidated town, a balance): it is the town's, in the town's state, as
- * the residents engine reads it (counted-moves.ts householdStateOf).
- */
-function regionOf(api: CoreAPI, placeId: string): LivingCostsRegion {
-  return livingCostsRegionForState(
-    householdStateOf(api.state as CoreState, placeId) ?? null,
-  );
 }
 
 /**
@@ -235,44 +236,6 @@ function billedPlaces(api: CoreAPI): ReadonlySet<string> | null {
     : null;
 }
 
-const PARENT = (
-  customers.parents as Record<
-    string,
-    {
-      nationalParameter: string;
-      regionalParameters: Record<string, string>;
-      sizeParameters: Record<string, string>;
-    }
-  >
-)[data.medicalServicesParent]!;
-/** The parent's components the opening's customers already buy in everyday living (the clinic's nonphysician services). */
-const BOUGHT_COMPONENTS = customers.householdServices
-  .filter((row) => row.parentKey === data.medicalServicesParent)
-  .map((row) => row.componentAnnualParameter);
-
-/**
- * One consumer unit's yearly medical services for its region and size, as
- * the living-cost estimate joins the survey's tables (size times the region's
- * ratio to the nation), less the components bought in everyday living.
- */
-function annualOutOfPocketUsd(
-  api: CoreAPI,
-  region: LivingCostsRegion,
-  size: number,
-): number {
-  const p = (key: string) => api.parameter(key);
-  const top = p("openingCustomerSizeTopCode");
-  const column = size >= top ? "5plus" : String(Math.max(1, size));
-  const national = p(PARENT.nationalParameter);
-  const regional = p(
-    PARENT.regionalParameters[region] ?? PARENT.nationalParameter,
-  );
-  const sized = p(PARENT.sizeParameters[column] ?? PARENT.nationalParameter);
-  const bought = BOUGHT_COMPONENTS.reduce((n, key) => n + p(key), 0);
-  const parent = national > 0 ? sized * (regional / national) : sized;
-  return national > 0 ? parent * (1 - bought / national) : parent;
-}
-
 interface Person {
   readonly personId: string;
   readonly plan: BillPlan;
@@ -284,8 +247,8 @@ interface Person {
 interface Household {
   readonly householdId: string;
   readonly placeId: string;
-  /** The survey's region for the household's own place. */
-  readonly region: LivingCostsRegion;
+  /** What the household earns a year, from its jobs and awards. */
+  readonly incomeAnnualMinor: number;
   readonly counted: boolean;
   readonly weight: number;
   readonly incomeFifth: number;
@@ -373,6 +336,16 @@ function plans(
 // coverage records carry them), so a place's health.uninsured-pct, and the
 // graduation link that reads it, miss the Medicaid coverage those records hold.
 
+/** The part of a counted record's households its member's illness is in: none, all, or the row's share. */
+function illShare(
+  row: { readonly share?: number } | undefined,
+  weight: number,
+): number {
+  if (!row) return 0;
+  if (row.share === undefined || !(weight > 0)) return 1;
+  return Math.min(1, row.share / weight);
+}
+
 /**
  * Everyone the pass bills this month, full and counted, by household: the
  * households of the places whose money the world keeps (billedPlaces).
@@ -386,12 +359,6 @@ function householdsToBill(
   const today = makeIsoDate(core.date);
   const { plan, ownMedicaid, endedByRequirement } = plans(api, today);
   const billed = billedPlaces(api);
-  const regions = new Map<string, LivingCostsRegion>();
-  const region = (placeId: string) => {
-    let found = regions.get(placeId);
-    if (!found) regions.set(placeId, (found = regionOf(api, placeId)));
-    return found;
-  };
   const incomes = fullHouseholdIncomes(core);
   const out: Household[] = [];
   const byHousehold = new Map<string, Person[]>();
@@ -416,10 +383,10 @@ function householdsToBill(
     out.push({
       householdId,
       placeId,
-      region: region(placeId),
+      incomeAnnualMinor: incomes.get(householdId) ?? 0,
       counted: false,
       weight: 1,
-      incomeFifth: incomeBandOf(incomes.get(householdId) ?? 0),
+      incomeFifth: incomeBandOn(api, incomes.get(householdId) ?? 0),
       members,
       ownMedicaid: ownMedicaid(placeId),
     });
@@ -429,6 +396,7 @@ function householdsToBill(
     for (const h of rt.store.liveHouseholds()) {
       if (core.households.has(h.id)) continue;
       if (billed && !billed.has(h.placeId)) continue;
+      const weight = rt.store.weightOf(h);
       const members = rt.store.countedMembers(h).map((m) => {
         const personId = rt.store.ids[m]!;
         const age = ageOnDate(makeIsoDate(rt.store.born[m]!), today);
@@ -436,7 +404,12 @@ function householdsToBill(
         return {
           personId,
           plan: own,
-          careNeed: countedIllnessOf(api, personId as PersonId) ? 1 : 0,
+          // The illness is in `share` of the households the record stands
+          // for (all of them where absent): the record's care need is that part.
+          careNeed: illShare(
+            countedIllnessOf(api, personId as PersonId),
+            weight,
+          ),
           endedByRequirement: endedByRequirement(personId, own),
         };
       });
@@ -444,10 +417,10 @@ function householdsToBill(
       out.push({
         householdId: h.id,
         placeId: h.placeId,
-        region: region(h.placeId),
+        incomeAnnualMinor: householdIncome(rt, h),
         counted: true,
-        weight: rt.store.weightOf(h),
-        incomeFifth: incomeBandOf(householdIncome(rt, h)),
+        weight,
+        incomeFifth: incomeBandOn(api, householdIncome(rt, h)),
         members,
         ownMedicaid: ownMedicaid(h.placeId),
       });
@@ -456,37 +429,131 @@ function householdsToBill(
   return out.sort((a, b) => a.householdId.localeCompare(b.householdId));
 }
 
+/** What a month of ordinary care costs in a place, and the pay it was priced from. */
+export interface CarePrice {
+  /** One person's month of ordinary care (care need zero), before any plan pays its part. */
+  readonly unitMonthlyMinor: number;
+  /** The daily pay the price was read from, averaged over the real jobs behind it. */
+  readonly payDailyMinor: number;
+  /** The jobs that pay stands for. */
+  readonly jobs: number;
+  /** Whose pay: the place's own hospitals and clinics, else the workers who live there. */
+  readonly from: "health-staff" | "resident-workers";
+}
+
+/**
+ * The price of care in each place today, from what its own health employers
+ * pay (named and counted jobs alike, a counted job standing for its
+ * household's weight). A place with no hospital or clinic buys its care
+ * nearby at what a day's work is paid where its own people work: the pay of
+ * the workers who live there, recorded jobs and the place's unplaced workers
+ * alike. A month of ordinary care takes medicalCareUnitHealthPayDays of that
+ * pay: the one fitted strength, set once so real pay gives the survey's bills.
+ */
+export function carePrices(api: CoreAPI): Map<string, CarePrice> {
+  const core = api.state as CoreState;
+  const kinds = new Set(data.medicalSellerClassifications);
+  const healthPlace = new Map<string, string>();
+  for (const org of core.organizations.values())
+    if (kinds.has(org.classification ?? ""))
+      healthPlace.set(org.id, org.placeId);
+  const sums = new Map<
+    string,
+    { health: number; healthJobs: number; all: number; allJobs: number }
+  >();
+  const sumOf = (placeId: string) => {
+    let sum = sums.get(placeId);
+    if (!sum)
+      sums.set(
+        placeId,
+        (sum = { health: 0, healthJobs: 0, all: 0, allJobs: 0 }),
+      );
+    return sum;
+  };
+  const add = (
+    organizationId: string | null,
+    homePlaceId: string | undefined,
+    wage: number,
+    jobs: number,
+  ) => {
+    if (!(wage > 0) || !(jobs > 0)) return;
+    if (homePlaceId) {
+      const home = sumOf(homePlaceId);
+      home.all += wage * jobs;
+      home.allJobs += jobs;
+    }
+    const at = organizationId ? healthPlace.get(organizationId) : undefined;
+    if (at) {
+      const sum = sumOf(at);
+      sum.health += wage * jobs;
+      sum.healthJobs += jobs;
+    }
+  };
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined) {
+      const home = core.people.get(job.personId)?.householdId;
+      add(
+        job.organizationId,
+        home ? core.households.get(home)?.placeId : undefined,
+        job.wageDailyMinor,
+        1,
+      );
+    }
+  const rt = residentsRuntime(core);
+  if (rt) {
+    const days = api.parameter("daysPerMeanYear");
+    for (const h of rt.store.liveHouseholds()) {
+      const weight = rt.store.weightOf(h);
+      for (const job of h.jobs)
+        if (job.endsAt === undefined && countedJob(core, job.id))
+          add(job.organizationId, h.placeId, job.wageDailyMinor, weight);
+      if (h.unplacedWorkers > 0)
+        add(
+          null,
+          h.placeId,
+          unplacedPayPerWorker(rt, h) / days,
+          h.unplacedWorkers * weight,
+        );
+    }
+  }
+  const unitDays = q("medicalCareUnitHealthPayDays");
+  const price = (
+    pay: number,
+    jobs: number,
+    from: CarePrice["from"],
+  ): CarePrice => {
+    const payDailyMinor = jobs > 0 ? Math.round(pay / jobs) : 0;
+    return {
+      unitMonthlyMinor: Math.round(payDailyMinor * unitDays),
+      payDailyMinor,
+      jobs,
+      from,
+    };
+  };
+  const out = new Map<string, CarePrice>();
+  for (const [placeId, sum] of sums)
+    out.set(
+      placeId,
+      sum.healthJobs > 0
+        ? price(sum.health, sum.healthJobs, "health-staff")
+        : price(sum.all, sum.allJobs, "resident-workers"),
+    );
+  return out;
+}
+
 /** Each member's bill this month, in minor units. */
 function billMembers(
   api: CoreAPI,
   households: readonly Household[],
+  prices: ReadonlyMap<string, CarePrice>,
 ): Map<string, BilledMember[]> {
-  const core = api.state as CoreState;
   // stopgapId: SG-HEALTH-medical-bill-shape — no age profile or use gap by
   // coverage; a counted member's care need is one while ill, else none.
   api.stopgap("SG-HEALTH-medical-bill-shape");
   const ratio = q("medicalSeriousIllnessCostRatio");
   const one = api.parameter("one");
   const care = (need: number) => one + (ratio - one) * need;
-  // The town's average care is the survey's: everyone's care need, scaled.
-  let people = 0,
-    weighted = 0;
-  for (const h of households)
-    for (const m of h.members) {
-      people += h.weight;
-      weighted += h.weight * care(m.careNeed);
-    }
-  const norm = people > 0 && weighted > 0 ? weighted / people : one;
-  const level = worldLevel(
-    one,
-    core.seed,
-    "world-living-cost-level",
-    "worldLivingCostSpreadShare",
-  );
-  const average = q("medicalPatientShareAverage");
   const medicaidShare = q(SHARE_KEY.medicaid);
-  const perMonth =
-    api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
   // Medicare's negotiated drug prices cut what its members pay while the
   // federal law is in force (the engine decides the cause from the law itself).
   const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
@@ -511,16 +578,13 @@ function billMembers(
   ]);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
-    const size = h.members.length;
-    const perMember =
-      (annualOutOfPocketUsd(api, h.region, size) * level) / size;
-    // The cost of a member's care is what they would pay at the average
-    // share over that share; each plan's member pays their plan's share of it.
+    // A month of ordinary care at the place's own price, times the care the
+    // member's health asks; each plan's member pays their plan's share of it.
+    const unit = prices.get(h.placeId)?.unitMonthlyMinor ?? 0;
     out.set(
       h.householdId,
       h.members.map((m) => {
-        const cost =
-          (perMember * perMonth * (care(m.careNeed) / norm)) / average;
+        const cost = unit * care(m.careNeed);
         const billMinor = Math.round(
           cost * shareOf(m.plan) * (m.plan === "medicare" ? drugs : one),
         );
@@ -598,13 +662,22 @@ function billMembers(
 
 /**
  * The share of a household's bills unpaid past the wait that its provider
- * sends to collections rather than writing off as financial assistance (the
- * hospitals' bad debt against their charity care), times the web's factor.
+ * sends to collections rather than writing off as financial assistance. The
+ * provider weighs the household's own income against the poverty guideline
+ * for its size, on a sliding scale: a household far under the midpoint is
+ * written off nearly whole, one far over it is sent nearly whole. The web's
+ * factor then moves it where a law does.
  */
 function collectionsShare(
   api: CoreAPI,
   h: Household,
-): { share: number; reach: WebReach; except: readonly string[] } {
+): {
+  share: number;
+  /** The household's income over the poverty guideline for its size. */
+  incomeOverPoverty: number;
+  reach: WebReach;
+  except: readonly string[];
+} {
   const except = h.ownMedicaid ? [PLACE_TWIN] : [];
   const reach = webReach(
     api,
@@ -613,11 +686,25 @@ function collectionsShare(
     { incomeFifth: h.incomeFifth },
     except.length ? new Set(except) : undefined,
   );
+  const one = api.parameter("one");
+  const line =
+    povertyLineDollars(
+      householdStateOf(api.state as CoreState, h.placeId) ?? "",
+      h.members.length,
+    ) * api.parameter("minorPerDollar");
+  const incomeOverPoverty = line > 0 ? h.incomeAnnualMinor / line : 0;
+  // Log-odds rise with the log of income over the midpoint; no income at all
+  // is the scale's floor, never a cliff.
+  const own =
+    incomeOverPoverty > 0
+      ? one /
+        (one +
+          (q("medicalCollectionsIncomeMidpoint") / incomeOverPoverty) **
+            q("medicalCollectionsIncomeSlope"))
+      : 0;
   return {
-    share: Math.min(
-      api.parameter("one"),
-      q("medicalCollectionsBaseShare") * reach.factor,
-    ),
+    share: Math.min(one, own * reach.factor),
+    incomeOverPoverty,
     reach,
     except,
   };
@@ -888,7 +975,7 @@ export function billMedicalCare(
     /** Counted households holding an employer plan now. */
     readonly countedHolders: ReadonlySet<string>;
   },
-): void {
+): PlanCareMonth {
   const core = api.state as CoreState;
   const today = makeIsoDate(core.date);
   const source = sourceFor(today);
@@ -897,8 +984,9 @@ export function billMedicalCare(
     input.coverage,
     input.countedHolders,
   );
-  if (!households.length) return;
-  const bills = billMembers(api, households);
+  if (!households.length) return { insurerMinor: 0, members: 0 };
+  const prices = carePrices(api);
+  const bills = billMembers(api, households, prices);
   const billOf = (householdId: string) =>
     (bills.get(householdId) ?? []).reduce((n, m) => n + m.billMinor, 0);
   const prior = new Map(
@@ -994,7 +1082,10 @@ export function billMedicalCare(
     );
     const owed = owing.filter((row) => !due.includes(row));
     const pastWait = due.reduce((n, row) => n + row.minor, 0);
-    const { share, reach, except } = collectionsShare(api, h);
+    const { share, incomeOverPoverty, reach, except } = collectionsShare(
+      api,
+      h,
+    );
     // Each bill past the wait sends its own part, which keeps its own first
     // delinquency (the day it was billed) for the credit report's wait.
     const parts = due.map((row) => ({
@@ -1039,6 +1130,9 @@ export function billMedicalCare(
       owed,
       pastWaitMinor: pastWait,
       collectionsShare: share,
+      incomeOverPoverty,
+      careUnitMonthlyMinor: prices.get(h.placeId)?.unitMonthlyMinor ?? 0,
+      carePayDailyMinor: prices.get(h.placeId)?.payDailyMinor ?? 0,
       webRecordId: reach.recordId,
       webLinks: reach.parts.map((part) => part.link),
       ownRecordsFor: except,
@@ -1070,6 +1164,42 @@ export function billMedicalCare(
     }))
       bookSale(core, sellerId, paid);
   if (!bookkeeping()) dropSettledRows(api, input.module, households);
+  // What the employer plans' insurers owed for the month's care, and the
+  // real people on those plans: the coverage engine prices next year's
+  // premium from it.
+  const month = { insurerMinor: 0, members: 0 };
+  for (const h of households)
+    for (const m of bills.get(h.householdId) ?? [])
+      if (m.plan === "employer") {
+        month.insurerMinor += (m.insurerMinor ?? 0) * h.weight;
+        month.members += h.weight;
+      }
+  return month;
+}
+
+/**
+ * What a month of care for the people a plan could cover (everyone under
+ * Medicare's age in the billed places) would cost an employer plan's insurer
+ * today, a person: the opening's stand-in for a year of the plans' own
+ * claims, which do not exist yet on the first day.
+ */
+export function expectedPlanCare(api: CoreAPI): PlanCareMonth {
+  const households = householdsToBill(api, new Map(), new Set());
+  const prices = carePrices(api);
+  const ratio = q("medicalSeriousIllnessCostRatio");
+  const one = api.parameter("one");
+  const insurerShare = one - q(SHARE_KEY.employer);
+  const month = { insurerMinor: 0, members: 0 };
+  for (const h of households) {
+    const unit = prices.get(h.placeId)?.unitMonthlyMinor ?? 0;
+    for (const m of h.members) {
+      if (m.plan === "medicare") continue;
+      month.insurerMinor +=
+        unit * (one + (ratio - one) * m.careNeed) * insurerShare * h.weight;
+      month.members += h.weight;
+    }
+  }
+  return month;
 }
 
 /**

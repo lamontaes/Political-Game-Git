@@ -17,7 +17,7 @@ claimed-at: 2026-10-27T22:50:15.978Z
 
 **Rules.** No hand-written numbers in director code: the guard is the standing rule that every number lives in a parameter table, tagged, with a stopgap for a TUNABLE one. One source per fact (owner, Oct 27, 4 PM Eastern): the coming-of-age day is the core's own dateAtAge, the same day every age read uses.
 
-**Done when.** src/director/director.test.ts passes its stopgap and numbers test with GOLDEN_PATH_SEED=m3-dc1 and fails on clean main; src/director/volunteer-offer-weight.test.ts and src/director/journal.test.ts still pass; the coming-of-age day equals dateAtAge for every birthday, a February 29 one included.
+**Done when.** src/director/director.test.ts passes its stopgap and numbers test with GOLDEN_PATH_SEED=m3-dc1 and fails on clean main; src/director/volunteer-offer-weight.test.ts (removed) and src/director/journal.test.ts still pass; the coming-of-age day equals dateAtAge for every birthday, a February 29 one included.
 
 **Files.** src/director/coming-of-age.ts, src/director/data/director.json
 

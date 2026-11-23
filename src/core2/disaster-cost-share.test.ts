@@ -10,8 +10,7 @@ import declarations from "./data/disasters/declarations.json" with { type: "json
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { causeDisaster, disasterAssistancePaid } from "./modules/disasters";
-import { hazardOfIncident, RECORD_END, type Hazard } from "./modules/climate";
+import { disasterAssistancePaid } from "./modules/disasters";
 import { enactLaw, lawChain } from "./modules/laws";
 import {
   countyGeoidsForPlace,
@@ -29,9 +28,7 @@ interface Candidate {
   name: string;
   state: string;
   disaster: number;
-  hazard: Hazard;
-  /** Days from the disaster's start to its declaration. */
-  lag: number;
+  declared: string;
 }
 
 /** A town's name as the FEMA records key it: "Iaeger town" is "iaeger". */
@@ -63,11 +60,10 @@ function candidates(): Candidate[] {
       )
     )
       continue;
-    for (const [begins, declared, type, , number] of byCounty[county[0]!] ?? [])
+    for (const [, declared, , , number] of byCounty[county[0]!] ?? [])
       if (
-        begins >= "2000-01-01" &&
-        begins <= RECORD_END &&
-        hazardOfIncident(declarations.types[type] ?? "") &&
+        declared >= "2025-01-25" &&
+        declared <= "2025-12-31" &&
         (pa[`${county[0]}|${number}`]?.towns[recordName(p.sourceName)] ?? 0) > 0
       )
         out.push({
@@ -75,10 +71,7 @@ function candidates(): Candidate[] {
           name: p.sourceName,
           state: p.stateUsps,
           disaster: number,
-          hazard: hazardOfIncident(declarations.types[type] ?? "")!,
-          lag: Math.round(
-            (Date.parse(declared) - Date.parse(begins)) / 86_400_000,
-          ),
+          declared,
         });
   }
   return out;
@@ -126,43 +119,33 @@ it(
           measureId: "disaster-cost-share-test",
           citation: "Test: states share disaster costs",
         });
-        // The county's exposure makes the recorded disaster in each world; public assistance is
-        // paid on its declaration date, so stop the day after.
-        const made = causeDisaster(api, picked.hazard, picked.disaster);
-        const same = causeDisaster(
-          coreAPI(control),
-          picked.hazard,
-          picked.disaster,
-        );
-        if (!made || !same || made.number !== same.number) {
-          tried.push(
-            `${picked.name}, ${picked.state} (${picked.key}): no ${picked.hazard} disaster ${picked.disaster} to cause`,
-          );
-          continue;
-        }
-        const end = addDays(makeIsoDate(made.declared), 1);
+        // Public assistance is paid on the declaration date; stop the day after.
+        const end = addDays(makeIsoDate(picked.declared), 1);
         advanceCore(lawWorld, end);
         advanceCore(control, end);
         const sum = (core: typeof control) =>
           disasterAssistancePaid(coreAPI(core))
-            // Public assistance goes to governments (a payment to an organization's own id); household aid
-            // (paid to a household's account, a counted group's or a named head's) is individual assistance the law does not touch.
+            // Public assistance goes to governments; household aid (paid to a
+            // named household's own account or to the residents' pool) is
+            // individual assistance the law does not touch.
             .filter(
               (r) =>
-                r.disaster === made.number &&
-                core.organizations
-                  .get(r.orgId as never)
-                  ?.classification?.startsWith("service:") === true,
+                r.disaster === picked.disaster &&
+                core.organizations.has(r.orgId),
             )
             .reduce((n, r) => n + r.cents, 0);
         const withLaw = sum(lawWorld),
           without = sum(control);
         if (!without) {
           tried.push(
-            `${picked.name}, ${picked.state} (${picked.key}): no assistance paid`,
+            `${picked.name}, ${picked.state} (${picked.key}): no public assistance paid to its governments`,
           );
           continue;
         }
+        if (tried.length)
+          process.stdout.write(
+            `DISASTER-SHARE passed over: ${tried.join("; ")}\n`,
+          );
         process.stdout.write(
           `DISASTER-SHARE ${picked.name}, ${picked.state} (${picked.key}, seed ${seed}): federal public assistance ${without} cents without the law, ${withLaw} with it (${((100 * withLaw) / without).toFixed(1)}%), disaster ${picked.disaster}\n`,
         );

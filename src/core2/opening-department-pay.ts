@@ -126,12 +126,20 @@ export function withDistrictPayAuthority(
 } {
   const key = input.placeMetadata?.placeKey;
   const place = key ? corePlaceByKey(key) : null;
-  const town = place ? townGovernmentOf(place) : undefined;
-  if (!town || town.identity.kind !== "local-government")
-    return { district, commitments };
+  // A place with no local government of its own (Guam, the Virgin Islands,
+  // American Samoa, the Northern Marianas) has its territory's government pay
+  // its district, as it pays its other town departments; a district with no
+  // paying government holds no cash and its teachers are never paid.
+  const town = place
+    ? (townGovernmentOf(place) ?? departmentOwnersOf(place).state)
+    : undefined;
+  if (!town) return { district, commitments };
   stopgap("SG-WORLD-department-government");
   const at = makeIsoDate(input.startedAt);
-  const governmentKey = town.identity.governmentKey;
+  const governmentKey =
+    town.identity.kind === "local-government"
+      ? town.identity.governmentKey
+      : `jurisdiction:${town.identity.jurisdictionId}`;
   const ownerId =
     input.organizations.find(
       (row) => row.publicPayAuthority?.governmentKey === governmentKey,
