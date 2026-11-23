@@ -2,6 +2,20 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 23, 2026, about 5:35 p.m.: after playing v0.114.0 (owner, verbatim; recorded by the CTO)
+
+The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
+
+- **This week is the playthrough:** "Let's hold on a lot of the pool now. Let's start this week by addressing things directly with the playthrough. And if there are things that, if there are pool items or whatever that, intersect or whatever with the playthrough, then you can just do those."
+  - Work comes from that sitting's rows. Pool items go ahead only where they touch a row.
+- **No box inside a box, enforced by a guard:** "a box around boxes for announce and sim. What is up with these box in the boxes? ... Whatever visual design principle this is, you need to find out what it is, find out why it keeps happening, and explicitly forbid it. Make it turn main red."
+  - The principle is nested containers: a border marks a common region, and nested regions compete. Group by spacing and alignment.
+  - The cause is `buttonTray()` (`src/bench/ui/button.mjs`) and `.tray, .record-actions` (`src/bench/play.css`), built from the Oct 29 "framed plates" answer that the Nov 5 "no boxes" replaced.
+  - Buttons sit on the panel. A guard fails main when a framed or filled box sits inside a framed panel.
+- **No scrollers in menus with room:** "I don't know how many times I have to fucking say none of these scrollers, especially when there's ample dead space in these menus." (a repeat)
+- **Notes line by line:** "you need to take this line by line, make sure nothing falls through the cracks ... I'll say a bunch of stuff and you'll answer 7 out of 10."
+- **Asked on the Desk, not yet answered:** whether Jan 20 stays the inaugural with the Oval Office and America cutaways back, or becomes an Oval Office address; what "people on the top" means against the Nov 11 strip ruling; what "no assignments" means on Elections.
+
 ## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
 
 - **Menu test round 1 rejected** (about 2:25 p.m.): "Okay, I don't really like any of these, to be honest. They still have a ton of empty space in the menus. Or, yeah, in the screens. Like, it's just a transparent screen with stuff pasted on it. It's been the problem the entire time. I mean, I guess it's better with not looking like Excel, but still." The CTO's brief had required one see-through panel over the room. That rule produced this look, and it is dropped for menu mock-ups.
