@@ -1,5 +1,5 @@
 ---
-id: term-read-state-figures-from-the-tier
+id: state-term-read-one-record
 impact: patch
 section: Fixed
 title: A state's term is read from one record, before the world opened as after
