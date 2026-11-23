@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { placeLocalities, placeStateKeys } from "../../src/core2/places.ts";
+import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 export function drawPlace(commit: string, specId: string) {
   const seed = createHash("sha256").update(`${commit}:${specId}`).digest("hex");
   const keys = [...placeStateKeys()].sort((a, b) => a.localeCompare(b));
@@ -12,7 +12,7 @@ export function drawPlace(commit: string, specId: string) {
   if (!localities.length)
     throw new Error(`No recorded locality for ${stateKey}`);
   const locality =
-    localities[parseInt(seed.slice(8, 16), 16) % localities.length];
+    localities[parseInt(seed.slice(8, 16), 16) % localities.length]!;
   return {
     seed,
     key: locality.key,

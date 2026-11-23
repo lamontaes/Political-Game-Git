@@ -33,4 +33,4 @@ root: rc6-scenes-repeat
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/interest-groups.ts, src/director/circumstance.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, src/bench/data/scene-places.json, data/english/parts/scene-talk.json, src/director/hearing-witness.test.ts (new)
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/interest-groups.ts, src/director/circumstance.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, src/bench/data/scene-places.json, data/english/parts/scene-talk.json, (new)

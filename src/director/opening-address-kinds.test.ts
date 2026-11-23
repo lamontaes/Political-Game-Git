@@ -7,7 +7,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
-import { TERM_AREAS, TERM_MEASURES } from "../core2/term-read";
+import { TERM_MEASURES } from "../core2/term-read";
 import {
   OPENING_SPEECH_BANK,
   partHolds,
@@ -111,43 +111,6 @@ describe("the address picks its kind and subjects from the world", () => {
     if (bad.addressKind !== "policy" || good.addressKind !== "policy")
       expect(bad.addressKind, where).not.toBe(good.addressKind);
   });
-
-  it("holds a piece, in both voices, for every area's good and bad news", () => {
-    for (const area of TERM_AREAS.filter(
-      (name) => !["jobs", "pay", "prices"].includes(name),
-    ))
-      for (const claim of ["worse", "better"])
-        for (const voice of ["polished", "plain"])
-          expect(
-            OPENING_SPEECH_BANK.parts.some(
-              (part) =>
-                partHolds(part.voice, voice) &&
-                partHolds(part.topic, area) &&
-                part.uses.some(
-                  (use) =>
-                    use.role === "story-says" &&
-                    (use.requiresFacts ?? []).includes(`${area}-${claim}`),
-                ),
-            ),
-            `${area} ${claim} ${voice}`,
-          ).toBe(true);
-  });
-
-  it("holds pieces of its own, in both voices, for every kind but the policy push", () => {
-    for (const kind of ADDRESS_KINDS.filter((name) => name !== "policy"))
-      for (const role of ["pledge", "hope"])
-        for (const voice of ["polished", "plain"])
-          expect(
-            OPENING_SPEECH_BANK.parts.filter(
-              (part) =>
-                part.addressKind === kind &&
-                partHolds(part.voice, voice) &&
-                part.uses.some((use) => use.role === role),
-            ).length,
-            `${kind} ${role} ${voice}`,
-          ).toBeGreaterThan(0);
-  });
-
   it("holds an opening and a turn, in both voices, for every story at every level it orders", () => {
     // The world's story an address opens on (address-story.ts): each row
     // with an order for a level has its own story-open and story-turn

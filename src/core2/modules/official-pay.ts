@@ -38,6 +38,8 @@ import payFacts from "../../../data/source/official-office-pay/facts.json" with 
 import { outsideGovernment } from "../outside-governments";
 import { placeStateKey } from "../place-map";
 import { keepsWhy } from "../why-kept";
+import { lawInForce, stateLawInForce, type LawRowInput } from "./laws";
+import { lawApplied, lawNoLongerApplies } from "../law-reach/applied";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -111,13 +113,71 @@ export interface OfficialSalary {
   /** For an estimate: how far, in percent, the figure may be from the true one. */
   readonly spreadPct?: number;
   readonly estimatedFrom?: string;
+  /** The law row in force the salary was read from, when a body has set it, and its series. */
+  readonly lawId?: string;
+  readonly lawSeries?: string;
 }
 
-/** The office's yearly salary in cents and where the figure comes from. */
-export function officialSalary(row: OfficialRow): OfficialSalary | null {
+/**
+ * The law series that sets an office's yearly salary, in dollars, at the
+ * office's own level: the nation's for a federal office, its state's for a
+ * state office (a legislature's pay act or a governor's salary statute).
+ */
+export const salarySeries = (key: string) => `official-salary:${key}`;
+
+/** Every office salary law series, federal and state: what dev mode and a body can set. */
+export const SALARY_SERIES: readonly string[] = [
+  ...new Set([
+    ...Object.values(FEDERAL_KEYS),
+    ...Object.values(STATE_KEYS),
+    "legislatorAnnual",
+  ]),
+].map(salarySeries);
+
+/** The salary row a body enacted for an office, in force on the date. */
+function salaryLaw(
+  api: CoreAPI,
+  key: string,
+  stateKey: string | null,
+  date: string,
+): LawRowInput | null {
+  const answer = stateKey
+    ? stateLawInForce(api, stateKey, salarySeries(key), date)
+    : lawInForce(api, salarySeries(key), date);
+  // Only the office's own level sets its pay: a state's act for its offices,
+  // the nation's for federal ones (an act of another level does not reach it).
+  const level = stateKey ? "state" : "federal";
+  const row = answer.levels.find(
+    (l) => l.level === level && !l.setAside && l.row,
+  )?.row;
+  return row && typeof row.value === "number" && row.value > 0 ? row : null;
+}
+
+const fromLaw = (row: LawRowInput, via = ""): OfficialSalary => ({
+  annualMinor: Math.round(row.value! * 100),
+  citation: `${row.series}${via}: the law in force, ${row.id}`,
+  tag: "SOURCED",
+  lawId: row.id,
+  lawSeries: row.series,
+});
+
+/**
+ * The office's yearly salary in cents and where the figure comes from. In a
+ * world (`api`), the salary a body enacted for the office (its law row in
+ * force on `date`) is paid; an office no act has set yet is paid the opening
+ * table's figure. stopgapId: SG-LAWS-official-salary-opening-table
+ */
+export function officialSalary(
+  row: OfficialRow,
+  api?: CoreAPI,
+  date: string = api?.state.date ?? "",
+): OfficialSalary | null {
   const federal =
     FEDERAL_KEYS[row.officeKind] ?? FEDERAL_KEYS[row.bodyKind] ?? undefined;
   if (federal) {
+    const law = api ? salaryLaw(api, federal, null, date) : null;
+    if (law) return fromLaw(law);
+    if (api) api.stopgap("SG-LAWS-official-salary-opening-table");
     const dollars = TABLE.federal[federal];
     return typeof dollars === "number"
       ? {
@@ -135,6 +195,14 @@ export function officialSalary(row: OfficialRow): OfficialSalary | null {
       : STATE_KEYS[row.officeKind];
   const spread = TABLE.provenance.estimated.spreadPct;
   for (const key of [...(own ? [own] : []), ...STATEWIDE_FALLBACK]) {
+    const law = api ? salaryLaw(api, key, row.stateKey, date) : null;
+    if (law)
+      return fromLaw(
+        law,
+        key === own
+          ? ""
+          : ` (paid like the ${key}; no salary is set for ${row.officeKind})`,
+      );
     const usps = row.stateKey.replace(/^US-/, "");
     const published =
       key === "governor"
@@ -144,6 +212,7 @@ export function officialSalary(row: OfficialRow): OfficialSalary | null {
           : undefined;
     const dollars = published?.annualDollars ?? state[key];
     if (typeof dollars !== "number") continue;
+    if (api) api.stopgap("SG-LAWS-official-salary-opening-table");
     const via =
       key === own
         ? ""
@@ -236,7 +305,7 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     api.stopgap("SG-GOV-outside-officials-counted");
     return;
   }
-  const salary = officialSalary(row);
+  const salary = officialSalary(row, api);
   if (!salary) {
     // An office the table has no pay for still has a person with a household to keep, on no pay.
     keepHousehold(api, row, 0);
@@ -363,6 +432,52 @@ export function payOfficialPaycheck(
   };
 }
 
+/**
+ * An official's pay row at the salary in force on the first day the payday
+ * pays for: a pay act a body enacted moves the salary from the next period
+ * it pays, and the post's wage with it, so every reader of the job sees the
+ * same pay. A post no official holds (an outlet's staff) keeps its pay.
+ */
+function resalaried(api: CoreAPI, row: PayRow): PayRow {
+  const official = officialOf(api, row.id);
+  if (!official) return row;
+  const salary = officialSalary(official, api, row.paidFrom);
+  // The pay act reaches the official it pays, by name, with what it changed
+  // from the opening salary; an official it no longer pays leaves it.
+  if (salary?.lawId && salary.lawSeries)
+    lawApplied(api, {
+      key: salary.lawSeries,
+      lawId: salary.lawId,
+      targetId: row.personId,
+      target: "person",
+      engine: OFFICIAL_PAY_MODULE_ID,
+      what: "salary-set-by-law",
+      amountMinor:
+        salary.annualMinor - (officialSalary(official)?.annualMinor ?? 0),
+    });
+  for (const series of SALARY_SERIES)
+    if (series !== salary?.lawSeries)
+      lawNoLongerApplies(api, series, row.personId);
+  if (!salary || salary.annualMinor === row.annualMinor) return row;
+  const source = salarySource(salary, api.state.date);
+  const next: PayRow = {
+    ...row,
+    annualMinor: salary.annualMinor,
+    citation: salary.citation,
+    source,
+  };
+  table(api, "pay").put(next as unknown as ModuleRow);
+  const core = api.state as CoreState;
+  const job = core.jobs.get(row.jobId);
+  if (job && job.endsAt === undefined && row.jobId.startsWith("job:office:"))
+    core.jobs.set(row.jobId, {
+      ...job,
+      wageDailyMinor: Math.round(salary.annualMinor / 365),
+      source,
+    });
+  return next;
+}
+
 /** Pays each official for the days served since their last pay, on the 1st. */
 function payMonth(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
@@ -370,7 +485,7 @@ function payMonth(api: CoreAPI): void {
   // paying them adds no organization.
   const outside = outsideAccountOf(api);
   for (const raw of table(api, "pay").rows()) {
-    const row = raw as unknown as PayRow;
+    const row = resalaried(api, raw as unknown as PayRow);
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.max(0, daysBetweenText(row.paidFrom, through));
     const yearDays = daysBetween(
@@ -449,8 +564,9 @@ export function payPostFromOutside(
 }
 
 registerHuskIncome((core, personId) => {
-  const row = officialOf(coreAPI(core), personId);
-  return row?.husk ? officialSalary(row)?.annualMinor : undefined;
+  const api = coreAPI(core);
+  const row = officialOf(api, personId);
+  return row?.husk ? officialSalary(row, api)?.annualMinor : undefined;
 });
 
 /** Seat new officials, and end the post of anyone whose term ended. */
