@@ -1902,8 +1902,7 @@ function composeBinding(
   const rival = said.rivalId
     ? core.people.get(said.rivalId as PersonId)
     : undefined;
-  if (rival)
-    facts.opponent = sayPersonFact(rival, [moment.causeId, rival.id]);
+  if (rival) facts.opponent = sayPersonFact(rival, [moment.causeId, rival.id]);
   // Word of a rival's message passed on: how it reached the teller, what it
   // argued (the subject and the rival's side of it) and how far it moved the
   // teller, each from the message's own record. Nothing here quotes it.

@@ -34,6 +34,6 @@ Seen: Ili'ili, American Samoa, seed losslife:5, the pinned family-loss test's VO
 
 **Waits on.** Nothing.
 
-**Files.** src/director/journal.ts, src/director/family-loss-stake-scene.test.ts
+**Files.** src/director/journal.ts, src/director/family-loss-stake-scene.test.ts (new)
 
 **Notes.** Filed Nov 17 from the Words read of pull request 9512; not fixed in that pull request.

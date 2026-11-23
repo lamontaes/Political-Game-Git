@@ -34,6 +34,6 @@ Seen: the Salado TX play, seed review1:2.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts, src/director/family-stake.ts, scripts/words/family-loss-life.ts, scripts/words/family-loss-life-scan.ts, src/director/race-margin.ts, src/director/arc-variant.ts, src/director/data/arc-variants.json
+**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts (new), src/director/family-stake.ts, scripts/words/family-loss-life.ts, scripts/words/family-loss-life-scan.ts, src/director/race-margin.ts, src/director/arc-variant.ts, src/director/data/arc-variants.json
 
 **Notes.** Filed Nov 15 by hand with its PR. Some households now offer fewer replies (for example no thank-you or blame after "Tell me what happens now."): M5's read found those replies did not answer that line. The middle-margin answer waits on a drawn place that plays one.

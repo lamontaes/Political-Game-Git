@@ -34,6 +34,6 @@ Seen: Shiloh, Georgia, seed read-9512-f, family-loss talk, the replies under "I 
 
 **Waits on.** Nothing.
 
-**Files.** src/english/scene-talk-words.ts, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts
+**Files.** src/english/scene-talk-words.ts, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts (new)
 
 **Notes.** Filed Nov 17 from the Words read of pull request 9512; not fixed in that pull request.

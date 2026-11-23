@@ -34,7 +34,7 @@ Seen: pull request 9512, where every candidate's own gift in its played places c
 
 **Waits on.** Pull request 9512 folding.
 
-**Files.** src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts
+**Files.** src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts (new)
 
 **Notes.** Filed Nov 15 by hand on the branch of pull request 9512.
 
