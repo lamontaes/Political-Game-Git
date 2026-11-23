@@ -1,0 +1,988 @@
+{
+  "schema": "scene-sample/1",
+  "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9",
+  "scene": {
+    "typeKey": "first-meeting",
+    "purpose": "introduction",
+    "title": "First meeting"
+  },
+  "world": {
+    "place": "Dededo, Guam",
+    "placeKey": "territory:GU:dededo",
+    "seed": "nov19b",
+    "date": "2025-02-20"
+  },
+  "player": {
+    "name": "Ashley Lowe",
+    "standing": "a resident of Dededo, Guam, not in office"
+  },
+  "cause": {
+    "id": "work-relationship_8ac7d28d3c0d0eac",
+    "label": "circumstance:new-coworker"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_0c19aa68977a5893",
+      "name": "Garrett Houston"
+    },
+    {
+      "role": "asked",
+      "id": "person_e6de7af30f4e82ab",
+      "name": "Ashley Lowe"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Garrett just started at Singh Manufacturing doing the same job you do, and has come over to say hello.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-has-just-started-in-the-same-job-as-yours-at-employer-and-has-come-over-to-say-hello"
+      ],
+      "wordings": [],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Garrett Houston",
+      "role": "asker",
+      "text": "Hi. I'm Garrett, new at Singh Manufacturing. You're Ashley, right?",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.hi-i-m-name-new-at-employer-you-re-first-right"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.open-greet.hi-i-m-name-i-just-started-at-employer-and-you-re-first-right",
+          "text": "Hi, I'm {name}. I just started at {employer}, and you're {first}, right?"
+        },
+        {
+          "key": "scene-talk.open-greet.hello-i-m-name-one-of-the-new-people-at-employer-have-you-got-a-second",
+          "text": "Hello. I'm {name}, one of the new people at {employer}. Have you got a second?"
+        },
+        {
+          "key": "scene-talk.open-greet.excuse-me-are-you-first-i-m-name-and-i-just-started-at-employer",
+          "text": "Excuse me, are you {first}? I'm {name}, and I just started at {employer}."
+        }
+      ],
+      "asks": true
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Garrett Houston",
+    "role": "asker",
+    "text": "They told me you do the same job I do at Singh Manufacturing, so you're the one to ask. What do you wish somebody had told you when you started?",
+    "move": "request",
+    "pieces": [
+      "scene-talk.state-request.they-told-me-you-do-the-same-job-i-do-at-employer-so-you-re-the-one-to-ask-what-do-you-wish-somebody-had-told-you-when-you-started"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.i-think-you-and-i-have-the-same-job-at-employer-would-you-show-me-how-you-handle-the-part-nobody-explains",
+        "text": "I think you and I have the same job at {employer}. Would you show me how you handle the part nobody explains?"
+      }
+    ],
+    "asks": true
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "Yes, come find me, and we'll work out Singh Manufacturing together.",
+          "move": "agree",
+          "pieces": [
+            "scene-talk.reply-agree.yes-come-find-me-and-we-ll-work-out-employer-together"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.sure-i-ll-show-you-how-things-run-at-employer",
+              "text": "Sure. I'll show you how things run at {employer}."
+            },
+            {
+              "key": "scene-talk.reply-agree.of-course",
+              "text": "Of course."
+            },
+            {
+              "key": "scene-talk.reply-agree.glad-to",
+              "text": "Glad to."
+            },
+            {
+              "key": "scene-talk.reply-agree.sure",
+              "text": "Sure."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Garrett Houston",
+              "role": "asker",
+              "text": "Thank you.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-thank.thank-you"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.that-helps",
+                  "text": "That helps."
+                },
+                {
+                  "key": "scene-talk.follow-thank.wonderful-news",
+                  "text": "Wonderful news."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "took-them-in-hand",
+              "label": "You said you would show them around",
+              "keeps": "promise"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'll make sure you meet everyone at Singh Manufacturing and learn how things run.",
+          "move": "promise",
+          "pieces": [
+            "scene-talk.reply-promise.i-ll-make-sure-you-meet-everyone-at-employer-and-learn-how-things-run"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.i-ll-be-there",
+              "text": "I'll be there."
+            },
+            {
+              "key": "scene-talk.reply-promise.count-on-me",
+              "text": "Count on me."
+            },
+            {
+              "key": "scene-talk.reply-promise.i-ll-walk-you-through-employer-myself-and-introduce-you-to-the-people-who-matter",
+              "text": "I'll walk you through {employer} myself and introduce you to the people who matter."
+            },
+            {
+              "key": "scene-talk.reply-promise.i-ll-show-you",
+              "text": "I'll show you."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 9,
+              "speaker": "Garrett Houston",
+              "role": "asker",
+              "text": "How soon?",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.how-soon"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-press.which-day",
+                  "text": "Which day?"
+                },
+                {
+                  "key": "scene-talk.follow-press.when-though",
+                  "text": "When, though?"
+                }
+              ],
+              "asks": true
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "You're right, yes.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.you-re-right-yes-2"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-come-find-me-and-i-ll-go-over-the-basics-of-employer",
+                    "text": "You're right. Come find me, and I'll go over the basics of {employer}."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.yes-let-s",
+                    "text": "Yes, let's."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.alright-yes",
+                    "text": "Alright, yes."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 13,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "Thank you.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.thank-you"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.that-helps",
+                        "text": "That helps."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.wonderful-news",
+                        "text": "Wonderful news."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 11,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll sit down with you and go over how Singh Manufacturing runs.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.i-ll-sit-down-with-you-and-go-over-how-employer-runs"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-promise",
+                    "text": "I promise."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.count-on-it",
+                    "text": "Count on it."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-make-time",
+                    "text": "I'll make time."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 14,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "I appreciate it.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.i-appreciate-it"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.that-s-kind",
+                        "text": "That's kind."
+                      },
+                      {
+                        "key": "scene-talk.close-thank.thank-you-truly",
+                        "text": "Thank you, truly."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 12,
+                "speaker": "You",
+                "role": "player",
+                "text": "Let me think.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.let-me-think"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.another-time",
+                    "text": "Another time."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.gotta-go",
+                    "text": "Gotta go."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  },
+                  "close": {
+                    "n": 15,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "Think it over.",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-plea.think-it-over"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.take-your-time",
+                        "text": "Take your time."
+                      },
+                      {
+                        "key": "scene-talk.close-press.no-hurry",
+                        "text": "No hurry."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Who else?",
+          "move": "ask",
+          "pieces": ["scene-talk.reply-ask.who-else"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-ask.what-brought-you-to-employer",
+              "text": "What brought you to {employer}?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-did-you-do-before-employer-i-d-like-to-know-who-i-m-talking-to",
+              "text": "What did you do before {employer}? I'd like to know who I'm talking to."
+            },
+            {
+              "key": "scene-talk.reply-ask.what-s-it-like",
+              "text": "What's it like?"
+            },
+            {
+              "key": "scene-talk.reply-ask.why-me",
+              "text": "Why me?"
+            }
+          ],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 16,
+              "speaker": "Garrett Houston",
+              "role": "asker",
+              "text": "Before this I worked somewhere much smaller, so Singh Manufacturing is a lot to take in.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.before-this-i-worked-somewhere-much-smaller-so-employer-is-a-lot-to-take-in"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-answer.i-d-like-to-learn-who-s-who-first-everyone-at-employer-seems-to-know-each-other",
+                  "text": "I'd like to learn who's who first. Everyone at {employer} seems to know each other."
+                },
+                {
+                  "key": "scene-talk.follow-answer.i-needed-the-work-and-employer-had-an-opening-i-m-hoping-it-turns-into-more",
+                  "text": "I needed the work, and {employer} had an opening. I'm hoping it turns into more."
+                },
+                {
+                  "key": "scene-talk.follow-answer.honestly-it-s-going-fine-but-i-m-still-learning-where-things-are-at-employer",
+                  "text": "Honestly, it's going fine, but I'm still learning where things are at {employer}."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 17,
+                "speaker": "You",
+                "role": "player",
+                "text": "Then yes.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.then-yes"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.close-accept.that-s-fine",
+                    "text": "That's fine."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.happy-to",
+                    "text": "Happy to."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.then-i-ll-show-you-the-parts-of-employer-nobody-explains",
+                    "text": "Then I'll show you the parts of {employer} nobody explains."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "Wonderful news.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.wonderful-news"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-helps",
+                        "text": "That helps."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll help.",
+                "move": "promise",
+                "pieces": ["scene-talk.follow-promise.i-ll-help"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.count-on-me",
+                    "text": "Count on me."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-show-you-who-s-who-at-employer-starting-with-the-people-you-ll-need-most",
+                    "text": "I'll show you who's who at {employer}, starting with the people you'll need most."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-show-you",
+                    "text": "I'll show you."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 21,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "That's kind.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-accept.that-s-kind"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.i-appreciate-it",
+                        "text": "I appreciate it."
+                      },
+                      {
+                        "key": "scene-talk.close-thank.thank-you-truly",
+                        "text": "Thank you, truly."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 19,
+                "speaker": "You",
+                "role": "player",
+                "text": "Ask around.",
+                "move": "deflect",
+                "pieces": ["scene-talk.reply-deflect.ask-around"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-deflect.i-d-ask-your-supervisor-first-they-know-more-about-employer-than-i-do",
+                    "text": "I'd ask your supervisor first. They know more about {employer} than I do."
+                  },
+                  {
+                    "key": "scene-talk.reply-deflect.give-it-time",
+                    "text": "Give it time."
+                  },
+                  {
+                    "key": "scene-talk.reply-deflect.ask-your-supervisor",
+                    "text": "Ask your supervisor."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 22,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "Just a little?",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-press.just-a-little"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-press.who-then",
+                        "text": "Who, then?"
+                      },
+                      {
+                        "key": "scene-talk.follow-press.even-five-minutes",
+                        "text": "Even five minutes?"
+                      }
+                    ],
+                    "asks": true
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 23,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "You're right, yes.",
+                      "move": "agree",
+                      "pieces": ["scene-talk.reply-agree.you-re-right-yes-2"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-agree.you-re-right-come-find-me-and-i-ll-go-over-the-basics-of-employer",
+                          "text": "You're right. Come find me, and I'll go over the basics of {employer}."
+                        },
+                        {
+                          "key": "scene-talk.reply-agree.yes-let-s",
+                          "text": "Yes, let's."
+                        },
+                        {
+                          "key": "scene-talk.reply-agree.alright-yes",
+                          "text": "Alright, yes."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 26,
+                          "speaker": "Garrett Houston",
+                          "role": "asker",
+                          "text": "Thank you.",
+                          "move": "thank",
+                          "pieces": ["scene-talk.follow-thank.thank-you"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.that-helps",
+                              "text": "That helps."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.wonderful-news",
+                              "text": "Wonderful news."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "took-them-in-hand",
+                          "label": "You said you would show them around",
+                          "keeps": "promise"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 24,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll sit down with you and go over how Singh Manufacturing runs.",
+                      "move": "promise",
+                      "pieces": [
+                        "scene-talk.reply-promise.i-ll-sit-down-with-you-and-go-over-how-employer-runs"
+                      ],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-promise.i-promise",
+                          "text": "I promise."
+                        },
+                        {
+                          "key": "scene-talk.reply-promise.count-on-it",
+                          "text": "Count on it."
+                        },
+                        {
+                          "key": "scene-talk.reply-promise.i-ll-make-time",
+                          "text": "I'll make time."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 27,
+                          "speaker": "Garrett Houston",
+                          "role": "asker",
+                          "text": "I appreciate it.",
+                          "move": "thank",
+                          "pieces": ["scene-talk.follow-thank.i-appreciate-it"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-accept.that-s-kind",
+                              "text": "That's kind."
+                            },
+                            {
+                              "key": "scene-talk.close-thank.thank-you-truly",
+                              "text": "Thank you, truly."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "took-them-in-hand",
+                          "label": "You said you would show them around",
+                          "keeps": "promise"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 25,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Let me think.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.let-me-think"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.another-time",
+                          "text": "Another time."
+                        },
+                        {
+                          "key": "scene-talk.reply-leave.gotta-go",
+                          "text": "Gotta go."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "brushed-off-newcomer",
+                          "label": "You put them off, and they noticed",
+                          "keeps": "relationship-strained"
+                        },
+                        "close": {
+                          "n": 28,
+                          "speaker": "Garrett Houston",
+                          "role": "asker",
+                          "text": "Take your time.",
+                          "move": "press",
+                          "pieces": ["scene-talk.follow-accept.take-your-time"],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 7,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'm swamped.",
+          "move": "deflect",
+          "pieces": ["scene-talk.reply-deflect.i-m-swamped"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-deflect.i-d-rather-you-find-your-own-way-around-employer-first-then-ask-me-what-s-left",
+              "text": "I'd rather you find your own way around {employer} first. Then ask me what's left."
+            },
+            {
+              "key": "scene-talk.reply-deflect.i-m-not-the-right-person-for-that-at-employer-try-the-people-who-run-things",
+              "text": "I'm not the right person for that at {employer}. Try the people who run things."
+            },
+            {
+              "key": "scene-talk.reply-decline.not-now",
+              "text": "Not now."
+            },
+            {
+              "key": "scene-talk.reply-deflect.ask-someone-else",
+              "text": "Ask someone else."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 29,
+              "speaker": "Garrett Houston",
+              "role": "asker",
+              "text": "Just a little?",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.just-a-little"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-press.who-then",
+                  "text": "Who, then?"
+                },
+                {
+                  "key": "scene-talk.follow-press.even-five-minutes",
+                  "text": "Even five minutes?"
+                }
+              ],
+              "asks": true
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 30,
+                "speaker": "You",
+                "role": "player",
+                "text": "Yes, let's.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.yes-let-s"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-come-find-me-and-i-ll-go-over-the-basics-of-employer",
+                    "text": "You're right. Come find me, and I'll go over the basics of {employer}."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-yes-2",
+                    "text": "You're right, yes."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.alright-yes",
+                    "text": "Alright, yes."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 33,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "That helps.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.that-helps"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.wonderful-news",
+                        "text": "Wonderful news."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 31,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll make time.",
+                "move": "promise",
+                "pieces": ["scene-talk.reply-promise.i-ll-make-time"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-promise",
+                    "text": "I promise."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-sit-down-with-you-and-go-over-how-employer-runs",
+                    "text": "I'll sit down with you and go over how {employer} runs."
+                  },
+                  {
+                    "key": "scene-talk.reply-promise.count-on-it",
+                    "text": "Count on it."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 34,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "I appreciate it.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.i-appreciate-it"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.that-s-kind",
+                        "text": "That's kind."
+                      },
+                      {
+                        "key": "scene-talk.close-thank.thank-you-truly",
+                        "text": "Thank you, truly."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "took-them-in-hand",
+                    "label": "You said you would show them around",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 32,
+                "speaker": "You",
+                "role": "player",
+                "text": "Another time.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.another-time"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.gotta-go",
+                    "text": "Gotta go."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.let-me-think",
+                    "text": "Let me think."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "brushed-off-newcomer",
+                    "label": "You put them off, and they noticed",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 35,
+                    "speaker": "Garrett Houston",
+                    "role": "asker",
+                    "text": "No hurry.",
+                    "move": "press",
+                    "pieces": ["scene-talk.close-press.no-hurry"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.take-your-time",
+                        "text": "Take your time."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "took-them-in-hand": 10,
+    "brushed-off-newcomer": 2
+  },
+  "depth": 3,
+  "gaps": []
+}
