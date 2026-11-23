@@ -93,6 +93,8 @@ it(`the ordinary year's tax reader reaches a named buyer and the treasury pays a
     twoLevel: true,
     settings: { history: "today" },
   }).core;
+  // The proof reads itemized payments to people outside the player's circle.
+  core.observer = true;
   const api = coreAPI(core),
     chain = lawChain(api),
     opened = core.date;

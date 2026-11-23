@@ -8,7 +8,8 @@ import { gameStartDate } from "./game-start";
 import { activate } from "./life";
 import { drivesReport } from "./modules/drives";
 import { residentsRuntime } from "./modules/residents";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import type { CoreEventInput } from "./types";
 import { setTraitProbe } from "./trait-probe";
 
 // A layoff names who decided it. When that is a person still in the wider
@@ -71,6 +72,20 @@ it(`a grudge against a counted layoff decider is confronted and costs the tie in
   // person every engine reads (drives.ts driveIdentity).
   expect(core.people.has(decider), `${where}: filled in when named`).toBe(true);
 
+  const key =
+    holder! < decider ? `${holder}:${decider}` : `${decider}:${holder}`;
+  // Strangers: the worker and the owner who laid them off had no tie, so
+  // the confrontation still writes its event and its falling-out (CTO, #9747
+  // 6999923338), not nothing.
+  const strangers = !core.relationships.has(key);
+  const confronted: CoreEventInput[] = [];
+  registerModule(core, {
+    id: "test-grudge-confronted-probe",
+    eventKinds: ["grievance.confronted"],
+    onEvent(_api, event) {
+      confronted.push(event);
+    },
+  });
   let falloutCalls = 0;
   setTraitProbe({
     formula: (row) => {
@@ -86,7 +101,11 @@ it(`a grudge against a counted layoff decider is confronted and costs the tie in
   expect(falloutCalls, `${where}: relationships.fall-out ran`).toBeGreaterThan(
     0,
   );
-  const key =
-    holder! < decider ? `${holder}:${decider}` : `${decider}:${holder}`;
+  expect(
+    confronted.some(
+      (e) => e.personIds.includes(holder!) && e.id.includes(`:${decider}:`),
+    ),
+    `${where}: the confrontation wrote its event${strangers ? " between strangers" : ""}`,
+  ).toBe(true);
   expect(core.relationships.has(key), where).toBe(true);
 }, 600_000);

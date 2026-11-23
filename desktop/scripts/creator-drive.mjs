@@ -36,7 +36,7 @@ export async function answerCharacterBasics(page) {
   }
   const given = page.getByLabel("First name", { exact: true });
   if (!(await given.inputValue())) {
-    await page.getByTestId("creator-randomize-name").click();
+    await page.getByTestId("creator-random").click();
   }
   const month = page.getByTestId("start-birth-month");
   if (!(await month.getAttribute("data-value"))) {

@@ -518,6 +518,9 @@ export const SENTENCE_WORDS: ReadonlySet<string> = new Set([
   "Get",
   "Send",
   "So",
+  // An ask that names its question first ("Since I believe ..., on more
+  // passenger rail, my answer is no"; the opening evening, Nov 19).
+  "On",
 ]);
 
 /** A joined clause's first word in the case a clause after a comma takes. */

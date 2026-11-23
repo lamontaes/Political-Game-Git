@@ -10,7 +10,10 @@
  *
  * Ids are queued by the month of their newest date as they enter, so the
  * monthly pass drops whole months and never walks the set. With bookkeeping
- * on (tests, proofs) every id stays. Kept forever, the set was 117 MB of a
+ * on (tests, proofs) every id stays. An id a live drive still cites stays
+ * too, since a drive forms from an event and the drives engine checks that
+ * event again each day it rewrites the drive; it leaves at the first monthly
+ * pass after no drive cites it. Kept forever, the set was 117 MB of a
  * long run's heap (Montpelier, Vermont, year 6: 661,212 ids).
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -65,10 +68,22 @@ export function forgetOldEventIds(core: CoreState): void {
     makeIsoDate(core.date),
     -parameter("eventIdRetentionDays", core.data.parameters),
   ).slice(0, 7);
+  let cited: Set<string> | undefined;
   for (const [month, ids] of queue) {
     if (month >= before) continue;
-    for (const id of ids) core.eventIds.delete(id);
-    queue.delete(month);
+    if (!cited) {
+      cited = new Set();
+      for (const person of core.people.values())
+        for (const drive of person.drives.values())
+          cited.add(drive.sourceEventId);
+    }
+    const kept: string[] = [];
+    for (const id of ids) {
+      if (cited.has(id)) kept.push(id);
+      else core.eventIds.delete(id);
+    }
+    if (kept.length) queue.set(month, kept);
+    else queue.delete(month);
   }
 }
 
