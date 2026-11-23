@@ -314,7 +314,41 @@ function moveRecords(
       },
     });
   }
-  return rows;
+  return cameOnce(rows);
+}
+
+/**
+ * A person comes to the county once: the earliest arrival that names them,
+ * their own or a parent's they came with. Two parents of one household can
+ * each be pulled here on their own day, and a grown child at home can be
+ * pulled on theirs, so a later record that would bring them a second time
+ * leaves them out, and their own later move is not written.
+ */
+function cameOnce(
+  rows: Omit<HistoryRecord, "moduleId">[],
+): Omit<HistoryRecord, "moduleId">[] {
+  const came = new Set<string>();
+  const kept = new Set<Omit<HistoryRecord, "moduleId">>();
+  for (const row of [...rows].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+  )) {
+    const [mover, ...withThem] = row.personIds ?? [];
+    if (mover === undefined || came.has(mover)) continue;
+    const children = withThem.filter((id) => !came.has(id));
+    const childIds = String(row.facts?.childIds ?? "")
+      .split(" ")
+      .filter((id) => id && !came.has(id));
+    for (const id of [mover, ...children, ...childIds]) came.add(id);
+    row.personIds = [mover, ...children];
+    if (row.facts?.childIds !== undefined) {
+      const facts: Record<string, string | number> = { ...row.facts };
+      if (childIds.length) facts.childIds = childIds.join(" ");
+      else delete facts.childIds;
+      row.facts = facts;
+    }
+    kept.add(row);
+  }
+  return rows.filter((row) => kept.has(row));
 }
 
 /**

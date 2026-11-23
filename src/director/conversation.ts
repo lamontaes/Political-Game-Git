@@ -199,6 +199,7 @@ import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
   businessNameSaid,
+  employerWords,
   properName,
   spoken,
   spokenDate,
@@ -209,7 +210,6 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import { employerInTalk } from "./employer-in-talk";
 import {
-  employerSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
@@ -500,21 +500,6 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return job && org
     ? { job, org, title: jobTitleByKind(job.title, org.name) }
     : null;
-}
-
-/**
- * An employer as the one said-as reader says it, from its record: a
- * government's payroll as the government, a business by its name, and never
- * the outside market that stands in for work out of town (null).
- */
-function employerWords(org: Readonly<OrganizationInput>): string | null {
-  return employerSaidAs({
-    name: businessNameSaid(org),
-    kind: org.kind,
-    outside: !!org.outsideFlow,
-    ...(org.classification ? { classification: org.classification } : {}),
-    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
-  });
 }
 
 /** A person's job and its employer as said, when the employer can be named. */
@@ -1477,6 +1462,7 @@ function jobLost(
     id: `job-lost:${lost.causeId}`,
     kind: "job-lost",
     aboutId: lost.causeId,
+    weight: lost.impact,
     facts,
   };
 }
@@ -2806,6 +2792,8 @@ export function subjectsBetween(
     byPhone?: boolean;
     /** Told each subject the tie rule refused (the dev trace and the counts read it). */
     refused?: (subject: Subject) => void;
+    /** The address's points this talk already made: another may follow in the same talk (CTO, Nov 19). */
+    pointed?: readonly string[];
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -2969,7 +2957,10 @@ export function subjectsBetween(
       ...(listener.jobId
         ? { tie: { kind: "record" as const, recordIds: [listener.jobId] } }
         : {}),
-      facts: {},
+      // Asked of them by name: the asking line says who it asks.
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // Asked only right after they name their work.
   if (theirs && tenureYears(startedOf(core, listener), core.date))
@@ -2977,7 +2968,9 @@ export function subjectsBetween(
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
       tie: { kind: "record" as const, recordIds: [theirs.job.id] },
-      facts: {},
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
@@ -3349,8 +3342,14 @@ export function subjectsBetween(
     : null;
   const givenOn =
     address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
+  // Only someone who saw or heard the same address can be told about it: the
+  // listener's own record of it, never the date (CTO, Nov 19 05:06Z on #9750).
+  const listenerKnows =
+    core.knowledgeByPerson.get(listenerId)?.get(ADDRESS_FACT.event)?.value ===
+    address?.value;
   if (
     address &&
+    listenerKnows &&
     quoted &&
     givenOn &&
     givenOn >
@@ -3387,10 +3386,14 @@ export function subjectsBetween(
     const raisedToday = [...heardNow].some((key) =>
       key.startsWith(`${HEARD_SUBJECT}${POINT}:`),
     );
+    // After a point this talk made, the talk may go on to another point of
+    // the same address (CTO, Nov 19 10:48Z on #9750: the first evening's talk
+    // goes on), never one this talk already made.
+    const pointedHere = room.pointed ?? [];
     const point =
       opening?.id === address.value &&
       takesStands(core, speakerId) &&
-      !raisedToday
+      (!raisedToday || pointedHere.length > zero)
         ? addressPointFor(
             core,
             speakerId,
@@ -3400,7 +3403,9 @@ export function subjectsBetween(
             // they still make theirs (lead, Nov 13: two people in one house
             // agreeing or disagreeing on the same question is the scene).
             fresher(
-              addressPoints(opening),
+              addressPoints(opening).filter(
+                (row) => !pointedHere.includes(row.question),
+              ),
               (row) => !heardNow.has(`${HEARD_QUESTION}${row.question}`),
             ),
             listenerId,
@@ -3425,8 +3430,16 @@ export function subjectsBetween(
   // A stand is the speaker's own, given once: a question a housemate named
   // today is still theirs to stand on (lead, Nov 13: a fact is told once in
   // the house a day, a stand is not blocked by another's).
+  // Right after an address point, the stand they give is on that point (CTO,
+  // Nov 19 10:48Z on #9750: the listener's own view on that point comes first).
+  const onPoint = room.pointed ?? [];
   const stand = takesStands(core, speakerId)
-    ? viewSubjectOf(core, speakerId, listenerId)
+    ? viewSubjectOf(
+        core,
+        speakerId,
+        listenerId,
+        onPoint.length ? (question) => !onPoint.includes(question) : undefined,
+      )
     : null;
   if (stand) {
     // The question they care most about, the side they are on and why, from
@@ -5598,11 +5611,14 @@ function ownViewComesUp(
   row: Pick<Subject, "weight" | "news">,
 ): boolean {
   const question = row.news?.question;
+  // Right after an address point, the listener's own view on that very point
+  // is the first related subject (CTO, Nov 19 10:48Z on #9750).
+  const afterPoint = subjectKindOf(conversation.topics[zero] ?? "") === POINT;
   return (
     !!(row.weight ?? zero) &&
     !!question &&
     (conversation.questions ?? []).includes(question) &&
-    !(conversation.pointed ?? []).includes(question)
+    (afterPoint || !(conversation.pointed ?? []).includes(question))
   );
 }
 
@@ -6259,7 +6275,7 @@ function openConversationNow(
     // again?"): a composed greeting's opener is said first, the rest after.
     const parts = greeting.wording?.parts ?? [];
     const split =
-      parts.length > one && parts[zero]!.includes(".greet-open-")
+      parts.length > one && parts[zero]!.includes(".greet-open")
         ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
         : undefined;
     const said =

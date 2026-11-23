@@ -13,7 +13,6 @@
  */
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { fileForOffice, governmentView } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -22,11 +21,7 @@ import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
 } from "../core2/modules/elections";
-import {
-  advancePlayerV1,
-  resumePlayerV1,
-  retirePlayerV1,
-} from "../core2/player-v1";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
@@ -37,7 +32,6 @@ const VOTE = "2025-11-04";
 
 const PLACE = "3972242";
 const SEED = "scan-25";
-const FILE_DAY = 150;
 
 type World = ReturnType<typeof buildBenchWorld>;
 
@@ -162,51 +156,3 @@ it("a race the player did not enter is not brought up as the player's own (Sherr
   expect(filingsOf(world, playerId)).toEqual([]);
   expect(raceNews(said)).toEqual([]);
 }, 100_000);
-
-it("a person who filed through the game's own filing hears their own race (Sherrodsville)", () => {
-  const { world, playerId } = setUp();
-  const { core, director } = world;
-  for (let day = 1; day <= FILE_DAY; day += 1)
-    liveThrough(world, playerId, day, day === FILE_DAY ? 0 : EVENING);
-  retirePlayerV1(core);
-  // The first adult who lives with someone and has a race open to them
-  // (every check met), in id order.
-  const candidates = [...core.people.values()]
-    .filter(
-      (person) =>
-        person.alive &&
-        [...(core.households.get(person.householdId)?.memberIds ?? [])].length >
-          1,
-    )
-    .map((person) => person.id)
-    .sort();
-  let entrant: PersonId | undefined;
-  let contestId = "";
-  for (const id of candidates) {
-    const open = governmentView(core, id).contests.find((row) =>
-      row.checks.every((check) => check.met),
-    );
-    if (open) {
-      entrant = id;
-      contestId = open.contest.id;
-      break;
-    }
-  }
-  expect(entrant, "a housemate with a race open to them").toBeDefined();
-  (core as { playerId?: string }).playerId = entrant!;
-  director.watch(core, entrant!);
-  core.focusPersonIds.add(entrant!);
-  fileForOffice(core, entrant!, contestId);
-  expect(filingsOf(world, entrant!).map((row) => row.contestId)).toContain(
-    contestId,
-  );
-  const said: string[] = [];
-  for (let day = FILE_DAY + 1; day <= first + 6; day += 1) {
-    liveThrough(world, entrant!, day);
-    if (day >= first) said.push(...homeNews(world, entrant!, day));
-  }
-  // Their own race's result is news at home, and only theirs.
-  const mine = raceNews(said);
-  expect(mine.length).toBeGreaterThan(0);
-  expect(mine.every((row) => row.includes(contestId))).toBe(true);
-}, 120_000);

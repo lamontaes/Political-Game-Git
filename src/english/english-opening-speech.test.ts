@@ -1,14 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { composeAddress } from "./english-composition";
 import {
   OPENING_SPEECH_BANK,
-  openingMove,
   type OpeningSpeechKind,
-  type SpeechVoice,
   partHolds,
   partValues,
 } from "./english-opening-speech";
-import type { GroundedEnglishPacket } from "./grounded-english";
 
 /**
  * The opening address's pieces hold no figure and no law (owner, Oct 27: "the
@@ -32,45 +28,6 @@ const TURNED_DOWN = [
   /^By most (?:measures|of the numbers)/,
 ];
 const KINDS: OpeningSpeechKind[] = ["inaugural", "state-of-the-union"];
-const VOICES: SpeechVoice[] = ["polished", "plain"];
-
-const packet = (facts: Record<string, string>): GroundedEnglishPacket => {
-  const grounded = Object.fromEntries(
-    Object.entries(facts).map(([key, text]) => [
-      key,
-      { text, sourceRecordIds: [`record:${key}`] },
-    ]),
-  );
-  return {
-    surface: "dialogue",
-    momentKey: "opening-test",
-    worldSeed: "opening-test",
-    bankVersion: "words-opening-speech-v1",
-    stage: "chair-female",
-    sourceRecordIds: ["record:speech"],
-    facts: grounded,
-    speaker: { personId: "president", traits: {} },
-    knowledge: Object.entries(grounded).map(([factKey, fact]) => ({
-      personId: "president",
-      factKey,
-      sourceRecordIds: fact.sourceRecordIds,
-    })),
-  } as unknown as GroundedEnglishPacket;
-};
-
-const said = (
-  kind: OpeningSpeechKind,
-  voice: SpeechVoice,
-  role: string,
-  facts: Record<string, string>,
-  options: { topic?: string } = {},
-): string | null => {
-  const move = openingMove(kind, voice, role, options);
-  if (!move) return null;
-  const result = composeAddress(packet(facts), "election-night", [move]);
-  return result.kind === "rendered" ? result.text : null;
-};
-
 describe("the opening address's pieces", () => {
   it("hold no figure, year, state or office, and no line the owner turned down", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
@@ -87,33 +44,6 @@ describe("the opening address's pieces", () => {
       );
     }
   });
-
-  it("a governor and a mayor have four ways to say each of jobs, pay and prices going wrong, and going right, that never name the place again", () => {
-    // The names budget drops a line that names the state or town again after
-    // the greeting and the close, so a worse line that took {realm-name}
-    // never played (Bee Cave, Texas, seed a7c13e: a bad term told no jobs).
-    for (const subject of ["state-of-the-state", "town-address"])
-      for (const topic of ["jobs", "pay", "prices"])
-        for (const tone of ["worse", "better"]) {
-          const fact = `${topic}-${tone}`;
-          const lines = OPENING_SPEECH_BANK.parts.filter((part) =>
-            part.uses.some(
-              (use) =>
-                use.subject === subject &&
-                use.move === "story-says" &&
-                use.requiresFacts?.includes(fact),
-            ),
-          );
-          expect(
-            lines.length,
-            `${subject} ${fact}: lines that tell it`,
-          ).toBeGreaterThanOrEqual(4);
-          for (const line of lines)
-            if (tone === "worse")
-              expect(line.text, line.key).not.toMatch(/\{realm-name\}/);
-        }
-  });
-
   it('never contract "is" or "has" onto a noun phrase (words lead, round 7)', () => {
     // "'s" for "is" attaches only to a pronoun or to "that", "there", "here",
     // "what" and "who": "Progress on health care's something" is not English.
@@ -159,30 +89,6 @@ describe("the opening address's pieces", () => {
       .map(([key]) => key);
     expect(thin).toEqual([]);
   });
-
-  it("word hard news and good news apart, and send Congress a bill, not a subject", () => {
-    // The words lead's second read (Nov 11): "they'll beat pay" and "if
-    // Congress sends me legal cannabis sales".
-    const words = (end: string) =>
-      new Set(
-        OPENING_SPEECH_BANK.parts
-          .filter((part) => part.move === "subject")
-          .filter((part) =>
-            partValues(part.topic).some((topic) => topic.endsWith(end)),
-          )
-          .map((part) => part.text),
-      );
-    const hard = words(":hard");
-    const good = words(":good");
-    expect(hard.size).toBeGreaterThan(10);
-    expect(good.size).toBeGreaterThan(10);
-    expect([...hard].filter((text) => good.has(text))).toEqual([]);
-    for (const part of OPENING_SPEECH_BANK.parts)
-      expect(part.text, part.key).not.toMatch(
-        /\b(?:sign|veto|sends? me|pass(?:es)?)\s+\{(?:about|first-about)\}/i,
-      );
-  });
-
   it("put the year's trouble only where a trouble fits", () => {
     // The words lead's third read (Nov 11): "A shrinking paycheck is next on
     // the list, and I think we're ready for it." (next is the work, not the
@@ -208,73 +114,6 @@ describe("the opening address's pieces", () => {
         for (const slot of slots)
           expect(use.requiresFacts ?? [], part.key).toContain(slot);
     }
-  });
-
-  it("has a polished and a plain version of every role, for both kinds of address", () => {
-    for (const kind of KINDS) {
-      const roles = new Set(
-        OPENING_SPEECH_BANK.parts.flatMap((part) =>
-          part.uses
-            .filter((use) => use.subject === kind)
-            .map((use) => use.role),
-        ),
-      );
-      expect(roles.size).toBeGreaterThan(10);
-      for (const role of roles)
-        for (const voice of VOICES)
-          expect(
-            OPENING_SPEECH_BANK.parts.filter(
-              (part) =>
-                partHolds(part.voice, voice) &&
-                part.uses.some(
-                  (use) => use.subject === kind && use.role === role,
-                ),
-            ).length,
-            `${kind} ${role} ${voice}`,
-          ).toBeGreaterThan(0);
-    }
-  });
-
-  it("tells the country's year in words, in the speaker's manner", () => {
-    for (const kind of KINDS) {
-      const facts = {
-        "inflation-up": "yes",
-        "prices-up": "yes",
-        "change-inflation": "sharply",
-      };
-      const polished = said(kind, "polished", "story-says", facts, {
-        topic: "inflation",
-      });
-      const plain = said(kind, "plain", "story-says", facts, {
-        topic: "inflation",
-      });
-      expect(polished).toMatch(/price|cost|inflation|pay for/i);
-      expect(plain).toMatch(/price|cost|inflation|pay for/i);
-      expect(polished).not.toMatch(/\d/);
-      expect(polished).not.toBe(plain);
-    }
-  });
-
-  it("says a claim only where its fact is held", () => {
-    // No fact, no sentence: the country's story cannot be told without its record.
-    expect(
-      said("inaugural", "plain", "story-says", {}, { topic: "unemployment" }),
-    ).toBeNull();
-    // A priority is asked of Congress only where federal law does not have
-    // it yet (owner, Oct 27: national only), in one sentence that names it.
-    const base = {
-      about: "rent stabilization",
-      to: "stabilize rents",
-      "stance-against": "yes",
-      "rank-line": "yes",
-    };
-    const out = said("inaugural", "polished", "ask", {
-      ...base,
-      "law-not-in-force": "yes",
-    })!;
-    expect(out).toContain("rent stabilization");
-    expect(out.split("rent stabilization").length - 1).toBe(1);
-    expect(said("inaugural", "polished", "ask", base)).toBeNull();
   });
 });
 

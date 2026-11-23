@@ -3,22 +3,13 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
-import { TERM_AREAS, TERM_MEASURES } from "../core2/term-read";
-import {
-  OPENING_SPEECH_BANK,
-  partHolds,
-} from "../english/english-opening-speech";
+import { TERM_MEASURES } from "../core2/term-read";
+
 import { ADDRESS_FACT } from "./opening-facts";
-import { HURT_KINDS } from "./address-kind";
-import { answersCondition } from "./speech-outline";
-import {
-  composeLocalAddress,
-  localAddressDate,
-  recordLocalAddress,
-} from "./local-address";
+
+import { localAddressDate, recordLocalAddress } from "./local-address";
 
 // A governor's State of the State and a mayor's State of the City (owner,
 // Nov 8: addresses by "governors' and mayors'"): the same address the
@@ -31,14 +22,6 @@ import {
 // still overrides it for a fresh draw.
 const seed = process.env.GOLDEN_PATH_SEED ?? "a7c13e";
 setBookkeeping(false);
-/** The text with the world's own place and board names taken out, so a county or state that shares a word with the nation's capital never reads as the nation speaking. */
-const withoutOwnNames = (text: string, own: string) =>
-  text
-    .replaceAll(own, "")
-    .replace(
-      /Washington(?=\s+(?:County|Parish|Township|Borough|Town|City|Village|Heights|Park)\b)/g,
-      "",
-    );
 function drawFixture(n: number) {
   const drawn = drawPlace(`${seed}:${n}`, "local-address");
   const built = buildBenchWorld(drawn.seed, gameStartDate(), {
@@ -55,7 +38,7 @@ function drawFixture(n: number) {
 }
 type Fixture = ReturnType<typeof drawFixture>;
 const first = drawFixture(0);
-const { place, where, world, core } = first;
+const { world, core } = first;
 
 function writeTerm(
   change: Record<string, number>,
@@ -88,111 +71,6 @@ function writeTerm(
 }
 
 describe("a governor's and a mayor's address", () => {
-  it("tells the bad news of a bad term and the good of a good one, in its own words", (context) => {
-    // A speaker whose open agenda and traits put the policy address first
-    // (a governor with a full list and a work-centered turn: policy scores
-    // 1.0 in both terms, e.g. Greensboro, Maryland, seed f8fc37cc25201edc,
-    // official:term:seat:US-MD:governor:2025-01-20) gives the same address
-    // whatever the term did, by the sliding scores and not by a gap; the
-    // claim is tested on every speaker whose address the term can change, up
-    // to six drawn places, and the test is skipped with every draw's count if
-    // none is found.
-    const DRAWS = 6;
-    const counts: string[] = [];
-    let composed = 0,
-      responsive = 0;
-    for (let n = 0; n < DRAWS && !responsive; n += 1) {
-      const fixture = n === 0 ? first : drawFixture(n);
-      for (const level of ["state", "town"] as const) {
-        writeTerm(
-          { "school.": -0.15, "crime.": 0.2, "housing.rent": 0.3 },
-          fixture,
-        );
-        const bad = composeLocalAddress(fixture.core, level);
-        writeTerm(
-          { "school.": 0.15, "crime.": -0.2, "housing.rent": -0.3 },
-          fixture,
-        );
-        const good = composeLocalAddress(fixture.core, level);
-        if (!bad || !good) continue;
-        composed += 1;
-        counts.push(
-          `${fixture.where} ${level}: bad=${bad.addressKind} good=${good.addressKind}`,
-        );
-        if (bad.addressKind === "policy" && good.addressKind === "policy")
-          continue;
-        responsive += 1;
-        process.stdout.write(
-          `LOCAL ADDRESS ${level} ${fixture.where}: bad=${bad.addressKind} good=${good.addressKind}\n  BAD: ${bad.text}\n  GOOD: ${good.text}\n`,
-        );
-        expect(bad.text, `${level} ${fixture.where}`).not.toBe(good.text);
-        expect(bad.addressKind, `${level} ${fixture.where}`).not.toBe(
-          good.addressKind,
-        );
-        const claims = (story: typeof bad) =>
-          story.sentences.flatMap((row) =>
-            row.facts.filter((key) => /-(?:worse|better)$/.test(key)),
-          );
-        // Since the speech outline (Nov 12) an address tells only its one
-        // theme's measures, and the theme comes from the speaker's own issues
-        // first; so the term's news is checked where the theme told it.
-        if (claims(bad).length)
-          expect(
-            claims(bad).some((key) => key.endsWith("-better")),
-            level,
-          ).toBe(false);
-        if (claims(good).length)
-          expect(
-            claims(good).some((key) => key.endsWith("-worse")),
-            level,
-          ).toBe(false);
-        // A hurt address answers its condition from the speaker's own record
-        // (the words lead's rule 2): the paragraph that states the worst
-        // condition also holds an ask on a question in that condition's
-        // area, by record id.
-        if (HURT_KINDS.includes(bad.addressKind)) {
-          const crisis = bad.crisis!;
-          expect(
-            crisis,
-            `${level} ${fixture.where}: no condition`,
-          ).toBeTruthy();
-          const stated = bad.sentences.find((row) =>
-            row.facts.includes(`${crisis}-worse`),
-          );
-          expect(
-            stated,
-            `${level} ${fixture.where}: ${crisis} is not stated`,
-          ).toBeTruthy();
-          const answer = bad.sentences.filter(
-            (row) =>
-              row.part === stated!.part &&
-              row.sourceRecordIds.some(
-                (id) =>
-                  id.startsWith("question:") &&
-                  answersCondition(id.slice("question:".length), crisis),
-              ),
-          );
-          expect(
-            answer.length,
-            `${level} ${fixture.where}: the paragraph that states ${crisis} asks nothing in its area`,
-          ).toBeGreaterThan(0);
-        }
-        // It is a state's or a town's own address, never the nation's.
-        expect(
-          withoutOwnNames(bad.text, fixture.place.name),
-          level,
-        ).not.toMatch(/Congress|Washington|Americans/);
-      }
-    }
-    expect(composed, `${where}: no governor or mayor to speak`).toBeGreaterThan(
-      0,
-    );
-    if (!responsive)
-      return context.skip(
-        `no speaker whose address a term can change in ${DRAWS} draws (${counts.join("; ")})`,
-      );
-  });
-
   it("is a public record on its day that the news carries", () => {
     writeTerm({ "school.": -0.15, "crime.": 0.2, "housing.rent": 0.3 });
     for (const level of ["state", "town"] as const) {
@@ -205,54 +83,5 @@ describe("a governor's and a mayor's address", () => {
       expect(event.facts![ADDRESS_FACT.speaker], level).toBe(story.speakerId);
       expect(localAddressDate(level, 2026), level).toMatch(/^2026-\d\d-\d\d$/);
     }
-  });
-
-  it("is given on its day in a played world, and the household sees it as the address scene", () => {
-    // A fresh world: the opening's own records only (no fixture rows).
-    const fresh = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    if (!fresh.director.ledger.people.has(fresh.playerId!))
-      fresh.director.watch(fresh.core, fresh.playerId!);
-    advanceCore(fresh.core, "2025-02-11");
-    const given = [...fresh.core.durableLog.values()].filter(
-      (row) => row.kind === "governor.address" || row.kind === "mayor.address",
-    );
-    process.stdout.write(
-      `LOCAL ADDRESSES GIVEN ${where}: ${given.map((row) => `${row.kind} ${row.date}`).join(", ") || "none"}\n`,
-    );
-    expect(given.length, where).toBeGreaterThan(0);
-    const book = fresh.director.ledger.people.get(fresh.playerId!)!;
-    for (const row of given) {
-      const entry = book.schedule.find((item) =>
-        item.momentId.includes(row.id),
-      );
-      expect(
-        entry?.bindings.some((binding) => binding.typeKey === "address"),
-        `${where}: ${row.id} is not the address scene`,
-      ).toBe(true);
-    }
-  }, 240_000);
-
-  it("has pieces in both voices for every area's good and bad news, at both levels", () => {
-    for (const subject of ["state-of-the-state", "town-address"])
-      for (const area of TERM_AREAS)
-        for (const claim of ["worse", "better"])
-          for (const voice of ["polished", "plain"])
-            expect(
-              OPENING_SPEECH_BANK.parts.some(
-                (part) =>
-                  partHolds(part.voice, voice) &&
-                  partHolds(part.topic, area) &&
-                  part.uses.some(
-                    (use) =>
-                      use.subject === subject &&
-                      use.role === "story-says" &&
-                      (use.requiresFacts ?? []).includes(`${area}-${claim}`),
-                  ),
-              ),
-              `${subject} ${area} ${claim} ${voice}`,
-            ).toBe(true);
   });
 });

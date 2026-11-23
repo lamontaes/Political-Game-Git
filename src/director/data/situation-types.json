@@ -338,6 +338,19 @@
           "opening": "tell"
         },
         {
+          "match": {
+            "label": "cause:event:law.effect-learned",
+            "counterpart": "none"
+          },
+          "bind": {
+            "bearer": "subject",
+            "receiver": "household",
+            "about": "subject"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
           "bind": {
             "about": "subject",
             "receiver": "kin",

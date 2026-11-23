@@ -1,6 +1,6 @@
 ---
 id: play-first-07-no-random-people-in-rooms
-title: "Nobody stands in a room without a reason on record, and no line says \"X is with you\""
+title: 'Nobody stands in a room without a reason on record, and no line says "X is with you"'
 area: play
 kind: bug
 priority: 1
