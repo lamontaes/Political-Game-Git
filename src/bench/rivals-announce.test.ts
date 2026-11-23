@@ -153,7 +153,7 @@ describe(`rivals announce before filing opens (seed ${seed})`, () => {
     // The campaign board's count of who is running reads them.
     expect(
       contestStanding(api, contest.id, filing.personId).some(
-        (row) => row.candidateId === filing.personId,
+        (row) => row.candidateId === filing.personId && row.announced,
       ),
       label,
     ).toBe(true);
@@ -171,5 +171,12 @@ describe(`rivals announce before filing opens (seed ${seed})`, () => {
       .get(filing.id) as unknown as FilingRow | undefined;
     expect(after?.status, label).not.toBe("announced");
     expect(after?.announcedOn, label).toBe(filing.announcedOn);
+    // The board counts them as filed from then on, or not at all if refused.
+    expect(
+      contestStanding(api, contest.id, filing.personId).some(
+        (row) => row.candidateId === filing.personId && row.announced,
+      ),
+      label,
+    ).toBe(false);
   }, 900_000);
 });
