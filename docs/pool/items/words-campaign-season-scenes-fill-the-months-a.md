@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** LAW.md §4 (scenes come out of what is happening in the world) and §9 (a quiet day is quiet). The scene-standard skill. No dice: offers and passing word on follow people's own reasons and contacts. The player's choices are the player's: the engine never answers an interview or a debate for them.
 
-**Done when.** In a drawn place built with buildBenchWorld, a player who files and plays week by week gets the first scene or race story within 28 days of filing; at least three of the season's kinds fire; each cites a contest or person record id; and a yes in each new scene is read back by its engine (`src/director/campaign-season.test.ts`, place and seed named), with bench screenshots of the first two.
+**Done when.** In a drawn place built with buildBenchWorld, a player who files and plays week by week gets the first scene or race story within 28 days of filing; at least three of the season's kinds fire; each cites a contest or person record id; and a yes in each new scene is read back by its engine (`src/director/campaign-season.test.ts` (removed), place and seed named), with bench screenshots of the first two.
 
 **Time box.** 6 hours.
 

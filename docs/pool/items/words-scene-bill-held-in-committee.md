@@ -18,8 +18,8 @@ claimed-at: 2026-10-27T05:20:32.234Z
 
 **Rules.** Wire to the world: the scene fires from the legislature's committee record; the bill, sponsor and chair come from it. No dice: no roll picks the reply. One rule, all 56 places: the test draws places from all 56. No real name or quoted line ships.
 
-**Done when.** src/director/hold-scenes.test.ts in the played world (buildBenchWorld), places drawn from all 56 with a seed nobody chose, shows a bill-held-in-committee record firing bill-held for the chair and for a committee member, cast with the sponsor, naming the bill, citing the record id; the test fails when the record is absent; lines pass player-screen-text.
+**Done when.** src/director/hold-scenes.test.ts (removed) in the played world (buildBenchWorld), places drawn from all 56 with a seed nobody chose, shows a bill-held-in-committee record firing bill-held for the chair and for a committee member, cast with the sponsor, naming the bill, citing the record id; the test fails when the record is absent; lines pass player-screen-text.
 
-**Files.** src/director/data/situation-types.json,src/director/data/purpose-arcs.json,src/director/civic-roles.ts,src/director/purpose-scene.ts,data/english/parts/scene-talk.json,src/director/hold-scenes.test.ts,docs/design/scenes/from-life/bill-held-in-committee.md
+**Files.** src/director/data/situation-types.json,src/director/data/purpose-arcs.json,src/director/civic-roles.ts,src/director/purpose-scene.ts,data/english/parts/scene-talk.json,,docs/design/scenes/from-life/bill-held-in-committee.md
 
 **Notes.** lead: words. Time box 4 h. Episode packet: docs/design/scenes/from-life/bill-held-in-committee.md. Scene builder C.

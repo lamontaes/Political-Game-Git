@@ -26,7 +26,7 @@ The test fix: swearing-in-scene.test.ts expected the journal to print the offici
 
 **Done when.** `GOLDEN_PATH_SEED=72 npx vitest run src/director/swearing-in-scene.test.ts` passes; src/director/victory-night.test.ts passes (seed 71, Charlottesville, Virginia).
 
-**Files.** src/director/swearing-in-scene.test.ts
+**Files.**
 
 **Time box.** 1 hour.
 

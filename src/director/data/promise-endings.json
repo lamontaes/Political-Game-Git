@@ -1,0 +1,46 @@
+{
+  "schema": "promise-endings-v1",
+  "note": "Which scene endings keep a promise, and of which kind (the kinds are src/core2/data/promises/promise-kinds.json). The director writes the kind and its tie onto the scene reply (promises.ts promiseReplyFacts); the promises engine (src/core2/modules/promises.ts) keeps the promise from there.",
+  "endings": [
+    {
+      "purpose": "ask-vote",
+      "ending": "vote-given",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "ask-vote",
+      "ending": "traded",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "ask-vote",
+      "ending": "false-yes",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "owed-apology",
+      "ending": "promised-to-make-it-right",
+      "kind": "pay-on-time",
+      "causeKinds": ["family.quarrel"]
+    },
+    {
+      "purpose": "introduction",
+      "ending": "took-them-in-hand",
+      "kind": "show-around"
+    },
+    {
+      "purpose": "ask-to-serve",
+      "ending": "promised",
+      "kind": "hold-question",
+      "causeKinds": ["serve-asked"]
+    },
+    {
+      "purpose": "friend-ask",
+      "ending": "said-yes-to-friend",
+      "kind": "attend"
+    }
+  ]
+}

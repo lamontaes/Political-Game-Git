@@ -1,5 +1,5 @@
 import { spokenDate } from "../core2/kernel/dates";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   answerDonationAsk,
   askForEndorsement,
@@ -42,7 +42,9 @@ import { promisesOf, votesOf } from "../core2/modules/people";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
+  acceptDebate,
   answerDebate,
+  DEBATE_ACCEPTED_EVENT,
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
@@ -241,7 +243,8 @@ export function campaignView(core: CoreState, personId: string) {
         pictures,
         // A governor's race that carries the office the law elects on its ticket: who runs with them.
         runningMate: ticketView(api, core, filing.id),
-        // Debates the outlet has invited the candidates to, waiting for their answers.
+        // Debates the outlet has invited the candidates to, waiting for their
+        // answer; one the player accepted waits for its sitting.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
           .map((row) => ({
@@ -249,6 +252,7 @@ export function campaignView(core: CoreState, personId: string) {
             date: row.date,
             outletId: row.outletId,
             questions: row.questions,
+            accepted: core.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`),
           })),
       };
     }),
@@ -635,10 +639,16 @@ export function campaignAct(
   const campaign = campaignFor(api, input.filingId);
   if (campaign.candidateId !== personId)
     throw new Error("That is not your campaign.");
-  const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
+  // Asking someone is dealing with them: a person the candidate knows who is
+  // in the counts is filled in now (two-level rule), and an id no record
+  // holds any longer is not asked.
+  const asked = () =>
+    [...(core.people.get(personId)?.knownIds ?? [])]
+      .sort()
+      .filter((id) => personOrFillIn(core, id) !== undefined);
   switch (input.kind) {
     case "volunteer": {
-      const answers = known.map((id) => {
+      const answers = asked().map((id) => {
         const yes = askToVolunteer(api, input.filingId, id);
         const row = core.people.get(id);
         const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -683,7 +693,7 @@ export function campaignAct(
       };
     case "endorsement":
       return {
-        answers: known.map((id) => {
+        answers: asked().map((id) => {
           const yes = askForEndorsement(api, input.filingId, id);
           const row = core.people.get(id);
           const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -995,6 +1005,28 @@ export function debateAnswer(
   );
   if (!waiting) throw new Error("No debate is waiting for your answers.");
   return answerDebate(api, debateId, answers);
+}
+
+/**
+ * The player accepts a debate's invitation from the Campaign tab (the
+ * invitation scene was cut, Nov 17): the sitting goes on the record with the
+ * moderator who asked (`acceptDebate`), and the director stages it from that
+ * record. Saying no is the answer with nothing said (`debateAnswer`).
+ */
+export function debateAccept(
+  core: CoreState,
+  personId: string,
+  debateId: string,
+): { readonly accepted: boolean } {
+  // The campaign the invitation waits on; its filing is the choice's record.
+  const waiting = campaignView(core, personId).campaigns.find((c) =>
+    c.debates.some((d) => d.id === debateId && !d.accepted),
+  );
+  if (!waiting) throw new Error("No debate is waiting for your answer.");
+  acceptDebate(coreAPI(core), debateId, personId, waiting.filing.id);
+  return {
+    accepted: core.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${debateId}`),
+  };
 }
 
 /** The player takes one of the campaign day's choices; the engine runs it and every dollar goes through its journal. */
