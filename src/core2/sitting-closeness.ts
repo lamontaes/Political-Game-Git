@@ -84,7 +84,18 @@ export function registerSittingCalendar(reader: SittingCalendar): void {
 }
 
 const DAY_MS = 86_400_000;
-const dayOf = (date: string) => Date.parse(`${date}T00:00:00Z`) / DAY_MS;
+const days = new Map<string, number>();
+/** A date's day number, each date parsed once (seats' start dates repeat in every sort). */
+const dayOf = (date: string) => {
+  let day = days.get(date);
+  if (day === undefined) {
+    day = Date.parse(`${date}T00:00:00Z`) / DAY_MS;
+    days.set(date, day);
+  }
+  return day;
+};
+/** The order `localeCompare` gives, from one collator instead of one per comparison. */
+const byId = new Intl.Collator().compare;
 const dateOf = (day: number) =>
   new Date(day * DAY_MS).toISOString().slice(0, 10);
 
@@ -165,11 +176,20 @@ function knownThrough(
   const either = new Map<string, Set<string>>(
     seats.map((seat) => [seat.personId, new Set<string>()]),
   );
+  // Every member's own call ranks the whole body by id: rank it once (each
+  // member sits once; a body that lists someone twice ranks as before).
+  const ids = seats.map((s) => s.personId);
+  const ranks =
+    new Set(ids).size === ids.length
+      ? new Map([...ids].sort(byId).map((id, i) => [id, i] as const))
+      : undefined;
   for (const seat of seats)
     for (const other of nearestInService(
       seat,
       seats.filter((s) => s.personId !== seat.personId),
       count,
+      false,
+      ranks,
     )) {
       either.get(seat.personId)!.add(other.personId);
       either.get(other.personId)!.add(seat.personId);
@@ -208,27 +228,33 @@ function nearestInService(
   others: readonly SittingSeat[],
   count: number,
   ordered = false,
+  /** The ids of `others` and `seat` ranked by id, when the caller already ranked them. */
+  ranks?: ReadonlyMap<string, number>,
 ): readonly SittingSeat[] {
   if (count >= others.length && !ordered) return others;
   const at = dayOf(seat.since);
-  const gap = (s: SittingSeat) => Math.abs(dayOf(s.since) - at);
-  const order = [...others, seat]
-    .map((s) => s.personId)
-    .sort((x, y) => x.localeCompare(y));
-  const own = order.indexOf(seat.personId);
-  const place = new Map(order.map((id, i) => [id, i] as const));
-  const round = (s: SittingSeat) => {
-    const d = Math.abs(place.get(s.personId)! - own);
-    return Math.min(d, order.length - d);
-  };
-  return [...others]
+  const order = ranks
+    ? undefined
+    : [...others, seat].map((s) => s.personId).sort(byId);
+  const place = ranks ?? new Map(order!.map((id, i) => [id, i] as const));
+  const size = ranks ? ranks.size : order!.length;
+  const own = ranks ? ranks.get(seat.personId)! : order!.indexOf(seat.personId);
+  // Each seat's keys worked out once, not in every comparison.
+  return others
+    .map((s) => {
+      const d = Math.abs(place.get(s.personId)! - own);
+      return {
+        s,
+        gap: Math.abs(dayOf(s.since) - at),
+        round: Math.min(d, size - d),
+      };
+    })
     .sort(
       (x, y) =>
-        gap(x) - gap(y) ||
-        round(x) - round(y) ||
-        x.personId.localeCompare(y.personId),
+        x.gap - y.gap || x.round - y.round || byId(x.s.personId, y.s.personId),
     )
-    .slice(0, count);
+    .slice(0, count)
+    .map((row) => row.s);
 }
 
 function bodyToday(k: Kept, officeId: string): BodyToday {

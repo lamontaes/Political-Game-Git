@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-sew1gc
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,6 +16,8 @@ model: sonnet
 effort: medium
 source: "The paper's builder (M3), Nov 15, 2026, carried into the interview check thread at the Account lead's word"
 root: none
+claimed-at:
+branch: claude/project-thread-sew1gc
 ---
 
 **What.** `src/bench/printed-police-log.test.ts` pinned four drawn places to show the police log's space sliding with the town's usual. The fourth, Surrency, Georgia (seed pl4), was pinned on the premise that it reports crime in more than one closed month; it now reports in one, so the test's "a month was compared" check is red there. Seen: Surrency's paper prints its one police log with no comparison, which is right for a town with no earlier reports.
@@ -33,3 +35,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/bench/printed-police-log.test.ts
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-sew1gc since 2026-11-15 19:13 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-sew1gc.

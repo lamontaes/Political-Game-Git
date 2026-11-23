@@ -18,7 +18,7 @@ source: "Owner, Nov 8: 'If it's June 7th, it says first thing on June 7th. You h
 
 **Rules.** One engine, no per-scene path. No hand-written player text in code. It replaces the old call-or-letter-only setting line, which stays only as the fallback when no arrival is worded. Stopgap SG-WORDS-scene-arrival-time registered for the minute of the day.
 
-**Done when.** In a played year of a generated world in a place drawn from all 56 (place and seed named), the first narration line of every staged scene names the day as people say it, never an ISO date, and names the person met. Test: `src/director/scene-opens-day-place-person.test.ts`.
+**Done when.** In a played year of a generated world in a place drawn from all 56 (place and seed named), the first narration line of every staged scene names the day as people say it, never an ISO date, and names the person met. Test: `src/director/scene-opens-day-place-person.test.ts` (removed).
 
 **Files.** src/director/scene.ts,src/bench/story.ts,src/english/scene-words.ts,src/english/mined/scene-bank.ts,src/director/data/scene-rows.json,data/english/parts/scene-words.json
 

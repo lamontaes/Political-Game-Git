@@ -20,7 +20,7 @@ const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "in-town-chain");
 const where = `${place.name} (${place.key}), replay ${replay}`;
 
-it(`another jurisdiction's average or pending phase cannot enter the chain: ${where}`, () => {
+it(`another jurisdiction's average or pending phase cannot enter the chain: ${where} (just like today: needs the state's real tax laws)`, () => {
   const chain = lawChainForPlace(place.key);
   const outside = placeStateKeys().find((key) => key !== chain.stateKey)!;
   for (const level of chain.levels)
@@ -86,12 +86,15 @@ it(`another jurisdiction's average or pending phase cannot enter the chain: ${wh
   ).toBe(own.id);
 });
 
-it(`the ordinary year's tax reader reaches a named buyer and the treasury pays a person: ${where}`, () => {
+it(`the ordinary year's tax reader reaches a named buyer and the treasury pays a person: ${where} (just like today: needs the state's real tax laws)`, () => {
   setBookkeeping(false);
   const core = buildBenchWorld(place.seed, gameStartDate(), {
     placeKey: place.key,
     twoLevel: true,
+    settings: { history: "today" },
   }).core;
+  // The proof reads itemized payments to people outside the player's circle.
+  core.observer = true;
   const api = coreAPI(core),
     chain = lawChain(api),
     opened = core.date;

@@ -13,73 +13,73 @@
     {
       "key": "meeting.empty-agenda.1",
       "move": "empty-agenda",
-      "text": "The {body} has nothing on its agenda for {date}.",
+      "text": "The {body} meets on {date} with no business on the table.",
       "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.empty-agenda.1.w2",
       "move": "empty-agenda",
-      "text": "No item is before the {body} on {date}.",
+      "text": "Nobody has put anything in front of the {body} for {date}.",
       "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.empty-agenda.1.w3",
       "move": "empty-agenda",
-      "text": "Nothing is up before the {body} on {date}.",
+      "text": "The agenda for the {body} on {date} is blank.",
       "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.resident-can-speak.1",
       "move": "resident-can-speak",
-      "text": "You can speak for or against any of the {count} items before the {body} votes.",
+      "text": "Any of the {count} items can be argued from the floor before the {body} votes.",
       "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.resident-can-speak-two.1",
       "move": "resident-can-speak-two",
-      "text": "You can speak for or against either of the two items before the {body} votes.",
+      "text": "Either of the two items can be argued from the floor before the {body} votes.",
       "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.resident-can-speak-one.1",
       "move": "resident-can-speak-one",
-      "text": "You can speak for or against the one item before the {body} votes.",
+      "text": "The one item can be argued from the floor before the {body} votes.",
       "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.resident-can-speak-one-named.1",
       "move": "resident-can-speak-one-named",
-      "text": "You can speak for or against the {item} before the {body} votes.",
+      "text": "The {item} can be argued from the floor before the {body} votes.",
       "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     },
     {
       "key": "meeting.resident-can-speak-one-named.1.w2",
       "move": "resident-can-speak-one-named",
-      "text": "The {item} is still open. You can speak for or against it before the {body} votes.",
+      "text": "The {body} has only the {item} left, and the floor is open on it.",
       "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
+      "author": "Story line writer (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
       "kind": "written"
     }
   ]

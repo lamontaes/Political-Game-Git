@@ -38,6 +38,8 @@ export interface LawAppliedRow {
   /** Money the law moved for this target, in minor units (signed: paid in is positive). */
   readonly amountMinor: number;
   readonly endedOn: string | null;
+  /** A government that received the money as a payment (aid from a higher treasury), not a commitment on its own record. */
+  readonly received?: boolean;
 }
 
 /** The host module's id (host.ts); kept here so engines import no host code. */
@@ -75,6 +77,8 @@ export function lawApplied(
      * which stays ended (or is written ended), never reopened.
      */
     readonly lingering?: boolean;
+    /** The target government received the money as a payment, so it counts as money the law moved (`LawAppliedRow.received`). */
+    readonly received?: boolean;
   },
 ): void {
   if (!api.state.modules.has(HOST_ID)) return;
@@ -136,6 +140,7 @@ export function lawApplied(
       lastOn: date,
       times: held.times + (held.lastOn === date ? 0 : 1),
       amountMinor: held.amountMinor + amount,
+      ...(input.received ? { received: true } : {}),
     } as unknown as ModuleRow);
     return;
   }
@@ -163,6 +168,7 @@ export function lawApplied(
     times: 1,
     amountMinor: amount,
     endedOn: null,
+    ...(input.received ? { received: true } : {}),
   };
   table.put(row as unknown as ModuleRow);
 }
@@ -220,6 +226,23 @@ export function appliedTo(
     .moduleState(HOST_ID)
     .table(LAW_APPLIED_TABLE)
     .query("byTarget", [targetId]) as unknown as LawAppliedRow[];
+}
+
+/**
+ * The engine stopped applying a law: end every open row it recorded on the
+ * key, and no other engine's (a lower level still saying yes keeps the
+ * treasury's rows, while an engine that reads the law in force, the price
+ * engine, stops charging it).
+ */
+export function endAppliedBy(api: CoreAPI, key: string, engine: string): void {
+  if (!api.state.modules.has(HOST_ID)) return;
+  const table = api.moduleState(HOST_ID).table(LAW_APPLIED_TABLE);
+  for (const row of table.query("byKey", [
+    key,
+    null,
+  ]) as unknown as LawAppliedRow[])
+    if (row.engine === engine)
+      table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
 }
 
 /** A repeal: end every open row on the key. */
@@ -447,8 +470,9 @@ export function lawReach(
         // A government's own record moves no money to anyone: its engine's
         // side shows it, the law's total keeps it apart.
         const own =
-          text(row.target) === "government" ||
-          text(row.targetId).startsWith(TREASURY_ORGANIZATION_PREFIX);
+          row.received !== true &&
+          (text(row.target) === "government" ||
+            text(row.targetId).startsWith(TREASURY_ORGANIZATION_PREFIX));
         if (own) governmentOwnMinor += amount;
         into.amountMinor += amount;
         rowEnded = text(row.endedOn) || null;
