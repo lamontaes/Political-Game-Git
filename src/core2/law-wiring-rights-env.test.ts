@@ -195,6 +195,7 @@ function lacking(core: CoreState, api: CoreAPI): string[] {
 function draw(placeKey: string, tried: string[]) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey,
   });
   const api = coreAPI(core);
@@ -265,7 +266,7 @@ interface Chain {
   readonly reached: string;
 }
 
-it("names, for each law, the record, the journal entry and who it reached", () => {
+it("names, for each law, the record, the journal entry and who it reached (just like today: needs the state's real rights and environment laws)", () => {
   setBookkeeping(false);
   const tried: string[] = [];
   const posts: Post[] = [];
@@ -536,7 +537,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
   }
 }, 1_200_000);
 
-it("moves the outcome web's measures after their lags and ends every record on repeal", () => {
+it("moves the outcome web's measures after their lags and ends every record on repeal (just like today: needs the state's real rights and environment laws)", () => {
   setBookkeeping(false);
   const tried: string[] = [];
   try {

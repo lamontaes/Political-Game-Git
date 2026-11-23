@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 claimed-by: claude/project-thread-csmftn-room
-pr:
+pr: #9534
 after:
 blocked-on:
 source: Found by the second-chamber thread (#9207) and the bargaining thread (#9167), Nov 14 2026
@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+merged-at: 2026-11-16T20:01:29.585Z
 ---
 
 **What.** The sponsor's ask the evening before a floor vote (`askBeforeTheRoll`, src/core2/modules/legislature.ts, the `vote-ahead` record) is not written, or is not staged as a scene, in any of 16 drawn places, so the player is never asked for a vote and never asks one. Three tests are red on the clean train 942bea34b12bf925c86eddfc8bada86fc4a10c03 with the same seeds:

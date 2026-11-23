@@ -53,6 +53,7 @@ import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -140,14 +141,9 @@ function debateWorld(
   const made = world(salt, (c) => {
     filed = null;
     const a = coreAPI(c);
-    const adults = [...c.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (x, y) => y.liquidMinor - x.liquidMinor || x.id.localeCompare(y.id),
-      );
+    const adults = townResidentsByCash(c, coreAPI(c)).filter(
+      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     const platformA = options.wide
       ? PLATFORM_QUESTIONS.map((question) => `${question}=1`)
       : [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];

@@ -30,6 +30,12 @@ const {
  * The facts a letter's cause record gives a scene between the writer
  * (`askerId`) and the reader (`askedId`). Empty for any other type.
  */
+/** A scene reply record, and the letter ending that agreed to what the letter asked (purpose-arcs.json, letter-ask). */
+const SCENE_REPLY = "scene.reply";
+const WROTE_BACK_YES = "wrote-back-yes";
+/** The fact a letter carries when the reader already wrote back yes to this writer. */
+export const SAID_YES = "said-yes";
+
 export function letterFacts(
   core: Readonly<CoreState>,
   typeKey: string,
@@ -37,6 +43,7 @@ export function letterFacts(
   askerId: PersonId,
   askedId: PersonId,
   placeSaid: (placeId: string) => string | null,
+  nearSaid: (placeId: string) => string | null = () => null,
 ): Record<string, NewsFact> {
   if (typeKey !== LETTER_TYPE) return {};
   const letter = core.durableLog.get(causeId);
@@ -44,9 +51,15 @@ export function letterFacts(
   const reader = core.people.get(askedId);
   if (letter?.kind !== FAMILY_CONTACT || !writer || !reader) return {};
   const facts: Record<string, NewsFact> = {};
+  // Where the writer lives: a town elsewhere (`hometown`), or the county or
+  // state the reader's own town sits in (`nearby`), for a relative kept at
+  // that level.
   const town = placeSaid(writer.placeId);
   if (town)
     facts.hometown = { text: town, sourceRecordIds: [writer.placeId, causeId] };
+  const near = town ? null : nearSaid(writer.placeId);
+  if (near)
+    facts.nearby = { text: near, sourceRecordIds: [writer.placeId, causeId] };
 
   // The writer's last letter before this one: what changed since is the news.
   const before = recordsSince(
@@ -58,6 +71,24 @@ export function letterFacts(
   ).find(
     (row) => row.date < letter.date && row.personIds.at(P.zero) === askedId,
   );
+  // A yes the reader already wrote back to this writer closes the ask: the
+  // next letter holds them to it instead of asking again (the Player, Nov 19
+  // on #9750: "an accepted ask has to close the ask").
+  const saidYes = recordsSince(
+    core,
+    askedId,
+    SCENE_REPLY,
+    "0000-00-00",
+    letter.date,
+  ).find(
+    (row) =>
+      row.personIds.includes(askerId) && row.facts?.ending === WROTE_BACK_YES,
+  );
+  if (saidYes)
+    facts[SAID_YES] = {
+      text: "yes",
+      sourceRecordIds: [saidYes.id, causeId],
+    };
   if (before)
     for (const [key, fact] of Object.entries(
       newsSince(core, askerId, before.date, reader.householdId, letter.date),

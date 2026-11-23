@@ -32,4 +32,4 @@ source: Words lead ruling on #8831 part 1 (Nov 14); Account lead scoping
 
 **Waits on.** Nothing.
 
-**Files.** src/director/bring-it-up.ts, src/director/data/bring-it-up-rows.json, src/english/bring-it-up-words.ts, src/english/mined/scene-bank.ts, data/english/parts/bring-it-up.json, src/director/bring-it-up.test.ts
+**Files.** src/director/bring-it-up.ts, src/director/data/bring-it-up-rows.json, src/english/bring-it-up-words.ts, src/english/mined/scene-bank.ts, data/english/parts/bring-it-up.json

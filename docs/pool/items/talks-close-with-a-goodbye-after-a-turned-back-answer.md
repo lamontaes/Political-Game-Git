@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9719
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: none
 source: Words builder A, Nov 16 (the second reader's played talks for #9697, 14 stops with nothing to press)
 claimed-at:
 checked:
+merged-at: 2026-11-16T20:01:08.270Z
 ---
 
 **What.** A new acquaintance asks "Where do you work?", the player answers and turns the question back, the person tells where they work and what they do, and the talk stops with nothing to press and no goodbye. Played at South Haven, Minnesota (2761402), seed tw3, five talks (Ray Chavez, Carmen Robinson, Jorge Silva, Kayla Rocha, Emily Rose). Seen: the same five talks end on the person's goodbye.
@@ -34,6 +35,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/talk-ends-with-a-goodbye.test.ts, scripts/words/dead-end-talks.ts
+**Files.** src/director/conversation.ts, scripts/words/dead-end-talks.ts
 
 **Notes.** Nov 16: built in this item's own PR. Test limit 40 s: alone 15.0 and 15.5 s, beside two other talk tests 17.9 s. Not fixed here: six talks at South Haven where a child or a retired person asks "What do you do for a living?", the player answers, and the talk ends on the player's line because an answered question gets no goodbye (item words-no-job-asker-says-where-they-stand); the housemate talks that end on a relative's statement (address-point-back, asked-kin-give) are by design, no goodbye at home (owner, Nov 12). `replyFacts` returns null today for their-work with an employer that has no name, their-position with no sayable title, their-tenure with no years, their-family with a dead relative and their-school with no school; the first four are answered or not offered, see the PR body.

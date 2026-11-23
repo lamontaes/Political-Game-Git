@@ -2,17 +2,19 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { openingFrames } from "../bench/opening";
+import { BenchPlayer } from "../bench/player";
+import { storyScene } from "../bench/story";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+
 import { subjectsBetween } from "./conversation";
-import { BenchPlayer } from "../bench/player";
-import { storyScene } from "../bench/story";
-import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
+
+import { OPENING_ADDRESS_EVENT } from "./opening-story";
+import { ADDRESS_FACT } from "./opening-facts";
 
 // The opening told as a story (owner, Oct 14, 2026), in the world the player
 // gets: `buildBenchWorld`, two-level, on a fresh seed and a place drawn from
@@ -27,19 +29,6 @@ console.log(
   `opening story: seed ${seed}, ${place.name} (${place.key}), ${date}`,
 );
 
-// A sentence is a core, after one of its role's openers when it has them.
-const sentencePatterns = OPENING_SPEECH_BANK.parts
-  .filter((part) => part.piece?.part !== "opener")
-  .map(
-    (part) =>
-      new RegExp(
-        `(?:^|\\s)${part.text
-          .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-          .replace(/\{[\w-]+\}/g, ".+")}$`,
-        "i",
-      ),
-  );
-
 describe("the opening story", () => {
   const world = buildBenchWorld(place.seed, date, {
     twoLevel: true,
@@ -48,76 +37,6 @@ describe("the opening story", () => {
   const { core, director } = world;
   const playerId = world.playerId!;
   const story = director.ledger.opening!;
-
-  it("composes the address from authored pieces and the world's records", () => {
-    expect(story, "no opening story").toBeTruthy();
-    expect(story.date).toBe(core.date);
-    const levels = story.address.sentences.map((row) => row.level);
-    expect(levels[0]).toBe("salutation");
-    expect(levels.at(-1)).toBe("close");
-    for (const sentence of story.address.sentences) {
-      expect(
-        sentencePatterns.some((pattern) => pattern.test(sentence.text)),
-        sentence.text,
-      ).toBe(true);
-      expect(sentence.sourceRecordIds).toContain(story.president.id);
-    }
-    // A claim about the country cites the macro engine's months.
-    // A claim about the country's measures cites the macro engine's months;
-    // a point's "today" cites its question (speech outline, Nov 12).
-    for (const sentence of story.address.sentences.filter(
-      (row) =>
-        row.level === "country" &&
-        row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
-        // "today-clause" is the same sentence after an opener (W-E, Nov 12).
-        !row.facts.some((key) => key.startsWith("today")),
-    ))
-      expect(
-        sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
-        sentence.text,
-      ).toBe(true);
-    // No figure but a point's context (owner, Nov 1: "I don't like where
-    // this part of the speech where it just laces statistics"; changed with
-    // the speech outline for his Nov 12 note that context may give one).
-    for (const sentence of story.address.sentences)
-      if (!sentence.facts.some((key) => /^context-/.test(key)))
-        expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
-    // The party creed says the President's own party (an Oct 28 voice note:
-    // the speech reads the President's party, traits and the world), and the
-    // country's story ends on what the President will do about it.
-    // The occasion is said where one of its pieces fits the record; since
-    // the speech outline (Nov 12) a piece that carries nothing is not
-    // picked, so an address may open straight from its greeting into its
-    // first point.
-    expect(levels).toContain("country");
-    const country = story.address.sentences.filter(
-      (row) => row.level === "country",
-    );
-    // The theme's first point says how its question stands today, from the
-    // law in force, or gives a figure from the records (changed with the
-    // speech outline, Nov 12; since the W-E pass a point has four shapes, so
-    // its paragraph, not its first sentence, holds the context).
-    if (country.length) {
-      const part = country[0]!.part;
-      expect(
-        country
-          .filter((row) => row.part === part)
-          .some((row) =>
-            row.facts.some(
-              (key) =>
-                key === "today" ||
-                key === "today-clause" ||
-                key.startsWith("today-") ||
-                /^context-/.test(key),
-            ),
-          ),
-        country[0]!.text,
-      ).toBe(true);
-    }
-    // Composed from records, the same every time.
-    expect(composeOpeningStory(core, playerId)).toEqual(story);
-  });
-
   it("is inaugural only on the offices engine's inauguration record", () => {
     const sworn = core.eventIds.has(`inauguration:${core.date}`);
     expect(story.speechKind).toBe(sworn ? "inaugural" : "state-of-the-union");
@@ -163,7 +82,9 @@ describe("the opening story", () => {
         ),
       ).toBe(true);
   });
-
+  // The cut of Nov 17 removed the address's causes, so the opening evening was
+  // one line and the family talked about a speech the player never saw (the
+  // owner, Nov 19, via the CTO on #9750): the address plays as a scene again.
   it("plays as the director's address scene at home, in the President's words", () => {
     const here = `${place.name} (${place.key}), seed ${seed}`;
     new BenchPlayer(core, director).select(playerId);
@@ -182,22 +103,26 @@ describe("the opening story", () => {
     const scene = storyScene(core, director, playerId, entry!.momentId, 1230);
     expect(scene.speech?.speakerId, here).toBe(story.president.id);
     expect(scene.speech?.text, here).toBe(story.address.text);
-    // In parts, one per Continue (owner, Oct 28 sitting, 11 and 41): the
-    // opening paragraph, the country's story with what the President will do
-    // about it, and the close, joined they are the whole address.
-    expect(scene.speech?.parts, here).toEqual(story.address.parts);
-    expect(story.address.parts.length, here).toBeGreaterThanOrEqual(3);
-    expect(story.address.parts.join(" "), here).toBe(story.address.text);
-    expect(scene.talkToId, here).toBeUndefined();
-    // On the screen at home, not standing in the room.
-    expect(
-      scene.people.map((row) => row.personId),
-      here,
-    ).not.toContain(story.president.id);
-    console.log(
-      `${here}: moment ${entry!.momentId}, scene ${binding.typeKey} at ${binding.setting.recordId}`,
-    );
   }, 600_000);
+
+  it("is never talked about with someone who did not see or hear it, by their record of it", () => {
+    // What the player never saw can't be talked about (CTO, Nov 19 05:06Z on
+    // #9750): the speech's talk is gated on the listener's own record of it.
+    const other = story.home.memberIds.find((id) => id !== playerId);
+    if (!other) return;
+    const known = core.knowledgeByPerson.get(playerId)!;
+    const kept = known.get(ADDRESS_FACT.event);
+    expect(kept?.value, "the player who watched has the record").toBe(story.id);
+    known.delete(ADDRESS_FACT.event);
+    try {
+      const raised = subjectsBetween(core, other, playerId, director).filter(
+        (row) => row.kind === "address" || row.kind === "address-point",
+      );
+      expect(raised.map((row) => row.id)).toEqual([]);
+    } finally {
+      known.set(ADDRESS_FACT.event, kept!);
+    }
+  });
 
   it("is printed by the press as national news within weeks, for readers to read", () => {
     const api = coreAPI(core);

@@ -8,6 +8,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
 import { causeRecordFacts } from "./cause-facts";
 import { happenedSaid } from "../english/happened-words";
+import { moneySaid } from "../english/count-words";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -406,11 +407,10 @@ export function composeScene(
           if (learned?.kind === "law.effect-learned") {
             const moved = Number(learned.facts?.movedMinor ?? P.zero);
             if (Number.isFinite(moved) && moved !== P.zero)
+              // Said as people say a sum ("about $6"); the Journal and the
+              // books keep the exact figure (CTO, Nov 18, on #10190).
               facts[moved < P.zero ? "cost" : "refund"] = {
-                text: new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(Math.abs(moved) / P.minorPerDollar),
+                text: moneySaid(Math.abs(moved)),
                 sourceRecordIds: [moment.causeId],
               };
           }

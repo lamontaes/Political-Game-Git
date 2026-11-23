@@ -37,6 +37,7 @@ import {
   stateOfficeOf,
 } from "./office-day-state";
 import { coreAPI } from "./state";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const ATTEMPTS = 12;
 
@@ -79,7 +80,7 @@ function playPlace(seed: string, skipped: string[]): string | null {
         .map((t) => t.personId!),
     ),
   ].slice(0, 40);
-  const rich = [...core.people.values()]
+  const rich = townResidentsByCash(core, coreAPI(core))
     .filter(
       (p) =>
         p.alive &&
@@ -87,7 +88,6 @@ function playPlace(seed: string, skipped: string[]): string | null {
         !officials.includes(p.id) &&
         alive(p.id),
     )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
     .slice(0, 15);
   for (const offerer of rich)
     for (const official of officials)

@@ -1,0 +1,106 @@
+name: Instruction checks
+
+# The fast job for instruction files (CTO, Nov 17, on the crew issue #9747,
+# items 1 and 3; the owner approved making must-hold rules into checks on
+# Nov 16: "Let's go ahead"). Skills, rules and docs pull requests merge without
+# waiting for the thirty-minute guards job, and on Nov 16 a British spelling in
+# a skill reached main that way and turned every pull request red. This job
+# runs on every pull request, and does its work only when the change touches
+# `.agents/`, `.claude/`, AGENTS.md, CLAUDE.md or any Markdown file, or moves
+# a path:
+#   - the skill tests (`npm run test:skill-ops`);
+#   - the American English guard on spelling, dates and units;
+#   - the pointer guard (tests/guards/current-pointers.test.ts), which no
+#     other job runs.
+# About a minute with the npm cache warm.
+#
+# Observe mode first (CTO, Nov 17: every new gate starts in observe mode).
+# While OBSERVE is "true", a failing check is a warning on the run and in its
+# summary, and the job passes. The CTO switches it to enforce by setting
+# OBSERVE to "false" on main.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OBSERVE: "true"
+  OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+
+jobs:
+  instructions:
+    name: instruction checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Does this change touch instructions, Markdown or a path?
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${BASE_SHA:-}" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          base="$(git merge-base HEAD "$BASE_SHA")"
+          changes="$(git diff --name-status -M "$base" HEAD)"
+          if grep -qE '^R|[[:space:]](\.agents/|\.claude/|AGENTS\.md$|CLAUDE\.md$)|\.md$' <<< "$changes"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "No instruction file, Markdown file or moved path in this change." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Use Node 22
+        if: steps.scope.outputs.run == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        if: steps.scope.outputs.run == 'true'
+        run: npm ci --no-audit --no-fund
+
+      - name: Skill tests, American English and pointers
+        if: steps.scope.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -uo pipefail
+          failed=0
+          check() {
+            local name="$1"; shift
+            if "$@"; then
+              echo "- $name: passed" >> "$GITHUB_STEP_SUMMARY"
+            else
+              failed=1
+              echo "- $name: failed" >> "$GITHUB_STEP_SUMMARY"
+              if [[ "$OBSERVE" == "true" ]]; then
+                echo "::warning::$name failed (observe mode: reported, not refused)"
+              else
+                echo "::error::$name failed"
+              fi
+            fi
+          }
+          echo "### Instruction checks" >> "$GITHUB_STEP_SUMMARY"
+          check "Skill tests (npm run test:skill-ops)" npm run -s test:skill-ops
+          check "American English (tests/guards/english/spelling-dates-units.test.ts)" npx vitest run tests/guards/english/spelling-dates-units.test.ts
+          check "Pointers (tests/guards/current-pointers.test.ts)" npx vitest run tests/guards/current-pointers.test.ts
+          if [[ "$failed" == 1 && "$OBSERVE" != "true" ]]; then exit 1; fi
+          if [[ "$failed" == 1 ]]; then
+            echo "Observe mode: the failures above are reported, not refused." >> "$GITHUB_STEP_SUMMARY"
+          fi

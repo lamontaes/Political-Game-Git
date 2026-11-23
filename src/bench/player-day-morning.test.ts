@@ -21,6 +21,7 @@ import type { CoreState } from "../core2/types";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
 import { applyChosenPerson } from "./creator";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -42,9 +43,9 @@ function openWorld(index: number) {
   // Named before play, so a failure anywhere below says where it happened.
   console.log(`world ${index}: ${where}`);
   const startYear = Number(core.date.slice(0, 4));
-  const adults = [...core.people.values()]
-    .filter((p) => p.alive && startYear - Number(p.birthDate.slice(0, 4)) >= 35)
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) => p.alive && startYear - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   return { core: core as CoreState, director, adults, where, playerId };
 }
 

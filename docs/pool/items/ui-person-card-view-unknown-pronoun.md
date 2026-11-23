@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/person-card-pronoun-unknown
 pr: #9637
@@ -18,6 +18,7 @@ root: none
 source: Words lead, Nov 15 (the card's Politics line says "they" on a card whose headings say "he" or "she")
 claimed-at:
 checked: words builder A 2026-11-16
+merged-at: 2026-11-16T19:58:33.567Z
 ---
 
 **What.** On the person card, a person whose political view the player has not learned shows "You don't know where they stand yet." under headings that say "Who he is" and "How I see him". Seen: a person's card whose headings say he or she says he or she in the Politics line too, and a card whose headings say they says they. Seen: a person's card says "where he stands" or "where she stands" to match its headings.

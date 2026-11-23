@@ -311,11 +311,11 @@
     "kind": "missing-hook",
     "file": "src/director/purpose-scene.ts",
     "line": 1,
-    "whatItFakes": "A scene ending that keeps a promise or a favor is kept by the director and settled only where data/promise-kinds.json names its kind and the record that settles it: a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
+    "whatItFakes": "A scene ending that keeps a promise or a favor is kept and settled only where data/promise-endings.json names its kind (src/core2/data/promises/promise-kinds.json names the record that settles it): a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
     "why": "Each kind needs the record that settles it named; some have one in another engine (a filing, a hire, a vote by question in record.ts) and some have no player act yet (reaching a relative or friend, going to a doctor: design-player-reaches-a-relative-or-friend, design-player-goes-to-a-doctor).",
     "addedBy": "Words and director session",
     "addedAt": "2026-10-28",
-    "replacement": "One row per ending in data/promise-kinds.json, each with the record that settles it, read by src/director/promises.ts; a favor-owed ending is a view of the legislature's obligations row.",
+    "replacement": "One row per ending in data/promise-endings.json, its kind naming the record that settles it, kept by the promises engine (src/core2/modules/promises.ts); a favor-owed ending is a view of the legislature's obligations row.",
     "status": "open"
   },
   {
@@ -438,11 +438,13 @@
     "file": "data/english/parts/address.json",
     "line": 1,
     "whatItFakes": "The chair's \"The motion carries.\" sits in a bank that no scene reads.",
-    "why": "No live scene has a chair who calls a vote aloud (floor debate recognizes members; the bill paper words a result in writing). The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "why": "Resolved Nov 17, 2026, by deletion: the bank went with everything the engine did not write (owner, Nov 17). Was: No live scene has a chair who calls a vote aloud (floor debate recognizes members; the bill paper words a result in writing). The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "A council or floor scene whose chair announces the result of a vote from the vote's record, worded from this piece; pool item words-chair-announces-the-vote.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: A council or floor scene whose chair announces the result of a vote from the vote's record, worded from this piece; pool item words-chair-announces-the-vote.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-hearing-no-reader",
@@ -450,11 +452,13 @@
     "file": "data/english/parts/hearing.json",
     "line": 1,
     "whatItFakes": "A witness's \"Yes, thank you.\" and thanks to the chair by title (\"Thank you, Chairman.\", \"Thank you, Mr. Chairman.\") sit in a bank that no scene reads.",
-    "why": "The hearing-testify scene carries no chair title or gender fact, so a title line would say Chairman to any chair, and the chair asks no yes-or-no question. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "why": "Resolved Nov 17, 2026, by deletion: the bank went with everything the engine did not write (owner, Nov 17). Was: The hearing-testify scene carries no chair title or gender fact, so a title line would say Chairman to any chair, and the chair asks no yes-or-no question. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "A chair-title fact on the hearing scene and a chair question that a yes answers, reading these pieces; pool item words-hearing-chair-title-and-yes.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: A chair-title fact on the hearing scene and a chair question that a yes answers, reading these pieces; pool item words-hearing-chair-title-and-yes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-legislation-no-reader",
@@ -462,11 +466,13 @@
     "file": "data/english/parts/legislation.json",
     "line": 1,
     "whatItFakes": "Short titles (\"This Act may be cited as the ...\"), the long title (\"To provide for ..., and for other purposes.\") and the repeal clause (\"... is repealed.\") sit in a bank that no bill text reads.",
-    "why": "The bill text engine (src/english/bill-sections.ts, data/english/bill-sections.json) words every bill in its own local forms and has no short-title, long-title or repeal-clause form. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "why": "Resolved Nov 17, 2026, by deletion: the bank went with everything the engine did not write (owner, Nov 17). Was: The bill text engine (src/english/bill-sections.ts, data/english/bill-sections.json) words every bill in its own local forms and has no short-title, long-title or repeal-clause form. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "Forms in the bill-sections schema that read right for a local bill, taken from these pieces (the federal short-title form only for a federal bill); pool item laws-bill-short-and-long-title-forms.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: Forms in the bill-sections schema that read right for a local bill, taken from these pieces (the federal short-title form only for a federal bill); pool item laws-bill-short-and-long-title-forms.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-minutes-no-reader",
