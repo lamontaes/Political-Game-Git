@@ -15,6 +15,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   ELECTIONS_MODULE_ID,
+  atLargeGroup,
   standing,
   type ContestRow,
   type FilingRow,
@@ -22,7 +23,7 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { resultOf } from "./modules/voting";
 import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import type { CoreState, PersonId } from "./types";
 
 /**
  * Places pinned by their seed, each one a place where a race read four years
@@ -73,23 +74,59 @@ const run = (runSeed: string) => {
     `the skip held the 2026 general election, in ${where}`,
   ).toBe(true);
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const diedBefore: string[] = [];
   for (const contest of held) {
     const result = resultOf(api, contest.id);
     const label = `${contest.title} on ${contest.electionDate}, in ${where}`;
     // Read the race as it was held: the filings on it and the candidates the
     // count counted, however long ago a filer died (`ballot` drops the dead,
     // so a race read years later can look empty when it was not).
-    const filings = (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .query("byContest", [contest.id]) as unknown as FilingRow[]
-    ).filter(standing);
+    // The at-large seats up that day are one race (`atLargeGroup`): the
+    // voting engine counts them together, and a filing sits on one of its
+    // seats, so the race's filers are the group's.
+    const filings = atLargeGroup(api, contest)
+      .flatMap(
+        (row) =>
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .query("byContest", [row.id]) as unknown as FilingRow[],
+      )
+      .filter(standing);
     expect(filings.length, `${label}: someone filed`).toBeGreaterThan(0);
+    // Those of them alive on the day: a filer who died before it is not
+    // counted (the world's own doing, named in the output), and a race left
+    // with none has no candidates and no winner.
+    const group = atLargeGroup(api, contest);
+    const onTheDay = filings.filter((filing) => {
+      const died = [...skipped.durableLog.values()].find(
+        (event) =>
+          event.kind === "life.death" &&
+          event.personIds.includes(filing.personId as PersonId),
+      )?.date;
+      return !died || died >= contest.electionDate;
+    });
+    if (!onTheDay.length) {
+      diedBefore.push(label);
+      expect(
+        Object.keys(result?.totals ?? {}).length,
+        `${label}: every filer died before the day, so the count had none`,
+      ).toBe(0);
+      expect(result?.winnerId ?? null, `${label}: no winner`).toBeNull();
+      continue;
+    }
     expect(
       Object.keys(result?.totals ?? {}).length,
       `${label}: the count had candidates`,
     ).toBeGreaterThan(0);
+    // A race for several at-large seats seats as many as filed, up to its
+    // seats: a seat with no winner is one more than the filers.
+    const winners = group.filter((row) => resultOf(api, row.id)?.winnerId);
+    expect(
+      winners.length,
+      `${label}: as many seats won as filed, up to its ${group.length} seats`,
+    ).toBe(Math.min(group.length, onTheDay.length));
+    if (!winners.some((row) => row.id === contest.id)) continue;
     expect(result?.winnerId, `${label}: a winner`).toBeTruthy();
     if (!result?.takesOffice || result.takesOffice >= end) continue;
     const serving = (
@@ -107,7 +144,7 @@ const run = (runSeed: string) => {
     ).toBe(true);
   }
   process.stdout.write(
-    `results-mode elections in ${where}: ${held.length} races in ${SKIPPED_DAYS} skipped days, each with a winner and a count.\n`,
+    `results-mode elections in ${where}: ${held.length} races in ${SKIPPED_DAYS} skipped days, each with a winner and a count, but ${diedBefore.length} whose every filer died before the day (${diedBefore.join("; ") || "none"}).\n`,
   );
 };
 

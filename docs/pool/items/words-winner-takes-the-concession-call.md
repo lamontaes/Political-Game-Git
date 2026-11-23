@@ -18,8 +18,8 @@ claimed-at: 2026-11-04T04:52:36.538Z
 
 **Rules.** Scene-standard: cast from the world (the winner from the record), lines vary by the speaker's traits through calibration bearing pulls, never a roll (no dice), and the scene writes back: a sharp exchange ends relationship-strained on the tie. No hand-written player text: the lines are scene-talk bank pieces.
 
-**Done when.** In a drawn place (buildBenchWorld), a loser who concedes gets the concession-taken scene with the winner as asker. A warn, refuse, accept path writes a scene reply whose keeps is relationship-strained. src/director/concession-reported.test.ts passes on a fresh seed, naming the place, the seed, the winner's trait values and the reply id.
+**Done when.** In a drawn place (buildBenchWorld), a loser who concedes gets the concession-taken scene with the winner as asker. A warn, refuse, accept path writes a scene reply whose keeps is relationship-strained. src/director/concession-reported.test.ts (removed) passes on a fresh seed, naming the place, the seed, the winner's trait values and the reply id.
 
-**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/director.json, data/english/parts/scene-talk.json, src/director/concession-reported.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/director.json, data/english/parts/scene-talk.json
 
 **Notes.** Built by Lane 3, Nov 4, on branch lane3/rival-gloats (stacked on #7159), head 74c3c015. The boasts-only slice of words-arrogance-anger-and-fear; threats and alarms stay there. PR waits for a free slot (Lane 3 is at 5 open).
