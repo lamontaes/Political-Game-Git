@@ -11,3 +11,13 @@ const PAYMENTS = data.payments as Readonly<Record<string, string>>;
 export function paymentSaid(loanKind: string | undefined): string | null {
   return (loanKind && PAYMENTS[loanKind]) || null;
 }
+
+const OWED = data.owed as Readonly<Record<string, string>>;
+
+/**
+ * What a household quarrel over a missed payment was about, by the loan's
+ * kind ("the mortgage"); null for a kind with no name.
+ */
+export function owedSaid(loanKind: string | undefined): string | null {
+  return (loanKind && OWED[loanKind]) || null;
+}

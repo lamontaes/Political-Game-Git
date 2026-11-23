@@ -186,7 +186,8 @@
     "illness": "The serious illness by its common name ('heart disease', 'cancer'), from the health record's condition.",
     "asked-has-family": "A relative of the person asked to move in, by given name, from the family records (move-in-facts.ts).",
     "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
-    "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record."
+    "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record.",
+    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites."
   },
   "maxWords": 70,
   "parts": [
@@ -634,10 +635,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-now-name-is-on-the-line",
+      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} gave {money} to your campaign. Now {name} is on the line.",
+      "text": "{name} gave {money} to your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -3358,30 +3359,6 @@
       "tag": {
         "move": "agree",
         "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-from-employer",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The phone rings. It's {name}, from {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
       }
     },
     {
@@ -26903,6 +26880,15 @@
           "key": "arrival",
           "after": "press",
           "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "solemn",
@@ -27844,6 +27830,26 @@
           "purpose": "breakup-tell",
           "key": "loss",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "refused",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "refused",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "warm",
@@ -28431,6 +28437,26 @@
           "key": "arrival",
           "after": "promise",
           "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "calm",
@@ -29101,6 +29127,26 @@
         },
         {
           "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
           "step": "close",
           "move": "accept",
           "role": "asker",
@@ -29139,7 +29185,7 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
@@ -29194,11 +29240,31 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
@@ -29665,6 +29731,15 @@
           "role": "asked",
           "purpose": "breakup-tell",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "contrite",
@@ -29987,15 +30062,6 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
@@ -30088,15 +30154,64 @@
           "key": "routine",
           "outcome": "resolved",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
-      "bearing": "warm",
+      "bearing": "tender",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
-        "key": "diploma"
+        "key": "arrival"
       }
     },
     {
@@ -30614,11 +30729,31 @@
           "key": "routine",
           "after": "press",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "leave",
@@ -30914,6 +31049,36 @@
           "purpose": "diploma-home",
           "key": "diploma",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "warm",
@@ -30923,6 +31088,1465 @@
       "tag": {
         "move": "thank",
         "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-last-bell-rings-at-school-and-name-comes-over-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The last bell rings at {school}, and {name} comes over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-in-the-hall-at-school-on-the-last-day",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you in the hall at {school} on the last day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.lockers-at-school-stand-open-and-half-empty-and-name-stops-beside-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Lockers at {school} stand open and half empty, and {name} stops beside you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-things-are-boxed-up-and-name-comes-over-on-your-last-day-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your things are boxed up, and {name} comes over on your last day at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-at-the-door-as-you-finish-your-last-day-as-position-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops at the door as you finish your last day as {position} at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-floor-at-employer-has-gone-quiet-around-you-and-name-steps-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The floor at {employer} has gone quiet around you, and {name} steps up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-this-is-the-last-day-at-school",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So this is the last day at {school}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-you-believe-school-is-over",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can you believe {school} is over?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-it-s-really-the-last-day",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. It's really the last day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-it-s-your-last-day-at-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So it's your last day at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-i-heard-you-re-done-at-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. I heard you're done at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.look-at-you-finished-at-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Look at you, finished at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.where-are-you-headed-after-school",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Where are you headed after {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-comes-next-for-you-after-school",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What comes next for you after {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-will-you-do-once-school-is-behind-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What will you do once {school} is behind you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-comes-next-for-you-after-employer",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What comes next for you after {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.where-are-you-headed-after-working-as-position-at-employer",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Where are you headed after working as {position} at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-will-you-do-now-that-employer-is-behind-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What will you do now that {employer} is behind you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-miss-school-more-than-i-thought",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to miss {school} more than I thought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-miss-employer-and-i-didn-t-expect-to",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to miss {employer}, and I didn't expect to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-really-staying-on-at-school",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you really staying on at {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-will-employer-manage-without-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How will {employer} manage without me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.school-stays-with-me-and-so-do-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "{school} stays with me, and so do you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.employer-stays-with-me-and-so-do-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "{employer} stays with me, and so do you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-talk-about-school-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't talk about {school} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-talk-about-employer-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't talk about {employer} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-miss-this",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll miss this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-scared",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? Scared.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.somewhere-new",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Somewhere new.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-not-sure",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm not sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-about-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What about you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.and-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "And you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-okay",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you okay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-s-staying-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who's staying on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-matter",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You matter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-won-t-forget",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I won't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.it-meant-something",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "It meant something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.later-maybe",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Later, maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.another-day",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Another day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-for-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks-for-saying",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks for saying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-honest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-get-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I get it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ll-manage",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'll manage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.same-as-ever",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Same as ever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-staying-put",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm staying put.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-be-fine",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll be fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.same-here",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Same here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
       }
     },
     {
@@ -31221,16 +32845,6 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "outcome": "resolved",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
           "purpose": "homecoming",
           "key": "arrival"
         },
@@ -31291,15 +32905,56 @@
           "key": "routine",
           "outcome": "resolved",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved",
+          "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "warm",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
-        "key": "diploma"
+        "key": "arrival"
       }
     },
     {
@@ -31937,6 +33592,26 @@
           "role": "asker",
           "purpose": "breakup-tell",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "solemn",
@@ -34372,11 +36047,31 @@
           "key": "routine",
           "outcome": "refused",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "refused",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "refused",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
@@ -35549,14 +37244,6 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
@@ -35596,15 +37283,43 @@
           "purpose": "friend-ask",
           "key": "routine",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
         }
       ],
-      "bearing": "warm",
+      "bearing": "calm",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "agree",
-        "key": "favor-asked"
+        "key": "arrival"
       }
     },
     {
@@ -42157,30 +43872,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.your-phone-rings-it-s-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your phone rings. It's {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-on-the-phone",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -43190,6 +44881,933 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.please",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-once",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just once?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.come-on",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.tell-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Tell me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "deflect",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-mattered",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You mattered.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.stay-well",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Stay well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.time-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Time to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-to-know",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-a-relief",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's a relief.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.thanks-for-that",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Thanks for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.goodbye-then",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Goodbye, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "answer",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.fine-scared",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Fine. Scared.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-lost",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? Lost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.nothing-s-settled",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Nothing's settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-off",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "press",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.go-well",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Go well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-miss-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll miss you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-luck",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "refused",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "refused",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-vanish",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't vanish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "open",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "open",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.come-back-sometime",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Come back sometime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "open",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "open",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.stay-in-touch",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Stay in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "open",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "open",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.school-won-t-be-the-same",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "{school} won't be the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "open",
+          "onlyWhen": ["school-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.employer-won-t-be-the-same",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "{employer} won't be the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "open",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "departure"
+      }
+    },
+    {
       "key": "scene-talk.close-press.leave-it-there",
       "move": "close-press",
       "kind": "spoken",
@@ -44186,11 +46804,29 @@
           "key": "arrival",
           "after": "promise",
           "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
         }
       ],
       "bearing": "glad",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
@@ -44719,31 +47355,6 @@
         }
       ],
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-a-relief",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's a relief.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "after": "agree"
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -47283,6 +49894,33 @@
           "purpose": "friend-ask",
           "key": "routine",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "calm",
@@ -51470,31 +54108,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.we-ll-manage",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "We'll manage.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.please-think-about-when-you-ll-start-at-school-short",
       "move": "follow-press",
       "kind": "spoken",
@@ -51793,31 +54406,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.don-t-vanish",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Don't vanish.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -55906,33 +58494,6 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "decline"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "decline"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "decline"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
           "after": "decline"
@@ -56034,15 +58595,62 @@
           "purpose": "offer-to-run",
           "key": "favor-asked",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "refused",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "refused",
+          "onlyWhen": ["work-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "decline"
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
+        "key": "news-received"
       }
     },
     {
@@ -56125,6 +58733,15 @@
           "role": "asked",
           "purpose": "funeral-cause",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "guarded",
@@ -56634,6 +59251,15 @@
           "role": "asked",
           "purpose": "funeral-cause",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
         }
       ],
       "bearing": "guarded",
@@ -57166,7 +59792,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "nearby"]
+          "requiresFacts": ["moved", "nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57191,7 +59818,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "hometown"]
+          "requiresFacts": ["moved", "hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57216,7 +59844,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57241,7 +59870,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57266,7 +59896,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -57291,7 +59922,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57316,7 +59948,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -57341,7 +59974,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -57366,7 +60000,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57391,7 +60026,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57416,7 +60052,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57441,7 +60078,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57466,7 +60104,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -57491,7 +60130,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -57516,7 +60156,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -60132,31 +62773,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-s-number-comes-up-on-your-phone",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name}'s number comes up on your phone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-on-the-line-speaking-quietly",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -60198,31 +62814,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.your-phone-rings-with-a-call-from-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your phone rings with a call from {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -64271,31 +66862,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thanks-for-that",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thanks for that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "layoff-terms",
-          "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-bargain.offer-me-more",
       "move": "reply-bargain",
       "kind": "spoken",
@@ -65420,7 +67986,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65444,7 +68011,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65468,7 +68036,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -65634,6 +68203,2072 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.come-soon-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Come soon, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-still-hoping",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're still hoping.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.still-coming",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Still coming?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-up-as-you-come-in-and-does-not-smile",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} looks up as you come in and does not smile.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sets-down-what-they-were-doing-and-turns-to-face-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sets down what they were doing and turns to face you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-need-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I need a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-can-you-stop-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, can you stop a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-sit-down-with-me-for-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-missed-payment-and-i-m-the-one-who-feels-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You missed {payment}, and I'm the one who feels it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-can-t-just-let-it-go-that-payment-wasn-t-paid",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I can't just let it go that {payment} wasn't paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.we-have-to-talk-about-payment-i-m-still-angry",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We have to talk about {payment}. I'm still angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.since-payment-went-unpaid-i-haven-t-known-what-to-say-to-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Since {payment} went unpaid, I haven't known what to say to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-rather-settle-payment-with-you-than-let-it-sit-between-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd rather settle {payment} with you than let it sit between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-we-talk-about-payment-i-don-t-want-us-stuck-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can we talk about {payment}? I don't want us stuck here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-keep-thinking-about-payment-can-you-say-something",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I keep thinking about {payment}. Can you say something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-about-payment-it-was-mine-to-take-care-of",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry about {payment}. It was mine to take care of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-am-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I am sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-was-wrong",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-owe-you-the-whole-story-on-payment-and-you-should-hear-it-from-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I owe you the whole story on {payment}, and you should hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.let-me-explain",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Let me explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-deserve-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You deserve that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-ashamed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was ashamed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-keep-payment-paid-on-time-from-here-on-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll keep {payment} paid on time from here on. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.word-of-honor",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Word of honor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-better",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-isn-t-as-bad-as-you-re-making-payment-sound",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It isn't as bad as you're making {payment} sound.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-that-bad",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not that bad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.everyone-slips-sometimes",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Everyone slips sometimes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-it-go",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let it go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-think-i-wanted-to-miss-payment-you-don-t-know-what-i-ve-been-dealing-with",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You think I wanted to miss {payment}? You don't know what I've been dealing with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-fair",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not fair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-do-that",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.look-who-s-talking",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Look who's talking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-now-with-payment",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens now with {payment}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.now-what",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Now what?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-help",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would help?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-ready-to-talk-about-payment",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not ready to talk about {payment}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-ve-said-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I've said sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "confront",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-truly-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm truly sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "answer",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.stop-pushing-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Stop pushing me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "press",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.not-all-mine",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Not all mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "disagree",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-all",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "answer",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-believe-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I believe you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-matters",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That matters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks-for-telling",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks for telling.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-start-but-i-need-more-than-sorry-about-payment",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start. But I need more than sorry about {payment}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "requiresFacts": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.words-are-easy",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Words are easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.not-good-enough",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not good enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-start",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.prove-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Prove it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "promise",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.not-an-answer",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "deflect",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-dodge",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't dodge.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "deflect",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-enough",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.doesn-t-change-anything",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Doesn't change anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-m-still-hurt",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I'm still hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.that-s-unfair",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That's unfair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.don-t-blame-me",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't blame me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.not-my-fault",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Not my fault.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.be-straight",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Be straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.tell-me-sooner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Tell me sooner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-be-honest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just be honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-means-something",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That means something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "apologize",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-relieved",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm relieved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "after": "tell",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-see",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.good-enough",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Good enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.okay-then",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Okay then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.noted",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Noted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.very-well",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Very well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.it-still-hurts",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "It still hurts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-hurt",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.that-stung",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "That stung.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.not-finished",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Not finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.not-settled",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Not settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.still-unresolved",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Still unresolved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-still-angry",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm still angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.still-hurt",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Still hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
       }
     }
   ]
