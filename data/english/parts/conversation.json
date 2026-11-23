@@ -5152,10 +5152,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-answer-disagree.i-d-push-back-on-president-there",
+      "key": "conversation.address-point-answer-disagree.i-d-push-back-on-president-object-there",
       "move": "address-point-answer-disagree",
       "kind": "spoken",
-      "text": "I'd push back on {president} there.",
+      "text": "I'd push back on {president-object} there.",
       "uses": [
         {
           "move": "address-point-answer-disagree",

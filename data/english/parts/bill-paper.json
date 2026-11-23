@@ -9,5 +9,33 @@
     "no": "The no votes the roll call counted, as a number."
   },
   "maxWords": 16,
-  "parts": []
+  "parts": [
+    {
+      "key": "bill-paper.result.adopted",
+      "move": "result",
+      "kind": "written",
+      "text": "Adopted, {yes} to {no}.",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bill-paper.result.passed",
+      "move": "result",
+      "kind": "written",
+      "text": "Passed, {yes} to {no}.",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "bill-paper.result.defeated",
+      "move": "result",
+      "kind": "written",
+      "text": "Defeated, {no} to {yes}.",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }
