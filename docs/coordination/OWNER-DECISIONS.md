@@ -14,6 +14,8 @@ The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
   - Buttons sit on the panel. A guard fails main when a framed or filled box sits inside a framed panel.
 - **No scrollers in menus with room:** "I don't know how many times I have to fucking say none of these scrollers, especially when there's ample dead space in these menus." (a repeat)
 - **Notes line by line:** "you need to take this line by line, make sure nothing falls through the cracks ... I'll say a bunch of stuff and you'll answer 7 out of 10."
+- **Automatic releases paused** (about 6:20 p.m.): "Yes, pause automatic releases. I don't even know why they're there." `release-package.yml` is disabled. The CTO turns it on and publishes once a non-builder replay passes every row of the sitting on the final head.
+- **Words stay out of the Coordinator's work** (about 6:20 p.m.): "Yes, keep words out of the coordinator's work."
 - **Asked on the Desk, not yet answered:** whether Jan 20 stays the inaugural with the Oval Office and America cutaways back, or becomes an Oval Office address; what "people on the top" means against the Nov 11 strip ruling; what "no assignments" means on Elections.
 
 ## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
