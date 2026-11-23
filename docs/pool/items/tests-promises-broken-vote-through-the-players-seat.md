@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: src/director/promises.test.ts (added by #9192, folded into the Train as ba154ac9) calls `castMemberVote(api, billId, player, "no")` before advancing to the bill's floor date. The roll itself comes on the body's own floor day, but the vote skips `chooseOwnVote` (src/bench/bill-stage.ts), the player's seat path that checks `mayChoose`.
 
-**Fix.** Cast the player's vote with `chooseOwnVote(core, billId, "no")` before the floor day, as src/director/serve-price-scene.test.ts does after #9548. Do it in the test where the promise code is moving into the engine (thread "Build saves and move promises into the engine"), so the moved test plays the vote that way.
+**Fix.** Cast the player's vote with `chooseOwnVote(core, billId, "no")` before the floor day, as src/director/serve-price-scene.test.ts (removed) does after #9548. Do it in the test where the promise code is moving into the engine (thread "Build saves and move promises into the engine"), so the moved test plays the vote that way.
 
 **Time box.** 1 hour for one sonnet session.
 

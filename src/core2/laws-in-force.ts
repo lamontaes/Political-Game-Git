@@ -20,6 +20,8 @@ import {
 } from "../rules/laws/law-in-force";
 import { minimumWageSettingFromFacts } from "../rules/laws/minimum-wage-setting";
 import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
+import { lawChainForPlace, startingLawRows } from "./laws-starting";
+import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
@@ -242,15 +244,28 @@ export function localAuthority(
   enacted: readonly EnactedAuthority[],
   chain: LawChain,
   date: string,
+  /**
+   * The state's rows on the policy question that grants the power, where the
+   * laws engine keeps one. Its starting row is the grant at the start: a world
+   * whose day one is the century's opens with the answer its sessions left,
+   * not the research's. A statute enacted in play on either series amends it,
+   * and the research's starting row then only says whether a "no" preempts.
+   */
+  questionRows: readonly LawRowInput[] = [],
 ): { allowed: boolean; measureId: string | null; preempts: boolean } {
   // A statute enacted in play amends the state's grant outright (`levelRow`'s
   // rule): its row competes with the questions the state answered by date, as
   // an enacted law; the research's row is the law in force at the start.
-  const inState = authorityRows.filter(
-    (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
-  );
+  const inStateOf = (rows: readonly LawRowInput[]) =>
+    rows.filter(
+      (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
+    );
+  const asked = inStateOf(questionRows);
+  const researched = inStateOf(authorityRows);
+  const inState = [...asked, ...researched];
   const amended = inState.filter((row) => row.terms?.enactedBy !== undefined);
-  const starting = inState.find((row) => row.terms?.enactedBy === undefined);
+  const isStarting = (row: LawRowInput) => row.terms?.enactedBy === undefined;
+  const starting = asked.find(isStarting) ?? researched.find(isStarting);
   const candidate = (
     answer: "yes" | "no",
     measureId: string,
@@ -305,10 +320,19 @@ export function localAuthority(
         )
       : null,
   });
+  // A "no" on the question preempts where the research says the state's own
+  // "no" does (its statute bars local wages, not merely grants none).
+  const researchPreempts =
+    asked.some(isStarting) &&
+    researched.some(
+      (row) =>
+        isStarting(row) && row.value === 0 && row.terms?.preempts === true,
+    );
   return {
     allowed: law?.answer === "yes",
     measureId: law?.measureId ?? null,
-    preempts: law?.preempts === true,
+    preempts:
+      law?.preempts === true || (law?.answer === "no" && researchPreempts),
   };
 }
 
@@ -321,6 +345,8 @@ export function resolveLawInForce(input: {
   readonly calibrationRows?: readonly LawRowInput[];
   readonly authorityRows?: readonly LawRowInput[];
   readonly enactedAuthority?: readonly EnactedAuthority[];
+  /** The state's rows on the policy question that grants local authority (`localAuthority`). */
+  readonly authorityQuestionRows?: readonly LawRowInput[];
   /** For sales tax: the state's average local rate, when the place has no local row. */
   readonly localAverage?: readonly LawRowInput[];
   /**
@@ -415,6 +441,7 @@ export function resolveLawInForce(input: {
       input.enactedAuthority ?? [],
       chain,
       date,
+      input.authorityQuestionRows ?? [],
     );
     let local: LawRowInput | null = null;
     for (const [index, l] of levels.entries()) {
@@ -542,3 +569,28 @@ function round(value: number): number {
 
 // Re-exported so other engine families read the starting rows through this entry, not the file (families guard).
 export { startingLawRows, type LawRowInput } from "./laws-starting";
+
+/**
+ * The minimum wage the starting law sets where a place is, in dollars an
+ * hour, on a date: the higher of its state's and the federal floor, read from
+ * the law rows (local minimums are not modeled in pay). An opening, or a
+ * place built before the world runs, reads it; a world in play reads the law
+ * in force (`minimumHourlyAt`, wage-floor.ts).
+ */
+export function startingMinimumHourlyAt(
+  placeKey: string,
+  date: string,
+): number | null {
+  const chain = lawChainForPlace(placeKey);
+  const answer = resolveLawInForce({
+    series: "minimum-wage",
+    chain,
+    date,
+    rows: startingLawRows(chain).filter(
+      (row) =>
+        row.series === "minimum-wage" &&
+        (row.level === "federal" || row.level === "state"),
+    ),
+  });
+  return answer.value === null ? null : answer.value / p("minorPerDollar");
+}

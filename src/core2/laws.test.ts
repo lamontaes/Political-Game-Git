@@ -20,6 +20,7 @@ import {
   lawInForce,
   openLaws,
 } from "./modules/laws";
+import { setHistoryMode } from "./electorate-century";
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, type LawRowInput } from "./laws-starting";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -390,7 +391,16 @@ describe("M1-01 laws in force, every level", () => {
       16,
     );
     const city = local[hash % local.length]!;
-    const cityCore = world(city.censusGeoid);
+    // The research says this state allows a city its own wage, which is the
+    // law in a world opened "just like today"; a century world's grant is
+    // whatever its sessions left (CTO line 6993623183 on #9747).
+    setHistoryMode(seed, "today", START);
+    let cityCore: ReturnType<typeof world>;
+    try {
+      cityCore = world(city.censusGeoid);
+    } finally {
+      setHistoryMode(seed, "century");
+    }
     const cityWage = lawInForce(coreAPI(cityCore), "minimum-wage");
     govReport(
       "laws",

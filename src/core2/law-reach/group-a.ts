@@ -23,7 +23,7 @@ import { staffing } from "./group-a-staffing";
 import { registerVotingMonthlyProgram, votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
 import { publicBargaining } from "./group-a-bargaining";
-import { yesLevels } from "../modules/laws";
+import { lawInForce, yesLevels } from "../modules/laws";
 
 const records: PolicyHandler = (api, change) => {
   const levels = POLICIES[change.key]?.effectLevels;
@@ -35,9 +35,14 @@ const records: PolicyHandler = (api, change) => {
   // The relevant levels are data; the shared resolver still decides whether
   // any of their laws have been set aside by actual preemption.
   if (!levels.includes(change.level)) return;
-  const permission = yesLevels(api, change.key).find((l) =>
-    levels.includes(l.level),
-  );
+  // The law that governs here is the shared resolver's (lawInForce), the one
+  // every other engine cites for the same rule (the births engine's applied
+  // rows); the first yes in chain order can be a level that does not govern.
+  const governing = lawInForce(api, change.key).governing;
+  const permission =
+    governing && governing.value === 1 && levels.includes(governing.level)
+      ? { lawId: governing.id }
+      : yesLevels(api, change.key).find((l) => levels.includes(l.level));
   applyRecords(
     api,
     change.key,

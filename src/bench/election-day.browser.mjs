@@ -13,8 +13,9 @@ import { drawPlace } from "../../scripts/core2-year/place.ts";
 import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 
 // Pinned: without EDAY_SEED the check plays the place the polling check plays
-// (Hampstead, Maryland), whose House race files straight onto the ballot, so
-// it never goes red by draw. EDAY_SEED draws up to six places from that seed.
+// (Hampstead, Maryland); the check files for the race asking the fewest
+// signatures and gathers them at the doors, so the player is on the ballot. EDAY_SEED draws up to
+// six places from that seed.
 const PINNED_SEED = "39ec0fdc-2c02-4e33-a7b7-e193551af953";
 const runSeed = process.env.EDAY_SEED ?? PINNED_SEED;
 const drawn = Boolean(process.env.EDAY_SEED);
@@ -67,14 +68,15 @@ try {
     assert.equal(opened.reason, "event", "no seat opened its filing window");
     filed = await page.evaluate(async () => {
       const gov = await (await fetch("/api/government")).json();
-      const contests = (gov.contests ?? [])
-        .map((row) => row.contest)
-        .sort(
-          (a, b) =>
-            a.electionDate.localeCompare(b.electionDate) ||
-            a.id.localeCompare(b.id),
-        );
-      for (const contest of contests) {
+      // The race with the fewest signatures to gather, the earlier date
+      // first; the player gathers them at the doors below, as a player does.
+      const rows = [...(gov.contests ?? [])].sort(
+        (a, b) =>
+          a.signaturesAsked - b.signaturesAsked ||
+          a.contest.electionDate.localeCompare(b.contest.electionDate) ||
+          a.contest.id.localeCompare(b.contest.id),
+      );
+      for (const { contest } of rows) {
         const r = await fetch(
           `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
           { method: "POST" },
@@ -84,12 +86,14 @@ try {
           r.ok &&
           ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
         )
-          return contest;
+          return { contest, filing: body.filing };
       }
       return null;
     });
   }
   assert.ok(filed, "no race the player could enter");
+  const filingRow = filed.filing;
+  filed = filed.contest;
   console.log(
     `Place: ${place.name} (${place.key}), run seed ${place && runSeed}, place seed ${place.seed}; race ${filed.id} on ${filed.electionDate}`,
   );
@@ -120,6 +124,43 @@ try {
         )
       ).json()
     ).packet;
+  // A race that asks signatures: the player knocks on doors until the doors
+  // ask for the vote instead (the petition's own read), a day at a time.
+  if (filingRow.status === "petitioning") {
+    let gathered = false;
+    for (let outing = 0; outing < 200 && !gathered; outing += 1) {
+      await settle(await current());
+      const view = await (
+        await page.request.get(`${base}/api/campaign?id=${personId}`)
+      ).json();
+      const petition = view.campaigns.find(
+        (c) => c.filing.id === filingRow.id,
+      )?.petition;
+      assert.ok(petition, "a petitioning filing has a petition");
+      if (!petition.asksAtDoors) {
+        gathered = true;
+        break;
+      }
+      const day = await page.request.post(
+        `${base}/api/campaign/day?${new URLSearchParams({ filingId: filingRow.id, kind: "canvass" })}`,
+        { timeout: 600000 },
+      );
+      const body = await day.json().catch(() => ({}));
+      if (day.ok() && body.packet?.kind === "stop") await settle(body.packet);
+      // Out of hours today: the next day, as a player would let it pass.
+      if (!day.ok())
+        await settle(
+          (
+            await (
+              await page.request.post(`${base}/api/advance?mode=day`, {
+                timeout: 600000,
+              })
+            ).json()
+          ).packet,
+        );
+    }
+    assert.ok(gathered, "the doors never reached the petition's target");
+  }
   for (let step = 0; step < 200; step += 1) {
     await settle(await current());
     const r = await page.request.post(
@@ -144,6 +185,15 @@ try {
     }
     break;
   }
+  // The clerk has checked the petition by now: the player is on the ballot.
+  const onBallot = await (
+    await page.request.get(`${base}/api/government?id=${personId}`)
+  ).json();
+  assert.equal(
+    onBallot.filings.find((f) => f.id === filingRow.id)?.status,
+    "on-ballot",
+    "the player's filing is not on the ballot",
+  );
   await page.reload();
   await page
     .locator("#front-continue")
@@ -219,6 +269,12 @@ try {
       .first()
       .waitFor({ timeout: 15000 })
       .catch(() => {});
+    // The player is a candidate: their own name is on the ballot.
+    assert.match(
+      await page.locator("#ballot").innerText(),
+      /Candidate/,
+      "the player is not on the ballot",
+    );
     await shot("eday-3-ballot");
     // The ballot fits the window (pl-ballot): a long one scrolls inside its
     // paper, and "What I know about them" stays on screen beside it.
@@ -363,9 +419,30 @@ try {
   await returns.waitFor({ timeout: 300000 });
   console.log("RETURNS 1:", await page.locator("#returns").innerText());
   await shot("eday-4-returns-first");
+  // Every page of the night fits the window, its Next or Close with it (owner, Oct 27 audit:
+  // rows past the panel's foot could not be reached; the races elsewhere ran off the window).
+  const fits = async (page_) => {
+    const { height } = page.viewportSize();
+    const bottom = await page.evaluate(() =>
+      Math.round(
+        Math.max(
+          document.querySelector("#returns").getBoundingClientRect().bottom,
+          document.querySelector("#returns-next").getBoundingClientRect()
+            .bottom,
+        ),
+      ),
+    );
+    assert.ok(
+      bottom <= height,
+      `election night's page ${page_} runs ${bottom - height}px past the window`,
+    );
+  };
   for (let i = 0; i < 40; i += 1) {
+    await fits(i + 1);
     const label = await page.locator("#returns-next").innerText();
     if (label === "Close") break;
+    // Each step of the count, as it reads at that point of the night.
+    await shot(`eday-4-returns-step-${String(i + 1).padStart(2, "0")}`);
     await page.locator("#returns-next").click();
   }
   console.log("CALL:", await page.locator("#returns").innerText());

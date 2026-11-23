@@ -56,6 +56,16 @@ export function rescueFacts(
       sourceRecordIds: [causeId, child.id],
     };
   const grown = seen.filter((row) => row !== child);
+  // Who else was in the room, by name, where the record names them: the first
+  // grown witness other than the two in the scene.
+  const [other] = grown.filter(
+    (row) => row!.id !== askerId && row!.id !== askedId,
+  );
+  if (other)
+    facts.helper = {
+      text: other.givenName,
+      sourceRecordIds: [causeId, other.id],
+    };
   if (grown.length)
     facts["others-there"] = {
       text: "yes",
