@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -6921,6 +6921,22 @@ document.addEventListener("fullscreenchange", () => {
 
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
+
+// A dock that appears under a resting pointer (the click that began the life)
+// shows no hover light until the pointer moves: nothing glows on load for no
+// reason (owner, Nov 23, N8-P12).
+{
+  const dock = $("dock");
+  new MutationObserver(() => {
+    if ($("rings").hidden) return;
+    dock.classList.add("settling");
+    window.addEventListener(
+      "pointermove",
+      () => dock.classList.remove("settling"),
+      { once: true, capture: true },
+    );
+  }).observe($("rings"), { attributes: true, attributeFilter: ["hidden"] });
+}
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with

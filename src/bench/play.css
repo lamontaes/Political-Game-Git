@@ -783,6 +783,19 @@ select:focus-visible {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* Under a resting pointer on load nothing lights (play.mjs, the dock's settle). */
+#dock.settling .ring:hover,
+#dock.settling .action:hover:not(:disabled) {
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+#dock.settling .action:hover:not(:disabled) {
+  color: var(--text-strong);
+}
 /* A story the player has not read yet: a dot on the News icon. */
 .ring.unread::after {
   content: "";
