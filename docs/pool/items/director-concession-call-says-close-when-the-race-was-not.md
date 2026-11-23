@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: campaign events debate run, Nov 14 2026
 checked:
+claimed-at:
+branch: claude/project-thread-5efbu8-concede2
 ---
 
 **What.** On election night after a loss, the campaign manager answers "How close was it?" with "Closer than anybody expected. Not close enough to count again." In the played run at Amherst NH (seed d1f4a9c7e2b0) the player's own totals were 15 of 190 votes, with the winner on 114. A player who lost that badly is told it was close, and the next reply ("I can live on that") rests on it. Seen: on a lopsided loss the manager says it was close.
@@ -35,4 +37,6 @@ checked:
 
 **Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
-**Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/runs/town-debate1.md (race-lost section).
+**Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/runs/town-debate1.md (race-lost section). Nov 16, Account lead: no count is said (owner, Nov 14); "close" means inside the state's recount rule and nothing else; one race read in src/director/race-turnout-facts.ts (raceReadFacts), with a dev-mode panel; rows not reached by presses moved to director-concession-call-rows-not-reached-by-presses.
+
+Released by next (2026-11-18): no push to claude/project-thread-5efbu8-concede2 since 2026-11-16 05:40 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-5efbu8-concede2.

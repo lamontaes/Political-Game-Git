@@ -10,6 +10,7 @@
  * first-dimension spread in the 119th Congress (Voteview), pulled toward the
  * member's district as members really are.
  */
+import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
@@ -88,6 +89,7 @@ export function partyKey(party: string | null | undefined): PartyKey {
 
 /** A uniform value in (0, 1) for a key. */
 export function uniform(key: string): number {
+  recordDraw("officials hash");
   const draw = Number.parseInt(stableHash(key).slice(0, 12), 16);
   return (draw + 0.5) / 16 ** 12;
 }
@@ -101,9 +103,21 @@ export function seededNormal(key: string): number {
 }
 
 /** The party's spread for a kind of body, from the data. */
-export function partySpread(party: PartyKey, body: BodyKind): Spread {
+export function partySpread(
+  party: PartyKey,
+  body: BodyKind,
+  /** Where each side's party stands in Congress when a world's own history sets it (the century's parties), by side. */
+  positions?: Readonly<Record<number, number>>,
+): Spread {
   const rows = OFFICIALS_DATA.ideology.parties[party];
   const ideology = OFFICIALS_DATA.ideology;
+  const side = party === "democratic" ? -1 : party === "republican" ? 1 : 0;
+  const position = side ? positions?.[side] : undefined;
+  if (position !== undefined) {
+    // The party's spread around where its own history put it.
+    const spread = partySpread(party, body);
+    return { mean: partyMeanAt(body, position), sd: spread.sd };
+  }
   if (body === "us-house" || body === "us-senate") return rows[body];
   if (body === "executive")
     return {
@@ -194,6 +208,8 @@ export function drawOfficial(input: {
   readonly caucus?: { caucus: string; formerParty?: string };
   /** Their level on every trait from the residents' temperament model (opening-personality.ts). */
   readonly temperament: Readonly<Record<string, number>>;
+  /** Where each side's party stands, by side, in a world whose history sets it (the century's parties). */
+  readonly partyPositions?: Readonly<Record<number, number>>;
 }): OfficialDraw {
   const data = OFFICIALS_DATA;
   const at = (what: string) => `${input.seed}:official:${input.key}:${what}`;
@@ -210,7 +226,7 @@ export function drawOfficial(input: {
   const caucusKey = input.caucus ? partyKey(input.caucus.caucus) : null;
   const spread =
     caucusKey && caucusKey !== "other"
-      ? partySpread(caucusKey, input.body)
+      ? partySpread(caucusKey, input.body, input.partyPositions)
       : party === "other"
         ? {
             ...partySpread("other", input.body),
@@ -218,7 +234,7 @@ export function drawOfficial(input: {
               partySpread("other", input.body).mean +
               input.districtLean * partySpread("other", input.body).sd,
           }
-        : partySpread(party, input.body);
+        : partySpread(party, input.body, input.partyPositions);
   const ideal = Math.max(-1, Math.min(1, spread.mean + spread.sd * z));
   const within = (ideal - spread.mean) / spread.sd;
   const names = data.wings.names[party];
@@ -298,6 +314,46 @@ export function memberSupportAt(lean: number, question: string): number {
   return (
     personStance(lean, question) +
     (row ? Math.abs(row.axis) * (2 * row.yesShare - 1) : 0)
+  );
+}
+
+/**
+ * Where a member of a party stands, at the party's typical draw (`drawOfficial` without the
+ * member's own normal draw): their party's mean in the body, moved by how far their seat stands
+ * from their party's other seats (`districtZ`, scaled by `districtPull`). The century's members,
+ * who are results until someone opens them, stand here.
+ */
+/** A body's party mean when the party stands at `position` in Congress: a legislature's is scaled to the states'. */
+function partyMeanAt(body: BodyKind, position: number): number {
+  return body === "legislature"
+    ? position * OFFICIALS_DATA.ideology.stateMeanScale.value
+    : position;
+}
+
+export function expectedIdeal(
+  party: PartyKey,
+  body: BodyKind,
+  districtZ: number,
+  /** Where the party stands in Congress when a world's own history sets it (the century's parties); the 119th Congress's otherwise. */
+  partyPosition?: number,
+): number {
+  const spread = partySpread(party, body);
+  const pull = OFFICIALS_DATA.ideology.districtPull.value;
+  const mean =
+    partyPosition === undefined
+      ? spread.mean
+      : partyMeanAt(body, partyPosition);
+  return Math.max(
+    -1,
+    Math.min(1, mean + spread.sd * pull * Math.max(-3, Math.min(3, districtZ))),
+  );
+}
+
+/** The lean on the voters' scale an ideal stands at, as `ownStance` reads it with no cause of their own. */
+export function stanceLean(ideal: number): number {
+  return Math.max(
+    -1,
+    Math.min(1, ideal * OFFICIALS_DATA.ideology.leanScale.value),
   );
 }
 

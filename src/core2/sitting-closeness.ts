@@ -16,7 +16,11 @@
  * filled in later reads as if they had been a full person all along. Each body keeps one
  * running sum over its sittings, extended as days pass, so a read is a lookup
  * and a subtraction. The body's calendar and members come from the engine
- * that keeps them, registered by `world-legislating.ts`. Nothing rolls a die.
+ * that keeps them: the chambers and town bodies from `world-legislating.ts`,
+ * a chamber's committees and party caucuses (its smaller rooms, which sit on
+ * the chamber's own days) from `office-day-state.ts`. A day a member's own
+ * office day says they stayed away is a day they did not sit (`absences`).
+ * Nothing rolls a die.
  */
 import { halfLifeDays, registerSharedHours } from "./closeness";
 import { knownAmong } from "./encounters";
@@ -40,6 +44,8 @@ export interface SittingDay {
 
 /** What the engine that keeps the bodies' calendars and seats says. */
 export interface SittingCalendar {
+  /** True for the bodies this engine keeps. */
+  readonly owns: (api: CoreAPI, officeId: string) => boolean;
   /** The members seated on the body today. */
   readonly seats: (api: CoreAPI, officeId: string) => readonly SittingSeat[];
   /** The bodies a person sits on today. */
@@ -51,14 +57,23 @@ export interface SittingCalendar {
     from: string,
     to: string,
   ) => readonly SittingDay[];
-  /** Hours one sitting day takes (the engine's own sitting length). */
-  readonly hoursPerDay: (api: CoreAPI) => number;
+  /**
+   * The hours of one sitting day of the body its members spend in contact,
+   * before they are split among the colleagues each knows there (the
+   * engine's own sitting length times its contact share).
+   */
+  readonly contactHoursPerDay: (api: CoreAPI, officeId: string) => number;
+  /** The sitting days a person stayed away from, by body, as their own record keeps them. */
+  readonly absences?: (
+    api: CoreAPI,
+    personId: string,
+  ) => ReadonlyMap<string, readonly string[]>;
 }
 
-let calendar: SittingCalendar | null = null;
-/** The engine that keeps the bodies' calendars registers what it knows. */
+const calendars: SittingCalendar[] = [];
+/** Each engine that keeps bodies' calendars registers what it knows. */
 export function registerSittingCalendar(reader: SittingCalendar): void {
-  calendar = reader;
+  if (!calendars.includes(reader)) calendars.push(reader);
   // Registered when a world opens, never as the file loads: in an import
   // cycle the closeness module's holder may not exist yet.
   registerSharedHours(sittingHours, {
@@ -69,7 +84,18 @@ export function registerSittingCalendar(reader: SittingCalendar): void {
 }
 
 const DAY_MS = 86_400_000;
-const dayOf = (date: string) => Date.parse(`${date}T00:00:00Z`) / DAY_MS;
+const days = new Map<string, number>();
+/** A date's day number, each date parsed once (seats' start dates repeat in every sort). */
+const dayOf = (date: string) => {
+  let day = days.get(date);
+  if (day === undefined) {
+    day = Date.parse(`${date}T00:00:00Z`) / DAY_MS;
+    days.set(date, day);
+  }
+  return day;
+};
+/** The order `localeCompare` gives, from one collator instead of one per comparison. */
+const byId = new Intl.Collator().compare;
 const dateOf = (day: number) =>
   new Date(day * DAY_MS).toISOString().slice(0, 10);
 
@@ -95,6 +121,7 @@ interface Kept {
   readonly halfLife: number;
   date: string;
   bodiesOf: Map<string, readonly string[]>;
+  absent: Map<string, ReadonlyMap<string, readonly string[]>>;
   today: Map<string, BodyToday>;
   readonly known: Map<
     string,
@@ -113,6 +140,7 @@ function keptFor(core: CoreState): Kept {
       halfLife: halfLifeDays((key) => api.parameter(key), COLLEAGUE_KIND),
       date: core.date,
       bodiesOf: new Map(),
+      absent: new Map(),
       today: new Map(),
       known: new Map(),
       series: new Map(),
@@ -122,6 +150,7 @@ function keptFor(core: CoreState): Kept {
   if (k.date !== core.date) {
     k.date = core.date;
     k.bodiesOf = new Map();
+    k.absent = new Map();
     k.today = new Map();
   }
   return k;
@@ -147,11 +176,20 @@ function knownThrough(
   const either = new Map<string, Set<string>>(
     seats.map((seat) => [seat.personId, new Set<string>()]),
   );
+  // Every member's own call ranks the whole body by id: rank it once (each
+  // member sits once; a body that lists someone twice ranks as before).
+  const ids = seats.map((s) => s.personId);
+  const ranks =
+    new Set(ids).size === ids.length
+      ? new Map([...ids].sort(byId).map((id, i) => [id, i] as const))
+      : undefined;
   for (const seat of seats)
     for (const other of nearestInService(
       seat,
       seats.filter((s) => s.personId !== seat.personId),
       count,
+      false,
+      ranks,
     )) {
       either.get(seat.personId)!.add(other.personId);
       either.get(other.personId)!.add(seat.personId);
@@ -190,44 +228,50 @@ function nearestInService(
   others: readonly SittingSeat[],
   count: number,
   ordered = false,
+  /** The ids of `others` and `seat` ranked by id, when the caller already ranked them. */
+  ranks?: ReadonlyMap<string, number>,
 ): readonly SittingSeat[] {
   if (count >= others.length && !ordered) return others;
   const at = dayOf(seat.since);
-  const gap = (s: SittingSeat) => Math.abs(dayOf(s.since) - at);
-  const order = [...others, seat]
-    .map((s) => s.personId)
-    .sort((x, y) => x.localeCompare(y));
-  const own = order.indexOf(seat.personId);
-  const place = new Map(order.map((id, i) => [id, i] as const));
-  const round = (s: SittingSeat) => {
-    const d = Math.abs(place.get(s.personId)! - own);
-    return Math.min(d, order.length - d);
-  };
-  return [...others]
+  const order = ranks
+    ? undefined
+    : [...others, seat].map((s) => s.personId).sort(byId);
+  const place = ranks ?? new Map(order!.map((id, i) => [id, i] as const));
+  const size = ranks ? ranks.size : order!.length;
+  const own = ranks ? ranks.get(seat.personId)! : order!.indexOf(seat.personId);
+  // Each seat's keys worked out once, not in every comparison.
+  return others
+    .map((s) => {
+      const d = Math.abs(place.get(s.personId)! - own);
+      return {
+        s,
+        gap: Math.abs(dayOf(s.since) - at),
+        round: Math.min(d, size - d),
+      };
+    })
     .sort(
       (x, y) =>
-        gap(x) - gap(y) ||
-        round(x) - round(y) ||
-        x.personId.localeCompare(y.personId),
+        x.gap - y.gap || x.round - y.round || byId(x.s.personId, y.s.personId),
     )
-    .slice(0, count);
+    .slice(0, count)
+    .map((row) => row.s);
 }
 
 function bodyToday(k: Kept, officeId: string): BodyToday {
   const held = k.today.get(officeId);
   if (held) return held;
-  const seats = calendar!.seats(k.api, officeId);
+  const reader = readerFor(k.api, officeId)!;
+  const seats = reader.seats(k.api, officeId);
   const body: BodyToday = {
     since: new Map(seats.map((s) => [s.personId, s.since] as const)),
     earliest: seats.map((s) => s.since).sort()[0] ?? k.date,
     known: knownThrough(k, officeId, seats),
     perDay:
-      calendar!.hoursPerDay(k.api) *
-      (k.api.parameter("sittingContactShare") /
-        Math.max(
-          k.api.parameter("one"),
-          knownAmong(k.api, Math.max(seats.length - 1, 0)),
-        )),
+      reader.contactHoursPerDay(k.api, officeId) /
+      Math.max(
+        k.api.parameter("one"),
+        knownAmong(k.api, Math.max(seats.length - 1, 0)),
+      ),
   };
   k.today.set(officeId, body);
   return body;
@@ -248,7 +292,7 @@ function seriesFor(k: Kept, officeId: string, from: string): BodySeries {
     k.series.set(officeId, s);
   }
   if (s.through < today) {
-    for (const sitting of calendar!.sittings(
+    for (const sitting of readerFor(k.api, officeId)!.sittings(
       k.api,
       officeId,
       dateOf(s.through + 1),
@@ -290,7 +334,7 @@ function fadedDaysSince(k: Kept, s: BodySeries, since: string): number {
  * shares no body.
  */
 export function sittingHours(core: object, a: PersonId, b: PersonId): number {
-  if (!calendar) return 0;
+  if (!calendars.length) return 0;
   const state = core as CoreState;
   if (!state.modules) return 0;
   const k = keptFor(state);
@@ -299,26 +343,48 @@ export function sittingHours(core: object, a: PersonId, b: PersonId): number {
   const theirs = bodiesOf(k, b);
   if (!theirs.length) return 0;
   let hours = 0;
-  for (const officeId of mine) {
-    if (!theirs.includes(officeId)) continue;
-    const body = bodyToday(k, officeId);
-    if (!body.known.get(a)?.has(b)) continue;
-    const sa = body.since.get(a)!;
-    const sb = body.since.get(b)!;
-    hours +=
-      body.perDay *
-      fadedDaysSince(
-        k,
-        seriesFor(k, officeId, body.earliest),
-        sa > sb ? sa : sb,
-      );
-  }
+  for (const officeId of mine)
+    if (theirs.includes(officeId)) hours += bodyHours(k, officeId, a, b);
   return hours;
+}
+
+/** The hours two members have shared in one body's sittings, faded to today: zero where they do not know each other there. */
+function bodyHours(k: Kept, officeId: string, a: string, b: string): number {
+  const body = bodyToday(k, officeId);
+  if (!body.known.get(a)?.has(b)) return 0;
+  const sa = body.since.get(a)!;
+  const sb = body.since.get(b)!;
+  const since = sa > sb ? sa : sb;
+  const sat =
+    fadedDaysSince(k, seriesFor(k, officeId, body.earliest), since) -
+    fadedAbsence(k, officeId, a, b, since);
+  return sat > 0 ? body.perDay * sat : 0;
+}
+
+/**
+ * The hours two people have shared, body by body (a chamber, each committee,
+ * a caucus), as `sittingHours` sums them: the trace of where a colleague's
+ * tie came from.
+ */
+export function sittingHoursByBody(
+  core: CoreState,
+  a: PersonId,
+  b: PersonId,
+): readonly { readonly bodyId: string; readonly hours: number }[] {
+  if (!calendars.length || !core.modules) return [];
+  const k = keptFor(core);
+  const theirs = bodiesOf(k, b);
+  return bodiesOf(k, a)
+    .filter((officeId) => theirs.includes(officeId))
+    .map((officeId) => ({
+      bodyId: officeId,
+      hours: bodyHours(k, officeId, a, b),
+    }));
 }
 
 /** The colleagues a person knows through the bodies they sit on today, nearest first. */
 function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
-  if (!calendar) return [];
+  if (!calendars.length) return [];
   const state = core as CoreState;
   if (!state.modules) return [];
   const k = keptFor(state);
@@ -341,7 +407,7 @@ function sittingTogether(
   a: PersonId,
   b: PersonId,
 ): { first: string; last: string; sourceId: string } | null {
-  if (!calendar) return null;
+  if (!calendars.length) return null;
   const state = core as CoreState;
   if (!state.modules) return null;
   const k = keptFor(state);
@@ -375,14 +441,64 @@ function sittingTogether(
   return best;
 }
 
-/** The bodies a person sits on today, kept for the day. */
+/** The engine that keeps a body. */
+function readerFor(
+  api: CoreAPI,
+  officeId: string,
+): SittingCalendar | undefined {
+  return calendars.find((c) => c.owns(api, officeId));
+}
+
+/** The bodies a person sits on today, from every engine that keeps bodies, kept for the day. */
 function bodiesOf(k: Kept, id: string): readonly string[] {
   let held = k.bodiesOf.get(id);
   if (!held) {
-    held = calendar!.bodiesOf(k.api, id);
+    held = calendars.flatMap((c) => c.bodiesOf(k.api, id));
     k.bodiesOf.set(id, held);
   }
   return held;
+}
+
+/** The sitting days of each body a person stayed away from, kept for the day. */
+function absencesOf(
+  k: Kept,
+  id: string,
+): ReadonlyMap<string, readonly string[]> {
+  let held = k.absent.get(id);
+  if (!held) {
+    const all = new Map<string, string[]>();
+    for (const c of calendars)
+      for (const [body, dates] of c.absences?.(k.api, id) ?? [])
+        all.set(body, [...(all.get(body) ?? []), ...dates]);
+    held = all;
+    k.absent.set(id, held);
+  }
+  return held;
+}
+
+/**
+ * The faded days on or after `since` that either of two members stayed away
+ * from a body's sittings: days they did not sit together. Each day fades as a
+ * sitting day does.
+ */
+function fadedAbsence(
+  k: Kept,
+  officeId: string,
+  a: string,
+  b: string,
+  since: string,
+): number {
+  const away = new Set([
+    ...(absencesOf(k, a).get(officeId) ?? []),
+    ...(absencesOf(k, b).get(officeId) ?? []),
+  ]);
+  if (!away.size) return 0;
+  const today = dayOf(k.date);
+  let sum = 0;
+  for (const date of away)
+    if (date >= since && date <= k.date)
+      sum += Math.pow(2, (dayOf(date) - today) / k.halfLife);
+  return sum;
 }
 
 /**
@@ -396,7 +512,7 @@ export function noSittingTie(
   core: CoreState,
   personId: PersonId,
 ): "no-body" | "no-sitting-yet" | "known-colleagues-not-full" | null {
-  if (!calendar) return "no-body";
+  if (!calendars.length) return "no-body";
   const k = keptFor(core);
   const bodies = bodiesOf(k, personId);
   if (!bodies.length) return "no-body";
@@ -415,8 +531,8 @@ export function noSittingTie(
 }
 
 /**
- * A meeting of a smaller room of a body (a committee, a caucus) is a sitting
- * of that room, by the sitting's own rule: one comes to know the
+ * A meeting with no calendar of its own (the governor's with the
+ * legislature's leaders) is shared by the sitting's own rule: one comes to know the
  * `knownAmong(room - 1)` there whose service in the body began nearest one's
  * own, and the meeting's hours times `sittingContactShare` are split among
  * them. Returns those colleagues and the hours each pair gets. A colleague the
@@ -430,7 +546,10 @@ export function roomTime(
   hours: number,
 ): { readonly ids: readonly string[]; readonly hours: number } {
   const seats = new Map(
-    (calendar?.seats(api, officeId) ?? []).map((s) => [s.personId, s.since]),
+    (readerFor(api, officeId)?.seats(api, officeId) ?? []).map((s) => [
+      s.personId,
+      s.since,
+    ]),
   );
   const holderSince = seats.get(holderId) ?? api.state.date;
   const others = roomIds

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-housing-web-lease-renews-without-town-factor
 pr: #8565
@@ -19,6 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T03:58:17.491Z
 branch: claude/pool-housing-web-lease-renews-without-town-factor
+merged-at: 2026-11-15T23:51:58.264Z
 ---
 
 **What.** The housing-web test is red on main by draw. src/core2/housing-web.test.ts failed on clean main (31ad11a8c6, Oct 28) with WEB_HOUSING_SEED=d36f407e7c697a43 (Macon, Georgia): 'lease:household_5a537cd7cd145512: expected 1 to be close to 1.05'. The test shifts the town's outcome-web month (property-tax-to-rent 0.05) and expects every renewed lease to record a web change of 1.05; this lease records 1. A second seed fails the same way (WEB_HOUSING_SEED=38096aba2bd718a2, Felton, Delaware, lease:household_469542be0d124e00). Other seeds pass. Guards: the rent a renewed lease charges on a household's card, which the housing-web test keeps from being charged twice.

@@ -20,6 +20,8 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { applyCoreEvent } from "../core2/state";
+import { closenessBetween } from "../core2/closeness";
 import { chooseVariant } from "./arc-variant";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
@@ -264,11 +266,64 @@ it(`a donor's ask plays the variant its records give (seed ${seed})`, () => {
       "large",
     );
     expect(small.recordIds).toContain("probe-small");
-    // The friend's and the again variants are not kept: no played year staged
-    // them (Words lead ruling on #9537, Nov 15; item
-    // director-donor-ask-plain-friend-again-never-stage brings them back).
+    // The closest tie in the town: two people who are friends play the
+    // friend's ask over a middling gift.
+    let closest: { a: PersonId; b: PersonId; level: number } | undefined;
+    for (const tie of core.relationships.values()) {
+      const [a, b] = [tie.actorId, tie.otherId];
+      if (!core.people.get(a)?.alive || !core.people.get(b)?.alive) continue;
+      const level = closenessBetween(core, a, b);
+      if (!closest || level > closest.level) closest = { a, b, level };
+    }
+    const middling = {
+      amountMinor: "300000",
+      share: "0.3",
+    };
+    if (closest && closest.level > 0.5) {
+      const friend = pick(
+        "probe-friend",
+        { ...middling, totalMinor: "30000001" },
+        [closest.a, closest.b],
+      );
+      expect(friend.variant, `${where}: ${JSON.stringify(friend.reads)}`).toBe(
+        "friend",
+      );
+      expect(friend.recordIds.some((id) => id.includes(":"))).toBe(true);
+    }
+    // The candidate put the donor off twice before (the replies the scene
+    // engine keeps): the same donor's next ask is the one who comes back.
+    // The candidate is watched, so the replies they chose are kept.
+    core.focusPersonIds.add(asked);
+    for (const n of [1, 2])
+      applyCoreEvent(core, {
+        id: `probe-put-off-${n}`,
+        date: core.date,
+        kind: "scene.reply",
+        personIds: [asked, donorId],
+        placeId: core.people.get(asked)!.placeId,
+        facts: { typeKey: "donor-ask", ending: "put-off", causeId: `old-${n}` },
+        source: {
+          tag: "SOURCED",
+          citation: "Recorded scene: the reply the player chose to say.",
+          asOf: core.date,
+        },
+      });
+    // The donor's next gift comes a day on.
+    const nextDay = addDays(makeIsoDate(core.date), 1);
+    const again = pick(
+      "probe-again",
+      { ...middling, totalMinor: "30000002" },
+      [donorId, asked],
+      nextDay,
+    );
+    expect(again.variant, `${where}: ${JSON.stringify(again.reads)}`).toBe(
+      "again",
+    );
+    expect(again.recordIds).toEqual(
+      expect.arrayContaining(["probe-put-off-1", "probe-put-off-2"]),
+    );
     console.log(
-      `DONOR ASK VARIANTS ${where}: played gifts ${[...seen.entries()].map(([id, v]) => `${id} ${v}`).join(", ")}; small ${small.scores.map((s) => s.variant + ":" + s.score.toFixed(2)).join(" ")}; large ${large.scores.map((s) => s.variant + ":" + s.score.toFixed(2)).join(" ")}`,
+      `DONOR ASK VARIANTS ${where}: played gifts ${[...seen.entries()].map(([id, v]) => `${id} ${v}`).join(", ")}; small ${small.scores.map((s) => s.variant + ":" + s.score.toFixed(2)).join(" ")}; large ${large.scores.map((s) => s.variant + ":" + s.score.toFixed(2)).join(" ")}; again ${again.scores.map((s) => s.variant + ":" + s.score.toFixed(2)).join(" ")}`,
     );
     return;
   }

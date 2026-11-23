@@ -214,14 +214,11 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.n
       expect(result.scene.askerId, here).toBe(donorId);
       const money = result.scene.facts.find((row) => row.key === "money");
       expect(money?.recordIds, here).toContain(gift.id);
-      // A donor with a bill pending has the bill on its own record. The
-      // donor speaks of the question the bill is about, never of the bill
-      // (the Words lead's candidate lines, Nov 15: a candidate has no bill to
-      // carry), so the request line is checked for the question's words
-      // where the packet holds them and no other line is claimed.
+      // A donor with a bill pending asks about it, by its own record.
       if (gift.facts!.billId) {
         const bill = result.scene.facts.find((row) => row.key === "bill");
         expect(bill?.recordIds, here).toContain(gift.id);
+        expect(result.scene.talk.state.text, here).toContain(bill!.text);
       }
       const keys = new Map(result.scene.facts.map((row) => [row.key, row]));
       expect(keys.has("donor-first"), `${here}: no donor-first`).toBe(true);

@@ -16,7 +16,7 @@
  */
 import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
-import { closenessBetween } from "../closeness";
+import { closenessBetween, feelingBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type {
   CoreAPI,
@@ -38,8 +38,13 @@ import {
   vacateSeat,
   type TermRow,
 } from "./offices";
-import { lastVotesAtLevel, lastVotesForOffice, turnoutOn } from "./voting";
-import { countedResidents } from "../electorate";
+import {
+  countedVoters,
+  lastVotesAtLevel,
+  mayVoteOn,
+  lastVotesForOffice,
+  turnoutOn,
+} from "./voting";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
@@ -165,7 +170,7 @@ function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
 }
 
 /** A voter of the town the recall weighs: a named adult, or a counted resident standing for their household's weight. */
-interface TownVoter {
+export interface TownVoter {
   readonly id: string;
   readonly traits: PersonState["traits"];
   readonly placeId: string;
@@ -173,20 +178,27 @@ interface TownVoter {
   readonly counted: boolean;
 }
 
-/** Every adult of the town on the one rule: the named, and the counted groups' members. */
-function townVoters(api: CoreAPI): readonly TownVoter[] {
+/**
+ * Every voter of the town on the one rule: the named adults the law lets
+ * vote, and the counted groups' members who vote (`countedVoters`, which
+ * leaves out the rooms of people the state bars while held in prison). A
+ * recall's signer and voter is a voter.
+ */
+export function townVoters(api: CoreAPI): readonly TownVoter[] {
   const town = lawChain(api).townPlaceId,
     adultAge = api.parameter("votingAge"),
     date = api.state.date;
   return [
-    ...adults(api).map((p) => ({
-      id: p.id,
-      traits: p.traits,
-      placeId: p.placeId,
-      weight: 1,
-      counted: false,
-    })),
-    ...countedResidents(api.state as CoreState)
+    ...adults(api)
+      .filter((p) => mayVoteOn(api, p.id, date))
+      .map((p) => ({
+        id: p.id,
+        traits: p.traits,
+        placeId: p.placeId,
+        weight: 1,
+        counted: false,
+      })),
+    ...countedVoters(api)
       .filter((c) => c.placeId === town && ageOn(c, date) >= adultAge)
       .map((c) => ({
         id: c.id,
@@ -586,10 +598,10 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
         if (drive <= campaignParameter("recallOrganizerEffort")) continue;
         const account =
           (t.vote.memberId === bill.sponsorId ? 1 : 0) -
-          closenessBetween(api.state as CoreState, o.p.id, t.vote.memberId);
+          feelingBetween(api.state as CoreState, o.p.id, t.vote.memberId);
         const bestAccount = best
           ? (best.target.vote.memberId === bill.sponsorId ? 1 : 0) -
-            closenessBetween(
+            feelingBetween(
               api.state as CoreState,
               best.p.id,
               best.target.vote.memberId,
@@ -709,7 +721,7 @@ function misconductGrievance(
   }
   return (
     (heard.has(voter.id) ? weight : 0) -
-    closenessBetween(api.state as CoreState, voter.id, memberId) -
+    feelingBetween(api.state as CoreState, voter.id, memberId) -
     bar
   );
 }

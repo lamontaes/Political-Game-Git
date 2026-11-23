@@ -7,6 +7,8 @@
  */
 import { putOutputNumber } from "../output-numbers";
 import { housingPast, housingPastLater } from "../housing-past";
+/** Day one's rentals and the leases they came from, read through this entry (the dev view). */
+export { openingRentals } from "../housing-past";
 import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
@@ -595,6 +597,20 @@ export function expectedRenterHouseholds(
   const tenure = tenureOfTown(town, c.seed);
   if (!tenure || !rentValueOf(town.county, c.seed)[0]) return 0;
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
+}
+
+/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
+export function openingTenureOf(world: {
+  readonly placeMetadata?: Readonly<Record<string, string>>;
+}): ReadonlyMap<string, "own" | "rent"> {
+  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
+    string,
+    string,
+  ][];
+  const tenure = new Map<string, "own" | "rent">();
+  for (const [id, kind] of rows)
+    if (kind === "own" || kind === "rent") tenure.set(id, kind);
+  return tenure;
 }
 
 export function withHousing(input: CoreInput): CoreInput {
@@ -2383,6 +2399,11 @@ function build(api: CoreAPI): void {
     }
     const town = townFigures(api, landlord.placeId);
     if (!town.homeValueMinor || !town.rentMinor) continue;
+    // Builders weigh cost against the economy's price level; with the
+    // economy running and no month kept yet, they wait for its first.
+    const prices = macroPrices(api);
+    const priceLevel = prices ? prices(c.date) : 1;
+    if (priceLevel === undefined) continue;
     buildMonth(
       api,
       {
@@ -2399,7 +2420,7 @@ function build(api: CoreAPI): void {
         )?.backfilled,
         homeValueMinor: town.homeValueMinor,
         rentMinor: town.rentMinor,
-        priceLevel: macroPrices(api)?.(c.date) ?? 1,
+        priceLevel,
         medianMonthlyPayMinor: town.monthlyPayMinor,
         source: {
           tag: "ESTIMATED",
@@ -2874,7 +2895,8 @@ export function openHousing(api: CoreAPI): void {
       town.renters,
       town.homeValueMinor,
       town.rentMinor,
-      macroPrices(api)?.(api.state.date) ?? 1,
+      // None yet at the opening: the economy keeps its first month after it.
+      macroPrices(api) ? (macroPrices(api)!(api.state.date) ?? 0) : 1,
     );
     // The place's home price level on day one: the census median, with this
     // world's path walking the past back from it.

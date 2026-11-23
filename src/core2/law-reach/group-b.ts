@@ -18,7 +18,7 @@
  * people it serves.
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
-import { payVeterans } from "./group-b-veterans";
+import { payVeterans, veteransIncomeOf } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
@@ -48,6 +48,8 @@ import {
   selectResidents,
   forgetTownFacts,
   townFacts,
+  placesFacts,
+  townStatePlaces,
   type PeopleSelector,
   type ResidentFacts,
   type TownFacts,
@@ -59,6 +61,7 @@ import {
   putRow,
   setActive,
   setReachReview,
+  STANDING_BENEFIT_PROGRAMS,
   type ActiveRow,
   type Reach,
 } from "./group-b-store";
@@ -80,11 +83,13 @@ import {
   payEnergyAssistance,
   payVouchers,
   recordApplied,
+  assistanceIncomeOf,
   residentsOf,
   scalePayroll,
   serviceLevel,
   source,
 } from "./group-b-money";
+import { setAssistanceReader } from "../modules/residents";
 import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
@@ -359,7 +364,9 @@ function medicaidCovered(
   // The requirement is read here, where coverage is decided: each adult it
   // ends coverage for is recorded against it, and no longer against the
   // expansion that covered them.
-  let endedCounted = 0;
+  // Counted adults it ends coverage for, by the place they live in.
+  const endedCounted = new Map<string, number>();
+  const town = lawChain(api).townPlaceId;
   for (const r of covered) {
     if (!ended.has(r.id)) continue;
     if (r.named) {
@@ -371,17 +378,24 @@ function medicaidCovered(
         target: "person",
         what: "medicaid-coverage-ended",
       });
-    } else endedCounted += (r.weight ?? 1) * (r.scale ?? 1);
+    } else {
+      const placeId = r.placeId ?? town;
+      endedCounted.set(
+        placeId,
+        (endedCounted.get(placeId) ?? 0) + (r.weight ?? 1) * (r.scale ?? 1),
+      );
+    }
   }
-  if (endedCounted > 0)
-    recordApplied(api, {
-      key: MEDICAID_WORK,
-      lawId: workRow.id,
-      targetId: `${lawChain(api).townPlaceId}:medicaid-adults-over-work-rule`,
-      target: "group",
-      what: "medicaid-coverage-ended",
-      count: Math.round(endedCounted),
-    });
+  for (const [placeId, count] of endedCounted)
+    if (count > 0)
+      recordApplied(api, {
+        key: MEDICAID_WORK,
+        lawId: workRow.id,
+        targetId: `${placeId}:medicaid-adults-over-work-rule`,
+        target: "group",
+        what: "medicaid-coverage-ended",
+        count: Math.round(count),
+      });
   return {
     covered: covered.filter((r) => !ended.has(r.id)),
     ended: {
@@ -616,8 +630,15 @@ function runPolicy(
       return;
     }
     case "medicaid-coverage": {
+      // The state's expansion covers its adults wherever the world keeps
+      // their households and the clinic bills them: the town and the places
+      // around it in the same state (law-medicaid-record-keeps-only-the-towns-own-jurisdiction).
+      const billed = placesFacts(
+        api,
+        townStatePlaces(api, chain.townPlaceId, chain.stateKey),
+      );
       const who: ReturnType<typeof medicaidCovered> = inForce
-        ? medicaidCovered(api, facts, chain.stateKey)
+        ? medicaidCovered(api, billed, chain.stateKey)
         : { covered: [] };
       const paid = recordCoverage(api, {
         key,
@@ -637,11 +658,11 @@ function runPolicy(
               organizations: def.organizations,
               terms,
               personTerms: paid.named,
-              selected: facts.residents.filter(
+              selected: billed.residents.filter(
                 (r) => r.named && paid.named.has(r.id),
               ),
               counted: paid.counted,
-              countedOf: facts.residents
+              countedOf: billed.residents
                 .filter((r) => !r.named)
                 .reduce((n, r) => n + (r.scale ?? 1), 0),
             })
@@ -692,7 +713,9 @@ function runPolicy(
           ? [...facts.households.values()].filter(
               (h) =>
                 h.incomeDollars <=
-                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
+                (povertyLineDollars(chain.stateKey, h.size, facts.priceIndex) *
+                  limit) /
+                  100,
             )
           : [];
       const paid = payEnergyAssistance(api, {
@@ -1102,10 +1125,12 @@ function rerun(api: CoreAPI, row: ActiveRow): void {
 /**
  * The benefit programs a treasury pays or keeps (Medicaid coverage and its
  * work requirement, the SNAP maximum, the assistance work requirement and
- * the welfare line, preschool, vouchers). The budgets engine's monthly close
- * runs them (`registerMonthlyProgram`), so who is paid or covered follows the
- * laws in force and people's records when the treasury pays, not on a
- * schedule of law reach's own.
+ * the welfare line, preschool, vouchers, and the benefits whose amount or
+ * income limit is the law's own value: SSI, child care and home energy
+ * assistance). The budgets engine's monthly close runs them
+ * (`registerMonthlyProgram`), so who is paid or covered follows the laws in
+ * force and people's records when the treasury pays, not on a schedule of
+ * law reach's own.
  */
 const PROGRAM_KEYS: ReadonlySet<string> = new Set([
   MEDICAID_EXPAND,
@@ -1115,6 +1140,7 @@ const PROGRAM_KEYS: ReadonlySet<string> = new Set([
   VOUCHER,
   FOOD_AID_ACTIVE,
   "budget-line:welfareAndMedicaid",
+  ...STANDING_BENEFIT_PROGRAMS,
 ]);
 
 /**
@@ -1169,6 +1195,13 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
+  // A counted household's public income: the welfare line's assistance and
+  // the veterans line's benefits, both money income in the poverty measure.
+  setAssistanceReader(
+    (core, householdId) =>
+      assistanceIncomeOf(core, householdId) +
+      veteransIncomeOf(core, householdId),
+  );
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
   for (const key of TREASURY_RULE_KEYS)

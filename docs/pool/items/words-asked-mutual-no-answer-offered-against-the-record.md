@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-5efbu8
 pr: 9440
@@ -34,4 +34,4 @@ source: Found while playing #9374's talks (Nov 15), on the train 07919bd2
 
 **Files.** src/director/conversation.ts, data/english/parts/conversation.json
 
-**Notes.** Nov 15: built on claude/project-thread-5efbu8 after #9374: `playerFacts` sets `my-lately` when the player's own last contact is within weeks (spoken-when gap not long), and the five plain no answers exclude it; pinned test src/director/asked-mutual-no-against-record.test.ts at seed 9f8e7d6c5b4a3921. The player keeps a choice of acts (coordinator, Nov 15): the true answer, or the true answer with "How about you?" or "Why do you ask?" after it (`givesBack.plain` names the plain answer; the ask-why turn rides after it as "turn" does); the asker's give-back answers each in its own stage (`givesBack.answers`), and says "Same, about then." where it would repeat the player's words. After the Words lead's pre-read: the answer says the person's pronoun (the asker just said the name), "Nope. Not in a while." is deleted beside "Not in a while.", "No, I haven't." and "I can't remember the last time." need no contact on record, and the decline is not offered (nothing reads it).
+**Notes.** Nov 15: built on claude/project-thread-5efbu8 after #9374: `playerFacts` sets `my-lately` when the player's own last contact is within weeks (spoken-when gap not long), and the five plain no answers exclude it; pinned test src/director/asked-mutual-no-against-record.test.ts (removed) at seed 9f8e7d6c5b4a3921. The player keeps a choice of acts (coordinator, Nov 15): the true answer, or the true answer with "How about you?" or "Why do you ask?" after it (`givesBack.plain` names the plain answer; the ask-why turn rides after it as "turn" does); the asker's give-back answers each in its own stage (`givesBack.answers`), and says "Same, about then." where it would repeat the player's words. After the Words lead's pre-read: the answer says the person's pronoun (the asker just said the name), "Nope. Not in a while." is deleted beside "Not in a while.", "No, I haven't." and "I can't remember the last time." need no contact on record, and the decline is not offered (nothing reads it).

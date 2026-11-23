@@ -36,6 +36,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { advanceToRaceFiling } from "./gov-test-clock";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import type { CoreAPI, CoreState, PersonState } from "./types";
@@ -47,6 +48,7 @@ import {
   ballot,
   checkEligibility,
   fileCandidacy,
+  filingWindowOpens,
   openContests,
   openElections,
   type ContestRow,
@@ -95,8 +97,14 @@ const runSeed =
   createHash("sha256")
     .update(`campaign-rival-help:${Date.now()}`)
     .digest("hex");
-/** Places drawn, each on its own salt, before the test gives up. */
-const DRAWS = 8;
+/**
+ * Places drawn, each on its own salt, before the test gives up. A town now
+ * waits for its own first filing day, and most draws then pass over a pair
+ * whose reasons do not run both ways (5 of 8 at run seed 8c0c8a0b, Nov 18),
+ * so it searches wider; the salt that holds the race is kept, and every case
+ * after the first rebuilds only that town.
+ */
+const DRAWS = 32;
 /**
  * Places the group case draws before it gives up. Few towns hold a group
  * member who could file in the race and has reason to give its campaign their
@@ -124,7 +132,7 @@ function world(salt: number) {
     { modules: [viewsModule] },
   ) as CoreState;
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -137,7 +145,28 @@ function world(salt: number) {
       .table("town")
       .get("town") as unknown as { townPlaceId: string }
   ).townPlaceId;
-  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  // A drawn town's first local race opens for filing on its own calendar's
+  // day, often months after the start (Gobles, Michigan opens May 21, 2027);
+  // the world plays to that day, as a player there would wait for it.
+  const firstLocal = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  )
+    .filter(
+      (c) =>
+        c.level !== "federal" &&
+        c.level !== "state" &&
+        c.filingDeadline >= core.date,
+    )
+    .sort(
+      (a, b) =>
+        filingWindowOpens(a).localeCompare(filingWindowOpens(b)) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  if (firstLocal) advanceToRaceFiling(core, firstLocal);
+  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}, on ${core.date}`;
   // Residents of the town old enough to file for any local seat.
   const residents = [...core.people.values()]
     .filter(
@@ -348,6 +377,10 @@ function rivalRace(salt: number) {
   for (const person of residents) {
     if (person.id === first.person.id || person.id === second.person.id)
       continue;
+    // Someone who lives with the rival backs the rival's run, so no campaign
+    // in the race reaches them (`reachablePeople`); the helper is a resident
+    // outside that home.
+    if (person.householdId === second.person.householdId) continue;
     meet(api, person, first.person);
     meet(api, person, second.person);
     if (
@@ -371,6 +404,7 @@ function rivalRace(salt: number) {
   for (const person of residents) {
     if ([first.person.id, second.person.id, helper.id].includes(person.id))
       continue;
+    if (person.householdId === second.person.householdId) continue;
     meet(api, person, first.person);
     if (
       managerScore(core, api, mine, person) > zero &&
@@ -392,12 +426,25 @@ function rivalRace(salt: number) {
 type Race = Exclude<ReturnType<typeof rivalRace>, { why: string }>;
 
 /** The first draw that holds a rival race, or a failure naming every place tried. */
+/** The salt whose town held the race, once found: the same draw gives the same race. */
+let raceSalt: number | null = null;
 function findRace(): Race {
+  if (raceSalt !== null) {
+    const drawn = rivalRace(raceSalt);
+    if (!("why" in drawn)) return drawn;
+    throw new Error(
+      `${drawn.where}: the same draw no longer holds its race: ${drawn.why}`,
+    );
+  }
   const tried: string[] = [];
   for (let salt = 0; salt < DRAWS; salt += 1) {
     const drawn = rivalRace(salt);
     if ("why" in drawn) tried.push(`${drawn.where}: ${drawn.why}`);
-    else return drawn;
+    else {
+      raceSalt = salt;
+      if (tried.length) console.log(`passed over:\n${tried.join("\n")}`);
+      return drawn;
+    }
   }
   throw new Error(`no draw held a rival race:\n${tried.join("\n")}`);
 }
@@ -543,141 +590,147 @@ function twinOf(salt: number, control: Grouped): Grouped {
 }
 
 describe("a candidate never helps a rival in their own race", () => {
-  it("a rival is not enlisted, seated at a donor meeting or endorsing, by filing id; a resident not running is enlisted", () => {
-    const { core, api, where, first, second, helper, askFor, mine } =
-      findRace();
-    const [a, b] = [first.person, second.person];
-    const [fa, fb] = [first.filing, second.filing];
-    const theirs = campaignFor(api, fb.id);
-    console.log(
-      `${where}: contest ${fa.contestId}; ${a.id} filed ${fa.id}; ${b.id} filed ${fb.id}; ${helper.id} not running`,
-    );
-    for (const id of [a.id, b.id, helper.id])
-      expect(id, `${where}: nobody here is the player`).not.toBe(core.playerId);
-
-    // The ballot is the one reader: each is the other's rival by filing id.
-    expect(rivalFiling(api, mine, b.id)?.id, where).toBe(fb.id);
-    expect(rivalFiling(api, theirs, a.id)?.id, where).toBe(fa.id);
-    expect(rivalFiling(api, mine, helper.id), where).toBeNull();
-    expect(rivalFiling(api, mine, a.id), `${where}: own campaign`).toBeNull();
-
-    // Volunteering: each rival's reasons say yes to the other's ask, and only
-    // the race stops it.
-    const zero = api.parameter("zero");
-    expect(
-      volunteerScore(core, api, mine, b, askFor(a.id)),
-      `${where}: ${b.id}'s reasons for ${fa.id}`,
-    ).toBeGreaterThan(zero);
-    expect(
-      volunteerScore(core, api, theirs, a, askFor(b.id)),
-      `${where}: ${a.id}'s reasons for ${fb.id}`,
-    ).toBeGreaterThan(zero);
-    expect(
-      askToVolunteer(api, fa.id, b.id, askFor(a.id)),
-      `${where}: ${b.id} (${fb.id}) volunteers for ${fa.id}`,
-    ).toBe(false);
-    expect(
-      askToVolunteer(api, fb.id, a.id, askFor(b.id)),
-      `${where}: ${a.id} (${fa.id}) volunteers for ${fb.id}`,
-    ).toBe(false);
-    // Said yes to a's face at home (the director's talk after a filing), the
-    // rival is still not counted among a's volunteers.
-    expect(
-      enlistVolunteer(api, fa.id, b.id),
-      `${where}: ${b.id} (${fb.id}) enlisted for ${fa.id}`,
-    ).toBe(false);
-    expect(
-      askToVolunteer(api, fa.id, helper.id, askFor(a.id)),
-      `${where}: ${helper.id} asked for ${fa.id}`,
-    ).toBe(true);
-    expect(campaignFor(api, fa.id).volunteerIds).toContain(helper.id);
-    expect(campaignFor(api, fa.id).volunteerIds).not.toContain(b.id);
-    expect(campaignFor(api, fb.id).volunteerIds).not.toContain(a.id);
-
-    // Events: b is in a's own circle, so a's campaign reaches them, and b's
-    // reasons (warmth, agreement with the platform they share, how they stand
-    // with a) and temperament would bring them to a's evenings; only the
-    // race keeps them home.
-    expect(core.people.get(a.id)!.knownIds.has(b.id), where).toBe(true);
-    expect(
-      eveningScore(core, api, campaignFor(api, fa.id), b, ATTEND),
-      `${where}: ${b.id}'s reasons to come to ${fa.id}'s events`,
-    ).toBeGreaterThan(zero);
-    expect(
-      whoComes(api, campaignFor(api, fa.id)),
-      `${where}: ${b.id} (${fb.id}) comes to ${fa.id}'s events`,
-    ).not.toContain(b.id);
-
-    // Donor meetings: each knows the other and the helper knows both, all
-    // adults in town and none the player, yet neither rival is seated in the
-    // helper's circle for the other's meeting or invited to it; and b, the
-    // host a's campaign chose while b was not running, whose reasons and
-    // temperament would still lend their home for a's evening, is no longer
-    // chosen once they file, nor holds it.
-    expect(core.people.get(helper.id)!.knownIds.has(a.id), where).toBe(true);
-    expect(core.people.get(helper.id)!.knownIds.has(b.id), where).toBe(true);
-    expect(
-      hostCircle(api, campaignFor(api, fa.id), helper.id),
-      `${where}: ${b.id} in ${helper.id}'s circle for ${fa.id}`,
-    ).not.toContain(b.id);
-    expect(
-      hostCircle(api, campaignFor(api, fb.id), helper.id),
-      `${where}: ${a.id} in ${helper.id}'s circle for ${fb.id}`,
-    ).not.toContain(a.id);
-    expect(
-      donorMeetingInvitees(api, campaignFor(api, fa.id), helper.id),
-    ).not.toContain(b.id);
-    expect(
-      donorMeetingInvitees(api, campaignFor(api, fb.id), helper.id),
-    ).not.toContain(a.id);
-    expect(
-      eveningScore(core, api, campaignFor(api, fa.id), b, HOST),
-      `${where}: ${b.id}'s reasons to host for ${fa.id}`,
-    ).toBeGreaterThan(zero);
-    expect(
-      second.hostAfter,
-      `${where}: ${fa.id}'s donor-meeting host, chosen while ${b.id} was not running, once ${b.id} filed ${fb.id}`,
-    ).not.toBe(b.id);
-    expect(
-      holdDonorMeeting(api, fa.id, b.id),
-      `${where}: ${b.id} (${fb.id}) holds ${fa.id}'s donor meeting`,
-    ).toBeNull();
-
-    // Endorsement: before filing, b's own weighing endorsed fa (nobody but a
-    // standing). Filed on the same platform, b's own run draws less of b's
-    // backing than fa does (the same agreement, and no tie to oneself), so
-    // nothing in the weighing but the race says no.
-    expect(
-      second.before.yes,
-      `${where}: ${b.id} endorses ${fa.id} unfiled`,
-    ).toBe(true);
-    expect(second.before.score, where).toBeGreaterThan(zero);
-    expect(askForEndorsement(api, fa.id, b.id), where).toBe(false);
-    expect(askForEndorsement(api, fb.id, a.id), where).toBe(false);
-    const answer = (filingId: string, speakerId: string) =>
-      endorsementsOf(api, filingId).find(
-        (row) => row.speakerId === speakerId && row.organizationId === null,
+  it(
+    "a rival is not enlisted, seated at a donor meeting or endorsing, by filing id; a resident not running is enlisted",
+    () => {
+      const { core, api, where, first, second, helper, askFor, mine } =
+        findRace();
+      const [a, b] = [first.person, second.person];
+      const [fa, fb] = [first.filing, second.filing];
+      const theirs = campaignFor(api, fb.id);
+      console.log(
+        `${where}: contest ${fa.contestId}; ${a.id} filed ${fa.id}; ${b.id} filed ${fb.id}; ${helper.id} not running`,
       );
-    const bOnA = answer(fa.id, b.id)!;
-    expect(bOnA).toMatchObject({
-      answer: "no",
-      reason: "prefers-rival",
-      rivalFilingId: fb.id,
-      backing: second.before.backing,
-    });
-    expect(bOnA.tie, `${where}: ${b.id}'s tie to ${a.id}`).toBeGreaterThan(
-      zero,
-    );
-    expect(
-      bOnA.rivalBacking!,
-      `${where}: ${b.id}'s backing of their own ${fb.id} against ${fa.id}`,
-    ).toBeLessThan(bOnA.backing);
-    expect(answer(fb.id, a.id)).toMatchObject({
-      answer: "no",
-      reason: "prefers-rival",
-      rivalFilingId: fa.id,
-    });
-  });
+      for (const id of [a.id, b.id, helper.id])
+        expect(id, `${where}: nobody here is the player`).not.toBe(
+          core.playerId,
+        );
+
+      // The ballot is the one reader: each is the other's rival by filing id.
+      expect(rivalFiling(api, mine, b.id)?.id, where).toBe(fb.id);
+      expect(rivalFiling(api, theirs, a.id)?.id, where).toBe(fa.id);
+      expect(rivalFiling(api, mine, helper.id), where).toBeNull();
+      expect(rivalFiling(api, mine, a.id), `${where}: own campaign`).toBeNull();
+
+      // Volunteering: each rival's reasons say yes to the other's ask, and only
+      // the race stops it.
+      const zero = api.parameter("zero");
+      expect(
+        volunteerScore(core, api, mine, b, askFor(a.id)),
+        `${where}: ${b.id}'s reasons for ${fa.id}`,
+      ).toBeGreaterThan(zero);
+      expect(
+        volunteerScore(core, api, theirs, a, askFor(b.id)),
+        `${where}: ${a.id}'s reasons for ${fb.id}`,
+      ).toBeGreaterThan(zero);
+      expect(
+        askToVolunteer(api, fa.id, b.id, askFor(a.id)),
+        `${where}: ${b.id} (${fb.id}) volunteers for ${fa.id}`,
+      ).toBe(false);
+      expect(
+        askToVolunteer(api, fb.id, a.id, askFor(b.id)),
+        `${where}: ${a.id} (${fa.id}) volunteers for ${fb.id}`,
+      ).toBe(false);
+      // Said yes to a's face at home (the director's talk after a filing), the
+      // rival is still not counted among a's volunteers.
+      expect(
+        enlistVolunteer(api, fa.id, b.id),
+        `${where}: ${b.id} (${fb.id}) enlisted for ${fa.id}`,
+      ).toBe(false);
+      expect(
+        askToVolunteer(api, fa.id, helper.id, askFor(a.id)),
+        `${where}: ${helper.id} asked for ${fa.id}`,
+      ).toBe(true);
+      expect(campaignFor(api, fa.id).volunteerIds).toContain(helper.id);
+      expect(campaignFor(api, fa.id).volunteerIds).not.toContain(b.id);
+      expect(campaignFor(api, fb.id).volunteerIds).not.toContain(a.id);
+
+      // Events: b is in a's own circle, so a's campaign reaches them, and b's
+      // reasons (warmth, agreement with the platform they share, how they stand
+      // with a) and temperament would bring them to a's evenings; only the
+      // race keeps them home.
+      expect(core.people.get(a.id)!.knownIds.has(b.id), where).toBe(true);
+      expect(
+        eveningScore(core, api, campaignFor(api, fa.id), b, ATTEND),
+        `${where}: ${b.id}'s reasons to come to ${fa.id}'s events`,
+      ).toBeGreaterThan(zero);
+      expect(
+        whoComes(api, campaignFor(api, fa.id)),
+        `${where}: ${b.id} (${fb.id}) comes to ${fa.id}'s events`,
+      ).not.toContain(b.id);
+
+      // Donor meetings: each knows the other and the helper knows both, all
+      // adults in town and none the player, yet neither rival is seated in the
+      // helper's circle for the other's meeting or invited to it; and b, the
+      // host a's campaign chose while b was not running, whose reasons and
+      // temperament would still lend their home for a's evening, is no longer
+      // chosen once they file, nor holds it.
+      expect(core.people.get(helper.id)!.knownIds.has(a.id), where).toBe(true);
+      expect(core.people.get(helper.id)!.knownIds.has(b.id), where).toBe(true);
+      expect(
+        hostCircle(api, campaignFor(api, fa.id), helper.id),
+        `${where}: ${b.id} in ${helper.id}'s circle for ${fa.id}`,
+      ).not.toContain(b.id);
+      expect(
+        hostCircle(api, campaignFor(api, fb.id), helper.id),
+        `${where}: ${a.id} in ${helper.id}'s circle for ${fb.id}`,
+      ).not.toContain(a.id);
+      expect(
+        donorMeetingInvitees(api, campaignFor(api, fa.id), helper.id),
+      ).not.toContain(b.id);
+      expect(
+        donorMeetingInvitees(api, campaignFor(api, fb.id), helper.id),
+      ).not.toContain(a.id);
+      expect(
+        eveningScore(core, api, campaignFor(api, fa.id), b, HOST),
+        `${where}: ${b.id}'s reasons to host for ${fa.id}`,
+      ).toBeGreaterThan(zero);
+      expect(
+        second.hostAfter,
+        `${where}: ${fa.id}'s donor-meeting host, chosen while ${b.id} was not running, once ${b.id} filed ${fb.id}`,
+      ).not.toBe(b.id);
+      expect(
+        holdDonorMeeting(api, fa.id, b.id),
+        `${where}: ${b.id} (${fb.id}) holds ${fa.id}'s donor meeting`,
+      ).toBeNull();
+
+      // Endorsement: before filing, b's own weighing endorsed fa (nobody but a
+      // standing). Filed on the same platform, b's own run draws less of b's
+      // backing than fa does (the same agreement, and no tie to oneself), so
+      // nothing in the weighing but the race says no.
+      expect(
+        second.before.yes,
+        `${where}: ${b.id} endorses ${fa.id} unfiled`,
+      ).toBe(true);
+      expect(second.before.score, where).toBeGreaterThan(zero);
+      expect(askForEndorsement(api, fa.id, b.id), where).toBe(false);
+      expect(askForEndorsement(api, fb.id, a.id), where).toBe(false);
+      const answer = (filingId: string, speakerId: string) =>
+        endorsementsOf(api, filingId).find(
+          (row) => row.speakerId === speakerId && row.organizationId === null,
+        );
+      const bOnA = answer(fa.id, b.id)!;
+      expect(bOnA).toMatchObject({
+        answer: "no",
+        reason: "prefers-rival",
+        rivalFilingId: fb.id,
+        backing: second.before.backing,
+      });
+      expect(bOnA.tie, `${where}: ${b.id}'s tie to ${a.id}`).toBeGreaterThan(
+        zero,
+      );
+      expect(
+        bOnA.rivalBacking!,
+        `${where}: ${b.id}'s backing of their own ${fb.id} against ${fa.id}`,
+      ).toBeLessThan(bOnA.backing);
+      expect(answer(fb.id, a.id)).toMatchObject({
+        answer: "no",
+        reason: "prefers-rival",
+        rivalFilingId: fa.id,
+      });
+    },
+    TWIN_TIMEOUT,
+  );
 
   it(
     "a volunteer who joins writes a record naming the ask, and one whose reasons have weakened writes a lapse naming the cause",
@@ -730,155 +783,168 @@ describe("a candidate never helps a rival in their own race", () => {
     TWIN_TIMEOUT,
   );
 
-  it("a volunteer who then files in the same race leaves the campaign that day, kept with the filing, and does not come to its events", () => {
-    const { core, api, where, first, helper, askFor } = findRace();
-    const fa = first.filing;
-    expect(
-      askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
-      `${where}: ${helper.id} asked for ${fa.id}`,
-    ).toBe(true);
-    expect(campaignFor(api, fa.id).volunteerIds, where).toContain(helper.id);
-    expect(
-      whoComes(api, campaignFor(api, fa.id)),
-      `${where}: ${helper.id} comes to ${fa.id}'s events as its volunteer`,
-    ).toContain(helper.id);
-    expect(
-      sharedHistory(core, first.person.id, helper.id),
-      `${where}: ${helper.id} works on ${fa.id}`,
-    ).toContainEqual({ kind: "campaign", recordId: fa.id });
-    const filed = file(api, helper.id, fa.contestId, -1);
-    expect(filed, `${where}: ${helper.id} files in ${fa.contestId}`).not.toBe(
-      null,
-    );
-    console.log(
-      `${where}: ${helper.id} volunteered for ${fa.id}, then filed ${filed!.id}`,
-    );
-    const after = campaignFor(api, fa.id);
-    expect(after.volunteerIds, where).not.toContain(helper.id);
-    // One record of why: the day, and the filing whose announcement is the
-    // cause.
-    expect(after.leftToRun, where).toEqual([
-      {
-        personId: helper.id,
-        role: "volunteer",
-        on: core.date,
-        filingId: filed!.id,
-      },
-    ]);
-    expect(
-      core.durableLog.get(`candidate-filed:${filed!.id}` as never)?.date,
-      where,
-    ).toBe(core.date);
-    // They worked on the candidate's campaign, then ran against them: the
-    // work they shared stays on the record, ended the day they filed.
-    expect(
-      sharedHistory(core, first.person.id, helper.id),
-      `${where}: ${helper.id} worked on ${fa.id} before filing ${filed!.id}`,
-    ).toContainEqual({ kind: "campaign", recordId: fa.id, endedOn: core.date });
-    // Off the volunteers, their own reasons and temperament would still bring
-    // them to the candidate's evenings; only their own run keeps them home.
-    expect(
-      eveningScore(core, api, after, helper, ATTEND),
-      `${where}: ${helper.id}'s reasons to come to ${fa.id}'s events`,
-    ).toBeGreaterThan(api.parameter("zero"));
-    expect(
-      whoComes(api, after),
-      `${where}: ${helper.id} (${filed!.id}) comes to ${fa.id}'s events`,
-    ).not.toContain(helper.id);
-    expect(
-      askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
-      `${where}: ${helper.id} (${filed!.id}) asked again for ${fa.id}`,
-    ).toBe(false);
-  });
+  it(
+    "a volunteer who then files in the same race leaves the campaign that day, kept with the filing, and does not come to its events",
+    () => {
+      const { core, api, where, first, helper, askFor } = findRace();
+      const fa = first.filing;
+      expect(
+        askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
+        `${where}: ${helper.id} asked for ${fa.id}`,
+      ).toBe(true);
+      expect(campaignFor(api, fa.id).volunteerIds, where).toContain(helper.id);
+      expect(
+        whoComes(api, campaignFor(api, fa.id)),
+        `${where}: ${helper.id} comes to ${fa.id}'s events as its volunteer`,
+      ).toContain(helper.id);
+      expect(
+        sharedHistory(core, first.person.id, helper.id),
+        `${where}: ${helper.id} works on ${fa.id}`,
+      ).toContainEqual({ kind: "campaign", recordId: fa.id });
+      const filed = file(api, helper.id, fa.contestId, -1);
+      expect(filed, `${where}: ${helper.id} files in ${fa.contestId}`).not.toBe(
+        null,
+      );
+      console.log(
+        `${where}: ${helper.id} volunteered for ${fa.id}, then filed ${filed!.id}`,
+      );
+      const after = campaignFor(api, fa.id);
+      expect(after.volunteerIds, where).not.toContain(helper.id);
+      // One record of why: the day, and the filing whose announcement is the
+      // cause.
+      expect(after.leftToRun, where).toEqual([
+        {
+          personId: helper.id,
+          role: "volunteer",
+          on: core.date,
+          filingId: filed!.id,
+        },
+      ]);
+      expect(
+        core.durableLog.get(`candidate-filed:${filed!.id}` as never)?.date,
+        where,
+      ).toBe(core.date);
+      // They worked on the candidate's campaign, then ran against them: the
+      // work they shared stays on the record, ended the day they filed.
+      expect(
+        sharedHistory(core, first.person.id, helper.id),
+        `${where}: ${helper.id} worked on ${fa.id} before filing ${filed!.id}`,
+      ).toContainEqual({
+        kind: "campaign",
+        recordId: fa.id,
+        endedOn: core.date,
+      });
+      // Off the volunteers, their own reasons and temperament would still bring
+      // them to the candidate's evenings; only their own run keeps them home.
+      expect(
+        eveningScore(core, api, after, helper, ATTEND),
+        `${where}: ${helper.id}'s reasons to come to ${fa.id}'s events`,
+      ).toBeGreaterThan(api.parameter("zero"));
+      expect(
+        whoComes(api, after),
+        `${where}: ${helper.id} (${filed!.id}) comes to ${fa.id}'s events`,
+      ).not.toContain(helper.id);
+      expect(
+        askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
+        `${where}: ${helper.id} (${filed!.id}) asked again for ${fa.id}`,
+      ).toBe(false);
+    },
+    TWIN_TIMEOUT,
+  );
 
-  it("someone running the campaign who then files leaves its staff that day, and is not asked back, enlisted at home or brought back by word of the filing", () => {
-    const { core, api, where, first, manager } = findRace();
-    const fa = first.filing;
-    const a = first.person;
-    const zero = api.parameter("zero");
-    expect(
-      managerScore(core, api, campaignFor(api, fa.id), manager),
-      `${where}: ${manager.id}'s reasons to run ${fa.id}`,
-    ).toBeGreaterThan(zero);
-    expect(
-      askToManage(api, fa.id, manager.id),
-      `${where}: ${manager.id} asked to run ${fa.id}`,
-    ).toBe(true);
-    expect(campaignFor(api, fa.id).staffIds, where).toContain(manager.id);
-    const filed = file(api, manager.id, fa.contestId, -1);
-    expect(filed, `${where}: ${manager.id} files in ${fa.contestId}`).not.toBe(
-      null,
-    );
-    console.log(
-      `${where}: ${manager.id} ran ${fa.id}, then filed ${filed!.id}`,
-    );
-    const after = campaignFor(api, fa.id);
-    expect(
-      after.staffIds,
-      `${where}: ${manager.id} (${filed!.id}) on ${fa.id}'s staff`,
-    ).not.toContain(manager.id);
-    expect(after.leftToRun, where).toEqual([
-      {
-        personId: manager.id,
-        role: "staff",
-        on: core.date,
-        filingId: filed!.id,
-      },
-    ]);
-    // Their reasons to run it and to give it their evenings are what they
-    // were; only their own run says no.
-    expect(
-      managerScore(core, api, after, manager),
-      `${where}: ${manager.id}'s reasons to run ${fa.id} after filing`,
-    ).toBeGreaterThan(zero);
-    expect(
-      askToManage(api, fa.id, manager.id),
-      `${where}: ${manager.id} (${filed!.id}) asked again to run ${fa.id}`,
-    ).toBe(false);
-    expect(
-      enlistVolunteer(api, fa.id, manager.id),
-      `${where}: ${manager.id} (${filed!.id}) enlisted for ${fa.id}`,
-    ).toBe(false);
-    // Word of a's filing reaches them: a tells them in person the next day,
-    // and the day after, the campaign engine's own turn weighs who has heard
-    // (running the campaign first, while nobody runs it, then giving it
-    // evenings), as it does every day.
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    api.relationship(a.id, manager.id, "contact", TOLD_HOURS, undefined, {
-      cause: "neighbors",
-      sourceId: `test:campaign-rival-help:told:${fa.id}:${manager.id}`,
-    });
-    expect(
-      managerScore(core, api, campaignFor(api, fa.id), manager),
-      `${where}: ${manager.id}'s reasons to offer to run ${fa.id}`,
-    ).toBeGreaterThan(zero);
-    expect(
-      offerScore(core, api, campaignFor(api, fa.id), manager),
-      `${where}: ${manager.id}'s reasons to offer ${fa.id} their evenings`,
-    ).toBeGreaterThan(zero);
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const weighed = campaignFor(api, fa.id);
-    const running = (ids: readonly string[]) =>
-      ids.filter((id) => rivalFiling(api, weighed, id));
-    expect(
-      running(weighed.staffIds),
-      `${where}: anyone standing in ${fa.contestId} offered to run ${fa.id}`,
-    ).toEqual([]);
-    expect(
-      running(weighed.volunteerIds),
-      `${where}: anyone standing in ${fa.contestId} offered ${fa.id} their evenings`,
-    ).toEqual([]);
-    // Nor is an offer from anyone standing in the race applied (the event the
-    // director stages as the candidate's scene; with no player here nobody's
-    // log keeps it, so the applied event ids are read).
-    expect(
-      ballot(api, fa.contestId)
-        .filter((f) => f.personId !== a.id)
-        .map((f) => `${VOLUNTEER_OFFERED_EVENT}:${fa.id}:${f.personId}`)
-        .filter((id) => core.eventIds.has(id)),
-      `${where}: offers to ${fa.id} from anyone standing in ${fa.contestId}`,
-    ).toEqual([]);
-  });
+  it(
+    "someone running the campaign who then files leaves its staff that day, and is not asked back, enlisted at home or brought back by word of the filing",
+    () => {
+      const { core, api, where, first, manager } = findRace();
+      const fa = first.filing;
+      const a = first.person;
+      const zero = api.parameter("zero");
+      expect(
+        managerScore(core, api, campaignFor(api, fa.id), manager),
+        `${where}: ${manager.id}'s reasons to run ${fa.id}`,
+      ).toBeGreaterThan(zero);
+      expect(
+        askToManage(api, fa.id, manager.id),
+        `${where}: ${manager.id} asked to run ${fa.id}`,
+      ).toBe(true);
+      expect(campaignFor(api, fa.id).staffIds, where).toContain(manager.id);
+      const filed = file(api, manager.id, fa.contestId, -1);
+      expect(
+        filed,
+        `${where}: ${manager.id} files in ${fa.contestId}`,
+      ).not.toBe(null);
+      console.log(
+        `${where}: ${manager.id} ran ${fa.id}, then filed ${filed!.id}`,
+      );
+      const after = campaignFor(api, fa.id);
+      expect(
+        after.staffIds,
+        `${where}: ${manager.id} (${filed!.id}) on ${fa.id}'s staff`,
+      ).not.toContain(manager.id);
+      expect(after.leftToRun, where).toEqual([
+        {
+          personId: manager.id,
+          role: "staff",
+          on: core.date,
+          filingId: filed!.id,
+        },
+      ]);
+      // Their reasons to run it and to give it their evenings are what they
+      // were; only their own run says no.
+      expect(
+        managerScore(core, api, after, manager),
+        `${where}: ${manager.id}'s reasons to run ${fa.id} after filing`,
+      ).toBeGreaterThan(zero);
+      expect(
+        askToManage(api, fa.id, manager.id),
+        `${where}: ${manager.id} (${filed!.id}) asked again to run ${fa.id}`,
+      ).toBe(false);
+      expect(
+        enlistVolunteer(api, fa.id, manager.id),
+        `${where}: ${manager.id} (${filed!.id}) enlisted for ${fa.id}`,
+      ).toBe(false);
+      // Word of a's filing reaches them: a tells them in person the next day,
+      // and the day after, the campaign engine's own turn weighs who has heard
+      // (running the campaign first, while nobody runs it, then giving it
+      // evenings), as it does every day.
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      api.relationship(a.id, manager.id, "contact", TOLD_HOURS, undefined, {
+        cause: "neighbors",
+        sourceId: `test:campaign-rival-help:told:${fa.id}:${manager.id}`,
+      });
+      expect(
+        managerScore(core, api, campaignFor(api, fa.id), manager),
+        `${where}: ${manager.id}'s reasons to offer to run ${fa.id}`,
+      ).toBeGreaterThan(zero);
+      expect(
+        offerScore(core, api, campaignFor(api, fa.id), manager),
+        `${where}: ${manager.id}'s reasons to offer ${fa.id} their evenings`,
+      ).toBeGreaterThan(zero);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const weighed = campaignFor(api, fa.id);
+      const running = (ids: readonly string[]) =>
+        ids.filter((id) => rivalFiling(api, weighed, id));
+      expect(
+        running(weighed.staffIds),
+        `${where}: anyone standing in ${fa.contestId} offered to run ${fa.id}`,
+      ).toEqual([]);
+      expect(
+        running(weighed.volunteerIds),
+        `${where}: anyone standing in ${fa.contestId} offered ${fa.id} their evenings`,
+      ).toEqual([]);
+      // Nor is an offer from anyone standing in the race applied (the event the
+      // director stages as the candidate's scene; with no player here nobody's
+      // log keeps it, so the applied event ids are read).
+      expect(
+        ballot(api, fa.contestId)
+          .filter((f) => f.personId !== a.id)
+          .map((f) => `${VOLUNTEER_OFFERED_EVENT}:${fa.id}:${f.personId}`)
+          .filter((id) => core.eventIds.has(id)),
+        `${where}: offers to ${fa.id} from anyone standing in ${fa.contestId}`,
+      ).toEqual([]);
+    },
+    TWIN_TIMEOUT,
+  );
 
   it(
     "a group backing one candidate sends no member who files in the race, and a group whose speaker files backs no rival",

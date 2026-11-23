@@ -34,3 +34,7 @@ checked: fable 2026-11-10
 **Waits on.** nation-federal-scandal-producer-part-2-press-reports.
 
 **Files.** src/core2/modules/national-opinion.ts, src/core2/modules/press.ts, src/core2/federal-scandal.test.ts (new)
+
+**Notes.**
+
+- Nov 16 (story builder, evidence): at Wilmont, Minnesota (2770582, seed 2cb5aaf1), every approval row from January to August 2025 has a push part of 0 with 53 national disasters on the record, so the published poll holds at 41% for the year (41.07 to 40.74 by the economy alone). The poll is published since director-public-events-reach-the-director.

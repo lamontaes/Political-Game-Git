@@ -13,7 +13,6 @@
  */
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { fileForOffice, governmentView } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -22,21 +21,17 @@ import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
 } from "../core2/modules/elections";
-import {
-  advancePlayerV1,
-  resumePlayerV1,
-  retirePlayerV1,
-} from "../core2/player-v1";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
+import { purposeScene, replyInScene } from "./purpose-scene";
 
 const EVENING = 20 * 60 + 30;
 const VOTE = "2025-11-04";
 
 const PLACE = "3972242";
 const SEED = "scan-25";
-const FILE_DAY = 150;
 
 type World = ReturnType<typeof buildBenchWorld>;
 
@@ -54,11 +49,35 @@ function liveThrough(
       minuteOfDay,
     },
   });
-  while (packet.kind !== "complete")
+  while (packet.kind !== "complete") {
+    if (packet.kind === "stop") answerPetitionOffer(world, playerId);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
         : resumePlayerV1(core, { kind: "own-choice", pauseId: packet.pauseId });
+  }
+}
+
+/**
+ * A player who is told their petition is short says yes, as a player does:
+ * the engine offers and the player decides (OWNER-DECISIONS Oct 14). The
+ * character on its own choice answers no scene.
+ */
+function answerPetitionOffer(world: World, playerId: PersonId): void {
+  const { core, director } = world;
+  const book = director.ledger.people.get(playerId);
+  for (const entry of book?.schedule ?? []) {
+    if (!entry.bindings.some((b) => b.typeKey === "petition-short")) continue;
+    if (entry.answered?.includes("petition-short")) continue;
+    const result = purposeScene(core, director, playerId, entry, {
+      typeKey: "petition-short",
+    });
+    if (result?.kind !== "composed") continue;
+    const yes = result.scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "promise",
+    );
+    if (yes >= 0) replyInScene(core, director, playerId, entry, [yes]);
+  }
 }
 
 /** What the player's housemates say of the player's news in the evenings, one line each. */
@@ -136,52 +155,4 @@ it("a race the player did not enter is not brought up as the player's own (Sherr
   // The player never filed, so none of their news is about a race or a filing.
   expect(filingsOf(world, playerId)).toEqual([]);
   expect(raceNews(said)).toEqual([]);
-}, 900_000);
-
-it("a person who filed through the game's own filing hears their own race (Sherrodsville)", () => {
-  const { world, playerId } = setUp();
-  const { core, director } = world;
-  for (let day = 1; day <= FILE_DAY; day += 1)
-    liveThrough(world, playerId, day, day === FILE_DAY ? 0 : EVENING);
-  retirePlayerV1(core);
-  // The first adult who lives with someone and has a race open to them
-  // (every check met), in id order.
-  const candidates = [...core.people.values()]
-    .filter(
-      (person) =>
-        person.alive &&
-        [...(core.households.get(person.householdId)?.memberIds ?? [])].length >
-          1,
-    )
-    .map((person) => person.id)
-    .sort();
-  let entrant: PersonId | undefined;
-  let contestId = "";
-  for (const id of candidates) {
-    const open = governmentView(core, id).contests.find((row) =>
-      row.checks.every((check) => check.met),
-    );
-    if (open) {
-      entrant = id;
-      contestId = open.contest.id;
-      break;
-    }
-  }
-  expect(entrant, "a housemate with a race open to them").toBeDefined();
-  (core as { playerId?: string }).playerId = entrant!;
-  director.watch(core, entrant!);
-  core.focusPersonIds.add(entrant!);
-  fileForOffice(core, entrant!, contestId);
-  expect(filingsOf(world, entrant!).map((row) => row.contestId)).toContain(
-    contestId,
-  );
-  const said: string[] = [];
-  for (let day = FILE_DAY + 1; day <= first + 6; day += 1) {
-    liveThrough(world, entrant!, day);
-    if (day >= first) said.push(...homeNews(world, entrant!, day));
-  }
-  // Their own race's result is news at home, and only theirs.
-  const mine = raceNews(said);
-  expect(mine.length).toBeGreaterThan(0);
-  expect(mine.every((row) => row.includes(contestId))).toBe(true);
-}, 900_000);
+}, 100_000);

@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-csmftn-rooms
+pr: #9557
 after:
 blocked-on:
 lead: people
@@ -32,8 +32,12 @@ source: Lying builder, Nov 15, from the recount of lies told at three places (Ac
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/sitting-closeness.ts, src/core2/modules/world-legislating.ts, src/core2/data/parameters.json
+**Files.** src/core2/sitting-closeness.ts, src/core2/modules/world-legislating.ts, src/core2/data/parameters.json, src/core2/calendar.ts, src/core2/closeness.ts, src/core2/sitting-focus.test.ts, src/core2/state.ts, src/core2/types.ts, src/director/ledger.ts, src/director/scheduling.ts, src/director/relation-facts.ts, src/bench/card.ts, src/core2/life.ts, src/bench/dev-views/person-focus.ts (new), src/bench/ui/dev-person-focus.mjs (new)
 
 Nov 15 (lying thread): the player's own rooms now follow the same rule. A committee, caucus or leaders' meeting is a sitting of a smaller room, shared by the sitting's own reader (`roomTime` in src/core2/sitting-closeness.ts, the sort `nearestInService` shared with the floor; spendTime in src/core2/office-day-state.ts): the meeting's hours times `sittingContactShare`, split among the `knownAmong(room - 1)` colleagues whose service began nearest one's own. Whether every colleague ends up too slight is still this item's question.
 
 Nov 15 (lying thread, D1): this item is the full answer to what D1 leaves. Only the player's own committee, caucus and leaders' meetings write tie rows. Every other member shares those rooms too, but nothing records it, so their ties to one another are the floor's shared hours alone, and they are exactly equal within a class sworn in together. At 4846968 seed 8647-mason (player at seat 016, Feb 1 to 14, 2025), after people-colleagues-company-all-goes-to-the-player, the player still got 57 of the senators' 173 `contact-known-person` acts from 9 colleagues. The row a meeting writes adds hours lost on top of the shared hours, so it beats any colleague's equal body-only pull. Once committee and caucus sittings are read for every member, pulls differ by the rooms people really share, and this goes away.
+
+Nov 15 (lying thread, rooms and presence): every member's committee and caucus sittings are now rooms read by one calendar (`ROOMS` in src/core2/office-day-state.ts), with each member's own absences, and the rest of a session day at the Capitol counts as time with the chamber. At 4846968 seed 8647-mason, the player at seat 016 ends the session (June 2, 2025) at a median closeness of 0.121 to fellow senators, top 0.298; same-committee colleagues 0.142 to 0.168. This stays open: colleagues still end a session near strangers. Of the three causes measured, the one left to build is that session evenings have no receptions or dinners (legislature-session-evenings-have-no-gatherings). The Account lead leaves the other two as they are: Texas sits only in odd years, so the 2023 session fades by 2025, and the chamber's hours are split among the 18 colleagues each senator knows.
+
+Nov 15 (lying thread): once meetings stopped writing tie rows, the player's colleagues fell out of the player's circle (calendar.ts `hasDailyFocus` read only rows): at 4846968 seed 8647-mason, 27 colleagues the player sat with did nothing in Feb 1 to 7 (3 senators acted, 28 before rooms). Fixed on this branch: the circle also reads the sitting reader (`knownThroughRecords`) and "seen lately" reads `lastTogether` (closeness.ts). Pinned in src/core2/sitting-focus.test.ts.

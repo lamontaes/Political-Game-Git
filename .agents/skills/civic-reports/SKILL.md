@@ -11,7 +11,7 @@ description: >
 
 **Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
-**Play first (owner, Oct 24):** every status report leads with how far he can play now toward the one acceptance. **Only done counts (owner, Nov 3):** a report counts an item as done only when a second session has seen it in the running game (`seen-in-game`); everything else is "merged, not yet seen" or "in review".
+**Play first (owner, Oct 24):** every status report leads with how far he can play now toward the one acceptance. **Only done counts (owner, Nov 3):** a report counts an item as done only when a second session has seen it in the running game (`done-proof` (seen-in-game part)); everything else is "merged, not yet seen" or "in review".
 
 The owner reads reports between other things, often on a phone, and acts on
 them. A report is finished when a reader who was not there can say what
@@ -46,6 +46,12 @@ descriptions) keep steps 1, 2, 4 and 5. A pull request description follows
 `.github/PULL_REQUEST_TEMPLATE.md`: its first lines are the pool item and the
 gate line, which the tooling reads, and its lead then says what changed for
 the player, with "Before:" and "After:" where that helps.
+`report:check` reads everything before the first `##` heading as the lead,
+the pool line and the gate line included: put the body's sections under
+`##` headings, keep the lead under 120 words, and keep code, hashes, PR
+numbers and clock times out of the gate line and the player paragraph
+(Nov 17, Speed: a body of bold paragraphs with no headings read as a
+705-word lead).
 
 ## What every report carries
 
@@ -84,10 +90,14 @@ the player, with "Before:" and "After:" where that helps.
    doesn't cover pull request bodies. Where the hook does not run (another tool, a pull request body), run step 1 yourself.
    A report about an item goes on the item's own pull request, which is the item's thread (owner, Nov 10); the owner's Drive or `docs/reports/` holds the ones meant for him alone.
 
+A count or a build quoted from a page that other sessions keep publishing (the Scenes page, a tracker) is re-read from the live page just before the report is saved, and the report names the build and the time it was read. On Nov 15 a read made half an hour earlier gave 183 scenes, while the live page had 281 and then 229 after a republish. Ask the thread that owns the page for its newest head and count rather than trusting your own earlier read. Stamp every refresh of a report with the real time it was saved, never the time it is due.
+
 `npm run test:skill-ops` runs `report:check` over every report under
 `docs/reports/` written after the standard, so a report pushed without its
 own check turns every skills PR red (Nov 1, the U2 build spec, fixed at
 a44c7b833d). Run step 1 before any push.
+
+A pull request body written from a shell goes through a quoted heredoc (`cat > body.md <<'EOF'`), or a script that edits it does (`python3 - <<'PYEOF'` with the script in its own file when it holds backticks). With an unquoted delimiter the shell runs every backticked command in the text: on Nov 17 the Blockers lane's edit of a PR body ran the browser check and a vitest run it only named. The check reads everything before the first `## ` heading as the lead (under 120 words, no code, clock times, pull request numbers or how a test ran), so the template's sections after the opening paragraph go under `## ` headings, and the method goes there.
 
 `docs/writing/the-next-generation-rewrite.md` is the worked example: the
 report that prompted this skill, and the same facts rewritten to the bar.

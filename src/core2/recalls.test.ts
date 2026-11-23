@@ -7,21 +7,12 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore } from "./life";
 import { setBookkeeping } from "./bookkeeping";
 import { coreAPI } from "./state";
-import { openLaws } from "./modules/laws";
-import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
-import { openElections } from "./modules/elections";
-import { openCampaigns } from "./modules/campaigns";
-import { openRecord } from "./modules/record";
-import { openOfficeDay } from "./modules/office-day";
-import { openOfficeDayState } from "./office-day-state";
-import { openWorldLegislating } from "./modules/world-legislating";
-import { draftBill, holdVote, openLegislature } from "./modules/legislature";
+import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
+import { draftBill, holdVote } from "./modules/legislature";
 import {
-  openRecalls,
   recallWindowFor,
   type RecallClock,
   recallRule,
@@ -36,13 +27,12 @@ import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
-import { countedResidents } from "./electorate";
+import { countedVoters } from "./modules/voting";
 import { lawChain } from "./modules/laws";
 import { resolveRequiredSignatures } from "./gov-rules/municipal-election-rules";
 import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
 import { resolveMunicipalRecallRule } from "./gov-rules/municipal-ballot-rules";
 
-const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`recalls:${Date.now()}`).digest("hex");
@@ -81,28 +71,14 @@ describe("M3-10 recalls", () => {
       // Why this place started no recall, by what the world holds; filled in
       // below and kept in the failure message.
       const none = (why: string) => tried.push(`${state} ${key}: ${why}`);
-      const core = createLifeCore(
-        buildPopulation({
-          seed,
-          placeKey: key,
-          startedAt: START,
-          // A small town: the year of daily work costs time per person.
-          minimumPeople: 40,
-        }),
-      );
-      openLaws(core);
-      openOffices(core, seed);
-      openElections(core);
-      openCampaigns(core);
-      openRecord(core);
-      openLegislature(core);
-      openRecalls(core);
-      // Every played world installs the lawmaking calendar and then the office
-      // day; the legislature reads the office day when a body meets, and the
-      // office day reads the calendar's agenda filings when a meeting closes.
-      openWorldLegislating(core);
-      openOfficeDay(core, seed);
-      openOfficeDayState(core);
+      // The played world's own builder, so the town has every engine and
+      // its data (the office day's acts and parameters, the speech engine
+      // its addresses are given through, the recall rules).
+      const { core } = buildBenchWorld(seed, gameStartDate(), {
+        placeKey: key,
+        // A small town: the year of daily work costs time per person.
+        minimumPeople: 40,
+      });
       const api = coreAPI(core);
       const outcomes = new Set<string>();
       api.subscribeEvents("recalls-test", ["recall-outcome"], (_api, event) => {
@@ -184,7 +160,7 @@ describe("M3-10 recalls", () => {
     ).toEqual([]);
     expect(report, `no recall started in ${tried.join("; ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
-  }, 300_000);
+  }, 210_000);
 
   // `countScale` opens the town at a multiple of its sample, so the households'
   // fitted weights are fractions and the electorate they stand for is not whole.
@@ -236,8 +212,8 @@ describe("M3-10 recalls", () => {
       const rule = recallRule(api);
       if (!recall || !rule) continue;
       const town = lawChain(api).townPlaceId;
-      const counted = countedResidents(core).filter((c) => c.placeId === town);
-      expect(counted.length, `${key}: counted residents`).toBeGreaterThan(0);
+      const counted = countedVoters(api).filter((c) => c.placeId === town);
+      expect(counted.length, `${key}: counted voters`).toBeGreaterThan(0);
       // The requirement is the rule's percentage of the base its own rule
       // names, a whole count of voters read from the world's records or
       // sized from the real averages, and the petition names which.
@@ -257,7 +233,7 @@ describe("M3-10 recalls", () => {
       expect(recall.required, `${key}: required of ${base.count}`).toBe(
         resolveRequiredSignatures(rule.threshold, base.count),
       );
-      // The counted residents signed too, by the same rule.
+      // The counted voters signed too, by the same rule.
       expect(recall.signatures, key).toBeGreaterThan(
         recall.namedSigners.length,
       );
@@ -299,7 +275,7 @@ describe("M3-10 recalls", () => {
       setBookkeeping(before);
     }
   };
-  it("counts the town's counted residents as signers and voters by the same rule", () => {
+  it("counts the town's counted voters as signers and voters by the same rule", () => {
     inPlay(() => countedSigners());
   }, 900_000);
   it("counts them the same when their weights are fractions", () => {

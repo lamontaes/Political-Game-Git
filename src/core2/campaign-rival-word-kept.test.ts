@@ -37,6 +37,7 @@ import {
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -65,7 +66,7 @@ function world(salt: string) {
     { modules: [viewsModule] },
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -85,13 +86,11 @@ function world(salt: string) {
  */
 function rivals(w: ReturnType<typeof world>) {
   const { api, core } = w;
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   const filed = new Set<string>();
   const file = (contestId: string, count: number) => {
     const filings: FilingRow[] = [];

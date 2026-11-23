@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T11:05:11.595Z
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, named in the PR body, the slot the officeholder entries for taking office, a town hall and an interview is worded from engine or mined parts in data/english/parts/journal.json and cites the took-office event and the office-day act records by record id; the rewritten director test that now asserts the slot is empty asserts the real line instead, and tests/english-parts-banks.test.ts passes.
 
-**Files.** data/english/parts/journal.json, src/director/journal.ts, src/director/journal-office.test.ts
+**Files.** data/english/parts/journal.json, src/director/journal.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
 

@@ -188,6 +188,15 @@ export interface ServeAskRow {
    * Null on a first ask or where nothing moved for the ask.
    */
   readonly moved: ServeMoved | null;
+  /**
+   * Asked again after a no: the event of the ask they turned down, so the
+   * talk can say it was asked before. Null on a first ask.
+   */
+  readonly askedBefore?: string | null;
+  /** The reason that weighed most against the ask at that no. */
+  readonly reasonBefore?: string | null;
+  /** How many times they have said no to this seat before this ask. */
+  readonly noesBefore?: number;
 }
 
 export type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
@@ -874,6 +883,9 @@ export function askToServe(
     answeredOn: null,
     moved:
       earlier?.answer === "no" ? movedSince(earlier.standing, standing) : null,
+    askedBefore: earlier?.answer === "no" ? earlier.eventId : null,
+    reasonBefore: earlier?.answer === "no" ? earlier.standing.reason : null,
+    noesBefore: (earlier?.noesBefore ?? 0) + (earlier?.answer === "no" ? 1 : 0),
   };
   table(api).put(row as unknown as ModuleRow);
   api.emit({
@@ -899,7 +911,7 @@ export function askToServe(
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       // The question a price is named on, one the office can decide, and
       // their side on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       ...(standing.grounds.priceQuestion
         ? {
             "price-question": standing.grounds.priceQuestion,
@@ -1057,7 +1069,7 @@ function askToTakePost(
       askedId: personId,
       question: standing.grounds.question,
       // The side they hold on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },

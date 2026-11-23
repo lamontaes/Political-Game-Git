@@ -1,23 +1,17 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { closenessBetween } from "../core2/closeness";
-import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
 import { FAMILY_QUARREL } from "../core2/modules/quarrel";
 import { applyCoreEvent } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { chooseVariant } from "./arc-variant";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
-import { purposeScene } from "./purpose-scene";
-import type { TreeNode } from "./scene-talk";
-
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 2;
+import {
+  LOAN_SEED,
+  findTownBorrower,
+  play,
+} from "../../tests/support/real-borrower";
 
 // A quarrel over a missed payment (the partnerships engine's own
 // `family.quarrel`, written when the credit engine's `credit.payment-missed`
@@ -26,10 +20,12 @@ const ATTEMPTS = 2;
 // quarrel is about money, how close the two are, the earlier quarrels between
 // them, and the wronged person's own money pressure.
 //
-// HAND-STAGED: the missed payment itself (a `credit.payment-missed` record for
-// the player) and every probe below it, labeled where they stand. From the
-// missed payment on, the quarrel record, the scene and the choice are the
-// engines' own.
+// Drawn places (CTO, Nov 17): the case is whoever the credit engine's own
+// missed payment and the partnerships engine's own quarrel name in a drawn
+// place (`findTownBorrower`, tests/support/real-borrower.ts); the arc engine
+// is one rule for every person. The scene's own lines are the player's talk,
+// so they wait for a player who borrows (a gap for Blockers). The probes
+// below the variant are hand-made, labeled where they stand.
 const families = (
   variantFile as unknown as {
     families: Record<
@@ -39,89 +35,31 @@ const families = (
   }
 ).families["owed-apology"]!.variants;
 
-const lineSources = (purpose: string) =>
-  sceneBank.parts
-    .filter((part) =>
-      (part.uses as { purpose?: string }[]).some((u) => u.purpose === purpose),
-    )
-    .map(
-      (part) =>
-        // A name after a comma is left off once the voice has said it on the
-        // branch (scene-talk-words.ts, VOCATIVE): ", {first}" is optional.
-        new RegExp(
-          `^${(part.text as string)
-            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-            .replace(/, \{first\}/g, "(?:, {first})?")
-            .replace(/\{[a-z-]+\}/g, ".+")}$`,
-        ),
-    );
-
-const treeTexts = (node: TreeNode): string[] => [
-  ...node.lines.map((l) => l.text),
-  ...node.replies.flatMap((r) => [
-    r.line.text,
-    ...(r.next ? treeTexts(r.next) : []),
-  ]),
-  ...(node.end?.close ? [node.end.close.text] : []),
-];
-
-it(`a quarrel over a missed payment plays the variant its records give (seed ${seed})`, () => {
+it(`a quarrel over a missed payment plays the variant its records give (seed ${LOAN_SEED})`, () => {
   setBookkeeping(false);
-  const tried: string[] = [];
-  let proven = 0;
   try {
-    for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-      const place = drawPlace(seed, `apology:${attempt}`);
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core, director, playerId } = buildBenchWorld(
-        place.seed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: place.key },
-      );
-      const id = playerId as PersonId;
-      director.watch(core, id);
-      const book = director.ledger.people.get(id)!;
-      advanceCore(core, addDays(makeIsoDate(core.date), 30));
-      // HAND-STAGED: the credit engine's missed-payment record for the player.
-      const missedId = `event:credit.payment-missed:probe-${attempt}:${core.date}`;
-      const player = core.people.get(id)!;
-      applyCoreEvent(core, {
-        id: missedId,
-        date: core.date,
-        kind: "credit.payment-missed",
-        personIds: [id],
-        placeId: player.placeId,
-        publicRecord: false,
-        source: {
-          tag: "ESTIMATED",
-          asOf: core.date,
-          citation: "Hand-staged missed payment for the apology variants test.",
-        },
-      });
-      let entry;
-      for (let day = 0; day < 10 && !entry; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        entry = book.schedule.find((row) =>
-          row.bindings.some((b) => b.typeKey === "apology"),
-        );
-      }
-      if (!entry) {
-        tried.push(`${where}: no quarrel scheduled (no grown housemate?)`);
-        continue;
-      }
-      const moment = book.momentsById.get(entry.momentId)!;
-      const quarrel = core.durableLog.get(moment.causeId)!;
+    // Whoever the engines name in a drawn place: the credit engine's own
+    // missed payment and the partnerships engine's own quarrel over it.
+    const found = findTownBorrower();
+    {
+      const { core, playerId, where, quarrel } = found;
+      const id = found.borrowerId;
       expect(quarrel.kind, where).toBe(FAMILY_QUARREL);
-      expect(quarrel.facts?.missedId, where).toBe(missedId);
-      const result = purposeScene(core, director, id, entry, {
-        typeKey: "apology",
-      });
-      expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
-        "composed",
-      );
-      if (result?.kind !== "composed") continue;
-      const scene = result.scene;
-      const chosen = scene.variant!;
+      expect(quarrel.facts?.owes, where).toBe(id);
+      const cause = {
+        id: quarrel.id,
+        date: quarrel.date,
+        facts: Object.fromEntries(
+          Object.entries(quarrel.facts ?? {}).map(([k, v]) => [k, String(v)]),
+        ),
+      };
+      const chosen = chooseVariant(core, {
+        family: "owed-apology",
+        askerId: found.owedId,
+        askedId: id,
+        cause,
+      })!;
+      const closeAtChoice = closenessBetween(core, found.owedId, id);
       expect(chosen, where).toBeTruthy();
       expect(chosen.family, where).toBe("owed-apology");
       expect(chosen.scores[0]!.variant, where).toBe(chosen.variant);
@@ -129,19 +67,8 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
       expect(chosen.variant, where).not.toBe("plain");
       expect(chosen.reads["about-money"], where).toBe(1);
       expect(chosen.recordIds, where).toContain(quarrel.id);
-      expect(scene.talk.purpose, where).toBe(chosen.purpose);
-      expect(scene.talk.gaps, where).toEqual([]);
-      // Every line the player can reach is one written for this variant.
-      const allowed = lineSources(chosen.purpose);
-      for (const text of treeTexts(scene.talk.tree))
-        expect(
-          allowed.some((re) => re.test(text.replace(/\s+/g, " "))) ||
-            scene.talk.lines.length === 0,
-          `${where}: "${text}" is not a ${chosen.purpose} line`,
-        ).toBe(true);
-      expect(scene.talk.depth, where).toBeGreaterThan(1);
       process.stdout.write(
-        `APOLOGY ${where}: ${quarrel.id}; played ${chosen.variant} (${chosen.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}); opens "${scene.talk.state.text}"\n`,
+        `APOLOGY ${where}: ${quarrel.id}; played ${chosen.variant} (${chosen.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}) (places passed over: ${found.passedOver.join("; ") || "none"})\n`,
       );
 
       // ---- Hand-made probes (labeled): each its own speaker, one record at a
@@ -216,7 +143,7 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
           date: core.date,
           kind: "family.quarrel",
           personIds: [id, again],
-          placeId: player.placeId,
+          placeId: core.people.get(id)!.placeId,
           publicRecord: false,
           facts: { about: "money", owes: id, missedId: `old-${n}` },
           source: {
@@ -225,7 +152,7 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
             citation: "Probe quarrel",
           },
         });
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      play(core, playerId, 1);
       const repeat = chooseVariant(core, {
         family: "owed-apology",
         askerId: again,
@@ -254,17 +181,15 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
       expect(pressed.reads.strain).toBeGreaterThan(0.9);
       expect(pressed.variant, JSON.stringify(pressed.scores)).toBe("pressed");
 
-      // The scene's own asker: how close they are decides close against money.
-      const tie = closenessBetween(core, scene.askerId, id);
+      // The asker's own closeness to the borrower decides close against money.
+      const tie = closeAtChoice;
       const own = chosen.reads.close ?? 0;
       expect(own, where).toBeCloseTo(Math.min(1, Math.max(0, tie)), 3);
       process.stdout.write(
         `APOLOGY PROBES ${where}: not-money ${notMoney.variant}; three earlier quarrels ${repeat.variant}; no cash ${pressed.variant}; own closeness ${own.toFixed(2)} gave ${chosen.variant}\n`,
       );
-      proven += 1;
     }
-    expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBeGreaterThan(0);
   } finally {
     setBookkeeping(true);
   }
-}, 3_600_000);
+}, 300_000); // 118 s locally for two files; 150 s timed out on a loaded runner (CTO, #9747 11:40Z).

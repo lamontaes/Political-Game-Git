@@ -411,7 +411,11 @@ export function composeGroundedLine(
     }
 
     if (part === "core" && chosen.closesTalk) closed = true;
-    if (chosen.setsFacts?.length)
+    if (chosen.setsFacts?.length) {
+      const setBy = [...rendered.sourceRecordIds];
+      // What a part said, its speaker knows: a later part that needs the
+      // fact it set (a tail in the opener's bearing) is theirs to say.
+      const knower = packet.speaker ?? packet.viewer;
       packet = {
         ...packet,
         facts: {
@@ -419,14 +423,22 @@ export function composeGroundedLine(
           ...Object.fromEntries(
             chosen.setsFacts.map((key) => [
               key,
-              {
-                text: "yes",
-                sourceRecordIds: [...rendered.sourceRecordIds],
-              },
+              { text: "yes", sourceRecordIds: setBy },
             ]),
           ),
         },
+        knowledge: knower
+          ? [
+              ...packet.knowledge,
+              ...chosen.setsFacts.map((factKey) => ({
+                personId: knower.personId,
+                factKey,
+                sourceRecordIds: setBy,
+              })),
+            ]
+          : packet.knowledge,
       };
+    }
     parts.push({
       part,
       partKey: `${bankKey}:${part}:${rendered.variantKey}`,
@@ -465,7 +477,13 @@ export function composeGroundedLine(
  * believe ..., a bill for ... gets a veto from me"). A name, "I" and
  * "Congress" keep their capital.
  */
-const SENTENCE_WORDS = new Set([
+export const SENTENCE_WORDS: ReadonlySet<string> = new Set([
+  // An ask said after a belief joined by a comma ("Because I believe ...,
+  // don't look for my name ..."; the Story lead's read of #9831, Alaska).
+  "Don't",
+  "You",
+  "Here's",
+  "That's",
   "A",
   "An",
   "Any",
@@ -500,6 +518,9 @@ const SENTENCE_WORDS = new Set([
   "Get",
   "Send",
   "So",
+  // An ask that names its question first ("Since I believe ..., on more
+  // passenger rail, my answer is no"; the opening evening, Nov 19).
+  "On",
 ]);
 
 /** A joined clause's first word in the case a clause after a comma takes. */

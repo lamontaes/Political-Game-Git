@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: carry-press-title
 pr: #9299
@@ -36,7 +36,7 @@ Seen: the reporter's invitation call and the paper's race stories in a town with
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-words.ts, src/english/journal-words.ts, src/director/cause-facts.ts, src/director/purpose-scene.ts, src/bench/race-story-office-title.test.ts (new), src/director/interview-invite-seat.test.ts (new)
+**Files.** src/bench/printed-words.ts, src/english/journal-words.ts, src/director/cause-facts.ts, src/director/purpose-scene.ts, src/bench/race-story-office-title.test.ts (new), (new)
 
 **You will see.** "I'd like to do a real, sit-down interview about the alderman race" from the reporter, and "Candidates for alderman debate" in the paper, in a town with a Board of Aldermen.
 

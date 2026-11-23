@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T02:53:35.364Z
 
 **Rules.** No hand-written player text: the names are authored data with author and date, not typed into code. One rule, all 56 places: the names are about policies, never a place. Estimate, never UNKNOWN: a question with no spoken name is not offered as a stand.
 
-**Done when.** In a drawn place and a random seed, the staged speech built by the test in src/director/speech-builder.test.ts shows each stand as a full sentence with a verb, for every question the catalog names, and the bank test for the new names passes. The owner plays it: a stand in a speech sounds like a person talking.
+**Done when.** In a drawn place and a random seed, the staged speech built by the test in src/director/speech-builder.test.ts (removed) shows each stand as a full sentence with a verb, for every question the catalog names, and the bank test for the new names passes. The owner plays it: a stand in a speech sounds like a person talking.
 
 **Files.** src/core2/data/legislature/bill-catalog.json (or a new data file beside it), src/director/question-names.ts, data/english/parts/speech-stages.json
 

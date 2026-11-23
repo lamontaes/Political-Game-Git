@@ -16,10 +16,10 @@
  */
 import leadershipData from "../../../data/research/legislature/chamber-leadership.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { closenessBetween } from "../closeness";
+import { feelingBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { councilChosenMayor, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   bodyReach,
   FEDERAL_HOUSE,
@@ -35,7 +35,9 @@ import {
   committeeTopics,
   topicOf,
 } from "../legislature-committees";
-import { officialOf } from "./officials";
+import { OFFICIALS_MODULE_ID, officialOf } from "./officials";
+import { bookkeeping } from "../bookkeeping";
+import { tableTraceOn } from "../module-state";
 import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-data";
 
@@ -110,6 +112,20 @@ export interface CommitteeRow {
   readonly since: string;
 }
 
+/**
+ * What a body's last organizing left behind: who sat, the term they sat in
+ * (the nearest term end among them) and which side held the majority, so a
+ * later change can tell a vacancy filled mid-term from a new term.
+ */
+interface OrganizedRow {
+  readonly id: string;
+  readonly signature: string;
+  readonly date: string;
+  readonly members?: readonly string[];
+  readonly term?: string;
+  readonly side?: number;
+}
+
 export const LEADERSHIP_MODULE: CoreModule = {
   id: LEADERSHIP_MODULE_ID,
   state: {
@@ -181,6 +197,14 @@ function templateOf(api: CoreAPI, chamber: string): Template {
     : "council-manager";
 }
 
+/** The term a body sits in: the nearest end among its members' terms (a special election's winner serves out the seat's term, so it does not move). */
+const termOf = (all: readonly TermRow[]): string =>
+  all.reduce(
+    (nearest, t) =>
+      t.endDate && (!nearest || t.endDate < nearest) ? t.endDate : nearest,
+    "",
+  );
+
 const yearsServed = (t: TermRow, date: string) =>
   Math.max(
     0,
@@ -235,7 +259,7 @@ function ratingOf(
   const views = 1 - Math.abs(leanFor(api, voter) - leanFor(api, candidate));
   const tie =
     voter.personId && candidate.personId
-      ? closenessBetween(api.state, voter.personId, candidate.personId)
+      ? feelingBetween(api.state, voter.personId, candidate.personId)
       : 0;
   const seniority =
     campaignParameter("leadershipSeniorityWeight") *
@@ -350,15 +374,81 @@ function standing(
 }
 
 /**
+ * The engines a chamber's member list reads (`members` in legislature.ts), read
+ * when called (the modules import each other):
+ * the offices engine's seats, terms and vacancies, the officials it seats,
+ * and the voting engine's seat results, which count from their date on.
+ */
+const membershipReadIds = () =>
+  [OFFICES_MODULE_ID, OFFICIALS_MODULE_ID, "core2-voting-v1"] as const;
+interface KeptMembership {
+  readonly date: string;
+  readonly stores: readonly unknown[];
+  readonly writes: readonly number[];
+  readonly signature: string;
+}
+/** Each chamber's member signature as last read, per world. Derived; never saved. */
+const keptMembership = new WeakMap<object, Map<string, KeptMembership>>();
+function membershipReads(api: CoreAPI) {
+  const stores = membershipReadIds().map((id) =>
+    api.state.modules.has(id) ? api.moduleState(id) : null,
+  );
+  return { stores, writes: stores.map((store) => store?.writes ?? -1) };
+}
+/** The chamber's signature when nothing its member list reads has changed since it was kept. */
+function knownSignature(api: CoreAPI, chamber: string): string | undefined {
+  const kept = keptMembership.get(api.state)?.get(chamber);
+  if (!kept || kept.date !== api.state.date) return undefined;
+  const now = membershipReads(api);
+  return now.stores.every((store, i) => store === kept.stores[i]) &&
+    now.writes.every((count, i) => count === kept.writes[i])
+    ? kept.signature
+    : undefined;
+}
+/** How many times a world's chamber member lists were rebuilt to check their membership. */
+const rebuilds = new WeakMap<object, number>();
+/** The count of member-list rebuilds in a world: a diagnostic for its speed check. */
+export function membershipRebuilds(core: CoreState): number {
+  return rebuilds.get(core) ?? 0;
+}
+function keepSignature(api: CoreAPI, chamber: string, signature: string) {
+  let byChamber = keptMembership.get(api.state);
+  if (!byChamber) keptMembership.set(api.state, (byChamber = new Map()));
+  byChamber.set(chamber, {
+    date: api.state.date,
+    ...membershipReads(api),
+    signature,
+  });
+}
+
+/**
  * Organize a body if its membership changed since it last did: elect its
  * posts and assign its committees. Returns its posts.
  */
 export function organize(api: CoreAPI, body: string): readonly PostRow[] {
   const chamber = chamberOf(api, body);
+  const done = table(api, "organized").get(chamber) as unknown as
+    OrganizedRow | undefined;
+  // Membership has not changed since the chamber was last read: what its
+  // member list reads (the date, and the offices, officials and voting
+  // engines' records) is as it was, so its signature is too.
+  const known = knownSignature(api, chamber);
+  if (
+    known !== undefined &&
+    done?.signature === known &&
+    !bookkeeping() &&
+    !tableTraceOn()
+  )
+    return table(api, "posts").query("byChamber", [
+      chamber,
+    ]) as unknown as PostRow[];
   const all = members(api, chamber);
+  rebuilds.set(api.state, (rebuilds.get(api.state) ?? 0) + 1);
   const signature = all.map(memberKey).sort().join("|");
-  const done = table(api, "organized").get(chamber) as
-    { signature: string } | undefined;
+  // Under bookkeeping (tests) the kept signature is checked against the list.
+  if (known !== undefined && known !== signature)
+    throw new Error(`Kept membership of ${chamber} differs from its members.`);
+  keepSignature(api, chamber, signature);
   if (done?.signature === signature)
     return table(api, "posts").query("byChamber", [
       chamber,
@@ -366,7 +456,7 @@ export function organize(api: CoreAPI, body: string): readonly PostRow[] {
   leans = new Map();
   ratings = new Map();
   try {
-    return organizeNow(api, chamber, all, signature);
+    return organizeNow(api, chamber, all, signature, done);
   } finally {
     leans = null;
     ratings = null;
@@ -378,6 +468,7 @@ function organizeNow(
   chamber: string,
   all: readonly TermRow[],
   signature: string,
+  prior: OrganizedRow | undefined,
 ): readonly PostRow[] {
   const template = templateOf(api, chamber);
   const partisan = !/not-applicable|nonpartisan/.test(
@@ -394,20 +485,60 @@ function organizeNow(
   );
   const majority = ranked[0]?.[1] ?? [];
   const minority = ranked[1]?.[1] ?? [];
+  const keys = all.map(memberKey);
+  const term = termOf(all);
+  const side = ranked[0]?.[0] ?? 0;
+  // The same term with the same side in the majority: members who left
+  // have their posts and seats filled; everything else stands as it was.
+  // A new term, a majority that changed hands or a player's stand or vote
+  // (which clears the row) organizes the body in full.
+  const sitting = new Set(keys);
+  const fill =
+    prior?.members !== undefined && prior.term === term && prior.side === side
+      ? prior
+      : undefined;
+  const kept = new Map(
+    (table(api, "posts").query("byChamber", [chamber]) as unknown as PostRow[])
+      .filter(
+        (row) =>
+          fill !== undefined &&
+          row.holderId !== null &&
+          sitting.has(row.holderId),
+      )
+      .map((row) => [row.post, row] as const),
+  );
   for (const row of table(api, "posts").query("byChamber", [chamber]))
-    table(api, "posts").remove(row.id);
+    if (!kept.has((row as unknown as PostRow).post))
+      table(api, "posts").remove(row.id);
+  const filled: PostRow[] = [];
   const posts: PostRow[] = [];
   // One post each: a member who wins one doesn't stand for the next.
   const holders = new Set<string>();
   const open = (pool: readonly TermRow[]) =>
     pool.filter((t) => !holders.has(memberKey(t)));
   for (const post of field<Post[]>(template, "posts")) {
+    const held = kept.get(post.key);
+    if (held) {
+      holders.add(held.holderId!);
+      posts.push(held);
+      continue;
+    }
     let result: {
       winner: TermRow | null;
       votes: Record<string, number>;
       heldBy?: "majority-caucus" | "coalition";
     };
-    if (post.selection === "caucus-vote") {
+    // Where the council chooses the town's mayor from among its members, the
+    // mayor is the council's president: the one chair, not a second vote.
+    const mayorId =
+      post.key === "council-president"
+        ? councilChosenMayor(api, chamber)
+        : null;
+    const mayor = mayorId
+      ? open(all).find((t) => memberKey(t) === mayorId)
+      : undefined;
+    if (mayor) result = { winner: mayor, votes: {} };
+    else if (post.selection === "caucus-vote") {
       const caucus = post.key.startsWith("minority") ? minority : majority;
       result = elect(
         api,
@@ -455,6 +586,7 @@ function organizeNow(
     };
     table(api, "posts").put(row as unknown as ModuleRow);
     posts.push(row);
+    filled.push(row);
   }
   assignCommittees(
     api,
@@ -465,14 +597,22 @@ function organizeNow(
     minority,
     posts,
     partisan,
+    fill,
   );
-  table(api, "organized").put({ id: chamber, signature, date });
-  if (posts.some((p) => p.holderId))
+  table(api, "organized").put({
+    id: chamber,
+    signature,
+    date,
+    members: keys,
+    term,
+    side,
+  });
+  if (filled.some((p) => p.holderId))
     api.emit({
       id: `chamber-organized:${chamber}:${date}`,
       date,
       kind: "chamber-organized",
-      personIds: posts
+      personIds: filled
         .map((p) => p.holderId)
         .filter((id): id is string => !!id && api.state.people.has(id)),
       placeId: (
@@ -492,7 +632,9 @@ function organizeNow(
       news: true,
       facts: {
         level: bodyReach(api, chamber),
-        ...Object.fromEntries(posts.map((p) => [p.post, p.holderId ?? ""])),
+        // A refill of what one leaver held, not an organizing of the body.
+        ...(fill ? { "mid-term": "yes" } : {}),
+        ...Object.fromEntries(filled.map((p) => [p.post, p.holderId ?? ""])),
       },
     });
   return posts;
@@ -534,9 +676,25 @@ function assignCommittees(
   minority: readonly TermRow[],
   posts: readonly PostRow[],
   partisan: boolean,
+  fill: OrganizedRow | undefined,
 ): void {
-  for (const row of table(api, "committees").query("byChamber", [chamber]))
-    table(api, "committees").remove(row.id);
+  // A fill keeps every seat whose member still sits; a full organizing
+  // clears them all.
+  const standing = new Set(all.map(memberKey));
+  const arrived = new Set(
+    fill?.members
+      ? all.map(memberKey).filter((k) => !fill.members!.includes(k))
+      : [],
+  );
+  const before = new Map(
+    (
+      table(api, "committees").query("byChamber", [
+        chamber,
+      ]) as unknown as CommitteeRow[]
+    ).map((row) => [row.committee, row] as const),
+  );
+  if (!fill || all.length <= campaignParameter("committeeOfTheWholeMaximum"))
+    for (const row of before.values()) table(api, "committees").remove(row.id);
   if (all.length <= campaignParameter("committeeOfTheWholeMaximum")) return;
   const size = Math.min(
     all.length,
@@ -558,16 +716,25 @@ function assignCommittees(
       )
     : 0;
   const load = new Map<string, number>();
+  if (fill)
+    for (const row of before.values())
+      for (const id of row.memberIds)
+        if (standing.has(id)) load.set(id, (load.get(id) ?? 0) + 1);
   const cap = Math.ceil((COMMITTEES.length * size) / all.length);
   const appoint = (
     committee: string,
     authorityId: string | null,
     pool: readonly TermRow[],
     n: number,
+    seatedAlready: ReadonlySet<string>,
   ): TermRow[] => {
     const authority = authorityId ? byKey.get(authorityId) : undefined;
     const chosen = pool
-      .filter((t) => (load.get(memberKey(t)) ?? 0) < cap)
+      .filter(
+        (t) =>
+          !seatedAlready.has(memberKey(t)) &&
+          (load.get(memberKey(t)) ?? 0) < cap,
+      )
       .map((t) => ({
         t,
         r:
@@ -581,7 +748,7 @@ function assignCommittees(
           yearsServed(b.t, api.state.date) - yearsServed(a.t, api.state.date) ||
           memberKey(a.t).localeCompare(memberKey(b.t)),
       )
-      .slice(0, n)
+      .slice(0, Math.max(0, n))
       .map((x) => x.t);
     for (const t of chosen)
       load.set(memberKey(t), (load.get(memberKey(t)) ?? 0) + 1);
@@ -590,18 +757,74 @@ function assignCommittees(
   const chairRule = field<string>(template, "chairSelectionAuthority");
   for (const committee of COMMITTEES) {
     const majorityPool = partisan ? majority : all;
+    const old = fill ? before.get(committee) : undefined;
+    const sitting = (old?.memberIds ?? [])
+      .filter((id) => standing.has(id))
+      .map((id) => byKey.get(id)!);
+    const sittingMajority = sitting.filter((t) =>
+      majorityPool.includes(t),
+    ).length;
+    // Seats the party ratio no longer gives a side (the sides changed size)
+    // are not kept: the committee is seated again by the assigner's rule.
+    const ratioHolds =
+      sittingMajority <= size - minoritySeats &&
+      sitting.length - sittingMajority <= minoritySeats;
+    // Every member of a committee still sits and its ratio holds: it stands as it was.
+    if (old && ratioHolds && sitting.length === old.memberIds.length) continue;
+    const stay = ratioHolds ? sitting : [];
+    for (const t of sitting)
+      if (!ratioHolds)
+        load.set(memberKey(t), (load.get(memberKey(t)) ?? 1) - 1);
+    const stayKeys = new Set(stay.map(memberKey));
+    const stayMajority = stay.filter((t) => majorityPool.includes(t)).length;
+    // A seat left open goes first to a member who arrived since the body
+    // last organized (a vacancy's new holder is seated where the leaver
+    // sat), then to the rest, each by the assigner's own rating.
+    const take = (
+      authority: string | null,
+      pool: readonly TermRow[],
+      n: number,
+    ): TermRow[] => {
+      const first = appoint(
+        committee,
+        authority,
+        pool.filter((t) => arrived.has(memberKey(t))),
+        n,
+        stayKeys,
+      );
+      return [
+        ...first,
+        ...appoint(
+          committee,
+          authority,
+          pool,
+          n - first.length,
+          new Set([...stayKeys, ...first.map(memberKey)]),
+        ),
+      ];
+    };
     const seated = [
-      ...appoint(committee, who.majority, majorityPool, size - minoritySeats),
+      ...stay,
+      ...take(who.majority, majorityPool, size - minoritySeats - stayMajority),
       ...(minoritySeats
-        ? appoint(committee, who.minority, minority, minoritySeats)
+        ? take(
+            who.minority,
+            minority,
+            minoritySeats - (stay.length - stayMajority),
+          )
         : []),
     ];
     if (!seated.length) continue;
     const eligible = seated.filter((t) => majorityPool.includes(t));
     // The chair: the assigning authority's pick, or the committee's vote.
     const authority = who.majority ? byKey.get(who.majority) : undefined;
+    const keptChair =
+      old && ratioHolds && standing.has(old.chairId)
+        ? byKey.get(old.chairId)
+        : undefined;
     const chair =
-      /vote/.test(chairRule) || !authority
+      keptChair ??
+      (/vote/.test(chairRule) || !authority
         ? elect(api, chamber, `${committee}:chair`, seated, eligible, partisan)
             .winner
         : [...eligible].sort(
@@ -609,7 +832,7 @@ function assignCommittees(
               rating(api, authority, b, partisan) -
                 rating(api, authority, a, partisan) ||
               memberKey(a).localeCompare(memberKey(b)),
-          )[0];
+          )[0]);
     table(api, "committees").put({
       id: `${chamber}:${committee}`,
       chamber,
@@ -634,6 +857,22 @@ export function committeeRoster(
     `${chamber}:${committee}`,
   ) as unknown as CommitteeRow | undefined;
   return row ? { memberIds: row.memberIds, chairId: row.chairId } : null;
+}
+
+/**
+ * A chamber's committees as leadership last seated them, without seating them
+ * again: read by the sitting reader (`office-day-state.ts` ROOMS), which
+ * leadership's own elections read through closeness, so organizing from it
+ * would loop. Empty before the chamber is first organized.
+ */
+export function seatedCommittees(
+  api: CoreAPI,
+  body: string,
+): readonly CommitteeRow[] {
+  if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
+  return table(api, "committees").query("byChamber", [
+    chamberOf(api, body),
+  ]) as unknown as CommitteeRow[];
 }
 
 /**

@@ -26,17 +26,23 @@ import {
 import {
   CLOSENESS,
   closenessBetween,
+  homeTogether,
+  homeWorkIds,
+  homeUpkeep,
   knownThroughRecords,
   metThrough,
   openingClosenessHours,
   tieHoursLost,
 } from "../closeness";
+import type { ModuleRow } from "../module-data";
 import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  bornIn,
+  hasParentHere,
   pastMovesFor,
   pastMovesHistory,
   pastWorkFor,
@@ -46,6 +52,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   residenceOn,
+  writeChildBirthplaces,
   schoolHistoryFor,
   type HistoryRecord,
   type HistoryWriter,
@@ -70,7 +77,14 @@ import type {
 import { OFFER_ROUND_PREDICTION } from "../types";
 import { offer } from "./life";
 import { openPastTerms } from "./offices";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { stopgap } from "../stopgaps";
+import {
+  BIRTHPLACE_FACT,
+  birthOrigin,
+  birthplaceSource,
+  bornOutsideId,
+} from "../person-birthplace";
 
 /** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
 const OFFICIAL_PREFIX = "official:";
@@ -206,10 +220,14 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A business's staff in heads and the limit on its outside orders, for dev mode's Businesses.
+export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
 export { lifeOf, type LifeEvent } from "../person-life";
+export { heldDrivesOf } from "./drives";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
+export { FAMILY_QUARREL } from "./quarrel";
 // A housemate's call for help, for the director's rescue scene.
 export { HEALTH_RESCUED } from "./rescue";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
@@ -235,6 +253,8 @@ export { livesElsewhere } from "./moves";
 export { stateUnemployment } from "./counted-moves";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
+/** The people engine's weekly row of each household's time at home (dev mode's trace). */
+const HOME_TIME_TABLE = "home-time";
 const LOOKUP = {
   officeAffordance: "known-office",
   affordances: ["known-office", "public-meeting-place", "known-group"],
@@ -257,7 +277,8 @@ function shareHomeTime(api: CoreAPI): void {
   seeded.set(core as CoreState, true);
   api.stopgap(CLOSENESS.stopgapId);
   for (const household of core.households.values()) {
-    if (household.memberIds.length < p("two")) continue;
+    const rowId = `${HOME_TIME_TABLE}:${household.id}`;
+    const pairs: unknown[] = [];
     const members = household.memberIds
       .map((id) => core.people.get(id))
       .filter(
@@ -297,23 +318,43 @@ function shareHomeTime(api: CoreAPI): void {
             );
           continue;
         }
-        const minutes = p(
-          family
-            ? "householdFamilyMinutesPerDay"
-            : "householdOtherMinutesPerDay",
-        );
+        // The time two housemates share follows both their weeks: the
+        // shorter of their home days, by whether they are family.
+        const together = homeTogether(core as CoreState, a.id, b.id, family);
+        // The work that kept each from home, by record, for the trace.
+        const work = [...homeWorkIds(core, a.id), ...homeWorkIds(core, b.id)];
+        pairs.push({ a: a.id, b: b.id, family, ...together, work });
         api.relationship(
           a.id,
           b.id,
           (family
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
-          (minutes / p("minutesPerHour")) * week,
+          (together.minutesPerDay / p("minutesPerHour")) * week,
           undefined,
-          { cause: ENCOUNTERS.causes.homeTime, sourceId: household.id },
+          { cause: ENCOUNTERS.causes.homeTime, sourceId: rowId },
         );
       }
+    // The week's inputs, one row per household, for dev mode's trace: each
+    // pair's home minutes and the time they shared, and the home's upkeep.
+    if (!opening && members[0])
+      api
+        .moduleState(PEOPLE_MODULE_ID)
+        .table(HOME_TIME_TABLE)
+        .putOwned({
+          id: rowId,
+          householdId: household.id,
+          date: core.date,
+          ...homeUpkeep(core as CoreState, household.id),
+          pairs,
+        } as unknown as ModuleRow);
   }
+  // A household that has ended keeps no row.
+  if (opening) return;
+  const table = api.moduleState(PEOPLE_MODULE_ID).table(HOME_TIME_TABLE);
+  if (table.size > core.households.size)
+    for (const row of table.rows())
+      if (!core.households.has(String(row.householdId))) table.remove(row.id);
 }
 
 /**
@@ -381,9 +422,20 @@ function peopleHistory(
 ): void {
   const inside = (date: string) =>
     date >= window.from && date <= window.through;
+  const people = [...api.state.people.values()].filter(
+    (person) => person.tier !== "husk",
+  );
+  // Where each person with no parent in the world was born, before the
+  // moves: one born outside their state is brought from there. A grown
+  // resident the opening's families reached already has theirs.
+  for (const person of people)
+    if (!hasParentHere(api.state, person)) bornWhere(api.state, person);
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
   pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
+  // A child's birthplace is where their parent lived that day, now the
+  // moves are run.
+  writeChildBirthplaces(api.state, people);
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -394,7 +446,7 @@ function peopleHistory(
         id: `person-history:${person.id}:birth`,
         date: makeIsoDate(person.birthDate),
         kind: "person.birth",
-        placeId: residenceOn(api.state, person, person.birthDate).placeId,
+        placeId: bornIn(api.state, person).placeId,
         personIds: [person.id],
         facts: {
           personId: person.id,
@@ -691,44 +743,51 @@ function writePast(core: CoreState, person: PersonState): void {
 }
 
 /**
- * A person an engine made to hold a role (a newspaper's owner, a state's
- * election chief) is made with no past facts. Opened, they get their
- * birthplace as the place they live, the opening's own default where nothing
- * records another (opening-people.ts); their birth date is the person's own
- * (`person.birth`). An official's roster nativity already says where they
- * were born, so they keep it.
+ * A person opened with no record of where they were born (a resident the
+ * opening's families did not reach, a person an engine made to hold a role)
+ * gets one now, from the same draw a grown resident's opening birthplace
+ * takes (src/core2/person-birthplace.ts): their state's shares of where its
+ * people were born, held to their citizenship. Born outside their state, the
+ * record names that state or abroad, and the moves pass brings them from it;
+ * born in it, the place they live stands for where in the state, because no
+ * family record says where they grew up. An official's roster nativity
+ * already says where they were born, so they keep it.
  */
 function bornWhere(core: CoreState, person: PersonState): void {
   const facts = person.pastFacts ?? [];
-  // An official's roster nativity already says where they were born.
   if (
     facts.some(
       (row) =>
         row.kind === "person:birth" ||
-        row.kind === "birthplace" ||
+        row.kind === BIRTHPLACE_FACT ||
         row.kind === "identity:nativity",
     )
   )
     return;
-  // stopgapId: SG-PEOPLE-role-people-have-no-past
-  stopgap("SG-PEOPLE-role-people-have-no-past");
-  const source = {
-    tag: "ESTIMATED" as const,
-    asOf: core.date,
-    citation:
-      "A person made to hold a role, opened: born where they live, as every opening resident's birthplace defaults to their home (src/core2/opening-people.ts).",
-    estimatedFrom:
-      "No record of this person's birthplace exists; the place they live stands for it.",
-  };
+  const place = corePlaceByJurisdictionId(person.placeId as never);
+  const stateKey = place?.stateJurisdictionKey;
+  const outside = stateKey
+    ? bornOutsideId(
+        birthOrigin({
+          seed: core.seed,
+          personId: person.id,
+          placeKey: place.key,
+          usps: stateKey.slice("US-".length),
+        }),
+      )
+    : undefined;
+  // stopgapId: SG-PEOPLE-role-people-have-no-past (born in their state: the place they live stands for where)
+  if (!outside) stopgap("SG-PEOPLE-role-people-have-no-past");
+  const date = makeIsoDate(person.birthDate);
   person.pastFacts = [
     ...facts,
     {
-      id: `${person.id}:birth`,
-      date: makeIsoDate(person.birthDate),
-      kind: "person:birth",
-      summary: "person:birth",
-      source,
-      facts: { placeId: person.placeId },
+      id: `${person.id}:birthplace`,
+      date,
+      kind: BIRTHPLACE_FACT,
+      summary: BIRTHPLACE_FACT,
+      source: birthplaceSource(core.date),
+      facts: { placeId: outside ?? person.placeId },
     },
   ];
 }
@@ -752,6 +811,8 @@ export function openStartingCircle(core: CoreState): void {
 
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  // One row per household, replaced each week: what its time at home was made of.
+  state: { schemaVersion: 1, tables: { [HOME_TIME_TABLE]: {} } },
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.

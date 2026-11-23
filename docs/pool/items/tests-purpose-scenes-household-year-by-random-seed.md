@@ -19,7 +19,7 @@ lead: words-engine
 claimed-at:
 ---
 
-**What.** `src/director/purpose-scenes.test.ts` "a filing and a count fire the household's scenes in the lines that play, over a full year" draws a random place and seed and fails on some draws. Seen: the test passes on any drawn place, and the household's scenes play with the office named the way the Journal names it.
+**What.** `src/director/purpose-scenes.test.ts` (removed) "a filing and a count fire the household's scenes in the lines that play, over a full year" draws a random place and seed and fails on some draws. Seen: the test passes on any drawn place, and the household's scenes play with the office named the way the Journal names it.
 
 **Cause.** Needs cause. Measured: on the Train head 32a994212b441a0e1a3d95d2029a50a70bcefb71 and on the briefing room branch, `npx vitest run --dir . src/director/purpose-scenes.test.ts` failed at Galatia, Kansas (2025050), seed 5a5019ed8cb2fc5d:1 with `expected 'council member' to be 'Council member'` for filing `filing:contest:seat:gus2025:126868:council:0:2025-11-04:person_775bdbbb1c64dad4`, and a second run failed at seed abd06e229185de3e (message not read). The test draws its place and seed each run (see skill pinned-tests).
 
@@ -33,6 +33,9 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scenes.test.ts, src/director/purpose-scene.ts
+**Files.** src/director/purpose-scene.ts
 
-**Notes.** Nov 15. Filed with Needs cause so nobody builds it before the cause is found.
+**Notes.**
+
+- Nov 15. Filed with Needs cause so nobody builds it before the cause is found.
+- Nov 16, views thread: the test is now pinned to Litchfield, Connecticut (seed pin-ps-2:1, passes) with Galatia, Kansas (seed 5a5019ed8cb2fc5d:1) kept as a red case. Replayed on the Train a62a2fda, Galatia now fails with "no race-lost scene" for filing:contest:seat:gus2025:126868:council:0:2025-11-04:person_0eedb5268ea92e66 rather than the office name.

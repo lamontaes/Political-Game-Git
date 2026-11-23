@@ -1050,24 +1050,51 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "deflect", "leave"],
+            "replies": ["agree", "offer", "decline", "deflect"],
             "follow": {
-              "agree": ["tell"],
-              "deflect": ["press"]
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea", "accept"],
+              "deflect": ["press", "plea"]
             },
-            "again": { "press": ["agree", "leave"], "tell": [] },
+            "again": {
+              "plea": ["agree", "decline", "deflect", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
             "endings": [
               {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll hear them out",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
                 "id": "hearing-only",
-                "label": "You heard them out",
-                "keeps": "heard",
-                "when": { "reply": ["agree"] }
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
               },
               {
                 "id": "put-off",
                 "label": "Put off",
                 "keeps": "relationship-strained",
-                "when": { "reply": ["deflect", "leave"] }
+                "when": {
+                  "reply": ["deflect", "stall", "leave", "apologize"]
+                }
               },
               {
                 "id": "left-there",
@@ -1103,34 +1130,187 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "decline", "leave", "leave", "leave"],
+            "replies": ["agree", "bargain", "decline", "stall"],
             "follow": {
-              "agree": ["tell"],
-              "decline": ["threaten", "press", "accept"]
+              "agree": ["thank"],
+              "bargain": ["accept", "press"],
+              "decline": ["threaten", "press", "accept"],
+              "stall": ["press", "threaten"]
             },
             "again": {
-              "tell": [],
-              "press": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "bargain", "leave"],
               "threaten": ["agree", "decline", "leave"]
             },
             "endings": [
               {
-                "id": "refused",
-                "label": "Turned down",
-                "keeps": "relationship-strained",
-                "when": { "asker": ["threaten"] }
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll look at it again",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
               },
               {
                 "id": "hearing-only",
-                "label": "You heard them out",
-                "keeps": "heard",
-                "when": { "reply": ["agree", "decline"] }
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
               },
               {
                 "id": "put-off",
                 "label": "Put off",
                 "keeps": "relationship-strained",
-                "when": { "reply": ["leave"] }
+                "when": {
+                  "reply": ["stall", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "donor-ask.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.3
+            },
+            {
+              "read": "gift-size",
+              "weight": 0.2,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting",
+            "personality-v1:facet-sincere"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "offer", "decline", "apologize"],
+            "follow": {
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea"],
+              "apologize": ["accept", "plea"]
+            },
+            "again": {
+              "plea": ["agree", "decline", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll sit down with a friend",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "You gave a friend a hearing",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "again": {
+          "purpose": "donor-ask.again",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "put-off-before",
+              "weight": 1.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "stall", "bargain"],
+            "follow": {
+              "agree": ["thank"],
+              "decline": ["press", "threaten"],
+              "stall": ["press", "confront"],
+              "bargain": ["accept", "press"]
+            },
+            "again": {
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"],
+              "confront": ["deflect", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll finally answer",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave", "deflect", "apologize"]
+                }
               },
               {
                 "id": "left-there",
@@ -1665,7 +1845,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "trade": {
@@ -1776,7 +1960,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "watched": {
@@ -1800,7 +1988,7 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "replies": ["agree", "refuse", "bargain", "deflect", "lie"],
             "again": {
               "ask": ["answer", "refuse", "leave"]
             },
@@ -1891,7 +2079,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "friend": {
@@ -1911,7 +2103,7 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "replies": ["agree", "relent", "bargain", "stall", "lie"],
             "again": {
               "ask": ["answer", "refuse", "leave"]
             },
@@ -2002,7 +2194,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         }
       }

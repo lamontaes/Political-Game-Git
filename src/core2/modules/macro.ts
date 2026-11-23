@@ -94,6 +94,7 @@ import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
+  LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,
   openRegional,
   regionalFactors,
@@ -407,6 +408,34 @@ export function countryStates(api: CoreAPI): readonly CountryState[] {
 }
 
 /**
+ * The people who came to a state from abroad in the tier's latest month, by
+ * the tier's own step (its `whatMoved` row) and split by age as the tier
+ * settles them (children first, then its adult bands): the one count of
+ * arrivals from abroad, which counted-moves settles in the counted places.
+ * `id` is the state's tier row, where the month is kept. None before the
+ * tier has stepped a month.
+ */
+export function countryAbroadArrivals(
+  api: CoreAPI,
+  usps: string,
+): { id: string; month: number; byBand: number[] } | undefined {
+  const state = store(api)
+    .table("countryStates")
+    .get(`country-state:US-${usps}`) as unknown as CountryState | undefined;
+  const moved = state?.whatMoved.at(-1);
+  if (!state || !moved) return undefined;
+  const rules = rulesOf(api);
+  return {
+    id: state.id,
+    month: moved.month,
+    byBand: [
+      moved.fromAbroad * rules.abroadChildShare,
+      ...rules.abroadShare.map((share) => moved.fromAbroad * share),
+    ],
+  };
+}
+
+/**
  * Every state's people and this month's movers by the tier's own rule, read
  * without moving anyone (counted-moves reads them: the tier is the one holder
  * of every state's people). Empty before the tier opens.
@@ -437,6 +466,79 @@ export function countryStateNow(api: CoreAPI, fips: string) {
     : undefined;
 }
 
+/**
+ * One state's figures for a month, as the country tier holds them: the one
+ * place the state's unemployment, jobs, pay, prices and people are kept by
+ * month (Metrics' state rows and the state's session agenda both read it).
+ */
+export interface CountryStateMonth {
+  id: string;
+  fips: string;
+  month: string;
+  unemploymentPct: number;
+  jobs: number;
+  hourlyPay: number;
+  prices: number;
+  population: number;
+}
+
+const stateMonthId = (fips: string, month: string) =>
+  `country-state-month:${fips}:${month}`;
+
+function stateMonthRow(
+  state: CountryState,
+  month: string,
+  rules: CountryRules,
+): CountryStateMonth {
+  const { unemploymentPct, jobs, hourlyPay, population, prices } =
+    countryStateFigures(state, rules);
+  return {
+    id: stateMonthId(state.fips, month),
+    fips: state.fips,
+    month,
+    unemploymentPct,
+    jobs,
+    hourlyPay,
+    prices,
+    population,
+  };
+}
+
+/** Every state's figures for `month`, kept: the last year and the months Metrics may read in full, then each December and the opening month. */
+function recordStateMonths(
+  api: CoreAPI,
+  states: readonly CountryState[],
+  month: string,
+  openingMonth: string,
+): void {
+  const p = params(api);
+  const table = store(api).table("countryStateMonths");
+  const rules = rulesOf(api);
+  for (const state of states)
+    table.put(stateMonthRow(state, month, rules) as unknown as { id: string });
+  const gone = shiftMonth(
+    month,
+    -(p("macroMonthsPerYear") + LATEST_MONTH_LAG),
+    p,
+  );
+  if (!gone.endsWith("-12") && gone !== openingMonth)
+    for (const row of table.query("byMonth", [gone])) table.remove(row.id);
+}
+
+/** A state's kept figures for a month (null where the tier kept none that month). */
+export function countryStateMonth(
+  api: CoreAPI,
+  fips: string,
+  month: string,
+): CountryStateMonth | null {
+  return (
+    (store(api)
+      .table("countryStateMonths")
+      .get(stateMonthId(fips, month)) as unknown as
+      CountryStateMonth | undefined) ?? null
+  );
+}
+
 /** A state's part held in full (the played town and its county), as the tables keep it: one row per state, replaced each month. */
 export interface CountryPartRow extends CountryPart {
   id: string;
@@ -449,6 +551,8 @@ export interface CountryPartRow extends CountryPart {
 
 const partId = (key: string) => `country-part:${key}`;
 const UNSORTED_JOBS = "SG-NATION-town-part-unsorted-jobs";
+// stopgapId: SG-NATION-county-sample-no-government
+const SURVEY_NO_GOVERNMENT = "SG-NATION-county-sample-no-government";
 const SECTOR_TABLE = employerSectors as unknown as {
   classifications: Record<string, CountrySector>;
   kinds: Record<string, CountrySector>;
@@ -502,8 +606,17 @@ function townPartCounts(
     };
     for (const [employer, workers] of part.workersByEmployer)
       add(employer ? sectorOfEmployer(core, employer) : undefined, workers);
-    for (const [industry, workers] of part.workersByIndustry)
-      add(SECTOR_TABLE.naics[industry], workers);
+    // The county sample's workers are sorted by a survey of private employers, which has no
+    // public one: the tier counts the state's own government share of them in government.
+    const privateSurveyJobs: Partial<Record<CountrySector, number>> = {};
+    for (const [industry, workers] of part.workersByIndustry) {
+      const sector = SECTOR_TABLE.naics[industry];
+      if (sector)
+        privateSurveyJobs[sector] =
+          (privateSurveyJobs[sector] ?? p("zero")) + workers;
+      else unsortedJobs += workers;
+    }
+    if (part.workersByIndustry.size) stopgap(SURVEY_NO_GOVERNMENT);
     if (unsortedJobs > p("zero")) stopgap(UNSORTED_JOBS);
     out.set(key, {
       placeIds: [...placeIds].sort(),
@@ -514,6 +627,7 @@ function townPartCounts(
         children: part.children,
         jobs,
         unsortedJobs,
+        privateSurveyJobs,
         cash: part.cashMinor / p("minorPerDollar"),
       },
     });
@@ -653,6 +767,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     p,
   );
   months.put(row as unknown as { id: string });
+  recordStateMonths(api, tier.states, row.month, state.openingMonth);
   if (regionalRegistered(api)) {
     const prices = tier.priceIndex;
     stepRegional(api, previous, row, (fips) => {
@@ -692,10 +807,8 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
  * (the regional rows this seed drew), with its books made to add up under the
  * law in force.
  */
-function openCountryTier(
-  api: CoreAPI,
-  opening: Readonly<MacroMonth>,
-): NationFigures {
+/** The tier as it opens: every state fitted from the world's opening figures under the law the world began with. Writes nothing. */
+function openedTier(api: CoreAPI, opening: Readonly<MacroMonth>): CountryTier {
   const p = params(api),
     rules = rulesOf(api);
   const regionMonths = openingRegionMonths(
@@ -728,7 +841,42 @@ function openCountryTier(
     lawAtTheStart(api),
     rules,
   );
+  return tier;
+}
+
+const openingStateRows = new WeakMap<object, Map<string, CountryStateMonth>>();
+
+/**
+ * A state's figures as the tier opens with them, for a day before the tier's
+ * first day has written its rows (the first screens of a new world): the same
+ * opening the first day writes, so the figure shown on day one is the one kept
+ * for the opening month after it. Built once per world and held.
+ */
+export function openingStateMonth(
+  api: CoreAPI,
+  opening: Readonly<MacroMonth>,
+  fips: string,
+): CountryStateMonth | null {
+  let rows = openingStateRows.get(api.state);
+  if (!rows) {
+    rows = new Map();
+    const tier = openedTier(api, opening);
+    for (const state of tier.states)
+      rows.set(state.fips, stateMonthRow(state, opening.month, rulesOf(api)));
+    openingStateRows.set(api.state, rows);
+  }
+  return rows.get(fips) ?? null;
+}
+
+function openCountryTier(
+  api: CoreAPI,
+  opening: Readonly<MacroMonth>,
+): NationFigures {
+  const p = params(api),
+    rules = rulesOf(api);
+  const tier = openedTier(api, opening);
   writeCountry(api, tier);
+  recordStateMonths(api, tier.states, opening.month, opening.month);
   let jobs = p("zero"),
     paid = p("zero");
   for (const state of tier.states) {
@@ -1099,6 +1247,7 @@ export const MACRO_MODULE: PreStartModule = {
       country: {},
       countryStates: { indexes: { byFips: { fields: ["fips"] } } },
       countryBases: {},
+      countryStateMonths: { indexes: { byMonth: { fields: ["month"] } } },
       countryParts: {},
       members: { indexes: { all: { fields: ["isMember"] } } },
       meetings: {},

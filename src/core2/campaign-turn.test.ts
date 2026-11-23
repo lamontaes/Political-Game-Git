@@ -63,6 +63,7 @@ import {
 import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
 import { candidateStance, stanceReader } from "./campaign-stances";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -82,7 +83,7 @@ function world(salt: string) {
     { modules: [viewsModule] },
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -119,14 +120,12 @@ function twoCandidates(
       townPlaceId: string;
     }
   ).townPlaceId;
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   for (const contest of openContests(api)) {
     const filed: FilingRow[] = [];
     for (const adult of adults) {

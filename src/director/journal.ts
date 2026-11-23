@@ -49,6 +49,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
+import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
   organizationName,
@@ -823,6 +824,22 @@ function comingOfAgeMoments(
   ];
 }
 
+/** The office a scene's cause record kept when it was written, said as the scene says it. */
+function petitionOffice(
+  core: Readonly<CoreState>,
+  reply: { facts?: Record<string, unknown> },
+): string | undefined {
+  return causeRecordFacts(core, String(reply.facts?.causeId)).office?.text;
+}
+
+/** Who told the petition was short, from the scene's own record. */
+function petitionTeller(
+  core: Readonly<CoreState>,
+  reply: { facts?: Record<string, unknown> },
+): unknown {
+  return core.durableLog.get(String(reply.facts?.causeId))?.facts?.tellerKind;
+}
+
 /**
  * What a scene the person answered kept, from the reply record it wrote: a
  * promise made, a favor owed, a tie strained, a lie caught, a meeting set or
@@ -866,6 +883,26 @@ function sceneEndingMoments(
             ? {
                 actFacts: {
                   about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
+          // A petition ending says which office the petition is for, from the
+          // office the scene's own record kept when it was written.
+          ...(keeps.startsWith("petition-") && petitionOffice(core, reply)
+            ? {
+                actFacts: {
+                  office: {
+                    text: petitionOffice(core, reply)!,
+                    sourceRecordIds: [id, String(reply.facts?.causeId)],
+                  },
+                  ...(petitionTeller(core, reply) === "clerk"
+                    ? {
+                        clerk: {
+                          text: "the clerk",
+                          sourceRecordIds: [id, String(reply.facts?.causeId)],
+                        },
+                      }
+                    : {}),
                 },
               }
             : {}),
@@ -964,16 +1001,6 @@ export function composeJournal(
 
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
-  // Someone the person talked with in a scene is known by name to them, an
-  // official who came to them as a donor among the rest (the reply record
-  // names both people).
-  const metInScene = new Set<string>(
-    (book?.schedule ?? []).flatMap((entry) =>
-      (entry.replies ?? []).flatMap(
-        (id) => core.durableLog.get(id)?.personIds ?? [],
-      ),
-    ),
-  );
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
   const other = (id: PersonId): Fact | undefined => {
@@ -1014,7 +1041,7 @@ export function composeJournal(
       }
     }
     const known = person.knownIdSources?.[id];
-    if (!person.knownIds.has(id) && !metInScene.has(id)) return undefined;
+    if (!person.knownIds.has(id)) return undefined;
     const first = !named.has(id);
     named.add(id);
     return {

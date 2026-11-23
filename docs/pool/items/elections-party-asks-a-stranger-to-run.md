@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-jwna62
 pr: 9302
@@ -28,10 +28,10 @@ source: found by M5 building the words rule request-needs-its-ground, Nov 14, 20
 
 **Rules.** No dice. One rule, all 56 places. A test stays pinned to one place and seed and runs in about a minute.
 
-**Done when.** A second session plays a new life in the running game at a drawn place (named with its seed) to a party filing window, and in dev mode every member the party asked to run shows the chair among the people they know. Beside it, `src/director/request-needs-its-ground.test.ts` and `src/director/party-recruit.test.ts` pass on main.
+**Done when.** A second session plays a new life in the running game at a drawn place (named with its seed) to a party filing window, and in dev mode every member the party asked to run shows the chair among the people they know. Beside it, `src/director/request-needs-its-ground.test.ts` and `src/director/party-recruit.test.ts` (removed) pass on main.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/candidacy.ts, src/director/request-needs-its-ground.test.ts, src/director/party-recruit.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/director/request-needs-its-ground.test.ts
 
 **Notes.** The rule's other two cases have no line to check yet: no bank line says "I'll take the meeting", and a donor's lean is staged only from a gift on record.
