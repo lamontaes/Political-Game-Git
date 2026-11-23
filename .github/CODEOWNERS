@@ -36,6 +36,7 @@
 /src/core2/law-test-start.ts @lamontaes
 /src/core2/resident-adults-test-kit.ts @lamontaes
 /src/core2/record-test-kit.ts @lamontaes
+/src/core2/campaign-incumbent-response-test-kit.ts @lamontaes
 /src/core2/counted-moves-balance-kit.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes

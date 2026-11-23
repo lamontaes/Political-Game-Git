@@ -8,5 +8,27 @@
     "office": "The election contest's recorded office title."
   },
   "maxWords": 35,
-  "parts": []
+  "parts": [
+    {
+      "key": "notice.election.notice-is-hereby-given-that-an-election-will-be-held-in-place-on-date-for-the-following-officers-office",
+      "move": "election",
+      "kind": "written",
+      "text": "NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
+      "tag": {
+        "move": "notice",
+        "key": "routine"
+      },
+      "uses": [
+        {
+          "move": "election",
+          "subject": "news",
+          "role": "election-notice",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
 }

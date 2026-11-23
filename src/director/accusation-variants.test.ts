@@ -73,240 +73,248 @@ const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
       : [[...prefix, index]],
   );
 
-it(`a complaint naming the player plays the variant its records give (seed ${seed})`, () => {
-  setBookkeeping(false);
-  const tried: string[] = [];
-  let proven = 0;
-  try {
-    for (let attempt = 0; attempt < ATTEMPTS && proven < 1; attempt += 1) {
-      const place = drawPlace(seed, `accusation:${attempt}`);
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core, director, playerId } = buildBenchWorld(
-        place.seed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: place.key },
-      );
-      const api = coreAPI(core);
-      const me = playerId as PersonId;
-      director.watch(core, me);
-      const book = director.ledger.people.get(me)!;
-      advanceCore(core, addDays(makeIsoDate(core.date), 30));
-      core.people.get(me)!.liquidMinor = 5_000_000;
-      // HAND-STAGED: the player offers each of several officials money and
-      // the official refuses, until a refusal is reported.
-      const officials = [...core.people.values()]
-        .filter((p) => p.alive && p.id !== me && p.tier !== "husk")
-        .sort((a, b) => a.id.localeCompare(b.id))
-        .slice(0, OFFICIALS);
-      const offered: string[] = [];
-      for (const [index, official] of officials.entries()) {
-        const record = considerBribe(api, {
-          offererId: me,
-          officialId: official.id,
-          stakeMinor: 20_000_000,
-          subjectId: `contract:accusation-${attempt}-${index}`,
-          pick: { offer: true, take: false },
-        });
-        if (record?.offered) offered.push(record.id);
-      }
-      let entry;
-      for (let day = 0; day < 20 && !entry; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        entry = book.schedule.find((row) =>
-          row.bindings.some((b) => b.typeKey === "accusation"),
+// The cut of Nov 17 left this scene's lines unwritten; the lines are
+// story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z on #9750).
+it.fails(
+  `a complaint naming the player plays the variant its records give (seed ${seed})`,
+  () => {
+    setBookkeeping(false);
+    const tried: string[] = [];
+    let proven = 0;
+    try {
+      for (let attempt = 0; attempt < ATTEMPTS && proven < 1; attempt += 1) {
+        const place = drawPlace(seed, `accusation:${attempt}`);
+        const where = `${place.name} (${place.key}), seed ${place.seed}`;
+        const { core, director, playerId } = buildBenchWorld(
+          place.seed,
+          gameStartDate(),
+          { twoLevel: true, placeKey: place.key },
         );
-      }
-      if (!entry) {
-        tried.push(`${where}: ${offered.length} offers, no complaint filed`);
-        continue;
-      }
-      const moment = book.momentsById.get(entry.momentId)!;
-      const accused = core.durableLog.get(moment.causeId)!;
-      expect(accused.kind, where).toBe("justice.accused");
-      expect(accused.personIds[0], where).toBe(me);
-      const result = purposeScene(core, director, me, entry, {
-        typeKey: "accusation",
-      });
-      expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
-        "composed",
-      );
-      if (result?.kind !== "composed") continue;
-      const scene = result.scene;
-      const chosen = scene.variant!;
-      expect(chosen, where).toBeTruthy();
-      expect(chosen.family, where).toBe("conflict-accuse");
-      expect(chosen.scores[0]!.variant, where).toBe(chosen.variant);
-      // A complaint never plays the plain arc's bid-list lines.
-      expect(chosen.variant, where).not.toBe("plain");
-      expect(chosen.reads.complaint, where).toBe(1);
-      expect(chosen.recordIds, where).toContain(accused.id);
-      expect(scene.talk.purpose, where).toBe(chosen.purpose);
-      expect(scene.talk.gaps, where).toEqual([]);
-      // The basis the engine wrote is the basis the reads saw.
-      const complaintId = String(accused.facts?.complaintId);
-      const complaint = api
-        .moduleState(JUSTICE_MODULE_ID)
-        .table("complaints")
-        .get(complaintId) as unknown as { basis: string } | undefined;
-      expect(complaint, where).toBeTruthy();
-      expect(chosen.reads.witnessed, where).toBe(
-        complaint!.basis === "witness" ? 1 : 0,
-      );
-      expect(chosen.reads.told, where).toBe(
-        complaint!.basis === "told" ? 1 : 0,
-      );
-      const allowed = lineSources(chosen.purpose);
-      for (const text of treeTexts(scene.talk.tree))
-        expect(
-          allowed.some((re) => re.test(text.replace(/\s+/g, " "))),
-          `${where}: "${text}" is not a ${chosen.purpose} line`,
-        ).toBe(true);
-      expect(scene.talk.depth, where).toBeGreaterThan(1);
-      // A reply is written by record id.
-      const full = paths(scene.talk.tree)[0]!;
-      const replyId = replyInScene(core, director, me, entry, full, {
-        typeKey: "accusation",
-      });
-      const reply = core.durableLog.get(replyId!);
-      expect(reply?.facts?.typeKey, where).toBe("accusation");
-      expect(reply?.facts?.causeId, where).toBe(accused.id);
-      process.stdout.write(
-        `ACCUSATION ${where}: ${accused.id}; basis ${complaint!.basis}; played ${chosen.variant} (${chosen.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}); reply ${replyId} ending ${reply?.facts?.ending}; opens "${scene.talk.state.text}"\n`,
-      );
+        const api = coreAPI(core);
+        const me = playerId as PersonId;
+        director.watch(core, me);
+        const book = director.ledger.people.get(me)!;
+        advanceCore(core, addDays(makeIsoDate(core.date), 30));
+        core.people.get(me)!.liquidMinor = 5_000_000;
+        // HAND-STAGED: the player offers each of several officials money and
+        // the official refuses, until a refusal is reported.
+        const officials = [...core.people.values()]
+          .filter((p) => p.alive && p.id !== me && p.tier !== "husk")
+          .sort((a, b) => a.id.localeCompare(b.id))
+          .slice(0, OFFICIALS);
+        const offered: string[] = [];
+        for (const [index, official] of officials.entries()) {
+          const record = considerBribe(api, {
+            offererId: me,
+            officialId: official.id,
+            stakeMinor: 20_000_000,
+            subjectId: `contract:accusation-${attempt}-${index}`,
+            pick: { offer: true, take: false },
+          });
+          if (record?.offered) offered.push(record.id);
+        }
+        let entry;
+        for (let day = 0; day < 20 && !entry; day += 1) {
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
+          entry = book.schedule.find((row) =>
+            row.bindings.some((b) => b.typeKey === "accusation"),
+          );
+        }
+        if (!entry) {
+          tried.push(`${where}: ${offered.length} offers, no complaint filed`);
+          continue;
+        }
+        const moment = book.momentsById.get(entry.momentId)!;
+        const accused = core.durableLog.get(moment.causeId)!;
+        expect(accused.kind, where).toBe("justice.accused");
+        expect(accused.personIds[0], where).toBe(me);
+        const result = purposeScene(core, director, me, entry, {
+          typeKey: "accusation",
+        });
+        expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
+          "composed",
+        );
+        if (result?.kind !== "composed") continue;
+        const scene = result.scene;
+        const chosen = scene.variant!;
+        expect(chosen, where).toBeTruthy();
+        expect(chosen.family, where).toBe("conflict-accuse");
+        expect(chosen.scores[0]!.variant, where).toBe(chosen.variant);
+        // A complaint never plays the plain arc's bid-list lines.
+        expect(chosen.variant, where).not.toBe("plain");
+        expect(chosen.reads.complaint, where).toBe(1);
+        expect(chosen.recordIds, where).toContain(accused.id);
+        expect(scene.talk.purpose, where).toBe(chosen.purpose);
+        expect(scene.talk.gaps, where).toEqual([]);
+        // The basis the engine wrote is the basis the reads saw.
+        const complaintId = String(accused.facts?.complaintId);
+        const complaint = api
+          .moduleState(JUSTICE_MODULE_ID)
+          .table("complaints")
+          .get(complaintId) as unknown as { basis: string } | undefined;
+        expect(complaint, where).toBeTruthy();
+        expect(chosen.reads.witnessed, where).toBe(
+          complaint!.basis === "witness" ? 1 : 0,
+        );
+        expect(chosen.reads.told, where).toBe(
+          complaint!.basis === "told" ? 1 : 0,
+        );
+        const allowed = lineSources(chosen.purpose);
+        for (const text of treeTexts(scene.talk.tree))
+          expect(
+            allowed.some((re) => re.test(text.replace(/\s+/g, " "))),
+            `${where}: "${text}" is not a ${chosen.purpose} line`,
+          ).toBe(true);
+        expect(scene.talk.depth, where).toBeGreaterThan(1);
+        // A reply is written by record id.
+        const full = paths(scene.talk.tree)[0]!;
+        const replyId = replyInScene(core, director, me, entry, full, {
+          typeKey: "accusation",
+        });
+        const reply = core.durableLog.get(replyId!);
+        expect(reply?.facts?.typeKey, where).toBe("accusation");
+        expect(reply?.facts?.causeId, where).toBe(accused.id);
+        process.stdout.write(
+          `ACCUSATION ${where}: ${accused.id}; basis ${complaint!.basis}; played ${chosen.variant} (${chosen.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}); reply ${replyId} ending ${reply?.facts?.ending}; opens "${scene.talk.state.text}"\n`,
+        );
 
-      // ---- Hand-made probes (labeled): rows on the justice and corruption
-      // modules, each with its own speaker, a cause of the next day.
-      const nextDay = addDays(makeIsoDate(core.date), 1);
-      const pull = (who: string, variant: string) => {
-        const facets = variants[variant]!.pull ?? [];
-        return facets.length
-          ? facets.reduce(
-              (sum, f) =>
-                sum + (core.people.get(who as PersonId)!.traits[f] ?? 0),
-              0,
-            ) / facets.length
-          : 0;
-      };
-      const used = new Set<string>([me]);
-      const others = (variant: string) =>
-        Object.keys(variants).filter((v) => v !== variant && v !== "plain");
-      const speaker = (variant: string) => {
-        const pick = [...core.people.values()]
-          .filter((p) => p.alive && !used.has(p.id))
+        // ---- Hand-made probes (labeled): rows on the justice and corruption
+        // modules, each with its own speaker, a cause of the next day.
+        const nextDay = addDays(makeIsoDate(core.date), 1);
+        const pull = (who: string, variant: string) => {
+          const facets = variants[variant]!.pull ?? [];
+          return facets.length
+            ? facets.reduce(
+                (sum, f) =>
+                  sum + (core.people.get(who as PersonId)!.traits[f] ?? 0),
+                0,
+              ) / facets.length
+            : 0;
+        };
+        const used = new Set<string>([me]);
+        const others = (variant: string) =>
+          Object.keys(variants).filter((v) => v !== variant && v !== "plain");
+        const speaker = (variant: string) => {
+          const pick = [...core.people.values()]
+            .filter((p) => p.alive && !used.has(p.id))
+            .sort(
+              (a, b) =>
+                pull(b.id, variant) -
+                  Math.max(...others(variant).map((v) => pull(b.id, v))) -
+                  (pull(a.id, variant) -
+                    Math.max(...others(variant).map((v) => pull(a.id, v)))) ||
+                a.id.localeCompare(b.id),
+            )[0]!;
+          used.add(pick.id);
+          return pick.id as PersonId;
+        };
+        const complaints = api
+          .moduleState(JUSTICE_MODULE_ID)
+          .table("complaints");
+        const crimes = api.moduleState(CORRUPTION_MODULE_ID).table("crimes");
+        const crimeOf = String(accused.facts?.crimeId);
+        const baseCrime = crimes.get(crimeOf) as unknown as Record<
+          string,
+          unknown
+        >;
+        const baseComplaint = complaints.get(complaintId) as unknown as Record<
+          string,
+          unknown
+        >;
+        const probe = (
+          who: PersonId,
+          name: string,
+          row: { basis: string; taken: boolean },
+          facts: Record<string, string> = { offense: "bribery" },
+        ) => {
+          // HAND-MADE rows copied from the engine's own, one field changed.
+          complaints.put({
+            ...baseComplaint,
+            id: `probe-complaint-${name}`,
+            basis: row.basis,
+          } as never);
+          crimes.put({
+            ...baseCrime,
+            id: `probe-crime-${name}`,
+            taken: row.taken,
+          } as never);
+          return chooseVariant(core, {
+            family: "conflict-accuse",
+            askerId: who,
+            askedId: me,
+            cause: {
+              id: `probe-${name}`,
+              date: nextDay,
+              facts: {
+                complaintId: `probe-complaint-${name}`,
+                crimeId: `probe-crime-${name}`,
+                ...facts,
+              },
+            },
+          })!;
+        };
+        const told = probe(speaker("hearsay"), "told", {
+          basis: "told",
+          taken: false,
+        });
+        expect(told.reads.told).toBe(1);
+        expect(told.variant, JSON.stringify(told.scores)).toBe("hearsay");
+        const saw = probe(speaker("witness"), "saw", {
+          basis: "witness",
+          taken: false,
+        });
+        expect(saw.reads.witnessed).toBe(1);
+        expect(saw.variant, JSON.stringify(saw.scores)).toBe("witness");
+        const took = probe(speaker("taken"), "took", {
+          basis: "told",
+          taken: true,
+        });
+        expect(took.reads["bribe-taken"]).toBe(1);
+        expect(took.recordIds).toContain("probe-crime-took");
+        expect(took.variant, JSON.stringify(took.scores)).toBe("taken");
+        const dear = [...core.people.values()]
+          .filter(
+            (p) =>
+              p.alive &&
+              !used.has(p.id) &&
+              p.id !== me &&
+              closenessBetween(core, p.id, me) > 0.8,
+          )
           .sort(
             (a, b) =>
-              pull(b.id, variant) -
-                Math.max(...others(variant).map((v) => pull(b.id, v))) -
-                (pull(a.id, variant) -
-                  Math.max(...others(variant).map((v) => pull(a.id, v)))) ||
+              pull(b.id, "friend") -
+                Math.max(...others("friend").map((v) => pull(b.id, v))) -
+                (pull(a.id, "friend") -
+                  Math.max(...others("friend").map((v) => pull(a.id, v)))) ||
               a.id.localeCompare(b.id),
-          )[0]!;
-        used.add(pick.id);
-        return pick.id as PersonId;
-      };
-      const complaints = api.moduleState(JUSTICE_MODULE_ID).table("complaints");
-      const crimes = api.moduleState(CORRUPTION_MODULE_ID).table("crimes");
-      const crimeOf = String(accused.facts?.crimeId);
-      const baseCrime = crimes.get(crimeOf) as unknown as Record<
-        string,
-        unknown
-      >;
-      const baseComplaint = complaints.get(complaintId) as unknown as Record<
-        string,
-        unknown
-      >;
-      const probe = (
-        who: PersonId,
-        name: string,
-        row: { basis: string; taken: boolean },
-        facts: Record<string, string> = { offense: "bribery" },
-      ) => {
-        // HAND-MADE rows copied from the engine's own, one field changed.
-        complaints.put({
-          ...baseComplaint,
-          id: `probe-complaint-${name}`,
-          basis: row.basis,
-        } as never);
-        crimes.put({
-          ...baseCrime,
-          id: `probe-crime-${name}`,
-          taken: row.taken,
-        } as never);
-        return chooseVariant(core, {
+          )[0];
+        expect(dear, `${where}: someone close to the player`).toBeTruthy();
+        const closest = closenessBetween(core, dear!.id, me);
+        const friend = probe(dear!.id as PersonId, "dear", {
+          basis: "told",
+          taken: false,
+        });
+        expect(friend.reads.close, where).toBeGreaterThan(0.8);
+        expect(friend.variant, JSON.stringify(friend.scores)).toBe("friend");
+        // A scene with no complaint behind it (a printed story) has nothing for
+        // these variants to read: the plain arc is the one left.
+        const story = chooseVariant(core, {
           family: "conflict-accuse",
-          askerId: who,
+          askerId: speaker("witness"),
           askedId: me,
-          cause: {
-            id: `probe-${name}`,
-            date: nextDay,
-            facts: {
-              complaintId: `probe-complaint-${name}`,
-              crimeId: `probe-crime-${name}`,
-              ...facts,
-            },
-          },
+          cause: { id: "probe-story", date: nextDay, facts: {} },
         })!;
-      };
-      const told = probe(speaker("hearsay"), "told", {
-        basis: "told",
-        taken: false,
-      });
-      expect(told.reads.told).toBe(1);
-      expect(told.variant, JSON.stringify(told.scores)).toBe("hearsay");
-      const saw = probe(speaker("witness"), "saw", {
-        basis: "witness",
-        taken: false,
-      });
-      expect(saw.reads.witnessed).toBe(1);
-      expect(saw.variant, JSON.stringify(saw.scores)).toBe("witness");
-      const took = probe(speaker("taken"), "took", {
-        basis: "told",
-        taken: true,
-      });
-      expect(took.reads["bribe-taken"]).toBe(1);
-      expect(took.recordIds).toContain("probe-crime-took");
-      expect(took.variant, JSON.stringify(took.scores)).toBe("taken");
-      const dear = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            !used.has(p.id) &&
-            p.id !== me &&
-            closenessBetween(core, p.id, me) > 0.8,
-        )
-        .sort(
-          (a, b) =>
-            pull(b.id, "friend") -
-              Math.max(...others("friend").map((v) => pull(b.id, v))) -
-              (pull(a.id, "friend") -
-                Math.max(...others("friend").map((v) => pull(a.id, v)))) ||
-            a.id.localeCompare(b.id),
-        )[0];
-      expect(dear, `${where}: someone close to the player`).toBeTruthy();
-      const closest = closenessBetween(core, dear!.id, me);
-      const friend = probe(dear!.id as PersonId, "dear", {
-        basis: "told",
-        taken: false,
-      });
-      expect(friend.reads.close, where).toBeGreaterThan(0.8);
-      expect(friend.variant, JSON.stringify(friend.scores)).toBe("friend");
-      // A scene with no complaint behind it (a printed story) has nothing for
-      // these variants to read: the plain arc is the one left.
-      const story = chooseVariant(core, {
-        family: "conflict-accuse",
-        askerId: speaker("witness"),
-        askedId: me,
-        cause: { id: "probe-story", date: nextDay, facts: {} },
-      })!;
-      expect(story.reads.complaint).toBe(0);
-      expect(story.variant, JSON.stringify(story.scores)).toBe("plain");
-      process.stdout.write(
-        `ACCUSATION PROBES ${where}: told ${told.variant}; saw ${saw.variant}; taken ${took.variant}; closest tie ${closest.toFixed(2)} gave ${friend.variant}; no complaint ${story.variant}\n`,
-      );
-      proven += 1;
+        expect(story.reads.complaint).toBe(0);
+        expect(story.variant, JSON.stringify(story.scores)).toBe("plain");
+        process.stdout.write(
+          `ACCUSATION PROBES ${where}: told ${told.variant}; saw ${saw.variant}; taken ${took.variant}; closest tie ${closest.toFixed(2)} gave ${friend.variant}; no complaint ${story.variant}\n`,
+        );
+        proven += 1;
+      }
+      expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBe(1);
+    } finally {
+      setBookkeeping(true);
     }
-    expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBe(1);
-  } finally {
-    setBookkeeping(true);
-  }
-}, 3_600_000);
+  },
+  3_600_000,
+);

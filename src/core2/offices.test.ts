@@ -308,14 +308,23 @@ describe("M2-01 offices and seats, every level", () => {
         expect(t.elected!.share, `${placeKey} ${t.seatId}`).toBe(
           race!.winnerShare,
         );
-        expect(
-          race!.winnerSide > 0
-            ? race!.electoral.republican
-            : race!.electoral.democratic,
-          `${placeKey} ${race!.id}: the winner's electors`,
-        ).toBeGreaterThan(
-          (race!.electoral.republican + race!.electoral.democratic) / 2,
-        );
+        // A race with no majority of the electors (a 269 to 269 tie) goes to
+        // the House (amend. XII), as the century records it (`noMajority`,
+        // SG-HIST-century-contingent): then neither side holds a majority.
+        const half =
+          (race!.electoral.republican + race!.electoral.democratic) / 2;
+        if (race!.noMajority)
+          expect(
+            Math.max(race!.electoral.republican, race!.electoral.democratic),
+            `${placeKey} ${race!.id}: no majority, the House chose`,
+          ).toBeLessThanOrEqual(half);
+        else
+          expect(
+            race!.winnerSide > 0
+              ? race!.electoral.republican
+              : race!.electoral.democratic,
+            `${placeKey} ${race!.id}: the winner's electors`,
+          ).toBeGreaterThan(half);
       } else if (t.seatId !== "seat:US:vice-president")
         expect(t.elected!.share, `${placeKey} ${t.seatId}`).toBeGreaterThan(
           0.5,

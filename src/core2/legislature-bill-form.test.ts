@@ -26,6 +26,7 @@ import {
   openLegislature,
 } from "./modules/legislature";
 import { bodyNumbering, designation } from "./legislature-bill-form";
+import { lawChain } from "./modules/laws";
 import { localPlaceOf } from "./modules/legislature";
 import clauses from "./data/legislature/enacting-clauses.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -153,10 +154,18 @@ describe("a bill's form in its body", () => {
       expect(second.number, where).toBe(designation(numbering, n + 1));
       expect(first.form.enactingClause, where).not.toContain("{body}");
       expect(bodyOf(api, body.id)?.bodyName).toBeTruthy();
-      if (body === council)
-        expect(first.form.enactingClause).toContain(
-          bodyOf(api, body.id)!.bodyName,
-        );
+      // The clause names the body, or, where the state's statute words it,
+      // the place it governs ("The City Council of Lilydale ordains:").
+      if (body === council) {
+        const clause = first.form.enactingClause;
+        const named = bodyOf(api, body.id)!.bodyName;
+        // The place's own name, without its state ("Isle" of "Isle, Minnesota").
+        const town = lawChain(api).placeName.split(",")[0]!.trim();
+        expect(
+          clause.includes(named) || clause.includes(town),
+          `${where}: "${clause}" names neither ${named} nor ${town}`,
+        ).toBe(true);
+      }
       expect(first.form.enactingClause, where).toMatch(/enact|ordain/i);
       expect(() =>
         draftBill(api, {
