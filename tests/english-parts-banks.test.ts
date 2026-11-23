@@ -109,7 +109,7 @@ const banks = readdirSync(PARTS_DIR)
  * Nov 15; CTO, Nov 18 18:27Z on #9750: a named list that only shrinks). Their
  * files and readers stay, and the screens show the records through labels.
  */
-const CUT_BANKS = new Set<string>(["bill-paper.json"]);
+const CUT_BANKS = new Set<string>([]);
 
 describe("English part banks", () => {
   it("has at least one bank", () => {
@@ -413,5 +413,24 @@ describe("the conversation's composed lines", () => {
       });
     });
     expect(twice).toEqual([]);
+  });
+});
+
+describe("a person slot in the conversation bank", () => {
+  // The President's slot is "he" or "she" after the first mention, so in an
+  // object's place it must be the object slot ("push back on him"), never the
+  // subject one (the Player, Nov 19: "I'd push back on he there").
+  it("takes its object form after a preposition", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as { parts: { key: string; text: string }[] };
+    const wrong = bank.parts
+      .filter((part) =>
+        /\b(on|to|with|for|about|against|from|at|by|behind|of)\s+\{president\}/i.test(
+          part.text,
+        ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(wrong).toEqual([]);
   });
 });
