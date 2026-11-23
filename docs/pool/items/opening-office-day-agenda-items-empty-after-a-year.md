@@ -34,3 +34,5 @@ root: day-one-in-motion
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/office-day.ts; src/core2/player-warm-up.ts
+
+**Notes.** The owner's row P51 of sitting 2026-11-23-1 ("I simulated a week. Nothing happened. No new news stories either.") was pointed at this item and traced elsewhere on Nov 23 by the Dead stops tracer: its cause is the player following no outlet (play-stop-p51-a-week-brings-no-story-to-the-player). This item keeps its own cause.
