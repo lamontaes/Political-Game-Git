@@ -17,6 +17,10 @@ import type { CoreState, PersonState } from "./types";
  */
 // Woolstock, Iowa, pinned by name and seed (it is the place the 94-cent
 // City Attorney was found at).
+// Time: the history from 1925 opens each new world seed in about 4 s more
+// (measured alone on train 0e7ea9db: the test took 10.66 s, against 6.76 s
+// on main 79e2a8fd), so its limit is about twice the measured time (CTO,
+// #9747 comment 7005164629, until Speed cuts the century's per-seed cost).
 const place = {
   name: "Woolstock, Iowa",
   key: "1987015",
@@ -90,5 +94,5 @@ describe(`stipend posts keep a real rate at ${where}`, () => {
     state.work.commitments.set(shorted.id, shorted);
     const found = problemOf(api, state.people.get(shorted.personId)!);
     expect(found?.problem, where).toBe("paid-under-minimum-wage");
-  }, 15_000);
+  }, 22_000);
 });

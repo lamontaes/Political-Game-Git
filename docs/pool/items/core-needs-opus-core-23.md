@@ -16,6 +16,7 @@ claimed-at: 2026-10-15T22:40:00.688Z
 **What.** Four requests from the core to other sessions remain on the core's list. The news-archive story kind (stopgap SG-CORE-past-archive-kind) is not yet written by the press engine, laws carry no pointer to their law-history rows so the opening-day effective date stays, words has no renderings for household, public and archive past facts, and the dossier does not read publicKnowledgeOf for a public figure the viewer has not met. A player sees none of this: an old law or a public figure shows no history when clicked.
 
 Lines (as of 2026-10-15, from the status file):
+
 - **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`).
 - **OPUS-GOV:** a pointer from each law row to `law-history:<row id>`, and dropping the opening-day `effectiveDate` on carried and policy-answer rows now that the history holds the enactment (`laws.ts`).
 - **OPUS-PEOPLE (words):** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds.

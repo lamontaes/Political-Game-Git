@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { piecesInput } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { currentCloseness } from "./closeness";
+import { currentCloseness, hoursFromLevel } from "./closeness";
 import { pairKey } from "./kernel/ids";
 import {
   confrontationStrain,
@@ -69,6 +69,38 @@ describe("a grudge comes from the people who hold it", () => {
     const drop = before - currentCloseness(core, tie());
     expect(drop).toBeGreaterThan(loss / 2);
     expect(drop).toBeLessThan(loss * 2);
+  });
+
+  it("a stranger who is confronted is fallen out with: the level stays as strain to make up", () => {
+    // Two people with no tie (a worker and the counted owner who laid them
+    // off): there is no closeness to lose, so the whole level is strain that
+    // later time together must first make up, and the falling-out is written
+    // (relationships.fall-out tempers it). The old rule wrote nothing.
+    const loss = api.parameter("grudgeRelationshipChange");
+    const core = createLifeCore({
+      ...piecesInput(),
+      people: [
+        piecesInput().people[0]!,
+        { ...piecesInput().people[0]!, id: "other", givenName: "Other" },
+      ],
+      households: [
+        {
+          ...piecesInput().households[0]!,
+          memberIds: ["actor", "other"],
+        },
+      ],
+    });
+    const a = coreAPI(core);
+    expect(core.relationships.has(pairKey("actor", "other"))).toBe(false);
+    const strain = confrontationStrain(a, "actor", "other", loss);
+    expect(strain.levelBefore).toBe(0);
+    expect(strain.levelAfter).toBe(0);
+    expect(strain.strainHours).toBeCloseTo(
+      hoursFromLevel((key) => a.parameter(key), loss),
+      9,
+    );
+    a.relationship("actor", "other", "contact", -strain.strainHours);
+    expect(core.relationships.has(pairKey("actor", "other"))).toBe(true);
   });
 });
 

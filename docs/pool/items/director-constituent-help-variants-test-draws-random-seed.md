@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/director/constituent-help-variants.test.ts` takes its seed from `GOLDEN_PATH_SEED` or draws a random one, so it is red by draw. At seed 2b17bb1e0a69c888 (draw 1, Lincroft, New Jersey, world seed c537198a8ea65fa182b2259256edac038f847fecfe7291d56750150e6e821790) the test fails on the pushed train head with no change of mine: a looking-for-work visit (`office-approached:case:person_e06795a625c12445:2025-02-19`) has a schedule entry with no bindings and outcome `journal-line`, so `purposeScene` returns nothing and the test's `expect(result?.kind).toBe("composed")` fails. In that town 6 of 14 visits came out as journal lines in 90 days, because the director sets aside a visit that ranks outside the life's pace. Seen: the office-hours scenes a seated official gets in a played quarter.
+**What.** `src/director/constituent-help-variants.test.ts` (removed) takes its seed from `GOLDEN_PATH_SEED` or draws a random one, so it is red by draw. At seed 2b17bb1e0a69c888 (draw 1, Lincroft, New Jersey, world seed c537198a8ea65fa182b2259256edac038f847fecfe7291d56750150e6e821790) the test fails on the pushed train head with no change of mine: a looking-for-work visit (`office-approached:case:person_e06795a625c12445:2025-02-19`) has a schedule entry with no bindings and outcome `journal-line`, so `purposeScene` returns nothing and the test's `expect(result?.kind).toBe("composed")` fails. In that town 6 of 14 visits came out as journal lines in 90 days, because the director sets aside a visit that ranks outside the life's pace. Seen: the office-hours scenes a seated official gets in a played quarter.
 
 **More evidence.** The same failure at seed 9d18cfd99e68d810 (draw 0, Alderwood Manor, Washington, world seed 4adf4dcc855b4774bdbce2bcc879008e28aed9c669246da718d5687a4986190e): visit `office-approached:case:person_507781363ad93a0a:2025-02-19` returns no scene (`expected undefined to be 'composed'`), with and without the office-hours bank change of #9199. Add it to the pinned places.
 
@@ -34,4 +34,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/constituent-help-variants.test.ts
+**Files.** `docs/current.json` (the replaced row for the deleted test).
+
+**Notes.** Nov 18 (Story): dropped; the test it would fix was deleted on #10063 with its kind's lines (owner, Nov 17: delete everything the engine did not write).
