@@ -16,6 +16,7 @@ import { coreAPI } from "../core2/state";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
+  ballot,
   fileCandidacy,
   openContests,
   type ContestRow,
@@ -127,6 +128,18 @@ it("lists the invited debate for the player, who answers it, and it is held with
       continue;
     }
     advanceCore(core, addDays(makeIsoDate(contest.electionDate), -3));
+    const rivals = ballot(api, contest.id).filter(
+      (filing) =>
+        filing.status === "on-ballot" && filing.personId !== core.playerId,
+    );
+    const rival =
+      rivals.find((filing) => filing.id === pair!.rival.id) ?? rivals[0];
+    if (!rival) {
+      tried.push(
+        `${where}: ${contest.id} has no rival on the ballot by ${core.date}`,
+      );
+      continue;
+    }
     const view = campaignView(core, pair.you.personId).campaigns.find(
       (c) => c.filing.id === pair!.you.id,
     );
@@ -193,7 +206,7 @@ it("lists the invited debate for the player, who answers it, and it is held with
       .sort();
     expect(Object.keys(held.answers).sort(), where).toEqual(onBallot);
     expect(onBallot, where).toContain(pair.you.personId);
-    expect(onBallot, where).toContain(pair.rival.personId);
+    expect(onBallot, where).toContain(rival.personId);
     expect(
       held.answers[pair.you.personId]!.map((a) => a.position),
       where,

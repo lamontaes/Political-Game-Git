@@ -28,8 +28,8 @@ root: none
 
 **Rules.** No hand-written player text in code; no new lines (order only). No dice: the introduction leads whenever the record says the two have not met. A scene's talk keeps its occasion.
 
-**Done when.** A second session, in a drawn place with its seed named, opens talks with residents the player has not met after an election and sees the introduction first and the story told after the player gives their name. Pinned: src/director/conversation-introduction-first.test.ts (Sheridan WY, seed above) fails without the change and passes with it.
+**Done when.** A second session, in a drawn place with its seed named, opens talks with residents the player has not met after an election and sees the introduction first and the story told after the player gives their name. Pinned: src/director/conversation-introduction-first.test.ts (removed) (Sheridan WY, seed above) fails without the change and passes with it.
 
 **Waits on.** nothing.
 
-**Files.** src/director/conversation.ts, src/director/conversation-introduction-first.test.ts (new)
+**Files.** src/director/conversation.ts, (new)

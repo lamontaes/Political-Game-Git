@@ -35,11 +35,11 @@ branch: claude/pool-gov-seated-governor-appointment-job-ends
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/offices.ts, src/core2/modules/executive.ts, src/core2/job-lifecycle.ts, src/core2/office-day-state.ts, src/director/swearing-in-scene.test.ts
+**Files.** src/core2/modules/offices.ts, src/core2/modules/executive.ts, src/core2/job-lifecycle.ts, src/core2/office-day-state.ts
 
 **Notes.** TODO
 
-Released (2026-11-11): Not reproduced: src/director/swearing-in-scene.test.ts passes on a drawn seed with its governor seat seated, and the item names no seed (New Pekin, IN not found in the place lookup). Read in code: nominateAndConfirm already excludes anyone who worked today (executive.ts workedToday), so the likely throw is appointStatePost ending the PRIOR cabinet holder's job (api.endJob at executive.ts about line 1215) after that person's shift today; needs a failing place and seed before the fix. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends.
+Released (2026-11-11): Not reproduced: src/director/swearing-in-scene.test.ts (removed) passes on a drawn seed with its governor seat seated, and the item names no seed (New Pekin, IN not found in the place lookup). Read in code: nominateAndConfirm already excludes anyone who worked today (executive.ts workedToday), so the likely throw is appointStatePost ending the PRIOR cabinet holder's job (api.endJob at executive.ts about line 1215) after that person's shift today; needs a failing place and seed before the fix. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends.
 
 Released (2026-11-11): Still no failing place and seed: the item names none. Candidate site confirmed in code (executive.ts line 1217 ends the replaced cabinet holder's job with no workedToday check, unlike the nominee filter at line 455), but guarding it needs a decision on what happens to the replaced holder who worked today; needs a repro first. Continue on branch claude/pool-gov-seated-governor-appointment-job-ends.
 

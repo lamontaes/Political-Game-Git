@@ -106,6 +106,8 @@ export interface NamedSection {
   readonly line?: string;
   readonly question?: string;
   readonly policyId?: string;
+  /** For an amount law: the law-in-force series, named by its catalog row (`law:<series>`). */
+  readonly series?: string;
   readonly operation?: string;
   readonly value: number;
 }
@@ -171,7 +173,13 @@ export function billNameOf(
         ? section.value <= 0
         : null;
     if (reverse === null) continue;
-    for (const key of [section.policyId, section.question]) {
+    for (const key of [
+      section.policyId,
+      section.question,
+      section.kind === "law-amount" && section.series
+        ? `law:${section.series}`
+        : undefined,
+    ]) {
       const found = key
         ? billNameFor(key, bill.form.kind, reverse, book)
         : null;
@@ -236,6 +244,9 @@ export function billTitleOf(
     const key =
       section.policyId ??
       section.question ??
+      (section.kind === "law-amount" && section.series
+        ? `law:${section.series}`
+        : undefined) ??
       (section.line ? `budget:${section.line}` : undefined);
     return named && key ? [{ index, key, purpose: named.purpose }] : [];
   });
