@@ -110,7 +110,8 @@
         "src/core2/membership-dues.ts",
         "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
-        "src/core2/modules/national-opinion.ts"
+        "src/core2/modules/national-opinion.ts",
+        "src/core2/announce-ways.ts"
       ]
     },
     {

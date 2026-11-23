@@ -1,6 +1,5 @@
 import controls from "./data/controls.json" with { type: "json" };
 import { lastTimeOf } from "./last-time";
-import { announceWays, heardOnTheDay } from "../core2/announce-ways";
 import { raceTitle } from "./race-words";
 import { saidOffice, spokenOffice } from "../director/filing-visit";
 import { properName } from "../director/words";
@@ -47,7 +46,11 @@ import {
   petitionNeededHere,
   resultOf,
 } from "../core2/modules/voting";
-import { platformForContest } from "../core2/modules/candidacy";
+import {
+  announceWays,
+  heardOnTheDay,
+  platformForContest,
+} from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
   joinParty,

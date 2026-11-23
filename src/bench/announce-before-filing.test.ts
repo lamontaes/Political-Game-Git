@@ -18,7 +18,7 @@ import { campaignFor } from "../core2/modules/campaigns";
 import { campaignDayOpen } from "../core2/campaign-day";
 import { campaignDay } from "./campaign";
 import { announceForOffice, fileForOffice, localRaces } from "./government";
-import { announceWays } from "../core2/announce-ways";
+import { announceWays } from "../core2/modules/candidacy";
 import {
   buildBenchWorld,
   NoPlayerHereError,

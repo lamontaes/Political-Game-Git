@@ -82,6 +82,7 @@
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
 /src/core2/modules/national-opinion.ts @lamontaes
+/src/core2/announce-ways.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
