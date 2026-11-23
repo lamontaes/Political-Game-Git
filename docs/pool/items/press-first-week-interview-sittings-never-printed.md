@@ -23,7 +23,7 @@ claimed-at:
 
 **Cause.** Measured: at Cannonville, Utah (4910330), seed 3a5884384393f00611b28a5ce609187c999d9b0f21d97ef4a4e9e0a15f724a08, all four interviews were printed. Replaying the same world in a script shows each row `published` with a story (Sept 30 on television:0, Oct 1 on television:1, Oct 7 on television:3, Oct 14 on television:2). Found in code: `printItem` (src/core2/press-desk.ts) sends a story only to `ctx.followers(outlet.id)`. The player follows television:2 and television:3 but not 0 and 1, so the first two never reached them. A story only shows in News once the reader has heard it (`heardItems`, src/bench/calendar.ts). A second fault sits underneath: `scheduleDeliveries` (src/core2/modules/news.ts) queues a delivery dated today when a story is printed during the player's turn, but today's deliveries were already read in `onAfterDay`. So the story's own subject (the `atOnce` reader that past-news.ts already uses) would never hear it either.
 
-**Fix.** In `printItem`, the one person a story is about joins its readers and hears it the day it runs, through `printStory`'s existing `atOnce` argument, as the news of the years before the start does. The story's follower count and counted reach still count followers only. In `scheduleDeliveries`, an `atOnce` reader hears the story now instead of being queued for a day already read. Test: src/director/interview-printed.test.ts, pinned at Cannonville, Utah. It fails without the fix ("expected undefined to be '2025-09-30'") and passes with it.
+**Fix.** In `printItem`, the one person a story is about joins its readers and hears it the day it runs, through `printStory`'s existing `atOnce` argument, as the news of the years before the start does. The story's follower count and counted reach still count followers only. In `scheduleDeliveries`, an `atOnce` reader hears the story now instead of being queued for a day already read. Test: src/director/interview-printed.test.ts (removed), pinned at Cannonville, Utah. It fails without the fix ("expected undefined to be '2025-09-30'") and passes with it.
 
 **Time box.** 3 hours.
 
@@ -33,4 +33,4 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-desk.ts, src/core2/modules/news.ts, src/director/interview-printed.test.ts (new)
+**Files.** src/core2/press-desk.ts, src/core2/modules/news.ts, (new)

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "request-needs-its-ground",
   "rubric": "A request has its ground in the record: the party asks someone to run only with inroads on record, a donor who leans on you gave a large share, and \"I'll take the meeting\" follows a meeting that was asked for.",
-  "judged": 20,
+  "judged": 0,
   "no": {},
-  "yesHash": "1b1qsdnnz8l"
+  "yesHash": "0wvjl67o803"
 }

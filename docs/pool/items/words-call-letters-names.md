@@ -19,6 +19,6 @@ claimed-at: 2026-10-16T00:06:34.517Z
 
 **Done when.** In a played world in a drawn place (buildBenchWorld) with a television or radio outlet, a neighbor's bring-it-up line writes the station's call letters in capitals, shown by record id, and a test in src/director names the shape and a name that must still be title-cased. The owner plays it: he hears a neighbor name the station correctly.
 
-**Files.** src/director/words.ts, src/director/bring-it-up-press.test.ts
+**Files.** src/director/words.ts
 
 **Notes.** Found while building the printed-story bring-it-up row.
