@@ -152,6 +152,7 @@ import {
   creatorStates,
   creatorTowns,
   creatorRandomPlace,
+  stateCapitolPicture,
   drawBirthday,
   drawCharacter,
   drawName,
@@ -582,6 +583,8 @@ const ROUTES: readonly Route[] = [
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
+          // The state's capitol, behind the world's story while it plays.
+          capitol: stateCapitolPicture(world.place.stateJurisdictionKey),
           date: state.core.date,
           packet: state.player.packet,
           names: {},
