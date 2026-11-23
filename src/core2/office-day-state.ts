@@ -896,10 +896,15 @@ export function actOn(
   entry: StateDayEntry,
   choice?: StateChoice,
 ): StateEntryResult {
-  const office = stateOfficeOf(api, entry.holderId);
-  const person = api.state.people.get(entry.holderId);
-  if (!office || !person)
-    throw new Error(`${entry.holderId} holds no state office.`);
+  const office = stateOfficeHeld(api, entry.holderId);
+  if (!office) throw new Error(`${entry.holderId} holds no state office.`);
+  // Another place's governor nobody has opened gives their address from the
+  // draw that seats them (`ownPriorities`); every other entry is a person's.
+  const built = api.state.people.get(entry.holderId);
+  const person = (): Readonly<PersonState> => {
+    if (!built) throw new Error(`${entry.holderId} is not a person.`);
+    return built;
+  };
   const existing = table(api, "results").get(entry.id) as unknown as
     StateEntryResult | undefined;
   if (existing) return existing;
@@ -914,7 +919,7 @@ export function actOn(
     case "caucus": {
       const own = ownAttendance(
         api,
-        person,
+        person(),
         stateDayParameter("attendanceDuty"),
       );
       chosen = choice ?? { kind: "attend", attend: own.attend };
@@ -944,7 +949,7 @@ export function actOn(
     case "district-office": {
       const own = ownAttendance(
         api,
-        person,
+        person(),
         stateDayParameter("officeHoursDuty"),
       );
       chosen = choice ?? { kind: "office-hours", hold: own.attend };
@@ -1008,7 +1013,7 @@ export function actOn(
       const served = custody ? servedShare(custody, entry.date) : 0;
       const lean = decisionLean(
         api.state,
-        person,
+        person(),
         CLEMENCY_DECISION,
         "grant",
         "deny",
@@ -1037,7 +1042,7 @@ export function actOn(
     case "state-of-the-state": {
       chosen = choice ?? {
         kind: "address",
-        stances: ownPriorities(api, person),
+        stances: ownPriorities(api, entry.holderId, built),
       };
       if (chosen.kind !== "address") throw new Error("Choose what to say.");
       // Another state's governor keeps only the result (owner, Nov 5, 12:49
@@ -1079,7 +1084,7 @@ export function actOn(
     case "legislative-leaders": {
       const own = ownAttendance(
         api,
-        person,
+        person(),
         stateDayParameter("attendanceDuty"),
       );
       chosen = choice ?? { kind: "attend", attend: own.attend };
@@ -1140,7 +1145,8 @@ export function actOn(
     id: `office-act:${entry.id}`,
     date: api.state.date,
     kind: "office-act",
-    personIds: [entry.holderId],
+    // A holder nobody has opened is named on their result, not as a person.
+    personIds: built ? [entry.holderId] : [],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: entry.source.tag,
@@ -1202,12 +1208,17 @@ export function legislativeLeaders(
 /** A person's strongest stances: what they'd make the State of the State about. */
 function ownPriorities(
   api: CoreAPI,
-  person: Readonly<PersonState>,
+  holderId: string,
+  person: Readonly<PersonState> | undefined,
 ): readonly { question: string; position: number }[] {
-  const lean = personLean(api.state.people, person, 0);
+  // A holder nobody has opened stands where their draw puts them
+  // (`officialStance`), as their session reads them.
+  const lean = person ? personLean(api.state.people, person, 0) : null;
   return PLATFORM_QUESTIONS.map((question) => ({
     question,
-    stance: personStance(lean, question),
+    stance: lean
+      ? personStance(lean, question)
+      : (officialStance(api, holderId, question) ?? 0),
   }))
     .filter((q) => q.stance !== 0)
     .sort(
@@ -1617,6 +1628,7 @@ function worldGovernors(api: CoreAPI): string[] {
   const playerId = controlled(api);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const governors = new Set<string>();
+  const unopened = new Set<string>();
   for (const term of api
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -1629,15 +1641,48 @@ function worldGovernors(api: CoreAPI): string[] {
     const office = offices.get(term.officeId) as unknown as
       { kind?: string; level?: string; jurisdiction?: string } | undefined;
     if (office?.kind !== "governor") continue;
-    const held =
-      term.personId || isOutsideOffice(api, office)
-        ? term
-        : holderOf(api, term);
+    // Their key (`memberKey`) is the person's id, or for one nobody has
+    // opened, the term's own: they give the address without being built
+    // (other places keep only results; CTO, Nov 18).
+    const outside = isOutsideOffice(api, office);
+    const held = term.personId || outside ? term : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
+    else if (outside) unopened.add(memberKey(held));
   }
-  return [...governors]
+  return [...governors, ...unopened]
     .sort()
-    .filter((id) => id !== playerId && api.state.people.get(id)?.alive);
+    .filter(
+      (id) =>
+        id !== playerId &&
+        (unopened.has(id) || api.state.people.get(id)?.alive),
+    );
+}
+
+/**
+ * The state office a holder serves in today: a person's, or for another
+ * place's governor nobody has opened, their serving term read by its key
+ * (`official:<term>`), as the health engine and their session read them.
+ */
+function stateOfficeHeld(api: CoreAPI, holderId: string): StateOffice | null {
+  const own = stateOfficeOf(api, holderId);
+  if (own || !holderId.startsWith("official:")) return own;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const term = offices
+    .table("terms")
+    .get(holderId.slice("official:".length)) as unknown as TermRow | undefined;
+  if (!term || term.personId || term.status !== "serving") return null;
+  const office = offices.table("offices").get(term.officeId) as unknown as
+    OfficeRow | undefined;
+  if (office?.kind !== "governor" || !isOutsideOffice(api, office)) return null;
+  return {
+    personId: holderId,
+    role: "governor",
+    stateKey: office.jurisdiction,
+    officeId: office.id,
+    seatId: term.seatId,
+    termId: term.id,
+    party: term.party,
+  };
 }
 
 /**
@@ -1661,7 +1706,7 @@ export function scheduleGovernorAddresses(api: CoreAPI): void {
   );
   const calendar = api.moduleCalendar(OFFICE_DAY_STATE_MODULE_ID);
   for (const personId of worldGovernors(api)) {
-    const office = stateOfficeOf(api, personId);
+    const office = stateOfficeHeld(api, personId);
     if (office?.role !== "governor") continue;
     const first = firstWindow(office.stateKey, year);
     if (!first) continue;
@@ -1704,7 +1749,7 @@ function governorAddressDay(
   // The seat's holder today, as every engine reads a seat: a successor seated
   // after the schedule was made gives the address.
   const office = worldGovernors(api)
-    .map((id) => stateOfficeOf(api, id))
+    .map((id) => stateOfficeHeld(api, id))
     .find((o) => o?.role === "governor" && o.officeId === officeId);
   if (!office) return;
   const entry = stateDay(api, office, work.date).find(
