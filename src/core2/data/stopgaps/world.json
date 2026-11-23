@@ -1104,5 +1104,17 @@
     "addedAt": "2026-11-14",
     "replacement": "The town's residents' own earnings wherever they work (the world-metrics household earnings), once that is kept monthly.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-record-moves-whole",
+    "kind": "partial-model",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 1128,
+    "whatItFakes": "A counted household record that stands for many households (its weight) leaves as all of them at once, to the one destination with the largest remaining due among its place's movers, so over a few months the people sent each way can differ from the weighing's dues by up to the largest record (one record stood for 3,752 of 3,888 movers in three months in a drawn Oklahoma town). The dues themselves are exact, and every person due is sent or still owed on that due.",
+    "why": "Moves leave the counts a record at a time (departCountedHousehold); splitting a weighted record into the households it stands for, each to its own destination, is a change to the residents store, outside Pins family 29.",
+    "addedBy": "Pins family 29 (Nov 17)",
+    "addedAt": "2026-11-17",
+    "replacement": "A leaving record of weight w sends its households one by one (keepOneCountedHousehold's split, as an eviction does), each to the destination with the largest remaining due.",
+    "status": "open"
   }
 ]

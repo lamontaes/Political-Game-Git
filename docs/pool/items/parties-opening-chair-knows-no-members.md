@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-jwna62
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,6 +16,8 @@ model: opus
 effort: medium
 root: none
 source: found by M5 while building the request-needs-its-ground filter, Nov 14, 2026
+claimed-at:
+branch: claude/project-thread-jwna62
 ---
 
 **What.** A party asks a member to run only when the member knows the chair or the two have a tie (owner, Oct 15: "The party asks someone to run only with some inroads on record"; `partyProspects` in src/core2/modules/candidacy.ts). The ties come from the monthly party meeting, where each member who decides to attend gets a contact tie with the chair. The world opens with nearly none, so the first filing windows, when a new player is watching, find almost no one to ask. Seen: in dev mode on the first day of a new life, where a party chair's people list shows no member of the party they know.
@@ -35,3 +37,5 @@ source: found by M5 while building the request-needs-its-ground filter, Nov 14, 
 **Files.** src/core2/modules/parties.ts, src/core2/modules/candidacy.ts
 
 **Notes.** The jobless stock and voter registration are two other cases of a world that opens as if nothing happened before day one (CTO, Nov 14).
+
+Released by next (2026-11-18): no push to claude/project-thread-jwna62 since 2026-11-15 08:15 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-jwna62.

@@ -56,7 +56,11 @@ const filingsOf = (core: CoreState, contestId: string) =>
     coreAPI(core)
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
-      .rows() as unknown as { contestId: string; personId: string }[]
+      .rows() as unknown as {
+      contestId: string;
+      personId: string;
+      status: string;
+    }[]
   ).filter((f) => f.contestId === contestId);
 
 const recordsOf = (core: CoreState, race: readonly ContestRow[]) =>
@@ -242,8 +246,14 @@ it(`${NORTH_COURTLAND.name}: every candidate of an at-large race is named once, 
     recordsOf(core, race).every((r) => !!r),
     `${where}: every seat of ${race[0]!.id} decided`,
   ).toBe(true);
+  // The field is who stood on the ballot: a rival who announced before
+  // filing opened and withdrew (`withdrawAnnouncement`) left the race.
   const field = new Set(
-    race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
+    race.flatMap((c) =>
+      filingsOf(core, c.id)
+        .filter((f) => f.status !== "withdrawn")
+        .map((f) => f.personId),
+    ),
   );
   expect(field.size, `${where}: someone misses the cut`).toBeGreaterThan(
     race.length,
@@ -314,8 +324,14 @@ it(`${NORTH_COURTLAND.name}: with nobody outside the cut, no winner is called`, 
     settled.every((r) => !!r),
     `${where}: every seat of ${race[0]!.id} decided`,
   ).toBe(true);
+  // The field is who stood on the ballot: a rival who announced before
+  // filing opened and withdrew (`withdrawAnnouncement`) left the race.
   const field = new Set(
-    race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
+    race.flatMap((c) =>
+      filingsOf(core, c.id)
+        .filter((f) => f.status !== "withdrawn")
+        .map((f) => f.personId),
+    ),
   );
   expect(field.size, `${where}: the field fills the seats exactly`).toBe(
     race.length,

@@ -26,6 +26,7 @@ import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { SeededRng } from "./kernel/rng";
 import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
+import { RENEWAL_PARAMETERS } from "./births-parameters";
 import pastParameters from "./data/past/parameters.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
@@ -53,6 +54,12 @@ export interface KinHouseholdInput {
   countyId?: string;
   members: readonly KinHouseholdMember[];
 }
+
+/** A person's full name as one comparable key. */
+const fullNameKey = (given: string, family: string) =>
+  `${given.toLowerCase()}|${family.toLowerCase()}`;
+// Engineering bound on drawing a name again; each draw removes one given name from the pool.
+const MAX_NAME_REDRAWS = 50;
 
 export type KinNamer = (input: {
   stableKey: string;
@@ -389,10 +396,33 @@ export function buildOpeningKin(
     deaths: [],
     birthplaces: new Map(),
   };
+  // Each kin household by id, as it is made: a person's home is found by id,
+  // not by searching every household made so far.
+  const homesById = new Map<string, OpeningKin["households"][number]>();
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
   const interval = p("kinInterbirthYears");
+  // The years between one child and the next of a family: never less than the
+  // next child's gestation (conception cannot come before the birth), and a
+  // wait above that drawn per gap, so a family's own spacing differs from its
+  // neighbors' and close siblings exist. The mean gap stays `interval`.
+  const daysPerYear = p("daysPerMeanYear");
+  const gestationYears =
+    RENEWAL_PARAMETERS.renewalGestationDays!.value / daysPerYear;
+  const gapYears = (r: SeededRng, k: number) =>
+    gestationYears -
+    Math.log(1 - r.fork(`gap:${k}`).next()) * (interval - gestationYears);
+  /** The years from child `from` to child `to` of one family (positive when `to` is younger). */
+  const yearsBetween = (r: SeededRng, from: number, to: number) => {
+    let years = 0;
+    for (let k = Math.min(from, to); k < Math.max(from, to); k += 1)
+      years += gapYears(r, k);
+    return from <= to ? years : -years;
+  };
+  /** A date this many years after another, whole days. */
+  const afterYears = (date: string, years: number) =>
+    addDays(makeIsoDate(date), Math.round(years * daysPerYear)) as IsoDate;
   const minParentAge = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
   const maxMotherAge = OPENING_KIN.fertilityByAge.completedFromAge;
   const ageAt = (date: string) => ageOnDate(makeIsoDate(date), startedAt);
@@ -443,6 +473,30 @@ export function buildOpeningKin(
     const adults = household.members.filter((row) => row.role === "adult");
     const children = household.members.filter((row) => row.role === "child");
 
+    // No two relatives share a full name (owner, Nov 16: partner and sister
+    // were both "Ashley Lucas"): a name already carried by someone in this
+    // household or its kin is drawn again with that given name taken.
+    const usedNames = new Set(
+      household.members.flatMap((row) =>
+        row.givenName ? [fullNameKey(row.givenName, row.familyName)] : [],
+      ),
+    );
+    const nameKin: KinNamer = (input) => {
+      const taken = [...(input.takenGivenNames ?? [])];
+      let named = options.name({ ...input, takenGivenNames: taken });
+      for (
+        let tries = 0;
+        usedNames.has(fullNameKey(named.givenName, named.familyName)) &&
+        tries < MAX_NAME_REDRAWS;
+        tries += 1
+      ) {
+        taken.push(named.givenName);
+        named = options.name({ ...input, takenGivenNames: taken });
+      }
+      usedNames.add(fullNameKey(named.givenName, named.familyName));
+      return named;
+    };
+
     const countyId = household.countyId ?? options.countyId;
     // Whether an adult has stayed where they grew up since turning adult (who
     // lives near whom at the opening). When someone who left came to the
@@ -476,10 +530,11 @@ export function buildOpeningKin(
         memberIds: [] as PersonId[],
       };
       out.households.push(row);
+      homesById.set(row.id, row);
       return { row, ...(local && countyId ? { countyId } : {}) };
     };
     const homeOf = (person: KinPerson): Home => ({
-      row: out.households.find((row) => row.id === person.householdId)!,
+      row: homesById.get(person.householdId)!,
       ...(person.countyId ? { countyId: person.countyId } : {}),
     });
     const makePerson = (
@@ -491,7 +546,7 @@ export function buildOpeningKin(
       takenGivenNames: readonly string[] = [],
     ): KinPerson => {
       const stableKey = `${household.stableKey}:kin:${key}`;
-      const named = options.name({
+      const named = nameKin({
         stableKey,
         gender,
         birthDate,
@@ -527,16 +582,14 @@ export function buildOpeningKin(
       const motherCohort = Math.round(birthYear - firstAge - interval);
       const sibship = drawCount(r, completedRow(motherCohort), p("one"), true);
       const order = r.integer(p("one"), sibship + p("one"));
+      const sr0 = r.fork("spacing");
       const oldestBirth =
         order === p("one")
           ? adult.birthDate
-          : dateInYear(
-              r.fork(`sibling:${p("one")}`),
-              birthYear + (p("one") - order) * interval,
-            );
+          : afterYears(adult.birthDate, yearsBetween(sr0, order, p("one")));
       const motherAge = Math.min(
         maxMotherAge,
-        firstAge + (order - p("one")) * interval,
+        firstAge + yearsBetween(sr0, p("one"), order),
       );
       // A partner who joined the household brought their own birth surname.
       let lineName: string | null =
@@ -558,7 +611,7 @@ export function buildOpeningKin(
         outside ?? (parentsNear ? options.townId : parentsHome.row.placeId),
       );
       // A marriage that ended leaves the father in a home of his own.
-      const married = age + (order - p("one")) * interval;
+      const married = age + yearsBetween(sr0, p("one"), order);
       const apart = r.fork("marriage").next() >= marriageIntact(married);
       const parents: KinPerson[] = [];
       for (const [role, gender, parentAge] of [
@@ -593,7 +646,7 @@ export function buildOpeningKin(
           if (through !== null) {
             const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
             const birthDate = parentBirth;
-            const named = options.name({
+            const named = nameKin({
               stableKey,
               gender,
               birthDate,
@@ -661,7 +714,10 @@ export function buildOpeningKin(
       for (let j = p("one"); j <= sibship; j += p("one")) {
         if (j === order) continue;
         const sr = r.fork(`sibling:${j}`);
-        const birthDate = dateInYear(sr, birthYear + (j - order) * interval);
+        const birthDate = afterYears(
+          adult.birthDate,
+          yearsBetween(sr0, order, j),
+        );
         if (birthDate > startedAt) continue;
         const gender = drawnGender(sr.fork("identity"));
         if (
@@ -768,21 +824,27 @@ export function buildOpeningKin(
         addParents(child.id, second ? [...unit.parents, second] : unit.parents);
         if (second) parentOf(second, child, R.otherParent);
       }
-      const oldest = unit.here.length
-        ? Math.min(...unit.here.map((row) => yearOfDate(row.birthDate)))
+      const oldestRow = unit.here.length
+        ? unit.here.reduce((a, b) => (a.birthDate <= b.birthDate ? a : b))
         : undefined;
+      const oldest = oldestRow ? yearOfDate(oldestRow.birthDate) : undefined;
       const firstYear =
         oldest ?? refYear + Math.round(firstBirthAge(refYear) + shift);
+      const spacing = dr.fork("spacing");
+      // The first child of a family with no one here yet is placed in a year;
+      // every other child is a drawn gap before or after a child already placed.
+      const anchorDate: IsoDate =
+        oldestRow?.birthDate ?? dateInYear(dr.fork("anchor"), firstYear);
       const childNames = unit.here.flatMap((child) => child.givenName ?? []);
       for (let i = p("one"); i <= total - unit.here.length; i += p("one")) {
         const cr = dr.fork(`child:${i}`);
-        const year =
+        const birthDate =
           oldest === undefined
-            ? firstYear + (i - p("one")) * interval
-            : firstYear - i * interval;
+            ? afterYears(anchorDate, yearsBetween(spacing, p("one"), i))
+            : afterYears(anchorDate, yearsBetween(spacing, i, p("zero")));
+        const year = yearOfDate(birthDate);
         const parentAge = year - refYear - shift;
         if (parentAge < minParentAge || parentAge > maxMotherAge) continue;
-        const birthDate = dateInYear(cr, year);
         if (birthDate > startedAt) continue;
         const childAge = ageAt(birthDate);
         // A couple's minor children live with them. When parents part, the
@@ -839,7 +901,7 @@ export function buildOpeningKin(
         const gfamily =
           gender === MALE || grandchildren === p("zero")
             ? child.familyName
-            : options.name({
+            : nameKin({
                 stableKey: `${child.stableKey}:children-father`,
                 gender: MALE,
                 birthDate: child.birthDate,
@@ -848,8 +910,15 @@ export function buildOpeningKin(
         const grandchildNames: string[] = [];
         for (let g = p("one"); g <= grandchildren; g += p("one")) {
           const gr = cr.fork(`grandchild:${g}`);
-          const gyear = gfirst + (g - p("one")) * interval;
-          const gdate = dateInYear(gr, gyear);
+          const gspacing = cr.fork("grandchild-spacing");
+          const gdate =
+            g === p("one")
+              ? dateInYear(gr, gfirst)
+              : afterYears(
+                  dateInYear(cr.fork(`grandchild:${p("one")}`), gfirst),
+                  yearsBetween(gspacing, p("one"), g),
+                );
+          const gyear = yearOfDate(gdate);
           if (gdate > startedAt || gyear - year - gshift > maxMotherAge)
             continue;
           const ggender = drawnGender(gr.fork("identity"));
