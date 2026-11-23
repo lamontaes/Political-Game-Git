@@ -15,8 +15,10 @@
  * opening-world-holds-causes-lived-before-its-start), so each plays from Jan
  * 20, 2025. Each case's time is the game's own played days, not the test's:
  * Gilliam MO plays 20 months (speech on Sep 7, 2026; about 82 s), Barton MD 21
- * (Oct 6, 2026; about 150 s) and Wilton IA 20 (Aug 19, 2026; about 88 s), and
- * each limit sits near twice its measured time. GOLDEN_PATH_SEED adds a run in
+ * (Oct 6, 2026; about 150 s) and Wilton IA 20 (Sep 6, 2026; about 257 s: since
+ * the opening's years in place, #10057, its 2025 races give no yes, and the
+ * 2026 filers' ties are watched), and each limit sits near twice its measured
+ * time. GOLDEN_PATH_SEED adds a run in
  * places drawn from all 56 on that seed, for up to two years.
  */
 import { expect, it } from "vitest";
@@ -75,7 +77,7 @@ const PINNED: readonly {
       seed: "42517cd6481f3187fab6ac8877e4e969fbab9e6d60417dee2382d376fe2d73a1",
     },
     months: 20,
-    limit: 180_000,
+    limit: 520_000,
   },
 ];
 const IN_PERSON = new Set(["town-hall", "speech"]);

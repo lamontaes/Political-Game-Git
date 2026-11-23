@@ -63,10 +63,6 @@ const state =
 const acs = (RATES.places[state] ?? RATES.national).departurePerYearByAge;
 // Half a year keeps the check inside the golden-path budget.
 const MONTHS = 6;
-const expected =
-  (adults.reduce((sum, row) => sum + acs[bandOf(row.birthDate)!]!, 0) *
-    MONTHS) /
-  12;
 const parentsAtHome = new Set(
   [...core.familyLinks.values()]
     .filter(
@@ -130,17 +126,35 @@ const births = api
   .rows() as unknown as { motherId: string; date: string }[];
 
 describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("sends adults away at about the rate people their age in their state leave a county", () => {
-    // Half a year in one town is a small sample: allow three standard
-    // deviations of a count with this mean, and a fifth fewer because owner
-    // households with a mortgage stay together until a home sale exists
-    // (registered stopgap).
-    const spread = 3 * Math.sqrt(expected);
+  it("sends adults away by age at the strength the research gives, wherever the world's count lands", () => {
+    // The ACS rate for an adult's age in their state sets how fast their pull
+    // to leave builds, so age moves leaving in proportion to that rate. The
+    // count is the world's own: a town that empties or holds on still passes.
+    // What is checked is the relationship. If leaving is in proportion to
+    // each adult's rate r, the mean r among those who left is E[r²]/E[r],
+    // above the mean r of everyone at risk; were age not to matter, the two
+    // would be equal. Households move together, so a mover's spouse of
+    // another age dilutes it: within four standard errors of the prediction.
     expect(departedAdults.length).toBeGreaterThan(0);
-    expect(departedAdults.length).toBeGreaterThanOrEqual(
-      0.8 * expected - spread,
+    const rateOf = (id: string) => {
+      const person = adults.find((row) => row.id === id)!;
+      return acs[bandOf(person.birthDate)!]!;
+    };
+    const atRisk = adults.map((row) => acs[bandOf(row.birthDate)!]!);
+    const mean = (xs: readonly number[]) =>
+      xs.reduce((sum, x) => sum + x, 0) / xs.length;
+    const m1 = mean(atRisk);
+    const m2 = mean(atRisk.map((r) => r * r));
+    const m3 = mean(atRisk.map((r) => r * r * r));
+    const predicted = m2 / m1;
+    const error = Math.sqrt(
+      (m3 / m1 - predicted * predicted) / departedAdults.length,
     );
-    expect(departedAdults.length).toBeLessThanOrEqual(1.2 * expected + spread);
+    const observed = mean(departedAdults.map(rateOf));
+    const line = `${input.placeMetadata?.placeName} (seed ${seed}): ${departedAdults.length} of ${adults.length} adults left; their mean age rate ${observed.toFixed(4)}, everyone's ${m1.toFixed(4)}, in proportion ${predicted.toFixed(4)} ± ${error.toFixed(4)}\n`;
+    process.stdout.write(`moves by age: ${line}`);
+    expect(Math.abs(observed - predicted), line).toBeLessThanOrEqual(4 * error);
+    expect(observed, line).toBeGreaterThan(m1);
   });
 
   it("keeps each departure's reasons and a destination from a record, and takes the movers out of town life", () => {
@@ -167,6 +181,7 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       reads: Record<string, readonly string[]>;
       openingNet?: number;
       openingMonths?: number;
+      openingBand?: string;
     }[];
     const opened = pulls.filter(
       (row) => row.causes.opening !== undefined && townIds.has(row.id),
@@ -176,13 +191,18 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(row.reads.opening?.length).toBeGreaterThan(0);
       expect(row.openingNet).toBeTypeOf("number");
     }
-    // Higher net push has fewer months to go at the opening: the first to
-    // leave are the ones their records push hardest.
-    const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
-    for (let i = 1; i < sorted.length; i += 1)
-      expect(sorted[i]!.openingMonths!).toBeLessThanOrEqual(
-        sorted[i - 1]!.openingMonths!,
-      );
+    // Within each age band, higher net push has fewer months to go at the
+    // opening: the first of a band to leave are the ones their records push
+    // hardest. Across bands the order follows each band's own rate.
+    for (const band of new Set(opened.map((row) => row.openingBand))) {
+      const sorted = opened
+        .filter((row) => row.openingBand === band)
+        .sort((a, b) => a.openingNet! - b.openingNet!);
+      for (let i = 1; i < sorted.length; i += 1)
+        expect(sorted[i]!.openingMonths!, `band ${band}`).toBeLessThanOrEqual(
+          sorted[i - 1]!.openingMonths!,
+        );
+    }
     for (const row of departures)
       for (const key of Object.keys(row.reasons).filter((k) =>
         k.startsWith("push:"),

@@ -2,6 +2,50 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
+
+- **Menu test round 1 rejected** (about 2:25 p.m.): "Okay, I don't really like any of these, to be honest. They still have a ton of empty space in the menus. Or, yeah, in the screens. Like, it's just a transparent screen with stuff pasted on it. It's been the problem the entire time. I mean, I guess it's better with not looking like Excel, but still." The CTO's brief had required one see-through panel over the room. That rule produced this look, and it is dropped for menu mock-ups.
+- **What fills a good menu** (inline): "The menu is the picture, Small and tight, Same size, more in it". He was "worried about a bunch of slop getting in there", so every word on a mock comes from data the game exports (#10035), and the CTO checks every line against it.
+- **Round 2 pick** (Desk, about 3:50 p.m.): "The menu is the picture, version 2" (Sol's painted ballot-box Elections page, #10036). His note: "I would like to see this in the game's natural colors and a few other colors and a few other screens as well. This is barely taking any usage so you can have them do the entire screens or whatever or the entire menus but probably without people in them so I don't wanna have white or Black people." He clarified: no people in the painted art; the game's busts still show where a screen is about a person. Round 3 is #10038.
+- **Desk layout** (inline): updates are a short summary, then a headline list with one tagged line per change (tap a line for its picture), with the rest folded. Questions are a one-line ask with lettered choices, each carrying its picture.
+- **Announcing a run** (about 4:10 p.m.): "it should not open with money raised, spent, volunteers, indoors, unless it starts at 0... other people should be able to announce. Now, a lot of times, people won't get a lot of coverage, but, maybe the paper can announce, Shively Johnson and 3 others file for mayoral race or something like that, Of course, other people should be able to do it early."
+  - A new campaign starts at zero (#10013 already does).
+  - Other candidates announce early, each deciding from their own record (Elections, #9995).
+  - The paper covers announcements and filings modestly, often as a roundup that grows with the race's importance (Story, #9750).
+- **How announcing happens** (about 4:15 p.m.): "Also, announcing has to work somehow. Like, where do you announce? Maybe, maybe there is no real announcement. Maybe you're talking to a friend and you say, well, I guess I'm a candidate now, or I want to be. Or maybe you go to the party headquarters in your city, if it has one, and, you tell them you want to be a candidate. Or maybe you go to a rally, or maybe you just start talking to people. I don't know. There needs to be a bunch of different ways. Again, this goes to the story."
+  - Announcing is a moment in the world with many ways in, offered by the player's life and place, not a button that flips a state.
+  - Who hears depends on the way (a friend, the local party, the public). Story writes the scenes (#9750); Elections records the way and who heard (#9995).
+- **Menu colors** (Desk, about 4:25 p.m.): "I like the one that's in the current game colors I do also like the red white and blue. There is still a lot of dead space though and text is just floating." Part B of #10038 uses the game's own colors, with two screens also in the paper red, white and blue. No dead space, and no text floating on the background: every block sits on a painted surface or a grouped panel.
+- **Loading screen** (about 4:30 p.m.): "I don't like how boring the loading screen is... it should have a bunch of different things, like skimming a little off the top, closing alphabet agencies, legislating bureaucracy, you know, things like that, things that are kind of sarcastic." Each loading step shows a rotating stream of dry, sarcastic lines about the machinery of government (Story writes them; Menus builds the rotation), and the real step names stay readable.
+- **Delete, don't fix** (about 4:45 p.m., angry, said "at least three times today"): "I said you can delete everything that wasn't written in the past couple days because it's all shit. I keep saying this I'd rather it start from nothing and build it up correctly and keep trying to fix the same garbage that isn't working."
+  - The opening address scene is deleted. The game opens at home on the evening of January 20, and the address survives only as a record for the news and the family.
+  - Story content that isn't working, or that predates the last couple of days and isn't proven in play, is deleted, not repaired.
+  - Never ask him keep-or-cut questions about old content.
+- **Faster checks** (about 3:20 p.m.): "whichever one's faster." Heavy test jobs move off pull requests to the train-to-main PR (Long game, #9752).
+
+## Nov 17, 2026, midday: after playing v0.113.0 (owner, verbatim; recorded by the CTO)
+
+- **Delete what the engine didn't write** (about 11:45 a.m.): "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING." Read back to him, he confirmed "Yes, that's it. Go.": every scene and line the English engine didn't compose from the world's own records is deleted, including stock lines picked whole from a bank and lines whose only insert is a padded name. A scene kind with nothing engine-written stops playing and is removed with its lines and tests, and a check keeps them out. Fewer scenes play until the engine writes them. Menus are not in this ruling.
+- **Running for office:** "Run now, file on the date." From day one the player can announce for a coming race, form a campaign committee, raise money and gather petition signatures. The official filing happens in the real window, and the year between is the campaign.
+- **Visual stops, in his order:** "Yes, go in that order": no boxes, the strip shrinks to its people, silent people never shown big, skin and colors as swatches with hair as pictures, no empty space in the creator, no person before a gender is picked, Metrics doesn't scroll. Also: "you should be able to randomize an entire character."
+- **Builds ship on his stops, not on green checks:** a build ships only after a session that didn't build the fixes has played the installed app through filing and every stop he named, with screenshots.
+- "saves literally dont matter. but make your own save so you can see."
+
+## Nov 17, 2026, morning: Desk answers (owner, verbatim; recorded by the CTO)
+
+- **Who hears a speech** (8:04 a.m.): "One by one: only the people you can see that day (household, family, people in focus, officials present). Everyone else hears it as part of their group, and each still keeps their own record when you meet them." Detail on demand: one record per group, and a person's own record is made when the player meets them.
+- **New mechanics from real lives, bank 3** (8:03 a.m.): "Build the basic versions after the road to the first election is done: impeachment and censure, certification, quorum, special election dates. Violence aimed at officeholders stays out for now."
+
+## Nov 16-17, 2026, night (owner, verbatim; recorded by the CTO)
+
+- **Everything comes from the simulation.** "No, again, real number of businesses. Everything comes from the simulation. Stop pegging things to real numbers. Everything comes from the simulation." Real data only sets the strength of a relationship. It never sets a count, rate, level, share, band or starting value. (cto-notes/playtest/2026-11-17-pins-to-lift.md lists the 489 pins being lifted.)
+- **History from 1925.** "Oh, 1925? Okay. I didn't know if I could be that ambitious, but sure. Absolutely." Each world's history is simulated from 1925. Day one is whatever that history produced: officeholders, party control and laws. "the 2024 result doesn't matter." Disasters come from each world's own risks, and "just like today" is an option. This replaces the Sept 28 and Oct 12 day-one rulings.
+- **Parties.** Parties come out of each world's history and can rise, fall, split, merge or rebrand; each carries its own founding, stances and notable people. "I don't mean it literally. Again, just conceptually."
+- **Appointments.** "No, you can only be appointed to council, like the playable offices." Boards exist in the background: "Other people can hold them and appoint them, but not the player." Keep them basic: "let it be on people's records."
+- **Every figure is traceable from dev mode.** "every figure should be traceable from dev mode to speed this up in the futute"
+- **The skills policy** ("Let's go ahead"): update an existing skill first; a new skill retires or merges an old one, under a cap of about 40; gotchas go in the job's skill; rules that must always hold become GitHub checks; unused skills are cut. Skills and docs merge straight to main, even in train mode.
+- **Scene patterns from real lives.** "That's exactly what I've been wanting when I've said use real lives." Roles and settings are slots: "You're a little too specific." The patterns are in docs/story/scene-patterns.*.
+
 ## Open
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).

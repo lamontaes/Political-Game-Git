@@ -27,7 +27,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import type { CoreEventInput } from "../core2/types";
+import type { CoreEventInput, PersonState } from "../core2/types";
 import {
   DEFAULT_DRIVES_DATA,
   drivesReport,
@@ -233,13 +233,23 @@ check(
 // (one rule, not a second copy): the responsible fact, else the person its
 // record names as deciding the harm (who decided a layoff), else the topic or
 // the institution the record names.
+// A drive aims at who was responsible on the day it formed, so a decider
+// who has since died still counts: every person the world holds is read as
+// the living party they were then (a person dead before the drive formed
+// could not have been named by it).
+const onTheDayItFormed: ReadonlyMap<string, Readonly<PersonState>> = {
+  get: (id: string) => {
+    const person = core.people.get(id as never);
+    return person ? ({ ...person, alive: true } as PersonState) : undefined;
+  },
+} as ReadonlyMap<string, Readonly<PersonState>>;
 const responsible = (id: string) =>
   // The trace keeps the event without its id, people and place; the engine's
   // rule reads only the id, the facts, the topic and the kind.
   responsibleId(
     DEFAULT_DRIVES_DATA,
     { ...events.get(id)!, id } as unknown as CoreEventInput,
-    core.people,
+    onTheDayItFormed,
   );
 const isRecord = (id: string) =>
   core.people.has(id as never) || core.organizations.has(id);

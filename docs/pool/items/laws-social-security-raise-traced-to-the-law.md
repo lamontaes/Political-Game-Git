@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-8fxsy5
+claimed-by:
 pr:
 after: laws-budget-line-reach-credited-to-latest-measure
 blocked-on:
@@ -16,6 +16,8 @@ source: Account lead thread "Check state and federal laws take effect", Nov 15, 
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+claimed-at:
+branch: claude/project-thread-8fxsy5
 ---
 
 **What.** When Congress raises the Social Security line, every retiree's check in the played world rises by the same share from the next payment: full people's awards, the opening's award contracts and the counted retirees' pooled awards. But the law's page "What this did" and dev mode's bill card show only the money paid to retirees elsewhere, with no retiree in town named or counted, because nothing writes the raise on the law's own record. The owner asked that every law's effect be traceable in dev mode (Nov 14). Seen: the law page's "What this did" and dev mode's bill card for a Congress bill that raises Social Security.
@@ -33,3 +35,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/residents.ts, src/core2/law-reach/social-security-reach.test.ts (new)
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

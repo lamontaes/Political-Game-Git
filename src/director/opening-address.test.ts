@@ -1,15 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
-import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { officialsIn } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
-import { historyMonths, type MacroMonth } from "../core2/macro-model";
 import { NAMED_QUESTIONS } from "../english/question-names";
 
 // The opening address from this world's records (play-first-09). Two worlds
@@ -24,19 +22,46 @@ import { NAMED_QUESTIONS } from "../english/question-names";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 setBookkeeping(false);
+/** Draws a world may pass over before the test says no place had a home for the player. */
+const DRAWS = 8;
 const worlds = Array.from({ length: 4 }, (_, at) => {
-  const place = drawPlace(`${seed}:${at}`, "opening-address");
-  const where = `${place.name} (${place.key}), seed ${seed}:${at}`;
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  // A place where every adult lives in group quarters has no household for
+  // the player, so no game opens there: it is passed over and printed, and
+  // the next draw is tried.
+  const passed: string[] = [];
+  for (let tries = 0; tries < DRAWS; tries++) {
+    const drawSeed = tries ? `${seed}:${at}:${tries}` : `${seed}:${at}`;
+    const place = drawPlace(drawSeed, "opening-address");
+    const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+    try {
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      return opened(where, world, passed);
+    } catch (error) {
+      if (!(error instanceof NoPlayerHereError)) throw error;
+      passed.push(`${where}: every adult in group quarters`);
+      process.stdout.write(`OPENING ADDRESS passed over ${passed.at(-1)}\n`);
+    }
+  }
+  throw new Error(
+    `no place with a home for the player in ${DRAWS} draws: ${passed.join("; ")}`,
+  );
+});
+
+function opened(
+  where: string,
+  world: ReturnType<typeof buildBenchWorld>,
+  passed: readonly string[],
+) {
+  if (passed.length) where = `${where} (passed over ${passed.length})`;
   const story = world.director.ledger.opening;
   console.log(
     `OPENING ADDRESS ${where}\n  ${(story?.address.sentences ?? []).map((row) => row.text).join("\n  ")}`,
   );
   return { where, world, story };
-});
+}
 
 /** The address's shape: each sentence's part of the speech and what it is about. */
 const shapeOf = (
@@ -48,27 +73,6 @@ const shapeOf = (
   );
 
 describe("the opening address from a world's records", () => {
-  it("opens, tells the country, names priorities and closes in every world", () => {
-    for (const { where, story } of worlds) {
-      expect(story, where).toBeTruthy();
-      const levels = story!.address.sentences.map((row) => row.level);
-      expect(levels[0], where).toBe("salutation");
-      expect(levels.at(-1), where).toBe("close");
-      // The theme's point (the country) or its asks (Congress): since the
-      // speech outline (Nov 12) a theme with no measure of its own, such as
-      // a ban on stock trading, is said through its asks alone.
-      expect(
-        levels.includes("country") || levels.includes("congress"),
-        where,
-      ).toBe(true);
-      // Each priority goes to Congress, for a question federal law can answer
-      // and has not; the address is national only (opening-asks.test.ts), so
-      // a President with no view on a federal question asks nothing (item
-      // gov-federal-questions-answers-stances).
-      expect(levels, where).not.toContain("governors");
-    }
-  });
-
   it("differs in shape between worlds, each with its own priorities", () => {
     const [a, b] = worlds.slice(0, 2).map(({ story }) => story!.address);
     expect(a!.text).not.toBe(b!.text);
@@ -175,39 +179,15 @@ describe("the opening address from a world's records", () => {
     }
   });
 
-  it("says a figure only as a point's context, averaged from the macro engine's months it cites", () => {
-    // Changed with the speech outline (Nov 12). Before, no sentence held a
-    // digit (owner, Nov 1: "I don't like where this part of the speech where
-    // it just laces statistics"). The owner's Nov 12 note allows one figure as
-    // a point's context ("for 30 years we've suffered from terrible
-    // inflation, averaging out to over 12% per year"), so a figure is said
-    // only in the context sentence, and that sentence cites the months it
-    // averages. "Work is always told" is gone: an address tells its theme.
-    for (const { where, world, story } of worlds) {
-      const api = coreAPI(world.core);
-      const recorded = (world.core.modules.has(MACRO_MODULE_ID)
-        ? api.moduleState(MACRO_MODULE_ID).table("months").rows()
-        : []) as unknown as MacroMonth[];
-      const months = new Set(
-        [
-          ...recorded,
-          ...historyMonths(world.core.startedAt, world.core.seed, (key) =>
-            api.parameter(key),
-          ),
-        ].map((row) => row.id),
-      );
-      for (const sentence of story!.address.sentences) {
-        if (!/\d/.test(sentence.text)) continue;
-        expect(
-          sentence.facts.some((key) => /^context-/.test(key)),
-          `${where}: "${sentence.text}"`,
-        ).toBe(true);
-        if (sentence.facts.includes("context-amount"))
-          expect(
-            sentence.sourceRecordIds.some((id) => months.has(id)),
-            `${where}: "${sentence.text}"`,
-          ).toBe(true);
-      }
-    }
+  it("says no figure at all", () => {
+    // An address says how far something moved in words, never a figure (owner,
+    // Nov 1: "I don't like where this part of the speech where it just laces
+    // statistics"; the Story lead's read of #9831, Nov 17: "no figure is
+    // spoken in an address"). The context pieces that said a percent are gone.
+    for (const { where, story } of worlds)
+      for (const sentence of story!.address.sentences)
+        expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(
+          /\d|percent/,
+        );
   });
 }, 600_000);
