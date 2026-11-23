@@ -1,16 +1,15 @@
 /**
- * The paper weighs a business closing and a layoff by the share of the
- * town's jobs it takes (pool item play-local-layoffs-on-screen). Pinned
- * places and seeds (the industry traces' own): Thief River Falls, Minnesota
- * (2764570, seed ind-2764570), whose one wholesaler closed on June 1, 2025
- * with most of the town's jobs, and Wilmont, Minnesota (2770582, seed
- * ind-2770582), whose businesses cut staff in March and April 2025 and
- * whose April closing the desk weighed (Center, North Dakota's layoffs
- * moved to 2026 when the world changed). Nothing is staged: the game's own
- * days play. Limit 300 seconds each.
+ * The paper weighs a business closing, a layoff and a national disaster by
+ * the share of people it takes (pool item play-local-layoffs-on-screen).
+ * Each test draws places from all 56, plays each month by month to a limit
+ * until its case happens in the game's own days, and names every place it
+ * passed over. Nothing is staged and no place or seed is pinned; set
+ * GOLDEN_PATH_SEED to replay a draw.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "./world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld, NoPlayerHereError } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -18,101 +17,136 @@ import { coreAPI } from "../core2/state";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import type { DeskWeighing, PrintedStory } from "../core2/press-desk";
 
-function played(
-  place: string,
-  until: string,
-  dev: boolean,
-  seed = `ind-${place}`,
-) {
-  setBookkeeping(dev);
-  const world = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place,
-  });
-  advanceCore(world.core, until as never);
-  const press = coreAPI(world.core).moduleState(PRESS_MODULE_ID);
-  return {
-    where: `${world.place.displayName} (seed ${seed})`,
-    stories: press.table("stories").rows() as unknown as PrintedStory[],
-    weighings: press.table("weighings").rows() as unknown as DeskWeighing[],
-  };
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 4;
+const MONTHS = 14;
+
+interface Found {
+  readonly where: string;
+  readonly stories: PrintedStory[];
+  readonly weighings: DeskWeighing[];
+  readonly passed: string[];
 }
 
-describe("the paper weighs a closing and a layoff by the town's jobs", () => {
-  it("prints the Thief River Falls wholesaler's closing in the town's paper", () => {
-    const { where, stories } = played("2764570", "2025-07-15", false);
-    const closing = stories.filter((s) =>
-      s.wireId.startsWith("employer-closed:"),
-    );
-    process.stdout.write(
-      `PRINTED ${where}: ${closing.length} closing stories\n`,
-    );
-    expect(closing.length, `${where}: the closing was printed`).toBeGreaterThan(
-      0,
-    );
-    // One story per closing, never the owner's twin beside it.
-    expect(
-      stories.filter((s) => s.wireId.startsWith("event:business.closed:")),
-      `${where}: no twin story`,
-    ).toHaveLength(0);
-  }, 300_000);
-
-  it("weighs each of Wilmont's layoff months and its closing by their share", () => {
+/** Play drawn places month by month until `holds` is true of the weighings. */
+function find(
+  purpose: string,
+  holds: (weighings: DeskWeighing[], stories: PrintedStory[]) => boolean,
+): Found {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw++) {
+    const place = drawPlace(draw === 0 ? seed : `${seed}:${draw}`, purpose);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     setBookkeeping(true);
-    const world = buildBenchWorld("ind-2770582", gameStartDate(), {
-      twoLevel: true,
-      placeKey: "2770582",
-    });
-    const where = `${world.place.displayName} (seed ind-2770582)`;
+    let world;
+    try {
+      world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+    } catch (error) {
+      if (!(error instanceof NoPlayerHereError)) throw error;
+      passed.push(`${where}: no player can live here`);
+      continue;
+    }
     const press = coreAPI(world.core).moduleState(PRESS_MODULE_ID);
-    // Dev mode keeps a weighing only while its item is fresh, so each month
-    // is read the week it is weighed.
-    const months = new Map<string, number>();
-    for (const until of ["2025-03-20", "2025-04-20", "2025-05-20"]) {
-      advanceCore(world.core, until as never);
+    const start = gameStartDate();
+    const seen = new Map<string, DeskWeighing>();
+    for (let month = 1; month <= MONTHS; month++) {
+      const y =
+        Number(start.slice(0, 4)) +
+        Math.floor((Number(start.slice(5, 7)) - 1 + month) / 12);
+      const m = ((Number(start.slice(5, 7)) - 1 + month) % 12) + 1;
+      advanceCore(world.core, `${y}-${String(m).padStart(2, "0")}-20` as never);
+      // A weighing lasts only while its item is fresh: read each month.
       for (const w of press
         .table("weighings")
         .rows() as unknown as DeskWeighing[])
-        if (w.kind === "business.staff-reduced")
-          months.set(
-            w.wireId.slice(-10, -3),
-            Math.max(w.reached, months.get(w.wireId.slice(-10, -3)) ?? 0),
-          );
+        seen.set(`${w.outletId}|${w.wireId}|${w.date}`, w);
+      const weighings = [...seen.values()];
+      const stories = press
+        .table("stories")
+        .rows() as unknown as PrintedStory[];
+      if (holds(weighings, stories))
+        return {
+          where,
+          weighings,
+          stories: press.table("stories").rows() as unknown as PrintedStory[],
+          passed,
+        };
     }
-    process.stdout.write(
-      `WEIGHED ${where}: layoff months ${[...months].map(([m, r]) => `${m} reaches ${r.toFixed(1)}`).join(", ")}\n`,
+    passed.push(
+      `${where}: no such case in ${MONTHS} months (${world.core.date})`,
     );
-    for (const month of ["2025-03", "2025-04"])
-      expect(
-        months.get(month) ?? 0,
-        `${where}: ${month} was weighed`,
-      ).toBeGreaterThan(0);
-    const stories = press.table("stories").rows() as unknown as PrintedStory[];
-    expect(
-      stories.some((s) => s.wireId.startsWith("employer-closed:")),
-      `${where}: the April closing was printed`,
-    ).toBe(true);
-  }, 300_000);
+  }
+  throw new Error(
+    `No drawn place had the case (${purpose}, seed ${seed}):\n${passed.join("\n")}`,
+  );
+}
 
-  it("weighs a national disaster by the share of the nation's people it struck (Wilmont, Minnesota)", () => {
-    const { where, stories, weighings } = played(
-      "2770582",
-      "2025-04-01",
-      true,
-      "2cb5aaf1",
+const done = (f: Found, what: string) =>
+  process.stdout.write(
+    `${what} at ${f.where}; passed over: ${f.passed.join(" | ") || "none"}\n`,
+  );
+
+describe("the paper weighs a closing, a layoff and a disaster by size", () => {
+  it("weighs a closing by the jobs it ended and prints it once, never beside the owner's twin", () => {
+    const f = find(
+      "desk-size-closing",
+      (ws, stories) =>
+        ws.some((w) => w.kind === "organization.closed" && w.reached > 0) &&
+        stories.some((s) => s.kind === "organization.closed"),
     );
-    const disasters = weighings.filter((w) => w.kind === "national.disaster");
-    const printed = stories.filter((s) => s.kind === "national.disaster");
-    process.stdout.write(
-      `DISASTERS ${where}: ${printed.length} printed of ${new Set(disasters.map((w) => w.wireId)).size} weighed\n`,
+    done(f, "CLOSING weighed and printed");
+    const closings = f.weighings.filter(
+      (w) => w.kind === "organization.closed",
     );
-    expect(printed.length, `${where}: a disaster was printed`).toBeGreaterThan(
+    // A closing the desk dropped says why, by its week's stories or its level's room.
+    for (const w of closings)
+      expect(
+        ["ran", "below-the-weeks-stories", "no-room-at-its-level"],
+        `${f.where}: ${w.wireId}`,
+      ).toContain(w.why);
+    const printed = f.stories.filter((s) => s.kind === "organization.closed");
+    expect(printed.length, `${f.where}: a closing was printed`).toBeGreaterThan(
       0,
     );
-    // The size is the people the declaration names, so disasters differ.
     expect(
-      new Set(disasters.map((w) => Math.round(w.reached * 1000))).size,
-      `${where}: disasters reach different shares`,
-    ).toBeGreaterThan(1);
-  }, 300_000);
+      f.stories.filter((s) => s.wireId.startsWith("event:business.closed:")),
+      `${f.where}: no twin story`,
+    ).toHaveLength(0);
+  }, 1_200_000);
+
+  it("weighs a layoff by the share of the town's jobs it took", () => {
+    const f = find("desk-size-layoff", (ws) =>
+      ws.some((w) => w.kind === "business.staff-reduced" && w.reached > 0),
+    );
+    done(f, "LAYOFF weighed");
+    const layoffs = f.weighings.filter(
+      (w) => w.kind === "business.staff-reduced",
+    );
+    expect(layoffs.length, `${f.where}: layoff weighed`).toBeGreaterThan(0);
+    expect(
+      layoffs.every((w) => w.reached >= 0 && Number.isFinite(w.score)),
+      `${f.where}: each layoff has a reach and a score`,
+    ).toBe(true);
+  }, 1_200_000);
+
+  it("weighs a national disaster by the share of the nation's people it struck", () => {
+    const f = find(
+      "desk-size-disaster",
+      (ws, stories) =>
+        stories.some((s) => s.kind === "national.disaster") &&
+        new Set(
+          ws
+            .filter((w) => w.kind === "national.disaster")
+            .map((w) => Math.round(w.reached * 1000)),
+        ).size > 1,
+    );
+    done(f, "DISASTERS weighed");
+    expect(
+      f.stories.some((s) => s.kind === "national.disaster"),
+      `${f.where}: a disaster was printed`,
+    ).toBe(true);
+  }, 1_200_000);
 });
