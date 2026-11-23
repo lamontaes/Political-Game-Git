@@ -25800,10 +25800,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+      "key": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would {bill} do for the budget?",
+      "text": "Tell me what {bill} does for the budget.",
       "uses": [
         {
           "subject": "scene",
@@ -26123,7 +26123,7 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
           "requiresFacts": ["bill", "budget-cost"],
           "setsFacts": ["heard-cost"]
         },
@@ -26161,7 +26161,7 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
           "requiresFacts": ["bill", "no-cost"],
           "setsFacts": ["heard-cost"]
         },
