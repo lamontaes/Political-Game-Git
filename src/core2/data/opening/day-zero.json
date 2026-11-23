@@ -60,9 +60,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Businesses operating state.",
-      "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["2338740"]
+      "reason": "Businesses operating state."
     },
     {
       "table": "business.outsideCosts",
@@ -807,8 +805,7 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Dues groups collect.",
-      "knownRed": "opening-interest-groups-empty-at-day-0",
-      "knownRedPlaces": ["2338740"]
+      "knownRed": "opening-interest-groups-empty-at-day-0"
     },
     {
       "table": "core2-interest-groups-v1.groups",
@@ -929,7 +926,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Studies a body has under way.",
-      "knownRed": "opening-officials-working-life-empty-at-day-0"
+      "knownRed": "opening-officials-working-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-legislature-v1.votes",
@@ -1139,7 +1137,7 @@
       "filledBy": "day 31",
       "reason": "Permits held (carry, storage).",
       "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["2338740"]
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-public-safety-v1.storage",
@@ -2372,14 +2370,16 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Prices people know and feel."
+      "reason": "Prices people know and feel.",
+      "zeroAtPlaces": ["1150000"]
     },
     {
       "table": "place-prices.learned",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Same."
+      "reason": "Same.",
+      "zeroAtPlaces": ["1150000", "2338740"]
     },
     {
       "table": "place-prices.rules",
