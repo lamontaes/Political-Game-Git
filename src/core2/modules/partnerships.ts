@@ -1189,8 +1189,10 @@ function askOutWeight(
     // Nobody they know is free: their other choice is the wider population,
     // where the monthly review finds a partner for a single who knows none
     // (`meetPartner`). That partner fits as well as anyone can fit their age,
-    // and is someone they would be as close to as they are to the people they
-    // know: the asker is weighed against both.
+    // and is someone they would come to be as close to as the people outside
+    // their family they know in town (not counting the asker): the asker is
+    // weighed against both. With nobody outside their family to measure by,
+    // the tie measures as the asker's own, and the age fit decides.
     const today = makeIsoDate(core.date);
     const bestFit = bestPartnerAgeLikelihood(
       ageOnDate(makeIsoDate(asked.birthDate), today),
@@ -1198,7 +1200,21 @@ function askOutWeight(
       sexOf(asker),
       api.parameter("votingAge"),
     );
-    const typical = typicalCloseness(api, asked);
+    let sum = zero;
+    let n = zero;
+    for (const id of asked.knownIds) {
+      if (id === asker.id || asked.familyIds.has(id)) continue;
+      const other = core.people.get(id);
+      if (
+        !other?.alive ||
+        other.placeId !== asked.placeId ||
+        other.householdId === asked.householdId
+      )
+        continue;
+      sum += closenessBetween(core, asked.id, id);
+      n += api.parameter("one");
+    }
+    const typical = n > zero && sum > zero ? sum / n : mine.tie;
     return {
       weight: (mine.fit * mine.tie) / (bestFit * typical),
       reason:
