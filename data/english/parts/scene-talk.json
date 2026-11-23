@@ -46470,6 +46470,15 @@
           "role": "asked",
           "purpose": "offer-to-run",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["law"]
         }
       ],
       "bearing": "braced",
@@ -70269,6 +70278,1344 @@
       "tag": {
         "move": "warn",
         "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-up-with-you-on-the-sidewalk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches up with you on the sidewalk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-flags-you-down",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} flags you down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-one-hand-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} steps into your path, one hand up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? Got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-hold-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. Hold up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-first-aren-t-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're {first}, aren't you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "excludesFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-voted-for-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You voted for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-voted-against-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You voted against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-been-reading-about-law-it-s-on-the-books-here-now",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've been reading about {law}. It's on the books here now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law", "in-force"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.so-law-is-the-law-where-we-live-now-where-do-you-stand-on-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "So {law} is the law where we live now. Where do you stand on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law", "in-force"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-keep-reading-about-law-i-want-to-know-what-it-means-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I keep reading about {law}. I want to know what it means for us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-that-about-changes-on-effective-what-does-that-mean-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read that {about} changes on {effective}. What does that mean for us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["about", "effective"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.come-effective-about-changes-i-d-like-to-hear-about-it-from-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Come {effective}, {about} changes. I'd like to hear about it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["about", "effective"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-that-about-ended-on-ended-i-want-to-know-what-comes-next",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read that {about} ended on {ended}. I want to know what comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["about", "ended"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-about-law-in-lawstate-is-that-coming-to-homestate",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read about {law} in {lawstate}. Is that coming to {homestate}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law", "lawstate", "homestate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.lawstate-put-law-on-the-books-could-it-happen-in-homestate",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{lawstate} put {law} on the books. Could it happen in {homestate}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law", "lawstate", "homestate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-put-your-name-behind-bill-i-want-to-know-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You put your name behind {bill}. I want to know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-voted-no-on-bill-i-want-to-hear-your-reason",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You voted no on {bill}. I want to hear your reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-about-bill-where-are-you-on-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read about {bill}. Where are you on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["acted", "law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-lawstate-s-law-it-doesn-t-reach-homestate",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's {lawstate}'s law. It doesn't reach {homestate}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-lawstate-not-homestate-nothing-changes-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's {lawstate}, not {homestate}. Nothing changes here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-doesn-t-start-until-effective-nothing-changes-before-then",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It doesn't start until {effective}. Nothing changes before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.not-until-effective-we-ll-see-what-it-does-once-it-starts",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Not until {effective}. We'll see what it does once it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-ended-on-ended-and-nothing-has-taken-its-place-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It ended on {ended}, and nothing has taken its place yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-the-law-here-now-i-m-watching-how-law-lands-on-people",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's the law here now. I'm watching how {law} lands on people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["law", "in-force"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-for-bill-and-i-d-vote-for-it-again",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted for {bill}, and I'd vote for it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-against-bill-and-i-d-do-it-again",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted against {bill}, and I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-find-out-what-law-means-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll find out what {law} means for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["law", "in-force"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.let-me-look-into-law-and-get-back-to-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Let me look into {law} and get back to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["law", "in-force"],
+          "excludesFacts": ["lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.before-effective-i-ll-find-out-what-it-means-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Before {effective}, I'll find out what it means for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["effective"],
+          "excludesFacts": ["lawstate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-keep-an-eye-on-how-bill-works-out",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll keep an eye on how {bill} works out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["bill", "bill-passed"],
+          "excludesFacts": ["lawstate", "ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.call-my-office-about-law",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Call my office about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.call-my-office-about-bill",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Call my office about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-voted-no-on-bill-the-yes-votes-carried-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I voted no on {bill}. The yes votes carried it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-against", "bill-passed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.the-whole-body-passed-bill-not-just-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "The whole {body} passed {bill}, not just me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-for", "bill-passed", "body"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.that-s-on-whoever-passed-law-i-never-had-a-vote-on-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "That's on whoever passed {law}. I never had a vote on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["acted", "lawstate", "ended", "effective"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.can-t-stop-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Can't stop now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.easy-to-say",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Easy to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["lawstate", "ended"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.not-buying-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Not buying it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-voted-against-what-people-here-wanted-on-bill",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You voted against what people here wanted on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["against-people"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-no-answer",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's no answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "after": "blame"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-to-know-homestate-isn-t-in-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good to know {homestate} isn't in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.effective-then-i-ll-mark-it-down",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "{effective}, then. I'll mark it down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.so-it-s-been-gone-since-ended-alright",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "So it's been gone since {ended}. Alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "excludesFacts": ["lawstate", "ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-first-i-ll-be-checking",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I'll be checking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.by-when",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "By when?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-right-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-asking-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm asking now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["bill"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-bill-when-i-vote",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember {bill} when I vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["bill"],
+          "after": "leave"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-this",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["law"],
+          "after": "leave"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-23",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
       }
     }
   ]
