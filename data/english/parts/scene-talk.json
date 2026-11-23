@@ -635,10 +635,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-now-name-is-on-the-line",
+      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} gave {money} to your campaign. Now {name} is on the line.",
+      "text": "{name} gave {money} to your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -3359,30 +3359,6 @@
       "tag": {
         "move": "agree",
         "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-from-employer",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The phone rings. It's {name}, from {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
       }
     },
     {
@@ -46493,30 +46469,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.your-phone-rings-it-s-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your phone rings. It's {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-on-the-phone",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -67483,7 +67435,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "nearby"]
+          "requiresFacts": ["moved", "nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67508,7 +67461,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["moved", "hometown"]
+          "requiresFacts": ["moved", "hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67533,7 +67487,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67558,7 +67513,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer"]
+          "requiresFacts": ["new-employer"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67583,7 +67539,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -67608,7 +67565,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married"]
+          "requiresFacts": ["married"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -67633,7 +67591,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -67658,7 +67617,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -67683,7 +67643,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child"]
+          "requiresFacts": ["new-child"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -67708,7 +67669,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -67733,7 +67695,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67758,7 +67721,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["nearby"]
+          "requiresFacts": ["nearby"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -67783,7 +67747,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -67808,7 +67773,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -67833,7 +67799,8 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["hometown"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -70449,31 +70416,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-s-number-comes-up-on-your-phone",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name}'s number comes up on your phone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-on-the-line-speaking-quietly",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -70515,31 +70457,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.your-phone-rings-with-a-call-from-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your phone rings with a call from {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -75660,7 +75577,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -75684,7 +75602,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -75708,7 +75627,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "letter-ask",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "warm",
@@ -75873,6 +75793,81 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.come-soon-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Come soon, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-still-hoping",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're still hoping.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.still-coming",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Still coming?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "request",
         "key": "news-received"
       }
     },
