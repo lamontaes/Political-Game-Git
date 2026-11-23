@@ -295,6 +295,7 @@ async function drawTv(speech, name, on) {
   const set = $("tv");
   set.hidden = true;
   set.replaceChildren();
+  $("tv-screen")?.remove();
   if (!on || on.medium !== "television") return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
@@ -309,6 +310,18 @@ async function drawTv(speech, name, on) {
     }),
   );
   set.hidden = false;
+  // A room that paints its own set shows the broadcast on it, not a blank or
+  // static screen (P13/C18, Nov 23): the speaker on the painted glass, its
+  // rectangle in percent of the picture from controls.tv.screens.
+  const place = $("backdrop").src.split("/").at(-1)?.split("__")[0];
+  const rect = controls.tv.screens?.[place];
+  if (!rect) return;
+  const glass = document.createElement("div");
+  glass.id = "tv-screen";
+  [glass.style.left, glass.style.top, glass.style.width, glass.style.height] =
+    rect.map((n) => `${n}%`);
+  glass.append(drawFace(c.face, { shape: "round" }));
+  $("stage").append(glass);
 }
 
 // Each Continue clears the set before the next part draws its own, so the
