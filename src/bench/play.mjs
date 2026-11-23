@@ -277,11 +277,14 @@ function drawTalkStrip() {
         (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
         (speaker.includes(b) ? -1 : here.people.indexOf(b)),
     );
-  $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
-      : []),
-  );
+  const strip = shown.length
+    ? bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })
+    : null;
+  // Nobody on the strip speaks (the narrator, or a speaker heard on a set):
+  // silent people are never shown big (owner, Nov 17; N16-43).
+  if (strip && !shown.some((p) => p.personId === talkPersonId))
+    strip.dataset.silent = "true";
+  $("talk-strip").replaceChildren(...(strip ? [strip] : []));
 }
 
 /**

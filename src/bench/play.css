@@ -529,6 +529,10 @@ ol {
 #talk-strip .bust-strip {
   --bust: 150px;
 }
+/* Nobody here speaks: the strip stays at the small size whatever its count. */
+#talk-strip .bust-strip[data-silent] {
+  --bust: 96px;
+}
 #stage.cut {
   animation: cut 0.6s ease-out;
 }
