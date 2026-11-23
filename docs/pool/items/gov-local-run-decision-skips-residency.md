@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9741
 after:
 blocked-on:
 root: none
@@ -16,6 +16,7 @@ lead: governing
 model: sonnet
 effort: medium
 source: views thread, Nov 16 (M0-13 red on a pull request's golden-path run), lead's call
+merged-at: 2026-11-16T20:13:11.101Z
 ---
 
 **What.** For a local seat, the people who weigh running include drawn people who live outside the area the seat serves, and their residency is checked only at the clerk's window. One of them can decide to run and then be refused, so a race that had a willing challenger goes to the ballot without one. M0-13 fails on it at Benton City, Washington.

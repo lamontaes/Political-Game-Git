@@ -338,6 +338,19 @@
           "opening": "tell"
         },
         {
+          "match": {
+            "label": "cause:event:law.effect-learned",
+            "counterpart": "none"
+          },
+          "bind": {
+            "bearer": "subject",
+            "receiver": "household",
+            "about": "subject"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
           "bind": {
             "about": "subject",
             "receiver": "kin",
@@ -5157,6 +5170,11 @@
       "key": "study-formed",
       "note": "The body formed a study committee on a bill it could not settle (the legislature's study-formed record: the sponsor chairs it, and its members are the opponents nearest to changing their vote). The chair tells a member what it is charged with and when it reports, or a member asks the player, who chairs it, how it should begin. The player can agree to serve, say a study is only a delay, ask who sits on it and when it reports, or say nothing much.",
       "purpose": "study-formed",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "asker": "speaker",
       "asked": "you",
       "stakes": ["bill", "vote"],
@@ -5205,6 +5223,11 @@
       "key": "study-reported",
       "note": "A study committee reached its sunset and reported (the legislature's study-reported record: the members' mean position on the bill, given to the body by the chair as a speech). The chair tells a member what the committee found and, from the member's stance record, whether the speech moved them; or a member brings the finding to the player, who chairs it. The player can agree, disagree, ask what moved the finding, or say nothing much.",
       "purpose": "study-reported",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "asker": "speaker",
       "asked": "you",
       "stakes": ["bill", "vote"],

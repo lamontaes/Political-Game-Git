@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** This is a game, not a spreadsheet: talk depth comes from how people react to what is happening now. Scenes and talks read what is happening in the world now (OWNER-DECISIONS, Oct 27: lines differ by what is happening in the world); a reply continues the conversation and a scene has depth (LAW.md section 4). Every number lives in a parameter table: the two weeks are a TUNABLE parameter with its spread.
 
-**Done when.** The test src/director/household-talk.test.ts, in a buildBenchWorld drawn place with the seed it prints, shows that a month after the address no household member has the address among their talk subjects, fails on main's conversation.ts and passes on the branch.
+**Done when.** The test src/director/household-talk.test.ts (removed), in a buildBenchWorld drawn place with the seed it prints, shows that a month after the address no household member has the address among their talk subjects, fails on main's conversation.ts and passes on the branch.
 
 **Time box.** 2 hours.
 
@@ -26,6 +26,6 @@ milestone: play-first
 
 **Screenshot.** None needed: a talk's subject, proven by the test in a drawn place.
 
-**Files.** src/director/conversation.ts, src/director/data/director.json, src/director/household-talk.test.ts
+**Files.** src/director/conversation.ts, src/director/data/director.json
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/address-talk-fades` is kept; claiming this item takes it over.

@@ -23,6 +23,7 @@ import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
 import { campaignDay } from "../bench/campaign";
 import { buildBenchWorld } from "../bench/world";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const PLACE = "3655673";
 const SEED = "580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5";
@@ -42,7 +43,7 @@ it(`the gather target is the clerk's count plus the signers off the roll (Otisvi
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   const town = corePlaceByKey(PLACE)?.context.jurisdiction.id;
   const start = makeIsoDate(core.date);
-  const adults = [...core.people.values()]
+  const adults = townResidentsByCash(core, coreAPI(core))
     .filter(
       (p) =>
         p.alive &&
@@ -50,7 +51,6 @@ it(`the gather target is the clerk's count plus the signers off the roll (Otisvi
         p.tier !== "husk" &&
         ageOnDate(makeIsoDate(p.birthDate), start) >= 35,
     )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
     .slice(0, 60);
   let filed: { personId: string; filingId: string } | null = null;
   for (const adult of adults) {

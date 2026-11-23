@@ -4,8 +4,8 @@
 // record the server gives for that person (scene.ts faceOf, or the creator's
 // look through appearance.ts portraitFace): their bust (ui/bust.mjs stacks its
 // pieces). Three crops of the same bust, never a second picture:
-// - `round`: the round headshot, the head filling the middle of the circle so
-//   every face takes the same share of the frame at every size (no box; owner,
+// - `round`: the headshot, the head filling the middle of a soft-edged square so
+//   every face takes the same share of the frame at every size (no circle, no box; owner,
 //   Oct 28);
 // - `bust`: across a screen's left column, ending in a soft fade on the chest
 //   (the approved strip screens);
@@ -35,6 +35,7 @@ export function face(
 ) {
   if (shape === "bust") return columnBust(record, alt, column);
   if (shape === "strip") return stripStack(record, alt);
+  if (shape === "head" || shape === "chest") return crop(record, shape, alt);
   return round(record);
 }
 
@@ -72,6 +73,29 @@ function columnBust(record, alt, column) {
   const glow = el("div", { className: "mxglow" }, frame);
   glow.style.width = `${column}px`;
   return glow;
+}
+
+/**
+ * A frameless picture of a look, for the creator's rows of hairstyles, facial hair and tops: `head`
+ * fills the square with the head and its hair, `chest` takes in the shoulders and the top. No circle and
+ * no box (owner, Nov 5: portraits are never inside a circle or box); the row draws the lit fill.
+ */
+const CROPS = {
+  head: { share: 0.5, top: 0.2 },
+  chest: { share: 0.3, top: 0.1 },
+};
+function crop(record, shape, alt) {
+  const frame = el("span", { className: `crop crop-${shape}` });
+  if (!record) return frame;
+  const stack = bustStack(record.bust, alt);
+  const at = bustPlace(record.bust, CROPS[shape]);
+  Object.assign(stack.style, {
+    width: `${at.side * 100}%`,
+    left: `${at.left * 100}%`,
+    top: `${at.top * 100}%`,
+  });
+  frame.append(stack);
+  return frame;
 }
 
 function stripStack(record, alt) {

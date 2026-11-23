@@ -23,6 +23,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { chooseVariant } from "./arc-variant";
 import { doorsKnocked } from "./doors";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // A door the player knocks plays the arc its resident's own records give
 // (arc-variant.ts, src/director/data/arc-variants.json, families ask-signature and
@@ -171,17 +172,13 @@ it.each(PINNED)(
         advanceCore(core, addDays(makeIsoDate(core.date), 7));
       const start = makeIsoDate(core.date);
       const town = corePlaceByKey(place.key)?.context.jurisdiction.id;
-      const adults = [...core.people.values()]
-        .filter(
-          (row) =>
-            row.alive &&
-            row.placeId === town &&
-            row.tier !== "husk" &&
-            ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const adults = townResidentsByCash(core, coreAPI(core)).filter(
+        (row) =>
+          row.alive &&
+          row.placeId === town &&
+          row.tier !== "husk" &&
+          ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
+      );
       let filing: ReturnType<typeof fileLocal> = null;
       let playerId: PersonId | undefined;
       for (const row of adults.slice(0, 60)) {

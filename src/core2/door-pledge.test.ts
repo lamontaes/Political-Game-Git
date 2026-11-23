@@ -64,6 +64,7 @@ import campaignParameters from "./data/campaigns/parameters.json" with { type: "
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceToFilingOpen } from "./gov-test-clock";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**
@@ -116,11 +117,9 @@ function filedRace(
   openParties(core);
   advanceToFilingOpen(core);
   const api = coreAPI(core);
-  const adults = [...core.people.values()]
-    .filter(
-      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
   const against = [`${pick(PLATFORM_QUESTIONS, "q1")}=-1`];
   for (const open of openContests(api).filter(

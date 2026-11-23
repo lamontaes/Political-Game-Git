@@ -160,7 +160,11 @@
           "keeps": "none",
           "when": {}
         }
-      ]
+      ],
+      "follow": {
+        "accept": ["thank"],
+        "press": ["accept"]
+      }
     },
     "confirm-vote": {
       "state": "ask",
@@ -1093,13 +1097,17 @@
           "id": "declared",
           "label": "You declared the emergency",
           "keeps": "promise",
-          "when": { "anyReply": ["agree"] }
+          "when": {
+            "anyReply": ["agree"]
+          }
         },
         {
           "id": "let-pass",
           "label": "You let it pass",
           "keeps": "none",
-          "when": { "anyReply": ["decline"] }
+          "when": {
+            "anyReply": ["decline"]
+          }
         },
         {
           "id": "left-there",
@@ -2649,25 +2657,33 @@
         "tell-reason": ["agree", "decline", "stall"],
         "tell-need": ["agree", "decline", "stall"]
       },
-      "again": { "press": ["agree", "relent", "refuse", "deflect"] },
+      "again": {
+        "press": ["agree", "relent", "refuse", "deflect"]
+      },
       "endings": [
         {
           "id": "endorsed",
           "label": "You gave them your endorsement",
           "keeps": "none",
-          "when": { "reply": ["agree", "relent"] }
+          "when": {
+            "reply": ["agree", "relent"]
+          }
         },
         {
           "id": "refused",
           "label": "You said no",
           "keeps": "relationship-strained",
-          "when": { "reply": ["decline", "refuse"] }
+          "when": {
+            "reply": ["decline", "refuse"]
+          }
         },
         {
           "id": "thinking",
           "label": "You said you would think about it",
           "keeps": "none",
-          "when": { "reply": ["stall", "deflect"] }
+          "when": {
+            "reply": ["stall", "deflect"]
+          }
         },
         {
           "id": "left-there",

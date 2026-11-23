@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-a6n4tc-vote-reasons
-pr: 9584
+pr: #9584
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Words lead and second reader, Nov 15 17:15Z and 18:00Z (after-vote-lines.md)
+merged-at: 2026-11-16T19:59:03.793Z
 ---
 
 **What.** On the reporter's call after a council vote, the reporter asks "why" and the player's plain answer is "I voted no. I'll stand on that." or "I voted for it. I'd vote for it again.", which give no reason (rule 111). Seen at #9510's head 321ba3fc in the played file for Salem, Ohio (3969834, rank-m4), Downs, Kansas (2018500, yes-vote-3) and Bagdad, Arizona (0405140, yes-vote-6).

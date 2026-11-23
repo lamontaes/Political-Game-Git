@@ -35,6 +35,7 @@ import {
 } from "./modules/justice";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const ATTEMPTS = 6;
 const YEAR = 365;
@@ -90,16 +91,13 @@ it("a defendant in a played year posts bail into the court escrow and gets it ba
             .map((t) => t.personId!),
         ),
       ].slice(0, 40);
-      const rich = [...core.people.values()]
+      const rich = townResidentsByCash(core, coreAPI(core))
         .filter(
           (p) =>
             p.alive &&
             p.tier !== "husk" &&
             !officials.includes(p.id) &&
             alive(p.id),
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
         )
         .slice(0, 15);
       for (const offerer of rich)
