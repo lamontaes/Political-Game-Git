@@ -168,9 +168,8 @@ try {
   await drill("Race screen", async () => {
     await openRing("politics");
     await openTab("Elections");
-    const row = page
-      .locator("#sheet-body .pick, #sheet-body .race-row")
-      .first();
+    // The roster lists what asks for money, then the offices you can run for: the last row is an office.
+    const row = page.locator("#sheet-body nav.pick-list .pick").last();
     if (!(await row.count())) return false;
     await row.click();
     await page.waitForTimeout(700);
