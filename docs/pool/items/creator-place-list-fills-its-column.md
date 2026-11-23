@@ -21,7 +21,7 @@ source: Carryover screens, Nov 23 sitting (N16-12)
 **What.** The owner, Nov 16: "lots of empty, dead space right here" (the creator); his Nov 17 ruling: no empty space in the creator. In a played creator the "Where I'm from" list is a box capped at 150 px that scrolls inside itself, while about 100 px of the left column sits empty under it.
 Seen: Nov 23, a drawn place, creator at 1440x900, after a gender is picked: four state rows, a scroller, and an empty strip above the Random place button.
 
-**Cause.** Found in code: the rule `#cr-screen .choice-list { max-height: 150px }` in src/bench/play.css, under a left column that is shorter than the look column beside it.
+**Cause.** Found in code: the rule `#cr-screen .choice-list { max-height: 150px }` (about line 1438 of src/bench/play.css), under a left column that is shorter than the look column beside it.
 
 **Fix.** The place list takes the rest of its column (it grows to the column's height and scrolls only past that). No player text changes. This does not claim to close every empty area the owner may have meant; the portrait column's empty top is a separate look.
 
