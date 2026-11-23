@@ -1,6 +1,6 @@
 {
   "pack": 1,
-  "about": "The bust bank: a person on a menu is a head, a top, facial hair and hair stacked on one canvas (src/bench/bust.ts is the only reader). Round 3 (accepted by the owner Nov 10, 2026) gave six heads and six hairstyles in four colors for each sex. Round 4 (accepted Nov 11) made the clothes layers in colors: a shirt, a tie and a jacket, or one whole top, each color its own painting; it replaced round 3's tops, all but the women's denim, which round 4 does not paint.",
+  "about": "The bust bank: a person on a menu is a head, a top, facial hair and hair stacked on one canvas (src/bench/bust.ts is the only reader). Round 3 (accepted by the owner Nov 10, 2026) gave six heads and six hairstyles in four colors for each sex. Round 4 (accepted Nov 11) made the clothes layers in colors: a shirt, a tie and a jacket, or one whole top, each color its own painting; it replaced round 3's tops, all but the women's denim, which round 4 does not paint. Nov 17 additions (#10070, in the game Nov 18): five head shapes per sex (`shapes`, the standard first), six skin shades (`tones`, lightest first), `heads` by shape then tone, more hairstyles and eight more tops per sex, a style's own painting for a head shape (`byShape`), and the pairs the art checks flag (`doNotCombine`: a head and a hair or facial hair piece, never drawn together).",
   "canvas": 1254,
   "order": ["head", "top", "shirt", "tie", "jacket", "face", "hair"],
   "people": [
@@ -33,11 +33,44 @@
       "id": "man-heavy",
       "sex": "man",
       "tone": "dark"
+    },
+    {
+      "id": "woman-fair",
+      "sex": "woman",
+      "tone": "fair"
+    },
+    {
+      "id": "woman-olive",
+      "sex": "woman",
+      "tone": "olive"
+    },
+    {
+      "id": "woman-brown",
+      "sex": "woman",
+      "tone": "brown"
+    },
+    {
+      "id": "man-fair",
+      "sex": "man",
+      "tone": "fair"
+    },
+    {
+      "id": "man-olive",
+      "sex": "man",
+      "tone": "olive"
+    },
+    {
+      "id": "man-brown",
+      "sex": "man",
+      "tone": "brown"
     }
   ],
   "hairColors": {
+    "fair": ["black", "darkbrown", "blond"],
     "light": ["black", "darkbrown", "blond"],
+    "olive": ["black", "darkbrown"],
     "medium": ["black", "darkbrown"],
+    "brown": ["black", "darkbrown"],
     "dark": ["black", "darkbrown"]
   },
   "olderHair": "gray",
@@ -50,7 +83,7 @@
     "pixie": "Pixie",
     "shoulder": "Shoulder length",
     "updo": "Updo",
-    "waves": "Waves",
+    "waves": "360 waves",
     "crop": "Cropped",
     "receding": "Receding",
     "sidepart": "Side part",
@@ -81,7 +114,52 @@
     "blue": "Blue",
     "tan": "Tan",
     "olive": "Olive",
-    "rust": "Rust"
+    "rust": "Rust",
+    "standard": "Standard",
+    "round": "Round",
+    "long": "Long",
+    "square": "Square",
+    "narrow": "Narrow",
+    "heart": "Heart",
+    "fair": "Fair",
+    "buzz": "Buzz cut",
+    "balding": "Balding",
+    "twists": "Twists",
+    "collar": "Collar length",
+    "bangs": "Bangs",
+    "braids": "Braids",
+    "ponytail": "Ponytail",
+    "locs": "Locs",
+    "tee": "T-shirt",
+    "hoodie": "Hoodie",
+    "flannel": "Flannel shirt",
+    "polo": "Polo shirt",
+    "workjacket": "Work jacket",
+    "denimjacket": "Denim jacket",
+    "scrubs": "Scrubs",
+    "quarterzip": "Quarter-zip",
+    "blouse": "Blouse",
+    "mockneck": "Mock-neck sweater",
+    "redplaid": "Red plaid",
+    "blueplaid": "Blue plaid",
+    "greenplaid": "Green plaid",
+    "lightwash": "Light wash",
+    "darkwash": "Dark wash",
+    "ceil": "Ceil blue",
+    "wine": "Wine",
+    "rose": "Rose",
+    "sage": "Sage",
+    "camel": "Camel",
+    "fade": "Fade",
+    "afro": "Afro",
+    "manbun": "Man bun",
+    "cornrows": "Cornrows",
+    "curly": "Curly",
+    "set": "Short set",
+    "puff": "Afro puff",
+    "natural": "Short natural",
+    "straight": "Long straight",
+    "caesar": "Caesar cut"
   },
   "sets": {
     "woman": {
@@ -91,19 +169,137 @@
         "middle": 626,
         "width": 436
       },
-      "tones": ["light", "medium", "dark"],
+      "tones": ["fair", "light", "olive", "medium", "brown", "dark"],
       "heads": {
-        "light": {
-          "adult": "head-light-adult.png",
-          "older": "head-light-older.png"
+        "standard": {
+          "fair": {
+            "adult": "head-fair-adult.png",
+            "older": "head-fair-older.png"
+          },
+          "light": {
+            "adult": "head-light-adult.png",
+            "older": "head-light-older.png"
+          },
+          "olive": {
+            "adult": "head-olive-adult.png",
+            "older": "head-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-medium-adult.png",
+            "older": "head-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-brown-adult.png",
+            "older": "head-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-dark-adult.png",
+            "older": "head-dark-older.png"
+          }
         },
-        "medium": {
-          "adult": "head-medium-adult.png",
-          "older": "head-medium-older.png"
+        "round": {
+          "fair": {
+            "adult": "head-round-fair-adult.png",
+            "older": "head-round-fair-older.png"
+          },
+          "light": {
+            "adult": "head-round-light-adult.png",
+            "older": "head-round-light-older.png"
+          },
+          "olive": {
+            "adult": "head-round-olive-adult.png",
+            "older": "head-round-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-round-medium-adult.png",
+            "older": "head-round-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-round-brown-adult.png",
+            "older": "head-round-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-round-dark-adult.png",
+            "older": "head-round-dark-older.png"
+          }
         },
-        "dark": {
-          "adult": "head-dark-adult.png",
-          "older": "head-dark-older.png"
+        "long": {
+          "fair": {
+            "adult": "head-long-fair-adult.png",
+            "older": "head-long-fair-older.png"
+          },
+          "light": {
+            "adult": "head-long-light-adult.png",
+            "older": "head-long-light-older.png"
+          },
+          "olive": {
+            "adult": "head-long-olive-adult.png",
+            "older": "head-long-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-long-medium-adult.png",
+            "older": "head-long-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-long-brown-adult.png",
+            "older": "head-long-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-long-dark-adult.png",
+            "older": "head-long-dark-older.png"
+          }
+        },
+        "square": {
+          "fair": {
+            "adult": "head-square-fair-adult.png",
+            "older": "head-square-fair-older.png"
+          },
+          "light": {
+            "adult": "head-square-light-adult.png",
+            "older": "head-square-light-older.png"
+          },
+          "olive": {
+            "adult": "head-square-olive-adult.png",
+            "older": "head-square-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-square-medium-adult.png",
+            "older": "head-square-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-square-brown-adult.png",
+            "older": "head-square-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-square-dark-adult.png",
+            "older": "head-square-dark-older.png"
+          }
+        },
+        "heart": {
+          "fair": {
+            "adult": "head-heart-fair-adult.png",
+            "older": "head-heart-fair-older.png"
+          },
+          "light": {
+            "adult": "head-heart-light-adult.png",
+            "older": "head-heart-light-older.png"
+          },
+          "olive": {
+            "adult": "head-heart-olive-adult.png",
+            "older": "head-heart-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-heart-medium-adult.png",
+            "older": "head-heart-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-heart-brown-adult.png",
+            "older": "head-heart-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-heart-dark-adult.png",
+            "older": "head-heart-dark-older.png"
+          }
         }
       },
       "face": [],
@@ -112,26 +308,54 @@
           "style": "bob",
           "files": {
             "black": "hair-bob-black.png",
-            "blond": "hair-bob-blond.png",
             "darkbrown": "hair-bob-darkbrown.png",
+            "blond": "hair-bob-blond.png",
             "gray": "hair-bob-gray.png"
+          },
+          "byShape": {
+            "square": {
+              "black": "hair-bob-square-black.png",
+              "darkbrown": "hair-bob-square-darkbrown.png",
+              "blond": "hair-bob-square-blond.png",
+              "gray": "hair-bob-square-gray.png"
+            },
+            "heart": {
+              "black": "hair-bob-heart-black.png",
+              "darkbrown": "hair-bob-heart-darkbrown.png",
+              "blond": "hair-bob-heart-blond.png",
+              "gray": "hair-bob-heart-gray.png"
+            }
           }
         },
         {
           "style": "curls",
           "files": {
             "black": "hair-curls-black.png",
-            "blond": "hair-curls-blond.png",
             "darkbrown": "hair-curls-darkbrown.png",
+            "blond": "hair-curls-blond.png",
             "gray": "hair-curls-gray.png"
+          },
+          "byShape": {
+            "square": {
+              "black": "hair-curls-square-black.png",
+              "darkbrown": "hair-curls-square-darkbrown.png",
+              "blond": "hair-curls-square-blond.png",
+              "gray": "hair-curls-square-gray.png"
+            },
+            "heart": {
+              "black": "hair-curls-heart-black.png",
+              "darkbrown": "hair-curls-heart-darkbrown.png",
+              "blond": "hair-curls-heart-blond.png",
+              "gray": "hair-curls-heart-gray.png"
+            }
           }
         },
         {
           "style": "pixie",
           "files": {
             "black": "hair-pixie-black.png",
-            "blond": "hair-pixie-blond.png",
             "darkbrown": "hair-pixie-darkbrown.png",
+            "blond": "hair-pixie-blond.png",
             "gray": "hair-pixie-gray.png"
           }
         },
@@ -139,17 +363,31 @@
           "style": "shoulder",
           "files": {
             "black": "hair-shoulder-black.png",
-            "blond": "hair-shoulder-blond.png",
             "darkbrown": "hair-shoulder-darkbrown.png",
+            "blond": "hair-shoulder-blond.png",
             "gray": "hair-shoulder-gray.png"
+          },
+          "byShape": {
+            "long": {
+              "black": "hair-shoulder-long-black.png",
+              "darkbrown": "hair-shoulder-long-darkbrown.png",
+              "blond": "hair-shoulder-long-blond.png",
+              "gray": "hair-shoulder-long-gray.png"
+            },
+            "heart": {
+              "black": "hair-shoulder-heart-black.png",
+              "darkbrown": "hair-shoulder-heart-darkbrown.png",
+              "blond": "hair-shoulder-heart-blond.png",
+              "gray": "hair-shoulder-heart-gray.png"
+            }
           }
         },
         {
           "style": "updo",
           "files": {
             "black": "hair-updo-black.png",
-            "blond": "hair-updo-blond.png",
             "darkbrown": "hair-updo-darkbrown.png",
+            "blond": "hair-updo-blond.png",
             "gray": "hair-updo-gray.png"
           }
         },
@@ -157,9 +395,161 @@
           "style": "waves",
           "files": {
             "black": "hair-waves-black.png",
-            "blond": "hair-waves-blond.png",
             "darkbrown": "hair-waves-darkbrown.png",
+            "blond": "hair-waves-blond.png",
             "gray": "hair-waves-gray.png"
+          },
+          "byShape": {
+            "long": {
+              "black": "hair-waves-long-black.png",
+              "darkbrown": "hair-waves-long-darkbrown.png",
+              "blond": "hair-waves-long-blond.png",
+              "gray": "hair-waves-long-gray.png"
+            },
+            "heart": {
+              "black": "hair-waves-heart-black.png",
+              "darkbrown": "hair-waves-heart-darkbrown.png",
+              "blond": "hair-waves-heart-blond.png",
+              "gray": "hair-waves-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "bangs",
+          "files": {
+            "black": "hair-bangs-black.png",
+            "darkbrown": "hair-bangs-darkbrown.png",
+            "blond": "hair-bangs-blond.png",
+            "gray": "hair-bangs-gray.png"
+          },
+          "byShape": {
+            "heart": {
+              "black": "hair-bangs-heart-black.png",
+              "darkbrown": "hair-bangs-heart-darkbrown.png",
+              "blond": "hair-bangs-heart-blond.png",
+              "gray": "hair-bangs-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "braids",
+          "files": {
+            "black": "hair-braids-black.png",
+            "darkbrown": "hair-braids-darkbrown.png",
+            "blond": "hair-braids-blond.png",
+            "gray": "hair-braids-gray.png"
+          },
+          "byShape": {
+            "heart": {
+              "black": "hair-braids-heart-black.png",
+              "darkbrown": "hair-braids-heart-darkbrown.png",
+              "blond": "hair-braids-heart-blond.png",
+              "gray": "hair-braids-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "ponytail",
+          "files": {
+            "black": "hair-ponytail-black.png",
+            "darkbrown": "hair-ponytail-darkbrown.png",
+            "blond": "hair-ponytail-blond.png",
+            "gray": "hair-ponytail-gray.png"
+          }
+        },
+        {
+          "style": "locs",
+          "files": {
+            "black": "hair-locs-black.png",
+            "darkbrown": "hair-locs-darkbrown.png",
+            "blond": "hair-locs-blond.png",
+            "gray": "hair-locs-gray.png"
+          },
+          "byShape": {
+            "heart": {
+              "black": "hair-locs-heart-black.png",
+              "darkbrown": "hair-locs-heart-darkbrown.png",
+              "blond": "hair-locs-heart-blond.png",
+              "gray": "hair-locs-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "cornrows",
+          "files": {
+            "black": "hair-cornrows-black.png",
+            "darkbrown": "hair-cornrows-darkbrown.png",
+            "blond": "hair-cornrows-blond.png",
+            "gray": "hair-cornrows-gray.png"
+          }
+        },
+        {
+          "style": "curly",
+          "files": {
+            "black": "hair-curly-black.png",
+            "darkbrown": "hair-curly-darkbrown.png",
+            "blond": "hair-curly-blond.png",
+            "gray": "hair-curly-gray.png"
+          },
+          "byShape": {
+            "heart": {
+              "black": "hair-curly-heart-black.png",
+              "darkbrown": "hair-curly-heart-darkbrown.png",
+              "blond": "hair-curly-heart-blond.png",
+              "gray": "hair-curly-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "straight",
+          "files": {
+            "black": "hair-straight-black.png",
+            "darkbrown": "hair-straight-darkbrown.png",
+            "blond": "hair-straight-blond.png",
+            "gray": "hair-straight-gray.png"
+          },
+          "byShape": {
+            "heart": {
+              "black": "hair-straight-heart-black.png",
+              "darkbrown": "hair-straight-heart-darkbrown.png",
+              "blond": "hair-straight-heart-blond.png",
+              "gray": "hair-straight-heart-gray.png"
+            }
+          }
+        },
+        {
+          "style": "set",
+          "files": {
+            "black": "hair-set-black.png",
+            "darkbrown": "hair-set-darkbrown.png",
+            "blond": "hair-set-blond.png",
+            "gray": "hair-set-gray.png"
+          },
+          "byShape": {
+            "round": {
+              "black": "hair-set-round-black.png",
+              "darkbrown": "hair-set-round-darkbrown.png",
+              "blond": "hair-set-round-blond.png",
+              "gray": "hair-set-round-gray.png"
+            }
+          }
+        },
+        {
+          "style": "puff",
+          "files": {
+            "black": "hair-puff-black.png",
+            "darkbrown": "hair-puff-darkbrown.png",
+            "blond": "hair-puff-blond.png",
+            "gray": "hair-puff-gray.png"
+          }
+        },
+        {
+          "style": "natural",
+          "files": {
+            "black": "hair-natural-black.png",
+            "darkbrown": "hair-natural-darkbrown.png",
+            "blond": "hair-natural-blond.png",
+            "gray": "hair-natural-gray.png"
           }
         }
       ],
@@ -185,6 +575,70 @@
               "cream": "top-cardigan-cream.png",
               "navy": "top-cardigan-navy.png",
               "rust": "top-cardigan-rust.png"
+            }
+          },
+          {
+            "style": "tee",
+            "files": {
+              "gray": "top-tee-gray.png",
+              "white": "top-tee-white.png",
+              "black": "top-tee-black.png"
+            }
+          },
+          {
+            "style": "hoodie",
+            "files": {
+              "gray": "top-hoodie-gray.png",
+              "navy": "top-hoodie-navy.png",
+              "maroon": "top-hoodie-maroon.png"
+            }
+          },
+          {
+            "style": "flannel",
+            "files": {
+              "blueplaid": "top-flannel-blueplaid.png",
+              "redplaid": "top-flannel-redplaid.png",
+              "greenplaid": "top-flannel-greenplaid.png"
+            }
+          },
+          {
+            "style": "blouse",
+            "files": {
+              "rose": "top-blouse-rose.png",
+              "sage": "top-blouse-sage.png",
+              "navy": "top-blouse-navy.png"
+            }
+          },
+          {
+            "style": "scrubs",
+            "files": {
+              "navy": "top-scrubs-navy.png",
+              "ceil": "top-scrubs-ceil.png",
+              "wine": "top-scrubs-wine.png"
+            }
+          },
+          {
+            "style": "denimjacket",
+            "files": {
+              "blue": "top-denimjacket-blue.png",
+              "lightwash": "top-denimjacket-lightwash.png",
+              "darkwash": "top-denimjacket-darkwash.png"
+            }
+          },
+          {
+            "style": "mockneck",
+            "files": {
+              "cream": "top-mockneck-cream.png",
+              "black": "top-mockneck-black.png",
+              "camel": "top-mockneck-camel.png"
+            }
+          },
+          {
+            "style": "polo",
+            "files": {
+              "navy": "top-polo-navy.png",
+              "white": "top-polo-white.png",
+              "forestgreen": "top-polo-forestgreen.png"
             }
           }
         ],
@@ -217,6 +671,21 @@
           },
           {
             "top": "denim"
+          },
+          {
+            "top": "tee"
+          },
+          {
+            "top": "hoodie"
+          },
+          {
+            "top": "flannel"
+          },
+          {
+            "top": "denimjacket"
+          },
+          {
+            "top": "mockneck"
           }
         ],
         "work": [
@@ -225,6 +694,15 @@
           },
           {
             "shirt": "dress"
+          },
+          {
+            "top": "blouse"
+          },
+          {
+            "top": "scrubs"
+          },
+          {
+            "top": "polo"
           }
         ],
         "official": [
@@ -233,7 +711,90 @@
             "jacket": "blazer"
           }
         ]
-      }
+      },
+      "shapes": ["standard", "round", "long", "square", "heart"],
+      "doNotCombine": [
+        {
+          "piece": "hair-bangs-heart-blond.png",
+          "head": "head-heart-brown-older.png"
+        },
+        {
+          "piece": "hair-bangs-heart-blond.png",
+          "head": "head-heart-fair-older.png"
+        },
+        {
+          "piece": "hair-bangs-heart-blond.png",
+          "head": "head-heart-light-older.png"
+        },
+        {
+          "piece": "hair-bangs-heart-blond.png",
+          "head": "head-heart-olive-older.png"
+        },
+        {
+          "piece": "hair-set-darkbrown.png",
+          "head": "head-light-adult.png"
+        },
+        {
+          "piece": "hair-set-darkbrown.png",
+          "head": "head-light-older.png"
+        },
+        {
+          "piece": "hair-curly-black.png",
+          "head": "head-long-fair-older.png"
+        },
+        {
+          "piece": "hair-curly-black.png",
+          "head": "head-long-light-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-brown-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-brown-older.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-dark-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-dark-older.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-fair-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-fair-older.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-light-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-medium-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-medium-older.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-olive-adult.png"
+        },
+        {
+          "piece": "hair-curly-gray.png",
+          "head": "head-long-olive-older.png"
+        },
+        {
+          "piece": "hair-straight-blond.png",
+          "head": "head-long-fair-older.png"
+        }
+      ]
     },
     "man": {
       "dir": "men/front",
@@ -242,19 +803,137 @@
         "middle": 614,
         "width": 423
       },
-      "tones": ["light", "medium", "dark"],
+      "tones": ["fair", "light", "olive", "medium", "brown", "dark"],
       "heads": {
-        "light": {
-          "adult": "head-light-adult.png",
-          "older": "head-light-older.png"
+        "standard": {
+          "fair": {
+            "adult": "head-fair-adult.png",
+            "older": "head-fair-older.png"
+          },
+          "light": {
+            "adult": "head-light-adult.png",
+            "older": "head-light-older.png"
+          },
+          "olive": {
+            "adult": "head-olive-adult.png",
+            "older": "head-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-medium-adult.png",
+            "older": "head-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-brown-adult.png",
+            "older": "head-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-dark-adult.png",
+            "older": "head-dark-older.png"
+          }
         },
-        "medium": {
-          "adult": "head-medium-adult.png",
-          "older": "head-medium-older.png"
+        "round": {
+          "fair": {
+            "adult": "head-round-fair-adult.png",
+            "older": "head-round-fair-older.png"
+          },
+          "light": {
+            "adult": "head-round-light-adult.png",
+            "older": "head-round-light-older.png"
+          },
+          "olive": {
+            "adult": "head-round-olive-adult.png",
+            "older": "head-round-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-round-medium-adult.png",
+            "older": "head-round-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-round-brown-adult.png",
+            "older": "head-round-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-round-dark-adult.png",
+            "older": "head-round-dark-older.png"
+          }
         },
-        "dark": {
-          "adult": "head-dark-adult.png",
-          "older": "head-dark-older.png"
+        "long": {
+          "fair": {
+            "adult": "head-long-fair-adult.png",
+            "older": "head-long-fair-older.png"
+          },
+          "light": {
+            "adult": "head-long-light-adult.png",
+            "older": "head-long-light-older.png"
+          },
+          "olive": {
+            "adult": "head-long-olive-adult.png",
+            "older": "head-long-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-long-medium-adult.png",
+            "older": "head-long-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-long-brown-adult.png",
+            "older": "head-long-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-long-dark-adult.png",
+            "older": "head-long-dark-older.png"
+          }
+        },
+        "square": {
+          "fair": {
+            "adult": "head-square-fair-adult.png",
+            "older": "head-square-fair-older.png"
+          },
+          "light": {
+            "adult": "head-square-light-adult.png",
+            "older": "head-square-light-older.png"
+          },
+          "olive": {
+            "adult": "head-square-olive-adult.png",
+            "older": "head-square-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-square-medium-adult.png",
+            "older": "head-square-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-square-brown-adult.png",
+            "older": "head-square-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-square-dark-adult.png",
+            "older": "head-square-dark-older.png"
+          }
+        },
+        "narrow": {
+          "fair": {
+            "adult": "head-narrow-fair-adult.png",
+            "older": "head-narrow-fair-older.png"
+          },
+          "light": {
+            "adult": "head-narrow-light-adult.png",
+            "older": "head-narrow-light-older.png"
+          },
+          "olive": {
+            "adult": "head-narrow-olive-adult.png",
+            "older": "head-narrow-olive-older.png"
+          },
+          "medium": {
+            "adult": "head-narrow-medium-adult.png",
+            "older": "head-narrow-medium-older.png"
+          },
+          "brown": {
+            "adult": "head-narrow-brown-adult.png",
+            "older": "head-narrow-brown-older.png"
+          },
+          "dark": {
+            "adult": "head-narrow-dark-adult.png",
+            "older": "head-narrow-dark-older.png"
+          }
         }
       },
       "face": [
@@ -264,6 +943,28 @@
             "black": "face-beard-black.png",
             "darkbrown": "face-beard-darkbrown.png",
             "gray": "face-beard-gray.png"
+          },
+          "byShape": {
+            "round": {
+              "black": "face-beard-round-black.png",
+              "darkbrown": "face-beard-round-darkbrown.png",
+              "gray": "face-beard-round-gray.png"
+            },
+            "long": {
+              "black": "face-beard-long-black.png",
+              "darkbrown": "face-beard-long-darkbrown.png",
+              "gray": "face-beard-long-gray.png"
+            },
+            "square": {
+              "black": "face-beard-square-black.png",
+              "darkbrown": "face-beard-square-darkbrown.png",
+              "gray": "face-beard-square-gray.png"
+            },
+            "narrow": {
+              "black": "face-beard-narrow-black.png",
+              "darkbrown": "face-beard-narrow-darkbrown.png",
+              "gray": "face-beard-narrow-gray.png"
+            }
           }
         },
         {
@@ -280,8 +981,8 @@
           "style": "crop",
           "files": {
             "black": "hair-crop-black.png",
-            "blond": "hair-crop-blond.png",
             "darkbrown": "hair-crop-darkbrown.png",
+            "blond": "hair-crop-blond.png",
             "gray": "hair-crop-gray.png"
           }
         },
@@ -289,8 +990,8 @@
           "style": "curls",
           "files": {
             "black": "hair-curls-black.png",
-            "blond": "hair-curls-blond.png",
             "darkbrown": "hair-curls-darkbrown.png",
+            "blond": "hair-curls-blond.png",
             "gray": "hair-curls-gray.png"
           }
         },
@@ -298,8 +999,8 @@
           "style": "receding",
           "files": {
             "black": "hair-receding-black.png",
-            "blond": "hair-receding-blond.png",
             "darkbrown": "hair-receding-darkbrown.png",
+            "blond": "hair-receding-blond.png",
             "gray": "hair-receding-gray.png"
           }
         },
@@ -307,8 +1008,8 @@
           "style": "sidepart",
           "files": {
             "black": "hair-sidepart-black.png",
-            "blond": "hair-sidepart-blond.png",
             "darkbrown": "hair-sidepart-darkbrown.png",
+            "blond": "hair-sidepart-blond.png",
             "gray": "hair-sidepart-gray.png"
           }
         },
@@ -316,8 +1017,8 @@
           "style": "swept",
           "files": {
             "black": "hair-swept-black.png",
-            "blond": "hair-swept-blond.png",
             "darkbrown": "hair-swept-darkbrown.png",
+            "blond": "hair-swept-blond.png",
             "gray": "hair-swept-gray.png"
           }
         },
@@ -325,9 +1026,107 @@
           "style": "textured",
           "files": {
             "black": "hair-textured-black.png",
-            "blond": "hair-textured-blond.png",
             "darkbrown": "hair-textured-darkbrown.png",
+            "blond": "hair-textured-blond.png",
             "gray": "hair-textured-gray.png"
+          }
+        },
+        {
+          "style": "buzz",
+          "files": {
+            "black": "hair-buzz-black.png",
+            "darkbrown": "hair-buzz-darkbrown.png",
+            "blond": "hair-buzz-blond.png",
+            "gray": "hair-buzz-gray.png"
+          }
+        },
+        {
+          "style": "balding",
+          "files": {
+            "black": "hair-balding-black.png",
+            "darkbrown": "hair-balding-darkbrown.png",
+            "blond": "hair-balding-blond.png",
+            "gray": "hair-balding-gray.png"
+          }
+        },
+        {
+          "style": "twists",
+          "files": {
+            "black": "hair-twists-black.png",
+            "darkbrown": "hair-twists-darkbrown.png",
+            "blond": "hair-twists-blond.png",
+            "gray": "hair-twists-gray.png"
+          }
+        },
+        {
+          "style": "collar",
+          "files": {
+            "black": "hair-collar-black.png",
+            "darkbrown": "hair-collar-darkbrown.png",
+            "blond": "hair-collar-blond.png",
+            "gray": "hair-collar-gray.png"
+          },
+          "byShape": {
+            "narrow": {
+              "black": "hair-collar-narrow-black.png",
+              "darkbrown": "hair-collar-narrow-darkbrown.png",
+              "blond": "hair-collar-narrow-blond.png",
+              "gray": "hair-collar-narrow-gray.png"
+            }
+          }
+        },
+        {
+          "style": "fade",
+          "files": {
+            "black": "hair-fade-black.png",
+            "darkbrown": "hair-fade-darkbrown.png",
+            "blond": "hair-fade-blond.png",
+            "gray": "hair-fade-gray.png"
+          }
+        },
+        {
+          "style": "afro",
+          "files": {
+            "black": "hair-afro-black.png",
+            "darkbrown": "hair-afro-darkbrown.png",
+            "blond": "hair-afro-blond.png",
+            "gray": "hair-afro-gray.png"
+          }
+        },
+        {
+          "style": "manbun",
+          "files": {
+            "black": "hair-manbun-black.png",
+            "darkbrown": "hair-manbun-darkbrown.png",
+            "blond": "hair-manbun-blond.png",
+            "gray": "hair-manbun-gray.png"
+          }
+        },
+        {
+          "style": "cornrows",
+          "files": {
+            "black": "hair-cornrows-black.png",
+            "darkbrown": "hair-cornrows-darkbrown.png",
+            "blond": "hair-cornrows-blond.png",
+            "gray": "hair-cornrows-gray.png"
+          }
+        },
+        {
+          "style": "caesar",
+          "files": {
+            "black": "hair-caesar-black.png",
+            "darkbrown": "hair-caesar-darkbrown.png",
+            "blond": "hair-caesar-blond.png",
+            "gray": "hair-caesar-gray.png"
+          }
+        },
+        {
+          "style": "waves",
+          "files": {
+            "black": "hair-waves-black.png",
+            "darkbrown": "hair-waves-darkbrown.png",
+            "blond": "hair-waves-blond.png",
+            "gray": "hair-waves-gray.png"
           }
         }
       ],
@@ -347,6 +1146,70 @@
               "gray": "top-sweater-gray.png",
               "green": "top-sweater-green.png",
               "maroon": "top-sweater-maroon.png"
+            }
+          },
+          {
+            "style": "tee",
+            "files": {
+              "gray": "top-tee-gray.png",
+              "white": "top-tee-white.png",
+              "navy": "top-tee-navy.png"
+            }
+          },
+          {
+            "style": "hoodie",
+            "files": {
+              "navy": "top-hoodie-navy.png",
+              "gray": "top-hoodie-gray.png",
+              "forestgreen": "top-hoodie-forestgreen.png"
+            }
+          },
+          {
+            "style": "flannel",
+            "files": {
+              "redplaid": "top-flannel-redplaid.png",
+              "blueplaid": "top-flannel-blueplaid.png",
+              "greenplaid": "top-flannel-greenplaid.png"
+            }
+          },
+          {
+            "style": "polo",
+            "files": {
+              "forestgreen": "top-polo-forestgreen.png",
+              "navy": "top-polo-navy.png",
+              "white": "top-polo-white.png"
+            }
+          },
+          {
+            "style": "workjacket",
+            "files": {
+              "olive": "top-workjacket-olive.png",
+              "tan": "top-workjacket-tan.png",
+              "brown": "top-workjacket-brown.png"
+            }
+          },
+          {
+            "style": "denimjacket",
+            "files": {
+              "blue": "top-denimjacket-blue.png",
+              "lightwash": "top-denimjacket-lightwash.png",
+              "darkwash": "top-denimjacket-darkwash.png"
+            }
+          },
+          {
+            "style": "scrubs",
+            "files": {
+              "ceil": "top-scrubs-ceil.png",
+              "navy": "top-scrubs-navy.png",
+              "wine": "top-scrubs-wine.png"
+            }
+          },
+          {
+            "style": "quarterzip",
+            "files": {
+              "charcoal": "top-quarterzip-charcoal.png",
+              "navy": "top-quarterzip-navy.png",
+              "olive": "top-quarterzip-olive.png"
             }
           }
         ],
@@ -389,6 +1252,21 @@
           },
           {
             "top": "sweater"
+          },
+          {
+            "top": "tee"
+          },
+          {
+            "top": "hoodie"
+          },
+          {
+            "top": "flannel"
+          },
+          {
+            "top": "denimjacket"
+          },
+          {
+            "top": "quarterzip"
           }
         ],
         "work": [
@@ -398,6 +1276,15 @@
           {
             "shirt": "dress",
             "tie": "silk"
+          },
+          {
+            "top": "polo"
+          },
+          {
+            "top": "workjacket"
+          },
+          {
+            "top": "scrubs"
           }
         ],
         "official": [
@@ -407,7 +1294,70 @@
             "jacket": "suit"
           }
         ]
-      }
+      },
+      "shapes": ["standard", "round", "long", "square", "narrow"],
+      "doNotCombine": [
+        {
+          "piece": "face-beard-round-black.png",
+          "head": "head-round-dark-older.png"
+        },
+        {
+          "piece": "face-beard-round-darkbrown.png",
+          "head": "head-round-dark-older.png"
+        },
+        {
+          "piece": "face-beard-square-black.png",
+          "head": "head-square-brown-adult.png"
+        },
+        {
+          "piece": "face-beard-square-black.png",
+          "head": "head-square-brown-older.png"
+        },
+        {
+          "piece": "face-beard-square-black.png",
+          "head": "head-square-dark-older.png"
+        },
+        {
+          "piece": "face-beard-square-black.png",
+          "head": "head-square-medium-older.png"
+        },
+        {
+          "piece": "face-beard-square-darkbrown.png",
+          "head": "head-square-brown-adult.png"
+        },
+        {
+          "piece": "face-beard-square-darkbrown.png",
+          "head": "head-square-brown-older.png"
+        },
+        {
+          "piece": "face-beard-square-darkbrown.png",
+          "head": "head-square-dark-older.png"
+        },
+        {
+          "piece": "face-beard-square-darkbrown.png",
+          "head": "head-square-medium-older.png"
+        },
+        {
+          "piece": "face-beard-square-gray.png",
+          "head": "head-square-brown-adult.png"
+        },
+        {
+          "piece": "face-beard-square-gray.png",
+          "head": "head-square-brown-older.png"
+        },
+        {
+          "piece": "face-beard-square-gray.png",
+          "head": "head-square-dark-older.png"
+        },
+        {
+          "piece": "face-beard-square-gray.png",
+          "head": "head-square-medium-older.png"
+        },
+        {
+          "piece": "hair-buzz-gray.png",
+          "head": "head-olive-older.png"
+        }
+      ]
     }
   }
 }

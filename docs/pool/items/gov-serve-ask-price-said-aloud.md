@@ -39,6 +39,6 @@ The player answers from the promise talk's existing answers (own-it, explain, de
 
 **Waits on.** gov-serve-ask-price-end.
 
-**Files.** data/english/parts/conversation.json, src/director/promise-talk.ts, src/director/serve-price-scene.test.ts
+**Files.** data/english/parts/conversation.json, src/director/promise-talk.ts
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-d5qa0q since 2026-11-16 02:32 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-d5qa0q.

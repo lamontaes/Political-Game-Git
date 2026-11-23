@@ -69,10 +69,14 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
-import { incomeBandOf } from "../counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+  wageIndexToday,
+} from "../counted-income-fifth";
 import { parameter } from "../parameters";
 
-export { incomeBandOf };
+export { incomeBandOf, incomeBandOn };
 /** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -485,7 +489,10 @@ export function groupKeyOf(
     placeId: h.placeId,
     district: h.district ?? "town",
     kind,
-    incomeBand: incomeBandOf(householdIncome(rt, h)),
+    incomeBand: incomeBandOf(
+      householdIncome(rt, h),
+      rt.api ? wageIndexToday(rt.api) : 1,
+    ),
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,
@@ -1237,8 +1244,7 @@ function settle(
     if (flow.kind === "purchase") shiftToOpenSellers(core, rt, flow);
     return end(flow, date, "payee-closed");
   }
-  let base = flow.amountMinor;
-  if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
+  let base = indexedFlowPay(core, flow, flow.amountMinor);
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -2256,12 +2262,13 @@ export function releaseResidentHousehold(
       return age >= from && age < below;
     });
     if (unplaced && worker) {
-      const amount = Math.round(unplaced.amountMinor * cash.unplaced);
+      const share = Math.round(unplaced.amountMinor * cash.unplaced);
+      const amount = indexedFlowPay(core, unplaced, share);
       if (
         amount > 0 &&
         startCommuterJob(core, rt, worker.id, unplaced, amount)
       ) {
-        unplaced.amountMinor -= amount;
+        unplaced.amountMinor -= share;
       }
     }
   }
@@ -2538,6 +2545,17 @@ function payLevel(core: CoreState, placeId: string): number {
   return factor;
 }
 
+/** Converts a wage flow's stored amount into the pay due today. */
+function indexedFlowPay(
+  core: CoreState,
+  flow: FlowState,
+  amount: number,
+): number {
+  return flow.payIndexed
+    ? Math.round(amount * payLevel(core, flow.placeId))
+    : amount;
+}
+
 export function residentWageShortfall(
   core: CoreState,
   id: string,
@@ -2683,7 +2701,11 @@ export function residentsPart(
   for (const job of core.jobs.values())
     if (job.endsAt === undefined && !fullJob.has(job.personId))
       fullJob.set(job.personId, job.organizationId);
-  const heads = new Map<string, { band: number; heads: number }>();
+  // `looking`: how many of the people a counted member stands for can be looking at once.
+  const heads = new Map<
+    string,
+    { band: number; heads: number; looking?: { left: number } }
+  >();
   for (const person of core.people.values()) {
     // A demoted person is counted again: their group counts them.
     if (!person.alive || isDemoted(person) || !placeIds.has(person.placeId))
@@ -2715,6 +2737,11 @@ export function residentsPart(
       }
       const open: number[] = [];
       const adults: number[] = [];
+      // Its members a county employer names, by band and the employer's sector.
+      const named: { band: number; sector: string }[] = [];
+      // Shared by the household's members: the people of the households it stands for who are
+      // without work, set below once its members are read.
+      const looking = { left: weight };
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         const full = core.people.get(id);
@@ -2726,21 +2753,43 @@ export function residentsPart(
           part.adults[band]! += weight;
           adults.push(band);
         }
-        heads.set(id, { band, heads: weight });
+        const standsFor = { band, heads: weight, looking };
+        heads.set(id, standsFor);
         const job = best.get(id);
         // A county sample worker's employer is its household's record of the county's employment.
         const county = h.employment?.find((row) => row.personId === id);
         // A counted job's heads can exceed the household's weight (a hire stands for the
         // position's heads): the member is at work for no more people than they stand for.
         if (job) atWork(band, job.employer, Math.min(job.heads, weight));
-        else if (county)
-          atWork(band, county.sector, weight, part.workersByIndustry);
+        else if (county && band >= 0)
+          named.push({ band, sector: county.sector });
         else if (band >= 0 && age >= from && age < below) open.push(band);
       }
-      // Its workers outside a recorded employer are its working-age members without a job, shared alike.
-      const unplaced = h.unplacedWorkers * weight;
+      // Its workers outside a recorded employer (`unplacedWorkers`, the count the world moves:
+      // regional work found, away work lost, a member past working age) are its members
+      // without a recorded job. The ones a county employer names are those same workers, and
+      // the name says which sector they work in: they take the household's unplaced workers
+      // first, one each, and what is left is shared alike by its other working-age members.
+      // (Counting the named beside the unplaced put every working-age adult of a sampled
+      // county at work.)
+      let left = h.unplacedWorkers;
+      for (const row of named) {
+        const share = Math.min(1, left);
+        if (share <= 0) break;
+        atWork(row.band, row.sector, share * weight, part.workersByIndustry);
+        left -= share;
+      }
       const among = open.length ? open : adults;
-      for (const band of among) unplacedPool[band]! += unplaced / among.length;
+      for (const band of among)
+        unplacedPool[band]! += (left * weight) / among.length;
+      // A record that stands for many households loses away work a part of a worker at a time
+      // (half a worker in each of 2,380 households is 1,190 people), and the member the jobs
+      // engine then has looking stands for the people who lost it, not for every household of
+      // the record: no more than its members without work, and never less than the one person.
+      looking.left = Math.max(
+        1,
+        weight * Math.max(0, named.length + open.length - h.unplacedWorkers),
+      );
     }
     // A band holds no more workers than it has adults: the unplaced share fills only what its
     // recorded jobs leave of them.
@@ -2767,7 +2816,11 @@ export function residentsPart(
         if (row.employed || !who || who.band < 0 || looked.has(row.personId))
           continue;
         looked.add(row.personId);
-        part.seekers[who.band]! += who.heads;
+        const looking = who.looking
+          ? Math.min(who.heads, who.looking.left)
+          : who.heads;
+        if (who.looking) who.looking.left -= looking;
+        part.seekers[who.band]! += looking;
       }
   }
   return part;
@@ -4252,7 +4305,14 @@ export function returnCommuterPay(
       !flow.quarters === !h.quarters,
   );
   if (!base) return;
-  base.amountMinor += amountMinor;
+  // A named job pays in current dollars. The pool stores its opening basis.
+  let pooledAmount = amountMinor;
+  if (base.payIndexed) {
+    const level = payLevel(core, base.placeId);
+    if (!(level > 0)) return;
+    pooledAmount = Math.round(amountMinor / level);
+  }
+  base.amountMinor += pooledAmount;
   // As many of the place's unplaced workers as the pay it brings back, at
   // the place's pay per unplaced worker (the rate a counted household's
   // income reads). A share of the other counted households' workers came to
@@ -4262,7 +4322,7 @@ export function returnCommuterPay(
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
   const perWorker = unplacedPayPerWorkerBase(rt, h);
-  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
+  h.unplacedWorkers = perWorker > 0 ? (pooledAmount * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }
 

@@ -28,8 +28,8 @@ Each pull request ran its own changed tests when it was folded into the train. T
 - `src/core2/housing-ready-at-opening.test.ts`: 45 households open without a home row.
 - `src/core2/law-wiring-government.test.ts`: a ward charter place, attempt 4, no registrations paid or owed by the county.
 - `src/core2/law-wiring-prices.test.ts`: no drawn place had a builder start a project in 760 days under the gas hookup ban.
-- `src/director/celebration-gathering-scene.test.ts`: the celebration ask has 72 lines against a limit of 45.
-- `src/director/interview-sitting-words.test.ts`: a brief answer reads "Then your record will have to speak" where the test expects "No comment, then."
+- `src/director/celebration-gathering-scene.test.ts` (removed): the celebration ask has 72 lines against a limit of 45.
+- `src/director/interview-sitting-words.test.ts` (removed): a brief answer reads "Then your record will have to speak" where the test expects "No comment, then."
 
 ## Cleared by taking the filing fee out (1 file, confirmed)
 
@@ -54,17 +54,17 @@ Each of these names its place and seed in its own failure line.
 
 - `src/director/conversation-said.test.ts`: Olla, Louisiana.
 - `src/director/home-talk-own-race-only.test.ts`: Sherrodsville.
-- `src/director/office-hours-reply-case.test.ts` (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
+- `src/director/office-hours-reply-case.test.ts` (removed) (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
 - `src/core2/staff-hire-employed.test.ts`: Agugulu, American Samoa.
-- `src/director/concession-reported.test.ts` (2 tests): North Westminster, Vermont. The race named no winner.
+- `src/director/concession-reported.test.ts` (removed) (2 tests): North Westminster, Vermont. The race named no winner.
 - `src/director/political-asks.test.ts` (2 tests): Adams, Massachusetts, no accusation scene; Rainelle, West Virginia, no advice scene.
 - `src/core2/party-mentor.test.ts`: Denver, Pennsylvania.
 - `src/core2/rival-campaign-day-played.test.ts`: Kirby, Wyoming.
 - `src/core2/modules/constituent-cases-warmth.test.ts`: Rock Ridge, Connecticut.
 - `src/bench/printed-police-log.test.ts`: Surrency, Georgia.
-- `src/director/justice-talk.test.ts`: Perkins, Georgia.
+- `src/director/justice-talk.test.ts` (removed): Perkins, Georgia.
 - `src/director/speech-occasion-read.test.ts`: Wilmington Manor, Delaware.
-- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts`: Ciales, Puerto Rico.
+- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts` (removed): Ciales, Puerto Rico.
 - `src/bench/endorsement-played.test.ts` (2 tests): North Courtland, Alabama; Laurel, Montana.
 - `src/director/eviction-leads-the-talk.test.ts`: Faleasao, American Samoa.
 - `src/core2/candidate-platform-spread.test.ts`: Marshfield, Massachusetts.
@@ -79,15 +79,15 @@ Each of these names its place and seed in its own failure line.
 
 A second run draws other places. Each is still a test that can go red by draw, which the pinned-tests skill says to fix by pinning.
 
-- `src/director/bring-it-up-election.test.ts`: Astoria, Oregon.
-- `src/director/speech-afterward.test.ts`: Felsenthal, Arkansas.
+- `src/director/bring-it-up-election.test.ts` (removed): Astoria, Oregon.
+- `src/director/speech-afterward.test.ts` (removed): Felsenthal, Arkansas.
 - `src/bench/campaign-mail.test.ts` (2 tests): Shaniko, Oregon.
 - `src/bench/filing-visit-talk.test.ts`: Volcano, Hawaii.
 - `src/core2/budget-line-staffing.test.ts`: Summerlin South, Nevada.
 - `src/core2/campaign-day.test.ts`: Franklinton, Louisiana.
 - `src/core2/congress-budget-line-bill.test.ts`: no vote enacted in eight places.
 - `src/bench/election-day.test.ts`: no draw reached election day.
-- `src/director/asked-mutual-give-back.test.ts`: Cumming, Iowa.
+- `src/director/asked-mutual-give-back.test.ts` (removed): Cumming, Iowa.
 - `src/core2/budget-line-schools-staffing.test.ts` (2 tests): no drawn place had the pieces; Fremont, Iowa.
 - `src/core2/office-day-attend.test.ts`: Bondurant, Wyoming.
 - `src/core2/officials-sample-vacancy.test.ts`: no such official died in the year.

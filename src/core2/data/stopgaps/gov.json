@@ -1884,6 +1884,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-counted-runner-announces-at-filing",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1596,
+    "whatItFakes": "A runner who is still one of the counted (not yet filled in as a full person) never announces before filing opens; they become known only on the filing day, when they are filled in to file. Only full-person runners weigh announcing early.",
+    "why": "Weighing announcing reads a runner's own ambition, acquaintances and roles, which only a full person has; filling in every counted runner on the weighing day would fill in people the player may never meet, months early.",
+    "addedBy": "Elections lane (playtest crew)",
+    "addedAt": "2026-11-18",
+    "replacement": "Fill a counted runner in on the day they would announce, by weighing announcing for the counted group with the same reasons times its count and filling in the one whose counted record tips them, as filing already does.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",
@@ -2078,10 +2090,22 @@
     "status": "resolved"
   },
   {
+    "id": "SG-GOV-counted-places-hear-their-state",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 7116,
+    "whatItFakes": "The people of a place counted outside the town are taken to have heard how their state's unemployment moved against the nation's over the last year, so the party that holds the seat pays or gains for it by the town's own rule. In the town a change counts only once a story carrying it has reached someone who lives there.",
+    "why": "No press is modeled outside the town: a counted place has no outlets, stories or readers of its own to carry its state's figures to its people.",
+    "addedBy": "World B",
+    "addedAt": "2026-11-17",
+    "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-owner-hours-no-staff",
     "kind": "assumed-data",
     "file": "src/core2/law-reach/group-b-people.ts",
-    "line": 275,
+    "line": 278,
     "whatItFakes": "An owner whose business has no staff on record and who has no work commitment of their own is counted at the self-employed average week (ownerWeeklyHours, CPS 2023) for Medicaid and SNAP work rules.",
     "why": "A business keeps no opening hours, and a sole owner's own week is recorded only when they hold a work commitment; with staff, the owner's week is the staff's scheduled week (Pins family 27).",
     "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
@@ -2093,7 +2117,7 @@
     "id": "SG-GOV-REACH-B-fares-pension-no-books",
     "kind": "missing-record",
     "file": "src/core2/law-reach/group-b.ts",
-    "line": 454,
+    "line": 455,
     "whatItFakes": "Free transit replaces fares at transitFareboxPerResidentDollars ($28, NTD 2023 national) a resident, and funding pensions to schedule adds pensionShortfallPerResidentDollars ($70, Pew 2023 / Equable 2024 national) a resident, the same in every world, instead of the government's own fare receipts and pension shortfall.",
     "why": "No government in the world keeps its riders' fares or its pension obligations on its books, so there is nothing of its own to read (Pins family 27, CTO LIFT THE PINS).",
     "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",

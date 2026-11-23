@@ -13,7 +13,7 @@ import billCatalogData from "../core2/data/legislature/bill-catalog.json" with {
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { ownUpkeep, reserveHours } from "../core2/free-block";
 import { homeUpkeep } from "../core2/closeness";
-import { PEOPLE_MODULE_ID } from "../core2/modules/people";
+import { heldDrivesOf, PEOPLE_MODULE_ID } from "../core2/modules/people";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -49,7 +49,14 @@ import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_FLOOR_UNIT,
+  TEACHER_FLOOR_AMOUNT,
 } from "../core2/public-pay-floor";
+import {
+  LOCAL_SEAT_PAY_SERIES,
+  SALARY_SERIES,
+} from "../core2/modules/office-day";
+import { PAID_LEAVE_PREMIUM } from "../core2/modules/laws";
+import { DEBT_LIMIT } from "../core2/budgets-treasury";
 import {
   billEnding,
   billJurisdiction,
@@ -347,6 +354,12 @@ export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
     ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
+    // The amounts beside the law a body sets (pins family 16): each engine reads its row in force.
+    ...SALARY_SERIES,
+    TEACHER_FLOOR_AMOUNT,
+    PAID_LEAVE_PREMIUM,
+    ...LOCAL_SEAT_PAY_SERIES,
+    DEBT_LIMIT,
     ...Object.keys(POLICY_QUESTIONS),
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
@@ -2502,6 +2515,8 @@ export class DevMode {
         case: healthCase(core, personId),
       },
       drives: [...person.drives.values()],
+      // Each drive's own half-life (a grudge's follows its holder's traits).
+      heldDrives: heldDrivesOf(this.api, personId),
       relationships: [...(core.relationshipsByPerson.get(personId) ?? [])]
         .map((id) => core.relationships.get(id))
         .filter((row) => row !== undefined),

@@ -133,7 +133,8 @@ try {
       `${where}: a step left the Everyday tab`,
     );
     // Begin the life: the played player's bust wears the chosen top.
-    await page.locator("#cr-random-name").click();
+    await page.locator("#cr-given").fill("Test");
+    await page.locator("#cr-family").fill("Person");
     await page.waitForFunction(
       () =>
         document.getElementById("cr-given").value &&

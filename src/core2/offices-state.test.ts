@@ -12,7 +12,9 @@ import stateOfficeResearch from "../../data/research/offices/state-offices.json"
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { partySide } from "./appointments";
 import { setBookkeeping } from "./bookkeeping";
+import { centuryLegislatures } from "./electorate-century";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
@@ -291,7 +293,61 @@ it("seats each chamber at its legal size, every roster member once, in all 56 pl
   ]);
 });
 
-it(`a played world seats its state's legislature by the same rule (seed ${seed})`, () => {
+it(`gives a town in each of the 56 places a seat in every chamber of its legislature (seed ${seed})`, () => {
+  // A territory's roster names its districts but no place in them (the
+  // Census has no district geography there), so until its districts are
+  // read each chamber is elected by the whole territory: a town there is in
+  // every seat, never in none (the Northern Marianas on Nov 18).
+  const uncovered: string[] = [];
+  let chambers = 0;
+  for (const stateKey of placeStateKeys()) {
+    const towns = [...placeLocalities(stateKey)].sort((a, b) =>
+      a.key.localeCompare(b.key),
+    );
+    const drawn =
+      towns[
+        parseInt(stableHash(`${seed}:${stateKey}:covered`).slice(0, 8), 16) %
+          towns.length
+      ]!;
+    for (const town of new Set([towns[0]!, drawn]))
+      for (const { office, seats } of stateOffices(
+        stateKey,
+        town.key,
+        gameStartDate(),
+      )) {
+        if (!office.kind.startsWith("legislature-")) continue;
+        chambers += 1;
+        if (!seats.some((s) => s.coversTown))
+          uncovered.push(`${office.id} at ${town.displayName} (${town.key})`);
+      }
+  }
+  expect(chambers, "chambers read").toBeGreaterThan(0);
+  expect(uncovered, "chambers with no seat covering the town").toEqual([]);
+});
+
+/** Every chamber of a played world, with its seats. */
+function playedChambers(core: ReturnType<typeof buildBenchWorld>["core"]) {
+  const offices = coreAPI(core).moduleState(OFFICES_MODULE_ID);
+  return (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      jurisdiction: string;
+      kind: string;
+    }[]
+  )
+    .filter((o) => o.kind.startsWith("legislature-"))
+    .map((chamber) => ({
+      chamber,
+      seats: offices
+        .table("seats")
+        .query("byOffice", [chamber.id]) as unknown as SeatLike[],
+    }));
+}
+
+it(`a played world seats every chamber the century elected from the century, and no vacancy from the roster (seed ${seed})`, () => {
+  // CTO line 6939219670 on #9747 (the 1925 ruling): each chamber's held seats are the seats
+  // the century elected; a vacancy comes only from the world's own record (a death, a
+  // resignation, an appointment pending), never copied from the real roster.
   const place = drawPlace(seed, "legislature-seats");
   const where = `${place.name} (${place.key}), seed ${seed}`;
   setBookkeeping(false);
@@ -299,19 +355,52 @@ it(`a played world seats its state's legislature by the same rule (seed ${seed})
     twoLevel: true,
     placeKey: place.key,
   });
+  const elected = centuryLegislatures(place.seed, gameStartDate());
   const offices = coreAPI(core).moduleState(OFFICES_MODULE_ID);
-  const chambers = (
-    offices.table("offices").rows() as unknown as {
-      id: string;
-      jurisdiction: string;
-      kind: string;
-    }[]
-  ).filter((o) => o.kind.startsWith("legislature-"));
+  const chambers = playedChambers(core);
   expect(chambers.length, where).toBeGreaterThan(0);
-  for (const chamber of chambers) {
-    const seats = offices
-      .table("seats")
-      .query("byOffice", [chamber.id]) as unknown as SeatLike[];
+  let counted = 0;
+  for (const { chamber, seats } of chambers) {
+    const century = seats.filter((seat) => elected.has(seat.id));
+    if (!century.length) {
+      // A chamber the century does not elect (not on the two national sides) keeps its record.
+      const c = chamberCheck(chamber.jurisdiction, chamber.kind, seats);
+      expect(c.seats - c.empty, `${where}: ${chamber.id}`).toBe(c.members);
+      continue;
+    }
+    expect(century.length, `${where}: ${chamber.id}`).toBe(seats.length);
+    for (const seat of century) {
+      counted += 1;
+      // No world record leaves a seat open on day one, so every elected seat is held.
+      expect(seat.party, `${where}: ${seat.id} vacant`).not.toBeNull();
+      expect(partySide(seat.party ?? null), `${where}: ${seat.id}`).toBe(
+        elected.get(seat.id)!.side,
+      );
+      expect(
+        (
+          offices
+            .table("terms")
+            .query("bySeatStatus", [seat.id, "serving"]) as unknown as unknown[]
+        ).length,
+        `${where}: ${seat.id} serving terms`,
+      ).toBe(1);
+    }
+  }
+  expect(counted, `${where}: seats the century elected`).toBeGreaterThan(5_000);
+}, 600_000);
+
+it(`under "just like today", a played world seats its state's legislature by the roster's rule (seed ${seed})`, () => {
+  const place = drawPlace(seed, "legislature-seats");
+  const where = `${place.name} (${place.key}), seed ${seed}, history today`;
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+    settings: { history: "today" },
+  });
+  const chambers = playedChambers(core);
+  expect(chambers.length, where).toBeGreaterThan(0);
+  for (const { chamber, seats } of chambers) {
     const c = chamberCheck(chamber.jurisdiction, chamber.kind, seats);
 
     expect(c.seats - c.empty, `${where}: ${chamber.id}`).toBe(c.members);

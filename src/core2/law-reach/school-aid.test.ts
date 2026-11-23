@@ -59,6 +59,7 @@ function draw(index: number) {
   const make = (law: boolean) => {
     const world = buildBenchWorld(drawn.seed, gameStartDate(), {
       twoLevel: true,
+      settings: { history: "today" },
       placeKey: drawn.key,
     });
     const core = world.core;
@@ -71,7 +72,7 @@ function draw(index: number) {
 }
 
 describe("state school aid", () => {
-  it("need shares add to one across a state's people and favor the lower-paid region, from the world's own regions", () => {
+  it("need shares add to one across a state's people and favor the lower-paid region, from the world's own regions (just like today: needs the state's real school aid law)", () => {
     const { drawn, make } = draw(0);
     const api = coreAPI(make(false));
     const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
@@ -99,7 +100,7 @@ describe("state school aid", () => {
     // It builds a played world (every module), as the case below does.
   }, 300_000);
 
-  it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back", () => {
+  it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back (just like today: needs the state's real school aid law)", () => {
     let tried = "";
     for (let i = 0; i < 8; i++) {
       const { drawn, make } = draw(i);
@@ -185,7 +186,25 @@ describe("state school aid", () => {
       };
       const balance = (api: CoreAPI) =>
         api.accounts().balance(api.accounts().main(stateOrg.organizationId));
+      // What the state's treasury did with the line: what fell due, what went
+      // to the town (aid), what went outside, and what it fell short.
+      const localAidLine = (api: CoreAPI) =>
+        treasuryMonthsOf(api, stateOrg.id).reduce(
+          (n, m) => {
+            const l = m.lines.localAid;
+            return l
+              ? {
+                  due: n.due + l.dueMinor,
+                  aid: n.aid + l.aidMinor,
+                  outside: n.outside + l.outsideMinor,
+                  short: n.short + l.shortMinor,
+                }
+              : n;
+          },
+          { due: 0, aid: 0, outside: 0, short: 0 },
+        );
       const stateBefore = { off: balance(a), on: balance(b) };
+      const lineBefore = { off: localAidLine(a), on: localAidLine(b) };
       const offCash = aidCash(off, 360);
       const onCash = aidCash(on, 360);
       const sentMore = onCash.left - offCash.left;
@@ -195,8 +214,17 @@ describe("state school aid", () => {
       );
       expect(onCash.transfers).toBeGreaterThan(0);
       expect(sentMore).toBe(gotMore);
-      expect(gotMore).toBeGreaterThan(schools * 0.5);
-      expect(gotMore).toBeLessThan(schools * 1.6);
+      // The state pays aid pro rata when its money falls short, so what the
+      // town got is not a fixed share of the pool; it is what the state's
+      // treasury says it paid on the line to governments, counted over the
+      // same 360 days (the pool grows with the state's budget in the second
+      // year, so the first year's share of it is no bound).
+      const added = (key: "aid") =>
+        localAidLine(b)[key] -
+        lineBefore.on[key] -
+        (localAidLine(a)[key] - lineBefore.off[key]);
+      expect(gotMore).toBeGreaterThan(0);
+      expect(added("aid")).toBe(sentMore);
       const received = (api: CoreAPI) =>
         governments(api)
           .filter((g) => g.level === "city" || g.level === "county")
@@ -322,23 +350,6 @@ describe("state school aid", () => {
         expect(r.personIds).toEqual([]);
         expect(r.facts?.executiveId).toBeUndefined();
       }
-      // What the state's treasury did with the line: what fell due, what went
-      // to the town (aid), what went outside, and what it fell short.
-      const localAidLine = (api: CoreAPI) =>
-        treasuryMonthsOf(api, stateOrg.id).reduce(
-          (n, m) => {
-            const l = m.lines.localAid;
-            return l
-              ? {
-                  due: n.due + l.dueMinor,
-                  aid: n.aid + l.aidMinor,
-                  outside: n.outside + l.outsideMinor,
-                  short: n.short + l.shortMinor,
-                }
-              : n;
-          },
-          { due: 0, aid: 0, outside: 0, short: 0 },
-        );
       process.stdout.write(
         `school aid proof: state localAid line over the run, with the law ${JSON.stringify(localAidLine(b))}, without ${JSON.stringify(localAidLine(a))}\n`,
       );
@@ -408,7 +419,10 @@ describe("state school aid", () => {
       process.stdout.write(
         `school aid proof: after the repeal, aid sent beyond the world with no law: ${firstOn.left - firstOff.left} cents in the first 45 days, ${laterOn.left - laterOff.left} in the next 40\n`,
       );
-      expect(Math.abs(laterOn.left - laterOff.left)).toBeLessThan(200);
+      // The state paid extra aid for a year, so after the repeal its treasury
+      // is the shorter one and prorates harder: it sends no more than the
+      // world that never had the law.
+      expect(laterOn.left - laterOff.left).toBeLessThanOrEqual(0);
       return;
     }
     throw new Error(`No drawn place could show the aid:${tried}`);

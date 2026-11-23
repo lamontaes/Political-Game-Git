@@ -62,6 +62,13 @@
       "source": "The two-party share the seat's incumbent party loses in the town's own county per point the town's unemployment rose: local conditions move votes far less than national ones (Healy and Lenz, Journal of Politics, 2017).",
       "spread": [0, 0.008]
     },
+    "leanCarryShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of a counted place's own move in an election (the part of its result that came from its own conditions, with the national tide and the candidates cleared) stays in where its people stand at the next one. A strength of a relationship, not a level: nothing is steered toward any share. Checked across the spread: at 0 no place ever moves and at 1 a place's whole own move stays. To be sourced from how well one election's county swing against the nation predicts the next (pool item research-lean-carry-share).",
+      "spread": [0, 1]
+    },
     "localCrimeShare": {
       "value": 0.002,
       "tag": "TUNABLE",

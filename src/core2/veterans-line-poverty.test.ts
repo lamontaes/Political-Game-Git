@@ -16,10 +16,42 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { veteransIncomeByHousehold } from "./law-reach/group-b-veterans";
 import { advanceCore } from "./life";
+import { residentsRuntime, unplacedPayPerWorker } from "./modules/residents";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
 import { WEB_LINKS } from "./outcome-web-model";
 import { coreAPI } from "./state";
+import type { CoreState } from "./types";
 import { householdPoverty } from "./world-poverty";
+
+/** What a household earns from work at today's pay, a year's worth, named or counted, from the world's own records. */
+function earnedIncome(core: CoreState, householdId: string): number {
+  const named = core.households.get(householdId);
+  if (named) {
+    let total = 0;
+    for (const id of named.memberIds) {
+      const person = core.people.get(id);
+      const job =
+        person?.alive && person.jobId ? core.jobs.get(person.jobId) : undefined;
+      if (job && job.endsAt === undefined) total += job.wageDailyMinor * 365;
+    }
+    return total;
+  }
+  const rt = residentsRuntime(core);
+  const h = rt?.store.liveHouseholds().find((x) => x.id === householdId);
+  return h && rt
+    ? h.wagesMinorYear +
+        h.retirementMinorYear +
+        h.unplacedWorkers * unplacedPayPerWorker(rt, h)
+    : 0;
+}
+
+/** Whether a household still stands in a world, named or counted. */
+function liveIn(core: CoreState, householdId: string): boolean {
+  if (core.households.has(householdId)) return true;
+  return !!residentsRuntime(core)
+    ?.store.liveHouseholds()
+    .some((h) => h.id === householdId);
+}
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const LINE = "veterans";
@@ -75,9 +107,16 @@ it(`a raise in the federal veterans line raises veterans' household income where
       // the share of income it replaces), never fewer (CTO, #9747 6991203613).
       const named = new Set(raised.households.keys());
       let namedHouseholds = 0;
+      let ended = 0;
       let countedHouseholds = 0;
       let widened = 0;
       for (const [id, minor] of before) {
+        // A counted household can end in one world and not the other within
+        // the 40 days (people move, marry, die); it has no income to compare.
+        if (!liveIn(raised, id) || !liveIn(alone, id)) {
+          ended += 1;
+          continue;
+        }
         const now = after.get(id) ?? 0;
         expect(now / minor, `${where}: household ${id}`).toBeGreaterThanOrEqual(
           1.2 - 0.005,
@@ -97,6 +136,7 @@ it(`a raise in the federal veterans line raises veterans' household income where
         householdPoverty(alone).map((row) => [row.householdId, row]),
       );
       let read = 0;
+      const spent: string[] = [];
       let poorBefore = 0;
       let poorAfter = 0;
       for (const row of householdPoverty(raised)) {
@@ -108,10 +148,20 @@ it(`a raise in the federal veterans line raises veterans' household income where
           (after.get(row.householdId) ?? 0) -
           (before.get(row.householdId) ?? 0);
         if (rise <= 0) continue;
+        // Income reads the whole rise. The two worlds also differ a little in
+        // what the economy paid in the 40 days (the benefit is spent locally,
+        // so wages and jobs answer it), so what the household earned from
+        // its work is read from each world's own records and set aside: what
+        // is left of the income's change is the benefit's rise.
+        const drift =
+          earnedIncome(raised, row.householdId) -
+          earnedIncome(alone, row.householdId);
         expect(
-          row.incomeMinor - other.incomeMinor,
-          `${where}: household ${row.householdId} income`,
+          row.incomeMinor - other.incomeMinor - drift,
+          `${where}: household ${row.householdId} income less its work pay's drift ${Math.round(drift)}`,
         ).toBeCloseTo(rise, -2);
+        if (Math.abs(drift) > 50)
+          spent.push(`${row.householdId} ${Math.round(drift)}`);
         read += 1;
       }
       expect(
@@ -120,7 +170,17 @@ it(`a raise in the federal veterans line raises veterans' household income where
       ).toBeGreaterThan(0);
       expect(poorAfter, where).toBeLessThanOrEqual(poorBefore);
       process.stdout.write(
-        `VETERANS ${where}: ${before.size} households draw a benefit (${namedHouseholds} named, ${countedHouseholds} counted), each at least a fifth more (${widened} more than a fifth as more of their veterans took it up; ${added} households newly drawing); ${read} households' poverty income rose by it; people counted poor ${Math.round(poorBefore)} to ${Math.round(poorAfter)}. Passed over: ${passed.join("; ") || "none"}\n`,
+        `VETERANS ${where}: ${before.size} households draw a benefit (${namedHouseholds} named, ${countedHouseholds} counted), each at least a fifth more (${widened} more than a fifth as more of their veterans took it up; ${added} households newly drawing); ${read} households' poverty income rose by it; people counted poor ${Math.round(poorBefore)} to ${Math.round(poorAfter)}; work pay drift beyond 50 cents, in cents: ${spent.length} households, largest ${
+          spent
+            .slice()
+            .sort(
+              (a, b) =>
+                Math.abs(Number(b.split(" ")[1])) -
+                Math.abs(Number(a.split(" ")[1])),
+            )
+            .slice(0, 3)
+            .join(", ") || "none"
+        }. ${ended} households ended in one world and were left out. Passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }
