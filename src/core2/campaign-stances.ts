@@ -39,7 +39,7 @@ import {
   VIEWS_DATA,
   VIEWS_MODULE_ID,
 } from "./modules/views";
-import { personLean, questionAxis } from "./campaign-views";
+import { personLean, personStance, questionAxis } from "./campaign-views";
 import { campaignParameter, type Stance } from "./campaign-data";
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -280,14 +280,13 @@ export class StanceReader {
       this.leanRead = true;
     }
     if (this.lean === null) return null;
-    // Where they start on it: their lean on its axis and, for someone the
-    // views engine knows, what their faith, degree and own circumstances add
-    // (`ownOpeningStance`, a voter's opening without the country's view of
-    // the question: a platform answers to party, record and own life, not to
-    // national polls). Then what they've come to want on the question itself
-    // (speeches, ads and news that reached them).
+    // Where they start on it: their lean at the question's strength and,
+    // for someone the views engine knows, what their faith, degree and own
+    // circumstances add (`ownOpeningStance`, the opening every voter holds).
+    // Then what they've come to want on the question itself (speeches, ads
+    // and news that reached them).
     if (!this.api.state.modules.has(VIEWS_MODULE_ID))
-      return clamp(this.lean * questionAxis(question));
+      return clamp(personStance(this.lean, question));
     const opening = this.api.state.people.has(this.personId as PersonId)
       ? ownOpeningStance(
           this.api,
@@ -295,7 +294,7 @@ export class StanceReader {
           question,
           this.lean,
         )
-      : this.lean * questionAxis(question);
+      : personStance(this.lean, question);
     // Their own row and, if heard among like hearers, their group's.
     return clamp(opening + stanceOn(this.api, this.personId, question));
   }

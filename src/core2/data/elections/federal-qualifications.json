@@ -3,6 +3,7 @@
   "minimumAge": {
     "us-senate": {
       "value": 30,
+      "role": "law",
       "tag": "SOURCED",
       "citation": "U.S. Const. art. I, sec. 3, cl. 3 (nine years a citizen; an inhabitant of the state chosen)"
     },

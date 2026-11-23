@@ -1,6 +1,6 @@
 {
   "version": "life-stakes-v1",
-  "about": "How a person's own circumstances, read from the records the engines keep, move their stance on a policy question beyond their lean, faith and degree (owner, Nov 14: build the simulation so it simulates these things; Account lead ruling: a view comes from the person's own simulated life). Each fact is measured against the nation's average, so a town of renters and a town of owners differ for a reason. How strongly the person weighs their own stake follows their traits (decision views.own-stake). Values are on the views scale (-1 to 1) per unit of the fact.",
+  "about": "How a person's own circumstances, read from the records the engines keep, move their stance on a policy question beyond their lean, faith and degree (owner, Nov 14: build the simulation so it simulates these things; Account lead ruling: a view comes from the person's own simulated life). Each fact is measured against the world's own share (or mean) over the adults whose stances are counted, full people and counted residents alike, read monthly (stakeReferences in src/core2/life-stakes.ts, kept on the views engine's stakeReferences row): a renter in a world of owners stands further from the middle than a renter in a world of renters. A fact the records do not hold for a person adds nothing. How strongly the person weighs their own stake follows their traits (decision views.own-stake). Values are on the views scale (-1 to 1) per unit of the fact.",
   "careDecision": "views.own-stake",
   "lifeEvents": {
     "about": "The events on which a full person's circumstances change and their stance is told the same day (the stance listeners: interest-group membership follows the view): a job lost, a home bought, an eviction, a birth in the household. Every other change (a hire, a lease, a health plan, a child turning 6, the income fifth) is told at the first of the month, when the views engine reads again everyone whose circumstances it has read.",
@@ -15,76 +15,40 @@
     "workingFrom": {
       "value": 18,
       "tag": "SOURCED",
-      "citation": "The youngest age of the work and health-plan references (BLS CPS table 3 rows 18 and 19 and up; NHIS 2023 adults 18 to 64).",
+      "citation": "The youngest age the work and health-plan facts are read at (BLS CPS table 3 rows 18 and 19 and up; NHIS 2023 adults 18 to 64).",
       "role": "level"
     },
     "workingTo": {
       "value": 65,
       "tag": "SOURCED",
-      "citation": "Medicare age (42 U.S.C. 1395c), the end of the work and health-plan references' age band (18 to 64).",
+      "citation": "Medicare age (42 U.S.C. 1395c): the end of the age band the work and health-plan facts are read at (18 to 64).",
       "role": "level"
     },
     "youngChildUnder": {
       "value": 6,
       "tag": "SOURCED",
-      "citation": "The young-child age of the reference: families with own children under 6 (BLS, Employment Characteristics of Families, table 4).",
+      "citation": "The young-child age: families with own children under 6 (BLS, Employment Characteristics of Families, table 4).",
       "role": "level"
     }
   },
   "facts": {
     "rents": {
-      "about": "1 when the person's household rents its home (a lease on the books for a full household; tenure rent for a counted one), else 0.",
-      "reference": {
-        "value": 0.348,
-        "tag": "SOURCED",
-        "citation": "Renter-occupied share of the nation's occupied homes, 45,431,634 of 130,518,362 (ACS 2020-2024 B25003, the county tenure table the housing engine opens from, src/core2/data/housing/housing.json). A household share, used for adults.",
-        "role": "level"
-      }
+      "about": "1 when the person's household rents its home (a lease on the books for a full household; tenure rent for a counted one), else 0."
     },
     "incomeFifth": {
-      "about": "The national household-income fifth of the person's household, 0 (lowest) to 4 (highest), from the readers the crime, health and school engines use (fullHouseholdIncomes; residents' householdIncome).",
-      "reference": {
-        "value": 2,
-        "tag": "SOURCED",
-        "citation": "The middle of the national fifths by construction (countedIncomeFifthLimit1Dollars to 4 in src/core2/data/counted/parameters.json).",
-        "role": "level"
-      }
+      "about": "The national household-income fifth of the person's household, 0 (lowest) to 4 (highest), from the readers the crime, health and school engines use (fullHouseholdIncomes; residents' householdIncome)."
     },
     "noWork": {
-      "about": "For an adult 18 to 64: 1 with no open job or work commitment, else 0 (for a counted household, its working-age members working outside a recorded job are counted as working). Older adults sit at the reference.",
-      "reference": {
-        "value": 0.259,
-        "tag": "SOURCED",
-        "citation": "Adults 18 to 64 not employed: 1 - 150,137 / 202,528 thousand (BLS, Current Population Survey 2025 annual averages, table 3, employment status by age; 11-month average).",
-        "role": "level"
-      }
+      "about": "For an adult 18 to 64: 1 with no open job or work commitment, else 0 (for a counted household, its working-age members working outside a recorded job are counted as working). Others hold no such fact (null), which adds nothing."
     },
     "noPrivatePlan": {
-      "about": "For an adult 18 to 64: 1 with no private health plan on the coverage engine's records (for a counted household, the share of its members under 65 its plan does not cover), else 0. Older adults sit at the reference.",
-      "reference": {
-        "value": 0.319,
-        "tag": "SOURCED",
-        "citation": "Adults 18 to 64 without private coverage: 1 - 0.681 (CDC NCHS, Health Insurance Coverage: Early Release of Estimates From the National Health Interview Survey, 2023, June 2024, 95 percent interval 67.0 to 69.2 percent private).",
-        "role": "level"
-      }
+      "about": "For an adult 18 to 64: 1 with no private health plan on the coverage engine's records (for a counted household, the share of its members under 65 its plan does not cover), else 0. Others hold no such fact (null), which adds nothing."
     },
     "youngChild": {
-      "about": "1 when a child under 6 lives in the person's household, else 0.",
-      "reference": {
-        "value": 0.1,
-        "tag": "ESTIMATED",
-        "citation": "Adults living with a child under 6: 13,422 thousand families with own children under 6 (BLS, Employment Characteristics of Families 2025, table 4), about 23.1 million parents (9,716 thousand married couples times two plus 3,707 thousand other families), with other adults in those homes, of about 263 million adults. Spread 0.08 to 0.12.",
-        "role": "level"
-      }
+      "about": "1 when a child under 6 lives in the person's household, else 0."
     },
     "publicWorker": {
-      "about": "1 when the person works for a government (an employer whose class is a public employer's, src/core2/public-pay-floor.ts), else 0.",
-      "reference": {
-        "value": 0.084,
-        "tag": "ESTIMATED",
-        "citation": "Government wage and salary workers, 22,100 thousand (BLS, Current Population Survey 2025 annual averages, table 42; federal 4,131, state 7,783, local 10,186), of about 263 million adults. Spread 0.075 to 0.095.",
-        "role": "level"
-      }
+      "about": "1 when the person works for a government (an employer whose class is a public employer's, src/core2/public-pay-floor.ts), else 0."
     }
   },
   "stakes": {

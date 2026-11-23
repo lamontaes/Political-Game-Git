@@ -107,6 +107,7 @@
 /src/core2/modules/constituent-cases.ts @lamontaes
 /src/core2/office-*.ts @lamontaes
 /src/core2/offices-*.ts @lamontaes
+/src/core2/law-consensus.ts @lamontaes
 /src/core2/officials-*.ts @lamontaes
 /src/core2/official-living.ts @lamontaes
 /src/core2/executive-term-limits.ts @lamontaes

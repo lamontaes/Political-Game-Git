@@ -1074,13 +1074,22 @@ function reverseLinks(
     const person = core.people.get(id as PersonId);
     if (person) {
       const stake = fullLifeStake(core, person);
-      for (const [fact, value] of Object.entries(stake.facts))
+      for (const [fact, value] of Object.entries(stake.facts)) {
+        // A fact their records do not hold adds nothing.
+        if (value === null) continue;
         out.push({
           id: `${id}#life.${fact}`,
           kind: "reason",
           via: `views.life.${fact}`,
           value,
         });
+        out.push({
+          id: `${id}#life.${fact}.reference`,
+          kind: "reason",
+          via: `views.stakeReferences.${fact}`,
+          value: stake.reference[fact as keyof typeof stake.reference],
+        });
+      }
       out.push({
         id: `${id}#life.care`,
         kind: "reason",

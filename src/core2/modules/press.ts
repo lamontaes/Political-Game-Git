@@ -103,7 +103,7 @@ import {
   giveOutsideSuppliers,
   ownerOf,
 } from "./business";
-import { publicOffset, questionAxis } from "../campaign-views";
+import { leanStrength, questionAxis } from "../campaign-views";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import {
   hireStaffMember,
@@ -118,6 +118,7 @@ import {
   VIEWS_MODULE_ID,
   countedNewsGroups,
   countedNewsConcern,
+  worldOpinion,
   type Stance as ViewStance,
 } from "./views";
 import { electorateSides } from "./voting";
@@ -2087,7 +2088,9 @@ export function interviewQuestions(
       pressParameter("divisiveNewsWeight") *
         Math.max(
           0,
-          Math.abs(questionAxis(q)) - Math.abs(publicOffset(q, api.state.seed)),
+          // How far leans split the public on it, less how one-sided the
+          // world's people already are (their mean stance this month).
+          Math.abs(leanStrength(q)) - Math.abs(worldOpinion(api, q)?.mean ?? 0),
         ),
     );
   }

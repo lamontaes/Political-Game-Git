@@ -3,10 +3,13 @@
  * simulation from 1925 ... That includes Presidents, Congress, governors, legislatures, party
  * control and laws"; History's family 4 plan). After each November the bodies the century elected
  * sit a session, and on each policy question each chamber votes by the one stance rule every
- * played legislator votes by (officials-roster.ts `memberSupportAt`). A law changes only when every
+ * played legislator votes by (law-consensus.ts `memberSupportWith`). A law changes only when every
  * chamber passes the change and the executive signs it, or the chambers override the veto. What a
  * member supports comes from where they stand: their party's typical position in the body, moved
  * by how far their own seat stands from their party's other seats (`expectedIdeal`), never a roll.
+ * The consensus a member answers to beyond their lean is the century's own (`centuryConsensus`):
+ * Congress's latest roll call on a question, else the sitting members' leans; never a published
+ * share.
  *
  * Sessions are the only process (stopgap SG-HIST-century-law-sessions): every question comes up
  * each session, with no drafting, committee or leadership, until the century runs the bill engine
@@ -15,7 +18,7 @@
 import { campaignParameter } from "./campaign-data";
 import {
   expectedIdeal,
-  memberSupportAt,
+  memberSupportWith,
   stanceLean,
 } from "./modules/officials";
 import { POLICY_QUESTIONS } from "./modules/laws";
@@ -102,6 +105,42 @@ function memberLeans(
     .sort((a, b) => a - b);
 }
 
+/**
+ * The century's consensus on a question's "yes" at a session, read as a played world reads its own
+ * (law-consensus.ts `lawConsensus`): for the nation, its latest roll call on the question (the
+ * narrowest chamber's margin, for the side it changed the law to), else the share of the sitting
+ * members whose lean alone favors it. A state's question reads null, its members' leans alone:
+ * the century opens in 1925 with no state's law in force, and a share read from no state's law
+ * holds every chamber at zero for good (stopgap SG-HIST-century-state-consensus).
+ */
+function centuryConsensus(
+  place: string,
+  question: string,
+  last: CenturyLaw | undefined,
+  leans: readonly (readonly number[])[],
+): number | null {
+  // stopgapId: SG-HIST-century-state-consensus
+  if (place !== "US") return null;
+  if (last) {
+    const margin = Math.min(
+      ...last.chambers.map((c) => (c.yes - c.no) / Math.max(1, c.yes + c.no)),
+    );
+    const forSide = (1 + margin) / 2;
+    return last.value === 1 ? forSide : 1 - forSide;
+  }
+  const axis = memberSupportWith(1, question, null);
+  let yes = 0,
+    counted = 0;
+  for (const sorted of leans)
+    for (const lean of sorted) {
+      const stance = lean * axis;
+      if (stance === 0) continue;
+      counted += 1;
+      if (stance > 0) yes += 1;
+    }
+  return counted ? yes / counted : null;
+}
+
 /** How many sorted leans `x` satisfy `g x + h > 0`. */
 function countFor(sorted: readonly number[], g: number, h: number): number {
   if (g === 0) return h > 0 ? sorted.length : 0;
@@ -145,10 +184,12 @@ export function lawSession(
   const override = campaignParameter("vetoOverrideShare");
   for (const question of questions) {
     const key = `${place}|${question}`;
-    const current = laws.get(key)?.value ?? 0;
+    const last = laws.get(key);
+    const current = last?.value ?? 0;
+    const share = centuryConsensus(place, question, last, leans);
     // Support for "yes" is linear in a member's lean: f0 + slope x.
-    const f0 = memberSupportAt(0, question);
-    const slope = memberSupportAt(1, question) - f0;
+    const f0 = memberSupportWith(0, question, share);
+    const slope = memberSupportWith(1, question, share) - f0;
     // For the change: enact (support above zero) or repeal (below).
     const direction = current === 1 ? -1 : 1;
     const votes = leans.map((sorted) => {
@@ -181,7 +222,8 @@ export function lawSession(
 
 /**
  * A party's key issues: the policy questions where its stance and the other party's differ most
- * (each stance by the one stance rule at the party's position), and which way it stands on each.
+ * (each stance by the one stance rule at the party's position, on its lean alone: the consensus
+ * both parties answer to moves neither's gap), and which way it stands on each.
  */
 export function partyKeyIssues(
   position: number,
@@ -192,8 +234,8 @@ export function partyKeyIssues(
   const other = stanceLean(otherPosition);
   return Object.keys(POLICY_QUESTIONS)
     .map((question) => {
-      const mine = memberSupportAt(own, question);
-      const theirs = memberSupportAt(other, question);
+      const mine = memberSupportWith(own, question, null);
+      const theirs = memberSupportWith(other, question, null);
       return { question, gap: Math.abs(mine - theirs), supports: mine > 0 };
     })
     .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))

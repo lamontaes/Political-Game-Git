@@ -351,5 +351,16 @@
     "addedAt": "2026-11-18",
     "replacement": "The election-rules questions in the laws data (Laws and effects' area; pool item to file), read by the founding step; the founded party fielding nominees on the one count with its position (9b part 2).",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-state-consensus",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century-laws.ts",
+    "whatItFakes": "A state legislature's member in the century's sessions weighs a state policy question by their own lean alone, with no term for how widely the century's states have already made it law; Congress's members read the century's own roll calls (else the sitting members' leans), as a played world's members read theirs.",
+    "why": "The century opens in 1925 with no state's law in force on any question, and the one stance rule read from that world (no state answering yes) holds every chamber below zero for good, so no state could ever enact anything; read only over the states with a record, the first state to act would carry every other with it. The published share of states with a law is real data setting a level, which the owner's Nov 16 rule forbids.",
+    "addedBy": "Pins 18 (merge of train/nov17b into #9921)",
+    "addedAt": "2026-11-19",
+    "replacement": "The century's states open with the laws in force their own 1925 history produced (History family 4), and each state's session reads the share of the century's states whose law answers yes, by the same rule lawConsensus applies to a played world.",
+    "status": "open"
   }
 ]

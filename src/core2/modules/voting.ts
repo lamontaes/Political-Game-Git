@@ -133,7 +133,7 @@ import type {
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { groupStance, personLean, type StanceProfile } from "../campaign-views";
-import type { LifeStake } from "../life-stake-rule";
+import type { LifeStake, StakeReference } from "../life-stake-rule";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
 import { basePlaces, wideElectorate } from "../race-places";
 import { shareValue } from "../shares";
@@ -404,10 +404,10 @@ export interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** How far what each voter's group has heard or lived has moved them on the field's platform questions, by question (null where nothing has; absent on rows kept before it was read). */
   readonly heard?: readonly (Readonly<Record<string, number>> | null)[];
-  /** The world whose country's view of each question the voters' stances carried (`popularity`; absent on rows kept before it was). */
-  readonly seed?: string;
   /** Each voter's circumstances and how much they weigh them, as the count read them (`stakeShift`; null where none; absent on rows kept before it was). */
-  readonly life?: readonly (LifeStake | null)[];
+  readonly life?: readonly (Omit<LifeStake, "reference"> | null)[];
+  /** The world's references the voters' circumstances were measured against that day (`stakeReferences`; absent on rows kept before it was). */
+  readonly stakeReference?: StakeReference;
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
@@ -2090,9 +2090,8 @@ const sidesByDay = new WeakMap<
  * stance its record gives (`groupStance` from its place in the town's lean
  * order, `personLean`, and its faith and degree, `countedStanceProfile`, as
  * the counted ballot reads it), as many times as the people it stands for
- * (one model, two tiers). The shares on each side and the mean. The policy's
- * national popularity is not added: a voter weighs a platform by their own
- * view alone. The one reader of where the town stands on a question: a
+ * (one model, two tiers). The shares on each side and the mean: a voter
+ * weighs a platform by their own view alone. The one reader of where the town stands on a question: a
  * candidate's platform weighs the shares (`platformScores`) and an interview
  * answer is shaded toward the mean (`townStand`). Read once a day, until
  * someone is filled in or the people change (as `countedResidents` is kept),
@@ -4114,6 +4113,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const questions = [
     ...new Set(field.flatMap((f) => f.platform.map((p) => p.question))),
   ];
+  let stakeReference: StakeReference | undefined;
   const kept = {
     voterIds: [] as string[],
     voted: [] as number[],
@@ -4127,7 +4127,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
     heard: [] as (Readonly<Record<string, number>> | null)[],
-    life: [] as (LifeStake | null)[],
+    life: [] as (Omit<LifeStake, "reference"> | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
@@ -4224,7 +4224,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
     kept.heard.push(heard);
-    kept.life.push(profile.life ?? null);
+    kept.life.push(
+      profile.life
+        ? { facts: profile.life.facts, care: profile.life.care }
+        : null,
+    );
+    if (profile.life) stakeReference ??= profile.life.reference;
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
     kept.endorsed.push(endorsed ?? null);
@@ -4265,9 +4270,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
-    // The world whose view of each question every voter's stance carries.
-    seed: api.state.seed,
     ...kept,
+    ...(stakeReference ? { stakeReference } : {}),
   } as unknown as ModuleRow);
   // Each counted resident stands for the town's people like them; those who
   // aren't citizens (the place's ACS share) and those barred for a felony
@@ -5715,11 +5719,14 @@ function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
             : {}),
         }
       : null;
-  const life = row.life?.[i] ?? undefined;
-  if (row.seed === undefined && !life && !heard) return faith;
+  const lived = row.life?.[i];
+  const life =
+    lived && row.stakeReference
+      ? { ...lived, reference: row.stakeReference }
+      : undefined;
+  if (!life && !heard) return faith;
   const kept: StanceProfile = {
     ...faith,
-    ...(row.seed === undefined ? {} : { seed: row.seed }),
     ...(life ? { life } : {}),
   };
   return heard ? keptHeard(kept, heard) : kept;

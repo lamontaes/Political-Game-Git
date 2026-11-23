@@ -6,7 +6,7 @@ import { createLifeCore } from "./life";
 import {
   countedEngagement,
   lifeShift,
-  openingStance,
+  ownOpeningStance,
   stancesOf,
   viewOf,
   VIEWS_DATA,
@@ -167,7 +167,7 @@ describe("political views", () => {
       // tested in src/core2/life-stakes.test.ts), so any difference comes from faith
       // and degree alone.
       const faithAndDegree = (id: string, question: string) =>
-        openingStance(api, id, question, 0.3) - lifeShift(api, id, question);
+        ownOpeningStance(api, id, question, 0.3) - lifeShift(api, id, question);
       const gap = (question: string) =>
         faithAndDegree(most.id, question) - faithAndDegree(least.id, question);
       // More religious: more for restricting abortion, less for the $15 wage.

@@ -62,7 +62,7 @@
       "reachesNamedResident": true,
       "cheapestReader": "Already built. What is missing is the federal yes in the town's chain: a US row dated 2027-01-01.",
       "sixtyVotes": false,
-      "why": "Enacted by reconciliation at a bare majority (Senate 50-50 with the Vice President; House 218-214), with every Democrat voting no. With the US answer yes, Congress's only move is a repeal, and no Senate vote shows 60 for one. Sanders Amdt. 4290 to H.R. 7148 (failed 49-51 on Jan 30, 2026) repealed secs. 71107 and 71120 and ICE money, not sec. 71119, so it is not a vote on this requirement. Congress needs its own consensus share here (about one half, from these votes): with the state-share yesShare of 0.078, memberSupportAt (src/core2/officials-roster.ts:305-311) adds about -0.096 against yes for every member, which would draw a bipartisan repeal Congress never had."
+      "why": "Enacted by reconciliation at a bare majority (Senate 50-50 with the Vice President; House 218-214), with every Democrat voting no. With the US answer yes, Congress's only move is a repeal, and no Senate vote shows 60 for one. Sanders Amdt. 4290 to H.R. 7148 (failed 49-51 on Jan 30, 2026) repealed secs. 71107 and 71120 and ICE money, not sec. 71119, so it is not a vote on this requirement. Congress needs its own consensus share here (about one half, from these votes): read from the share of the world's states whose law answers yes (lawConsensus in src/core2/law-consensus.ts), memberSupportAt (src/core2/law-consensus.ts) adds |axis| x (2 x share - 1) for every member, against yes while few states require work, which would draw a bipartisan repeal Congress never had."
     },
     {
       "question": "us-federal-positions:tax.raise-top-income-tax-rate",
