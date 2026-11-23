@@ -81,3 +81,7 @@ description: >
 ## A person filled in far from the played town holds work (Nov 15)
 
 Anyone filled in who lives in another town (a cabinet pick, a running mate offered, a person met on a trip) takes the work their home town's counts show through `workFromHome` in src/core2/coarse-place.ts, kept as their identity's `identity:work` record. Read what someone works at now through `workHeld` in src/core2/person-work.ts (an open job here, else that record), never `jobId` alone: a far-off person read by `jobId` looks jobless, and an ask that weighs pay then always gets a yes (18 of 18 at Edgar, Wisconsin before the fix). Relatives kept by jobs-elsewhere hold a status with no wage yet (item people-husk-work-has-no-wage).
+
+## Gotchas
+
+- Nov 18 (Story, the letter at Allendale, New Jersey): every out-of-town relative was kept at the player's own county or state, so a letter said "Come and stay a few days in New Jersey" to someone in New Jersey. Cause: a husk's place can be a county or state that holds the player's town. Say a relative's place through `relativePlaceSaid` in src/director/purpose-scene.ts (on claude/story-lines-home-bank6a until it merges): `hometown` for a place elsewhere, `nearby` for a county or state that holds the town.

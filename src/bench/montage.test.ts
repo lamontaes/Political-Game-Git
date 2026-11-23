@@ -20,6 +20,8 @@ const runSeed =
 
 it("keys the beats to each part's role: the chamber first, home last, the level between", () => {
   expect(beatKinds(["salutation"])).toEqual(["home"]);
+  // The Player's address at #9995 (Nov 19): its stance part cuts away to
+  // America, and only its close is home.
   expect(beatKinds(["occasion", "country", "close"])).toEqual([
     "chamber",
     "america",
@@ -158,6 +160,18 @@ it.each(["a", "b", "c"])(
         `${where}: ${beat.people.map((person) => `${person.role} ${person.name}`).join(", ")} over ${beat.backdrop.file}`,
       );
     }
+    // At home only the household listens: never the President among them
+    // (the Player's beat 4, #9995 Nov 19 09:40Z). The America cutaway keeps
+    // its own picture, the owner's montage (CTO, Nov 19 10:30Z).
+    for (const beat of beats.filter((row) => row.kind === "home"))
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: home`,
+      ).not.toContain(story.president.id);
+    for (const beat of beats.filter((row) => row.kind === "america"))
+      expect(beat.backdrop.file, `${where}: america`).toMatch(
+        /^train-depot-platform/,
+      );
     // Home lists the people the player lives with (nobody, for someone who
     // lives alone), and never the player: the strip shows who else is there.
     const household = world.core.households.get(

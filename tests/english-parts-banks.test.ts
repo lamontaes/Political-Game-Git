@@ -104,6 +104,13 @@ const banks = readdirSync(PARTS_DIR)
     bank: JSON.parse(readFileSync(path.join(PARTS_DIR, name), "utf8")) as Bank,
   }));
 
+/**
+ * The banks the cut of Nov 17 emptied (owner: delete every line written before
+ * Nov 15; CTO, Nov 18 18:27Z on #9750: a named list that only shrinks). Their
+ * files and readers stay, and the screens show the records through labels.
+ */
+const CUT_BANKS = new Set<string>([]);
+
 describe("English part banks", () => {
   it("has at least one bank", () => {
     expect(banks.length).toBeGreaterThan(0);
@@ -171,7 +178,14 @@ describe("English part banks", () => {
         expect(bank.schema).toBe("english-parts/1");
         expect(`${bank.register}.json`).toBe(name);
         expect(bank.maxWords).toBeGreaterThan(0);
-        expect(bank.parts.length).toBeGreaterThan(0);
+        // A bank the cut of Nov 17 emptied waits empty for its new lines and
+        // leaves CUT_BANKS the moment one returns; no other bank may be empty.
+        if (CUT_BANKS.has(name))
+          expect(
+            bank.parts,
+            `${name} has lines again: take it off CUT_BANKS`,
+          ).toEqual([]);
+        else expect(bank.parts.length).toBeGreaterThan(0);
         const keys = bank.parts.map((part) => part.key);
         expect(new Set(keys).size).toBe(keys.length);
         const texts = bank.parts.map((part) => part.text.toLowerCase());
@@ -373,5 +387,50 @@ describe("the household's filing talk", () => {
         /\b(?:\d+|two|three|five|ten|twenty) years\b/i,
       );
     }
+  });
+});
+
+describe("the conversation's composed lines", () => {
+  // A composed subject's bank lists each piece once per line part: a piece
+  // with two uses in the same part gives the bank two variants with one key,
+  // and the composer then refuses the whole bank, so the subject goes silent
+  // (news-talk at Artesia, MS, Nov 19: no answer after the player took a side).
+  it("gives no piece two uses in the same subject and line part", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as {
+      parts: { key: string; uses: { subject?: string; role: string }[] }[];
+    };
+    const twice = bank.parts.flatMap((part) => {
+      const seen = new Set<string>();
+      return part.uses.flatMap((use) => {
+        if (!["opener", "core", "reason", "closer"].includes(use.role))
+          return [];
+        const at = `${use.subject}|${use.role}`;
+        if (seen.has(at)) return [`${part.key}: ${at}`];
+        seen.add(at);
+        return [];
+      });
+    });
+    expect(twice).toEqual([]);
+  });
+});
+
+describe("a person slot in the conversation bank", () => {
+  // The President's slot is "he" or "she" after the first mention, so in an
+  // object's place it must be the object slot ("push back on him"), never the
+  // subject one (the Player, Nov 19: "I'd push back on he there").
+  it("takes its object form after a preposition", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/conversation.json", "utf8"),
+    ) as { parts: { key: string; text: string }[] };
+    const wrong = bank.parts
+      .filter((part) =>
+        /\b(on|to|with|for|about|against|from|at|by|behind|of)\s+\{president\}/i.test(
+          part.text,
+        ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(wrong).toEqual([]);
   });
 });

@@ -74,3 +74,40 @@ export function huskIncomeOf(core: CoreState, personId: PersonId) {
   }
   return undefined;
 }
+
+/**
+ * Holders an engine keeps as names on its record and nothing more (another
+ * state's officials nobody has opened). The health engine books their
+ * illness and death by the rule it books anyone's, without building them,
+ * and the engine writes only what a death leaves (`died`: the seat falls
+ * vacant).
+ */
+export interface UnbuiltHolders {
+  /** A number that changes whenever a holder may have joined, compared each day. */
+  readonly marker: (core: CoreState) => number;
+  /** Every holder held this way now, by person id. */
+  readonly ids: (core: CoreState) => Iterable<PersonId>;
+  /** Whether this engine holds `personId` this way (in office or not). */
+  readonly holds: (core: CoreState, personId: PersonId) => boolean;
+  /** Their death, for the engine to write what it leaves. */
+  readonly died: (core: CoreState, personId: PersonId) => void;
+}
+
+const unbuilt: UnbuiltHolders[] = [];
+
+export function registerUnbuiltHolders(holders: UnbuiltHolders): void {
+  if (!unbuilt.includes(holders)) unbuilt.push(holders);
+}
+
+/** Every engine that keeps unbuilt holders. */
+export function unbuiltHolderEngines(): readonly UnbuiltHolders[] {
+  return unbuilt;
+}
+
+/** The engine that keeps `personId` as an unbuilt holder, if any. */
+export function unbuiltHolderOf(
+  core: CoreState,
+  personId: PersonId,
+): UnbuiltHolders | undefined {
+  return unbuilt.find((holders) => holders.holds(core, personId));
+}

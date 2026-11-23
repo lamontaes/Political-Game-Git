@@ -2,6 +2,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { openingFrames } from "../bench/opening";
+import { BenchPlayer } from "../bench/player";
+import { storyScene } from "../bench/story";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
@@ -12,6 +14,7 @@ import { PRESIDENT_FACT } from "../core2/officials-president";
 import { subjectsBetween } from "./conversation";
 
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
+import { ADDRESS_FACT } from "./opening-facts";
 
 // The opening told as a story (owner, Oct 14, 2026), in the world the player
 // gets: `buildBenchWorld`, two-level, on a fresh seed and a place drawn from
@@ -79,6 +82,48 @@ describe("the opening story", () => {
         ),
       ).toBe(true);
   });
+  // The cut of Nov 17 removed the address's causes, so the opening evening was
+  // one line and the family talked about a speech the player never saw (the
+  // owner, Nov 19, via the CTO on #9750): the address plays as a scene again.
+  it("plays as the director's address scene at home, in the President's words", () => {
+    const here = `${place.name} (${place.key}), seed ${seed}`;
+    new BenchPlayer(core, director).select(playerId);
+    const book = director.ledger.people.get(playerId)!;
+    const entry = book.schedule.find((row) =>
+      row.bindings.some((binding) => binding.typeKey === "address"),
+    );
+    expect(entry, `${here}: no address scene staged`).toBeTruthy();
+    expect(entry!.outcome, here).toMatch(/^scene/);
+    const moment = book.momentsById.get(entry!.momentId)!;
+    expect(moment.causeId, here).toBe(story.id);
+    const binding = entry!.bindings.find((row) => row.typeKey === "address")!;
+    expect(binding.setting.kind, here).toBe("home");
+    const audience = binding.roles.find((row) => row.role === "audience")!;
+    expect(audience.personIds, here).toContain(playerId);
+    const scene = storyScene(core, director, playerId, entry!.momentId, 1230);
+    expect(scene.speech?.speakerId, here).toBe(story.president.id);
+    expect(scene.speech?.text, here).toBe(story.address.text);
+  }, 600_000);
+
+  it("is never talked about with someone who did not see or hear it, by their record of it", () => {
+    // What the player never saw can't be talked about (CTO, Nov 19 05:06Z on
+    // #9750): the speech's talk is gated on the listener's own record of it.
+    const other = story.home.memberIds.find((id) => id !== playerId);
+    if (!other) return;
+    const known = core.knowledgeByPerson.get(playerId)!;
+    const kept = known.get(ADDRESS_FACT.event);
+    expect(kept?.value, "the player who watched has the record").toBe(story.id);
+    known.delete(ADDRESS_FACT.event);
+    try {
+      const raised = subjectsBetween(core, other, playerId, director).filter(
+        (row) => row.kind === "address" || row.kind === "address-point",
+      );
+      expect(raised.map((row) => row.id)).toEqual([]);
+    } finally {
+      known.set(ADDRESS_FACT.event, kept!);
+    }
+  });
+
   it("is printed by the press as national news within weeks, for readers to read", () => {
     const api = coreAPI(core);
     if (!core.modules.has(PRESS_MODULE_ID)) return;

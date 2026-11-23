@@ -5,17 +5,23 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { allOfficials, officialStance } from "./modules/officials";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
+import { allOfficials, officialOf, officialStance } from "./modules/officials";
 import { coreAPI, personOrFillIn } from "./state";
 
-// Another state's legislators are recorded husks until something opens them
-// (owner, Nov 5: simulate from the people there, keep only the result,
-// generate on demand): their sessions still read their rows, and opening one
-// builds the same person every time.
+// Another state's officials are names on their terms until something opens
+// them (owner, Nov 5: simulate from the people there, keep only the result,
+// generate on demand; CTO, Nov 18 13:44Z: outside sessions read their members
+// without writing official rows): their sessions read their stance from the
+// draw that would seat them, and opening one builds the same person once.
 const seed = process.env.OFFICIAL_HUSK_SEED ?? randomBytes(8).toString("hex");
 
-describe(`other states' legislators are husks until opened (seed ${seed})`, () => {
-  it("keeps them out of the people, reads their stance from the row, and builds one on open", () => {
+describe(`other states' officials are names on their terms until opened (seed ${seed})`, () => {
+  it("keeps them out of the people, the husks and the official rows, reads their stance, and builds one on open", () => {
     const place = drawPlace(`${seed}:0`, "official-husks");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -25,24 +31,50 @@ describe(`other states' legislators are husks until opened (seed ${seed})`, () =
     const core = world.core;
     advanceCore(core, addDays(makeIsoDate(core.date), 5));
     const api = coreAPI(core);
-    const husks = allOfficials(api).filter((row) => row.husk && !row.ended);
-    expect(husks.length, `${where}: husks`).toBeGreaterThan(1000);
-    for (const row of husks.slice(0, 50)) {
-      expect(core.people.has(row.id), `${where}: ${row.id}`).toBe(false);
-      expect(core.husks.has(row.id), `${where}: ${row.id}`).toBe(true);
-    }
-    // Their stance is read from the row, with no person behind it.
-    const sample = husks[0]!;
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    const outside = (officeId: string) =>
+      isOutsideOffice(api, offices.table("offices").get(officeId));
+    const unopened = (
+      offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]
+    ).filter((term) => !term.personId && outside(term.officeId));
     expect(
-      officialStance(api, sample.id, "fiscal.graduated-income-tax"),
-      where,
-    ).not.toBeNull();
-    // Opening one builds the person the seat was drawn with, once.
-    const built = personOrFillIn(core, sample.id)!;
-    expect(built.id, where).toBe(sample.id);
-    expect(built.givenName, where).toBe(sample.husk!.identity.givenName);
-    expect(built.birthDate, where).toBe(sample.husk!.identity.birthDate);
-    expect(core.husks.has(sample.id), where).toBe(false);
-    expect(personOrFillIn(core, sample.id), where).toBe(built);
+      unopened.length,
+      `${where}: unopened outside holders`,
+    ).toBeGreaterThan(1000);
+    // No outside holder is a row, a husk or a person after their sessions sat.
+    expect(
+      allOfficials(api)
+        .filter((row) => {
+          const seat = offices.table("seats").get(row.seatId) as unknown as
+            { officeId: string } | undefined;
+          return seat !== undefined && outside(seat.officeId);
+        })
+        .map((row) => row.id),
+      `${where}: outside official rows`,
+    ).toEqual([]);
+    for (const term of unopened.slice(0, 50)) {
+      const key = `official:${term.id}`;
+      expect(core.people.has(key), `${where}: ${key}`).toBe(false);
+      expect(core.husks.has(key), `${where}: ${key}`).toBe(false);
+    }
+    // Their stance is read from their draw, with no row behind it.
+    const sample = unopened.find((term) => term.officeId.includes("lower"))!;
+    const key = `official:${sample.id}`;
+    const stance = officialStance(api, key, "fiscal.graduated-income-tax");
+    expect(stance, where).not.toBeNull();
+    expect(officialOf(api, key), where).toBeUndefined();
+    // Opening one builds the person their term names, once, standing where
+    // their session read them.
+    const built = personOrFillIn(core, key)!;
+    expect(built?.id, where).toBe(key);
+    expect(built.givenName, where).toBe(sample.identity.givenName);
+    expect(built.familyName, where).toBe(sample.identity.familyName);
+    expect(built.birthDate, where).toBe(sample.identity.birthDate);
+    expect(personOrFillIn(core, key), where).toBe(built);
+    expect(officialStance(api, key, "fiscal.graduated-income-tax"), where).toBe(
+      stance,
+    );
   }, 900_000);
 });
