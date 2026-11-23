@@ -20,9 +20,9 @@ merged-at:
 
 **Rules.** No hand-written player text outside the banks: the line name is the budgets engine's own name for the line (line-names.json). Wire to the world: the fact cites the cause record and the budget.
 
-**Done when.** src/director/budget-cut-scene.test.ts, in a drawn town, composes the department head's scene with a `line` fact equal to the budget screen's name for the cut line and citing the cut record, and no line in the scene says "has the page" or "send me the list"; director.test.ts, the families guard and the English guards pass.
+**Done when.** src/director/budget-cut-scene.test.ts (removed), in a drawn town, composes the department head's scene with a `line` fact equal to the budget screen's name for the cut line and citing the cut record, and no line in the scene says "has the page" or "send me the list"; director.test.ts, the families guard and the English guards pass.
 
-**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/grade-map.json, src/director/budget-cut-scene.test.ts
+**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/grade-map.json
 
 **Time box.** 1 hour.
 

@@ -35,4 +35,4 @@ checked:
 
 **Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/core2/modules/campaigns.ts
 
-**Notes.** Pinned test src/director/campaign-manager-household.test.ts (fails before, passes after). The campaign-events script's census still lists manager-offer as never staged after the fix, though the book shows it staged: the script's scan misses it (not chased; belongs to the campaign-events thread). Evidence: /mnt/project-files/words-lead/campaign-events/report-1.md.
+**Notes.** Pinned test src/director/campaign-manager-household.test.ts (removed) (fails before, passes after). The campaign-events script's census still lists manager-offer as never staged after the fix, though the book shows it staged: the script's scan misses it (not chased; belongs to the campaign-events thread). Evidence: /mnt/project-files/words-lead/campaign-events/report-1.md.

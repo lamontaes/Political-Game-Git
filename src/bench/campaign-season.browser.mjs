@@ -3,7 +3,7 @@
 // drawn from all 56 files for the first race at least two months out, then
 // plays week by week. Each scene that stops the day after filing is read and
 // photographed at 1440x900 (SEASON_SHOTS), until SEASON_SCENES scenes. Run
-// with SEASON_SEED to replay the place src/director/campaign-season.test.ts drew.
+// with SEASON_SEED to replay the place src/director/campaign-season.test.ts (removed) drew.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { fileWhenFilingOpens } from "./start-life.mjs";

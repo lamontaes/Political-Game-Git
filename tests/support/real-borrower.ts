@@ -33,7 +33,8 @@ import type {
 /** Days the player's clock may run in one place before it is passed over: the loan is written at a month's close and billed monthly. */
 const QUARREL_DAYS = 200;
 /** Places drawn before the search fails by name. */
-const MAX_PLACES = 8;
+/** The most places a search draws; a test's time limit is this many places' worth. */
+export const MAX_PLACES = 8;
 /** The seed a run draws its places from; a failed run is replayed with `GOLDEN_PATH_SEED`. */
 export const LOAN_SEED =
   process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -68,6 +69,7 @@ export function findTownBorrower(
   passedOver: string[] = [],
 ): TownBorrower {
   for (let n = from; n < MAX_PLACES; n += 1) {
+    const placeStarted = Date.now();
     const place = drawPlace(LOAN_SEED, `loan:${n}`);
     const label = `${place.name} (${place.key}), seed ${LOAN_SEED} draw loan:${n}, world seed ${place.seed}`;
     const built = buildBenchWorld(place.seed, gameStartDate(), {
@@ -143,6 +145,11 @@ export function findTownBorrower(
     const quarrel = found[0];
     if (!quarrel) {
       passedOver.push(`${label}: no money quarrel by ${core.date}`);
+      // Printed the moment it is passed over, so a draw that runs out of time
+      // still names every place played before it.
+      process.stdout.write(
+        `passed over (${Math.round((Date.now() - placeStarted) / 1000)} s): ${passedOver.at(-1)}\n`,
+      );
       continue;
     }
     const missed = missedBy.get(String(quarrel.facts!.missedId));
@@ -156,6 +163,9 @@ export function findTownBorrower(
     const owedId = quarrel.personIds.find(
       (id) => id !== borrowerId,
     ) as PersonId;
+    process.stdout.write(
+      `borrower found (${Math.round((Date.now() - placeStarted) / 1000)} s): ${label}\n`,
+    );
     return {
       core,
       director: built.director,
