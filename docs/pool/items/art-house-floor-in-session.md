@@ -21,7 +21,7 @@ checked: sonnet 2026-11-23
 
 **What.** The address opens in the House chamber and the picture is the empty room, with only the speaker's bust on the strip. The owner reported it on Nov 23. The painted room needs the members in their rows, which no session may draw into it while rooms are paintings with busts. Seen: on the address's first Continue in a new life.
 
-**Cause.** Found in code: `art/backdrops/us-house-floor__*.jpg` are painted empty and `src/bench/data/opening-montage.json` lists only that picture for the chamber and officials beats; no occupied painting exists (the picture is a gap, `docs/art/WANTED.md` row address-1).
+**Cause.** Found in code: `art/backdrops/us-house-floor__*.jpg` are painted empty and `places` in `src/bench/data/opening-montage.json` (read by `pictureOf` in `src/bench/montage.ts`) lists only that picture for the chamber and officials beats; no occupied painting exists (the picture is a gap, `docs/art/WANTED.md` row address-1).
 
 **Fix.** The montage now tries `us-house-floor-in-session` first and falls back to the empty floor; painting that one picture (midday and night) and adding it to `art/backdrops/manifest.json` and `categories.json` is the whole change. No code changes remain.
 
