@@ -58,7 +58,8 @@ async function run() {
     const at = names.findIndex((t) =>
       /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
     );
-    assert.ok(at >= 0, `seed ${drawnSeed}: no member of a body to step in as`);
+    if (at < 0)
+      throw new NoCase(`seed ${drawnSeed}: no member of a body to step in as`);
     await page.locator("#pick-list button").nth(at).click();
     await page.locator("#pick-play").click();
     await page.waitForFunction(() =>
@@ -82,6 +83,15 @@ async function run() {
       .getByRole("button", { name: "Your office" })
       .click();
     await page.locator(".office-board").waitFor();
+    // A seat whose board has no body to write for is not this check's case.
+    if (
+      (await page
+        .locator('.office-board [data-act="write-a-bill"]')
+        .count()) === 0
+    )
+      throw new NoCase(
+        `seed ${drawnSeed}: ${names[at]}'s office has no Write a bill`,
+      );
     await page
       .locator('.office-board [data-act="write-a-bill"]')
       .first()
