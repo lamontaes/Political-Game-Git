@@ -3,6 +3,7 @@ import { coreAPI } from "../core2/state";
 import {
   JOBS_MODULE_ID,
   applyForOpening,
+  hirePay,
   quitJob,
   type PositionRow,
 } from "../core2/modules/jobs";
@@ -10,8 +11,8 @@ import type { CoreState } from "../core2/types";
 
 /**
  * The jobs open in the person's town, read from the jobs module's position
- * records: the title, the employer, the hourly pay and the daily hours of the
- * job the opening replaces or copies. Each row carries its position's record
+ * records: the title, the employer, the hourly pay this person would be hired
+ * at and the daily hours of the job the opening replaces or copies. Each row carries its position's record
  * id. Nothing is decided here: who fits an opening is the jobs engine's to
  * say, not this list's.
  */
@@ -35,7 +36,10 @@ export function openingsView(core: CoreState, personId: string) {
           const org = core.organizations.get(row.organizationId);
           return org ? organizationName(org) : null;
         })(),
-        hourlyMinor: row.hourlyMinor,
+        // What this person would be hired at, schooling included: the call that
+        // follows an application offers the same pay (owner's ruling, R16:
+        // "Listings show actual pay and hours").
+        hourlyMinor: hirePay(coreAPI(core), row, personId),
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
         applied: !!coreAPI(core)
           .moduleState(JOBS_MODULE_ID)

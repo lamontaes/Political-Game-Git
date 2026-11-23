@@ -1947,6 +1947,23 @@ export function announceCandidacy(
 }
 
 /**
+ * An announcement whose candidate the counter refused, or who is gone, on the
+ * day their window opened leaves the race then, not at the deadline: the race
+ * page and the campaign board stop counting them.
+ */
+export function withdrawAnnouncement(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): void {
+  const filings = table(api, "filings");
+  const row = filings.get(`filing:${contestId}:${personId}`) as unknown as
+    FilingRow | undefined;
+  if (row?.status === "announced")
+    filings.put({ ...row, status: "withdrawn" } as unknown as ModuleRow);
+}
+
+/**
  * Whether a candidacy's campaign works today: it stands in its race
  * (`standing`), or it was announced and waits for its filing window.
  */

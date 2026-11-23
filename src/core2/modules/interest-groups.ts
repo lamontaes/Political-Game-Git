@@ -384,7 +384,12 @@ function organizeEmployers(
       api.state.people.has(group.lobbyistId) &&
       api.state.people.has(member.personId)
     ) {
-      api.relationship(group.lobbyistId, member.personId, "contact", 0.1);
+      api.relationship(
+        group.lobbyistId,
+        member.personId,
+        "contact",
+        api.parameter("lobbyMeetingMinutes") / api.parameter("minutesPerHour"),
+      );
       // The lobbyist makes the employers' case against the bill.
       if (first && question)
         makeCase(api, {
@@ -705,7 +710,13 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
         side: side * stance.position,
       } satisfies LobbyMeeting as unknown as ModuleRow);
       if (speaker && member.personId && speaker !== member.personId) {
-        api.relationship(speaker, member.personId, "contact", 0.1);
+        api.relationship(
+          speaker,
+          member.personId,
+          "contact",
+          api.parameter("lobbyMeetingMinutes") /
+            api.parameter("minutesPerHour"),
+        );
         if (first)
           makeCase(api, {
             id: `case:${id}`,

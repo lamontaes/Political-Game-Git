@@ -45,8 +45,13 @@ const check = () => industriesAgainstNullBill(core, dev.marks(), twinDev);
 const GROUNDWATER =
   "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
 const days = (n: number) => addDays(makeIsoDate(core.date), n);
-// Four checks of about 20 seconds each plus the runs between them; the limit is about twice the slower of alone and beside other tests.
-const LIMIT_MS = 240_000;
+// The work is fixed (one world advanced 20 days, then four twin checks), so
+// the limit follows how long that work takes, twice the slower measured, which
+// is this file's own rule. Nov 19 (Choteau, Montana): on a cloud container the
+// checks took 22.0, 25.2, 39.2 and 22.8 s and the case 144 s alone; the hosted
+// runner needed 265 s, more than the 240 s the limit was set from when the
+// checks took about 20 s each. Twice 265 s is 530 s.
+const LIMIT_MS = 530_000;
 
 describe(`dev mode's Industries check: ${where}`, () => {
   it(

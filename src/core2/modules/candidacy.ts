@@ -53,6 +53,8 @@ import { contestPositions } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
+  announceCandidacy,
+  withdrawAnnouncement,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
@@ -124,6 +126,12 @@ export interface CandidacyDecision {
   reasons: Readonly<Record<string, number>>;
   scores: readonly { actionId: string; score: number }[];
   sourceIds: readonly string[];
+  /** A runner who announced before filing opened: the day, the announcement and why then. */
+  announced?: {
+    readonly date: string;
+    readonly filingId: string;
+    readonly reasons: Readonly<Record<string, number>>;
+  };
   /** What came of a decision to run: the filing, or the rules it didn't meet. */
   filing?: {
     readonly status: FilingRow["status"] | "refused";
@@ -514,6 +522,32 @@ export function countedCandidacyReasons(
 }
 
 /**
+ * Whether a party stands a nominee in a race: its chance of taking the seat,
+ * the normal curve at the seat's Republican two-party lean over the swing
+ * spread, covers what standing one costs (`candidacyPartyStandingCost`). A
+ * seat one side cannot realistically win is left to the other uncontested;
+ * a competitive seat draws both. `side` is 1 for the right and -1 for the
+ * left; `rightShare` the seat's two-party right share.
+ */
+export function partyFieldsNominee(
+  api: CoreAPI,
+  side: number,
+  rightShare: number,
+): boolean {
+  const one = api.parameter("one");
+  const two = api.parameter("two");
+  const rightWins = normalCdf(
+    (rightShare - one / two) / c(api, "candidacySwingSpread"),
+    one,
+    two,
+  );
+  return (
+    (side > 0 ? rightWins : one - rightWins) >=
+    c(api, "candidacyPartyStandingCost")
+  );
+}
+
+/**
  * A challenger's odds against the sitting holder: the chance a swing as large
  * as the holder's last winning lead happens, from the seat's own last race
  * (`seatLastMargin`) and the world's swing spread. An open seat has no holder
@@ -819,6 +853,8 @@ interface Queues {
   localRank: number;
   weigh: ContestRow[];
   file: { contest: ContestRow; opens: string }[];
+  /** Weighed contests whose filing window is still ahead: their runners weigh announcing. */
+  announcing: ContestRow[];
   /** Contests on the town's calendar whose filing closed before the record began. */
   opening: ContestRow[];
 }
@@ -878,6 +914,16 @@ function queuesFor(api: CoreAPI): Queues | null {
           a.opens.localeCompare(b.opens) ||
           a.contest.id.localeCompare(b.contest.id),
       ),
+    announcing: rows
+      .filter((row) => {
+        const w = weighed.get(row.id) as unknown as WeighedContest | undefined;
+        return (
+          w !== undefined &&
+          w.filedOn === null &&
+          filingWindowOpens(api, row) > api.state.date
+        );
+      })
+      .sort((a, b) => a.id.localeCompare(b.id)),
   };
   queues.set(api.state, built);
   return built;
@@ -921,13 +967,13 @@ export function platformForContest(
   );
 }
 
-/** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
-function fileFor(
+/** The label and stands a runner files or announces under, from their own party tie and views. */
+function runnerPaper(
   api: CoreAPI,
   person: Readonly<PersonState>,
   contest: ContestRow,
   partisan: boolean,
-): NonNullable<CandidacyDecision["filing"]> {
+): { party: string | null; platform: string[] } {
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID))
     tieBeforeFiling(api, person.id);
   let party: string | null = partisan ? partyOf(api, person.id) : null;
@@ -936,16 +982,28 @@ function fileFor(
     party =
       partiesHere(api).find((row) => row.id === tie?.partyId)?.name ?? party;
   }
-  const result = fileCandidacy(api, {
-    personId: person.id,
-    contestId: contest.id,
+  return {
+    party,
     platform: platformFromViews(
       api,
       person.id,
       party,
       contestPositions(api, contest),
     ),
-    party,
+  };
+}
+
+/** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
+function fileFor(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  contest: ContestRow,
+  partisan: boolean,
+): NonNullable<CandidacyDecision["filing"]> {
+  const result = fileCandidacy(api, {
+    personId: person.id,
+    contestId: contest.id,
+    ...runnerPaper(api, person, contest, partisan),
   });
   if (result.status === "refused")
     return {
@@ -1399,6 +1457,8 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
+    if (filing.status === "refused")
+      withdrawAnnouncement(api, contest.id, personId);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1419,6 +1479,7 @@ export function fileRunners(
     table(api).put({ ...decision, filing: refused } as unknown as {
       id: string;
     });
+    withdrawAnnouncement(api, contest.id, decision.personId);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -1430,6 +1491,148 @@ export function fileRunners(
       decideAsked(api, contest, person, chairId, recordId);
   askForCandidates(api, contest);
   askForSuccessor(api, contest);
+}
+
+/**
+ * Announcing before filing opens (owner, Nov 17: "Of course, other people
+ * should be able to do it early"; CTO on #9995: each candidate decides when to
+ * announce from their own record, the way the town's candidates decide to
+ * file). A runner who has decided to run weighs, the day they decided and
+ * every candidacyAnnounceEveryDays after until the window opens, announcing
+ * now against waiting to file, through the core's one chooser: their ambition,
+ * how many people know them, whether the seat is open, the party and civic
+ * roles they already hold, and how near the window is pull toward announcing;
+ * what waiting is worth pulls the other way. One who announces does it through
+ * the elections engine's one announcement (`announceCandidacy`), the same row
+ * and record the player's announcement makes, and files it when the window
+ * opens (`fileRunners`).
+ */
+function announceAction(id: string, announcing: boolean): ActionDefinition {
+  return {
+    id,
+    actKinds: decisionKinds("candidacy.announce", id),
+    goalKinds: [],
+    need: "time",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "contest",
+    effect: "candidacy",
+    reasonBindings: [
+      {
+        id: "announce-circumstances",
+        provider: "candidacy-announce-circumstances",
+        weightParameter: "one",
+        arguments: { announcing: String(announcing) },
+      },
+    ],
+  };
+}
+export const ANNOUNCE = announceAction("candidacy-announce", true);
+export const WAIT_TO_FILE = announceAction("candidacy-wait-to-file", false);
+
+const pendingAnnounce = new WeakMap<object, ContestRow>();
+
+/** Whoever serves the contest's seat today, as the weighing reads its incumbent. */
+function seatHolderOf(api: CoreAPI, contest: ContestRow): string | null {
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const serving = (
+    terms.query("bySeatStatus", [
+      contest.seatId,
+      "serving",
+    ]) as unknown as TermRow[]
+  )[0];
+  return serving?.personId ?? null;
+}
+
+/** What draws a runner to say so now rather than at the filing counter, from their own record. */
+export function announceReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  contest: ContestRow,
+): Record<string, number> {
+  const zero = api.parameter("zero");
+  const one = api.parameter("one");
+  const roles = rolesOfNamed(api, person);
+  const toWindow = daysBetweenText(
+    api.state.date,
+    filingWindowOpens(api, contest),
+  );
+  const lead = c(api, "candidacyDecisionLeadDays");
+  return {
+    ambition:
+      c(api, "candidacyAnnounceAmbitionWeight") *
+      Math.min(one, ambitionOf(person)),
+    standing:
+      c(api, "candidacyAnnounceStandingWeight") *
+      Math.min(one, person.knownIds.size / c(api, "candidacyStandingCircle")),
+    openSeat: seatHolderOf(api, contest)
+      ? zero
+      : c(api, "candidacyAnnounceOpenSeatWeight"),
+    built:
+      c(api, "candidacyAnnounceBuiltWeight") *
+      Math.min(one, roles.partyActivity + roles.civicRoles),
+    // The window draws nearer: a sliding pull from nothing a lead's length
+    // away to its full weight on the eve of filing.
+    near:
+      c(api, "candidacyAnnounceNearWeight") *
+      Math.min(one, Math.max(zero, one - toWindow / lead)),
+  };
+}
+
+/** The runners of a weighed contest weigh announcing today; those who choose it announce. */
+export function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
+  const weighed = api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("weighed")
+    .get(contest.id) as unknown as WeighedContest | undefined;
+  if (!weighed || weighed.filedOn !== null) return;
+  if (filingWindowOpens(api, contest) <= api.state.date) return;
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const partisan = Boolean(seatParty(api, contest));
+  for (const personId of weighed.runIds) {
+    const person = api.state.people.get(personId);
+    // A counted runner is filled in when they file (`fileRunners`); until
+    // then they have no full record to weigh announcing from.
+    // stopgapId: SG-GOV-counted-runner-announces-at-filing
+    if (!person) {
+      api.stopgap("SG-GOV-counted-runner-announces-at-filing");
+      continue;
+    }
+    if (!person.alive || isExplicitlyControlledPersonV1(api.state, personId))
+      continue;
+    const decision = decisionOf(api, contest.id, personId);
+    if (!decision?.run) continue;
+    if (filings.get(`filing:${contest.id}:${personId}`)) continue;
+    pendingAnnounce.set(api.state, contest);
+    const scored = scoreOffers(
+      api.state,
+      personId,
+      [WAIT_TO_FILE, ANNOUNCE].map((definition) => ({
+        definition,
+        targetId: contest.id,
+        availableHours: api.parameter("hoursPerDay"),
+      })),
+      { needValues: { time: api.parameter("zero") } },
+    );
+    const chosen = decisionFromScores(api.state, personId, scored);
+    pendingAnnounce.delete(api.state);
+    if (chosen.selected?.definition.id !== ANNOUNCE.id) continue;
+    const made = announceCandidacy(api, {
+      personId,
+      contestId: contest.id,
+      ...runnerPaper(api, person, contest, partisan),
+    });
+    if (made.status !== "announced") continue;
+    // Why they said so when they did, kept with their decision to run.
+    table(api).put({
+      ...decision,
+      announced: {
+        date: api.state.date,
+        filingId: made.filing.id,
+        reasons: announceReasons(api, person, contest),
+      },
+    } as unknown as { id: string });
+  }
 }
 
 /** The kind of a party's ask that someone run for a seat. */
@@ -2071,7 +2274,7 @@ export function registerClosedContestWeighed(
   closedContestWeighed = fn;
 }
 
-function candidacyDay(api: CoreAPI): void {
+function candidacyDay(api: CoreAPI, played: boolean): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
@@ -2083,13 +2286,36 @@ function candidacyDay(api: CoreAPI): void {
   }
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;
-    if (contest.filingDeadline >= today)
+    if (contest.filingDeadline >= today) {
       weighContest(api, contest, held.localRank);
+      if (filingWindowOpens(api, contest) > today)
+        held.announcing.push(contest);
+    }
   }
+  // Runners say so before filing opens only on played days: a skipped stretch
+  // leaves them to file when the window opens.
+  if (played) announceDay(api, held);
   while (held.file[0] && held.file[0].opens <= today) {
     const { contest } = held.file.shift()!;
     if (contest.filingDeadline >= today)
       fileRunners(api, contest, held.localRank);
+  }
+}
+
+/** The weighed contests whose runners weigh announcing today: the weighing day, then every candidacyAnnounceEveryDays. */
+function announceDay(api: CoreAPI, held: Queues): void {
+  const today = api.state.date;
+  const every = c(api, "candidacyAnnounceEveryDays");
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+  held.announcing = held.announcing.filter(
+    (contest) => filingWindowOpens(api, contest) > today,
+  );
+  for (const contest of held.announcing) {
+    const row = weighed.get(contest.id) as unknown as
+      WeighedContest | undefined;
+    if (!row || row.filedOn !== null) continue;
+    if (daysBetweenText(row.date, today) % every === 0)
+      weighAnnouncing(api, contest);
   }
 }
 
@@ -2135,7 +2361,7 @@ export const candidacyModule: CoreModule = {
     },
   },
   onDay: (api) => {
-    candidacyDay(api);
+    candidacyDay(api, true);
     dropPastNonRunners(api);
   },
   // A skipped day weighs and files the races whose day has come, so a race
@@ -2145,7 +2371,7 @@ export const candidacyModule: CoreModule = {
     // standing views and the candidates' records, with no campaign's effect.
     // stopgapId: SG-SPEED-results-mode-no-campaign-effect
     api.stopgap("SG-SPEED-results-mode-no-campaign-effect");
-    candidacyDay(api);
+    candidacyDay(api, false);
     dropPastNonRunners(api);
   },
   eventKinds: ["scene.reply", "election-result"],
@@ -2158,6 +2384,20 @@ export const candidacyModule: CoreModule = {
     noteHouseholdBacking(api, event);
   },
   reasonProviders: {
+    "candidacy-announce-circumstances": (api, actor, offer, binding) => {
+      const contest = pendingAnnounce.get(api.state);
+      if (!contest || contest.id !== offer.targetId) return undefined;
+      return {
+        value:
+          binding.arguments?.announcing === "true"
+            ? Object.values(announceReasons(api, actor, contest)).reduce(
+                (sum, value) => sum + value,
+                api.parameter("zero"),
+              )
+            : c(api, "candidacyAnnounceWaitPull"),
+        sourceIds: [contest.id, actor.id],
+      };
+    },
     "candidacy-circumstances": (api, actor, offer, binding) => {
       const contest = pending.get(api.state);
       if (!contest || contest.contestId !== offer.targetId) return undefined;

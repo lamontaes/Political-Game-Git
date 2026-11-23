@@ -19,9 +19,14 @@ import { buildBenchWorld } from "./world";
 // Pinned (Nov 16, trial batch). Before, the seed came at run time from
 // process.env MARKUP_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it
 // drew changed every run. The fixed seed below draws Robbins, California
-// (0662168) first for "markup".
+// (0662168) first for "markup", and the test passes over a place whose
+// committees mark up nothing, naming it.
 // Limit: the slowest case took 23 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 50 s.
+// Train 6d12556a). On Nov 19 (train 3c41e9f8) the history from 1925 left
+// Robbins, Santel (Texas) and Woodworth (North Dakota) with no bill marked
+// up, and the fourth draw, Rhodell (West Virginia), had one: 73 s alone, each
+// new world seed costing the century's opening. The limit is about twice
+// that, 150 s, until Speed's cut of the per-seed cost.
 const seed = "pin-bill-markup";
 
 it("draws its pinned place from the fixed seed", () => {
@@ -80,5 +85,5 @@ describe(`the committee's markup on the paper (seed ${seed})`, () => {
     throw new Error(
       `no drawn place's committee marked a bill up (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 50_000);
+  }, 150_000);
 });

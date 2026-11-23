@@ -84,15 +84,14 @@ describe("a kept floor date never names a day the floor misses", () => {
   it("keeps the date named for a bill drafted between sittings once the sitting opens", () => {
     const { core, api, seat } = world(QUIET_PLACE);
     // No legislature sits at the start; draft then, and play to the sitting.
+    // The bill is a dollar on the minimum wage, as in the case above: its
+    // committee meets on its own day ahead of the floor and reports or holds
+    // it (ce2275bb), and a fifty-point sales tax (the bill this case drafted
+    // until Nov 19: the floor's 6.948 percent plus 50) is one no committee
+    // reports, so it died the day before its floor date and the case never
+    // saw the floor take a bill up.
     const sponsor = seat.holder!.personId!;
-    const id = minimumWageBill(
-      core,
-      api,
-      sponsor,
-      seat.office.id,
-      "sales-tax",
-      50,
-    );
+    const id = minimumWageBill(core, api, sponsor, seat.office.id);
     expect(floorDateOf(api, id), "no sitting, so no date").toBe(null);
     advanceCore(core, "2025-03-01");
     // From the day the sitting names a date it holds until the floor takes the

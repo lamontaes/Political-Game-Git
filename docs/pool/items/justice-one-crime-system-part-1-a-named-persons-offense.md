@@ -27,7 +27,7 @@ checked: fable 2026-11-10
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** This is a game (owner, Nov 10): a row only for a person the player can meet, counts for everyone else, no loop over every person every day, and a year no more than 20 percent slower than its base. One model, two tiers. No dice: real rates check totals and never pick an offender. Replace, never layer. One rule, all 56 places. Follow .agents/skills/played-world-proof/SKILL.md.
+**Rules.** This is a game (owner, Nov 10): a row only for a person the player can meet, counts for everyone else, no loop over every person every day, and a year no more than 20 percent slower than its base. One model, two tiers. No dice: real rates check totals and never pick an offender. Replace, never layer. One rule, all 56 places. Follow .agents/skills/done-proof/references/played-world-proof.md.
 
 **Done when.** A second session, on main in a drawn place (place and seed named), sees what this part adds by record id in a played year, with the town's yearly count of each offense reported beside the real rate and the year's time on `npm run speed:year` beside its base; the exact lines are written when the item is rewritten from the design.
 
