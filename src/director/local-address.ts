@@ -112,8 +112,6 @@ interface Speaker {
 
 type TownSeat = ReturnType<typeof townSeats>[number];
 
-const HEADS = DATA.levels.town.heads!;
-
 /** The place a local government governs, as its people say it: the town's own name, else the township's or the county's. */
 function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
   return office.level === "city"
