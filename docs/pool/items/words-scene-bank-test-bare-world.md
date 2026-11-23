@@ -20,7 +20,7 @@ claimed-at: 2026-10-29T04:40:48.738Z
 
 **Done when.** scene-bank.test.ts passes on main in a played world built with buildBenchWorld for a drawn place and a seed the builder did not choose, with at least one staged scene whose narration lines are mined sentences that cite record ids, and the test names the place, seed and record ids it read.
 
-**Files.** src/english/mined/scene-bank.test.ts
+**Files.**
 
 **Notes.** TODO
 

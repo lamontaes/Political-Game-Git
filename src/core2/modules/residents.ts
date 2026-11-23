@@ -1244,8 +1244,7 @@ function settle(
     if (flow.kind === "purchase") shiftToOpenSellers(core, rt, flow);
     return end(flow, date, "payee-closed");
   }
-  let base = flow.amountMinor;
-  if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
+  let base = indexedFlowPay(core, flow, flow.amountMinor);
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -2263,12 +2262,13 @@ export function releaseResidentHousehold(
       return age >= from && age < below;
     });
     if (unplaced && worker) {
-      const amount = Math.round(unplaced.amountMinor * cash.unplaced);
+      const share = Math.round(unplaced.amountMinor * cash.unplaced);
+      const amount = indexedFlowPay(core, unplaced, share);
       if (
         amount > 0 &&
         startCommuterJob(core, rt, worker.id, unplaced, amount)
       ) {
-        unplaced.amountMinor -= amount;
+        unplaced.amountMinor -= share;
       }
     }
   }
@@ -2543,6 +2543,17 @@ function payLevel(core: CoreState, placeId: string): number {
   for (const row of conditions)
     if (row.at <= core.date) factor = row.wagePriceFactor;
   return factor;
+}
+
+/** Converts a wage flow's stored amount into the pay due today. */
+function indexedFlowPay(
+  core: CoreState,
+  flow: FlowState,
+  amount: number,
+): number {
+  return flow.payIndexed
+    ? Math.round(amount * payLevel(core, flow.placeId))
+    : amount;
 }
 
 export function residentWageShortfall(
@@ -4294,7 +4305,14 @@ export function returnCommuterPay(
       !flow.quarters === !h.quarters,
   );
   if (!base) return;
-  base.amountMinor += amountMinor;
+  // A named job pays in current dollars. The pool stores its opening basis.
+  let pooledAmount = amountMinor;
+  if (base.payIndexed) {
+    const level = payLevel(core, base.placeId);
+    if (!(level > 0)) return;
+    pooledAmount = Math.round(amountMinor / level);
+  }
+  base.amountMinor += pooledAmount;
   // As many of the place's unplaced workers as the pay it brings back, at
   // the place's pay per unplaced worker (the rate a counted household's
   // income reads). A share of the other counted households' workers came to
@@ -4304,7 +4322,7 @@ export function returnCommuterPay(
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
   const perWorker = unplacedPayPerWorkerBase(rt, h);
-  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
+  h.unplacedWorkers = perWorker > 0 ? (pooledAmount * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }
 
