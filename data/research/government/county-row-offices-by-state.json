@@ -688,6 +688,18 @@
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
       },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-9-27/",
+        "note": "N.J.S.A. 40A:9-27: the board of county commissioners (formerly chosen freeholders) appoints the county treasurer for a term of three years."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": null,
+        "note": "Not yet read: New Jersey assesses property by municipality, and a county board of taxation oversees it; no county assessor is elected. The three offices every county elects by the state constitution are clerk, sheriff and surrogate."
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
