@@ -6576,14 +6576,22 @@ const sheets = {
           `${lawText(law, pending.value, pending.unit)} · ${dateWords(pending.effectiveDate)}`,
         ),
       );
-      const changed = [...changes.took, ...changes.ahead]
-        .filter((c) => c.series === law.series)
-        .map((change) =>
-          row(
-            dateWords(change.date),
-            [change.measure, change.what].filter(Boolean).join(" · "),
-          ),
-        );
+      // A change names the measure that made it by its paper's title, never its id.
+      const changed = await Promise.all(
+        [...changes.took, ...changes.ahead]
+          .filter((c) => c.series === law.series)
+          .map(async (change) => {
+            const paper = change.measure
+              ? await api(
+                  `/api/bill?billId=${encodeURIComponent(change.measure)}`,
+                ).catch(() => null)
+              : null;
+            return row(
+              dateWords(change.date),
+              [paper?.title, change.what].filter(Boolean).join(" · "),
+            );
+          }),
+      );
       const did = await didSection(law);
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),

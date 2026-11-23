@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, window */
 // The Issues tab in a real browser on the bench (npm run bench) with a life
 // in progress: the laws in force as cards, one subject at a time on the rail,
 // paged inside a plate so the panel never scrolls (owner, Oct 29), each card
@@ -41,8 +41,37 @@ try {
     count += 1;
     const seen = await page.evaluate(() => {
       const body = document.getElementById("sheet-body");
+      // A list that scrolls though all of it would fit in the window below its top (owner,
+      // Nov 23: "none of these scrollers, especially when there's ample dead space").
+      const lists = [
+        ...document.querySelectorAll(
+          "#sheet-body .pager, #sheet-body .issues-laws > .roster, #sheet-body .issues-subjects > .roster",
+        ),
+      ];
+      const rows = [
+        ...document.querySelectorAll("#sheet-body .issues-laws .roster-row"),
+      ];
       return {
         scrolls: body.scrollHeight > body.clientHeight + 1,
+        clipped: lists
+          .filter(
+            (l) =>
+              l.scrollHeight > l.clientHeight + 1 &&
+              l.scrollHeight <=
+                window.innerHeight - l.getBoundingClientRect().top - 30,
+          )
+          .map(
+            (l) =>
+              `${l.closest(".roster-screen")?.className}: ${l.scrollHeight} in ${l.clientHeight}`,
+          ),
+        // A law's value that runs out of its row.
+        runsOut: rows
+          .filter((r) => {
+            const out = r.querySelector("span")?.getBoundingClientRect();
+            const box = r.getBoundingClientRect();
+            return out && (out.right > box.right + 1 || out.left < box.left);
+          })
+          .map((r) => r.querySelector("b")?.textContent.trim()),
         laws: [
           ...document.querySelectorAll("#sheet-body .issues-laws .roster-row"),
         ].map((e) => ({
@@ -65,6 +94,12 @@ try {
       };
     });
     assert.ok(!seen.scrolls, "the Issues panel scrolls");
+    assert.deepEqual(
+      seen.clipped,
+      [],
+      "a list scrolls though all of it would fit in the window",
+    );
+    assert.deepEqual(seen.runsOut, [], "a law's value runs out of its row");
     // The subjects stand in their own column, each with how many laws it
     // holds, and the one visited is the one pressed (pl-issues).
     assert.ok(
