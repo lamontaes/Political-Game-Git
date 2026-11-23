@@ -39,6 +39,7 @@ export function celebrationFacts(
   askedId: PersonId,
   honoreeId: PersonId | undefined,
   placeSaid: (placeId: string) => string | null,
+  nearSaid: (placeId: string) => string | null = () => null,
 ): Record<string, NewsFact> {
   if (typeKey !== CELEBRATION_TYPE) return {};
   const asker = core.people.get(askerId);
@@ -91,6 +92,14 @@ export function celebrationFacts(
     if (town)
       facts.hometown = {
         text: town,
+        sourceRecordIds: [asker.placeId, causeId],
+      };
+    // Or the county or state the asked person's town sits in, for a relative
+    // kept at that level.
+    const near = town ? null : nearSaid(asker.placeId);
+    if (near)
+      facts.nearby = {
+        text: near,
         sourceRecordIds: [asker.placeId, causeId],
       };
   }

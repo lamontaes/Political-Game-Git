@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "no-explaining",
   "rubric": "No line explains its own subtext or tells the player what to feel.",
-  "judged": 79,
+  "judged": 12,
   "no": {},
-  "yesHash": "0u4eue08t0s"
+  "yesHash": "17ekcdkjzxa"
 }

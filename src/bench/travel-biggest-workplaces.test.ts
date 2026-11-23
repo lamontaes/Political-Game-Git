@@ -11,7 +11,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { townPlaces } from "./places";
+import { PAYER_RECORD_CLASSIFICATIONS, townPlaces } from "./places";
 import { orgPlace, staffOf } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -76,6 +76,41 @@ describe(`Travel lists the town's biggest workplaces (seed ${seed})`, () => {
             `${where}: ${r.name} is its kind's biggest or next`,
           ).toBeLessThanOrEqual(best.staff);
         }
+        // A payer record such as the town's retirement-income paying
+        // account is never listed as a place.
+        for (const r of rows)
+          expect(
+            PAYER_RECORD_CLASSIFICATIONS.has(r.kindOfWork),
+            `${where}: ${r.name} is a payer record listed as a place`,
+          ).toBe(false);
+        // A town with few workplaces: strip every organization that is not
+        // tied to the player, so the account would fill the list.
+        // Edge-case proof; the draws above are the played case.
+        const tiedIds = new Set(
+          rows.filter((r) => !large.includes(r)).map((r) => r.organizationId),
+        );
+        for (const org of [...core.organizations.values()]) {
+          if (
+            !tiedIds.has(org.id) &&
+            !PAYER_RECORD_CLASSIFICATIONS.has(org.classification ?? "")
+          )
+            core.organizations.delete(org.id);
+        }
+        const sparse = townPlaces(core, playerId);
+        const accountsLeft = [...core.organizations.values()].filter(
+          (o) =>
+            o.placeId === home &&
+            PAYER_RECORD_CLASSIFICATIONS.has(o.classification ?? ""),
+        );
+        expect(
+          accountsLeft.length,
+          `${where}: the account record exists`,
+        ).toBeGreaterThan(0);
+        for (const r of sparse)
+          expect(
+            PAYER_RECORD_CLASSIFICATIONS.has(r.kindOfWork),
+            `${where}: ${r.name} listed as a place`,
+          ).toBe(false);
         checked.push(
           `${where}: ${rows.length} listed, ${large.length} large across ${largeKinds.size} kinds`,
         );

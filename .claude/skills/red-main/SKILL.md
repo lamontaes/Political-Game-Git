@@ -109,3 +109,4 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 Read each file here when its moment comes:
 
 - `references/lessons.md`: when a red does not reproduce, a fix did not hold, or several reds arrive at once.
+- A test's bar and a design rule that can't both hold in one world: post the cause and ask for the rule change before lowering the bar; the owner's answer was no fixed count at all (`federal-issue-axes`, Nov 18).

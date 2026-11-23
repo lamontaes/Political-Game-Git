@@ -78,6 +78,34 @@
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressElections: every governor and partisan statewide officer elected in its own cycle from 1925 on the one path (electorate.ts countParties), term limits from data/research/offices/state-offices.json; seated by src/core2/modules/offices.ts worldParties. Under the world setting history \"today\", the real record (the calibration corpus's governors and statewide-executive-parties-2026.json)."
     },
+    "town.legislature": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every state legislative seat in its own cycle from 1925 on the one path (electorate.ts countParties), the played town's state seat by seat and every other state's chambers as results (each district its own place), every district's lean carried from its own results; a chamber not elected on the two national sides (Nebraska's) keeps the real record. Seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
+    },
+    "town.stateLean": {
+      "made": "decision",
+      "by": "src/core2/electorate-places.ts statePlaces: in a world whose day one is the century's, every counted place in the state moves by the one shift that puts the state's vote-weighted lean on its last century count (src/core2/electorate-century.ts centuryStateShare); under the world setting history \"today\", the 2024 presidential vote by county moved by the world's swing."
+    },
+    "town.districtLeans": {
+      "made": "decision",
+      "by": "src/core2/modules/officials.ts seatLean: in a world whose day one is the century's, each House and state legislative district stands where the century's last count left it (src/core2/electorate-century.ts centurySignedLean, from its districtLeans); under the world setting history \"today\", the 2024 House and state legislative results (Clerk, MEDSL) moved by the world's swing."
+    },
+    "town.rentalVacancy": {
+      "made": "decision",
+      "by": "src/core2/housing-past.ts openingVacancy: the leases the town's renters signed in the year before day one (each a counted household's weight), each leaving a unit empty for rentalVacantMonths (HVS 2024's median months vacant); who signed in that year comes from the past's moves and the opening's years in place, split by tenure with the moves engine's owner hold (src/core2/opening-tenure.ts tenureScaleOf)."
+    },
+    "town.partyTies": {
+      "made": "decision",
+      "by": "src/core2/modules/parties.ts openParties: in a world whose day one is the century's, each adult takes their side's party when their own lean reaches partyIdentityReach of the way to the party's day-one position, and has no party at or under noPartyReach (centuryTies); under the world setting history \"today\", the published shares (Gallup's 56% with a party, Pew's 7% with none) by quota."
+    },
+    "town.parties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts partyPositionsNow: each party stands where the members it holds in Congress stand after each even November (the mean of their seats' leans, put on the members' scale by centuryPartyLeanScale); its key issues are the policy questions where its stance and the other party's differ most (electorate-century-laws.ts partyKeyIssues, the one stance rule); its presidencies are the century's; its members of Congress are drawn around its day-one position (src/core2/officials-roster.ts drawOfficial). Under the world setting history \"today\", today's real parties."
+    },
+    "town.foundedParties": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters left unreached (each by the part of partyIdentityReach of the way to their side's party that their lean falls short of, a sliding scale) adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters. Under the world setting history \"today\", none."
+    },
     "town.congresses": {
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"
@@ -186,6 +214,10 @@
       "made": "generation",
       "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), the world's fine seeded unit keyed by the seat and the term's start, evenly inside the office kind's winner-share band (src/core2/data/offices/tenure.json, estimated)",
       "replace": "The past race's result from the election engine"
+    },
+    "office.lastShareCentury": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts: the seat's own race in the century run from 1925, counted on the one path (electorate.ts countParties), its record id century:<seat>:<year>; written on the term by src/core2/modules/offices.ts electionBehind"
     },
     "office.lastShareRecorded": {
       "made": "world-offset",
@@ -843,7 +875,7 @@
     },
     "src/core2/electorate-century.ts#centuryShift": {
       "made": "generation",
-      "what": "One starting shift on the lean order in 1925 for the country, each state and each House district, any size between -1 and 1 of its spread equally likely: where each stands when the century starts (CTO line 6935396694)",
+      "what": "One starting shift on the lean order in 1925 for the country, each state, each House district and each state legislative district, any size between -1 and 1 of its spread equally likely: where each stands when the century starts (CTO line 6935396694)",
       "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
     },
     "src/core2/electorate-century.ts#centuryOpening": {
@@ -851,9 +883,14 @@
       "what": "Each state's and the country's place on the lean order in 1925, where the century starts: an even split moved by one seeded shift each, sized by the real map's spread (CTO line 6935396694)",
       "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
     },
+    "src/core2/electorate-century.ts#districtEligible": {
+      "made": "generation",
+      "what": "How many eligible voters a district holds against its chamber's typical (the state's over its districts), one seeded size per district within centuryDistrictSizeSpread: who lives where",
+      "replace": "Each district's eligible voters read from the places it covers as the century's population moves (family 5)"
+    },
     "src/core2/electorate-century.ts#careerOf": {
       "made": "generation",
-      "what": "How many terms a member of Congress serves before leaving the seat open, drawn once when they first win, its mean the completed career the CRS mean service implies",
+      "what": "How many terms a member of Congress, a statewide officer or a state legislator serves before leaving the seat open, drawn once when they first win, its mean the completed career the CRS mean service implies",
       "replace": "A member's own decision to run again from their record (age, health, standing) once past members are filled in on open"
     },
     "src/core2/electorate-century.ts#campaignMeansOf": {
