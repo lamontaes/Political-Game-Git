@@ -1,7 +1,7 @@
 /* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
+import { makeButton, buttonRow } from "./ui/button.mjs";
 import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
@@ -2497,7 +2497,7 @@ async function campaignParts() {
                 ),
               ]
             : []),
-          buttonTray(out),
+          buttonRow(out),
         ],
       ],
     });
@@ -4745,7 +4745,7 @@ const sheets = {
                     ...(opened.askedMinor !== undefined
                       ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                       : []),
-                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                    ...(stepButtons.length ? [buttonRow(...stepButtons)] : []),
                   ),
                 ],
               ]
@@ -5535,7 +5535,7 @@ const sheets = {
         closeSheet();
         act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
       });
-      const tray = [
+      const raceActions = [
         ...(mayFile && !cannotFile ? [fileButton] : []),
         ...(race.mayAnnounce ? [announceButton] : []),
         ...(opensLater ? [simButton] : []),
@@ -5619,7 +5619,7 @@ const sheets = {
                 },
               ]),
             ),
-            ...(tray.length ? [buttonTray(...tray)] : []),
+            ...(raceActions.length ? [buttonRow(...raceActions)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile &&
@@ -6630,11 +6630,11 @@ const sheets = {
       return [
         rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
-        ...(repealButtons.length ? [buttonTray(...repealButtons)] : []),
+        ...(repealButtons.length ? [buttonRow(...repealButtons)] : []),
         ...(repealLines.length
           ? [stripSection(5, labels.repeal, ...repealLines)]
           : []),
-        ...(measures.length ? [buttonTray(...measures)] : []),
+        ...(measures.length ? [buttonRow(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
@@ -6824,7 +6824,7 @@ async function openSheet(tab) {
  * body, or a split screen's side or main) gives back a row at a time until
  * the part fits, the pager holds one row, or a row given back no longer
  * shortens the part (something else in it is the taller). A screen counts its rows from the
- * window; what sits above a pager (a tray of buttons, a long title) is only
+ * window; what sits above a pager (a row of buttons, a long title) is only
  * known once drawn.
  */
 function fitPagers(root) {

@@ -1,0 +1,37 @@
+{
+  "box": {
+    "politics [sheet]": {
+      "figure.chamber (fill+picture-fill)": 1
+    },
+    "politics > Government [sheet]": {
+      "figure.chamber (fill+picture-fill)": 1
+    },
+    "politics > Bills [sheet]": {
+      "header.bill-band > h2 (picture-fill)": 1
+    },
+    "politics > Budgets [sheet]": {
+      "header.bill-band > h2 (picture-fill)": 1
+    }
+  },
+  "scroll": {
+    "Patch notes [sheet]": {
+      "nav.pick-list.roster scrolls y (panel 771px of 852px)": 1,
+      "div.pager.roster-pages scrolls y (panel 771px of 852px)": 1,
+      "div.roster-page.strip-screen.strips scrolls y (panel 771px of 852px)": 1
+    },
+    "Creator [front]": {
+      "#cr-states scrolls y (panel 770px of 1154px)": 1
+    },
+    "politics > Parties [sheet]": {
+      "div.pager scrolls y (panel 824px of 850px)": 1
+    },
+    "politics > Issues [sheet]": {
+      "nav.pick-list.roster scrolls y (panel 719px of 850px)": 1,
+      "div.pager.roster-pages scrolls yx (panel 719px of 850px)": 1
+    },
+    "guide [sheet]": {
+      "nav.pick-list.roster scrolls y (panel 599px of 850px)": 1,
+      "div.pager.roster-pages scrolls y (panel 599px of 850px)": 1
+    }
+  }
+}
