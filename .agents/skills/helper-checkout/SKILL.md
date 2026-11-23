@@ -58,3 +58,6 @@ The skill ends when every helper's copy is sparse, outside the main checkout and
 ## Gotchas
 
 - Nov 18 (Story): the helper copies are worktrees of one repository, and `git checkout -B` lets two of them hold the same branch. A commit in one moves the branch for both, and the other's files fall behind its HEAD; `git add -A` there then re-adds the stale tree as changes (99 files undone in one commit on #10063). One branch per worktree: check `git worktree list` before `checkout -B`, and detach the copy you leave.
+- Nov 18 (Story): `helper-checkout.sh new <dir> <branch>` checks the copy out at origin/main, not at the branch's head. Run `git reset --hard <head>` in the new copy before briefing its writer, and check `git log -1` there.
+- Nov 18, 21:00Z (Story): three test runs and two writers at 3 GB of heap each killed the container (exit 137) and stopped every background run. While writers run tests in their copies, the lead runs one test command at a time, and a full-folder run takes `--maxWorkers=2`.
+- Nov 19 (Story): `npx vitest run $(ls ... | grep ...)` with a grep that matched nothing gave vitest no file, so it ran the whole suite until the timeout killed it. Check the file list is not empty before passing it, and name the files outright when you know them.

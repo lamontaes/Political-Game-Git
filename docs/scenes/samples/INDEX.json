@@ -32,6 +32,21 @@
       },
       "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
     },
+    "first-meeting": {
+      "file": "first-meeting.json",
+      "title": "First meeting",
+      "purpose": "introduction",
+      "place": "Dededo, Guam",
+      "seed": "nov19b",
+      "date": "2025-02-20",
+      "standing": "a resident of Dededo, Guam, not in office",
+      "depth": 3,
+      "endings": {
+        "took-them-in-hand": 10,
+        "brushed-off-newcomer": 2
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
+    },
     "floor-debate": {
       "file": "floor-debate.json",
       "title": "Floor debate",
@@ -52,16 +67,16 @@
       "file": "gathering-missing.json",
       "title": "Gathering missing",
       "purpose": "gathering-ask",
-      "place": "Tutu, U.S. Virgin Islands",
-      "seed": "story-batch-1",
-      "date": "2025-07-20",
-      "standing": "a resident of Tutu, U.S. Virgin Islands, not in office",
-      "depth": 2,
+      "place": "Seven Mile, Arizona",
+      "seed": "nov19c",
+      "date": "2025-06-14",
+      "standing": "a resident of Seven Mile, Arizona, not in office",
+      "depth": 3,
       "endings": {
-        "said-you-would-reach-out": 2,
-        "reaching-out-left-open": 2
+        "said-you-would-reach-out": 4,
+        "would-not-reach-out": 2
       },
-      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
     },
     "last-day": {
       "file": "last-day.json",
@@ -84,16 +99,16 @@
       "file": "letter.json",
       "title": "Letter",
       "purpose": "letter-ask",
-      "place": "Sumatra, Florida",
-      "seed": "story-batch-2",
-      "date": "2025-07-02",
-      "standing": "a resident of Sumatra, Florida, not in office",
-      "depth": 2,
+      "place": "Dededo, Guam",
+      "seed": "nov19b",
+      "date": "2025-03-02",
+      "standing": "a resident of Dededo, Guam, not in office",
+      "depth": 3,
       "endings": {
-        "wrote-back-yes": 2,
-        "letter-left-open": 2
+        "wrote-back-yes": 4,
+        "wrote-back-no": 2
       },
-      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
     },
     "moving-goodbye": {
       "file": "moving-goodbye.json",
@@ -109,6 +124,22 @@
         "promised-to-visit": 2
       },
       "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "no-diploma-home": {
+      "file": "no-diploma-home.json",
+      "title": "No diploma home",
+      "purpose": "no-diploma-home",
+      "place": "Seven Mile, Arizona",
+      "seed": "nov19c",
+      "date": "2025-06-07",
+      "standing": "a resident of Seven Mile, Arizona, not in office",
+      "depth": 5,
+      "endings": {
+        "a-plan": 4,
+        "not-tonight": 9,
+        "left-there": 18
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
     },
     "office-hours": {
       "file": "office-hours.json",

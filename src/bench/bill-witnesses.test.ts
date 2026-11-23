@@ -3,7 +3,6 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import {
-  authorityFor,
   draftBill,
   holdVote,
   memberKey,
@@ -56,7 +55,9 @@ describe(`witnesses on a non-wage bill (seed ${seed})`, () => {
           question,
           value: 1,
         };
-        if (!authorityFor(api, provision).allowed) continue;
+        // The draft reads the chamber's own level (authorityFor reads a
+        // city's power, which the state's laws from the history from 1925
+        // may preempt): a blocked draft is passed over.
         const draft = draftBill(api, {
           bodyOfficeId: chamber.office.id,
           sponsorId: memberKey(members(api, chamber.office.id)[0]!),

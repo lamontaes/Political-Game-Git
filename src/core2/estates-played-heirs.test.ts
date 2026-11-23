@@ -72,34 +72,12 @@ describe("an estate keeps its heirs through probate (played world)", () => {
             heard.push(event);
           },
         });
-        // A last owner's home goes on the market at probate and holds it open
-        // until a buyer comes; this test is about heirs, so it takes an estate
-        // with no home to sell.
-        const sellsHome = (id: string) => {
-          const person = core.people.get(id)!;
-          const household = core.households.get(person.householdId);
-          const others = household?.memberIds.some(
-            (m) => m !== id && core.people.get(m)?.alive,
-          );
-          const dwelling = core.modules.has("housing")
-            ? (api
-                .moduleState("housing")
-                .table("dwellings")
-                .get(`dwelling:${person.householdId}`) as unknown as
-                { tenure?: string } | undefined)
-            : undefined;
-          return !others && dwelling?.tenure === "own";
-        };
         // An estate the debts take whole never reaches probate, and the will
         // is the one the decedent held on the day they died (the probate
         // row's): either way, the next candidate in the same world, named.
         let found: { dead: string; heir: string } | undefined;
         for (const row of candidates) {
           if (!core.people.get(row.dead)?.alive) continue;
-          if (sellsHome(row.dead)) {
-            passed.push(`${place.name}: ${row.dead} leaves a home to sell`);
-            continue;
-          }
           api.updatePerson(row.dead, { alive: false });
           settleEstate(api, row.dead, "event:death:proof");
           const kept = api
@@ -131,27 +109,51 @@ describe("an estate keeps its heirs through probate (played world)", () => {
         const grandkids = kidsOf(heir);
         const before = grandkids.map((k) => core.people.get(k)!.liquidMinor);
         api.updatePerson(heir, { alive: false });
-        // Probate closes after its wait, or later while the estate's house
-        // is still for sale (estates.ts): wait for the settlement itself, a
-        // month at a time, up to two years past the wait.
+        // Probate closes after its wait. An estate whose last owner's house
+        // is still for sale pays the heirs its cash then and keeps the
+        // probate row open (`partial`) for the house's proceeds; the court's
+        // closing record (`estate.settled`) comes when the house sells
+        // (estates.ts). Either pays the heirs: wait for one, a month at a
+        // time, up to two years past the wait.
         advanceCore(
           core,
           addDays(makeIsoDate(core.date), api.parameter("probateDays") + 2),
         );
         const settledFor = () =>
           heard.find((e) => e.facts?.decedentId === dead);
-        for (let month = 0; month < 24 && !settledFor(); month += 1)
+        // The probate row a cash-only pass leaves open for the house's sale.
+        const cashPaid = () => {
+          const row = api
+            .moduleState(ESTATES_MODULE_ID)
+            .table("probate")
+            .get(dead) as unknown as
+            { partial?: boolean; will?: unknown } | undefined;
+          return row?.partial ? row : undefined;
+        };
+        for (
+          let month = 0;
+          month < 24 && !settledFor() && !cashPaid();
+          month += 1
+        )
           advanceCore(core, addDays(makeIsoDate(core.date), 30));
         const settled = settledFor();
-        expect(settled, `${where}: probate closed`).toBeDefined();
-        expect(settled!.facts!.by).toBe(by);
+        const partial = cashPaid();
+        expect(
+          settled ?? partial,
+          `${where}: probate closed, or paid the cash with the house for sale`,
+        ).toBeDefined();
+        if (settled) expect(settled.facts!.by).toBe(by);
+        else
+          expect(!!partial!.will, `${where}: paid by ${by}`).toBe(
+            by === "will",
+          );
         const after = grandkids.map((k) => core.people.get(k)!.liquidMinor);
         expect(
           after.some((v, i) => v > before[i]!),
           `${where}: a child of ${heir} was paid`,
         ).toBe(true);
         process.stdout.write(
-          `ESTATE HEIRS by ${by}: ${where}, ${dead} to ${heir}; passed over: ${passed.join("; ") || "none"}\n`,
+          `ESTATE HEIRS by ${by}: ${where}, ${dead} to ${heir}, ${settled ? "settled" : "cash paid, house for sale"}; passed over: ${passed.join("; ") || "none"}\n`,
         );
         return;
       }

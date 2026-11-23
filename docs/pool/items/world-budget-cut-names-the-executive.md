@@ -25,16 +25,16 @@ merged-at: 2026-11-12T22:23:12.446Z
 
 **Cause.** Found in code: src/core2/modules/budgets.ts emits budget-line-changed with personIds: [] in both places (line 1657 for an adopted budget and line 2175 for an amendment).
 
-**Fix.** For lowering changes only, put the sitting executive in personIds and in facts.executiveId in both emits, and change src/director/budget-cut-scene.test.ts part 1 to expect it.
+**Fix.** For lowering changes only, put the sitting executive in personIds and in facts.executiveId in both emits, and change src/director/budget-cut-scene.test.ts (removed) part 1 to expect it.
 
 **Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: the cut is read by another engine, the director's budget-cut scene, in a played year, and a record nobody reads is a placeholder. No dice: whom a cut names is the office holder on the day, never a roll. One rule, all 56 places: no place is named in the change, and the check draws its place and seed.
 
-**Done when.** A second session (not the builder) plays a world (`buildBenchWorld`) in a drawn place and a seed the builder did not choose, a year as mayor, and sees every adopted cut to a line carry the mayor in personIds and facts.executiveId, and the director stage the budget-cut scene with the head of that line's department in the chair, citing the record id; src/director/budget-cut-scene.test.ts part 1 expects this instead of asserting that nothing names the mayor, and a raise names no one.
+**Done when.** A second session (not the builder) plays a world (`buildBenchWorld`) in a drawn place and a seed the builder did not choose, a year as mayor, and sees every adopted cut to a line carry the mayor in personIds and facts.executiveId, and the director stage the budget-cut scene with the head of that line's department in the chair, citing the record id; src/director/budget-cut-scene.test.ts (removed) part 1 expects this instead of asserting that nothing names the mayor, and a raise names no one.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/budgets.ts, src/director/budget-cut-scene.test.ts, docs/design/scenes/from-life/budget-cut-department-head.md
+**Files.** src/core2/modules/budgets.ts, docs/design/scenes/from-life/budget-cut-department-head.md
 
 **Notes.** Evidence and the probe are in docs/design/scenes/from-life/budget-cut-department-head.md. Lead laws-effects. Words does not build engine records.

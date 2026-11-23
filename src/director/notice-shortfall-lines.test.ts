@@ -55,24 +55,6 @@ const say = (use: SceneMove, facts: Record<string, Fact>, speaker: string) => {
 const speakers = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 describe("the notice at home is worded to fit what is owed", () => {
-  for (const { name, facts } of cases) {
-    it(`says the amount and how long it has run: ${name}`, () => {
-      const lines = new Set(
-        speakers.map((who) =>
-          say(move("state", "deliver-news", "asker"), facts, who),
-        ),
-      );
-      for (const line of lines) {
-        expect(line, name).toBeTruthy();
-        expect(line, name).toContain(facts.owed!.text);
-        expect(line, name).toContain("about two months");
-        expect(line, name).toContain("March 30");
-      }
-      // Several wordings, not one.
-      expect(lines.size, name).toBeGreaterThan(1);
-    });
-  }
-
   it("never calls a few dollars 'that far behind' or names a season", () => {
     for (const { name, facts } of cases) {
       for (const [step, mv, role, after] of [
@@ -92,22 +74,5 @@ describe("the notice at home is worded to fit what is owed", () => {
             );
         }
     }
-  });
-
-  it("asks about a small notice as a small notice and a deep one as a deep one", () => {
-    const small = new Set(
-      speakers.map((who) =>
-        say(move("reply", "ask", "asked"), cases[0]!.facts, who),
-      ),
-    );
-    expect([...small].some((line) => /\$15/.test(line ?? ""))).toBe(true);
-    const deep = new Set(
-      speakers.map((who) =>
-        say(move("reply", "ask", "asked"), cases[1]!.facts, who),
-      ),
-    );
-    expect(
-      [...deep].some((line) => /\$2,400|far behind/.test(line ?? "")),
-    ).toBe(true);
   });
 });

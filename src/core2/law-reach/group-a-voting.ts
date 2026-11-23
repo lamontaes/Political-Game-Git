@@ -145,7 +145,7 @@ export const votingLaw: PolicyHandler = (api, change) => {
     change.opening ? "opening" : "registration",
     electorateRoll(api),
     null,
-    [change.key],
+    { only: [change.key] },
   );
 };
 
@@ -259,6 +259,7 @@ interface LawSpec {
     api: CoreAPI,
     voter: RollVoter,
     laws: ReadonlySet<string>,
+    pollDate: string,
   ) => number;
 }
 
@@ -290,7 +291,8 @@ const SPECS: readonly LawSpec[] = [
     cost: "sameDayRegistrationCostMinor",
     paidAt: "vote",
     // The share of them the day's record says registered at the polls.
-    share: (api, v) => registeredAtPollsShare(api, v.id),
+    share: (api, v, _laws, pollDate) =>
+      registeredAtPollsShare(api, v.id, pollDate),
   },
   {
     key: ALL_MAIL,
@@ -469,7 +471,13 @@ export function applyElectionLaws(
   moment: Moment,
   roll: readonly RollVoter[],
   contestId: string | null,
-  only?: readonly string[],
+  {
+    only,
+    pollDate = api.state.date,
+  }: {
+    readonly only?: readonly string[];
+    readonly pollDate?: string;
+  } = {},
 ): void {
   const laws = electionLaws(api);
   if (!laws.size || !roll.length) return;
@@ -495,9 +503,13 @@ export function applyElectionLaws(
       api.stopgap("SG-GOV-REACH-A-election-cost-estimates");
     const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
     const planned = roll.map((v) => {
+      if (!unit) return 0;
+      const peopleServed = v.count * spec.share(api, v, laws, pollDate);
       const before = served.get(v.id) ?? 0;
-      served.set(v.id, Math.max(before, v.count));
-      return unit * spec.share(api, v, laws) * Math.max(0, v.count - before);
+      if (peopleServed <= before) return 0;
+      // A ward counted later can add registrations to the same ballot.
+      served.set(v.id, peopleServed);
+      return unit * (peopleServed - before);
     });
     const plannedTotal = planned.reduce((a, b) => a + b, 0);
     // The treasury pays what it holds and owes the rest (payElectionCost), so

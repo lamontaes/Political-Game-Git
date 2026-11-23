@@ -17,7 +17,7 @@
 import { townPopulation } from "../live-population";
 import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
-import { closenessBetween } from "../closeness";
+import { closenessBetween, feelingBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type {
   CoreAPI,
@@ -599,10 +599,10 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
         if (drive <= campaignParameter("recallOrganizerEffort")) continue;
         const account =
           (t.vote.memberId === bill.sponsorId ? 1 : 0) -
-          closenessBetween(api.state as CoreState, o.p.id, t.vote.memberId);
+          feelingBetween(api.state as CoreState, o.p.id, t.vote.memberId);
         const bestAccount = best
           ? (best.target.vote.memberId === bill.sponsorId ? 1 : 0) -
-            closenessBetween(
+            feelingBetween(
               api.state as CoreState,
               best.p.id,
               best.target.vote.memberId,
@@ -722,7 +722,7 @@ function misconductGrievance(
   }
   return (
     (heard.has(voter.id) ? weight : 0) -
-    closenessBetween(api.state as CoreState, voter.id, memberId) -
+    feelingBetween(api.state as CoreState, voter.id, memberId) -
     bar
   );
 }

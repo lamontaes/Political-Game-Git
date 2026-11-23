@@ -41,7 +41,7 @@ claimed-at: 2026-11-11
 
 **Waits on.** Nothing.
 
-**Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/reach.ts, src/director/conversation.ts, src/bench/story.ts, src/bench/handler.ts, src/bench/player.ts, src/bench/dev-mode.ts, src/director/waiting-scenes.test.ts (new)
+**Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/reach.ts, src/director/conversation.ts, src/bench/story.ts, src/bench/handler.ts, src/bench/player.ts, src/bench/dev-mode.ts, (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 10:15 UTC, from the code and two helpers' findings. The count of waiting entries in a played year is not yet measured; the builder measures it first, in two drawn places, and writes the numbers here before changing anything: how many of the player's moments were `scene-now`, `scene-waiting` and `journal-line` in 60 days. If waiting scenes turn out to be reached some other way that this reading missed, say so here and stop. Related: scene-reporter-call-after-a-vote-never-plays (W7's narrow item), the cause finder's item on office hours never visiting a played official (asked for at 09:50 UTC), director-casting-rule-on-every-scene-kind (PR 8451: who a scene may come to).
 

@@ -35,6 +35,9 @@
     "src/core2/gov-test-report.ts",
     "src/core2/law-test-start.ts",
     "src/core2/resident-adults-test-kit.ts",
+    "src/core2/record-test-kit.ts",
+    "src/core2/campaign-incumbent-response-test-kit.ts",
+    "src/core2/counted-moves-balance-kit.ts",
     "src/core2/free-block.ts",
     "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",
@@ -74,7 +77,8 @@
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
-        "src/core2/filing-rule-office.ts"
+        "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -83,6 +87,7 @@
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
         "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
@@ -99,6 +104,8 @@
         "src/core2/electorate*.ts",
         "src/core2/legislative-district-results.ts",
         "src/core2/race-places.ts",
+        "src/core2/place-leans.ts",
+        "src/core2/voting-module-id.ts",
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
@@ -327,7 +334,8 @@
         "src/core2/person-work.ts",
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
-        "src/core2/coverage-module-id.ts"
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -425,7 +433,8 @@
         "src/core2/life-plan-readers.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/life-stakes.ts",
-        "src/core2/coverage-module-id.ts"
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ]
     },
     {

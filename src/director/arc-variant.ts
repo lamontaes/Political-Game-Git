@@ -363,6 +363,12 @@ export interface VariantInput {
    * one the second time.
    */
   readonly nextDown?: boolean;
+  /**
+   * Dev mode and the words walks: the variant to play by name, whatever the
+   * records score it, so every variant's lines can be heard in one place.
+   * Play never sets it.
+   */
+  readonly play?: string;
 }
 
 export interface VariantScore {
@@ -760,7 +766,7 @@ export function chooseVariant(
   if (!kept) CHOSEN.set(core, (kept = new Map()));
   const memo = `${input.family}|${input.cause.id}`;
   const chosen = kept.get(memo);
-  if (chosen) return chosen;
+  if (chosen && (!input.play || chosen.variant === input.play)) return chosen;
   // No variant is open to this cause: the purpose plays its own arc
   // (`hasArcFor`, which the scene's caller asks before composing).
   const open = Object.entries(family.variants).filter(([, row]) =>
@@ -803,10 +809,14 @@ export function chooseVariant(
       (row) => row.purpose === input.family || row.variant === PLAIN_VARIANT,
     )?.score ?? P.zero;
   const second = scores[P.one];
+  const named = input.play
+    ? scores.find((row) => row.variant === input.play)
+    : undefined;
   const best =
-    input.nextDown && second && second.score > P.zero && second.score >= plain
+    named ??
+    (input.nextDown && second && second.score > P.zero && second.score >= plain
       ? second
-      : scores[P.zero]!;
+      : scores[P.zero]!);
   const choice: VariantChoice = {
     variant: best.variant,
     purpose: best.purpose,
