@@ -4802,6 +4802,24 @@ select.release-pick {
   overflow: hidden;
   clip-path: inset(50%);
 }
+/* A vote row with a paper behind it: its name is brighter at rest and a hover lights the row,
+   the one light language (MENU-LOOK, States; owner, Nov 23, P22). It is not a .pick, whose
+   span rule shrank the row's type to 14 px beside its 17 px neighbors (owner, Nov 23, C7). */
+.vote-rows .open-row {
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 140ms,
+    box-shadow 140ms;
+}
+.vote-rows .open-row .dotlabel {
+  color: var(--gold);
+}
+.vote-rows .open-row:hover,
+.vote-rows .open-row:focus-visible {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
 /* Typed rows: label, a dot leader, the figure. */
 .strip-screen .dotrow {
   display: flex;
