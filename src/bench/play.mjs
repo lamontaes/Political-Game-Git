@@ -2593,13 +2593,6 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      // A speaker heard on a broadcast is named, never drawn in the room
-      // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
-      setWho(
-        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
-        story.names[story.speech.speakerId],
-      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2607,6 +2600,16 @@ async function showStory(momentId) {
         $("backdrop").src = beat.backdrop.url;
         drawHere(beat);
       }
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip. A beat that cuts home shows only the
+      // household listening, the speaker on the set (CTO, Nov 19).
+      setWho(
+        (beat ? beat.kind !== "home" : story.speech.inRoom)
+          ? story.speech.speakerId
+          : null,
+        story.names[story.speech.speakerId],
+      );
       talkControls({ silent: false, leave: false });
       // Heard on a broadcast: the station over the line with its small icon
       // (owner, Oct 14: "a small card in the conversation text style with a

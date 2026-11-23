@@ -137,7 +137,7 @@ function partnerLinkOf(core: CoreState, id: PersonId) {
 }
 
 /** When a couple came together: their link's date, else their first child together, else the younger's coming of age. */
-function unionStart(
+export function unionStart(
   core: CoreState,
   link: { id: string; personIds: readonly [PersonId, PersonId] },
   api: CoreAPI,

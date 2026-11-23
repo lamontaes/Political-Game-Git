@@ -72,6 +72,7 @@ import {
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
+  LOCAL_WAGE_AUTHORITY_QUESTION,
 } from "./laws";
 import {
   inTownChain,
@@ -1902,7 +1903,15 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       .query("bySeries", [
         "local-minimum-wage-authority",
       ]) as unknown as EnactedAuthority[];
-    const authority = localAuthority(rows, enacted, chain, api.state.date);
+    const authority = localAuthority(
+      rows,
+      enacted,
+      chain,
+      api.state.date,
+      laws.query("bySeriesOnly", [
+        LOCAL_WAGE_AUTHORITY_QUESTION,
+      ]) as unknown as LawRowInput[],
+    );
     return authority.allowed
       ? {
           allowed: true,
@@ -2993,10 +3002,11 @@ function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
 function checkedText(
   api: CoreAPI,
   bodyOfficeId: string,
-  provisions: readonly Provision[],
+  drafted: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
-  if (!provisions.length)
+  if (!drafted.length)
     throw new Error("A bill must have at least one provision.");
+  const provisions = drafted.map((p) => withDirection(api, bodyOfficeId, p));
   if (provisions.some((p) => !subjectKey(p).trim()))
     throw new Error("Every bill provision must name its subject.");
   const level = bodyLevel(api, bodyOfficeId);
@@ -3066,6 +3076,30 @@ function checkedText(
     authority,
     status: authority.some((a) => !a.allowed) ? "blocked" : "drafted",
   };
+}
+
+/**
+ * An amount section says which way it moves the law: a section drafted as the
+ * new amount alone (the seat's draft, a carried ask) gets the direction its
+ * amount takes against the law in force where the body legislates, as a
+ * catalog pick records it. A bill is named, worded and told by that direction
+ * ("Wage Floor Increase"); without it the bill had no name, and a veto of it
+ * was never brought up.
+ */
+function withDirection(
+  api: CoreAPI,
+  bodyOfficeId: string,
+  p: Provision,
+): Provision {
+  if (p.kind !== "law-amount" || p.operation || !p.series) return p;
+  if (p.repeal) return { ...p, operation: "repeal" };
+  const inForce = billValueInForce(
+    api,
+    p,
+    bodyJurisdiction(api, bodyOfficeId),
+  ).value;
+  if (inForce === null || inForce === p.value) return p;
+  return { ...p, operation: p.value > inForce ? "raise" : "lower" };
 }
 
 /**

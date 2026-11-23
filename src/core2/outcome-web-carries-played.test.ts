@@ -19,24 +19,33 @@ import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { VOTING_MODULE_ID } from "./voting-module-id";
+import { federalOffices } from "./offices-state";
 import { baseOf } from "./outcome-web-model";
 import { placeStateKey } from "./place-map";
 import { coreAPI } from "./state";
 
 const seed = process.env.WEB_CARRIES_SEED ?? randomBytes(8).toString("hex");
 const TURNOUT = "voting.turnout-pct";
-const TERRITORIES = new Set(["PR", "GU", "VI", "AS", "MP"]);
 
 it("carries the town's own presidential turnout in the web's level, and the months after carry on from it", () => {
   setBookkeeping(false);
+  const startedAt = gameStartDate();
   const passed: string[] = [];
   let place = drawPlace(seed, "outcome-web-carries");
-  for (let n = 1; TERRITORIES.has(place.state); n += 1) {
-    passed.push(`${place.name}, ${place.state}`);
+  const votesForPresident = (drawn: typeof place) =>
+    federalOffices(drawn.state, drawn.key, startedAt).some(
+      ({ office }) => office.kind === "president" && office.coversTown,
+    );
+  for (let n = 1; !votesForPresident(place); n += 1) {
+    const skipped = `${place.name}, ${place.state} (${place.key}), world seed ${place.seed}`;
+    passed.push(skipped);
+    process.stdout.write(
+      `PRESIDENTIAL TURNOUT passed over ${skipped} (no vote for President, replay ${seed})\n`,
+    );
     place = drawPlace(`${seed}:${String(n)}`, "outcome-web-carries");
   }
-  const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}${passed.length ? `; passed over (no vote for President): ${passed.join("; ")}` : ""}`;
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+  const where = `${place.name}, ${place.state} (${place.key}), world seed ${place.seed}, replay ${seed}${passed.length ? `; passed over (no vote for President): ${passed.join("; ")}` : ""}`;
+  const { core } = buildBenchWorld(place.seed, startedAt, {
     twoLevel: true,
     placeKey: place.key,
   });

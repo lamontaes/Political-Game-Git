@@ -2,8 +2,8 @@
  * Candidates run on the questions where the town agrees with them, in a
  * played year (pool item campaign-platform-follows-agreement; research
  * docs/research/platform-emphasis-2026-10-30.md). Worlds in places drawn
- * from all 56 (PLATFORM_PLAYED_SEED pins the run) each play a year a day at
- * a time. A grown resident of the town is the player and files at the
+ * from all 56 (the run seed is PLATFORM_PLAYED_SEED, else GOLDEN_PATH_SEED,
+ * else a fresh one, printed) each play a year a day at a time. A grown resident of the town is the player and files at the
  * counter (`openBenchFilingVisit`, `chooseAtCounter`, the bench's filing
  * route) on the platform the rule gives them, in the first local race they
  * may enter that another candidate has filed for, else in the first whose
@@ -24,7 +24,9 @@
  * could score. The first year with a contested local race is the proof by
  * record.
  *
- * Over the pooled years (MIN_PLACES drawn places' years or more):
+ * Over the pooled years (MIN_PLACES drawn places' years or more, and as many
+ * more as it takes for the C1 estimate below to be tight enough to judge
+ * against its band):
  * - a candidate whose strongest view is the electorate's minority side (its
  *   share below the other side's) leaves it off for a question that scores
  *   higher, read by record;
@@ -48,19 +50,30 @@
  *   slope 0 (the old rule, the null) and at the research's spread (0.015,
  *   0.062) and the parameter's (0.028, 0.043), and the fit that compares each
  *   candidate's questions with each other only. The pairs are those of
- *   contested local races where they hold MIN_CANDIDATES candidates who said
- *   something and had a choice (their seat takes up more questions they hold
- *   a view on than they run on), and every candidate the years' filings hold
- *   who did where they do not, and the test says which.
+ *   the candidates of contested local races who said something and had a
+ *   choice (their seat takes up more questions they hold a view on than they
+ *   run on), where their estimate is tight enough, and else of every
+ *   candidate the years' filings hold who did, and the test says which.
+ *   Places are drawn until the estimate's 95% interval (a robust, sandwich
+ *   standard error, since the shares are not counts) is narrower than the
+ *   band, at most MAX_DRAWS places; there is no fixed count of candidates.
  */
 import { expect, it, vi } from "vitest";
-import type { drawPlace } from "../../scripts/core2-year/place";
-import { buildBenchWorld } from "../bench/world";
+// The candidacy engine loads first, so its call of candidatePlatform reaches
+// the watch below. campaign-stances imports the campaigns module, which loads
+// candidacy; a module first loaded while the mock's original is being read
+// (importOriginal) is handed the original, so without this line every runner's
+// filing was chosen out of the watch's sight and no filing ever matched.
+import "./modules/candidacy";
+import { createHash } from "node:crypto";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { chooseAtCounter, openBenchFilingVisit } from "../bench/filing";
 import { lawChain } from "./modules/laws";
+import { localOfficesForPlace } from "./offices-local";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 import type * as Stances from "./campaign-stances";
@@ -147,37 +160,28 @@ vi.mock("./campaign-stances", async (importOriginal) => {
   };
 });
 
+/** The run seed the places are drawn from, printed with every place. */
+const runSeed =
+  process.env.PLATFORM_PLAYED_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256")
+    .update(`campaign-platform-played:${Date.now()}`)
+    .digest("hex");
 /**
- * The places whose years the totals pool, named and pinned at fixed place
- * seeds (never drawn): the same places and years every run. A running mate's filing
- * (Leeds Point, a ticket office) is read here too; the case of its own is
- * campaign-running-mate-platform.test.ts.
+ * Whether a place elects a local office, read from its local offices before
+ * any world is built: the totals are about contested local races, so a place
+ * with none (an unincorporated place, a village whose officials are not
+ * elected) is never drawn.
  */
-const PLACES = [
-  {
-    key: "3439810",
-    name: "Leeds Point",
-    state: "NJ",
-    seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
-  },
-  {
-    key: "4651724",
-    name: "Prairiewood Village",
-    state: "SD",
-    seed: "e030b215e75a72f2d660599e5ac63caba33f7862416e9169c41a050a7b9c41cd",
-  },
-  {
-    key: "0115256",
-    name: "Clay",
-    state: "AL",
-    seed: "652c0b614db96a56ae3ed028b8d0ded5fec150e5a17459d6b85f8c364d11b5ca",
-  },
-] as const;
+const holdsLocalElection = (placeKey: string) =>
+  localOfficesForPlace(placeKey).some((office) => office.elected);
+/** The most places drawn before the test gives up on a tight enough estimate. */
+const MAX_DRAWS = 12;
+/** One drawn place's year, played a day at a time (about six minutes). */
+const PLACE_TIMEOUT = 900_000;
 const DAYS = 365;
 /** The fewest drawn places' years the totals pool. */
 const MIN_PLACES = 3;
-/** The fewest candidates who said something and had a choice the totals take. */
-const MIN_CANDIDATES = 40;
 /** The measure's unit, in points of support. */
 const SPAN = 10;
 /**
@@ -292,14 +296,24 @@ function levelOf(api: CoreAPI, contest: ContestRow): string {
   );
 }
 
-/** A pinned place's year, a day at a time, and every platform it recorded, read back on its day. */
-function playYear(pinned: (typeof PLACES)[number]) {
-  const place = pinned as ReturnType<typeof drawPlace>;
-  const where = `${place.name}, ${place.state} (${place.key}), pinned place seed ${place.seed}`;
-  console.log(`campaign-platform-played: ${where}`);
+/**
+ * A drawn place's year, a day at a time, and every platform it recorded, read
+ * back on its day; or, for a place with no household for the player to live
+ * in (every adult in group quarters), why it is passed over.
+ */
+function playYear(salt: number): ReturnType<typeof playYearIn> | string {
+  const place = drawPlace(
+    runSeed,
+    `campaign-platform-played:${salt}`,
+    holdsLocalElection,
+  );
+  const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+  process.stdout.write(`campaign-platform-played: ${where}\n`);
   try {
     return playYearIn(where, place);
   } catch (error) {
+    if (error instanceof NoPlayerHereError)
+      return `${where}: passed over, ${error.message}`;
     throw new Error(
       `${where}: ${error instanceof Error ? error.message : String(error)}`,
       { cause: error },
@@ -650,7 +664,13 @@ function agreementTotals(reads: readonly Read[]) {
 function emphasisPer10(
   reads: readonly Read[],
   saidOf: (r: Read) => ReadonlyMap<string, number> = (r) => r.said,
-): { per10: number; pairs: number; converged: boolean } {
+): {
+  per10: number;
+  pairs: number;
+  converged: boolean;
+  /** The 95% interval of per10, from the robust (sandwich) standard error of the support term. */
+  interval: readonly [number, number];
+} {
   const rows: { y: number; x: readonly number[]; offset: number }[] = [];
   for (const r of reads) {
     const said = saidOf(r);
@@ -698,10 +718,76 @@ function emphasisPer10(
         per10: Math.exp(b[1]!) - 1,
         pairs: rows.length,
         converged: true,
+        interval: supportInterval(rows, b),
       };
   }
-  return { per10: Math.exp(b[1]!) - 1, pairs: rows.length, converged: false };
+  return {
+    per10: Math.exp(b[1]!) - 1,
+    pairs: rows.length,
+    converged: false,
+    interval: [-Infinity, Infinity],
+  };
 }
+
+/**
+ * The 95% interval of the support term, per 10 points, at a converged fit:
+ * the sandwich A⁻¹ B A⁻¹, with A the fit's information (Σ μ x xᵀ) and B the
+ * spread of its scores (Σ (y − μ)² x xᵀ), since an emphasis share is not a
+ * Poisson count and the plain information would misstate the error.
+ */
+function supportInterval(
+  rows: readonly { y: number; x: readonly number[]; offset: number }[],
+  b: readonly number[],
+): readonly [number, number] {
+  const k = b.length;
+  const a = Array.from({ length: k }, () => new Array<number>(k).fill(0));
+  const m = Array.from({ length: k }, () => new Array<number>(k).fill(0));
+  for (const r of rows) {
+    const mu = Math.exp(r.offset + r.x.reduce((t, x, i) => t + x * b[i]!, 0));
+    const e = (r.y - mu) ** 2;
+    for (let i = 0; i < k; i += 1)
+      for (let j = 0; j < k; j += 1) {
+        a[i]![j]! += mu * r.x[i]! * r.x[j]!;
+        m[i]![j]! += e * r.x[i]! * r.x[j]!;
+      }
+  }
+  const inv = invert(a);
+  if (!inv) return [-Infinity, Infinity];
+  let v = 0;
+  for (let i = 0; i < k; i += 1)
+    for (let j = 0; j < k; j += 1) v += inv[1]![i]! * m[i]![j]! * inv[j]![1]!;
+  const se = Math.sqrt(v);
+  if (!Number.isFinite(se)) return [-Infinity, Infinity];
+  return [Math.exp(b[1]! - 1.96 * se) - 1, Math.exp(b[1]! + 1.96 * se) - 1];
+}
+
+/** A small square matrix's inverse by Gauss-Jordan elimination, or null when it is singular. */
+function invert(a: readonly (readonly number[])[]): number[][] | null {
+  const k = a.length;
+  const w = a.map((row, i) => [
+    ...row,
+    ...Array.from({ length: k }, (_, j) => (i === j ? 1 : 0)),
+  ]);
+  for (let c = 0; c < k; c += 1) {
+    let p = c;
+    for (let r = c + 1; r < k; r += 1)
+      if (Math.abs(w[r]![c]!) > Math.abs(w[p]![c]!)) p = r;
+    if (!(Math.abs(w[p]![c]!) > 1e-15)) return null;
+    [w[c], w[p]] = [w[p]!, w[c]!];
+    const d = w[c]![c]!;
+    for (let j = 0; j < 2 * k; j += 1) w[c]![j]! /= d;
+    for (let r = 0; r < k; r += 1) {
+      if (r === c) continue;
+      const f = w[r]![c]!;
+      for (let j = 0; j < 2 * k; j += 1) w[r]![j]! -= f * w[c]![j]!;
+    }
+  }
+  return w.map((row) => row.slice(k));
+}
+
+/** Whether a fit's 95% interval is narrower than the band it is judged against. */
+const tight = (f: { interval: readonly [number, number] }) =>
+  f.interval[1] - f.interval[0] < BAND.high - BAND.low;
 
 /** One candidate's questions, each its emphasis share and its support (per 10 points) and log conviction. */
 type Group = readonly { y: number; x: readonly [number, number] }[];
@@ -772,102 +858,122 @@ function withinCandidatePer10(
   return conditionalPer10(reads.map((r) => groupOf(r, saidOf(r))));
 }
 
-it("every contested local race's candidates run on their top questions by the rule, and the emphasis total is printed (C1: campaign-platform-emphasis-c1)", () => {
-  const tried: string[] = [];
-  let proof: string[] | null = null;
-  const contestedPool: Read[] = [];
-  const everyPool: Read[] = [];
-  const places: string[] = [];
-  const players: string[] = [];
-  const minority: string[] = [];
-  const enough = () =>
-    contestedPool.filter(spoke).length >= MIN_CANDIDATES ||
-    everyPool.filter(spoke).length >= MIN_CANDIDATES;
-  for (const pinned of PLACES) {
-    const year = playYear(pinned);
-    places.push(year.where);
-    players.push(`${year.where}: ${year.player}`);
-    // Every platform read is the rule's, contested or not.
-    const lines = proveByRecord(year.reads);
-    contestedPool.push(...year.contested);
-    everyPool.push(...year.reads);
-    for (const r of year.reads) {
-      const found = minorityLeftOff(r);
-      if (found) minority.push(found);
-    }
-    if (!proof) {
-      if (!year.contested.length)
-        tried.push(
-          `${year.where}: no contested local race recorded a platform in ${DAYS} days (${year.reads.length} platforms read; ${year.player})`,
+it(
+  "every contested local race's candidates run on their top questions by the rule, and the emphasis total is printed (C1: campaign-platform-emphasis-c1)",
+  () => {
+    const tried: string[] = [];
+    let proof: string[] | null = null;
+    const contestedPool: Read[] = [];
+    const everyPool: Read[] = [];
+    const places: string[] = [];
+    const players: string[] = [];
+    const minority: string[] = [];
+    const enough = () =>
+      tight(emphasisPer10(contestedPool.filter(spoke))) ||
+      tight(emphasisPer10(everyPool.filter(spoke)));
+    for (let salt = 0; salt < MAX_DRAWS; salt += 1) {
+      const year = playYear(salt);
+      if (typeof year === "string") {
+        tried.push(year);
+        continue;
+      }
+      places.push(year.where);
+      players.push(`${year.where}: ${year.player}`);
+      // Every platform read is the rule's, contested or not.
+      const lines = proveByRecord(year.reads);
+      contestedPool.push(...year.contested);
+      everyPool.push(...year.reads);
+      for (const r of year.reads) {
+        const found = minorityLeftOff(r);
+        if (found) minority.push(found);
+      }
+      if (!proof) {
+        if (!year.contested.length)
+          tried.push(
+            `${year.where}: no contested local race recorded a platform in ${DAYS} days (${year.reads.length} platforms read; ${year.player})`,
+          );
+        else
+          proof = [
+            `${year.where}: ${year.contested.length} platforms of contested local races (${year.reads.length} platforms in all) read by record, each its candidate's top scores at their own positions, each support the ballot readers' count; ${year.player}`,
+            ...lines,
+          ];
+      }
+      {
+        const every = emphasisPer10(everyPool.filter(spoke));
+        const contested = emphasisPer10(contestedPool.filter(spoke));
+        const range = (f: typeof every) =>
+          `${(100 * f.interval[0]).toFixed(0)}% to ${(100 * f.interval[1]).toFixed(0)}%`;
+        process.stdout.write(
+          `after ${places.length} places: every candidate ${everyPool.filter(spoke).length} (95% interval ${range(every)}), contested ${contestedPool.filter(spoke).length} (${range(contested)}); proof ${proof ? "yes" : "no"}, minority ${minority.length}\n`,
         );
-      else
-        proof = [
-          `${year.where}: ${year.contested.length} platforms of contested local races (${year.reads.length} platforms in all) read by record, each its candidate's top scores at their own positions, each support the ballot readers' count; ${year.player}`,
-          ...lines,
-        ];
+      }
+      if (proof && minority.length && places.length >= MIN_PLACES && enough())
+        break;
     }
-    if (proof && minority.length && places.length >= MIN_PLACES && enough())
-      break;
-  }
-  const useContested = contestedPool.filter(spoke).length >= MIN_CANDIDATES;
-  const pool = (useContested ? contestedPool : everyPool).filter(spoke);
-  const how = useContested
-    ? `the contested local races of ${places.length} places' years`
-    : `every candidate the filings of ${places.length} places' years hold who said something and had a choice (their contested local races held ${contestedPool.filter(spoke).length}, fewer than ${MIN_CANDIDATES})`;
-  const slope = campaignParameter("platformSupportSlope");
-  const [lowest, highest] = campaignSpread("platformSupportSlope");
-  // The research's verified spread (P1, ±1 SE of the two domestic models).
-  const research = [0.015, 0.062] as const;
-  const all = emphasisPer10(pool);
-  const at = (s: number) => emphasisPer10(pool, (r) => saidAt(r, s));
-  const byCandidate = withinCandidatePer10(pool);
-  const byCandidateAt = (s: number) =>
-    withinCandidatePer10(pool, (r) => saidAt(r, s));
-  const agree = agreementTotals(pool);
-  const pct = (x: number) =>
-    Number.isFinite(x)
-      ? `${x >= 0 ? "+" : ""}${(100 * x).toFixed(0)}%`
-      : "none";
-  const fit = (f: { per10: number; converged: boolean }) =>
-    `${pct(f.per10)}${f.converged ? "" : " (did not converge)"}`;
-  const slopeOf = (per10: number) => (Math.log(1 + per10) / 10).toFixed(4);
-  const supports = pool.flatMap((r) => r.scores.map((s) => s.support));
-  const statements = pool.reduce((t, r) => t + saidTotal(r), 0);
-  const onLead = pool.reduce((t, r) => {
-    const lead = r.platform.find((s) => s.position !== 0)?.question;
-    return t + (lead ? (r.said.get(lead) ?? 0) : 0);
-  }, 0);
-  const slopes = [0, research[0], lowest, slope, highest, research[1]];
-  const total = [
-    `places: ${places.join("; ")}`,
-    `players: ${players.join("; ")}`,
-    `minority-side strongest views left off: ${minority.length}; first: ${minority[0] ?? "none"}`,
-    `calibration over ${how}: ${pool.length} candidates (${pool.filter(spans).length} whose questions' support spans ${SPAN} points), support ${Math.min(...supports).toFixed(1)}% to ${Math.max(...supports).toFixed(1)}%, ${statements} statements by record (${onLead} on the campaign's lead); platformSupportSlope ${slope}, band ${pct(BAND.low)} to ${pct(BAND.high)} per 10 points`,
-    `  pooled, each candidate offset by log(1 / questions held), silences included (${all.pairs} pairs): emphasis ${fit(all)} per 10 points of support at fixed conviction, slope measured ${slopeOf(all.per10)} per point`,
-    `  the same with each campaign's lead chosen again from the recorded scores: ${slopes.map((s) => `at ${s} ${fit(at(s))}`).join(", ")}`,
-    `  each candidate's questions compared with each other only (the one-campaign design of the study): ${slopes.map((s) => `at ${s} ${fit(byCandidateAt(s))}`).join(", ")}; as recorded ${fit(byCandidate)}`,
-    `electorate agreement by the ballot's readers, summed over the ${pool.length} candidates: the rule's platforms ${agree.rule.toFixed(4)}, the strongest views ${agree.strongest.toFixed(4)} (rose for ${agree.rose}, fell for ${agree.fell}, the same for ${agree.same})`,
-  ].join("\n");
-  console.log([...(proof ?? tried), total].join("\n"));
-  if (!proof)
-    expect.fail(
-      `none of the ${PLACES.length} pinned places held a contested local race:\n${tried.join("\n")}`,
+    const useContested = tight(emphasisPer10(contestedPool.filter(spoke)));
+    const pool = (useContested ? contestedPool : everyPool).filter(spoke);
+    const how = useContested
+      ? `the contested local races of ${places.length} places' years`
+      : `every candidate the filings of ${places.length} places' years hold who said something and had a choice (their contested local races held ${contestedPool.filter(spoke).length}, too few for a tight estimate)`;
+    const slope = campaignParameter("platformSupportSlope");
+    const [lowest, highest] = campaignSpread("platformSupportSlope");
+    // The research's verified spread (P1, ±1 SE of the two domestic models).
+    const research = [0.015, 0.062] as const;
+    const all = emphasisPer10(pool);
+    const at = (s: number) => emphasisPer10(pool, (r) => saidAt(r, s));
+    const byCandidate = withinCandidatePer10(pool);
+    const byCandidateAt = (s: number) =>
+      withinCandidatePer10(pool, (r) => saidAt(r, s));
+    const agree = agreementTotals(pool);
+    const pct = (x: number) =>
+      Number.isFinite(x)
+        ? `${x >= 0 ? "+" : ""}${(100 * x).toFixed(0)}%`
+        : "none";
+    const fit = (f: { per10: number; converged: boolean }) =>
+      `${pct(f.per10)}${f.converged ? "" : " (did not converge)"}`;
+    const slopeOf = (per10: number) => (Math.log(1 + per10) / 10).toFixed(4);
+    const supports = pool.flatMap((r) => r.scores.map((s) => s.support));
+    const statements = pool.reduce((t, r) => t + saidTotal(r), 0);
+    const onLead = pool.reduce((t, r) => {
+      const lead = r.platform.find((s) => s.position !== 0)?.question;
+      return t + (lead ? (r.said.get(lead) ?? 0) : 0);
+    }, 0);
+    const slopes = [0, research[0], lowest, slope, highest, research[1]];
+    const total = [
+      `places: ${places.join("; ")}`,
+      `players: ${players.join("; ")}`,
+      `minority-side strongest views left off: ${minority.length}; first: ${minority[0] ?? "none"}`,
+      `calibration over ${how}: ${pool.length} candidates (${pool.filter(spans).length} whose questions' support spans ${SPAN} points), support ${Math.min(...supports).toFixed(1)}% to ${Math.max(...supports).toFixed(1)}%, ${statements} statements by record (${onLead} on the campaign's lead); platformSupportSlope ${slope}, band ${pct(BAND.low)} to ${pct(BAND.high)} per 10 points`,
+      `  pooled, each candidate offset by log(1 / questions held), silences included (${all.pairs} pairs): emphasis ${fit(all)} per 10 points of support at fixed conviction (95% interval ${pct(all.interval[0])} to ${pct(all.interval[1])}, robust), slope measured ${slopeOf(all.per10)} per point`,
+      `  the same with each campaign's lead chosen again from the recorded scores: ${slopes.map((s) => `at ${s} ${fit(at(s))}`).join(", ")}`,
+      `  each candidate's questions compared with each other only (the one-campaign design of the study): ${slopes.map((s) => `at ${s} ${fit(byCandidateAt(s))}`).join(", ")}; as recorded ${fit(byCandidate)}`,
+      `electorate agreement by the ballot's readers, summed over the ${pool.length} candidates: the rule's platforms ${agree.rule.toFixed(4)}, the strongest views ${agree.strongest.toFixed(4)} (rose for ${agree.rose}, fell for ${agree.fell}, the same for ${agree.same})`,
+    ].join("\n");
+    process.stdout.write(
+      `${[...(proof ?? []), ...tried.map((t) => `tried: ${t}`), total].join("\n")}\n`,
     );
-  expect(
-    minority.length,
-    `no candidate in ${places.join("; ")} left off a strongest view on the electorate's minority side for a question that scores higher`,
-  ).toBeGreaterThan(0);
-  expect(
-    pool.length,
-    `the total over ${how} holds too few candidates who said something and had a choice`,
-  ).toBeGreaterThanOrEqual(MIN_CANDIDATES);
-  // The town agrees more with what the rule runs on than with the strongest views.
-  expect(agree.rule, total).toBeGreaterThan(agree.strongest);
-  // C1, emphasis by record rising with support inside the research band, is
-  // printed above and not held (governing lead, Nov 2). Each campaign act
-  // is about the question its campaign is furthest behind on over the
-  // platform's score shares (`nextTopic`), so a candidate's emphasis follows
-  // the platform's scores; whether the pooled total meets the band is read
-  // from the printed lines (pool item campaign-platform-emphasis-c1), and
-  // the band is not widened.
-}, 1_800_000);
+    if (!proof)
+      expect.fail(
+        `none of the ${places.length} drawn places held a contested local race:\n${tried.join("\n")}`,
+      );
+    expect(
+      minority.length,
+      `no candidate in ${places.join("; ")} left off a strongest view on the electorate's minority side for a question that scores higher`,
+    ).toBeGreaterThan(0);
+    // The estimate is tight enough to judge the band: its 95% interval is narrower than the band.
+    expect(
+      tight(all),
+      `the total over ${how} is too loose to judge the band after ${places.length} drawn places: 95% interval ${pct(all.interval[0])} to ${pct(all.interval[1])} against the band ${pct(BAND.low)} to ${pct(BAND.high)}`,
+    ).toBe(true);
+    // The town agrees more with what the rule runs on than with the strongest views.
+    expect(agree.rule, total).toBeGreaterThan(agree.strongest);
+    // C1, emphasis by record rising with support inside the research band, is
+    // printed above and not held (governing lead, Nov 2). Each campaign act
+    // is about the question its campaign is furthest behind on over the
+    // platform's score shares (`nextTopic`), so a candidate's emphasis follows
+    // the platform's scores; whether the pooled total meets the band is read
+    // from the printed lines (pool item campaign-platform-emphasis-c1), and
+    // the band is not widened.
+  },
+  PLACE_TIMEOUT * MAX_DRAWS,
+);
