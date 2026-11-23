@@ -1415,6 +1415,8 @@ export function createDirector(
       }
       // A promise between the two (the promises engine's rows), oldest
       // first: due the day it settled.
+      // Due only the day the other broke a promise made to this person: a
+      // kept promise, or one this person broke, is not a betrayal of them.
       for (const promise of [
         ...promisesBetween(coreAPI(core as CoreState), book.personId, otherId),
       ].reverse())
@@ -1423,7 +1425,12 @@ export function createDirector(
             promise.id,
             "kept-fact",
             otherId,
-            promise.endedAt === date ? "kept-fact-due" : "kept-fact-open",
+            promise.endedAt === date &&
+              promise.outcome === "broken" &&
+              promise.holderId === otherId &&
+              promise.otherId === book.personId
+              ? "kept-fact-due"
+              : "kept-fact-open",
             impact,
           ),
         );

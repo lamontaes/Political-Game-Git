@@ -19,7 +19,7 @@ claimed-at: 2026-10-19T21:57:07.733Z
 
 **Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place from all 56, named with its seed, two candidates with different records and different speaking experience each compose a speech; the parts of the one with more experience use more crafted devices than the other's, every figure in a part matches the record id it cites, and an incumbent's lines differ from a challenger's. The test beside src/english/speech-part-words.test.ts shows it by record id, and the owner plays it: give two speeches and hear the practiced one sound practiced. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
-**Files.** src/english/speech-part-words.ts, src/english/speech-registers.ts, data/english/parts/speech-parts.json, data/english/parts/address.json
+**Files.** src/english/speech-part-words.ts, src/english/speech-registers.ts, data/english/parts/speech-parts.json
 
 **Notes.** Blocked on words-speech-part-words (in PR #5196), which words each part of a composed speech. The register cards in src/english/speech-registers.ts already name which devices each setting admits; this item decides how many a given speaker has earned. The speaker's experience can be read from the finished compositions the speech-compositions table keeps (composedSpeechesOf in src/core2/speech-composition.ts).
 

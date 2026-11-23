@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T16:05:59.818Z
 
 **Done when.** In buildBenchWorld in a drawn place with a 35-year-old player (place and seed in the PR body), composeJournal's first line for the player cites the record person-history:<player>:birth and names the birthplace, with the bank as shipped (no test-side mapping); src/director/journal-story.test.ts drops its test-side mapping and passes.
 
-**Files.** data/english/parts/journal.json,src/director/journal-story.test.ts
+**Files.** data/english/parts/journal.json
 
 **Notes.** lead: words. Filed by wire-opening-and-home (line 8, Oct 28). Read: OWNER-DECISIONS through Oct 28 14:50 UTC, the Oct 27 sitting log (Journal rulings); searched the pool for own birth, born in, person.birth (words-scene-cause-person-birth and words-birth-scene-lead are scenes, not the Journal).
