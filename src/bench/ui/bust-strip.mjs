@@ -8,7 +8,7 @@ import { el } from "./dom.mjs";
 import { face } from "./face.mjs";
 
 /** One person on the strip: their bust, cut soft at the shoulders, and their name. */
-function stripPerson(person, { speakingId, onClick }) {
+function stripPerson(person, { speakingId, onClick, onCard }) {
   const stack = face(person.face, { shape: "strip", alt: person.name });
   const cell = el(
     "div",
@@ -23,18 +23,21 @@ function stripPerson(person, { speakingId, onClick }) {
   cell.dataset.person = person.personId ?? "";
   if (speakingId !== undefined)
     cell.classList.add(person.personId === speakingId ? "speaking" : "quiet");
-  // Someone with nothing to say is not clicked (owner, Nov 1: "If there's no
-  // dialogue, you shouldn't be able to click on the person").
-  if (onClick && person.talkable !== false) {
-    cell.classList.add("talkable");
+  // Someone with something to say is a way into a talk. Anyone else named on
+  // the strip opens their card (owner, Nov 16: "I can't even click and figure
+  // out who this is"): every named person in a scene can be looked up.
+  const act =
+    onClick && person.talkable !== false ? onClick : (onCard ?? undefined);
+  if (act && person.personId) {
+    cell.classList.add(act === onClick ? "talkable" : "named");
     cell.tabIndex = 0;
     cell.setAttribute("role", "button");
     cell.setAttribute("aria-label", person.name);
-    cell.addEventListener("click", () => onClick(person));
+    cell.addEventListener("click", () => act(person));
     cell.addEventListener("keydown", (event) => {
       if (event.key !== "Enter" && event.key !== " ") return;
       event.preventDefault();
-      onClick(person);
+      act(person);
     });
   }
   return cell;
@@ -45,7 +48,9 @@ function stripPerson(person, { speakingId, onClick }) {
  * others are there, said after the busts in `words.more` ("and {count} more").
  * `words.label` names the strip at its left end. `speakingId` lights one person
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`
- * makes each person with something to say a button.
+ * makes each person with something to say a button; `onCard` makes everyone
+ * else named there a button to their card. `speakingId: null` is a talk where
+ * nobody on the strip speaks (the narrator does): everyone stands small.
  */
 export function bustStrip({
   people,
@@ -53,10 +58,13 @@ export function bustStrip({
   words = {},
   speakingId,
   onClick,
+  onCard,
 }) {
   const strip = el("div", { className: "bust-strip" });
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));
+  // Someone speaks: the rest stand back, small and dimmed (play.css).
+  strip.dataset.speaker = speakingId ? "1" : "0";
   strip.append(
     el("div", { className: "busts-glass" }),
     ...(words.label
@@ -65,7 +73,9 @@ export function bustStrip({
     el(
       "div",
       { className: "busts-row" },
-      ...people.map((person) => stripPerson(person, { speakingId, onClick })),
+      ...people.map((person) =>
+        stripPerson(person, { speakingId, onClick, onCard }),
+      ),
       ...(more > 0 && words.more
         ? [
             el("span", {
