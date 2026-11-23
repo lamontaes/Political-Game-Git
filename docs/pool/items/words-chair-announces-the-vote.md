@@ -34,6 +34,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/address.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/scene-talk.test.ts, src/director/data/stopgaps.json
+**Files.** src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/scene-talk.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.

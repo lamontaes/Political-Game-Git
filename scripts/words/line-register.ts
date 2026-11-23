@@ -18,7 +18,11 @@
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { bankLines, type Tie } from "../../src/english/line-register";
+import {
+  bankLines,
+  bankNames,
+  type Tie,
+} from "../../src/english/line-register";
 
 export const ROOT = path.resolve(import.meta.dirname, "../..");
 const PARTS_DIR = path.join(ROOT, "data/english/parts");
@@ -361,6 +365,7 @@ export function unreadBanksByGrade(): {
 export function registerCounts() {
   const lines = bankLines();
   const bankCount: Record<string, number> = {};
+  for (const bank of bankNames()) bankCount[bank] = 0;
   /** Lines tied to nothing of the speaker or the hearer: weak, none, or only a slot of the world. They can be said to anyone. */
   const untied: Record<string, number> = {};
   const byTie: Record<Tie, number> = {
