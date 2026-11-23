@@ -37,7 +37,11 @@ import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
 import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
-import { lawApplied, type AppliedTarget } from "../law-reach/applied";
+import {
+  endAppliedBy,
+  lawApplied,
+  type AppliedTarget,
+} from "../law-reach/applied";
 import type {
   CoreAPI,
   CoreModule,
@@ -1153,8 +1157,12 @@ function readPriceLaws(api: CoreAPI): void {
       // End only this statute's price, not a separately recorded service rule.
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
-      )
+      ) {
         endPlaceRule(api, placeId, rule.good, rule.kind, question);
+        // The price is no longer charged, so the law no longer reaches those
+        // it was charged to, even where a lower level still says yes.
+        endAppliedBy(api, question, PLACE_PRICES_MODULE_ID);
+      }
       return;
     }
     if (gap) api.stopgap(gap);

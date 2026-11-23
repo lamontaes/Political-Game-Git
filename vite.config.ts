@@ -105,8 +105,9 @@ export default defineConfig({
       "scripts/secrets/scan-tracked-secrets.test.mjs",
       "scripts/trait-effects/generate-manifest.test.mjs",
       "src/bench/place-selection.test.mjs",
-      // The year-long platform calibration reads three played years (about 20
-      // minutes). It runs on purpose with `npm run test:calibration`, and the
+      // The year-long platform calibration reads drawn places' played years
+      // (about six minutes each) until its estimate is tight enough to judge
+      // its band. It runs on purpose with `npm run test:calibration`, and the
       // hosted full run does not carry it (pool item
       // tests-campaign-platform-played-calibration-is-slow).
       ...(process.env.OCD_CALIBRATION

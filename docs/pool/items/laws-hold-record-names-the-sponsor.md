@@ -31,11 +31,11 @@ branch: claude/pool-laws-hold-record-names-the-sponsor
 
 **Rules.** No dice: the chair's decision stays `chairHearsBill` (position plus traits); a reply is one more recorded reason, read at the decision, never a roll. Wire to the world: the press line and the re-listing are proven in a generated world. One rule, all 56 places.
 
-**Done when.** A second session, not the builder, plays a place drawn from all 56 with a seed nobody chose (`buildBenchWorld`, both named). src/core2/legislature.test.ts or src/director/hold-scenes.test.ts shows a bill-held-in-committee record whose personIds include the sponsor and whose sponsor meets it as a moment, a press story names the held bill by record id, and a chair's agreed scene.reply moves the bill to a committee-hearing record.
+**Done when.** A second session, not the builder, plays a place drawn from all 56 with a seed nobody chose (`buildBenchWorld`, both named). src/core2/legislature.test.ts or src/director/hold-scenes.test.ts (removed) shows a bill-held-in-committee record whose personIds include the sponsor and whose sponsor meets it as a moment, a press story names the held bill by record id, and a chair's agreed scene.reply moves the bill to a committee-hearing record.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/legislature.test.ts, src/director/hold-scenes.test.ts
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/legislature.test.ts
 
 **Notes.** lead: laws-effects. Time box 3 h, Sonnet. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Producers already on PR scenes-c-bill-held.
 

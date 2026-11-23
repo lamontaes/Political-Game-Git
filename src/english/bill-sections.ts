@@ -24,6 +24,8 @@ interface PolicyWords {
 }
 interface AmountWords {
   subject: string;
+  /** The subject as a law at one level says it ("the state income tax rate"), where `subject` names one level only. */
+  subjectAt?: Partial<Record<string, string>>;
   purpose: string;
   raiseTo?: string;
   lowerTo?: string;
@@ -183,6 +185,18 @@ export function amountWords(series: string): AmountWords | undefined {
     grant: `each city, town and county may make its own rules on ${subject}, by ordinance`,
     withdraw: `no city, town or county shall make its own rule on ${subject}, and any such rule in force shall end`,
   };
+}
+
+/**
+ * An amount's subject as a law at its own level says it: a state's income tax
+ * is "the state income tax rate", never the bank's "the local income tax
+ * rate". Undefined where the amount's subject already holds at every level.
+ */
+export function amountSubjectAt(
+  series: string,
+  level: string,
+): string | undefined {
+  return BILL_SECTIONS.amounts[series]?.subjectAt?.[level];
 }
 
 function wordsOf(

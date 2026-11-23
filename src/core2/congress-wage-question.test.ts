@@ -56,7 +56,7 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
       ],
     });
     expect(statesLabel.authority.some((a) => !a.allowed)).toBe(true);
-    const before = lawInForce(api, "minimum-wage").levels.find(
+    let before = lawInForce(api, "minimum-wage").levels.find(
       (l) => l.level === "federal",
     )!.row!;
     // Controlled stronger state floor proves the 29 USC 218(a) savings rule.
@@ -72,12 +72,21 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
       citation: "29 USC 218(a) reader fixture, not a vote",
     });
     const records: string[] = [];
-    for (const [question, operation] of [
+    // A world whose history already has Congress saying yes to the rule opens
+    // with the question standing and the raised floor in force on the opening
+    // day (the century's session passed it before day one). An enactment then
+    // restates what is in force and changes nothing, so that world starts by
+    // repealing it: the floor must fall back below the raised one, and that
+    // lower floor is what the enactments after it must raise.
+    const standsAtOpening = legacy().inForce === 1;
+    const sequence = [
+      ...(standsAtOpening ? [[canonical, "repeal"] as const] : []),
       [canonical, "enact"],
       [canonical, "repeal"],
       [canonical, "enact"],
       [canonical, "repeal"],
-    ] as const) {
+    ] as const;
+    for (const [index, [question, operation]] of sequence.entries()) {
       const effectiveDate = addDays(makeIsoDate(api.state.date), 1);
       const bill = draftBill(api, {
         bodyOfficeId: FEDERAL_HOUSE,
@@ -107,7 +116,10 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
       const federal = answer.levels.find((l) => l.level === "federal")!.row!;
       if (operation === "enact")
         expect(federal.value).toBeGreaterThan(before.value!);
-      else expect(federal.value).toBe(before.value);
+      else if (standsAtOpening && index === 0) {
+        expect(federal.value).toBeLessThan(before.value!);
+        before = federal;
+      } else expect(federal.value).toBe(before.value);
       expect(answer.value).toBe(5000);
       expect(
         answer.levels.find((l) => l.row?.id === stronger.id)?.setAside,
@@ -128,6 +140,7 @@ it(`Congress drafts the one wage rule under its own label: ${place.name}, replay
         worldSeed: place.seed,
         body: FEDERAL_HOUSE,
         priorFederal: before.id,
+        questionStoodAtOpening: standsAtOpening,
         records,
         higherStateFixture: stronger.id,
       }),

@@ -10,7 +10,7 @@
 import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
-import { placeStateKey } from "../core2/place-map";
+import { placeChain, placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
@@ -91,7 +91,7 @@ import {
   questionTopic,
   storyTopicName,
 } from "../english/policy-names";
-import { dollars } from "../english/bill-sections";
+import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
@@ -147,10 +147,17 @@ import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
+import { quarrelFacts } from "./quarrel-facts";
+import { lastDayFacts } from "./last-day-facts";
+import { promiseSubject } from "./promise-talk";
+
+/** The situation type a broken promise stages (`kept-fact-due`). */
+const BETRAYAL_TYPE = "betrayal";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
+import { homeWorkFacts } from "./home-work-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -361,6 +368,7 @@ export function purposeScene(
 /** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
 interface LawReachRow {
   readonly jurisdiction?: string;
+  readonly level?: string;
   readonly effectiveDate?: string;
   readonly endDate?: string | null;
   readonly series?: string;
@@ -478,6 +486,47 @@ export function destinationSaid(
 }
 
 /**
+ * How a relative's place is said to the asked person: `placeNamed` names a
+ * place elsewhere (their hometown) and is null for the asked person's own
+ * town or a county or state it sits in, which `nearNamed` names instead (a
+ * relative in the same town, or kept at that level, `lives`).
+ */
+export function relativePlaceSaid(
+  core: Readonly<CoreState>,
+  askedId: string,
+): {
+  placeNamed: (placeId: string) => string | null;
+  nearNamed: (placeId: string) => string | null;
+} {
+  const askedPlace = core.people.get(askedId as PersonId)?.placeId;
+  return {
+    placeNamed: (placeId) =>
+      askedPlace && holdsTown(placeId, askedPlace)
+        ? null
+        : destinationSaid(placeId, ""),
+    nearNamed: (placeId) =>
+      askedPlace && holdsTown(placeId, askedPlace)
+        ? destinationSaid(placeId, "")
+        : null,
+  };
+}
+
+/**
+ * Whether a recorded place is the town itself or a county or state it sits
+ * in (a relative kept at their county or state's level, `lives`).
+ */
+function holdsTown(placeId: string, townId: string): boolean {
+  if (placeId === townId) return true;
+  const town = corePlaceByJurisdictionId(townId as never)?.key;
+  if (!town) return false;
+  const held =
+    coreStateKeyOfJurisdictionId(placeId) ??
+    corePlaceByJurisdictionId(placeId as never)?.key ??
+    placeId;
+  return !!held && placeChain(town).some((row) => row.id === held);
+}
+
+/**
  * The type as its cause plays it: a cause may name its own `sceneKey`, which
  * tags the exchange's pieces in place of the type's key, so one purpose speaks
  * for each cause's own reason (the cause is matched by the moment's label).
@@ -536,7 +585,13 @@ export function lawFactsOfCause(
     : null;
   const series = said.series ?? lawRowOfSaid?.series;
   if (said.lawId && series) {
-    const name = lawName(series);
+    // An amount named for one level (the bank's "local income tax rate") is
+    // said at the level of the law row that set it: a state's income tax is
+    // "the state income tax rate".
+    const name =
+      (lawRowOfSaid?.level
+        ? amountSubjectAt(series, lawRowOfSaid.level)
+        : undefined) ?? lawName(series);
     if (name)
       facts.law = {
         text: name,
@@ -1008,7 +1063,25 @@ function composeBinding(
   // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded
-  const placeNamed = (placeId: string) => destinationSaid(placeId, "");
+  const { placeNamed, nearNamed } = relativePlaceSaid(core, askedId);
+  // A promise the other broke to the one betrayed (`betrayal`): what was
+  // promised (its kind, the bill, the question, the meeting or the payment),
+  // from the promise row, as the promise talk says it.
+  if (binding.typeKey === BETRAYAL_TYPE) {
+    const broken = promiseSubject(core, director, askerId, askedId);
+    if (broken?.kind === "promise-broken")
+      for (const [key, fact] of Object.entries(broken.facts)) facts[key] = fact;
+  }
+  // A last day at a school or a job: the school, or the employer and the
+  // job, from the record that caused it.
+  for (const [key, fact] of Object.entries(
+    lastDayFacts(core, binding.typeKey, moment.causeId),
+  ))
+    facts[key] = fact;
+  // A quarrel over money (`family.quarrel`): the payment it was over, by
+  // the loan's kind, so the apology can say what it is for.
+  for (const [key, fact] of Object.entries(quarrelFacts(core, moment.causeId)))
+    facts[key] = fact;
   for (const [key, fact] of Object.entries(
     letterFacts(
       core,
@@ -1017,6 +1090,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   ))
     facts[key] = fact;
@@ -1034,6 +1108,7 @@ function composeBinding(
       askedId,
       cast("honoree"),
       placeNamed,
+      nearNamed,
     ),
     ...gatheringFacts(
       core,
@@ -1043,6 +1118,7 @@ function composeBinding(
       askedId,
       placeNamed,
       (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
+      nearNamed,
     ),
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
@@ -1051,6 +1127,21 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // What happened in a home or work scene's cause (a layoff, a first day, a
+    // school year's end, a proposal or breakup, a death, a quarrel): the
+    // employer, the years, the school, how long together, who died, what it
+    // was over. stopgapId: none; a fact the record lacks is left out.
+    ...homeWorkFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      (id) => {
+        const person = core.people.get(id);
+        return person ? sayPerson(person) : undefined;
+      },
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
@@ -1060,6 +1151,7 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+      nearNamed,
     ),
   }))
     facts[key] = fact;

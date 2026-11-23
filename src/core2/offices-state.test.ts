@@ -293,6 +293,38 @@ it("seats each chamber at its legal size, every roster member once, in all 56 pl
   ]);
 });
 
+it(`gives a town in each of the 56 places a seat in every chamber of its legislature (seed ${seed})`, () => {
+  // A territory's roster names its districts but no place in them (the
+  // Census has no district geography there), so until its districts are
+  // read each chamber is elected by the whole territory: a town there is in
+  // every seat, never in none (the Northern Marianas on Nov 18).
+  const uncovered: string[] = [];
+  let chambers = 0;
+  for (const stateKey of placeStateKeys()) {
+    const towns = [...placeLocalities(stateKey)].sort((a, b) =>
+      a.key.localeCompare(b.key),
+    );
+    const drawn =
+      towns[
+        parseInt(stableHash(`${seed}:${stateKey}:covered`).slice(0, 8), 16) %
+          towns.length
+      ]!;
+    for (const town of new Set([towns[0]!, drawn]))
+      for (const { office, seats } of stateOffices(
+        stateKey,
+        town.key,
+        gameStartDate(),
+      )) {
+        if (!office.kind.startsWith("legislature-")) continue;
+        chambers += 1;
+        if (!seats.some((s) => s.coversTown))
+          uncovered.push(`${office.id} at ${town.displayName} (${town.key})`);
+      }
+  }
+  expect(chambers, "chambers read").toBeGreaterThan(0);
+  expect(uncovered, "chambers with no seat covering the town").toEqual([]);
+});
+
 /** Every chamber of a played world, with its seats. */
 function playedChambers(core: ReturnType<typeof buildBenchWorld>["core"]) {
   const offices = coreAPI(core).moduleState(OFFICES_MODULE_ID);
