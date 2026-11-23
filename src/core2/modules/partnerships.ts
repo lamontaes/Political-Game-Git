@@ -45,6 +45,7 @@ import {
 } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import {
+  bestPartnerAgeLikelihood,
   partnerAgeFor,
   partnerAgeLikelihood,
   partneringPerYear,
@@ -1145,7 +1146,8 @@ function pairScore(
 /**
  * How the asked weighs the asker, by the rule the monthly review pairs the
  * town's singles by (`knownSingle`): age fit times the tie, against the best
- * other single they know. At least as good as their best other choice is a
+ * other single they know, or the wider population when they know none. At
+ * least as good as their best other choice is a
  * yes (weight one or more); short of it, whichever of fit or tie falls
  * further behind is the reason.
  */
@@ -1183,8 +1185,31 @@ function askOutWeight(
       reason: mine.fit <= zero ? "age-gap" : "barely-know",
       terms,
     };
-  if (!best)
-    return { weight: api.parameter("one"), reason: "barely-know", terms };
+  if (!best) {
+    // Nobody they know is free: their other choice is the wider population,
+    // where the monthly review finds a partner for a single who knows none
+    // (`meetPartner`). That partner fits as well as anyone can fit their age,
+    // and is someone they would be as close to as they are to the people they
+    // know: the asker is weighed against both.
+    const today = makeIsoDate(core.date);
+    const bestFit = bestPartnerAgeLikelihood(
+      ageOnDate(makeIsoDate(asked.birthDate), today),
+      sexOf(asked),
+      sexOf(asker),
+      api.parameter("votingAge"),
+    );
+    const typical = typicalCloseness(api, asked);
+    return {
+      weight: (mine.fit * mine.tie) / (bestFit * typical),
+      reason:
+        mine.fit / bestFit < mine.tie / typical ? "age-gap" : "barely-know",
+      terms: {
+        ...terms,
+        widerPopulationFit: bestFit,
+        typicalCloseness: typical,
+      },
+    };
+  }
   return {
     weight: (mine.fit * mine.tie) / (best.fit * best.tie),
     reason:

@@ -164,9 +164,23 @@ function spouseGapWeight(
   return (gap(age, other) + gap(other, age)) / p("two");
 }
 
-/** The likeliest couple's weight in the CPS spouse age gap table: a fit read against it is a share of the best. */
-export function bestPartnerAgeLikelihood(): number {
-  return Math.max(...SPOUSE_GAP.values());
+/**
+ * The best age fit this person could find at all: their likeliest partner's
+ * age by the CPS spouse age gap, among partners of at least `minAge`. A fit
+ * read against it is a share of the best the wider population offers them.
+ */
+export function bestPartnerAgeLikelihood(
+  age: number,
+  sex: Sex | undefined,
+  otherSex: Sex | undefined,
+  minAge: number,
+): number {
+  let best = p("zero");
+  for (const gap of SPOUSE_GAP.keys())
+    for (const other of [age - gap, age + gap])
+      if (other >= minAge)
+        best = Math.max(best, spouseGapWeight(age, sex, other, otherSex));
+  return best;
 }
 
 /** How likely a couple of these two ages is, by the CPS spouse age gap (zero past the gaps it records). */
