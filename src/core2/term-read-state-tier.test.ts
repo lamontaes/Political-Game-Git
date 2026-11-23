@@ -4,32 +4,37 @@
  * tier keeps the real coarse months the world was fitted from, summed to the
  * state, each shifted to meet the tier at the opening month, so a term that
  * began before the world did reads one series, with no step where the world
- * opens. Pinned place and seed: Everett, Georgia (7a5e19c2b3d84f60); the time
- * is the world's build and its first days (about 25 seconds).
+ * opens. The place is drawn from all 56 (GOLDEN_PATH_SEED replays a draw) and
+ * named in every message; the time is the world's build and its first days.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
-import { countryStateMonth } from "./modules/macro";
+import { countryStateMonth, countryStates } from "./modules/macro";
 import { placeStateKey } from "./place-map";
 import { openingRegionMonths, stateOfRegions } from "./regional-model";
 import { coreAPI } from "./state";
 import { jurisdictionTermRead } from "./term-read";
 
-const SEED = "7a5e19c2b3d84f60";
+const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const DRAWN = drawPlace(SEED, "term-read-state-tier");
 setBookkeeping(false);
 
 describe("a state's term read stands on the tier's own months", () => {
-  it("Everett, Georgia: a term that began before the opening reads one series across it", () => {
-    const world = buildBenchWorld(SEED, gameStartDate(), { twoLevel: true });
-    expect(world.place.displayName).toBe("Everett, Georgia");
+  it("a drawn place: a term that began before the opening reads one series across it", () => {
+    const world = buildBenchWorld(SEED, gameStartDate(), {
+      twoLevel: true,
+      placeKey: DRAWN.key,
+    });
     advanceCore(world.core, "2025-03-05" as never);
     const api = coreAPI(world.core);
     const where = `${world.place.displayName} (seed ${SEED})`;
     const key = placeStateKey(world.placeId)!;
-    const fips = "13";
+    const fips = countryStates(api).find((row) => row.key === key)!.fips;
     const macro = api
       .moduleState("macro")
       .table("state")
@@ -75,9 +80,9 @@ describe("a state's term read stands on the tier's own months", () => {
       expect(read, `${where}: ${area}`).toBeDefined();
       for (const id of read!.sourceRecordIds)
         expect(
-          id.startsWith("country-state-month:13:"),
+          id.startsWith(`country-state-month:${fips}:`),
           `${where}: ${id}`,
         ).toBe(true);
     }
-  }, 120_000);
+  }, 60_000);
 });
