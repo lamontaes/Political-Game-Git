@@ -1,0 +1,25 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming me Isaiah Castillo
+  scene 1: Tracy Castillo Kiara Castillo Aiden Castillo It's the evening of January 20. Dishes sit drying by the sink. Continue
+day one rows: ["contest:seat:gus2025:177836:board:3:2028-11-07 :: Commissioner (District 4) · County office Filing opens March 20, 2028","contest:seat:gus2025:177836:coroner:0:2026-11-03 :: Coroner · County office","contest:seat:gus2025:177836:prosecutor:0:2026-11-03 :: County and prosecuting attorney · County office","contest:seat:gus2025:177836:assessor:0:2026-11-03 :: County assessor · County office","contest:seat:gus2025:177836:clerk:0:2026-11-03 :: County clerk · County office","contest:seat:gus2025:177836:treasurer:0:2026-11-03 :: County treasurer · County office","contest:seat:gus2025:177836:sheriff:0:2026-11-03 :: Sheriff · County office"]
+local-races: [{"c":"contest:seat:gus2025:177836:board:3:2028-11-07","t":"Commissioner (District 4)","may":true,"bar":"window-not-open","opens":"2028-03-20","el":"2028-11-07"},{"c":"contest:seat:gus2025:177836:coroner:0:2026-11-03","t":"Coroner","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"},{"c":"contest:seat:gus2025:177836:prosecutor:0:2026-11-03","t":"County and prosecuting attorney","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"},{"c":"contest:seat:gus2025:177836:assessor:0:2026-11-03","t":"County assessor","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"},{"c":"contest:seat:gus2025:177836:clerk:0:2026-11-03","t":"County clerk","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"},{"c":"contest:seat:gus2025:177836:treasurer:0:2026-11-03","t":"County treasurer","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"},{"c":"contest:seat:gus2025:177836:sheriff:0:2026-11-03","t":"Sheriff","may":false,"bar":"not-your-office","opens":"2026-03-30","el":"2026-11-03"}]
+shot 01-elections-day-one
+race contest:seat:gus2025:177836:board:3:2028-11-07 Commissioner (District 4)
+race page day one: buttons ["announce:Announce","sim-to-filing:Sim to Mar 20, 2028"] | Commissioner (District 4)November 7, 2028 Who's running No one has filed Last time November 5, 2024 Justin Hayes Share of the vote 52 percent Dates Mar 20, 2028 Filing opens May 19, 2028 Filing closes Nov 7, 2028 Election day Announce Sim to Mar 20, 2028
+shot 02-race-day-one
+after Announce: tabs ["Government","Elections","Campaign","Parties","Issues","Bills","Budgets","Metrics"] | Where the race stands Primary voters go to the polls August 8, 2028, and none has heard from you. Filing for commissioner in District 4 stays open until May 19, 2028, with no one else in. It costs $2,250 to poll 50 voters. The money $0.00 Raised $0.00 Spent $0.00 Volunteers 0 Doors knocked 0 Signatures Due May 19, 2028 Go out on the trail
+shot 03-campaign-after-announce
+campaign buttons: ["Go out on the trail"]
+race page announced: buttons ["-:Isaiah Castillo\nAnnounced","sim-to-filing:Sim to Mar 20, 2028"] | Commissioner (District 4)November 7, 2028 Who's running Isaiah Castillo Announced POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against GOVERNMENT ADMINISTRATION Against Last time November 5, 2024 Justin Hayes Share of the vote 52 percent Dates Mar 20, 2028 Filing opens May 19, 2028 Filing closes Nov 7, 2028 Election day Sim to Mar 20, 2028
+shot 04-race-announced
+campaign board: scrollers [] | Where the race stands Primary voters go to the polls August 8, 2028, and none has heard from you. Filing for commissioner in District 4 stays open until May 19, 2028, with no one else in. It costs $2,250 to poll 50 voters. The money $0.00 Raised $0.00 Spent $0.00 Volunteers 0 Doors knocked 0 Signatures Due May 19, 2028 Go out on the trail
+shot 05-campaign-board
+trail: scrollers ["div.travel-left"] | OUT AND ABOUT Knock on doors Hold an event Host a forum Ask for an interview Call donors Meet donors at a supporter's home ASK Volunteers Endorsements Ad Poll MONEY Mail Pay people to gather signatures Put in your own money SPEAK Give a speech Knock on doors HOW LONG 3 hours ASKING FOR Signatures Not today Your petition is short of what the clerk asks for. You keep asking for signatures until it holds enough. After that you ask for the vote. Go
+shot 06-trail
+first tile: Knock on doors
+tile opened: OUT AND ABOUT Knock on doors Hold an event Host a forum Ask for an interview Call donors Meet donors at a supporter's home ASK Volunteers Endorsements Ad Poll MONEY Mail Pay people to gather signatures Put in your own money SPEAK Give a speech Knock on doors HOW LONG 3 hours ASKING FOR Signatures Not today Your petition is short of what the clerk asks for. You keep asking for signatures until it holds enough. After that you ask for the vote. Go
+shot 07-tile
+after Go: talk false sheet 0 | Donald FreemanMarilyn MeadowsDanny DawsonLinda Alvarez It's the evening of January 20. Dishes sit drying by the sink. Continue Skip scene Say nothing Leave
+shot 08-after-go
+shot 09-after-go-later
+buttons now: ["Hour","Day","Week"]
+errors []
