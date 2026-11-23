@@ -1,0 +1,7 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming
+who names ["Isaiah Castillo","Kiara Castillo","Evan Castillo","Aiden Castillo","Tracy Castillo"]
+Kiara Castillo: {"found":true,"id":"person-close","cx":1261,"cy":101,"onTop":false,"at":"H2.strip-name#"}; after a mouse click on the close mark the card is STILL OPEN
+Evan Castillo: {"found":true,"id":"person-close","cx":1261,"cy":215,"onTop":false,"at":"H2.strip-name#"}; after a mouse click on the close mark the card is STILL OPEN
+Aiden Castillo: {"found":true,"id":"person-close","cx":1261,"cy":148,"onTop":false,"at":"H2.strip-name#"}; after a mouse click on the close mark the card is STILL OPEN
+Tracy Castillo: {"found":true,"id":"person-close","cx":1261,"cy":88,"onTop":false,"at":"H2.strip-name#"}; after a mouse click on the close mark the card is STILL OPEN
+errors []

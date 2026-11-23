@@ -1,0 +1,13 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming scene person_29994fd7f9825c81:2025-01-20:president.address:2025-01-20
+beat 1: trailer-home-living__night.jpg ·  · strip Tracy Castillo[] h111; Kiara Castillo[] h111; Aiden Castillo[] h111 · It's the evening of January 20. Dishes sit drying by the sink.
+beat 2: us-house-floor__night.jpg · President James Marshall · strip James Marshall[speaking] h129; David Shaw[quiet] h111; Barry Swanson[quiet] h111 · Speaker David Shaw, members of Congress, and everyone watching at home. Vice President Barry Swanson and I are glad to be here, and ready to work. Bef
+beat 3: us-house-floor__night.jpg · President James Marshall · strip James Marshall[speaking] h172 · These last four years, a lot of folks got back to work. Here's where things are: the federal floor under pay has finally moved up. Because I'm sure a 
+beat 4: train-depot-platform__midday.jpg · President James Marshall · strip President James Marshall[speaking] h172 · I've had my say on a higher federal minimum wage, and the other thing I came to talk about is trust in government. Why change it, when lawmakers discl
+beat 5: trailer-home-living__night.jpg · President James Marshall · strip Kiara Castillo[] h111; Aiden Castillo[] h111; Tracy Castillo[] h111 · On a ban on stock trading by members of Congress, my answer stays no. Hold me to that.
+beat 6: trailer-home-living__night.jpg ·  · strip Kiara Castillo[] h111; Aiden Castillo[] h111; Tracy Castillo[] h111 · It's the evening of January 20. Dishes sit drying by the sink.
+talk 1: trailer-home-living__morning.jpg ·  · It's early on February 11. A stack of mail sits on the counter. Chair River Phillips's yearly address played on KHLH-TV in front of you. / G
+talk 2: trailer-home-living__morning.jpg · Chair River Phillips · KHLH-TV / Members of the Hot Springs County Board of Commissioners, and the folks who showed up. First, the fire. Some of you lost a lot, an
+tv seen true
+set: LIVE / Chair River Phillips / KHLH-TV; date Wednesday, February 11, 20267:00 AM
+card after clicking the set: true River Phillips
+errors []

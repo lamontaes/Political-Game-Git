@@ -1,0 +1,20 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x382 w676 of 1440; Tracy Castillo[] h111; Kiara Castillo[] h111; Aiden Castillo[] h111"]
+shot 02-room.png
+room strips: ["here: strip x472 w928 of 1440; Kiara Castillo[talkable] h104; Aiden Castillo[] h104; Tracy Castillo[talkable] h104"]
+room people 3; talkable 2; named-not-talkable 0
+shot 03-room-click-Aiden-Castillo.png
+after clicking Aiden Castillo (not talkable): sheet false card text  /          /          /          /       
+card open false name 
+close probe {"r":[0,0,0,0],"xs":["news-surface-close@1368,38"],"at":"<img id=\"backdrop-next\" alt=\"\">"}
+title box null
+after a mouse click on the close mark: card still open false
+shot 04-talk-with-Kiara-Castillo.png
+talk strips: ["talk: strip x382 w676 of 1440; Kiara Castillo[speaking] h129; Aiden Castillo[quiet] h111; Tracy Castillo[quiet] h111"]
+shot 05-talk-click-Kiara-Castillo.png
+after clicking Kiara Castillo [busts-person speaking] on the talk strip: sheet false text  /          /          /          /       
+card open false name 
+shot 06-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []

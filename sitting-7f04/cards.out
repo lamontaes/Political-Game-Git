@@ -1,0 +1,7 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming
+who names ["Isaiah Castillo","Kiara Castillo","Evan Castillo","Aiden Castillo","Tracy Castillo"]
+Kiara Castillo: {"bottom":840,"over":[],"secs":[["Who she isLive",237,508],["How I see herT",373,508],["PoliticsYou do",448,508],["Between usLive",523,508],["Her storyAt th",810,508]],"head":"Kiara Castillo"}
+Evan Castillo: {"bottom":726,"over":[],"secs":[["Who he isAtten",377,508],["How I see himA",545,508],["PoliticsYou do",620,508],["Between usLive",696,508],["His storyAt th",696,903]],"head":"Evan Castillo"}
+Aiden Castillo: {"bottom":793,"over":[],"secs":[["His storyDurin",763,162],["Who he isAtten",283,508],["How I see himT",419,508],["PoliticsYou do",495,508],["Between usLive",597,508]],"head":"Aiden Castillo"}
+Tracy Castillo: {"bottom":853,"over":[],"secs":[["Who he isLives",224,508],["How I see himA",360,508],["PoliticsYou do",435,508],["Between usLive",510,508],["His storyAged ",823,508]],"head":"Tracy Castillo"}
+errors []

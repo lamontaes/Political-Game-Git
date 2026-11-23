@@ -1,0 +1,49 @@
+seed 6d1a4e79d335 place Lucerne, Wyoming
+me Isaiah Castillo
+--- opening
+  line: It's the evening of January 20. Dishes sit drying by the sink.
+  line: Speaker David Shaw, members of Congress, and everyone watching at home. Vice President Barry Swanson and I are glad to be here, and ready to work. Before anything else, I want to talk to the folks in Washington. The severe storm hit you hard, and the country hasn't forgotten. Nobody in Washington is rebuilding alone. The whole country has your back.
+  line: These last four years, a lot of folks got back to work. Here's where things are: the federal floor under pay has finally moved up. Because I'm sure a full day's work ought to pay enough to live on, I'll protect the higher federal minimum wage, and I'll veto any bill that tries to undo it.
+  line: I've had my say on a higher federal minimum wage, and the other thing I came to talk about is trust in government. Why change it, when lawmakers disclose every trade they make? And above all, on a ban on stock trading by members of Congress, my answer is no, and it'll stay no. A member of Congress should be free to invest like anyone else.
+  line: On a ban on stock trading by members of Congress, my answer stays no. Hold me to that.
+  line: It's the evening of January 20. Dishes sit drying by the sink.
+--- room talk with Kiara Castillo
+  line: The President wants a higher federal minimum wage. That part was plain. I'm with him on that one. What do you think about that part?
+  replies: ["You're right about that, Mom.","I'd push back on him there."] -> You're right about that, Mom.
+  line: ISAIAH CASTILLO You're right about that, Mom. Good. Then it's not just me, Isaiah. Put me down for it.
+  replies: ["Not me."] -> Not me.
+  line: ISAIAH CASTILLO Not me.
+--- step 1 Wednesday, January 22, 20257:00 AM
+  line: It's early on January 22. You sit down at the kitchen table. KHLH-TV carried Governor Thomas Mercer's State of the State address, and you watched.
+  line: KHLH-TV Folks in this chamber, and everybody in Wyoming listening in. Pay has risen since this term began, and you can feel it in every kitchen.
+  line: KHLH-TV As of now, Medicaid is kept for the people who need it most. Since it seems to me that Medicaid should stay for the people it was built to serve, any bill for expanding Medicaid gets a no from me.
+  line: KHLH-TV Thank you, Wyoming.
+--- step 4 Tuesday, February 11, 20257:00 AM
+  line: It's early on February 11. A stack of mail sits on the counter. You watched Chair River Phillips's yearly address on KHLH-TV.
+  line: KHLH-TV Members of the Hot Springs County Board of Commissioners, and folks from all over town. Hot Springs County, I'd like to talk with you about how we keep people safe and treat them fairly. We're taking in about $1.9 million more than we spend in 2024, and I'd like it to stay that way. You picked your Hot Springs County commissioner this year, and I took note of how you voted.
+  line: KHLH-TV Honestly, every dollar the police budget grows comes out of something else we need. Because I think money spent before trouble starts goes further than money spent after, I can't get behind any ordinance for a bigger police budget.
+  line: KHLH-TV After a bigger police budget, I also owe you a word on more jail spending. As it stands, the jail's share of the budget grows while the same people keep going back. I'm saying no to every ordinance for more jail spending, whoever brings it. Here's the reason: keeping people out of jail costs less than keeping them in.
+  line: KHLH-TV Thanks for listening, Hot Springs County, and good night.
+--- step 8 Sunday, March 2, 20257:00 AM
+  line: First thing on March 2nd, you unfold a letter from Edward Rush. Edward has written from Hot Springs County.
+  line: Dear Isaiah, there is something I wanted to ask you, and I'd rather ask it on paper. We're still in Hot Springs County, not so far. Will you come see us some weekend?
+  replies: ["Count me in.","Why now?","Not this time."] -> Count me in.
+  line: ISAIAH CASTILLO Count me in. Thank you.
+--- step 12 Tuesday, March 25, 20257:00 AM
+  line: It's early on March 25. A stack of mail sits on the counter. Evan turned 11, and Edward was not at the table.
+  line: Can I talk to you about Edward? Edward is still in Hot Springs County, not so far. Could you call, or even drive over?
+  replies: ["Yes. Edward should hear from me, and I'd rather it was soon.","Why now? What made you think of Edward?","I don't think Edward wants to hear from me."] -> Yes. Edward should hear from me, and I'd rather it was soon.
+  line: ISAIAH CASTILLO Yes. Edward should hear from me, and I'd rather it was soon. I'm glad. It'll mean a lot to Edward.
+--- step 23 Saturday, May 31, 20257:00 AM
+  line: It's early on May 31. A stack of mail sits on the counter. Evan sits at the table with two cups and no radio.
+  line: I'm glad you're home, Isaiah. Tell me what happened at Lucerne Public Schools. I'm not mad.
+  replies: ["I fell behind at Lucerne Public Schools and never caught up.","I'll try again.","I'm sorry I didn't ask for help at Lucerne.","I can't go through what happened at Lucerne again."] -> I fell behind at Lucerne Public Schools and never caught up.
+  line: ISAIAH CASTILLO I fell behind at Lucerne Public Schools and never caught up. What does Lucerne say you can do now?
+  replies: ["Lucerne says I can retake what I missed.","I'll finish it."] -> Lucerne says I can retake what I missed.
+  line: ISAIAH CASTILLO Lucerne says I can retake what I missed. That was brave.
+  line: It's early on June 2. A stack of mail sits on the counter. Tracy turned 24, and Edward was not at the table.
+  line: Can I talk to you about Edward? Edward is still in Hot Springs County, not so far. Could you call, or even drive over?
+  replies: ["Alright. I'll write to Edward this time instead of waiting to be written to.","Why now? What made you think of Edward?","That's not mine to fix. Edward knows where I am."] -> Alright. I'll write to Edward this time instead of waiting to be written to.
+  line: ISAIAH CASTILLO Alright. I'll write to Edward this time instead of waiting to be written to. I'm glad. It'll mean a lot to Edward.
+journal: Lucerne, Wyoming is where I was born. I grew up at home with my mother Kiara. My father Edward lived apart from us. My brother Tracy was already here when I was born. My brothers Evan and Aiden came after me. Back when I was 5, my first school was Lucerne Public Schools. Voting age came. Five months after that, my uncle Gregory moved away. As a result, my uncle Gregory left town.
+errors []

@@ -1,0 +1,45 @@
+seed bfb05444c33a place Goffstown, New Hampshire
+advance month 1: true
+advance month 2: true
+advance month 3: true
+advance month 4: true
+advance month 5: true
+advance month 6: true
+businesses 51
+  Munoz Building Services · enterprise:building-services · staff 68 · let go 2: layoff/demand-below-staff
+  Erickson Manufacturing · enterprise:manufacturing · staff 67 · let go 1: layoff/demand-below-staff
+  Cunningham's Market · enterprise:retail · staff 67 · let go 1: layoff/absent-from-work
+  Blake Manufacturing · enterprise:manufacturing · staff 66 · let go 5: layoff/demand-below-staff
+  Singh's Market · enterprise:retail · staff 64 · let go 4: layoff/demand-below-staff
+  Pittman Supply Company · enterprise:wholesale · staff 52 · let go 2: layoff/demand-below-staff
+  Cabrera's Kitchen · enterprise:food-service · staff 39 · let go 1: layoff/demand-below-staff
+  Clay Family Clinic · service:clinic · staff 27 · let go 1: layoff/demand-below-staff
+  Nicholson Fitness and Recreation · enterprise:recreation · staff 26 · let go 2: layoff/demand-below-staff
+  Wagner Construction · enterprise:construction · staff 19 · let go 1: layoff/demand-below-staff
+  Elliott Inn · enterprise:lodging · staff 17 · let go 1: layoff/demand-below-staff
+  York and Associates · enterprise:professional-services · staff 12 · let go 1: layoff/demand-below-staff
+  Maxwell Trucking · enterprise:transportation · staff 7 · let go 1: layoff/demand-below-staff
+  Cohen Insurance Agency · undefined · staff 5 · let go 1: layoff/demand-below-staff
+  Hillsborough County Business Services · enterprise:corporate-office · staff 4 · let go 1: layoff/demand-below-staff
+  Bennett Inn · undefined · staff 4 · let go 2: layoff/demand-below-staff
+let-go rows 27
+by reason {"demand-below-staff":26,"absent-from-work":1}
+TRACE job-change:2025-01-01:work-relationship_6850819797e2019a:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_e7ce0a84277a5667 (Munoz Building Services) person person_be66e6e7cff763b4 values {"turnoverPull":1.0015823889789586,"keepScore":0.7267884322678846,"tenureScore":2.0712328767123287,"workScore":-1.344444444444444,"workDecided":0}
+TRACE job-change:2025-06-01:work-relationship_49b43e40bb84b7cd:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_e7ce0a84277a5667 (Munoz Building Services) person person_76af34599ae919bc values {"turnoverPull":1.0086006696928633,"keepScore":-0.9412993354129924,"tenureScore":2.326027397260274,"workScore":-3.2673267326732662,"workDecided":0}
+TRACE job-change:2025-07-01:work-relationship_4db0044d957fa59f:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_b74f766b5da1410e (Erickson Manufacturing) person person_26c856c1f00993d7 values {"turnoverPull":1.0047696594443092,"keepScore":7.400608828006089,"tenureScore":5.956164383561644,"workScore":1.4444444444444442,"workDecided":0}
+no metrics tab
+no businesses panel
+select failed locator.selectOption: Timeout 600000ms exceeded.
+Call log:
+[2m  - waiting for l
+no change link
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.waitForTimeout: Target page, context or browser has been closed
+    at /tmp/claude-0/-home-claude/22ba4d3a-c88d-59e4-9c14-f567d6d0a0f7/scratchpad/player/layoffs.mjs:54:14 {
+  log: []
+}
+
+Node.js v22.23.4

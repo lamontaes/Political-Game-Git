@@ -1,0 +1,49 @@
+seed bfb05444c33a place Goffstown, New Hampshire
+advance month 1: true
+advance month 2: true
+advance month 3: true
+advance month 4: true
+advance month 5: true
+advance month 6: true
+businesses 51
+  Munoz Building Services · enterprise:building-services · staff 67 · let go 3: layoff/demand-below-staff
+  Erickson Manufacturing · enterprise:manufacturing · staff 66 · let go 3: layoff/demand-below-staff
+  Cunningham's Market · enterprise:retail · staff 65 · let go 3: layoff/absent-from-work, layoff/demand-below-staff
+  Blake Manufacturing · enterprise:manufacturing · staff 64 · let go 6: layoff/demand-below-staff
+  Lynch's Market · enterprise:retail · staff 64 · let go 2: layoff/demand-below-staff
+  Singh's Market · enterprise:retail · staff 64 · let go 4: layoff/demand-below-staff
+  Pittman Supply Company · enterprise:wholesale · staff 51 · let go 3: layoff/demand-below-staff
+  Cabrera's Kitchen · enterprise:food-service · staff 39 · let go 1: layoff/demand-below-staff
+  Hillsborough County Telephone Cooperative · enterprise:telecommunications · staff 34 · let go 1: layoff/demand-below-staff
+  Clay Family Clinic · service:clinic · staff 27 · let go 1: layoff/demand-below-staff
+  Nicholson Fitness and Recreation · enterprise:recreation · staff 25 · let go 3: layoff/demand-below-staff
+  Hutchinson Care Home · service:nursing-home · staff 19 · let go 1: layoff/demand-below-staff
+  Elliott Insurance Agency · enterprise:insurance · staff 16 · let go 2: layoff/demand-below-staff
+  Elliott Inn · enterprise:lodging · staff 14 · let go 4: layoff/demand-below-staff
+  York and Associates · enterprise:professional-services · staff 12 · let go 1: layoff/demand-below-staff
+  Maxwell Trucking · enterprise:transportation · staff 8 · let go 1: layoff/absent-from-work
+  Bennett Inn · undefined · staff 2 · let go 4: layoff/demand-below-staff
+  Cohen Insurance Agency · undefined · staff 1 · let go 5: layoff/demand-below-staff
+  Garner Manufacturing · undefined · staff 0 · let go 1: layoff/demand-below-staff
+  Montoya Manufacturing · undefined · staff 0 · let go 3: layoff/demand-below-staff
+let-go rows 52
+by reason {"demand-below-staff":50,"absent-from-work":2}
+TRACE job-change:2025-01-01:work-relationship_6850819797e2019a:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_e7ce0a84277a5667 (Munoz Building Services) person person_be66e6e7cff763b4 values {"letGoPull":1.0088186660503047,"letGoScore":-3.887518365000195,"valueYears":0.7267884322678846,"staffOver":-0.03756128554768628,"lossMonths":0,"keepScore":0.7267884322678846,"tenureScore":2.0712328767123287,"workScore":-1.344444444444444,"workDecided":0}
+TRACE job-change:2025-03-01:work-relationship_49b43e40bb84b7cd:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_e7ce0a84277a5667 (Munoz Building Services) person person_76af34599ae919bc values {"letGoPull":1.0145779446468337,"letGoScore":-3.474846837460997,"valueYears":-1.1933541299335402,"staffOver":-0.05426025532219726,"lossMonths":0,"keepScore":-1.1933541299335402,"tenureScore":2.073972602739726,"workScore":-3.2673267326732662,"workDecided":0}
+TRACE job-change:2025-07-01:job:position:organization_e7ce0a84277a5667:2024-12-21:standing:3:person_4fa6e7da70a70cda:layoff engine jobs.changes kind layoff reason demand-below-staff org organization_e7ce0a84277a5667 (Munoz Building Services) person person_4fa6e7da70a70cda values {"letGoPull":1.001911580818882,"letGoScore":-4.15793544008045,"valueYears":1.1976389352934627,"staffOver":-0.04122338404581808,"lossMonths":0,"keepScore":1.1976389352934627,"tenureScore":0.4821917808219178,"workScore":0.7154471544715447,"workDecided":0}
+no metrics tab
+no businesses panel
+select failed locator.selectOption: Timeout 600000ms exceeded.
+Call log:
+[2m  - waiting for l
+no change link
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.waitForTimeout: Target page, context or browser has been closed
+    at /tmp/claude-0/-home-claude/22ba4d3a-c88d-59e4-9c14-f567d6d0a0f7/scratchpad/player/layoffs.mjs:54:14 {
+  log: []
+}
+
+Node.js v22.23.4
