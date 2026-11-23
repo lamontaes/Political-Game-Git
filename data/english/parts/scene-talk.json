@@ -49964,6 +49964,14 @@
           "purpose": "owed-apology",
           "key": "routine",
           "onlyWhen": ["payment"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -66868,6 +66876,14 @@
           "purpose": "layoff-terms",
           "key": "loss",
           "requiresFacts": ["employer", "position", "workplace"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask.hearing-small",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -70315,34 +70331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "That's not a conversation for today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "donor-ask.hearing-small",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "Then I'll find a candidate who listens.",
+      "text": "Then I'll find a candidate who listens on {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70366,7 +70358,7 @@
       "key": "scene-talk.follow-threaten.don-t-count-on-my-help-next-time",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "Don't count on my help next time.",
+      "text": "Don't count on my help next time, not on {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70390,7 +70382,7 @@
       "key": "scene-talk.close-warn.i-won-t-forget-this",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I won't forget this.",
+      "text": "I won't forget this. It's about {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70422,7 +70414,7 @@
       "key": "scene-talk.close-warn.don-t-expect-the-next-one-to-come-easy",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't expect the next one to come easy.",
+      "text": "Don't expect the next one to come easy. Not with {about} on the table.",
       "uses": [
         {
           "key": "favor-asked",
@@ -70454,7 +70446,7 @@
       "key": "scene-talk.reply-leave.i-m-not-discussing-this",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm not discussing this.",
+      "text": "Not discussing this.",
       "uses": [
         {
           "key": "favor-asked",
@@ -70486,7 +70478,7 @@
       "key": "scene-talk.follow-press.that-s-not-a-no",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's not a no.",
+      "text": "That's not a no. Say where you stand on {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70511,7 +70503,7 @@
       "key": "scene-talk.follow-press.that-s-not-a-yes-either",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's not a yes either.",
+      "text": "That's not a yes either. Say where you stand on {about}.",
       "uses": [
         {
           "after": "deflect",
@@ -70536,7 +70528,7 @@
       "key": "scene-talk.follow-press.you-didn-t-answer-me",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You didn't answer me.",
+      "text": "You didn't answer me. Where do you stand on {about}?",
       "uses": [
         {
           "after": "deflect",
@@ -70561,7 +70553,7 @@
       "key": "scene-talk.reply-leave.i-have-to-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go.",
+      "text": "I must go.",
       "uses": [
         {
           "subject": "scene",
@@ -70593,7 +70585,7 @@
       "key": "scene-talk.open-greet.i-know-i-m-not-one-of-the-big-names-i-won-t-take-long",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I know I'm not one of the big names. I won't take long.",
+      "text": "I know I'm not one of the big names. I won't take long. It's {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70617,7 +70609,7 @@
       "key": "scene-talk.open-greet.i-gave-what-i-could-i-d-like-a-minute-if-you-have-one",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I gave what I could. I'd like a minute, if you have one.",
+      "text": "I gave what I could. I'd like a minute on {about}, if you have one.",
       "uses": [
         {
           "subject": "scene",
@@ -70641,7 +70633,7 @@
       "key": "scene-talk.close-thank.thank-you-for-listening-that-s-more-than-i-expected",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for listening. That's more than I expected.",
+      "text": "Thank you for listening, {first}. That's more than I expected.",
       "uses": [
         {
           "subject": "scene",
@@ -70690,7 +70682,7 @@
       "key": "scene-talk.open-greet.i-ll-get-to-it-i-know-you-re-busy",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'll get to it. I know you're busy.",
+      "text": "I'll get to it. I know you're busy. It's about {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70714,7 +70706,7 @@
       "key": "scene-talk.open-greet.you-know-why-i-m-here",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "You know why I'm here.",
+      "text": "You know why I'm here. It's {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70738,7 +70730,7 @@
       "key": "scene-talk.state-request.i-m-not-here-for-a-thank-you-note-i-m-here-to-find-out-what-my-suppor",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm not here for a thank-you note. I'm here to find out what my support gets me.",
+      "text": "I'm not here for a thank-you note. I'm here to find out what my support gets me on {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70762,7 +70754,7 @@
       "key": "scene-talk.follow-thank.good-i-ll-tell-the-others-you-re-listening",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. I'll tell the others you're listening.",
+      "text": "Good. I'll tell the others you're listening on {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70787,7 +70779,7 @@
       "key": "scene-talk.follow-threaten.i-can-give-again-next-time-or-i-can-give-to-your-opponent-think-about",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "I can give again next time, or I can give to your opponent. Think about it.",
+      "text": "I can give again next time, or I can give to your opponent. Think about {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -70812,7 +70804,7 @@
       "key": "scene-talk.close-accept.then-we-understand-each-other-good-day",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Then we understand each other. Good day.",
+      "text": "Then we understand each other on {about}. Good day.",
       "uses": [
         {
           "subject": "scene",
@@ -70837,7 +70829,7 @@
       "key": "scene-talk.reply-leave.that-s-all-the-time-i-have-thank-you",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "That's all the time I have. Thank you.",
+      "text": "That's all, {donor-first}. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -70861,7 +70853,7 @@
       "key": "scene-talk.reply-decline.i-took-your-money-and-i-ll-hear-you-i-won-t-take-instructions",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I took your money and I'll hear you. I won't take instructions.",
+      "text": "I took your {money}, and I'll hear you. I won't take instructions.",
       "uses": [
         {
           "subject": "scene",
@@ -70910,7 +70902,7 @@
       "key": "scene-talk.state-request.i-m-not-asking-for-a-promise-i-m-asking-you-to-hear-me-once",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm not asking for a promise. I'm asking you to hear me once.",
+      "text": "I'm not asking for a promise on {about}. I'm asking you to hear me once.",
       "uses": [
         {
           "subject": "scene",
@@ -70934,7 +70926,7 @@
       "key": "scene-talk.state-request.i-gave-a-lot-i-d-like-to-know-you-ll-hear-me-when-i-ask",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I gave a lot. I'd like to know you'll hear me when I ask.",
+      "text": "I gave a lot. I'd like to know you'll hear me on {about} when I ask.",
       "uses": [
         {
           "subject": "scene",
@@ -70958,7 +70950,7 @@
       "key": "scene-talk.reply-agree.go-ahead-i-m-listening",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Go ahead. I'm listening.",
+      "text": "Go ahead.",
       "uses": [
         {
           "subject": "scene",
@@ -71006,7 +70998,7 @@
       "key": "scene-talk.reply-agree.i-ll-hear-you-out-tell-me-all-of-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll hear you out. Tell me all of it.",
+      "text": "I'll hear you.",
       "uses": [
         {
           "subject": "scene",
@@ -71054,7 +71046,7 @@
       "key": "scene-talk.reply-decline.a-gift-doesn-t-change-what-i-d-do-in-office-i-ll-still-hear-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "A gift doesn't change what I'd do in office. I'll still hear you.",
+      "text": "Thank you, {donor-first}. A gift doesn't change what I'd do in office. I'll still hear you.",
       "uses": [
         {
           "subject": "scene",
@@ -71075,39 +71067,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.not-now-i-can-t-get-into-it-here",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Not now. I can't get into it here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "donor-ask.hearing-small",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words lead (donor ask, candidate lines, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.i-heard-the-threat-my-answer-is-the-same",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I heard the threat. My answer is the same.",
+      "text": "Same answer.",
       "uses": [
         {
           "subject": "scene",
