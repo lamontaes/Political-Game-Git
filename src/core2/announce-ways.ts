@@ -17,10 +17,7 @@ import type { AnnouncedBy } from "./modules/elections";
 import { closenessBetween } from "./closeness";
 import { PARTIES_MODULE_ID, partyTie, partiesHere } from "./modules/parties";
 import { MEETINGS_MODULE_ID, type TownHallRow } from "./modules/meetings";
-import {
-  PUBLIC_ACTION_MODULE_ID,
-  type ActionRow,
-} from "./modules/public-action";
+import { PUBLIC_ACTION_MODULE_ID, type ActionRow } from "./modules/people";
 
 export type AnnounceChannel = AnnouncedBy["channel"];
 
