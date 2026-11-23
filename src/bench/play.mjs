@@ -5565,22 +5565,27 @@ const sheets = {
                   stripSection(
                     3,
                     labels.lastTime,
-                    dotRows([
-                      {
-                        label: dateWords(race.lastTime.date, {
-                          year: today(),
-                        }),
-                        value: race.lastTime.winnerId
-                          ? nameLink(race.lastTime.winner, () =>
-                              showPerson({ personId: race.lastTime.winnerId }),
-                            )
-                          : race.lastTime.winner,
-                      },
-                      {
-                        label: labels.share,
-                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
-                      },
-                    ]),
+                    dotRows(
+                      [
+                        {
+                          label: dateWords(race.lastTime.date, {
+                            year: today(),
+                          }),
+                          value: race.lastTime.winnerId
+                            ? nameLink(race.lastTime.winner, () =>
+                                showPerson({
+                                  personId: race.lastTime.winnerId,
+                                }),
+                              )
+                            : race.lastTime.winner,
+                        },
+                        {
+                          label: labels.share,
+                          value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                        },
+                      ],
+                      { oneLine: true },
+                    ),
                   ),
                 ]
               : []),
