@@ -7425,9 +7425,18 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 220 }),
-  );
+  // The look being left stays up until the new one has every piece, so the
+  // portrait is never blank while the look changes (owner, Nov 16, N16-9).
+  const portrait = drawFace(view.faces[tab], { shape: "bust", column: 220 });
+  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
+  const arrived = portrait.querySelector(".bust-stack")?.ready;
+  if (!arrived || !$("cr-bust").firstChild)
+    $("cr-bust").replaceChildren(portrait);
+  else
+    void arrived.then(() => {
+      if (portraitTurn === setup.portraitTurn)
+        $("cr-bust").replaceChildren(portrait);
+    });
   const row = (r) =>
     lookRow(r, {
       onPick: (id, option) => void pickLook(id, option),
