@@ -12,7 +12,7 @@
 import type { CoreAPI, CoreState } from "../types";
 import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
-import { serviceOf, veteranShare } from "../past";
+import { serviceOf } from "../past";
 import { reachParameter, townFacts } from "./group-b-people";
 import { getRow, putRow, REACH_B_MODULE_ID } from "./group-b-store";
 import { coreAPI } from "../state";
@@ -21,6 +21,7 @@ import {
   governmentAt,
   reconcileObligations,
   recordLineShare,
+  takesUp,
 } from "./group-b-money";
 
 /** The federal budget line veterans' benefits are paid from, and its law-reach key. */
@@ -90,12 +91,10 @@ export function payVeterans(api: CoreAPI): {
   const facts = townFacts(api, town);
   const line = federalBenefitLine(api, VETERANS_LINE);
   const cents = reachParameter("centsPerDollar");
-  // Each veteran's expected benefit: the average paid to one who draws,
-  // times the share who draw. Nobody is picked; each is paid the share.
+  // Each veteran's benefit: the average paid to one who draws. Who draws is
+  // each veteran's own case to take it up (`takesUp`), not a published share.
   const base = Math.round(
-    reachParameter("veteransMonthlyBenefitDollars") *
-      reachParameter("veteransDrawShare") *
-      cents,
+    reachParameter("veteransMonthlyBenefitDollars") * cents,
   );
   const monthly = Math.round(base * line.level);
   const want = new Map<string, number>();
@@ -112,28 +111,45 @@ export function payVeterans(api: CoreAPI): {
   let named = 0;
   let countedVeterans = 0;
   if (monthly > 0) {
+    // One model, two tiers: the counted residents' veterans who draw are the
+    // full residents' own share by ten-year age band (their served records
+    // and their own take-up), times the counted count in that band.
+    const band = (age: number) => Math.floor(age / 10);
+    const full = new Map<number, { people: number; drawing: number }>();
     for (const r of facts.residents) {
-      if (r.named) {
-        if (!served(core, r.id)) continue;
-        named += 1;
-        want.set(`${payer.id}|${r.id}`, monthly);
-        add(r.householdId, monthly);
-        recordLineShare(api, line, {
-          key: VETERANS_KEY,
-          targetId: r.id,
-          target: "person",
-          what: "veterans-benefit-changed-by-line",
-          baseMinor: base,
-          paidMinor: monthly,
-        });
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const row = full.get(band(r.age)) ?? { people: 0, drawing: 0 };
+      row.people += 1;
+      full.set(band(r.age), row);
+      if (!served(core, r.id)) continue;
+      if (
+        !takesUp(
+          api,
+          r.id,
+          monthly,
+          facts.households.get(r.householdId),
+          VETERANS_KEY,
+        ).yes
+      )
         continue;
-      }
-      // A counted row carries no sex: the veteran share is the mean of the
-      // two at its age (ACS B21001).
-      const share =
-        (veteranShare(town, "male", r.age) +
-          veteranShare(town, "female", r.age)) /
-        2;
+      row.drawing += 1;
+      named += 1;
+      want.set(`${payer.id}|${r.id}`, monthly);
+      add(r.householdId, monthly);
+      recordLineShare(api, line, {
+        key: VETERANS_KEY,
+        targetId: r.id,
+        target: "person",
+        what: "veterans-benefit-changed-by-line",
+        baseMinor: base,
+        paidMinor: monthly,
+      });
+    }
+    for (const r of facts.residents) {
+      if (r.named || r.age < reachParameter("votingAge")) continue;
+      const row = full.get(band(r.age));
+      if (!row?.people) continue;
+      const share = row.drawing / row.people;
       countedVeterans += share * (r.scale ?? 1);
       add(r.householdId, monthly * share);
     }

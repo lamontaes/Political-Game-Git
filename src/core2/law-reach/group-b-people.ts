@@ -246,10 +246,19 @@ export function placesFacts(
   const namedMinutes = activeMinutes(commitments, date);
   // An owner works at their own business whether or not a work commitment
   // records it (an outlet's publisher has none): the work requirement counts
-  // the average hours of the self-employed, from the business's owner record.
-  const ownerMinutes =
-    reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
-  const owners = new Set<string>();
+  // the week the business's own staff are scheduled (the mean of their
+  // commitments), or the owner's own commitments where those are longer. A
+  // business with no staff on record gives its owner the self-employed
+  // average week (stopgap SG-GOV-REACH-B-owner-hours-no-staff).
+  const staffWeek = new Map<string, { minutes: number; staff: number }>();
+  for (const row of core.work.commitments.values()) {
+    if (row.endsAt !== undefined && row.endsAt < date) continue;
+    const week = staffWeek.get(row.organizationId) ?? { minutes: 0, staff: 0 };
+    week.minutes += row.expectedWeeklyMinutes;
+    week.staff += 1;
+    staffWeek.set(row.organizationId, week);
+  }
+  const owners = new Map<string, number>();
   for (const [orgId, book] of core.finance.businesses) {
     if (
       book.closedAt ||
@@ -261,10 +270,22 @@ export function placesFacts(
         ? api.moduleState(BUSINESS_MODULE_ID).table("owners").get(orgId)
         : undefined
     ) as { ownerId?: string } | undefined;
-    if (owner?.ownerId) owners.add(owner.ownerId);
+    if (!owner?.ownerId) continue;
+    const week = staffWeek.get(orgId);
+    let minutes: number;
+    if (week?.staff) minutes = week.minutes / week.staff;
+    else {
+      api.stopgap("SG-GOV-REACH-B-owner-hours-no-staff");
+      minutes =
+        reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
+    }
+    owners.set(
+      owner.ownerId,
+      Math.max(owners.get(owner.ownerId) ?? 0, minutes),
+    );
   }
-  for (const id of owners)
-    namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, ownerMinutes));
+  for (const [id, minutes] of owners)
+    namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, minutes));
   const namedByHousehold = new Map<string, string[]>();
   for (const id of namedIn) {
     const person = core.people.get(id);
@@ -320,9 +341,8 @@ export function placesFacts(
     for (const h of store.liveHouseholds()) {
       if (!places.has(h.placeId)) continue;
       const minutes = activeMinutes(h.workCommitments, date);
-      for (const id of owners)
-        if (minutes.has(id))
-          minutes.set(id, Math.max(minutes.get(id)!, ownerMinutes));
+      for (const [id, owned] of owners)
+        if (minutes.has(id)) minutes.set(id, Math.max(minutes.get(id)!, owned));
       const jobs = h.jobs.filter(
         (job) => countedJob(core, job.id) !== undefined,
       );

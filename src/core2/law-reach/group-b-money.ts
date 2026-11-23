@@ -15,6 +15,7 @@ import {
   type AppliedTarget,
 } from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { filingDecision } from "../modules/jobs";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
@@ -40,6 +41,7 @@ import {
   reachParameter,
   reachParameterSpread,
   townFacts,
+  type HouseholdFacts,
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
@@ -328,8 +330,11 @@ export function scalePayroll(
     readonly key: string;
     readonly jobs: readonly JobInput[];
     readonly townDeltaMinor: number;
-    readonly compensationShare: number;
+    /** The town's share of the line at its base, cents a year (`lineLevel`). */
+    readonly townBaseMinor: number;
     readonly modeledShare: number;
+    /** Receives the share of the line's spending that is its staff's pay, read from the books. */
+    readonly onCompensationShare?: (share: number) => void;
   },
 ): Map<string, number> {
   const core = api.state as CoreState;
@@ -371,9 +376,17 @@ export function scalePayroll(
   });
   const payroll =
     bases.reduce((n, b) => n + b.dailyMinor, 0) * reachParameter("daysPerYear");
+  // The share of the line's spending that is pay, from the government's own
+  // books: the modeled staff's payroll over the line's base spending for the
+  // people modeled (no published share; Pins family 27). A change to the line
+  // moves pay by that share of it.
+  const lineMinor = input.townBaseMinor * input.modeledShare;
+  const compensationShare =
+    lineMinor > 0 ? Math.min(1, payroll / lineMinor) : 0;
+  input.onCompensationShare?.(compensationShare);
   const raise =
     payroll > 0
-      ? (input.townDeltaMinor * input.compensationShare * input.modeledShare) /
+      ? (input.townDeltaMinor * compensationShare * input.modeledShare) /
         payroll
       : 0;
   const out = new Map<string, number>();
@@ -1251,6 +1264,8 @@ export function payPreschool(
     readonly inForce: boolean;
     readonly children: readonly ResidentFacts[];
     readonly residents: readonly ResidentFacts[];
+    /** Every household's facts, for its own take-up (`takesUp`). */
+    readonly households: ReadonlyMap<string, HouseholdFacts>;
   },
 ): {
   readonly named: ReadonlyMap<string, Record<string, number>>;
@@ -1267,7 +1282,6 @@ export function payPreschool(
   if (input.inForce && state) {
     const monthly = Math.round(
       (reachParameter("preschoolStateSpendingPerChildDollars") *
-        reachParameter("preschoolEnrolledShare") *
         reachParameter("centsPerDollar")) /
         reachParameter("monthsPerYear"),
     );
@@ -1286,7 +1300,20 @@ export function payPreschool(
       (a) => a.placeId === town,
     )?.accountId;
     let countedChildren = 0;
+    const takers = new Map<string, boolean>();
     for (const child of input.children) {
+      // Each household takes the benefit up or leaves it, by its own case.
+      const decided =
+        takers.get(child.householdId) ??
+        takesUp(
+          api,
+          heads.get(child.householdId)?.id,
+          monthly,
+          input.households.get(child.householdId),
+          input.key,
+        ).yes;
+      takers.set(child.householdId, decided);
+      if (!decided) continue;
       if (!child.named) {
         countedChildren += (child.weight ?? 1) * (child.scale ?? 1);
         continue;
@@ -1334,6 +1361,61 @@ export function payPreschool(
 }
 
 /**
+ * Whether a household eligible for a benefit takes it up: the same case a
+ * laid-off worker weighs filing for unemployment (jobs-benefits.ts
+ * `filingDecision`), with the benefit as the share of the household's own
+ * income plus the benefit that it would replace. The household's head decides
+ * by their own traits and stress; a counted household's row decides by the
+ * same rule with no traits of its own (a lean of zero). A poorer household
+ * takes up a benefit a richer one leaves; nobody is paid a published share
+ * of a benefit (Pins family 27).
+ */
+export function takesUp(
+  api: CoreAPI,
+  headId: string | undefined,
+  benefitMonthlyMinor: number,
+  household: HouseholdFacts | undefined,
+  /** The law's key, so the household's case for each program is kept apart. */
+  key = "benefit",
+): { readonly yes: boolean; readonly replaced: number } {
+  if (benefitMonthlyMinor <= 0) return { yes: false, replaced: 0 };
+  const incomeMonthlyMinor =
+    (Math.max(household?.incomeDollars ?? 0, 0) *
+      reachParameter("centsPerDollar")) /
+    reachParameter("monthsPerYear");
+  const replaced =
+    benefitMonthlyMinor / (benefitMonthlyMinor + incomeMonthlyMinor);
+  const head = headId ? api.state.people.get(headId) : undefined;
+  const decided = filingDecision(
+    api,
+    head ?? { traits: {} },
+    head ?? {},
+    replaced,
+    "benefitTakeUpBase",
+  );
+  // The household's case, kept for dev mode's Trace box: why it took the
+  // benefit up or left it.
+  if (household)
+    putRow(api, "takeUps", {
+      id: `take-up:${key}:${household.id}`,
+      key,
+      householdId: household.id,
+      scale: household.scale ?? 1,
+      headId: headId ?? null,
+      date: api.state.date,
+      benefitMonthlyMinor,
+      incomeMonthlyMinor: Math.round(incomeMonthlyMinor),
+      replaced,
+      base: decided.baseline,
+      replacement: decided.replacement,
+      lean: decided.lean,
+      hardship: decided.hardship.term,
+      takesUp: decided.files,
+    });
+  return { yes: decided.files, replaced };
+}
+
+/**
  * Child care assistance as a payment: the state treasury pays the household
  * of each eligible child (the law's income limit, working parents) the
  * average CCDF subsidy a month, times the share of eligible children who
@@ -1351,6 +1433,8 @@ export function payChildCare(
     readonly inForce: boolean;
     readonly children: readonly ResidentFacts[];
     readonly residents: readonly ResidentFacts[];
+    /** Every household's facts, for its own take-up (`takesUp`). */
+    readonly households: ReadonlyMap<string, HouseholdFacts>;
   },
 ): {
   readonly named: ReadonlyMap<string, Record<string, number>>;
@@ -1367,7 +1451,6 @@ export function payChildCare(
   if (input.inForce && state) {
     const monthly = Math.round(
       reachParameter("childCareMonthlySubsidyDollars") *
-        reachParameter("childCareTakeUpShare") *
         reachParameter("centsPerDollar"),
     );
     const heads = new Map<string, ResidentFacts>();
@@ -1385,7 +1468,20 @@ export function payChildCare(
       (a) => a.placeId === town,
     )?.accountId;
     let countedChildren = 0;
+    const takers = new Map<string, boolean>();
     for (const child of input.children) {
+      // Each household takes the benefit up or leaves it, by its own case.
+      const decided =
+        takers.get(child.householdId) ??
+        takesUp(
+          api,
+          heads.get(child.householdId)?.id,
+          monthly,
+          input.households.get(child.householdId),
+          input.key,
+        ).yes;
+      takers.set(child.householdId, decided);
+      if (!decided) continue;
       if (!child.named) {
         countedChildren += (child.weight ?? 1) * (child.scale ?? 1);
         continue;
@@ -1448,11 +1544,7 @@ export function payEnergyAssistance(
     readonly key: string;
     readonly lawId: string;
     readonly inForce: boolean;
-    readonly households: readonly {
-      readonly id: string;
-      readonly named: boolean;
-      readonly scale?: number;
-    }[];
+    readonly households: readonly HouseholdFacts[];
     readonly residents: readonly ResidentFacts[];
   },
 ): {
@@ -1470,7 +1562,6 @@ export function payEnergyAssistance(
   if (input.inForce && state) {
     const monthly = Math.round(
       (reachParameter("energyAssistanceAnnualBenefitDollars") *
-        reachParameter("energyAssistanceTakeUpShare") *
         reachParameter("centsPerDollar")) /
         reachParameter("monthsPerYear"),
     );
@@ -1490,6 +1581,17 @@ export function payEnergyAssistance(
     )?.accountId;
     let countedHouseholds = 0;
     for (const household of input.households) {
+      // Each household takes the benefit up or leaves it, by its own case.
+      if (
+        !takesUp(
+          api,
+          heads.get(household.id)?.id,
+          monthly,
+          household,
+          input.key,
+        ).yes
+      )
+        continue;
       if (!household.named) {
         countedHouseholds += household.scale ?? 1;
         continue;
@@ -1578,7 +1680,6 @@ export function paySsi(
   if (input.inForce && payer) {
     const cents = reachParameter("centsPerDollar");
     const months = reachParameter("monthsPerYear");
-    const share = reachParameter("ssiTakeUpShare");
     const exclusion = reachParameter("ssiGeneralIncomeExclusionDollars");
     const heads = new Map<string, ResidentFacts>();
     for (const r of input.residents) {
@@ -1606,9 +1707,20 @@ export function paySsi(
         0,
         input.rateDollars - Math.max(0, perMember - exclusion),
       );
-      const base = Math.round(each * household.agedCount * share * cents);
+      const base = Math.round(each * household.agedCount * cents);
       const monthly = Math.round(base * line.level);
       if (monthly <= 0) continue;
+      // The household takes it up or leaves it, by its own case.
+      if (
+        !takesUp(
+          api,
+          heads.get(household.id)?.id,
+          monthly,
+          { ...household, ages: [] },
+          input.key,
+        ).yes
+      )
+        continue;
       if (!household.named) {
         const weight = household.scale ?? 1;
         countedMinor += monthly * weight;

@@ -263,6 +263,28 @@ export function regionalFactors(
   };
 }
 
+/**
+ * Every region of a state at the latest month the economy has stepped, as
+ * the world keeps them (their own earnings and people); none before the
+ * economy runs.
+ */
+export function stateRegionsNow(
+  api: CoreAPI,
+  stateUsps: string,
+): RegionMonth[] {
+  if (!api.state.modules.has("macro")) return [];
+  const state = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth: string } | undefined;
+  if (!state) return [];
+  return REGIONS.filter((row) => row.stateUsps === stateUsps).flatMap((row) => {
+    const month = store(api)
+      .table("months")
+      .get(`${row.id}:${state.latestMonth}`) as unknown as
+      RegionMonth | undefined;
+    return month ? [month] : [];
+  });
+}
+
 /** The level a new hire's pay offer and a rent read: the region's latest month. */
 export function regionalLevel(
   api: CoreAPI,

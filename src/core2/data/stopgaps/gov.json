@@ -2100,5 +2100,29 @@
     "addedAt": "2026-11-17",
     "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-owner-hours-no-staff",
+    "kind": "assumed-data",
+    "file": "src/core2/law-reach/group-b-people.ts",
+    "line": 278,
+    "whatItFakes": "An owner whose business has no staff on record and who has no work commitment of their own is counted at the self-employed average week (ownerWeeklyHours, CPS 2023) for Medicaid and SNAP work rules.",
+    "why": "A business keeps no opening hours, and a sole owner's own week is recorded only when they hold a work commitment; with staff, the owner's week is the staff's scheduled week (Pins family 27).",
+    "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
+    "addedAt": "2026-11-17",
+    "replacement": "The owner's own work commitment at their business, written when the business opens or the owner is filled in.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-fares-pension-no-books",
+    "kind": "missing-record",
+    "file": "src/core2/law-reach/group-b.ts",
+    "line": 455,
+    "whatItFakes": "Free transit replaces fares at transitFareboxPerResidentDollars ($28, NTD 2023 national) a resident, and funding pensions to schedule adds pensionShortfallPerResidentDollars ($70, Pew 2023 / Equable 2024 national) a resident, the same in every world, instead of the government's own fare receipts and pension shortfall.",
+    "why": "No government in the world keeps its riders' fares or its pension obligations on its books, so there is nothing of its own to read (Pins family 27, CTO LIFT THE PINS).",
+    "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each government's own transit fare receipts and its pension plan's obligations against its assets, kept in its budget books (Budgets lane, family 17), read when the law is enacted.",
+    "status": "open"
   }
 ]
