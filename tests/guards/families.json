@@ -294,6 +294,7 @@
         "src/core2/town-workplaces.ts",
         "src/core2/town-employment-mix.ts",
         "src/core2/town-pay.ts",
+        "src/core2/town-labor-pay.ts",
         "src/core2/public-payroll.ts",
         "src/core2/public-work-pay.ts",
         "src/core2/question-wages.ts",
