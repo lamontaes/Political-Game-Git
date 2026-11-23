@@ -58,11 +58,19 @@ it(`a raise in federal transportation reaches the state's and the town's treasur
     const until = addDays(makeIsoDate(raised.api.state.date), 70);
     advanceCore(raised.w.core, until);
     advanceCore(alone.w.core, until);
-    // Every lower government of the town's chain that receives federal aid.
+    // The bill's own reach: the government rows it wrote, with the dollars paid.
+    const applied = appliedOn(raised.api, `budget-line:${LINE}`).filter(
+      (r) => r.lawId === MEASURE && r.target === "government",
+    );
+    // Every lower government of the town's chain that receives federal aid
+    // directly from the bill. A county that is paid only by its state (Lluveras,
+    // Puerto Rico: the county's 708,014 cents are the same in both worlds) is
+    // not a recipient of the federal line and has no row.
     const lower = governments(raised.api).filter(
       (g) =>
         g.level !== "federal" &&
-        treasuryMonthsOf(alone.api, g.id).some((m) => m.aidReceivedMinor > 0),
+        treasuryMonthsOf(alone.api, g.id).some((m) => m.aidReceivedMinor > 0) &&
+        applied.some((r) => r.targetId === g.id),
     );
     const received = (api: typeof raised.api, id: string) =>
       treasuryMonthsOf(api, id).reduce((n, m) => n + m.aidReceivedMinor, 0);
@@ -87,9 +95,6 @@ it(`a raise in federal transportation reaches the state's and the town's treasur
     // (its payments follow its cash), so it receives the bill's dollars in full
     // and the state's own change besides.
     expect(reach.governmentOwnMinor).toBe(0);
-    const applied = appliedOn(raised.api, `budget-line:${LINE}`).filter(
-      (r) => r.lawId === MEASURE && r.target === "government",
-    );
     const appliedTo = (id: string) =>
       applied
         .filter((r) => r.targetId === id)
@@ -153,10 +158,17 @@ it(`a cut in federal transportation takes aid away, and putting it back restores
     const cutUntil = addDays(makeIsoDate(cut.api.state.date), 40);
     advanceCore(cut.w.core, cutUntil);
     advanceCore(alone.w.core, cutUntil);
+    // The cut's own reach names each government, with the aid it no longer sends.
+    const cutRows = appliedOn(cut.api, `budget-line:${LINE}`).filter(
+      (r) => r.lawId === CUT && r.target === "government",
+    );
+    // Lower governments the federal line pays directly: a county paid only by
+    // its state has no row and receives the same in both worlds.
     const lower = governments(cut.api).filter(
       (g) =>
         g.level !== "federal" &&
-        treasuryMonthsOf(alone.api, g.id).some((m) => m.aidReceivedMinor > 0),
+        treasuryMonthsOf(alone.api, g.id).some((m) => m.aidReceivedMinor > 0) &&
+        cutRows.some((r) => r.targetId === g.id),
     );
     const received = (api: typeof cut.api, id: string, from = ""): number =>
       treasuryMonthsOf(api, id)
@@ -165,11 +177,7 @@ it(`a cut in federal transportation takes aid away, and putting it back restores
     expect(lower.some((g) => g.level === "state")).toBe(true);
     for (const g of lower)
       expect(received(cut.api, g.id)).toBeLessThan(received(alone.api, g.id));
-    // The cut's own reach names each government, with the aid it no longer sends.
-    const cutRows = appliedOn(cut.api, `budget-line:${LINE}`).filter(
-      (r) => r.lawId === CUT && r.target === "government",
-    );
-    expect(cutRows.map((r) => r.targetId).sort()).toEqual(
+    expect([...new Set(cutRows.map((r) => r.targetId))].sort()).toEqual(
       lower.map((g) => g.id).sort(),
     );
     for (const r of cutRows) expect(r.amountMinor).toBeLessThan(0);

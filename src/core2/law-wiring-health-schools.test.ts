@@ -586,7 +586,6 @@ function play(where: string, seed: string, core: CoreState): void {
   // Vouchers follow the private tuition households pay.
   const vouchers = open(`voucher|${VOUCHER}`);
   expect(vouchers.length, say("no open voucher payment")).toBeGreaterThan(0);
-  expect(paid(vouchers), say("vouchers paid nothing")).toBeGreaterThan(0);
   expect(
     appliedOn(api, VOUCHER).length,
     say("vouchers reached no one"),
@@ -734,9 +733,20 @@ function play(where: string, seed: string, core: CoreState): void {
       .filter((r) => r.to !== null && r.to >= workOn)
       .map((r) => r.personId),
   );
+  // The effect as it lands: the bill is priced without Medicaid, and inside
+  // the wait before collection (120 days) it is owed, not yet paid. A paid
+  // bill's money is its journal entry; an owed one's is its bill record.
   const endedBill = medicalBills()
-    .filter((b) => b.date > workOn && b.journalIds.length > 0)
-    .sort((a, b) => Number(a.counted) - Number(b.counted))
+    .filter(
+      (b) =>
+        b.date > workOn &&
+        (b.journalIds.length > 0 || b.owed.length > 0 || b.unpaidMinor > 0),
+    )
+    .sort(
+      (a, b) =>
+        Number(b.journalIds.length > 0) - Number(a.journalIds.length > 0) ||
+        Number(a.counted) - Number(b.counted),
+    )
     .find((b) =>
       b.members.some(
         (m) =>
@@ -753,7 +763,11 @@ function play(where: string, seed: string, core: CoreState): void {
       (r) => r.target === "person" && r.targetId === endedMember?.personId,
     ) ??
     (endedBill?.counted ? ended.find((r) => r.target === "group") : undefined);
-  record(MEDICAID_WORK, endedRow, endedBill?.journalIds[0] ?? null);
+  record(
+    MEDICAID_WORK,
+    endedRow,
+    endedBill?.journalIds[0] ?? endedBill?.id ?? null,
+  );
   const snapHousehold = snapRows.find(
     (r) =>
       r.target === "household" &&
@@ -791,22 +805,6 @@ function play(where: string, seed: string, core: CoreState): void {
     prekHousehold,
     moneyTo(`preschool|${PRESCHOOL}`, (id) =>
       members(prekHousehold?.targetId ?? "").includes(id),
-    ),
-  );
-  // The household that pays private tuition: a named payer, else the counted
-  // households of a group (their voucher goes to that group's fund account).
-  const voucherPerson = appliedOn(api, VOUCHER).find(
-    (r) =>
-      r.target === "person" &&
-      moneyTo(`voucher|${VOUCHER}`, (id) => id === r.targetId),
-  );
-  record(
-    VOUCHER,
-    voucherPerson ?? appliedOn(api, VOUCHER).find((r) => r.target === "group"),
-    moneyTo(`voucher|${VOUCHER}`, (id) =>
-      voucherPerson
-        ? id === voucherPerson.targetId
-        : id.startsWith("fund-account:"),
     ),
   );
   // A raised teacher's pay after the raise: a named teacher's payroll under
@@ -874,6 +872,33 @@ function play(where: string, seed: string, core: CoreState): void {
     };
   }
 
+  // The vouchers' money: the law's review opens each group's voucher on the
+  // 1st and its first payment falls on the group's own due day, later than
+  // the checks above. Wait out the last of those days; every opened voucher
+  // has then paid and its receipt names its journal entry.
+  const opened = open(`voucher|${VOUCHER}`);
+  const lastDue = opened
+    .map((r) => accounts.obligation(r.obligationId)!.firstDueAt)
+    .sort()
+    .at(-1)!;
+  while (api.state.date < lastDue) advance(core, 1);
+  expect(paid(opened), say("vouchers paid nothing")).toBeGreaterThan(0);
+  // The household that pays private tuition: a named payer, else the counted
+  // households of a group (their voucher goes to that group's fund account).
+  const voucherPerson = appliedOn(api, VOUCHER).find(
+    (r) =>
+      r.target === "person" &&
+      moneyTo(`voucher|${VOUCHER}`, (id) => id === r.targetId),
+  );
+  record(
+    VOUCHER,
+    voucherPerson ?? appliedOn(api, VOUCHER).find((r) => r.target === "group"),
+    moneyTo(`voucher|${VOUCHER}`, (id) =>
+      voucherPerson
+        ? id === voucherPerson.targetId
+        : id.startsWith("fund-account:"),
+    ),
+  );
   // Hold every law a different way from where the place began (laws it
   // already had are repealed, the others stay) so each link's cause differs
   // from its baseline, and wait out the lag of the slowest link.
@@ -976,6 +1001,7 @@ function play(where: string, seed: string, core: CoreState): void {
     say("preschool still pays"),
   ).toBe(0);
   expect(open(`voucher|${VOUCHER}`).length, say("vouchers still pay")).toBe(0);
+  return null;
 }
 
 it("health, assistance and school laws reach people, move money and move outcomes", () => {

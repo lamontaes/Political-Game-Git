@@ -28,7 +28,7 @@ root: none
 
 **Rules.** No dice: the order is the one the engine already uses. One rule, all 56 places: nothing names a party or place.
 
-**Done when.** A second session, in a one-year `buildBenchWorld` in a drawn place (place and seed named in the PR; Camp Pendleton South, California, GOLDEN_PATH_SEED=ecc6029de7cc7f04, is the one that failed), advances to the day before a statewide filing window opens and sees, by record id, that every `party-asked` record for a followed member has a `party-recruit` scene entry, and that `src/director/party-recruit.test.ts` passes there.
+**Done when.** A second session, in a one-year `buildBenchWorld` in a drawn place (place and seed named in the PR; Camp Pendleton South, California, GOLDEN_PATH_SEED=ecc6029de7cc7f04, is the one that failed), advances to the day before a statewide filing window opens and sees, by record id, that every `party-asked` record for a followed member has a `party-recruit` scene entry, and that `src/director/party-recruit.test.ts` (removed) passes there.
 
 **Waits on.** Nothing.
 

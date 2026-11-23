@@ -17,15 +17,12 @@ import {
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { meetingParameter, townHallDrives } from "./meetings";
-import type { CoreAPI, CoreState, PersonState } from "../types";
+import type { CoreAPI, CoreState } from "../types";
 
 const SEED = `${RUN_SEED}:meetings`;
 
 let core: CoreState;
 let api: CoreAPI;
-let adults: PersonState[];
-/** The host's reasons apart from personality, for each town hall the days weighed. */
-const hostCases: number[] = [];
 /** Each resident weighed for a meeting's room that could not hold everyone driven: their lean, whether they took part, and whether they would have with temperament left out. */
 type Weighing = { lean: number; value: number; flat: number };
 /** One drawn town's weighings and the different residents they came from. */
@@ -35,8 +32,12 @@ type Town = {
   seed: string;
   rows: Weighing[];
   residents: Set<string>;
+  /** The host's reasons apart from personality, for each town hall the days weighed. */
+  hostCases: number[];
+  /** Every adult's lean toward holding one, read when the town's played days end. */
+  hostLeans: number[];
 };
-/** The towns the take-part case pools, in the order drawn. */
+/** The towns the take-part and hosting cases pool, in the order drawn. */
 const towns: Town[] = [];
 /** Towns the kit's draw has tried, across both draws: the second town is the next in the same stream. */
 let drawn = 0;
@@ -92,10 +93,11 @@ function drawTown(first: boolean) {
     seed: "",
     rows: [],
     residents: new Set(),
+    hostCases: [],
+    hostLeans: [],
   };
   const world = drawnRaceWorld(
     () => {
-      if (first) hostCases.length = 0;
       const seed = `${SEED}:${drawn++}`;
       const place = drawPlace(seed, "trait-wiring");
       town = {
@@ -104,19 +106,19 @@ function drawTown(first: boolean) {
         seed,
         rows: [],
         residents: new Set(),
+        hostCases: [],
+        hostLeans: [],
       };
       return { seed, place };
     },
     120,
-    first
-      ? (row) => {
-          if (
-            row.decisionId === "meetings.hold-town-hall" &&
-            row.bare !== undefined
-          )
-            hostCases.push(row.bare);
-        }
-      : undefined,
+    (row) => {
+      if (
+        row.decisionId === "meetings.hold-town-hall" &&
+        row.bare !== undefined
+      )
+        town.hostCases.push(row.bare);
+    },
     2,
     // A place whose officials weighed too few town halls, or whose meetings
     // weighed too few residents, has nothing for these tests to read. A room
@@ -126,10 +128,10 @@ function drawTown(first: boolean) {
     // speakers of about 26, turned anyone away.
     () => {
       console.log(
-        `meetings draw: ${town.name}, ${first ? `${hostCases.length} town halls weighed, ` : ""}${town.rows.length} residents weighed for a room, ${town.residents.size} different`,
+        `meetings draw: ${town.name}, ${town.hostCases.length} town halls weighed, ${town.rows.length} residents weighed for a room, ${town.residents.size} different`,
       );
-      return first && hostCases.length <= MIN_HOST_CASES
-        ? `${hostCases.length} town halls weighed`
+      return first && town.hostCases.length <= MIN_HOST_CASES
+        ? `${town.hostCases.length} town halls weighed`
         : town.rows.length < MIN_TAKE_PART
           ? `${town.rows.length} residents weighed for a meeting's room`
           : town.residents.size < MIN_DIFFERENT_RESIDENTS
@@ -144,6 +146,9 @@ function drawTown(first: boolean) {
       if (row.actorId) town.residents.add(row.actorId);
     },
   );
+  town.hostLeans = adultsOf(world.core).map((p) =>
+    decisionLean(world.core, p, "meetings.hold-town-hall", "hold", "skip"),
+  );
   towns.push(town);
   return world;
 }
@@ -154,7 +159,6 @@ function drawTown(first: boolean) {
 beforeAll(() => {
   drawTown(false);
   ({ core, api } = drawTown(true));
-  adults = adultsOf(core);
   // Reason for the hook's time: each drawn place is built twice (its election calendar, then every resident as a full person) and played for the window, 1 to 5 minutes on a shared machine, and a small town's officials often weigh too few town halls, so several places may be built before one fits (seed d60345f2ab0b7229abdb17fd1eeee43bbaff5d24 passed over three, at 6, 10 and 6 town halls, before Clatonia, Nebraska held 144). Two towns are drawn, in turn from the same seed's stream.
 }, 1_800_000);
 
@@ -217,35 +221,38 @@ describe("meetings.take-part reads one calibrated trait term", () => {
 });
 
 describe("meetings.hold-town-hall reads the calibrated lean of the host", () => {
-  it("across the cases the officials weighed, the third leaning most toward hosting holds one at Mondak's extraversion-sized odds over the third leaning least", () => {
-    expect(
-      hostCases.length,
-      "town halls weighed in the played days",
-    ).toBeGreaterThan(MIN_HOST_CASES);
+  it("across the cases the officials weighed in two drawn towns pooled, the third leaning most toward hosting holds one at Mondak's extraversion-sized odds over the third leaning least", () => {
+    const cases = towns.reduce((n, t) => n + t.hostCases.length, 0);
+    expect(cases, "town halls weighed in the played days").toBeGreaterThan(
+      MIN_HOST_CASES,
+    );
     const w = weightOf(core, "meetings.hold-town-hall");
-    const leans = adults
-      .map((p) =>
-        decisionLean(core, p, "meetings.hold-town-hall", "hold", "skip"),
-      )
-      .sort((a, b) => a - b);
-    // Each weighed case crossed with every adult's lean: the host's circumstances come from the days, the traits from the town.
+    // Each town's weighed cases crossed with its own adults' leans: the host's
+    // circumstances come from the days, the traits from the town.
     const gapAt = (weight: number) =>
       thirdsLogOdds(
-        leans.flatMap((lean) =>
-          hostCases.map((bare) => ({
-            lean,
-            p: bare + weight * lean > 0 ? 1 : 0,
-          })),
+        towns.flatMap((t) =>
+          t.hostLeans.flatMap((lean) =>
+            t.hostCases.map((bare) => ({
+              lean,
+              p: bare + weight * lean > 0 ? 1 : 0,
+            })),
+          ),
         ),
       );
     const net = gapAt(w) - gapAt(0);
     const target = studyLogOdds("meetings.hold-town-hall", "extraversion")!;
+    for (const [i, t] of towns.entries())
+      console.log(
+        `hold-town-hall town ${i + 1}: ${t.name} (${t.key}), seed ${t.seed}, ${t.hostCases.length} cases, ${t.hostLeans.length} adults`,
+      );
     console.log(
-      `hold-town-hall: ${hostCases.length} cases, weight ${w}, net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
+      `hold-town-hall: ${cases} cases in ${towns.length} towns pooled, weight ${w}, net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
     );
-    // A town's officials weigh tens of cases, so its gap swings: six drawn towns
-    // at the fitted weight sat from 0.6 to 1.5 times the study's size; flat
-    // personality nets 0.
+    // The decision is a line the host's reasons cross, so one town's gap comes
+    // from its few distinct cases near the line and swings widely: six drawn
+    // towns at the fitted weight read 0.06 to 9.47 alone (CTO, Nov 19, #9747),
+    // so the case pools two, as take-part does; flat personality nets 0.
     expect(net).toBeGreaterThan(target / 3.5);
     expect(net).toBeLessThan(target * 2.5);
   });

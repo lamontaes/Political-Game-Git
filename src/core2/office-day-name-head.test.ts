@@ -182,7 +182,7 @@ describe("an appointer names a department head", () => {
       let picked = "";
       for (const reasons of ranked.slice(1, 6)) {
         // A yes to the official's ask writes their pick for the act (the ask
-        // and its scene: src/director/post-ask-scene.test.ts).
+        // and its scene: src/director/post-ask-scene.test.ts (removed)).
         prepareAct(api, actorId!, "name-department-head", {
           nominee: { post: head.post, personId: reasons.candidateId },
         });

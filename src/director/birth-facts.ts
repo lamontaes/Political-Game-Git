@@ -26,6 +26,7 @@ export function birthFacts(
   askerId: PersonId,
   askedId: PersonId,
   placeSaid: (placeId: string) => string | null,
+  nearSaid: (placeId: string) => string | null = () => null,
 ): Record<string, NewsFact> {
   if (typeKey !== NEW_BABY_TYPE) return {};
   const record = core.durableLog.get(causeId);
@@ -55,6 +56,14 @@ export function birthFacts(
     if (town)
       facts.hometown = {
         text: town,
+        sourceRecordIds: [asker.placeId, causeId],
+      };
+    // Or the county or state the asked person's town sits in, for a relative
+    // kept at that level.
+    const near = town ? null : nearSaid(asker.placeId);
+    if (near)
+      facts.nearby = {
+        text: near,
         sourceRecordIds: [asker.placeId, causeId],
       };
   }
