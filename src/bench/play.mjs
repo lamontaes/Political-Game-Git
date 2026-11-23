@@ -4951,13 +4951,22 @@ const sheets = {
         : openingTab(ordered, newsTab, newsSeen);
     newsShowing = opening;
     read(opening);
+    const follows = await api(
+      `/api/news/follows?id=${encodeURIComponent(me.id)}`,
+    );
     return [
       newsBoard({
         outlets: ordered,
         chosenKey: opening,
-        followsAny: (
-          await api(`/api/news/follows?id=${encodeURIComponent(me.id)}`)
-        ).any,
+        followsAny: follows.any,
+        followed: new Map(follows.outlets.map((o) => [o.id, o.follows])),
+        onFollow: async (key, on) => {
+          newsShowing = key;
+          await post(
+            `/api/news/follow?id=${encodeURIComponent(me.id)}&outlet=${encodeURIComponent(key)}&on=${on ? 1 : 0}`,
+          );
+          await refresh();
+        },
         onChoose: (key) => {
           newsTab = key;
           newsShowing = key;

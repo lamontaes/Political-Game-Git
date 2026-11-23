@@ -2,6 +2,7 @@ import type { EntityId } from "../core2/kernel/brands";
 import { spokenDate } from "../core2/kernel/dates";
 import {
   followersOf,
+  setFollow,
   outletsHere,
   townOutlet,
   type OutletRow,
@@ -246,6 +247,36 @@ export function followsAnyOutlet(core: CoreState, personId: string): boolean {
   return outletsHere(api).some((row) =>
     followersOf(api, row.id).includes(personId),
   );
+}
+
+/**
+ * The press outlets a player can follow, each with whether they do: the
+ * press engine's followersOf, so News's Follow control and the paper the
+ * household reads are the one record.
+ */
+export function followChoices(
+  core: CoreState,
+  personId: string,
+): { id: string; follows: boolean }[] {
+  const api = coreAPI(core);
+  return outletsHere(api).map((row) => ({
+    id: row.organizationId,
+    follows: followersOf(api, row.id).includes(personId),
+  }));
+}
+
+/** The player follows an outlet, or stops (the press engine's setFollow). */
+export function followOutlet(
+  core: CoreState,
+  personId: string,
+  organizationId: string,
+  follows: boolean,
+): boolean {
+  const api = coreAPI(core);
+  const row = outletsHere(api).find((o) => o.organizationId === organizationId);
+  if (!row || !core.people.has(personId as EntityId)) return false;
+  setFollow(api, personId, row.id, follows);
+  return true;
 }
 
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };

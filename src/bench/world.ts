@@ -28,6 +28,8 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import type { EntityId } from "../core2/kernel/brands";
+import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import {
@@ -73,7 +75,7 @@ import {
 } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
-import { openPress } from "../core2/modules/press";
+import { openHouseholdOutlets, openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openPresidentActs } from "../core2/modules/president-acts";
@@ -859,6 +861,11 @@ function* benchWorldStages(
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
   // The people the player starts out knowing have their whole past at the opening.
   openStartingCircle(core);
+  // The player's household knows its paper and station from day one.
+  if (playerId) {
+    const home = core.people.get(playerId as EntityId)?.householdId;
+    if (home) openHouseholdOutlets(coreAPI(core), home);
+  }
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
   openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one

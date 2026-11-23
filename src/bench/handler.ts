@@ -74,7 +74,13 @@ import {
   resultMomentOf,
   stayedHomeLine,
 } from "./election-night";
-import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
+import {
+  followChoices,
+  followOutlet,
+  followsAnyOutlet,
+  homePapers,
+  wordOwnResult,
+} from "./archive-words";
 import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
@@ -2415,7 +2421,22 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       send(200, {
         any: followsAnyOutlet(requireCore(), url.searchParams.get("id") ?? ""),
+        outlets: followChoices(requireCore(), url.searchParams.get("id") ?? ""),
       });
+    },
+  },
+  {
+    // The player follows an outlet or stops: News's Follow control.
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/news/follow",
+    run: async ({ url, send }) => {
+      const done = followOutlet(
+        requireCore(),
+        url.searchParams.get("id") ?? "",
+        url.searchParams.get("outlet") ?? "",
+        url.searchParams.get("on") === "1",
+      );
+      send(done ? 200 : 400, { done });
     },
   },
   {

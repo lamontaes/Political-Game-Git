@@ -4,6 +4,7 @@
 // owner, Nov 7). The screen hands it the outlets with their stories in words, the labels, the day and how to name
 // a story. Every story is a headline in a list at the left; clicking one opens it at the right.
 import { el } from "./dom.mjs";
+import { makeButton } from "./button.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
 import { pickRow } from "./list-row.mjs";
 import { dateWords } from "../../english/plain-words.mjs";
@@ -38,6 +39,8 @@ export function newsBoard({
   onChoose,
   followsAny = true,
   actionOf,
+  followed,
+  onFollow,
 }) {
   let chosen = outlets.has(chosenKey) ? chosenKey : outlets.keys().next().value;
   let opened = null;
@@ -57,6 +60,15 @@ export function newsBoard({
       },
     })),
   });
+  // The control reads the record's answer, which the screen refreshes after each press.
+  const followControl = (key) => {
+    const on = followed.get(key);
+    return makeButton({
+      className: "action news-follow",
+      textContent: on ? labels.unfollow : labels.follow,
+      onclick: () => onFollow?.(key, !on),
+    });
+  };
   const draw = () => {
     const outlet = outlets.get(chosen);
     holder.dataset.outlet = chosen;
@@ -138,6 +150,8 @@ export function newsBoard({
         el("span", {
           textContent: dateWords(date, { weekday: true }),
         }),
+        // Follow or stop following this paper or station (an outlet the press engine keeps).
+        ...(followed?.has(chosen) ? [followControl(chosen)] : []),
       ),
       el(
         "div",
