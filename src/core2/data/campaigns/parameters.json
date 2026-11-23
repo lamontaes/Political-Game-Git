@@ -1345,12 +1345,14 @@
       "spread": [7, 60]
     },
     "staffPayQuantile": {
+      "role": "coefficient",
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "Where in the ranking of the town's own private jobs' pay an official's aide is paid: the middle. An aide's work is clerical, which sits near the middle of what a town's employers pay.",
       "spread": [0.3, 0.7]
     },
     "appointeePayQuantile": {
+      "role": "coefficient",
       "value": 0.85,
       "tag": "ESTIMATED",
       "source": "Where in the ranking of the town's own private jobs' pay an appointed department head is paid: near the top. Estimated so that in a town paying the national all-occupation median the head's pay is near the published management median of about $46 an hour (OEWS May 2023, local government management occupations, the row below), roughly twice the median job. No page was fetched in this session to place that figure in the pay ranking.",

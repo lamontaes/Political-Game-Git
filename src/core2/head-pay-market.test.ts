@@ -5,12 +5,10 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { campaignParameter } from "./campaign-data";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
 import { lawChain } from "./modules/laws";
 import { postHourlyMinor } from "./modules/staff";
 import { coreAPI } from "./state";
-import { appointeeHourlyMinor } from "./town-labor-pay";
+import { appointeeHourlyMinor, townPayNow } from "./town-labor-pay";
 
 // An appointed department head is paid from the town's own labor market, near
 // the top of what its private jobs pay, and moves when the town's pay moves.
@@ -44,11 +42,16 @@ it(`the head's pay follows the town's own jobs' pay, seed ${seed}`, () => {
     Math.floor(sorted.length * campaignParameter("appointeePayQuantile")),
   );
   const before = appointeeHourlyMinor(api);
-  expect(before, where).toBe(Math.round(sorted[rank]!));
+  // The ranking itself, read from the jobs the town holds this moment.
+  expect(
+    townPayNow(api, campaignParameter("appointeePayQuantile")),
+    where,
+  ).toBe(Math.round(sorted[rank]!));
   // A head is paid at least what an aide is.
   expect(before, where).toBeGreaterThanOrEqual(postHourlyMinor(api));
-  // The town's pay rises by half; a day later the head's pay has risen with it.
+  // The town's pay rises by half; read from the jobs the town holds this moment, the head's pay has risen with it.
+  const quantile = campaignParameter("appointeePayQuantile");
+  const was = townPayNow(api, quantile)!;
   for (const job of jobs) job.hourlyMinor = job.hourlyMinor! * 1.5;
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  expect(appointeeHourlyMinor(api) / before, where).toBeGreaterThan(1.3);
+  expect(townPayNow(api, quantile)! / was, where).toBeGreaterThan(1.3);
 }, 600000);

@@ -22,6 +22,14 @@ export function townPayAt(api: CoreAPI, quantile: number): number | null {
   if (!byQuantile) held.set(state, (byQuantile = new Map()));
   const known = byQuantile.get(quantile);
   if (known?.date === state.date) return known.minor;
+  const minor = townPayNow(api, quantile);
+  byQuantile.set(quantile, { date: state.date, minor });
+  return minor;
+}
+
+/** The same read, from the jobs the town holds this moment (the daily read above is what posts use; a test reads this one). */
+export function townPayNow(api: CoreAPI, quantile: number): number | null {
+  const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const pays: number[] = [];
   for (const job of state.jobs.values()) {
@@ -47,7 +55,6 @@ export function townPayAt(api: CoreAPI, quantile: number): number | null {
         ]!,
       )
     : null;
-  byQuantile.set(quantile, { date: state.date, minor });
   return minor;
 }
 
