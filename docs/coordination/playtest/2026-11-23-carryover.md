@@ -119,10 +119,10 @@ Written by the CTO on Mon Nov 23, 2026, 6:25 p.m. Eastern, at the owner's reques
 | Bases that already landed (`claude/project-thread-lhbwzt`, `-lhbwzt-train2`, `-tfo4nh`) | 5 | They can't land as they stand. #9537 and #9612 were on the Nov 19 close list. |
 | Other claude/* bases | 9 | Story address and board stacks, and history-territory-legislatures. Held. |
 
-**Close candidates for the owner's yes:**
-- **Superseded by merged work:** #9758 (creator before a gender) and #9775 (patch notes by area).
-- **Superseded once the Replay confirms Metrics:** #9787 (Metrics Layout A).
-- **Re-opened on main tonight:** #10153 and #10160.
-- **Still open from the Nov 19 close list:** #10088, #9119, #9537, #9612, #9982. Re-check each first; #9938 and #10123 were folded into the train since.
+**Closes (the owner said yes, Nov 23, about 6:40 p.m.):**
+- **Closed by the CTO:** #9758 and #9775 (main already carries them) and #10160 (the same change is #10282 on main).
+- **Already closed by its lane:** #10153 (now #10284).
+- **Held until the Replay confirms Metrics:** #9787. If Metrics is right, it closes.
+- **Correction:** the five PRs this file first listed "from the Nov 19 close list" (#10088, #9119, #9537, #9612, #9982) were the PRs that list said to keep or hold. The CTO read them wrong. They stay open; don't close them.
 
 **Branches:** 119 branches had commits in no PR and in neither main nor a train (the Nov 19 inventory, on the CTO's Mac). By name, none carries a fix for a row above, except possibly two speed branches (`claude/speed-modulekey`, `claude/speed-campaign-lists`) for N8-P41. Nothing to do with them unless the Week-speed trace points there.
