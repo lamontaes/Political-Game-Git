@@ -18,6 +18,7 @@ import { demoteHousehold } from "./modules/counted-demotion";
 import {
   countedParameter,
   DAYS_PER_YEAR,
+  loseAwayWork,
   residentsRuntime,
   returnCommuterPay,
   unplacedPayPerWorkerBase,
@@ -103,12 +104,18 @@ it(`a household returned to the counts brings back no more commuters than it has
     (x) =>
       !x.quarters &&
       store.weightOf(x) === 1 &&
-      x.unplacedWorkers === 0 &&
-      free(x) === 1 &&
+      x.unplacedWorkers > 0 &&
+      free(x) >= 1 &&
       unplacedPayPerWorkerBase(rt, x) > 0,
   );
-  expect(other, `${where}: a household with one free member`).toBeDefined();
+  expect(
+    other,
+    `${where}: a household with out-of-town workers and a free member`,
+  ).toBeDefined();
   const perWorker = unplacedPayPerWorkerBase(rt, other!);
+  // Its commuters leave the counts (the engine's own writer), as a filled-in
+  // household's do, before it comes back.
+  expect(loseAwayWork(core, other!, other!.unplacedWorkers)).toBe(true);
   returnCommuterPay(
     core,
     other!.id,
@@ -118,7 +125,7 @@ it(`a household returned to the counts brings back no more commuters than it has
   expect(
     other!.unplacedWorkers,
     `${where}: ${other!.id} returned with a commuter paid four times the pool's average`,
-  ).toBeLessThanOrEqual(1);
+  ).toBeLessThanOrEqual(free(other!));
   // The records' workers earn what the pool pays.
   const byPool = new Map<string, { earn: number; paid: number }>();
   const row = (key: string) => {
