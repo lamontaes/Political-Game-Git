@@ -1,8 +1,11 @@
 /**
  * Which situation types a cause record written through the game's own event entry stages, for the
- * force-all dev control. Each type is tried in turn on one built world: its first cause's record
- * kind is written naming the player (facts from the cause's own `causeFacts`), a day passes, and
- * the player's new moments are read for a cause the type matches and a scene bound to the type.
+ * force-all dev control. Each type is tried in turn on one built world, warmed as the New game route
+ * warms it (OPENING_WARMUP_DAYS): the record dev mode's force writes (src/bench/dev-force-event.ts,
+ * naming the player from the cause's own `causeFacts`) is written, a day passes, and the player's new
+ * moments are read for a cause the type matches and a scene bound to the type. The map keeps only
+ * how a type is forced, never a person of the world it was measured in. A type whose cause an
+ * engine's own function brings about (`OWN_RECIPES`) gets no row: dev mode forces it that way.
  * The legislature's types are forced last, through its own writers (src/bench/dev-force-legislature.ts),
  * since a recipe may seat the player; the ones no recipe can force keep their reason.
  * Run: SEED=<seed> node --import tsx scripts/words/force-all-probe.mts
@@ -15,8 +18,13 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { applyCoreEvent } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
-import { buildBenchWorld } from "../../src/bench/world";
+import { buildBenchWorld, OPENING_WARMUP_DAYS } from "../../src/bench/world";
 import { DevMode } from "../../src/bench/dev-mode";
+import {
+  forceCause,
+  forceEvent,
+  OWN_RECIPES,
+} from "../../src/bench/dev-force-event";
 import {
   forceLegislatureScene,
   LEGISLATURE_REASONS,
@@ -27,23 +35,19 @@ import { SITUATION_LIBRARY, causeMatches } from "../../src/director/scheduling";
 setBookkeeping(false);
 const world = buildBenchWorld(process.env.SEED ?? "8341-pin", gameStartDate(), {
   twoLevel: true,
+  warmUpDays: OPENING_WARMUP_DAYS,
   ...(process.env.PLACE ? { placeKey: process.env.PLACE } : {}),
 });
 const { core, director } = world;
 const playerId = world.playerId as PersonId;
 director.watch(core, playerId);
 const mode = new DevMode(core, director, undefined, world.placeId);
-const player = core.people.get(playerId)!;
-const circle = [...player.familyIds, ...player.knownIds].find(
-  (id) => core.people.get(id)?.alive,
-);
+const recipes = new Map(mode.scenes().map((row) => [row.key, row.recipe]));
 const rows: string[] = [];
 const map: Record<
   string,
   {
     how: "event" | "writer" | "legislature";
-    kind?: string;
-    facts?: Record<string, string>;
     reason?: string;
     recipe?: string;
   }
@@ -64,60 +68,36 @@ if (legislatureOnly)
 for (const type of legislatureOnly ? [] : SITUATION_LIBRARY.types) {
   n++;
   if (LEGISLATURE_SCENES[type.key] || LEGISLATURE_REASONS[type.key]) continue;
-  const cause = type.causes.find((c) => c.causeRecord) ?? type.causes[0];
-  if (!cause) {
+  if (OWN_RECIPES.includes(recipes.get(type.key) ?? "")) {
+    rows.push(`${type.key}\town recipe ${recipes.get(type.key)}`);
+    continue;
+  }
+  const found = forceCause(type);
+  if (!found) {
     rows.push(`${type.key}\tno-cause`);
     map[type.key] = { how: "writer", reason: "no-cause" };
     continue;
   }
-  const label = cause.match?.label ?? "";
-  const kind =
-    cause.causeRecord ??
-    (label.startsWith("feeling:event:")
-      ? label.slice("feeling:event:".length)
-      : (cause.match?.causeKind?.replace(/^event:/, "") ?? ""));
+  const { kind } = found;
   if (!kind) {
     rows.push(`${type.key}\tno-kind`);
     map[type.key] = { how: "writer", reason: "circumstance" };
-    map[type.key] = { how: "writer", reason: "circumstance" };
     continue;
-  }
-  const facts: Record<string, string> = {};
-  for (const want of cause.match?.causeFacts ?? []) {
-    if (want.absent) continue;
-    facts[want.key] =
-      want.is === "subject"
-        ? playerId
-        : (want.equals?.[0] ??
-          (want.includes === "subject"
-            ? JSON.stringify([playerId])
-            : playerId));
   }
   const book = director.ledger.people.get(playerId)!;
   const before = book.moments.length;
   const scheduled = book.schedule.length;
   const id = `force-probe:${type.key}`;
   try {
-    applyCoreEvent(core, {
-      id,
-      date: core.date,
-      kind,
-      personIds: [playerId, ...(circle ? [circle] : [])],
-      witnessIds: [],
-      placeId: player.placeId,
-      facts,
-      source: {
-        tag: "ESTIMATED",
-        citation: "force-all probe",
-        asOf: core.date,
-      },
-    } as never);
+    applyCoreEvent(
+      core,
+      forceEvent(core, type, playerId, id, "force-all probe") as never,
+    );
     mode.advance(addDays(makeIsoDate(core.date), 1));
   } catch (error) {
     rows.push(
       `${type.key}\tkind=${kind}\terror: ${(error as Error).message.slice(0, 80)}`,
     );
-    map[type.key] = { how: "writer", reason: "no-event" };
     map[type.key] = { how: "writer", reason: "no-event" };
     continue;
   }
@@ -146,7 +126,7 @@ for (const type of legislatureOnly ? [] : SITUATION_LIBRARY.types) {
         `${row.outcome}${row.heldBack?.length ? `[held ${row.heldBack.join("|")}]` : ""}`,
     );
   map[type.key] = bound
-    ? { how: "event", kind, facts }
+    ? { how: "event" }
     : { how: "writer", reason: hit ? "journal-line" : "circumstance" };
   rows.push(
     `${type.key}\tkind=${kind}\tmoments=${fresh.length}\tcause-matched=${hit}\tstaged=${bound}\t${[...new Set(why)].join(",")}`,
