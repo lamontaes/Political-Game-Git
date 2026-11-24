@@ -840,15 +840,16 @@ const lawTookEffect: Builder = (read, f) => {
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from === to) return null;
     return story(
       "law-amount",
       {
         ...base,
         measure: read.fact(measureName(series), f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
-        ...(from !== to
-          ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
-          : { same: read.yes() }),
+        from: read.fact(from, f.lawId ?? ""),
+        changed: read.yes(),
         ...(Number(now) < Number(was) ? { down: read.yes() } : {}),
         ...(Number(now) > Number(was) ? { up: read.yes() } : {}),
       },
@@ -964,6 +965,8 @@ export function archivedLawPassedFacts(
     // The amount is told only when the law's own row is what holds from its
     // start; a rate another level sets on top of it is that level's story.
     if (!to || after !== row.value) return null;
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from && from === to) return null;
     return story(
       "law-amount-passed",
       {
@@ -973,7 +976,6 @@ export function archivedLawPassedFacts(
         ...(from && from !== to
           ? { from: read.fact(from, lawId), changed: read.yes() }
           : {}),
-        ...(from && from === to ? { same: read.yes() } : {}),
         ...(from && after! < before! ? { down: read.yes() } : {}),
         ...(from && after! > before! ? { up: read.yes() } : {}),
       },
