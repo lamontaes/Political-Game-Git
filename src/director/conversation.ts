@@ -1274,6 +1274,11 @@ function victimizationSubjects(
       kind: "victimization",
       aboutId: moment.causeId,
       stage: type,
+      // The speaker's own moment of this crime is the record the subject
+      // rests on: the crime record itself is kept in the log only for those
+      // the player's circle names (retainLog), so a victim outside it has the
+      // moment in their book and no log row to tie the subject to.
+      tie: { kind: "record" as const, recordIds: [moment.causeId] },
       facts: {
         victimized: { text: "", sourceRecordIds: [moment.causeId] },
         when: {

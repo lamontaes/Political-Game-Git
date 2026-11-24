@@ -1,0 +1,28 @@
+{
+  "id": "store-manager-switches-to-her-own-grocery-bill",
+  "kind": "voice",
+  "summary": "A manager finishes speaking for the store and explains what the proposal would cost her as a customer.",
+  "realLife": "Lori Smith backed the replacement fee for Price Chopper but personally objected to paying both that fee and the cost of curbside collection.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{manager}", "{store}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: speaker capacity and household charges.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member asks what the employer wants the city to do.",
+      "pulledBy": "The debate concerns the retailer's position.",
+      "writesBack": "The reporter credits support to the store."
+    },
+    {
+      "turn": "opposite",
+      "what": "The manager takes up the same question as a shopper paying for collection.",
+      "pulledBy": "The story turns to the cost of replacement collection.",
+      "writesBack": "The reporter attributes the objection to Smith personally."
+    }
+  ]
+}

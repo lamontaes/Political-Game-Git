@@ -1,0 +1,34 @@
+{
+  "id": "forward-schedule-in-the-paraphrase",
+  "kind": "move",
+  "summary": "The official's paraphrase carries the schedule: how many more are planned and when.",
+  "realLife": "The mayor was paraphrased saying it was the second of four, with more in September and November.",
+  "sources": [
+    "ALXnow (Alexandria, Virginia), 'Dozens attend second Alexandria City Council Town Hall of the year', June 13, 2025: https://www.alxnow.com/2025/06/13/dozens-attend-second-alexandria-city-council-town-hall-of-the-year/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "date"],
+  "gates": [],
+  "weights": {
+    "town-hall": 0.6
+  },
+  "inGame": "needs: a body's planned future meetings (the meetings engine keeps held ones)",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no more planned",
+      "pulledBy": "a one-time event",
+      "writes": "the story says it will not repeat",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "more planned but undated",
+      "pulledBy": "a series with no dates",
+      "writes": "the story says dates will come later",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}

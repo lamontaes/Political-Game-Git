@@ -1,0 +1,31 @@
+{
+  "id": "a-ride-to-school-costs-the-district-about-twelve-hundred-dollars-a-year",
+  "kind": "detail",
+  "summary": "Transporting a student costs the district about $1,152 a year.",
+  "realLife": "Public school transportation spending averaged $1,152 per student transported in 2018-19.",
+  "sources": [
+    "NCES, Fast Facts: Transportation: https://nces.ed.gov/fastfacts/display.asp?id=67"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-place"],
+  "gates": [],
+  "weights": {
+    "school-place": 0.5
+  },
+  "inGame": "the district budget's transportation line (the budgets module). needs: a per-student transport figure.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A district that cuts its bus service to save money.",
+      "pulledBy": "a budget cut",
+      "writesBack": "a walk or a family drive told"
+    },
+    {
+      "turn": "neutral",
+      "what": "A district that holds the cost.",
+      "pulledBy": "the budget line",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}

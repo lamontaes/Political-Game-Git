@@ -18,12 +18,17 @@
     {
       "name": "an uncontested vote",
       "pulledBy": "a quiet meeting",
-      "writes": "the story is the vote and the next meeting"
+      "writes": "the story is the vote and the next meeting",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a vote reversed",
       "pulledBy": "a board that changed its mind after comment",
-      "writes": "the story says what changed it"
+      "writes": "the story says what changed it",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "the `hearing` and `roll-call` rows for a school body; needs: public comment as a record"
 }

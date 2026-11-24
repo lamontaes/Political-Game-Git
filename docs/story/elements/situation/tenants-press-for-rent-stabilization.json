@@ -1,0 +1,29 @@
+{
+  "id": "tenants-press-for-rent-stabilization",
+  "kind": "situation",
+  "summary": "Tenants come to council meetings week after week asking for rent limits.",
+  "realLife": "Rockville tenants kept pushing for rent stabilization at council meetings.",
+  "sources": [
+    "WJLA, Rockville tenants continue push for rent stabilization: https://wjla.com/news/local/story/rent-control-rockville-council-reactions-meeting-tenant-residents-hikes-stabilization-moving-budget-wallet-community-damage-ceiling-montgomery-county"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["issue", "office"],
+  "gates": [],
+  "weights": {
+    "town-hall-question": 0.8
+  },
+  "inGame": "rent notices and the eviction records; the views engine; town-hall-question",
+  "turns": [
+    {
+      "turn": "Rents hold steady and the push fades",
+      "pull": "the price record",
+      "writes": "writes a thinner crowd"
+    },
+    {
+      "turn": "Rents jump again",
+      "pull": "the price change",
+      "writes": "writes a bigger crowd"
+    }
+  ],
+  "usedBy": ["town-hall-question"]
+}

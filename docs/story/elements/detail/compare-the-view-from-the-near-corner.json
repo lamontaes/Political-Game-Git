@@ -1,0 +1,30 @@
+{
+  "id": "compare-the-view-from-the-near-corner",
+  "kind": "detail",
+  "summary": "Where a person stands changes which tower appears above a familiar building.",
+  "realLife": "New York’s landmarks commissioners observed that nearby towers fell out of sight on a closer approach to Grand Central. A tower directly on the terminal would stay in view.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf#page=14"
+  ],
+  "inGame": "needs: a permit case record with street, landmark, tower. A commissioner can give a resident a street approach from which to check the finding.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{street}", "{landmark}", "{tower}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A resident brings a photo from a different corner where both towers would be visible.",
+      "pulledBy": "The camera position and direction can be located on the street map.",
+      "writesBack": "The commission adds the second view to its findings."
+    },
+    {
+      "turn": "late",
+      "what": "When the commissioners visit the corner, scaffolding hides the roofline in the hearing photograph.",
+      "pulledBy": "The scaffold went up after the photographer's dated visit.",
+      "writesBack": "The site visit notes distinguish the temporary obstruction from the proposed tower."
+    }
+  ],
+  "issues": ["none"]
+}

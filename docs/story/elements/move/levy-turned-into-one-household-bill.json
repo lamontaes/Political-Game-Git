@@ -22,12 +22,17 @@
     {
       "name": "a business's bill instead",
       "pulledBy": "a levy on commercial property",
-      "writes": "the example is a shop owner's yearly tax"
+      "writes": "the example is a shop owner's yearly tax",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no example at all",
       "pulledBy": "a rate that did not change",
-      "writes": "the story says the rate stayed where it was"
+      "writes": "the story says the rate stayed where it was",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`budget-adopted`, `budget-spending` and `law-amount` rows (measure, from, to); the household records for a typical bill; needs: a household example"
 }

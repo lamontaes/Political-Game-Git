@@ -1,0 +1,32 @@
+{
+  "id": "practice-the-relay-call-at-the-counter",
+  "kind": "moment",
+  "summary": "{employee} practices taking a relay call before a resident needs the service.",
+  "realLife": "Merced committed to training appropriate employees to place and receive calls through California Relay Service and to report who received the training.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_sa.html#:~:text=using%20California%20Relay%20Service"
+  ],
+  "fits": ["office", "journal", "work-community", "news"],
+  "slots": ["{employee}"],
+  "gates": [
+    "A county office receives public calls and has a relay training session scheduled."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the office's public phone service and staff training roster.",
+  "turns": [
+    {
+      "turn": "relief shift missed",
+      "what": "The supervisor arranges a practice call on the next shift.",
+      "pulledBy": "The relief worker misses the session.",
+      "writesBack": "The training roster carries an outstanding name."
+    },
+    {
+      "turn": "practice completed",
+      "what": "The supervisor records the practice.",
+      "pulledBy": "The employee completes a call in each direction.",
+      "writesBack": "The completion entry names the employee."
+    }
+  ],
+  "issues": ["budget:administration"]
+}

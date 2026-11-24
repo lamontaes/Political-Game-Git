@@ -1,0 +1,32 @@
+{
+  "id": "last-campaign-in-the-staff-meeting",
+  "kind": "situation",
+  "summary": "An aide in {place} remembers who backed the campaign when the new office chooses whom to call.",
+  "realLife": "Schlesinger recalled Carter staff treating old campaign friendships and grievances as guides to governing relationships.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The executive team is choosing legislative contacts after an election."
+  ],
+  "weights": ["More of the office staff came from the campaign."],
+  "usedBy": [],
+  "inGame": "needs: campaign relationships and each lawmaker's role in the proposal.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A former opponent gets the first call.",
+      "pulledBy": "That legislator controls the hearing schedule.",
+      "writesBack": "The contact log records the call."
+    },
+    {
+      "turn": "partial",
+      "what": "Both sides get a meeting.",
+      "pulledBy": "The proposal needs support from competing blocs.",
+      "writesBack": "The calendar includes both appointments."
+    }
+  ],
+  "issues": ["none"]
+}

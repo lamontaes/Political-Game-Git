@@ -20,12 +20,17 @@
     {
       "name": "one figure only",
       "pulledBy": "a change with a single number",
-      "writes": "the story states it once and moves on"
+      "writes": "the story states it once and moves on",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "figures turned into one household",
       "pulledBy": "a levy or rate",
-      "writes": "the story gives the household example instead"
+      "writes": "the story gives the household example instead",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`budget-line`, `budget-spending`, `law-amount` and `rate` rows; the jobs report rows"
 }

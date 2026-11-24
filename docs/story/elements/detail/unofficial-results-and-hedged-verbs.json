@@ -1,0 +1,34 @@
+{
+  "id": "unofficial-results-and-hedged-verbs",
+  "kind": "detail",
+  "summary": "While counts are open the story says results are unofficial and uses hedged verbs.",
+  "realLife": "A roundup used \"appeared to\" and a note that results were unofficial across all the races.",
+  "sources": [
+    "The Atlanta Journal-Constitution, 'Controversies cost small city mayoral candidates in municipal election', Nov. 2025: https://www.ajc.com/news/2025/11/controversies-cost-small-city-mayoral-candidates-in-municipal-election",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "election": 0.8
+  },
+  "inGame": "needs: a count state of unofficial before the canvass",
+  "turns": [
+    {
+      "name": "final results",
+      "pulledBy": "a certified count",
+      "writes": "the hedges are dropped",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "results changed",
+      "pulledBy": "a late count that moved a race",
+      "writes": "the story corrects the earlier figure",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

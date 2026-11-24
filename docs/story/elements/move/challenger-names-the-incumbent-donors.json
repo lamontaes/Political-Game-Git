@@ -1,0 +1,29 @@
+{
+  "id": "challenger-names-the-incumbent-donors",
+  "kind": "move",
+  "summary": "A challenger tells the press how much lobbyists have given to the incumbent and who the city later hired.",
+  "realLife": "A council challenger alleged lobbyists had given more than $15,000 to the incumbent over the years.",
+  "sources": [
+    "Daily Northwestern, alderman denounces accusations from challenger over lobbyist donations: https://dailynorthwestern.com/2025/02/26/city/ald-tom-suffredin-denounces-latest-accusations-from-challenger-candance-chow"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "money"],
+  "gates": [],
+  "weights": {
+    "rival-word": 0.8
+  },
+  "inGame": "campaign-gift records by donor and year, the donor's firm, the city's later contracts; rival-word's issue and opponent facts",
+  "turns": [
+    {
+      "turn": "The incumbent answers with the dates and the amounts",
+      "pull": "a documented record",
+      "writes": "writes a rebuttal story"
+    },
+    {
+      "turn": "The charge is wrong in a detail",
+      "pull": "a gift record that disagrees",
+      "writes": "writes a correction and a weaker challenger"
+    }
+  ],
+  "usedBy": ["rival-word", "donor-ask"]
+}
