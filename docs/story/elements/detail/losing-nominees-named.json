@@ -18,12 +18,16 @@
     {
       "name": "one nominee",
       "pulledBy": "no field",
-      "writes": "the story says it was the only name"
+      "writes": "the story says it was the only name",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a nominee withdrew",
       "pulledBy": "a late exit",
-      "writes": "the story says who and why"
+      "writes": "the story says who and why",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

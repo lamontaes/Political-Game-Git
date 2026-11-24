@@ -1,0 +1,44 @@
+{
+  "id": "consultant-quits-and-two-years-without-a-salary",
+  "kind": "consequence",
+  "summary": "A mother of two quits her consulting job to run and goes close to two years with no salary while still paying student loans.",
+  "realLife": "A congressional candidate quit her consulting job to run and said she had gone almost two years with no salary. She was paying about a thousand dollars a month toward roughly one hundred thousand in student loans and was the mother of two. She asked the elections commission to let campaign funds pay for childcare but still said she struggled to cover her bills.",
+  "sources": [
+    "https://www.bustle.com/p/4-women-running-for-office-with-student-debt-on-how-theyre-making-it-work-12962492"
+  ],
+  "fits": ["home", "news", "campaign"],
+  "slots": ["{the candidate}", "{the job}", "{the debts}", "{the household}"],
+  "gates": [
+    "The candidate quit a paid job to run.",
+    "The household carries a monthly debt payment.",
+    "The candidate has children at home."
+  ],
+  "weights": [
+    "Size of monthly debt payment.",
+    "Whether a spouse's income covers the house.",
+    "Whether campaign funds may pay childcare.",
+    "How long the race has run."
+  ],
+  "inGame": "Jobs and pay, household debts, a candidate filing, a young child at home and a family quarrel over money could carry it; student loan payments need a debt record on the household.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The candidate keeps her job part time and the race moves more slowly.",
+      "pulledBy": "A flexible employer, a smaller race.",
+      "writesBack": "Job hours cut, not ended; campaign pace slower."
+    },
+    {
+      "turn": "late",
+      "what": "A loss leaves her with no job and the debt payments continuing.",
+      "pulledBy": "Losing the race, a thin job market.",
+      "writesBack": "Election loss; household in debt stress; job search begins."
+    },
+    {
+      "turn": "partial",
+      "what": "Relatives lend money to cover the loan payments through the last months.",
+      "pulledBy": "Kin with savings.",
+      "writesBack": "Household owes a relative; kin tie tied to a loan."
+    }
+  ]
+}

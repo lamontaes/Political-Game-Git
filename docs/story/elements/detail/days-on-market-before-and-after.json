@@ -18,12 +18,16 @@
     {
       "name": "slower sales",
       "pulledBy": "a cooling market",
-      "writes": "the days rose"
+      "writes": "the days rose",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no change",
       "pulledBy": "a steady market",
-      "writes": "the days held"
+      "writes": "the days held",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

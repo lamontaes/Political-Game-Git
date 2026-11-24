@@ -18,12 +18,16 @@
     {
       "name": "a short list",
       "pulledBy": "an uncontested race",
-      "writes": "the story names the one candidate"
+      "writes": "the story names the one candidate",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a long list",
       "pulledBy": "a crowded field",
-      "writes": "the list is grouped by seat"
+      "writes": "the list is grouped by seat",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

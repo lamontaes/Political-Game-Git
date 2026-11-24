@@ -1,0 +1,28 @@
+{
+  "id": "existing-merchants-object-to-annexation-waiver",
+  "kind": "voice",
+  "summary": "A resident asks what council members will say to merchants who already collect deposits without a waiver.",
+  "realLife": "Charles Atkins argued that a waiver for annexed property would treat existing city merchants unfairly and set a precedent.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_may21.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{resident}", "{merchant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: existing and proposed outlet obligations.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "An existing merchant asks whether their own address qualifies.",
+      "pulledBy": "The waiver is granted.",
+      "writesBack": "The clerk explains the qualifying circumstances to an existing shop."
+    },
+    {
+      "turn": "opposite",
+      "what": "The new retailer asks when a distributor can deliver marked stock.",
+      "pulledBy": "The waiver is rejected.",
+      "writesBack": "The newly annexed retailer takes on the same duty as other city shops."
+    }
+  ]
+}

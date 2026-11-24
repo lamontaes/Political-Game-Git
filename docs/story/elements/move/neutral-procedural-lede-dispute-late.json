@@ -18,12 +18,16 @@
     {
       "name": "lede on the dispute",
       "pulledBy": "a party-line fight",
-      "writes": "the lede says the vote split"
+      "writes": "the lede says the vote split",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on the appointee",
       "pulledBy": "a well-known pick",
-      "writes": "the lede names the new member"
+      "writes": "the lede names the new member",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "a single honoree",
       "pulledBy": "a night with one retirement",
-      "writes": "the story ends on the main honoree"
+      "writes": "the story ends on the main honoree",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a group",
       "pulledBy": "several retirees",
-      "writes": "the story lists them with years"
+      "writes": "the story lists them with years",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

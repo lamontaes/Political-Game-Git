@@ -18,12 +18,16 @@
     {
       "name": "ends on the result",
       "pulledBy": "a decided item",
-      "writes": "the last line is the vote"
+      "writes": "the last line is the vote",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "ends on a reaction",
       "pulledBy": "a loud meeting",
-      "writes": "the last line is a resident's word"
+      "writes": "the last line is a resident's word",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "no next event",
       "pulledBy": "a closing digest",
-      "writes": "it ends on the last item"
+      "writes": "it ends on the last item",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a canceled event",
       "pulledBy": "an event called off",
-      "writes": "the digest says what was canceled"
+      "writes": "the digest says what was canceled",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

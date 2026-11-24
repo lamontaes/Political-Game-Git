@@ -18,12 +18,16 @@
     {
       "name": "a split result",
       "pulledBy": "seats divided between parties",
-      "writes": "the lede says who took which seat"
+      "writes": "the lede says who took which seat",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a result not yet known",
       "pulledBy": "a margin inside the count still open",
-      "writes": "the lede says the race is too close to call"
+      "writes": "the lede says the race is too close to call",
+      "requiresFacts": ["by-one"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

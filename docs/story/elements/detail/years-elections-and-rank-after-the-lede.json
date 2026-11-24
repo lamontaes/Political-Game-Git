@@ -18,12 +18,16 @@
     {
       "name": "no tally",
       "pulledBy": "a brief notice",
-      "writes": "the story gives only the date"
+      "writes": "the story gives only the date",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a tally of her own",
       "pulledBy": "a career before the city",
-      "writes": "the story adds earlier jobs"
+      "writes": "the story adds earlier jobs",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

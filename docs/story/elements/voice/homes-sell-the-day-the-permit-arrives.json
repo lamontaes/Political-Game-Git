@@ -19,12 +19,16 @@
     {
       "name": "homes sit unsold",
       "pulledBy": "a slow market",
-      "writes": "the kicker says how long they sit"
+      "writes": "the kicker says how long they sit",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no kicker",
       "pulledBy": "a plain figures story",
-      "writes": "the story ends on the last figure"
+      "writes": "the story ends on the last figure",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

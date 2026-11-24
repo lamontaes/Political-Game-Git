@@ -18,12 +18,16 @@
     {
       "name": "the incumbent retires",
       "pulledBy": "a long-serving member who chose not to run again",
-      "writes": "the story says it is the end of a career"
+      "writes": "the story says it is the end of a career",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the incumbent blames the count",
       "pulledBy": "a loss by few votes",
-      "writes": "the story quotes the challenge"
+      "writes": "the story quotes the challenge",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

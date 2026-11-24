@@ -1,0 +1,44 @@
+{
+  "id": "porch-offer-to-step-aside-for-spouse",
+  "kind": "moment",
+  "summary": "A would-be candidate sits down with his spouse first and offers to drop the idea if she wants the seat herself.",
+  "realLife": "Before running for Congress, Mark Sanford first talked it over with his then-wife on the porch. He told her that if she was thinking of running, he would drop it, because a husband and wife running against each other seemed disastrous to him. He also told his sons he would not run if they did not want him to.",
+  "sources": [
+    "https://politicalwire.com/2013/01/17/sanford-got-approval-from-ex-wife/"
+  ],
+  "fits": ["home", "journal", "campaign"],
+  "slots": ["{the spouse}", "{the grown child}", "{the household}"],
+  "gates": [
+    "The player has a spouse or partner on record in the household.",
+    "The player has not yet filed for the office.",
+    "The spouse has some standing or ambition of their own."
+  ],
+  "weights": [
+    "Tie strength with the spouse.",
+    "Spouse's own ambition or public standing.",
+    "Player's agreeableness.",
+    "Whether children live at home."
+  ],
+  "inGame": "Household members, marriage or partnership ties and kin ties carry the people; the family-filing scene before a candidate files can carry the talk.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The spouse says flatly that they want the seat and expects the player to stand aside.",
+      "pulledBy": "High spouse ambition, a party that has noticed them.",
+      "writesBack": "A rival-from-home tie; the household's filing intent changes to the spouse."
+    },
+    {
+      "turn": "neutral",
+      "what": "The spouse laughs it off, says no interest, and the talk moves on to logistics.",
+      "pulledBy": "Low spouse ambition, warm tie.",
+      "writesBack": "A memory of the talk on both people; the spouse is marked as not a candidate."
+    },
+    {
+      "turn": "partial",
+      "what": "The spouse says they will not run but wants a say in how the campaign touches the kids.",
+      "pulledBy": "Children at home, cautious spouse.",
+      "writesBack": "A promise to the spouse about family time, held until the next election."
+    }
+  ]
+}

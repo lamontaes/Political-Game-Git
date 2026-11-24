@@ -18,12 +18,16 @@
     {
       "name": "who objects first",
       "pulledBy": "a law passed over loud objection",
-      "writes": "the item opens on the opposition"
+      "writes": "the item opens on the opposition",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no objection",
       "pulledBy": "a unanimous law",
-      "writes": "the item skips the third move"
+      "writes": "the item skips the third move",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

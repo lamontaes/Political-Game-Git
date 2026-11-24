@@ -18,12 +18,16 @@
     {
       "name": "lede on a stalled project",
       "pulledBy": "a developer who paused",
-      "writes": "the lede says work stopped"
+      "writes": "the lede says work stopped",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on the buyers",
       "pulledBy": "a project with a waiting list",
-      "writes": "the lede says how many have signed up"
+      "writes": "the lede says how many have signed up",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

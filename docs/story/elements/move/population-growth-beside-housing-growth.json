@@ -18,12 +18,16 @@
     {
       "name": "housing ahead of population",
       "pulledBy": "a building boom",
-      "writes": "the story says homes grew faster than people"
+      "writes": "the story says homes grew faster than people",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no comparison",
       "pulledBy": "a place with one figure only",
-      "writes": "the story gives the housing figure alone"
+      "writes": "the story gives the housing figure alone",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

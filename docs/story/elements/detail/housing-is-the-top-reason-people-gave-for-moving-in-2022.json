@@ -1,0 +1,31 @@
+{
+  "id": "housing-is-the-top-reason-people-gave-for-moving-in-2022",
+  "kind": "detail",
+  "summary": "In 2022, housing was the top reason movers gave: about 42 percent.",
+  "realLife": "Housing-related reasons were the top category of reasons for moving in 2022, at 41.6% of movers.",
+  "sources": [
+    "U.S. Census Bureau, Why People Move (Sept 19, 2023): https://www.census.gov/library/stories/2023/09/why-people-move.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["moved-year"],
+  "gates": [],
+  "weights": {
+    "moved-year": 0.5
+  },
+  "inGame": "the move/moved-in event's pushedBy fact. needs: a housing reason beside the economy one.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A move made for a job, not for housing.",
+      "pulledBy": "the jobs table",
+      "writesBack": "a moved-for-work fact"
+    },
+    {
+      "turn": "partial",
+      "what": "A move for both housing and family.",
+      "pulledBy": "two records on one move",
+      "writesBack": "two reasons told"
+    }
+  ],
+  "usedBy": []
+}

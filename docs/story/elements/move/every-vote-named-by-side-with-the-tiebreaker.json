@@ -19,12 +19,16 @@
     {
       "name": "a unanimous vote",
       "pulledBy": "no division",
-      "writes": "the story says all voted yes"
+      "writes": "the story says all voted yes",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
     },
     {
       "name": "a split by faction",
       "pulledBy": "a vote along other lines",
-      "writes": "the story names the factions"
+      "writes": "the story names the factions",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "close on the result",
       "pulledBy": "a decided matter",
-      "writes": "the last line is the outcome"
+      "writes": "the last line is the outcome",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "close on the next meeting",
       "pulledBy": "a body that meets again",
-      "writes": "the last line is the date"
+      "writes": "the last line is the date",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -28,5 +28,10 @@
       "pulledBy": "a seat whose powers are limited",
       "writes": "the first act is to ask the body to study the question"
     }
+  ],
+  "issues": [
+    "law:property-tax",
+    "law:local-power:rent-stabilization",
+    "law:local-power:exempt-groceries-from-sales-tax"
   ]
 }

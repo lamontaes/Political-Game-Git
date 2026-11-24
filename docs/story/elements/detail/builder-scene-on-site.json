@@ -18,12 +18,16 @@
     {
       "name": "a stalled site",
       "pulledBy": "a builder waiting on permits",
-      "writes": "the scene is an idle site"
+      "writes": "the scene is an idle site",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no scene",
       "pulledBy": "a story built on figures only",
-      "writes": "the story stays with the city"
+      "writes": "the story stays with the city",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
