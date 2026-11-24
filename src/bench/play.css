@@ -4911,16 +4911,14 @@ select.release-pick {
   grid-template-columns: minmax(300px, 1fr) minmax(0, 1.5fr) minmax(280px, 1fr);
 }
 .strip-screen .bsdept {
-  height: 50px;
+  /* A row is at least 50 px and grows to its name and its head, so no name is cut and a
+     head never overlaps it (N16-66: "Housing and community development" lost its end). */
+  min-height: 50px;
   align-content: center;
 }
 .strip-screen .bsdept b {
-  /* A long name wraps to a second line before it is cut. */
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   line-height: 1.15;
-  overflow: hidden;
+  overflow-wrap: break-word;
   padding-right: 10px;
 }
 .strip-screen .bsdept em {
