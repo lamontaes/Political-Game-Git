@@ -8355,6 +8355,678 @@
       },
       "bearing": "steady",
       "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-when-she-calls-get-the-nearest-cross-street-too-that-ll-help-me-check-the-right-block",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. When she calls, get the nearest cross street too. That'll help me check the right block.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-agree.take-down-her-street-name-i-ll-ask-council-for-the-money-back-and-i-ll-call-her-myself-when-we-know-about-her-block"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-get-you-an-answer-for-her-she-shouldn-t-have-to-sit-through-the-council-meeting-to-find-out-about-her-street",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get you an answer for her. She shouldn't have to sit through the council meeting to find out about her street.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-agree.take-down-her-street-name-i-ll-ask-council-for-the-money-back-and-i-ll-call-her-myself-when-we-know-about-her-block"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-send-her-to-you-about-the-vote-if-she-wants-to-know-where-the-paving-stops-she-can-still-call-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll send her to you about the vote. If she wants to know where the paving stops, she can still call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-refuse.give-her-my-number-i-ll-explain-why-i-m-leaving-the-road-budget-where-it-is"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.fair-enough-i-ll-answer-for-the-work-we-can-do-you-can-answer-for-what-we-can-spend",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'll answer for the work we can do. You can answer for what we can spend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-refuse.give-her-my-number-i-ll-explain-why-i-m-leaving-the-road-budget-where-it-is"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-take-half-before-you-call-anybody-back-give-me-a-chance-to-check-which-blocks-that-buys",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take half. Before you call anybody back, give me a chance to check which blocks that buys.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-bargain.i-ll-ask-for-half-the-cut-then-let-s-see-how-far-down-the-street-list-that-gets-us"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-ask-for-half-i-ll-mark-where-that-leaves-us-on-the-list-so-we-can-show-her",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes, ask for half. I'll mark where that leaves us on the list so we can show her.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-bargain.i-ll-ask-for-half-the-cut-then-let-s-see-how-far-down-the-street-list-that-gets-us"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thank-you-i-ll-mark-the-part-below-the-surface-so-you-can-point-to-it-when-the-members-ask",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll mark the part below the surface so you can point to it when the members ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-agree.bring-the-drawing-i-ll-sponsor-the-amendment-and-you-can-walk-us-through-it"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-bring-the-cross-section-if-somebody-wants-to-know-why-we-can-t-just-lay-asphalt-let-me-take-that-one",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll bring the cross section. If somebody wants to know why we can't just lay asphalt, let me take that one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-agree.bring-the-drawing-i-ll-sponsor-the-amendment-and-you-can-walk-us-through-it"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.all-right-i-ll-have-to-price-a-shorter-stretch-if-the-work-underneath-still-has-to-be-done",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll have to price a shorter stretch if the work underneath still has to be done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-refuse.i-understand-there-s-work-underneath-i-m-still-voting-to-keep-the-cut"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.then-i-ll-go-back-to-the-estimate-i-can-t-make-the-bit-under-the-road-cheaper-by-leaving-it-off-the-page",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll go back to the estimate. I can't make the bit under the road cheaper by leaving it off the page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-refuse.i-understand-there-s-work-underneath-i-m-still-voting-to-keep-the-cut"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.half-would-help-i-ll-mark-the-work-i-can-cover-at-that-price-before-you-show-the-drawing-around",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Half would help. I'll mark the work I can cover at that price before you show the drawing around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-bargain.suppose-i-can-get-half-back-show-me-what-that-would-cover-on-your-drawing"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-price-that-version-i-owe-you-more-than-a-line-halfway-down-a-drawing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll price that version. I owe you more than a line halfway down a drawing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "cut"],
+          "after": "scene-talk-office.reply-bargain.suppose-i-can-get-half-back-show-me-what-that-would-cover-on-your-drawing"
+        }
+      ],
+      "elements": ["protection-under-realigned-road"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-ll-put-the-difference-up-top-so-the-clerk-can-see-what-belongs-on-this-amendment",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll put the difference up top so the clerk can see what belongs on this amendment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-agree.give-me-the-difference-that-s-the-amount-i-ll-take-back-to-council"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-bring-both-votes-with-me-if-a-member-reads-out-the-first-amount-i-can-explain-why-you-re-asking-for-less",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll bring both votes with me. If a member reads out the first amount, I can explain why you're asking for less.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-agree.give-me-the-difference-that-s-the-amount-i-ll-take-back-to-council"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.then-the-second-vote-is-where-we-stop-i-ll-draw-a-line-under-it-on-my-copy",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then the second vote is where we stop. I'll draw a line under it on my copy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-refuse.keep-both-figures-on-the-sheet-i-m-sticking-with-what-council-put-back"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.all-right-the-part-you-put-back-stays-in-our-plan-i-ll-take-the-balance-off-today-s-council-request",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. The part you put back stays in our plan. I'll take the balance off today's council request.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-refuse.keep-both-figures-on-the-sheet-i-m-sticking-with-what-council-put-back"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-start-with-what-s-still-missing-and-divide-that-i-ll-check-the-number-before-you-file",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. Start with what's still missing and divide that. I'll check the number before you file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.split-what-s-still-missing-in-half-i-ll-take-that-smaller-request-to-the-members"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-can-work-with-that-i-ll-send-you-the-smaller-figure-with-the-earlier-vote-underneath-so-nobody-adds-it-twice",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can work with that. I'll send you the smaller figure with the earlier vote underneath so nobody adds it twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.split-what-s-still-missing-in-half-i-ll-take-that-smaller-request-to-the-members"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.that-helps-if-your-office-takes-a-call-send-me-the-cross-streets-and-i-ll-look-up-the-request",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That helps. If your office takes a call, send me the cross streets and I'll look up the request.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-agree.i-ll-ask-for-the-rest-of-the-road-money-in-the-meantime-people-can-call-my-office-about-their-block"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-for-going-back-give-people-my-number-for-questions-about-the-work-while-you-re-waiting-on-the-vote",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for going back. Give people my number for questions about the work while you're waiting on the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-agree.i-ll-ask-for-the-rest-of-the-road-money-in-the-meantime-people-can-call-my-office-about-their-block"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-send-the-budget-questions-your-way-my-office-can-still-tell-somebody-whether-we-ve-got-their-request",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll send the budget questions your way. My office can still tell somebody whether we've got their request.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-refuse.i-can-tell-them-why-i-m-keeping-the-budget-here-send-the-calls-my-way"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.all-right-if-somebody-asks-why-their-block-has-to-wait-i-ll-make-sure-they-can-reach-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. If somebody asks why their block has to wait, I'll make sure they can reach you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-refuse.i-can-tell-them-why-i-m-keeping-the-budget-here-send-the-calls-my-way"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "solemn",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-take-that-offer-let-me-work-out-which-streets-would-still-be-waiting-before-we-call-people",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take that offer. Let me work out which streets would still be waiting before we call people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-ll-back-half-of-what-s-still-missing-let-s-see-which-requests-we-d-still-have-to-turn-down"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-i-ll-bring-the-requests-that-half-would-cover-and-keep-the-ones-we-d-have-to-turn-down-on-the-same-sheet",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. I'll bring the requests that half would cover and keep the ones we'd have to turn down on the same sheet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["budget-line-highways", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-ll-back-half-of-what-s-still-missing-let-s-see-which-requests-we-d-still-have-to-turn-down"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
     }
   ]
 }
