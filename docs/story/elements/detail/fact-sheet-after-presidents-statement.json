@@ -8,5 +8,20 @@
   "slots": ["{issue}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: publication and revision of a briefing sheet.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The press office circulates the figures before the president speaks.",
+      "pulledBy": "The figures are verified and reporters have requested them.",
+      "writesBack": "The first published account links to the advance sheet."
+    },
+    {
+      "turn": "late",
+      "what": "The office releases a sheet with one answer marked pending.",
+      "pulledBy": "Two agencies have returned different totals.",
+      "writesBack": "A later correction identifies the figure and its source."
+    }
+  ]
 }

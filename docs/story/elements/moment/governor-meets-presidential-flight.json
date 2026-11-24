@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the officials present for a presidential visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A deputy meets the flight and the governor stays at the emergency office.",
+      "pulledBy": "A decision requiring the governor is due during the arrival.",
+      "writesBack": "The visit roster names the deputy."
+    },
+    {
+      "turn": "late",
+      "what": "The governor joins the president at the town hall.",
+      "pulledBy": "The governor's earlier briefing runs past the landing time.",
+      "writesBack": "The itinerary records where the governor joined."
+    }
+  ]
 }

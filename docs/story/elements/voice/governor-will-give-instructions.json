@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the named issuer of public instructions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The president directs residents to follow county notices.",
+      "pulledBy": "Emergency instructions in the affected area are issued by the county.",
+      "writesBack": "The statement names the county as the source of local orders."
+    },
+    {
+      "turn": "partial",
+      "what": "The governor sets statewide guidance while towns announce their own routes.",
+      "pulledBy": "County officials have submitted different local travel plans.",
+      "writesBack": "The notice identifies who is responsible for each instruction."
+    }
+  ]
 }

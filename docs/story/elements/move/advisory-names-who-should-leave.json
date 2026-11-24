@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the groups and places covered by a public advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The advisory covers everyone inside the designated area.",
+      "pulledBy": "The forecast puts every household there at risk.",
+      "writesBack": "The notice covers all residents within the boundary."
+    },
+    {
+      "turn": "partial",
+      "what": "Families in one part of town receive different instructions.",
+      "pulledBy": "The newest assessment places only that neighborhood inside the affected area.",
+      "writesBack": "The revised notice lists the affected streets."
+    }
+  ]
 }

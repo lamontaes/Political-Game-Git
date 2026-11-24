@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the scope of an acting chair's authority.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The commission keeps decisions with the full body.",
+      "pulledBy": "Members can assemble before the decision is due.",
+      "writesBack": "The vote records each member's position."
+    },
+    {
+      "turn": "partial",
+      "what": "The chair may speak for the commission only until it meets.",
+      "pulledBy": "The members delegate authority for an interim period.",
+      "writesBack": "The delegation ends at the meeting."
+    }
+  ]
 }

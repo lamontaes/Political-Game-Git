@@ -8,5 +8,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: who receives public credit in a crisis appearance.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Residents use the appearance to challenge the official account.",
+      "pulledBy": "The people at the meeting have documented conflicting instructions.",
+      "writesBack": "Their objections enter the meeting record."
+    },
+    {
+      "turn": "partial",
+      "what": "The president defers thanks until residents have spoken.",
+      "pulledBy": "The host gives displaced households the first turn.",
+      "writesBack": "The meeting minutes put residents' testimony ahead of the president's remarks."
+    }
+  ]
 }

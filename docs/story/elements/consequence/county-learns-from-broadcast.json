@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: who first told each local office about the decision.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A county director hears the decision from the governor before it goes on air.",
+      "pulledBy": "The governor's staff reaches the director on the first call.",
+      "writesBack": "The county log cites the governor's office as its source."
+    },
+    {
+      "turn": "late",
+      "what": "The broadcast brings the first news and the written order arrives later.",
+      "pulledBy": "A local office misses the briefing but receives the signed order.",
+      "writesBack": "The county log distinguishes the first report from official confirmation."
+    }
+  ]
 }

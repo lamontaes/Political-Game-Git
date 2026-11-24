@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: communications support requested and restored.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The local communications office restores the connection itself.",
+      "pulledBy": "A local technician is available before the federal crew can leave.",
+      "writesBack": "The service log closes the request with the local repair."
+    },
+    {
+      "turn": "partial",
+      "what": "The governor's office gets a working line while the field team still needs one.",
+      "pulledBy": "The first connection reaches headquarters only.",
+      "writesBack": "The support request remains open for the field location."
+    }
+  ]
 }

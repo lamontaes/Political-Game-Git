@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: agency approval before a recommendation goes outside.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair returns the call before staff send their advice.",
+      "pulledBy": "The chair is on the briefing call.",
+      "writesBack": "The governor receives a recommendation approved by the chair."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff relay what they observed and hold back their recommendation.",
+      "pulledBy": "The chair is unavailable and the observations have been verified.",
+      "writesBack": "The briefing records the observations and leaves the recommendation pending."
+    }
+  ]
 }

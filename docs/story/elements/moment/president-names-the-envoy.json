@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the executive's selection of a field representative.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The president takes the agency's choice of deputy.",
+      "pulledBy": "The deputy has handled previous incidents at the site.",
+      "writesBack": "The assignment names the deputy as the president's contact."
+    },
+    {
+      "turn": "late",
+      "what": "The named envoy takes over from the official already there.",
+      "pulledBy": "Travel delays keep the envoy away from the first briefing.",
+      "writesBack": "The field log records who held authority before and after the handover."
+    }
+  ]
 }

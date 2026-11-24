@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: assignment of responsibility for findings.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive directs the agencies to act on the whole recommendation.",
+      "pulledBy": "The recommendation falls within the executive's existing authority.",
+      "writesBack": "The order names the agency responsible and a completion date."
+    },
+    {
+      "turn": "partial",
+      "what": "The executive acts on one finding and asks the regulator to consider another.",
+      "pulledBy": "The report assigns the decisions to different authorities.",
+      "writesBack": "The tracking record distinguishes a directive from a referral."
+    }
+  ]
 }

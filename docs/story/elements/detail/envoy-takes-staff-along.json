@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the people assigned to a field visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The envoy travels alone and draws on local staff.",
+      "pulledBy": "Local specialists are already on duty at the site.",
+      "writesBack": "The assignment names the local contacts."
+    },
+    {
+      "turn": "late",
+      "what": "A specialist follows on a later trip.",
+      "pulledBy": "The first briefing reveals a question the envoy cannot answer.",
+      "writesBack": "The deployment record adds a specialist and arrival time."
+    }
+  ]
 }

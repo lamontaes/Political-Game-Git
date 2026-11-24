@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the recipients and timing of successive briefings.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Town officials hear the state briefing directly.",
+      "pulledBy": "Local directors have joined the state call.",
+      "writesBack": "The attendance record shows which towns heard the decision firsthand."
+    },
+    {
+      "turn": "late",
+      "what": "A county director repeats the briefing when a town calls back.",
+      "pulledBy": "The town missed the scheduled call.",
+      "writesBack": "The town's receipt carries the later time."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the measured and forecast basis of a recommendation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Both advisers recommend the same precaution.",
+      "pulledBy": "Current readings and the forecast independently support it.",
+      "writesBack": "The briefing records both grounds for the recommendation."
+    },
+    {
+      "turn": "late",
+      "what": "The advisers reconcile their recommendations after a fresh reading.",
+      "pulledBy": "A second observation resolves the disputed trend.",
+      "writesBack": "The updated briefing retains the earlier disagreement and its resolution."
+    }
+  ]
 }

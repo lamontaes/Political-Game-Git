@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: who decides a license application and when.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The regulator pauses a group of pending applications together.",
+      "pulledBy": "A common review requirement applies to every application in the group.",
+      "writesBack": "The docket records the joint hold and its basis."
+    },
+    {
+      "turn": "partial",
+      "what": "A single application goes forward while others await evidence.",
+      "pulledBy": "Only one applicant has supplied the missing records.",
+      "writesBack": "The docket separates that hearing from the held applications."
+    }
+  ]
 }

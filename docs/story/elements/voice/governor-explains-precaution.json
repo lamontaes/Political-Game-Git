@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the reason given publicly for an advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor points to a change already measured.",
+      "pulledBy": "Verified readings have risen since the last briefing.",
+      "writesBack": "The notice attributes the decision to the new readings."
+    },
+    {
+      "turn": "partial",
+      "what": "The governor explains the uncertainty and sets a time for another update.",
+      "pulledBy": "The next measurement is due before the warning expires.",
+      "writesBack": "The notice lists the next briefing time."
+    }
+  ]
 }

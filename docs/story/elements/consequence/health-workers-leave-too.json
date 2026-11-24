@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: staff availability during a public advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The hospital keeps the shift covered.",
+      "pulledBy": "Enough off-duty staff outside the affected area can report.",
+      "writesBack": "The roster records the substitutions."
+    },
+    {
+      "turn": "partial",
+      "what": "The emergency department stays open while routine appointments move.",
+      "pulledBy": "Available staff can cover urgent care only.",
+      "writesBack": "The hospital schedule records which appointments were postponed."
+    }
+  ]
 }

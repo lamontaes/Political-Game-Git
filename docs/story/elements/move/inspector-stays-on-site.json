@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the posting and coverage of inspectors.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Inspectors continue to visit from a regional office.",
+      "pulledBy": "The agency denies funding for a permanent post.",
+      "writesBack": "The inspection calendar lists visits without a resident assignment."
+    },
+    {
+      "turn": "late",
+      "what": "A resident inspector arrives after a temporary rotation.",
+      "pulledBy": "The permanent appointee must finish another assignment.",
+      "writesBack": "The staffing record gives the rotation and handover dates."
+    }
+  ]
 }
