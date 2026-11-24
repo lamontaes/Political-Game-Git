@@ -150,3 +150,13 @@ writeFileSync(
   "scripts/sameness/inputs/news-roll-call-six.jsonl",
   `${vote.join("\n")}\n`,
 );
+// The headlines are told from the same facts (a headline has no lede or body, so the
+// same worlds draw its wording); the gate runs on them as their own kinds.
+writeFileSync(
+  "scripts/sameness/inputs/news-address-headline-six.jsonl",
+  `${address.map((line) => line.replace("news-address:", "news-address-headline:")).join("\n")}\n`,
+);
+writeFileSync(
+  "scripts/sameness/inputs/news-roll-call-headline-six.jsonl",
+  `${vote.map((line) => line.replace("news-roll-call:", "news-roll-call-headline:")).join("\n")}\n`,
+);
