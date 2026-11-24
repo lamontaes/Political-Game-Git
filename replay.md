@@ -319,3 +319,10 @@ Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-
 ## #10337 at 0e51bf49 (main merged in; includes e7c44f11), played from pull/10337/head
 
 Same result as e7c44f11: Since and In office since agree (2021) at Alexis NC 85a230de12f5 and Loudon NH 03475ffc-637d-433f-8ee8-a6e75f6e0f91; the sheriff (481 px) and the commissioner fit their text with no scroller; the President's card (520 px) still leaves the right column under the short story empty. Picture: replay-pgA-grid.png.
+
+## #10337 at b9ab1b05 (played from pull/10337/head)
+
+Alexis NC 85a230de12f5, Loudon NH 03475ffc-637d-433f-8ee8-a6e75f6e0f91. Picture: replay-phA-grid.png.
+- Since / In office since: pass (both 2021).
+- P17, C17 on the President: **pass**: the record and the story balance across the two right columns (card 506 px at Alexis, 539 px at Loudon); no empty column; stands in plain words ("A lawyer for tenants facing eviction: Against", "Photo ID to vote: For", "A higher age for juvenile court: For").
+- Sheriff (481 px) and commissioner: pass, no scroller, nothing below the panel.
