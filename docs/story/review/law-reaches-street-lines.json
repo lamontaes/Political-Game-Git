@@ -621,10 +621,10 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.follow-accept.just-that-paycheck-how-did-they-decide-to-take-withheld-out-of-it",
+    "key": "scene-talk.follow-accept.just-that-paycheck-i-d-like-to-see-the-calculation-that-came-to-withheld",
     "kind": "spoken",
     "move": "follow-accept",
-    "text": "Just that paycheck. How did they decide to take {withheld} out of it?",
+    "text": "Just that paycheck. I'd like to see the calculation that came to {withheld}.",
     "uses": [
       {
         "subject": "scene",
@@ -649,10 +649,10 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.follow-accept.i-d-start-with-the-deduction-how-do-i-check-whether-withheld-was-the-right-amount",
+    "key": "scene-talk.follow-accept.the-deduction-please-i-d-like-to-check-whether-withheld-was-the-right-amount",
     "kind": "spoken",
     "move": "follow-accept",
-    "text": "I'd start with the deduction. How do I check whether {withheld} was the right amount?",
+    "text": "The deduction, please. I'd like to check whether {withheld} was the right amount.",
     "uses": [
       {
         "subject": "scene",
