@@ -73797,6 +73797,569 @@
       ]
     },
     {
+      "key": "scene-talk.reply-agree.you-re-from-then-you-ll-like-the-diner-two-blocks-over-tell-them-i-sent-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're from {hometown}? Then you'll like the diner two blocks over. Tell them I sent you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-live-in-hometown-so-i-don-t-know-the-town-here-yet-is-there-a-good-place-near-employer-to-get-lunch",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": [
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-first-week-talk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-feel-like-eating-that-changes-where-i-d-send-you-from",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you feel like eating? That changes where I'd send you from {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-live-in-hometown-so-i-don-t-know-the-town-here-yet-is-there-a-good-place-near-employer-to-get-lunch",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": [
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-first-week-talk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-bring-my-own-so-ask-someone-at-who-eats-out",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I bring my own, so ask someone at {employer} who eats out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-live-in-hometown-so-i-don-t-know-the-town-here-yet-is-there-a-good-place-near-employer-to-get-lunch",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": [
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-first-week-talk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-really-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not really, sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-live-in-hometown-so-i-don-t-know-the-town-here-yet-is-there-a-good-place-near-employer-to-get-lunch"
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": [
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-first-week-talk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-introduce-you-to-the-local-people-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll introduce you to the local {party} people myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-been-with-the-that-tells-me-who-to-put-you-with",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you been with the {party}? That tells me who to put you with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-the-one-to-ask-about-the-try-the-county-chair",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not the one to ask about the {party}. Try the county chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-keep-my-politics-out-of-so-i-d-rather-not-say",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I keep my politics out of {employer}, so I'd rather not say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-know-who-runs-the-local-i-ll-put-you-in-touch",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I know who runs the local {party}. I'll put you in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-m-with-the-party-and-i-ve-been-meaning-to-find-the-local-members-would-you-know-who-to-talk-to",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-from-the-local-that-decides-who-i-d-send-you-to",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want from the local {party}? That decides who I'd send you to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-m-with-the-party-and-i-ve-been-meaning-to-find-the-local-members-would-you-know-who-to-talk-to",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-the-right-person-for-the-try-the-county-chair",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not the right person for the {party}. Try the county chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-m-with-the-party-and-i-ve-been-meaning-to-find-the-local-members-would-you-know-who-to-talk-to",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-not-mix-the-with-work-at",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather not mix the {party} with work at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.i-m-with-the-party-and-i-ve-been-meaning-to-find-the-local-members-would-you-know-who-to-talk-to",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-did-go-to-and-i-remember-you-a-little-a-few-of-us-still-see-each-other",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I did go to {school}, and I remember you a little. A few of us still see each other.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.did-you-go-to-school-i-did-and-i-think-we-were-in-the-same-year-who-else-from-then-is-still-around-here",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": ["people-who-attend-know-their-neighbors"]
+    },
+    {
+      "key": "scene-talk.reply-ask.which-year-did-you-finish-at-i-ll-tell-you-who-i-remember",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Which year did you finish at {school}? I'll tell you who I remember.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.did-you-go-to-school-i-did-and-i-think-we-were-in-the-same-year-who-else-from-then-is-still-around-here",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": ["people-who-attend-know-their-neighbors"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.was-a-long-time-ago-and-i-ve-lost-touch-with-most-of-them",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{school} was a long time ago, and I've lost touch with most of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.did-you-go-to-school-i-did-and-i-think-we-were-in-the-same-year-who-else-from-then-is-still-around-here",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": ["people-who-attend-know-their-neighbors"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-not-go-back-over-i-haven-t-kept-up-with-anyone",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather not go back over {school}. I haven't kept up with anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.did-you-go-to-school-i-did-and-i-think-we-were-in-the-same-year-who-else-from-then-is-still-around-here",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["people-who-attend-know-their-neighbors"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-can-tell-you-how-pickup-works-at-it-s-simpler-than-it-looks",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I can tell you how pickup works at {school}. It's simpler than it looks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": [
+        "school-pickup-complaint",
+        "many-children-and-no-parents-at-school"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.which-grade-is-in-pickup-is-different-for-each-at",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Which grade is {child} in? Pickup is different for each at {school}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": [
+        "school-pickup-complaint",
+        "many-children-and-no-parents-at-school"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-the-front-office-at-they-change-the-pickup-line-every-year",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Ask the front office at {school}. They change the pickup line every year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": [
+        "school-pickup-complaint",
+        "many-children-and-no-parents-at-school"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-know-the-pickup-line-at-sorry-my-kids-ride-the-bus",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't know the pickup line at {school}, sorry. My kids ride the bus.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": [
+        "school-pickup-complaint",
+        "many-children-and-no-parents-at-school"
+      ]
+    },
+    {
       "key": "scene-talk.reply-agree.you-re-right-yes",
       "move": "reply-agree",
       "kind": "spoken",
