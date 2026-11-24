@@ -7,6 +7,7 @@ name: New game
 # (ruling 3).
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       # Story element and owner-idea files are research rows no client reads;
       # a pull request that changes only these starts none of these checks
@@ -29,6 +30,7 @@ concurrency:
 jobs:
   scope:
     name: docs only
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -59,7 +61,7 @@ jobs:
     name: new game
     needs: scope
     # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
-    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

@@ -1,6 +1,7 @@
 name: M0 guards
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   # Main is checked once an hour, not on every push (owner, Oct 28: the CI
   # queue, see validate.yml). Every merge's pull request already ran this
   # workflow on the merged result.
@@ -18,6 +19,7 @@ concurrency:
 jobs:
   scope:
     name: docs only
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -47,7 +49,7 @@ jobs:
   golden-path:
     needs: scope
     # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
-    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
     steps:
@@ -78,7 +80,7 @@ jobs:
   golden-path-year:
     needs: scope
     # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
-    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
     steps:
@@ -98,6 +100,7 @@ jobs:
           name: golden-path-year
           path: ${{ runner.temp }}/golden-path-year.json
   core-changes:
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.paths.outputs.changed }}
@@ -121,7 +124,7 @@ jobs:
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
   paired-performance:
     needs: [scope, core-changes]
-    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' && needs.core-changes.outputs.changed == 'true' }}
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true' && needs.core-changes.outputs.changed == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 50 # policies.json performanceJobMinutes; includes dependency setup
     steps:

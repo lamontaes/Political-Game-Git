@@ -21,6 +21,7 @@ name: Instruction checks
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       # Story element and owner-idea files are research rows no client reads;
       # a pull request that changes only these starts none of these checks
@@ -44,6 +45,7 @@ env:
 jobs:
   instructions:
     name: instruction checks
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
