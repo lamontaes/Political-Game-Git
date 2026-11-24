@@ -6578,6 +6578,1126 @@
       "bearing": "guarded",
       "elements": ["health-office-missing-from-plan"],
       "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-give-the-counties-your-number-when-i-call-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll give the counties your number when I call about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-tell-the-counties-i-ve-signed-if-they-have-questions-about-why-send-those-to-my-office"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "briefing-travels-through-county"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.if-a-county-director-asks-why-you-declared-for-the-disaster-i-ll-put-the-call-through-to-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "If a county director asks why you declared for the {disaster}, I'll put the call through to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-tell-the-counties-i-ve-signed-if-they-have-questions-about-why-send-those-to-my-office"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "briefing-travels-through-county"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-get-you-the-names-of-the-people-who-advised-us-on-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get you the names of the people who advised us on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-want-their-names-so-i-can-call-them-afterward-you-have-my-authorization-to-declare-now"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-calls-to-confirm-advice"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.the-declaration-is-here-i-ll-bring-you-the-names-behind-the-disaster-recommendation-as-well",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "The declaration is here. I'll bring you the names behind the {disaster} recommendation as well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-want-their-names-so-i-can-call-them-afterward-you-have-my-authorization-to-declare-now"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-calls-to-confirm-advice"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.you-ll-get-the-next-forecast-for-the-disaster-as-soon-as-i-have-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You'll get the next forecast for the {disaster} as soon as I have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.don-t-hold-the-papers-for-another-forecast-i-ll-sign-on-the-information-we-have"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "readings-and-forecast-disagree"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-keep-the-forecast-we-used-for-the-disaster-with-today-s-briefing-and-send-the-next-one-separately",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll keep the forecast we used for the {disaster} with today's briefing and send the next one separately.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.don-t-hold-the-papers-for-another-forecast-i-ll-sign-on-the-information-we-have"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "readings-and-forecast-disagree"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-get-word-of-the-declaration-to-the-local-officials-preparing-for-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get word of the declaration to the local officials preparing for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ll-declare-today-tell-the-people-doing-the-preparation-that-they-have-my-decision"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.the-people-getting-ready-for-the-disaster-will-hear-from-me-as-soon-as-you-ve-signed",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "The people getting ready for the {disaster} will hear from me as soon as you've signed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ll-declare-today-tell-the-people-doing-the-preparation-that-they-have-my-decision"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.if-i-m-asked-why-you-declared-for-the-disaster-i-ll-send-that-question-to-your-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "If I'm asked why you declared for the {disaster}, I'll send that question to your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-i-ll-declare-you-explain-the-department-s-work-and-i-ll-explain-the-decision"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-will-give-instructions"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-announce-the-declaration-for-the-disaster-and-leave-the-reasons-for-you-to-give",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll announce the declaration for the {disaster} and leave the reasons for you to give.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-i-ll-declare-you-explain-the-department-s-work-and-i-ll-explain-the-decision"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-will-give-instructions"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.the-county-offices-will-get-a-way-to-reach-you-when-they-get-the-news-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "The county offices will get a way to reach you when they get the news about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.call-the-local-offices-from-here-tell-them-i-m-signing-and-give-them-my-number"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "county-learns-from-broadcast"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-give-the-local-directors-your-contact-information-on-the-call-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll give the local directors your contact information on the call about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.call-the-local-offices-from-here-tell-them-i-m-signing-and-give-them-my-number"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "county-learns-from-broadcast"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.you-ll-get-the-questions-about-declaring-for-the-disaster-i-can-answer-for-the-department",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You'll get the questions about declaring for the {disaster}. I can answer for the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.you-can-give-them-a-yes-i-ll-sign-now-and-answer-the-questions-myself"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "advisers-take-over-press-room"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-make-sure-reporters-covering-the-disaster-know-you-re-taking-questions-yourself",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll make sure reporters covering the {disaster} know you're taking questions yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.you-can-give-them-a-yes-i-ll-sign-now-and-answer-the-questions-myself"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "advisers-take-over-press-room"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-ask-public-health-to-brief-you-on-what-the-disaster-means-for-the-next-few-days",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll ask public health to brief you on what the {disaster} means for the next few days.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ll-sign-i-d-still-like-public-health-s-assessment-for-the-people-carrying-out-the-response"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "health-office-missing-from-plan"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.once-the-declaration-for-the-disaster-is-signed-i-ll-get-the-health-director-on-the-phone-for-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Once the declaration for the {disaster} is signed, I'll get the health director on the phone for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-midway",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ll-sign-i-d-still-like-public-health-s-assessment-for-the-people-carrying-out-the-response"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "health-office-missing-from-plan"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-take-the-declaration-back-so-the-counties-have-your-decision-on-the-disaster-in-writing",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll take the declaration back so the counties have your decision on the {disaster} in writing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-let-the-counties-know-before-you-head-home-that-they-re-getting-a-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "briefing-travels-through-county"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.the-counties-can-work-from-the-signed-order-for-the-disaster-i-ll-get-it-to-them",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "The counties can work from the signed order for the {disaster}. I'll get it to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-let-the-counties-know-before-you-head-home-that-they-re-getting-a-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "briefing-travels-through-county"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-get-the-papers-for-the-disaster-moving-while-we-still-have-time",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get the papers for the {disaster} moving while we still have time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.bring-it-over-i-m-signing-while-the-request-is-still-open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.that-gives-us-until-deadline-to-get-the-request-in-i-ll-take-the-signed-declaration-with-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That gives us until {deadline} to get the request in. I'll take the signed declaration with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "deadline"
+          ],
+          "after": "scene-talk-office.reply-agree.bring-it-over-i-m-signing-while-the-request-is-still-open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.here-s-the-declaration-for-the-disaster-i-ll-stay-until-you-ve-signed",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Here's the declaration for the {disaster}. I'll stay until you've signed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-bring-me-the-declaration-before-anybody-leaves-the-room"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-will-give-instructions"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-put-the-order-for-the-disaster-in-front-of-you-and-take-it-back-when-you-re-done",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll put the order for the {disaster} in front of you and take it back when you're done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-bring-me-the-declaration-before-anybody-leaves-the-room"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-will-give-instructions"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-get-a-county-director-on-the-line-here-while-you-sign-the-order-for-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get a county director on the line here while you sign the order for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.make-the-calls-i-ll-sign-here-so-you-can-tell-the-counties-it-s-done"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "county-learns-from-broadcast"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-make-the-calls-from-this-room-when-you-ve-signed-i-ll-tell-the-counties-the-declaration-for-the-disaster-is-in-effect",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll make the calls from this room. When you've signed, I'll tell the counties the declaration for the {disaster} is in effect.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.make-the-calls-i-ll-sign-here-so-you-can-tell-the-counties-it-s-done"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "county-learns-from-broadcast"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-tell-them-you-signed-before-deadline-and-that-your-office-will-take-questions",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll tell them you signed before {deadline} and that your office will take questions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "deadline"
+          ],
+          "after": "scene-talk-office.reply-agree.tell-them-i-ve-authorized-it-send-the-questions-about-my-decision-to-me"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "advisers-take-over-press-room"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.when-people-call-about-the-declaration-for-the-disaster-i-ll-give-them-your-office-number",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "When people call about the declaration for the {disaster}, I'll give them your office number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.tell-them-i-ve-authorized-it-send-the-questions-about-my-decision-to-me"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "advisers-take-over-press-room"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-pass-your-invitation-along-to-the-people-who-advised-us-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll pass your invitation along to the people who advised us about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ve-heard-the-advice-and-i-ll-sign-if-the-person-who-gave-it-wants-to-speak-with-me-put-them-through"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-calls-to-confirm-advice"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.anyone-who-wants-to-follow-up-on-the-advice-about-the-disaster-can-call-you-after-the-signing-i-ll-tell-them",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Anyone who wants to follow up on the advice about the {disaster} can call you after the signing. I'll tell them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-ve-heard-the-advice-and-i-ll-sign-if-the-person-who-gave-it-wants-to-speak-with-me-put-them-through"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-calls-to-confirm-advice"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.the-next-forecast-for-the-disaster-will-come-straight-to-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "The next forecast for the {disaster} will come straight to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-would-i-ll-sign-on-this-forecast-bring-me-the-next-one-when-it-comes-in"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "readings-and-forecast-disagree"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-bring-the-new-forecast-for-the-disaster-even-though-the-declaration-will-already-be-signed",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll bring the new forecast for the {disaster} even though the declaration will already be signed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.i-would-i-ll-sign-on-this-forecast-bring-me-the-next-one-when-it-comes-in"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "readings-and-forecast-disagree"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.here-it-is-i-ll-take-the-signed-declaration-for-the-disaster-back-to-the-department",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Here it is. I'll take the signed declaration for the {disaster} back to the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-let-me-have-the-papers-and-you-can-take-the-declaration-back-with-you"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-wait-for-the-signature-before-i-leave-with-the-order-for-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll wait for the signature before I leave with the order for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "return-last",
+            "disaster"
+          ],
+          "after": "scene-talk-office.reply-agree.yes-let-me-have-the-papers-and-you-can-take-the-declaration-back-with-you"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": [
+        "governor-explains-precaution"
+      ],
+      "issues": [
+        "none"
+      ]
     }
   ]
 }
