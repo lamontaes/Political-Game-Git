@@ -44,6 +44,12 @@
     },
     "travel [sheet]": {
       "div.travel-left scrolls y": 1
+    },
+    "politics [sheet]": {
+      "div.members-pager.pager scrolls y": 1
+    },
+    "politics > Government [sheet]": {
+      "div.members-pager.pager scrolls y": 1
     }
   }
 }
