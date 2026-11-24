@@ -2,7 +2,7 @@
 
 Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `97544448`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (159 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 154 of 159 pass (97%); 5 fail.
+- **Result:** 155 of 159 pass (97%); 4 fail.
 - **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, NC 8/8, ND 8/8, PA 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** at `97544448` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 33 of these lines played.
@@ -13,6 +13,10 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `97544448`, `data/englis
 - "Thank you all. the Washington County Board of Commissioners and I have work to do on public safety." (Washington County address): {body-name} carries a lowercase "the" at the start of a sentence.
 - "Thank you to the Rainelle City Council, ... Much of what the Rainelle City Council took up this year..." (Rainelle address): the body's full name twice in one paragraph.
 - "Please vote." (Washington County campaign): the whole send-off; curt for a closing.
+
+## A correction to this file's earlier reads
+
+The Pre-grader's sheets for W2's outline-local lines (chunks V1, W1, NB, NC, PA, ND) described {realm-name} as "the state"; in outline-local it is the town or county. Only two verdicts cited it: ND-026 is overruled to pass (it failed on that alone), and PA-080 keeps its fail on its other reason (it announces skipping the formalities).
 
 ## Failing lines by rule
 
@@ -31,10 +35,6 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `97544448`, `data/englis
 ### no-stock-phrases (1)
 
 - `outline-local.running.i-d-bring-to-the-table-as-your-and-i-d-keep-it-there`: "I'd bring {theme-name} to the table as your {office-title}, and I'd keep it there." — "Bring it to the table... keep it there" is a stock political turn that says nothing about what he would do.
-
-### false for its facts (1)
-
-- `outline-local.report.spent-a-good-part-of-the-year-working-on`: "{realm-name} spent a good part of the year working on {theme-name}." — {realm-name} is the state, so a mayor's town report says the state spent the year on the theme.
 
 ## As played
 
@@ -224,6 +224,7 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `97544448`, `data/englis
 - `outline-local.running.i-m-running-so-that-gets-a-fair-hearing-from-your`: "I'm running so that {theme-name} gets a fair hearing from your {office-title}."
 - `outline-local.running.ask-yourself-what-your-has-done-on-i-d-do-more`: "Ask yourself what your {office-title} has done on {theme-name}. I'd do more."
 - `outline-local.running.as-your-i-ve-worked-on-and-i-want-to-finish-the-job`: "As your {office-title}, I've worked on {theme-name}, and I want to finish the job."
+- `outline-local.report.spent-a-good-part-of-the-year-working-on`: "{realm-name} spent a good part of the year working on {theme-name}."
 - `outline-local.report.as-i-saw-come-up-again-and-again-this-year`: "As {office-title}, I saw {theme-name} come up again and again this year."
 - `outline-local.report.the-subject-that-kept-coming-up-at-this-year-was`: "The subject that kept coming up at {body-name} this year was {theme-name}."
 - `outline-local.report.and-i-spent-a-lot-of-the-year-on`: "{body-name} and I spent a lot of the year on {theme-name}."
