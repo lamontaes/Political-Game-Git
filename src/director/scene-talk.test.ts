@@ -230,6 +230,14 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         expect(part?.uses.some((use) => use.after === answerPart?.key)).toBe(
           true,
         );
+        const response = decision?.next?.lines[0];
+        const responsePart = officeBank.parts.find((row) =>
+          response?.parts.includes(row.key),
+        );
+        expect(response?.move).toBe(move === "promise" ? "thank" : "accept");
+        expect(responsePart?.uses.some((use) => use.after === part?.key)).toBe(
+          true,
+        );
       }
       seen.add(request.key);
     }
