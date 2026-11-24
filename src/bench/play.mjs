@@ -7710,8 +7710,7 @@ async function enterAs(life, personId) {
  * Loading worth watching (Lane 4, path 3): while the first scene is drawn,
  * the world just built tells its past. A year counter runs through the
  * years of your life; each year writes its lines of your story into the
- * journal and prints the headlines you heard that year; the state's map
- * fills in county by county, your districts last. Everything comes from the
+ * journal. Everything comes from the
  * built world's records (/api/newlife/story, loading.ts). A click, or the
  * end of the years, finishes it. Resolves when it is done.
  */
@@ -7731,6 +7730,10 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
+      // Every line shows whole once the story ends: a line still being
+      // written when the years run out or the player clicks is never left
+      // cut mid-word (the CTO, Nov 24: "Utah has its usual prob").
+      journal.classList.add("written");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
@@ -7748,7 +7751,6 @@ function playLoadingStory(story) {
       $("loading-year").textContent = String(year.year);
       journal.append(
         ...year.lines.map((row) => prose(row.text, "loading-line")),
-        ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
       at += 1;
       timer = window.setTimeout(next, step);

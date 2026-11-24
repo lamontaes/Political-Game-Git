@@ -1,17 +1,11 @@
 import type { EntityId } from "../core2/kernel/brands";
-import { storiesHeard } from "../core2/modules/news";
-import { lifeOf } from "../core2/modules/people";
+import { lifeOf, openWholePast } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spoken, stateInSentence } from "../director/words";
 import type { GroundedEnglishFact } from "../english/grounded-english";
 import { tell } from "../english/outline-planner";
-import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { wordArchiveStory } from "./archive-words";
 import { governmentMap } from "./map";
-
-/** Headlines a year shows at most while loading, newest first. */
-const HEADLINES_A_YEAR = 3;
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -37,6 +31,10 @@ function toldLife(
 ): { year: number; text: string; recordId: string }[] {
   const person = core.people.get(playerId);
   if (!person) return [];
+  // The whole past is written before it is read, as the person card writes
+  // it, so the story cites the records the card shows (writing it replaces
+  // the records a partial past stood on).
+  openWholePast(core, playerId as PersonId);
   const events = lifeOf(core, playerId as PersonId);
   const facts: Record<string, GroundedEnglishFact> = {};
   const put = (key: string, text: string, id: string) => {
@@ -124,52 +122,30 @@ function toldLife(
       facts[SECTION_YEAR[row.section] ?? ""]?.text ?? yearOf(core.date),
     ),
     text: row.text,
-    recordId: row.sourceRecordIds[0] ?? playerId,
+    // The sentence's own record (a birth, a school, a move), not the
+    // player the whole story is told about.
+    recordId:
+      row.sourceRecordIds.find((id) => id !== playerId) ?? playerId,
   }));
 }
 
 /**
- * What the loading screen plays while the first scene is drawn (Lane 4,
- * path 3: "the journal writing itself, a year counter with headlines, the
- * map filling in"), all from the world just built: the years of the
- * player's life, each with the sentences of their own story told that year
- * (toldLife, through the outline planner) and the headlines they heard that year from the
- * paper's archive; and the state's districts with who holds them, to fill
- * in. Every line names its record.
+ * What the loading screen plays while the first scene is drawn: the years of
+ * the player's life, each with the sentences of their own story told that
+ * year (toldLife, through the outline planner), and the state's districts
+ * with who holds them. The year's headlines are gone (the CTO, Nov 24,
+ * send-back 2 on #10390: "Three headline rows still sit in the middle ...
+ * That's the list of facts"). Every line names its record.
  */
 export function loadingStory(core: CoreState, playerId: string) {
   const life = toldLife(core, playerId);
-  const heard = core.modules.has("news")
-    ? storiesHeard(coreAPI(core), playerId as PersonId)
-        .filter((story) => story.date < core.date)
-        .flatMap((story) => {
-          const worded = wordArchiveStory(core, story);
-          return worded?.headline
-            ? [
-                {
-                  year: Number(story.date.slice(0, 4)),
-                  headline: worded.headline,
-                  recordId: story.id,
-                },
-              ]
-            : [];
-        })
-    : [];
   const start = Number(core.date.slice(0, 4));
-  const first = Math.min(
-    start,
-    ...life.map((line) => line.year),
-    ...heard.map((story) => story.year),
-  );
+  const first = Math.min(start, ...life.map((line) => line.year));
   const years = [];
   for (let year = first; year <= start; year += 1) {
     const lines = life.filter((line) => line.year === year);
-    const headlines = heard
-      .filter((story) => story.year === year)
-      .slice(0, HEADLINES_A_YEAR);
     // A year with nothing to tell is counted past, not shown.
-    if (lines.length || headlines.length || year === start)
-      years.push({ year, lines, headlines });
+    if (lines.length || year === start) years.push({ year, lines });
   }
   return { years, map: governmentMap(core) };
 }

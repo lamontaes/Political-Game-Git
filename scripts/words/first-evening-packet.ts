@@ -78,7 +78,6 @@ for (const seed of seeds) {
   for (const y of ls.years) {
     L(`Year ${y.year}`);
     for (const l of y.lines) L(`  told: ${l.text}`);
-    for (const h of y.headlines) L(`  headline: ${h.headline}`);
   }
   // 2 address
   p("### The address");
