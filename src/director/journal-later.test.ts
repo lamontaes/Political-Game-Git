@@ -93,8 +93,10 @@ it(
       personId: player,
       role: "legislator",
     });
-    // A year of the game's own days pass, then the bill is sponsored.
-    advanceCore(core, addDays(makeIsoDate(core.date), 370));
+    // A year of the game's own days pass (JOURNAL_LATER_YEARS plays more, ten
+    // for the pool item's proof), then the bill is sponsored.
+    const years = Number(process.env.JOURNAL_LATER_YEARS ?? 1);
+    advanceCore(core, addDays(makeIsoDate(core.date), 365 * years + 5));
     let billId: string | undefined;
     let question: string | undefined;
     try {
