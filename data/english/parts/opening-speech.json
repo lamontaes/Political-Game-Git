@@ -21483,6 +21483,292 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.salutation.plain-town-address-members-of-department-heads-and-neighbors",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of {body-name}, department heads and neighbors.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-town-address-thank-you-and-thank-you-for-the-time",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you, {body-name}, and thank you, {realm-bare}, for the time.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-town-address-to-and-to-everyone-in-who-came-out",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "To {body-name} and to everyone in {realm-name} who came out:",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-town-address-neighbors-across-and-members-of",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Neighbors across {realm-name}, and members of {body-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-town-address-this-year-s-work-in-comes-down-to",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "This year's work in {realm-name} comes down to {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-town-address-a-lot-happened-in-this-year-and-is-where-i-want-to-spend-our",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "A lot happened in {realm-name} this year, and {theme-name} is where I want to spend our time.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "opening-speech.occasion.polished-town-address-of-everything-we-did-this-year-is-what-i-most-want-to-hear-a",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "Of everything we did this year, {theme-name} is what I most want {realm-name} to hear about.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-town-address-i-ll-cover-the-year-in-by-way-of",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I'll cover the year in {realm-name} by way of {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "town-address",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "opening-speech.close.plain-town-address-if-you-have-a-view-on-tell-me",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If you have a view on {theme-short}, tell me, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "opening-speech.close.plain-town-address-thank-you-come-to-the-next-meeting-of-and-tell-us-what-you-t",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {realm-bare}. Come to the next meeting of {body-name} and tell us what you think about {theme-short}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-bare", "body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "opening-speech.close.polished-town-address-thanks-to-and-to-everyone-who-works-for",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thanks to {body-name} and to everyone who works for {realm-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "opening-speech.close.plain-town-address-if-we-keep-at-this-thank-you-and-thanks-to",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we keep at this, {first-after} Thank you, {realm-bare}, and thanks to {body-name}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["first-after", "realm-bare", "body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "opening-speech.close.polished-town-address-thank-you-for-having-me-and-thank-you-to-for-the-work-this-y",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{realm-bare}, thank you for having me, and thank you to {body-name} for the work this year.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare", "body-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
       "key": "opening-speech.salutation.plain-campaign-speech-neighbors-across-thank-you-for-coming-out",
       "move": "salutation",
       "kind": "spoken",
