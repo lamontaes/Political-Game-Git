@@ -29,5 +29,6 @@
       "pulledBy": "Council considers an additional appropriation.",
       "writesBack": "Track the new request separately from the adopted amount."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

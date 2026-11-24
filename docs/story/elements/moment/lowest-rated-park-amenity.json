@@ -27,5 +27,6 @@
       "pulledBy": "One district accounts for most of the reports.",
       "writesBack": "Route the follow-up to that district."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

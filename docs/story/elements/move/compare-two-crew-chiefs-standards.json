@@ -29,5 +29,6 @@
       "pulledBy": "Both cite the same instruction.",
       "writesBack": "Tie the capacity review to the written standard."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

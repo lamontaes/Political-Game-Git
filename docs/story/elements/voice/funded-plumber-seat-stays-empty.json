@@ -27,5 +27,6 @@
       "pulledBy": "Another candidate declines over pay.",
       "writesBack": "Attach the declined offer to the vacancy review."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

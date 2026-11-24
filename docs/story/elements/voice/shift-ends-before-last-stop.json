@@ -27,5 +27,6 @@
       "pulledBy": "A relief worker takes the last stop.",
       "writesBack": "Credit the visit to the crew that made it."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

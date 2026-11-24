@@ -27,5 +27,6 @@
       "pulledBy": "Council needs a repair list today.",
       "writesBack": "Send those specific facilities to maintenance."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

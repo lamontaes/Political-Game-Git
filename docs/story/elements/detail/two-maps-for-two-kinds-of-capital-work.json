@@ -29,5 +29,6 @@
       "pulledBy": "The facility also received a renovation.",
       "writesBack": "Link the two completion records without counting one as the other."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

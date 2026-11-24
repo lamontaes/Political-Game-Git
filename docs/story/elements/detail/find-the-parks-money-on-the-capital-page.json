@@ -27,5 +27,6 @@
       "pulledBy": "The receiving entry differs from the transfer.",
       "writesBack": "Keep the reconciliation open."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

@@ -27,5 +27,6 @@
       "pulledBy": "The building has reopened since the visit.",
       "writesBack": "Retain the closure and reopening timestamps."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

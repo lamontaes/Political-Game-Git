@@ -26,5 +26,6 @@
       "pulledBy": "The busiest hours fall outside the pilot.",
       "writesBack": "Revise the trial schedule before evaluating it."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

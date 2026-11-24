@@ -29,5 +29,6 @@
       "pulledBy": "The inspection cannot test winter conditions yet.",
       "writesBack": "Keep the seasonal question open."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

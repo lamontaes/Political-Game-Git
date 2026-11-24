@@ -29,5 +29,6 @@
       "pulledBy": "Neither office can deliver a proposed feature alone.",
       "writesBack": "Record the handoff between departments."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

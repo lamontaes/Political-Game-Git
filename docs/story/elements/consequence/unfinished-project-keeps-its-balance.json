@@ -29,5 +29,6 @@
       "pulledBy": "Council formally abandons the work.",
       "writesBack": "Link the closure to the later ordinance."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

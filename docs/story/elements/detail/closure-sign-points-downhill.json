@@ -27,5 +27,6 @@
       "pulledBy": "The alternate route is inaccessible to the visitor.",
       "writesBack": "Record the route limitation alongside the directions."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

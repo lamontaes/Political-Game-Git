@@ -27,5 +27,6 @@
       "pulledBy": "The same crew must take both jobs.",
       "writesBack": "Update the winter opening forecast."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

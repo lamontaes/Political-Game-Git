@@ -27,5 +27,6 @@
       "pulledBy": "The floor was washed that morning.",
       "writesBack": "Link the later complaint to its own time."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

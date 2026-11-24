@@ -27,5 +27,6 @@
       "pulledBy": "The proposed pickup has no assigned crew.",
       "writesBack": "Keep the service request open."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

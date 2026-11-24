@@ -29,5 +29,6 @@
       "pulledBy": "The entry names only the park.",
       "writesBack": "Leave the building field unresolved until confirmed."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

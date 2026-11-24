@@ -27,5 +27,6 @@
       "pulledBy": "The visit falls on a special cleanup day.",
       "writesBack": "Keep the special run labeled separately."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

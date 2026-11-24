@@ -25,5 +25,6 @@
       "pulledBy": "Only the shift total survives.",
       "writesBack": "Mark that visit unverified."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

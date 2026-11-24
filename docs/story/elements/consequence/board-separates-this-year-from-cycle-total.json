@@ -29,5 +29,6 @@
       "pulledBy": "A resident asks what remains.",
       "writesBack": "Publish the outstanding count with its reporting date."
     }
-  ]
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
 }

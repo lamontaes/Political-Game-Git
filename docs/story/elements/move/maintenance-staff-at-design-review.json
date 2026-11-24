@@ -30,5 +30,6 @@
       "pulledBy": "A sample passes the crew’s cleaning trial.",
       "writesBack": "File the trial result with the specification."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

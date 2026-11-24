@@ -29,5 +29,6 @@
       "pulledBy": "The reply describes work still under review.",
       "writesBack": "Retain the recommendation as unresolved."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

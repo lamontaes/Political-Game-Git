@@ -27,5 +27,6 @@
       "pulledBy": "The map sends the visitor to another closure.",
       "writesBack": "Open a correction for each stale listing."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }
