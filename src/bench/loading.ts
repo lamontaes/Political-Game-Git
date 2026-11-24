@@ -6,6 +6,8 @@ import type { GroundedEnglishFact } from "../english/grounded-english";
 import { tell, type TellingInput } from "../english/outline-planner";
 import type { CoreState, PersonId } from "../core2/types";
 import { governmentMap } from "./map";
+import { coreAPI } from "../core2/state";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { centuryOf, historyMode } from "../core2/electorate-century";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
@@ -106,6 +108,23 @@ export function loadingTelling(
   // start came at the new home, so the move is part of why it is where it is.
   if (days.moved && days.school && days.moved.date < days.school.date)
     put("moved-before-school", "yes", days.moved.id);
+  // The first job, from the jobs module's earliest hire row for this
+  // person (the same table `lastLayoff` reads for the office-hours scene).
+  if (core.modules.has(JOBS_MODULE_ID)) {
+    const hires = (
+      coreAPI(core)
+        .moduleState(JOBS_MODULE_ID)
+        .table("changes")
+        .query("byPerson", [playerId]) as unknown as {
+        id: string;
+        date: string;
+        kind: string;
+      }[]
+    )
+      .filter((row) => row.kind === "hire" && row.date <= core.date)
+      .sort((x, y) => x.date.localeCompare(y.date) || x.id.localeCompare(y.id));
+    if (hires[0]) put("first-job-year", yearOf(hires[0].date), hires[0].id);
+  }
   // Who held the White House when each part of the life began, from the
   // history the world ran from 1925 (the century's presidency rows). The
   // century holds a party and no name, so the story says the party. A fact
