@@ -107,6 +107,7 @@ import {
   peopleSentence,
   nameLink,
   dotRows,
+  storyContinued,
   stripBoard,
   typedRow,
   departmentRow,
@@ -3039,11 +3040,7 @@ async function balanceLife(root) {
   const homes = [story];
   const parts = [left];
   for (const column of root.querySelectorAll(".mx3col")) {
-    const rest = document.createElement("div");
-    rest.className = "secbody life-rest";
-    const section = document.createElement("div");
-    section.className = "sec strips dp5";
-    section.append(rest);
+    const { section, rest } = storyContinued();
     column.append(section);
     homes.push(rest);
     parts.push(column);

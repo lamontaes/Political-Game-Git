@@ -518,3 +518,9 @@ export const rosterCols = (...nodes) =>
   el("div", { className: "roster-cols" }, ...nodes);
 export const rosterSide = (...nodes) =>
   el("div", { className: "roster-side" }, ...nodes);
+
+/** A section with no heading that carries on a story from another column (the person card's story, split across its columns): the section and its body. */
+export function storyContinued() {
+  const rest = el("div", { className: "secbody life-rest" });
+  return { section: el("div", { className: "sec strips dp5" }, rest), rest };
+}
