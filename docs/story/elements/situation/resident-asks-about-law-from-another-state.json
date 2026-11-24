@@ -2,8 +2,9 @@
   "id": "resident-asks-about-law-from-another-state",
   "kind": "situation",
   "summary": "A resident raises a law they have heard about and the member explains where it applies.",
-  "realLife": "owner, Nov 14: A conversation about another state’s law needs to make clear why it matters here.",
+  "realLife": "In testimony to Rhode Island’s House Labor Committee, Leanne Barrett compared the length of paid family leave in Rhode Island and California. She supplied local claims data and asked lawmakers to extend the time workers could take.",
   "sources": [
+    "https://www.rilegislature.gov/Special/comdoc/House%20Labor%202026/03-05-2026--H7968--Leanne_Barrett%28RI%20Kids%20Count%29--lab.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "needs: a reason this resident raises an out-of-state law. lawInForce and the law chain identify the governing place.",
@@ -20,6 +21,12 @@
       "what": "The member confirms which state enacted the law and takes the local comparison back to staff.",
       "pulledBy": "The local rule has recently changed and the member lacks the current text.",
       "writesBack": "The case stays open for a local citation."
+    },
+    {
+      "turn": "late",
+      "what": "At the next hearing the resident returns with the number of families in her town who used the existing benefit.",
+      "pulledBy": "The state has released claims by town since the first meeting.",
+      "writesBack": "The clerk attaches the town figures to her earlier comparison and dates them to the reporting year."
     }
   ]
 }

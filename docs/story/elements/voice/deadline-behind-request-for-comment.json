@@ -2,8 +2,9 @@
   "id": "deadline-behind-request-for-comment",
   "kind": "voice",
   "summary": "A reporter explains the deadline when asking a member to speak on the record.",
-  "realLife": "owner, Nov 14: A deadline can explain why the reporter needs the answer now.",
+  "realLife": "Milwaukee station FOX6 told Governor Tony Evers’s office it was preparing a story about access to his emails. The office asked what the story would cover, and the station’s deadline passed without a statement.",
   "sources": [
+    "https://www.fox6now.com/news/denied-staff-shields-governor-tony-evers-emails-from-public-access.amp",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "needs: a story deadline available to the press interview.",
@@ -18,6 +19,12 @@
       "what": "The reporter calls back after the deadline moves.",
       "pulledBy": "The editor has held the story for the next edition.",
       "writesBack": "The member receives a new comment deadline."
+    },
+    {
+      "turn": "partial",
+      "what": "The office sends the date it received the request before airtime and promises a decision the following morning.",
+      "pulledBy": "The clerk can verify the intake stamp, while the official responsible for releasing records has yet to reply.",
+      "writesBack": "The evening report gives the receipt date and the assignment desk puts the promised answer on tomorrow’s list."
     }
   ]
 }

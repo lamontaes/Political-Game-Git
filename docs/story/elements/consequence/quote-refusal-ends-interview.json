@@ -2,8 +2,9 @@
   "id": "quote-refusal-ends-interview",
   "kind": "consequence",
   "summary": "When a reporter asks again for permission to quote, the member ends the conversation.",
-  "realLife": "owner, Nov 14: An earlier refusal should affect how the encounter ends if the reporter persists.",
+  "realLife": "Boston Globe reporter Martin Nolan recalled closing his notebook when Senator Ted Kennedy declined to speak for attribution. Nolan had reached the door when Kennedy called him back to discuss the terms again.",
   "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/martin-nolan-oral-history",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "needs: carry the earlier refusal through the follow-up turn and end the interview.",
@@ -18,6 +19,12 @@
       "what": "The reporter accepts the refusal and asks where to find the public filing.",
       "pulledBy": "The member is willing to locate documents after declining a quote.",
       "writesBack": "The reporter leaves with a document reference."
+    },
+    {
+      "turn": "late",
+      "what": "As the reporter leaves, the senator calls her back and offers one sentence she may print under his name.",
+      "pulledBy": "The reporter is still within earshot and both agree that the new sentence is on the record.",
+      "writesBack": "The story file marks that sentence as attributable and leaves the earlier exchange private."
     }
   ]
 }

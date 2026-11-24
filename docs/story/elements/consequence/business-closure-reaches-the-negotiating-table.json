@@ -2,8 +2,9 @@
   "id": "business-closure-reaches-the-negotiating-table",
   "kind": "consequence",
   "summary": "People negotiating over an industry have to account for a business that has closed.",
-  "realLife": "owner, Nov 15: Industry closures and negotiations should reach the same story as the law affecting them.",
+  "realLife": "When Studebaker shut its South Bend plant, workers in the same pension plan came away with sharply different benefits depending on their age. The losses helped put pension guarantees before Congress, where Senator Jacob Javits introduced a reform bill.",
   "sources": [
+    "https://www.pbgc.gov/about/pbgc-pensions-studebaker",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
   ],
   "inGame": "needs: a recorded negotiation reading the business closure; industryTally can identify business changes.",
@@ -18,6 +19,12 @@
       "what": "The negotiators set aside the closed firm's figures and ask the remaining firms for current estimates.",
       "pulledBy": "The closure predates the proposal under discussion.",
       "writesBack": "The minutes identify which employers still supplied evidence."
+    },
+    {
+      "turn": "late",
+      "what": "Two former machinists bring their benefit letters to the next bargaining session. One has a full pension and the other has lost most of his.",
+      "pulledBy": "The plan closed before the younger worker qualified for the older worker’s benefit.",
+      "writesBack": "The negotiators attach both letters to the pension proposal and ask for separate estimates by age group."
     }
   ]
 }
