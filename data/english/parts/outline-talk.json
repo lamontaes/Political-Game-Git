@@ -4714,6 +4714,369 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-finally-somebody-says-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Finally, somebody says {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-with", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-i-ve-always-figured-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I've always figured {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-with", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-it-comes-down-to-this-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "It comes down to this: {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-with", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-people-can-say-what-they-like-but-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "People can say what they like, but {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-with", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-somebody-had-to-say-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Somebody had to say {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-with",
+            "reason-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-to-me-it-s-simple-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "To me it's simple: {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-with",
+            "reason-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-thank-goodness-president-remembers-that-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Thank goodness {president} remembers that {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-with",
+            "reason-against",
+            "president"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-nobody-asks-the-other-side-but-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Nobody asks the other side, but {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-with",
+            "reason-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-my-trouble-with-it-is-that-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "My trouble with it is that {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-i-keep-coming-back-to-this-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I keep coming back to this: {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-here-s-what-gets-me-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Here's what gets me: {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-i-can-t-square-it-with-this-reason-against",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I can't square it with this: {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "stand-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-here-s-where-i-land-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Here's where I land: {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-against", "stand-against", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-what-president-said-misses-this-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "What {president} said misses this: {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-against",
+            "reason-for",
+            "president"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-i-can-t-argue-with-the-other-side-on-this-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I can't argue with the other side on this: {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-against", "stand-against", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-you-d-think-president-would-see-that-reason-for",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "You'd think {president} would see that {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "stand-against",
+            "reason-for",
+            "president"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["lead", "heard"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
     }
   ]
 }
