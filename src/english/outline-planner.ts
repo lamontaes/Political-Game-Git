@@ -46,6 +46,20 @@ interface SectionRow {
   readonly joins?: boolean;
   /** Where the picture is while the section is said (an address's camera); the caller reads it. */
   readonly camera?: string;
+  /**
+   * A section the speaker may leave out: said where their traits pull toward
+   * it (`pull`) more than toward saying less (the row's `terse`), never
+   * otherwise (the CTO, Nov 24: every address said all six sections).
+   */
+  readonly optional?: boolean;
+  /** The recorded facets that pull a speaker toward saying the section. */
+  readonly pull?: readonly string[];
+}
+
+/** One order the row's movable sections may be said in, and the facets that pull a speaker toward it. */
+interface OrderRow {
+  readonly sections: readonly string[];
+  readonly pull?: readonly string[];
 }
 
 /** One kind of text's outline. */
@@ -54,6 +68,14 @@ interface OutlineRow {
   /** How many sentences of the text may say a fact's slot, by fact (the composer's budgets). */
   readonly budgets?: Readonly<Record<string, number>>;
   readonly sections: readonly SectionRow[];
+  /**
+   * The orders its movable sections may take (the first is the row's own).
+   * The speaker's traits weigh the draw, so two speakers do not share one
+   * skeleton (owner, Nov 23: "the same grammatical pattern").
+   */
+  readonly orders?: readonly OrderRow[];
+  /** The facets that pull a speaker toward saying less: an optional move or section gives way to them. */
+  readonly terse?: readonly string[];
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -215,6 +237,64 @@ const leanOf = (
 ) => (keys ?? []).reduce((sum, key) => sum + (traits?.[key] ?? 0), 0);
 
 /**
+ * One of several, drawn the way a wording is (the engine's stable hash, never
+ * a roll), each weighted by the base plus the speaker's pull toward it.
+ */
+function drawWeighted(pulls: readonly number[], drawKey: string): number {
+  const base = OUTLINES.weights.pieceBase.value;
+  const per = OUTLINES.weights.pieceLean.value;
+  const weights = pulls.map((pull) =>
+    Math.max(1, Math.round(base + per * pull)),
+  );
+  let draw = Number(
+    BigInt(`0x${stableHash(drawKey)}`) %
+      BigInt(weights.reduce((sum, w) => sum + w, 0)),
+  );
+  return weights.findIndex((weight) => (draw -= weight) < 0);
+}
+
+/**
+ * Whether the speaker says something they may leave out: their pull toward it
+ * against their pull toward saying less.
+ */
+function says(
+  pull: number,
+  row: OutlineRow,
+  traits: TellingInput["traits"],
+  drawKey: string,
+): boolean {
+  return drawWeighted([pull, leanOf(traits, row.terse)], drawKey) === 0;
+}
+
+/**
+ * The row's sections in the order this speaker says them: the movable ones
+ * (the sections an order names) take the drawn order's places in turn.
+ */
+function sectionsInOrder(
+  row: OutlineRow,
+  traits: TellingInput["traits"],
+  drawKey: string,
+): SectionRow[] {
+  const orders = row.orders ?? [];
+  if (orders.length < 2) return [...row.sections];
+  const order =
+    orders[
+      drawWeighted(
+        orders.map((o) => leanOf(traits, o.pull)),
+        drawKey,
+      )
+    ]!;
+  const movable = new Set(order.sections);
+  const byName = new Map(
+    row.sections.map((section) => [section.name, section]),
+  );
+  let next = 0;
+  return row.sections.map((section) =>
+    movable.has(section.name) ? byName.get(order.sections[next++]!)! : section,
+  );
+}
+
+/**
  * The shapes a section may take here. The first is drawn the way a wording
  * is (the engine's stable hash, never a roll), weighted toward the shapes the
  * speaker's traits pull hardest, so one person does not say every point in
@@ -247,16 +327,10 @@ function shapeOrder(
     );
   const fresh = rows.filter((row) => !row.used);
   if (fresh.length > 1) {
-    const base = OUTLINES.weights.pieceBase.value;
-    const per = OUTLINES.weights.pieceLean.value;
-    const weights = fresh.map((row) =>
-      Math.max(1, Math.round(base + per * row.pull)),
+    const at = drawWeighted(
+      fresh.map((row) => row.pull),
+      drawKey,
     );
-    let draw = Number(
-      BigInt(`0x${stableHash(drawKey)}`) %
-        BigInt(weights.reduce((sum, w) => sum + w, 0)),
-    );
-    const at = weights.findIndex((weight) => (draw -= weight) < 0);
     const [first] = rows.splice(rows.indexOf(fresh[at]!), 1);
     rows.unshift(first!);
   }
@@ -377,20 +451,38 @@ export function tell(input: TellingInput): Told | null {
   // How many sentences have said each slot, against the row's budgets.
   const spent = new Map<string, number>();
   let paragraph = -1;
-  for (const section of row.sections) {
-    if (!holds(input.facts, section.when)) {
+  // What the text has said so far, as facts a piece may need: `told-<section>`
+  // once a section is said, so a line that names the stand again ("If you
+  // think I'm wrong about ...") comes only after the stand.
+  const facts: Record<string, GroundedEnglishFact | undefined> = {
+    ...input.facts,
+  };
+  const known: TellingInput = { ...input, facts };
+  const draw = `${input.worldSeed}:${input.momentKey}`;
+  for (const section of sectionsInOrder(row, input.traits, `${draw}/order`)) {
+    if (!holds(facts, section.when)) {
       if (section.required) return null;
       continue;
     }
+    if (
+      section.optional &&
+      !says(
+        leanOf(input.traits, section.pull),
+        row,
+        input.traits,
+        `${draw}/${section.name}/says`,
+      )
+    )
+      continue;
     const opens = !section.joins || paragraph < 0;
     const last = sentences.at(-1);
     let told: ToldSentence[] | null = null;
     for (const name of shapeOrder(
       section,
-      input.facts,
+      facts,
       input.traits,
       shapesUsed,
-      `${input.worldSeed}:${input.momentKey}/${section.name}`,
+      `${draw}/${section.name}`,
     )) {
       const shape = OUTLINES.shapes[name]!;
       const here: ToldSentence[] = [];
@@ -402,7 +494,7 @@ export function tell(input: TellingInput): Told | null {
         const optional = raw.endsWith("?");
         const move = optional ? raw.slice(0, -1) : raw;
         const worded = wordMove(
-          input,
+          known,
           row.surface,
           move,
           before,
@@ -416,6 +508,18 @@ export function tell(input: TellingInput): Told | null {
           failed = true;
           break;
         }
+        // A move the shape may leave out is said where the speaker leans
+        // toward its words more than toward saying less.
+        if (
+          optional &&
+          !says(
+            leanOf(input.traits, worded.part.lean),
+            row,
+            input.traits,
+            `${draw}/${section.name}/${name}/${move}/says`,
+          )
+        )
+          continue;
         taken.add(worded.part.key);
         for (const said of new Set(
           slotsOf(worded.part.text).map((slot) => saidOf(input.facts, slot)),
@@ -449,6 +553,10 @@ export function tell(input: TellingInput): Told | null {
     if (opens) paragraph += 1;
     for (const sentence of told) saidHere.add(sentence.piece);
     sentences.push(...told);
+    facts[`told-${section.name}`] = {
+      text: "yes",
+      sourceRecordIds: input.sourceRecordIds,
+    };
   }
   if (!sentences.length) return null;
   const paragraphs: string[] = [];

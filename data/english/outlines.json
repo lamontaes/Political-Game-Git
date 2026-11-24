@@ -51,13 +51,58 @@
         {
           "name": "call",
           "camera": "families",
-          "shapes": ["address-run", "unity-then-call", "call-alone"]
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
         },
         {
           "name": "close",
           "required": true,
           "camera": "close",
           "shapes": ["send-off-then-blessing", "blessing-alone"]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
         }
       ]
     },
@@ -270,7 +315,7 @@
       ]
     },
     "today-then-stand": {
-      "moves": ["today", "stand", "value?"],
+      "moves": ["today", "stand"],
       "needs": ["today"],
       "pull": [
         "personality-v1:facet-analytical",
@@ -279,7 +324,7 @@
       ]
     },
     "contrast-then-stand": {
-      "moves": ["contrast", "stand", "value?"],
+      "moves": ["contrast", "stand"],
       "needs": ["other-side", "belief"],
       "pull": [
         "personality-v1:facet-assertive",
@@ -288,7 +333,7 @@
       ]
     },
     "question-then-answer": {
-      "moves": ["question", "answer", "value?"],
+      "moves": ["question", "answer"],
       "needs": ["belief"],
       "pull": [
         "personality-v1:facet-dramatic",
@@ -303,14 +348,6 @@
         "personality-v1:facet-blunt",
         "personality-v1:facet-informal",
         "personality-v1:facet-cocky"
-      ]
-    },
-    "unity-then-call": {
-      "moves": ["unity", "call"],
-      "pull": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-forgiving"
       ]
     },
     "call-alone": {

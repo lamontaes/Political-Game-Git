@@ -110,4 +110,36 @@ describe("the outline planner", () => {
       expect(text).not.toMatch(/Hold me to it/);
     }
   });
+  it("orders its middle sections by the speaker and leaves the call out for some, never one fixed run of sections", () => {
+    // The CTO, Nov 24 (send-back 2 on #10390): every address said all six
+    // sections in one order, so one close ended four of six addresses.
+    const runs = new Set<string>();
+    let withoutCall = 0;
+    for (const traits of [
+      ...PROFILES,
+      traitsOf(["mediating", "forgiving", "fair-minded", "humble"], 2),
+      traitsOf(["guarded", "practical", "meticulous", "skeptical"], 2),
+    ])
+      for (const key of ["a", "b", "c", "d"]) {
+        const text = told(traits, key)!;
+        const sections = [...new Set(text.sentences.map((row) => row.section))];
+        runs.add(sections.join(" "));
+        if (!sections.includes("call")) withoutCall += 1;
+        // A line that names the stand again comes only after the stand.
+        const stand = sections.indexOf("theme");
+        for (const row of text.sentences)
+          if (row.section === "call" && row.facts.includes("about"))
+            expect(stand, row.text).toBeGreaterThanOrEqual(0);
+      }
+    const orders = new Set(
+      [...runs].map((run) =>
+        run
+          .split(" ")
+          .filter((name) => ["story", "theme", "call"].includes(name))
+          .join(" "),
+      ),
+    );
+    expect(orders.size, [...runs].join("\n")).toBeGreaterThanOrEqual(2);
+    expect(withoutCall).toBeGreaterThan(0);
+  });
 });

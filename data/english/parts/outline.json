@@ -1317,14 +1317,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.unity.inaugural-if-you-didn-t-vote-for-me-i-ll-spend-the-next-trying-to-earn",
-      "move": "unity",
+      "key": "outline.address-to.inaugural-if-you-didn-t-vote-for-me-i-ll-spend-the-next-trying-to-earn",
+      "move": "address-to",
       "kind": "spoken",
       "text": "If you didn't vote for me, I'll spend the next {term-left} trying to earn your vote anyway.",
       "uses": [
         {
           "subject": "inaugural",
-          "role": "unity",
+          "role": "address-to",
           "tie": "frame",
           "requiresFacts": ["term-left"]
         }
@@ -1351,7 +1351,7 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["unity", "address-to"],
+      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-mediating",
         "personality-v1:facet-friendly"
@@ -1701,7 +1701,7 @@
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about", "told-theme"]
         }
       ],
       "lean": [
@@ -3652,7 +3652,7 @@
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about", "told-theme"]
         }
       ],
       "lean": [
@@ -4301,7 +4301,7 @@
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about", "told-theme"]
         }
       ],
       "lean": [
@@ -4411,6 +4411,139 @@
       ],
       "after": ["today"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-washington-has-a-short-memory-for-places-like-yours-mine-will-last",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Washington has a short memory for places like yours. Mine will last {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"]
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-every-family-still-waiting-on-help-from-the-is-the-first-thing-on-my-desk-tomorrow",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Every family still waiting on help from the {the-disaster} is the first thing on my desk tomorrow.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-if-i-get-wrong-you-ll-know-it-and-you-should-say-so",
+      "move": "value",
+      "kind": "spoken",
+      "text": "If I get {theme-short} wrong, you'll know it, and you should say so.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-nobody-voted-for-me-so-i-could-stay-quiet-about",
+      "move": "value",
+      "kind": "spoken",
+      "text": "Nobody voted for me so I could stay quiet about {theme-short}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-proud"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-in-november-you-chose-me-and-with-me-and-today-we-both-go-to-work",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "In November you chose me, and {the-vice-president} with me, and today we both go to work.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "law",
+          "requiresFacts": ["elected-last-fall", "the-vice-president"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster.inaugural-for-the-families-the-hit-this-past-year-has-been-about-getting-a-roof-back",
+      "move": "disaster",
+      "kind": "spoken",
+      "text": "For the families the {the-disaster} hit, this past year has been about getting a roof back.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-comforting"
+      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
