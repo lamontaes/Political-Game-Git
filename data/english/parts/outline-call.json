@@ -50,7 +50,8 @@
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
     "count": "the vote count in words and figures (\"3 to 2\")",
     "body-word": "the body the governor reports to, said as people say it after 'the' (\"legislature\"), from the speech's facts",
-    "realm-name": "the state, as the speech names it, from the speech's facts"
+    "realm-name": "the state, as the speech names it, from the speech's facts",
+    "nation": "the country as a national speaker names it (speech-outlines.json nationWords: \"America\"), for the national kinds only"
   },
   "maxWords": 30,
   "parts": [
