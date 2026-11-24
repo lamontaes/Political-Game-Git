@@ -78,6 +78,12 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "ESTIMATED: Title 29 creates no elected borough assessor; AS 29.20.360 has the chief administrator appoint the municipal officers it names (\"the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator\"), and a borough's assessor is its staff. The statute that names who appoints the assessor has not been read."
       }
     },
     "AL": {
@@ -201,6 +207,14 @@
         "basis": "read",
         "sourceUrl": "https://www.azleg.gov/ars/11/00401.htm",
         "note": "A.R.S. 11-401: \"The officers of the county are:\" sheriff, recorder, treasurer, school superintendent, county attorney, assessor, supervisors, clerk of the board of supervisors and tax collector. No coroner is among them; the constitution's list (art. 12, sec. 3) has none either."
+      },
+      "clerk": {
+        "title": "Clerk of the Superior Court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/arizona/6/23.htm",
+        "note": "Ariz. Const. art. VI, sec. 23: \"The clerk shall be elected by the qualified electors of his county at the general election\" and \"shall hold office for a term of four years\". The board's own clerk is not elected.",
+        "termYears": 4
       }
     },
     "CA": {
@@ -321,6 +335,18 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://delcode.delaware.gov/title9/c041/sc02/index.html",
+        "note": "9 Del. C. sec. 4124(a): \"The Department of Finance shall perform all of the functions heretofore assigned to the Receiver of Taxes and County Treasurer\"; sec. 4123(b): \"The Levy Court shall appoint the Director of Finance\". The elected Kent office (9 Del. C. secs. 8401 to 8404) is repealed. Read for Kent; New Castle and Sussex elect no treasurer either, unread here."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://delcode.delaware.gov/title9/c041/sc02/index.html",
+        "note": "9 Del. C. sec. 4124(b): \"The Department of Finance shall assess all property subject to taxation by the County\", under a Director the Levy Court appoints (sec. 4123(b)). Read for Kent."
       }
     },
     "FL": {
@@ -676,6 +702,20 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "clerk": {
+        "title": "Clerk of the Courts",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ma/massachusetts-constitution/ma-const-amend-art-xix/",
+        "note": "Mass. Const. amend. art. XIX: the election of \"clerks of the courts, by the people of the several counties\"; M.G.L. c. 221 sec. 3: \"All of said officers shall hold office for six years\".",
+        "termYears": 6
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/Section1",
+        "note": "M.G.L. c. 41 sec. 1: a town chooses \"One or more assessors\" among its own town officers; assessing is a town office, not a county one."
       }
     },
     "MD": {
@@ -1739,6 +1779,12 @@
         "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/12",
         "note": "W. Va. Const. art. IX, sec. 12: \"The voters of each county shall elect a clerk of the county commission, whose term of office shall be six years.\"",
         "termYears": 6
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://code.wvlegislature.gov/7-5-1/",
+        "note": "W. Va. Code sec. 7-5-1: \"The sheriff shall be ex officio county treasurer\", so no county elects a treasurer of its own."
       }
     },
     "WY": {
