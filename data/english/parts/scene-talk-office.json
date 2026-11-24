@@ -3077,10 +3077,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.reply-leave.leave-the-papers-with-me-i-understand-they-need-my-decision-by-deadline",
+      "key": "scene-talk-office.reply-leave.leave-the-paperwork-on-the-disaster-here-i-want-to-read-it-before-i-sign",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave the papers with me. I understand they need my decision by {deadline}.",
+      "text": "Leave the paperwork on the {disaster} here. I want to read it before I sign.",
       "uses": [
         {
           "subject": "scene",
@@ -3104,10 +3104,10 @@
       "bearing": "guarded"
     },
     {
-      "key": "scene-talk-office.close-answer.i-ll-leave-them-here-the-request-window-closes-on-deadline",
+      "key": "scene-talk-office.close-answer.here-you-go-governor-you-have-until-deadline",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "I'll leave them here. The request window closes on {deadline}.",
+      "text": "Here you go, Governor. You have until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -3123,7 +3123,7 @@
             "deadline",
             "undecided"
           ],
-          "after": "scene-talk-office.reply-leave.leave-the-papers-with-me-i-understand-they-need-my-decision-by-deadline"
+          "after": "scene-talk-office.reply-leave.leave-the-paperwork-on-the-disaster-here-i-want-to-read-it-before-i-sign"
         }
       ],
       "elements": ["request-aid-in-writing"],
@@ -3224,10 +3224,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.close-answer.i-ll-take-their-questions-we-have-until-deadline-for-your-answer",
+      "key": "scene-talk-office.close-answer.if-reporters-ask-i-ll-say-you-re-still-weighing-a-declaration-for-the-disaster",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "I'll take their questions. We have until {deadline} for your answer.",
+      "text": "If reporters ask, I'll say you're still weighing a declaration for the {disaster}.",
       "uses": [
         {
           "subject": "scene",
@@ -3257,10 +3257,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.reply-leave.the-counties-can-know-the-offer-is-open-until-deadline-i-won-t-sign-at-this-meeting",
+      "key": "scene-talk-office.reply-leave.let-the-counties-know-i-still-have-until-deadline-to-sign",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "The counties can know the offer is open until {deadline}. I won't sign at this meeting.",
+      "text": "Let the counties know I still have until {deadline} to sign.",
       "uses": [
         {
           "subject": "scene",
@@ -3284,10 +3284,10 @@
       "bearing": "solemn"
     },
     {
-      "key": "scene-talk-office.close-answer.i-ll-pass-that-on-they-shouldn-t-take-this-meeting-as-a-refusal-to-declare-over-the-disaster",
+      "key": "scene-talk-office.close-answer.i-ll-call-the-county-offices-and-tell-them-they-could-still-hear-from-you-by-deadline",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "I'll pass that on. They shouldn't take this meeting as a refusal to declare over the {disaster}.",
+      "text": "I'll call the county offices and tell them they could still hear from you by {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -3303,7 +3303,7 @@
             "deadline",
             "undecided"
           ],
-          "after": "scene-talk-office.reply-leave.the-counties-can-know-the-offer-is-open-until-deadline-i-won-t-sign-at-this-meeting"
+          "after": "scene-talk-office.reply-leave.let-the-counties-know-i-still-have-until-deadline-to-sign"
         }
       ],
       "elements": ["briefing-travels-through-county"],
