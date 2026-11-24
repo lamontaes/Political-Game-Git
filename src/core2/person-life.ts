@@ -264,7 +264,7 @@ function rememberRow(
         : event.personIds.filter((someone) => someone !== id);
     (person.remembered ??= []).push({
       id: event.id,
-      date: event.date as IsoDate,
+      date: toldOn(row.what, event.facts, event.date as IsoDate),
       life: row.life,
       what: row.what,
       record: event.kind,
@@ -274,6 +274,25 @@ function rememberRow(
     });
     fold(person);
   }
+}
+
+/**
+ * The day an event is told on. A job held when the pre-start window opened
+ * but begun before it is told on the day it began (its own `startedAt`), not
+ * on the window's first day, which is only where the run's records start.
+ */
+function toldOn(
+  what: string,
+  facts: Readonly<Record<string, string>> | undefined,
+  date: IsoDate,
+): IsoDate {
+  const began = facts?.startedAt;
+  return what === "job-started" &&
+    facts?.how === "before-the-run" &&
+    typeof began === "string" &&
+    began < date
+    ? (began as IsoDate)
+    : date;
 }
 
 /** What a person keeps only as a count: by kind and decade, as `work:1990s`. */
@@ -411,9 +430,10 @@ export function lifeOf(
     );
     if (!row) continue;
     const other = row.withFact ? fact.facts?.[row.withFact] : undefined;
+    const began = toldOn(row.what, fact.facts, fact.date);
     out.push({
       id: fact.id,
-      date: fact.date,
+      date: began,
       life: row.life,
       what: row.what,
       record: fact.kind,
@@ -433,7 +453,7 @@ export function lifeOf(
       facts[key] = String(value);
     out.push({
       id: record.id,
-      date: record.date,
+      date: toldOn(row.what, facts, record.date),
       life: row.life,
       what: row.what,
       record: record.kind,
