@@ -1,0 +1,34 @@
+{
+  "id": "fare-pilot-delivers-on-the-promised-day",
+  "kind": "voice",
+  "summary": "A rider in {place} tells an official they were surprised the free service began the way it was announced.",
+  "realLife": "Boston's evaluators heard from riders whose low expectations of public programs made the pilot's implementation a welcome surprise.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=29"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A participant describes a prior expectation and an observed service change."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: a participant describes a prior expectation and an observed service change.",
+  "turns": [
+    {
+      "turn": "experienced",
+      "pulledBy": "The rider has used the new service.",
+      "what": "Report the experience in the participant's terms.",
+      "writesBack": "Keep it tied to the trip they made."
+    },
+    {
+      "turn": "anticipated",
+      "pulledBy": "The rider knows only the announcement.",
+      "what": "Describe the expectation as prospective.",
+      "writesBack": "Leave their judgment of implementation open."
+    }
+  ]
+}
