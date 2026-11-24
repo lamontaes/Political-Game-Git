@@ -2894,7 +2894,7 @@
       "key": "scene-talk-office.state-deliver-news.the-budget-for-line-is-down-cut-will-you-ask-the-council-to-put-it-back",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "The budget for {line} is down {cut}. Will you ask the council to put it back?",
+      "text": "I need to ask you for {cut}. That's what came out of my budget. Will you take it back to council?",
       "uses": [
         {
           "subject": "scene",
@@ -2921,7 +2921,7 @@
       "key": "scene-talk-office.state-deliver-news.would-you-go-back-to-the-council-for-the-cut-we-lost-from-line",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Would you go back to the council for the {cut} we lost from {line}?",
+      "text": "Would you sponsor a vote to put back the {cut} we lost?",
       "uses": [
         {
           "subject": "scene",
@@ -2948,7 +2948,7 @@
       "key": "scene-talk-office.state-deliver-news.we-ve-lost-percent-percent-of-our-funding-for-line-will-you-help-me-get-it-restored",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "We've lost {percent} percent of our funding for {line}. Will you help me get it restored?",
+      "text": "They took {percent} percent out of my budget. Can I count on you to ask them to reconsider?",
       "uses": [
         {
           "subject": "scene",
@@ -2975,7 +2975,7 @@
       "key": "scene-talk-office.state-deliver-news.there-s-cut-less-for-line-now-i-d-like-your-support-for-an-amendment",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "There's {cut} less for {line} now. I'd like your support for an amendment.",
+      "text": "I'm short {cut} after that vote. I'd like to go back to the members with you.",
       "uses": [
         {
           "subject": "scene",
@@ -3002,7 +3002,7 @@
       "key": "scene-talk-office.reply-agree.i-ll-take-an-amendment-to-the-council-to-restore-the-money-for-line",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll take an amendment to the council to restore the money for {line}.",
+      "text": "I'll sponsor the amendment. Put the amount you need in writing for me.",
       "uses": [
         {
           "subject": "scene",
@@ -3054,7 +3054,7 @@
       "key": "scene-talk-office.reply-refuse.you-ll-have-to-plan-for-line-at-the-reduced-amount",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "You'll have to plan for {line} at the reduced amount.",
+      "text": "Plan the work around what you've got. I'm leaving the cut in place.",
       "uses": [
         {
           "subject": "scene",
@@ -3080,7 +3080,7 @@
       "key": "scene-talk-office.reply-refuse.i-won-t-ask-the-council-to-reopen-the-appropriation-for-line",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I won't ask the council to reopen the appropriation for {line}.",
+      "text": "The members made their decision. I'm voting to keep it.",
       "uses": [
         {
           "subject": "scene",
@@ -3132,7 +3132,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-ask-for-half-the-money-back-for-line-can-you-work-with-that",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll ask for half the money back for {line}. Can you work with that?",
+      "text": "I can go back for half. Is that enough for you to come with me?",
       "uses": [
         {
           "subject": "scene",
@@ -3159,7 +3159,7 @@
       "key": "scene-talk-office.reply-ask.how-much-came-out-of-line",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much came out of {line}?",
+      "text": "How much money did they take out?",
       "uses": [
         {
           "subject": "scene",
@@ -3186,7 +3186,7 @@
       "key": "scene-talk-office.reply-ask.what-share-of-the-funding-for-line-did-you-lose",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What share of the funding for {line} did you lose?",
+      "text": "Out of every dollar you had, what share did you lose?",
       "uses": [
         {
           "subject": "scene",
@@ -3213,7 +3213,7 @@
       "key": "scene-talk-office.reply-ask.what-exactly-do-you-want-me-to-ask-the-council-to-do-about-line",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What exactly do you want me to ask the council to do about {line}?",
+      "text": "When I have the floor, what do you want me to ask for?",
       "uses": [
         {
           "subject": "scene",
@@ -3266,7 +3266,7 @@
       "key": "scene-talk-office.follow-answer.it-s-percent-percent-of-what-we-had-for-line",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's {percent} percent of what we had for {line}.",
+      "text": "We lost {percent} percent of what we started with.",
       "uses": [
         {
           "subject": "scene",
@@ -3293,7 +3293,7 @@
       "key": "scene-talk-office.follow-answer.ask-for-an-amendment-putting-cut-back-into-line",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Ask for an amendment putting {cut} back into {line}.",
+      "text": "Ask them to put {cut} back. That's the amendment I'd support.",
       "uses": [
         {
           "subject": "scene",
@@ -3320,7 +3320,7 @@
       "key": "scene-talk-office.follow-thank.thank-you-for-taking-line-back-to-the-council",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for taking {line} back to the council.",
+      "text": "Thanks for carrying it. If they ask about the work, send that question to me.",
       "uses": [
         {
           "subject": "scene",
@@ -3347,7 +3347,7 @@
       "key": "scene-talk-office.follow-thank.i-appreciate-your-support-i-ll-be-ready-to-explain-why-line-needs-the-money",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate your support. I'll be ready to explain why {line} needs the money.",
+      "text": "I appreciate it. I'll come explain what we could use the money for.",
       "uses": [
         {
           "subject": "scene",
@@ -3374,7 +3374,7 @@
       "key": "scene-talk-office.follow-accept.i-d-take-half-i-can-make-that-case-for-line",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'd take half. I can make that case for {line}.",
+      "text": "I'll take half. Put my name down in support of that amount.",
       "uses": [
         {
           "subject": "scene",
@@ -3428,7 +3428,7 @@
       "key": "scene-talk-office.follow-accept.then-i-ll-work-with-what-s-left-for-line",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll work with what's left for {line}.",
+      "text": "All right. I'll go back through the requests and see what still fits.",
       "uses": [
         {
           "subject": "scene",
@@ -3455,7 +3455,7 @@
       "key": "scene-talk-office.follow-accept.i-understand-i-ll-plan-for-line-at-the-new-amount",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. I'll plan for {line} at the new amount.",
+      "text": "Then if someone asks me to take it up with you, I'll tell them we've spoken and the cut stands.",
       "uses": [
         {
           "subject": "scene",
@@ -3583,7 +3583,7 @@
       "key": "scene-talk-office.reply-refuse.i-ve-heard-the-amount-i-m-keeping-line-at-the-funding-it-has-now",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I've heard the amount. I'm keeping {line} at the funding it has now.",
+      "text": "I know what it cost you. I'm sticking with the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -3677,7 +3677,7 @@
       "key": "scene-talk-office.reply-leave.i-want-to-look-at-the-line-account-myself-before-i-answer",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I want to look at the {line} account myself before I answer.",
+      "text": "Leave the figures with me. I want to read them before I give you an answer.",
       "uses": [
         {
           "subject": "scene",
@@ -3724,7 +3724,7 @@
       "key": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The new figure for {line} is {percent} percent below the old one.",
+      "text": "Set the two budgets side by side and we're down {percent} percent.",
       "uses": [
         {
           "subject": "scene",
@@ -3751,7 +3751,7 @@
       "key": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{percent} percent of the {line} budget came out.",
+      "text": "They took out {percent} percent in that vote.",
       "uses": [
         {
           "subject": "scene",
@@ -3778,7 +3778,7 @@
       "key": "scene-talk-office.reply-agree.i-ll-ask-the-council-to-bring-line-back-up-to-its-old-funding",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll ask the council to bring {line} back up to its old funding.",
+      "text": "Yes. I'll ask the members to put the full amount back.",
       "uses": [
         {
           "subject": "scene",
@@ -3872,7 +3872,7 @@
       "key": "scene-talk-office.reply-bargain.would-it-be-worth-going-to-council-for-half-of-what-line-lost",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Would it be worth going to council for half of what {line} lost?",
+      "text": "If I ask for half of what you lost, will you speak for that?",
       "uses": [
         {
           "subject": "scene",
@@ -3966,7 +3966,7 @@
       "key": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Put the full {cut} for {line} before the council again.",
+      "text": "Ask for the whole {cut}. Anything less would leave part of the cut in place.",
       "uses": [
         {
           "subject": "scene",
@@ -3993,7 +3993,7 @@
       "key": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd like you to sponsor the amendment that restores {line}.",
+      "text": "I'd like you to introduce the amendment yourself and ask the members to reverse the cut.",
       "uses": [
         {
           "subject": "scene",
@@ -4020,7 +4020,7 @@
       "key": "scene-talk-office.reply-agree.i-ll-bring-the-full-request-for-line-to-the-council",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll bring the full request for {line} to the council.",
+      "text": "I'll put the whole request before council. I'd like you there when I do.",
       "uses": [
         {
           "subject": "scene",
@@ -4067,7 +4067,7 @@
       "key": "scene-talk-office.reply-refuse.you-ll-have-to-make-the-case-for-line-without-my-backing",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "You'll have to make the case for {line} without my backing.",
+      "text": "You can ask the members yourself. I won't join you on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -4161,7 +4161,7 @@
       "key": "scene-talk-office.reply-leave.give-me-time-to-read-the-line-appropriation-before-i-take-a-position",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Give me time to read the {line} appropriation before I take a position.",
+      "text": "Let me see what the vote actually changed before I tell you where I stand.",
       "uses": [
         {
           "subject": "scene",
@@ -4208,7 +4208,7 @@
       "key": "scene-talk-office.reply-ask.how-much-did-that-vote-leave-in-the-budget-for-line",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much did that vote leave in the budget for {line}?",
+      "text": "After the vote, how much money did you have to work with?",
       "uses": [
         {
           "subject": "scene",
@@ -4235,7 +4235,7 @@
       "key": "scene-talk-office.reply-ask.somebody-at-the-bus-stop-asks-me-what-s-left-for-line-what-do-i-tell-them",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Somebody at the bus stop asks me what's left for {line}. What do I tell them?",
+      "text": "If somebody stops me on the way home and asks what council left you, what can I tell them?",
       "uses": [
         {
           "subject": "scene",
@@ -4262,7 +4262,7 @@
       "key": "scene-talk-office.follow-answer.the-council-left-about-remaining-funds-for-line",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The council left about {remaining-funds} for {line}.",
+      "text": "They left us about {remaining-funds} to work with.",
       "uses": [
         {
           "subject": "scene",
@@ -4299,7 +4299,7 @@
       "key": "scene-talk-office.follow-answer.about-remaining-funds-that-was-the-appropriation-for-line-when-the-amendment-passed",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "About {remaining-funds}. That was the appropriation for {line} when the amendment passed.",
+      "text": "About {remaining-funds}. That's what we had the day that amendment passed.",
       "uses": [
         {
           "subject": "scene",
@@ -4551,7 +4551,7 @@
       "key": "scene-talk-office.state-deliver-news.some-of-the-money-for-line-is-back-in-the-budget-could-you-help-me-get-the-rest",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Some of the money for {line} is back in the budget. Could you help me get the rest?",
+      "text": "They put some of the money back. Would you ask them for the rest?",
       "uses": [
         {
           "subject": "scene",
@@ -4604,7 +4604,7 @@
       "key": "scene-talk-office.state-deliver-news.i-ve-crossed-about-restored-amount-off-my-request-for-line-i-still-need-your-help-with-what-s-left",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "I've crossed about {restored-amount} off my request for {line}. I still need your help with what's left.",
+      "text": "I've taken about {restored-amount} off my request. Could we go back to the members for what's missing?",
       "uses": [
         {
           "subject": "scene",
@@ -4631,7 +4631,7 @@
       "key": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much would it take now to get {line} back where it was?",
+      "text": "How much more would it take to undo the rest of the cut?",
       "uses": [
         {
           "subject": "scene",
@@ -4658,7 +4658,7 @@
       "key": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much has gone back into {line} since the cut?",
+      "text": "How much of the money did they give you back?",
       "uses": [
         {
           "subject": "scene",
@@ -4685,7 +4685,7 @@
       "key": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Take me back to the first vote. How big was the original cut to {line}?",
+      "text": "Before council put anything back, how big a cut did you take?",
       "uses": [
         {
           "subject": "scene",
@@ -4785,7 +4785,7 @@
       "key": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "About {still-needed}. That would bring {line} back to where we started.",
+      "text": "About {still-needed} more and we'd be back where we started.",
       "uses": [
         {
           "subject": "scene",
@@ -4896,7 +4896,7 @@
       "key": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Roughly {restored-amount} went back into {line}.",
+      "text": "About {restored-amount}. You can take that much off the first request.",
       "uses": [
         {
           "subject": "scene",
@@ -5481,7 +5481,7 @@
       "key": "scene-talk-office.reply-bargain.could-you-manage-with-half-of-what-s-still-missing-from-line",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Could you manage with half of what's still missing from {line}?",
+      "text": "If I can get you half of what's still missing, will you take it?",
       "uses": [
         {
           "subject": "scene",
@@ -5673,7 +5673,7 @@
       "key": "scene-talk-office.follow-accept.when-people-ask-about-line-i-ll-give-them-the-amount-we-ve-got-today",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "When people ask about {line}, I'll give them the amount we've got today.",
+      "text": "Then when someone calls, I'll tell them what we can afford after the second vote.",
       "uses": [
         {
           "subject": "scene",
@@ -6291,7 +6291,7 @@
       "key": "scene-talk-office.follow-accept.understood-i-ll-work-from-the-revised-budget-for-line",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood. I'll work from the revised budget for {line}.",
+      "text": "All right. I'll use the amount we have now when I answer requests.",
       "uses": [
         {
           "subject": "scene",
@@ -6540,7 +6540,7 @@
       "key": "scene-talk-office.state-deliver-news.would-you-carry-a-smaller-amendment-for-line-now-that-some-of-the-money-is-back",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Would you carry a smaller amendment for {line} now that some of the money is back?",
+      "text": "Would you take a smaller amendment back to council? They've already covered part of what I came for.",
       "uses": [
         {
           "subject": "scene",
@@ -6566,7 +6566,7 @@
       "key": "scene-talk-office.state-deliver-news.another-still-needed-would-get-us-back-to-the-appropriation-we-had-for-line-i-d-like-your-backing",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Another {still-needed} would get us back to the appropriation we had for {line}. I'd like your backing.",
+      "text": "We're still about {still-needed} short. I'd like you to ask for that much when the members meet.",
       "uses": [
         {
           "subject": "scene",
@@ -6593,7 +6593,7 @@
       "key": "scene-talk-office.state-deliver-news.you-can-cross-roughly-restored-amount-off-the-old-request-for-line-what-can-we-do-about-the-rest",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "You can cross roughly {restored-amount} off the old request for {line}. What can we do about the rest?",
+      "text": "About {restored-amount} has come back. Could I get your help with the part they left out?",
       "uses": [
         {
           "subject": "scene",
@@ -6620,7 +6620,7 @@
       "key": "scene-talk-office.reply-ask.what-figure-would-you-put-on-an-amendment-to-restore-line",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What figure would you put on an amendment to restore {line}?",
+      "text": "What amount should I put on the amendment now?",
       "uses": [
         {
           "subject": "scene",
@@ -6674,7 +6674,7 @@
       "key": "scene-talk-office.reply-ask.what-did-line-lose-on-that-first-vote-before-any-money-came-back",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What did {line} lose on that first vote, before any money came back?",
+      "text": "What did the members take out the first time around?",
       "uses": [
         {
           "subject": "scene",
@@ -6700,7 +6700,7 @@
       "key": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Council took about {original-cut} out of {line} that day. I've brought the request down to about {still-needed}.",
+      "text": "They took about {original-cut} that day. Today I'd ask for about {still-needed}.",
       "uses": [
         {
           "subject": "scene",
@@ -6774,7 +6774,7 @@
       "key": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "About {restored-amount} is back in the account for {line}. That leaves about {still-needed} for us to settle.",
+      "text": "We've got about {restored-amount} back. There's still about {still-needed} between us and the old budget.",
       "uses": [
         {
           "subject": "scene",
@@ -6848,7 +6848,7 @@
       "key": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Put about {still-needed} down for {line}. That accounts for the money we already got back.",
+      "text": "About {still-needed}. That already allows for what the members put back.",
       "uses": [
         {
           "subject": "scene",
@@ -7002,7 +7002,7 @@
       "key": "scene-talk-office.follow-accept.i-ll-come-i-want-them-to-hear-why-even-half-matters-to-line",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll come. I want them to hear why even half matters to {line}.",
+      "text": "I'll speak for half. If a member asks what I'd do with it, let me take that question.",
       "uses": [
         {
           "subject": "scene",
@@ -7136,7 +7136,7 @@
       "key": "scene-talk-office.reply-bargain.suppose-we-split-the-difference-on-line-will-you-back-an-amendment-for-half-of-the-shortfall",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Suppose we split the difference on {line}. Will you back an amendment for half of the shortfall?",
+      "text": "What if I ask for half of what's still missing? Would you go in with me on that?",
       "uses": [
         {
           "subject": "scene",
