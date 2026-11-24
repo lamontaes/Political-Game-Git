@@ -1019,6 +1019,1110 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.nobody-has-ever-asked-what-you-thought-of-born-year-but-you-arrived-anyway",
+      "move": "born",
+      "kind": "written",
+      "text": "Nobody has ever asked what you thought of {born-year}, but you arrived anyway.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.start-the-clock-at-born-year-the-government-did-the-day-somebody-filled-in-your",
+      "move": "born",
+      "kind": "written",
+      "text": "Start the clock at {born-year}. The government did, the day somebody filled in your name.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.before-you-could-read-a-clerk-had-already-filed-you-under-born-year",
+      "move": "born",
+      "kind": "written",
+      "text": "Before you could read, a clerk had already filed you under {born-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-were-a-line-item-in-born-year-and-a-surprisingly-loud-one",
+      "move": "born",
+      "kind": "written",
+      "text": "You were a line item in {born-year}, and a surprisingly loud one.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.born-year-is-when-the-world-picked-up-one-more-person-to-count",
+      "move": "born",
+      "kind": "written",
+      "text": "{born-year} is when the world picked up one more person to count.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.check-the-records-born-year-one-new-resident-no-previous-experience",
+      "move": "born",
+      "kind": "written",
+      "text": "Check the records: {born-year}, one new resident, no previous experience.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.back-in-born-year-you-came-into-the-country-as-an-unpaid-intern-and-the-title-st",
+      "move": "born",
+      "kind": "written",
+      "text": "Back in {born-year} you came into the country as an unpaid intern, and the title stuck.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.the-census-would-have-found-you-in-born-year-asleep-and-unaware-of-your-obligati",
+      "move": "born",
+      "kind": "written",
+      "text": "The census would have found you in {born-year}, asleep and unaware of your obligations.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.your-first-act-in-born-year-was-to-be-counted-your-second-was-to-complain-about",
+      "move": "born",
+      "kind": "written",
+      "text": "Your first act in {born-year} was to be counted. Your second was to complain about it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.in-born-year-you-got-a-name-a-file-and-a-county-to-blame-for-both",
+      "move": "born",
+      "kind": "written",
+      "text": "In {born-year} you got a name, a file and a county to blame for both.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.picture-school-place-in-school-year-one-new-kid-one-very-small-backpack",
+      "move": "school",
+      "kind": "written",
+      "text": "Picture {school-place} in {school-year}: one new kid, one very small backpack.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.what-did-school-place-teach-you-in-school-year-that-raising-your-hand-has-rules",
+      "move": "school",
+      "kind": "written",
+      "text": "What did {school-place} teach you in {school-year}? That raising your hand has rules.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.class-started-in-school-year-and-school-place-was-in-charge-of-everything-includ",
+      "move": "school",
+      "kind": "written",
+      "text": "Class started in {school-year}, and {school-place} was in charge of everything, including your lunch.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.you-were-handed-to-school-place-s-school-system-in-school-year-with-a-nametag-an",
+      "move": "school",
+      "kind": "written",
+      "text": "You were handed to {school-place}'s school system in {school-year}, with a nametag and no appeal.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.nobody-in-school-place-asked-whether-you-wanted-to-start-in-school-year-the-dist",
+      "move": "school",
+      "kind": "written",
+      "text": "Nobody in {school-place} asked whether you wanted to start in {school-year}. The district had a schedule.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-place-gave-you-a-locker-a-bell-and-a-fire-drill-in-school-year-in-that-or",
+      "move": "school",
+      "kind": "written",
+      "text": "{school-place} gave you a locker, a bell and a fire drill in {school-year}, in that order of importance.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.the-first-line-you-ever-stood-in-was-in-school-place-in-school-year-and-it-moved",
+      "move": "school",
+      "kind": "written",
+      "text": "The first line you ever stood in was in {school-place}, in {school-year}, and it moved slowly.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.civics-started-early-in-school-year-school-place-taught-you-to-stand-sit-and-be",
+      "move": "school",
+      "kind": "written",
+      "text": "Civics started early: in {school-year}, {school-place} taught you to stand, sit and be quiet on command.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.in-school-place-school-year-meant-homework-and-homework-meant-the-government-had",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-place}, {school-year} meant homework, and homework meant the government had finally noticed you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.you-spent-school-year-learning-the-alphabet-in-school-place-which-the-rest-of-yo",
+      "move": "school",
+      "kind": "written",
+      "text": "You spent {school-year} learning the alphabet in {school-place}, which the rest of your career depends on.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.moved-from-to-moved-to-moved-year-one-truck-a-lot-of-tape-no-say",
+      "move": "moved",
+      "kind": "written",
+      "text": "{moved-from} to {moved-to}, {moved-year}: one truck, a lot of tape, no say.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.you-left-moved-from-in-moved-year-and-moved-to-acquired-a-new-neighbor-who-didn",
+      "move": "moved",
+      "kind": "written",
+      "text": "You left {moved-from} in {moved-year}, and {moved-to} acquired a new neighbor who didn't know the shortcuts.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-moving-boxes-said-moved-to-it-was-moved-year-and-moved-from-was-behind-you",
+      "move": "moved",
+      "kind": "written",
+      "text": "The moving boxes said {moved-to}. It was {moved-year}, and {moved-from} was behind you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.somewhere-between-moved-from-and-moved-to-in-moved-year-you-stopped-being-from-o",
+      "move": "moved",
+      "kind": "written",
+      "text": "Somewhere between {moved-from} and {moved-to} in {moved-year}, you stopped being from one place and started being from two.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.moved-year-was-a-new-address-in-moved-to-a-new-school-and-a-long-explanation-of",
+      "move": "moved",
+      "kind": "written",
+      "text": "{moved-year} was a new address in {moved-to}, a new school and a long explanation of where {moved-from} is.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-family-traded-moved-from-for-moved-to-in-moved-year-and-found-out-what-a-new",
+      "move": "moved",
+      "kind": "written",
+      "text": "The family traded {moved-from} for {moved-to} in {moved-year} and found out what a new zip code feels like.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.rent-jobs-and-timing-decided-it-moved-year-out-of-moved-from-into-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "Rent, jobs and timing decided it: {moved-year}, out of {moved-from}, into {moved-to}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-for-work"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-paycheck-lived-in-moved-to-so-in-moved-year-the-family-followed-it-out-of-mo",
+      "move": "moved",
+      "kind": "written",
+      "text": "The paycheck lived in {moved-to}, so in {moved-year} the family followed it out of {moved-from}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-for-work"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.in-moved-year-you-became-the-new-kid-in-moved-to-which-moved-from-never-prepared",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} you became the new kid in {moved-to}, which {moved-from} never prepared you for.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.goodbye-moved-from-hello-moved-to-the-year-was-moved-year-and-nobody-sent-a-fare",
+      "move": "moved",
+      "kind": "written",
+      "text": "Goodbye, {moved-from}. Hello, {moved-to}. The year was {moved-year}, and nobody sent a farewell card.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.twelve-years-of-bells-ended-in-finished-year-and-the-building-let-you-walk-out",
+      "move": "finished",
+      "kind": "written",
+      "text": "Twelve years of bells ended in {finished-year}, and the building let you walk out.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.you-finished-school-in-finished-year-and-somebody-handed-you-a-folder-as-proof",
+      "move": "finished",
+      "kind": "written",
+      "text": "You finished school in {finished-year}, and somebody handed you a folder as proof.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.finished-year-gave-you-a-diploma-a-photo-and-a-question-nobody-could-answer-now",
+      "move": "finished",
+      "kind": "written",
+      "text": "{finished-year} gave you a diploma, a photo and a question nobody could answer: now what?",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.the-graduation-program-for-finished-year-had-your-name-spelled-right-which-is-no",
+      "move": "finished",
+      "kind": "written",
+      "text": "The graduation program for {finished-year} had your name spelled right, which is not guaranteed.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.walking-across-that-stage-in-finished-year-took-ten-seconds-and-about-twelve-yea",
+      "move": "finished",
+      "kind": "written",
+      "text": "Walking across that stage in {finished-year} took ten seconds and about twelve years.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.in-finished-year-the-school-was-done-with-you-and-you-were-done-with-the-school",
+      "move": "finished",
+      "kind": "written",
+      "text": "In {finished-year} the school was done with you, and you were done with the school. Nobody cried on schedule.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.you-came-out-of-school-in-finished-year-knowing-the-quadratic-formula-and-nothin",
+      "move": "finished",
+      "kind": "written",
+      "text": "You came out of school in {finished-year} knowing the quadratic formula and nothing about rent.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.finished-year-cap-gown-handshake-a-door-that-opened-onto-everything-else",
+      "move": "finished",
+      "kind": "written",
+      "text": "{finished-year}: cap, gown, handshake, a door that opened onto everything else.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.you-enrolled-in-college-year-on-the-theory-that-more-school-fixes-things",
+      "move": "college",
+      "kind": "written",
+      "text": "You enrolled in {college-year} on the theory that more school fixes things.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-year-added-a-dorm-a-meal-plan-and-a-first-look-at-what-tuition-really-me",
+      "move": "college",
+      "kind": "written",
+      "text": "{college-year} added a dorm, a meal plan and a first look at what tuition really means.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-began-in-college-year-and-the-first-thing-it-taught-was-how-to-read-a-bi",
+      "move": "college",
+      "kind": "written",
+      "text": "College began in {college-year}, and the first thing it taught was how to read a bill.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.in-college-year-you-went-to-college-and-met-a-lot-of-people-who-also-didn-t-know",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you went to college and met a lot of people who also didn't know what they were doing.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.the-campus-tour-in-college-year-left-out-the-part-about-the-loans",
+      "move": "college",
+      "kind": "written",
+      "text": "The campus tour in {college-year} left out the part about the loans.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.someone-signed-the-forms-in-college-year-and-you-were-a-college-student-official",
+      "move": "college",
+      "kind": "written",
+      "text": "Someone signed the forms in {college-year}, and you were a college student, officially and nervously.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.you-started-college-in-college-year-and-the-library-was-the-first-government-adj",
+      "move": "college",
+      "kind": "written",
+      "text": "You started college in {college-year}, and the library was the first government-adjacent place you liked.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-year-lectures-deadlines-and-a-sudden-interest-in-how-things-get-paid-for",
+      "move": "college",
+      "kind": "written",
+      "text": "{college-year}: lectures, deadlines and a sudden interest in how things get paid for.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.lost-year-put-your-name-on-a-ballot-for-lost-office-you-got-lost-votes-votes-and",
+      "move": "lost",
+      "kind": "written",
+      "text": "{lost-year} put your name on a ballot for {lost-office}. You got {lost-votes} votes, and the winner got {winner-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.you-tried-for-lost-office-in-lost-year-and-lost-lost-votes-to-winner-votes-the-v",
+      "move": "lost",
+      "kind": "written",
+      "text": "You tried for {lost-office} in {lost-year} and lost, {lost-votes} to {winner-votes}. The voters had spoken, loudly.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.running-for-lost-office-in-lost-year-gave-you-lost-votes-supporters-and-a-lastin",
+      "move": "lost",
+      "kind": "written",
+      "text": "Running for {lost-office} in {lost-year} gave you {lost-votes} supporters and a lasting respect for the other {winner-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.in-lost-year-lost-votes-people-marked-your-name-for-lost-office-winner-votes-mar",
+      "move": "lost",
+      "kind": "written",
+      "text": "In {lost-year}, {lost-votes} people marked your name for {lost-office}. {winner-votes} marked someone else.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.you-have-already-lost-an-election-lost-office-lost-year-lost-votes-votes-against",
+      "move": "lost",
+      "kind": "written",
+      "text": "You have already lost an election: {lost-office}, {lost-year}, {lost-votes} votes against {winner-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.the-race-for-lost-office-in-lost-year-went-the-other-way-you-collected-lost-vote",
+      "move": "lost",
+      "kind": "written",
+      "text": "The race for {lost-office} in {lost-year} went the other way. You collected {lost-votes} votes and a good story.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.lost-year-lost-office-winner-votes-voters-chose-the-winner-and-lost-votes-chose",
+      "move": "lost",
+      "kind": "written",
+      "text": "{lost-year}, {lost-office}: {winner-votes} voters chose the winner, and {lost-votes} chose you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.your-first-campaign-for-lost-office-in-lost-year-ended-lost-votes-to-winner-vote",
+      "move": "lost",
+      "kind": "written",
+      "text": "Your first campaign, for {lost-office} in {lost-year}, ended {lost-votes} to {winner-votes}. You learned more than the winner did.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.start-month-start-year-in-place-the-country-has-been-running-since-before-you-we",
+      "move": "now",
+      "kind": "written",
+      "text": "{start-month} {start-year} in {place}. The country has been running since before you were born, and it's still not waiting.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.here-you-are-in-place-start-month-start-year-with-a-past-a-place-and-a-few-peopl",
+      "move": "now",
+      "kind": "written",
+      "text": "Here you are in {place}, {start-month} {start-year}, with a past, a place and a few people who have opinions.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-calendar-says-start-month-start-year-place-says-it-s-your-move",
+      "move": "now",
+      "kind": "written",
+      "text": "The calendar says {start-month} {start-year}. {place} says it's your move.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.everything-above-got-you-to-place-in-start-month-start-year-the-rest-depends-on",
+      "move": "now",
+      "kind": "written",
+      "text": "Everything above got you to {place} in {start-month} {start-year}. The rest depends on what you do next.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.welcome-to-start-month-start-year-place-the-economy-is-running-the-government-is",
+      "move": "now",
+      "kind": "written",
+      "text": "Welcome to {start-month} {start-year}, {place}: the economy is running, the government is in session, and you've arrived.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-in-start-month-start-year-has-a-government-a-budget-and-an-opinion-about-y",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} in {start-month} {start-year} has a government, a budget and an opinion about you, in that order.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-story-so-far-ends-in-place-start-month-start-year-from-here-you-write-it",
+      "move": "now",
+      "kind": "written",
+      "text": "The story so far ends in {place}, {start-month} {start-year}. From here you write it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.past-is-past-start-month-start-year-place-the-lights-are-on-and-your-name-is-on",
+      "move": "now",
+      "kind": "written",
+      "text": "Past is past. {start-month} {start-year}, {place}: the lights are on and your name is on the door.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
