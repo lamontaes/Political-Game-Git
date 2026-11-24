@@ -307,6 +307,12 @@
       "leastSentences": {
         "value": 11,
         "about": "TUNABLE: the shortest State of the Union the planner tells, the inaugural's until the national speeches writer's pre-grade sets its own; the planner of record's row runs 14 to 30 sentences (src/director/data/speech-outlines.json)."
+      },
+      "specificFloor": {
+        "value": 20,
+        "tag": "TUNABLE",
+        "spread": "6 to 40",
+        "note": "The yearly addresses' moves hold a few lines with several conditions and many with one; at the general floor of 6 the few won every world (W1, Nov 24: batch 16's new lines moved nothing). At 20, over the 66 drawn worlds, the State of the State's part 2 went from 23 frames to 18 and part 3 from 3.60 to 2.10."
       }
     },
     "state-of-the-state": {
@@ -316,7 +322,8 @@
         "theme-name": 1,
         "theme-short": 1,
         "the-disaster": 1,
-        "term-left": 1
+        "term-left": 1,
+        "body-name": 1
       },
       "sections": [
         {
@@ -460,6 +467,12 @@
       "leastSentences": {
         "value": 8,
         "about": "TUNABLE: the shortest State of the State the planner tells, at the low end of the planner of record's 8 to 18 sentences (src/director/data/speech-outlines.json; a governor's address runs about a third of a State of the Union, Polis 2024) until the writer's pre-grade sets it."
+      },
+      "specificFloor": {
+        "value": 20,
+        "tag": "TUNABLE",
+        "spread": "6 to 40",
+        "note": "The yearly addresses' moves hold a few lines with several conditions and many with one; at the general floor of 6 the few won every world (W1, Nov 24: batch 16's new lines moved nothing). At 20, over the 66 drawn worlds, the State of the State's part 2 went from 23 frames to 18 and part 3 from 3.60 to 2.10."
       }
     },
     "talk-address-point": {
@@ -632,7 +645,8 @@
         "theme-name": 1,
         "theme-short": 1,
         "the-disaster": 1,
-        "term-left": 1
+        "term-left": 1,
+        "body-name": 1
       },
       "sections": [
         {
@@ -785,7 +799,8 @@
         "theme-name": 1,
         "theme-short": 1,
         "the-disaster": 1,
-        "term-left": 1
+        "term-left": 1,
+        "body-name": 1
       },
       "sections": [
         {
@@ -930,6 +945,21 @@
         "value": 4,
         "about": "TUNABLE: the shortest stump speech the planner tells, at the low end of the planner of record's 4 to 10 sentences (src/director/data/speech-outlines.json `campaign-speech`; a stump speech is short and repeated at every stop, Wikipedia, Stump speech) until the writer's pre-grade sets it."
       }
+    },
+    "journal-chapter-open": {
+      "surface": "journal",
+      "sections": [
+        {
+          "name": "born",
+          "when": ["chapter-born"],
+          "shapes": ["chapter-open-born"]
+        },
+        {
+          "name": "moved",
+          "when": ["chapter-moved"],
+          "shapes": ["chapter-open-moved"]
+        }
+      ]
     }
   },
   "shapes": {
@@ -1217,6 +1247,12 @@
     },
     "loading-job": {
       "moves": ["job"]
+    },
+    "chapter-open-born": {
+      "moves": ["born"]
+    },
+    "chapter-open-moved": {
+      "moves": ["moved"]
     }
   },
   "weights": {

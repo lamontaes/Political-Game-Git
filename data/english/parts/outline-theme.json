@@ -64,6 +64,18 @@
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
@@ -82,6 +94,18 @@
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
         }
       ],
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
@@ -97,6 +121,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
@@ -160,6 +196,18 @@
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
         }
       ],
       "after": ["creed"],
@@ -201,6 +249,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"]
@@ -270,6 +330,18 @@
           "role": "today",
           "tie": "stand",
           "requiresFacts": ["today"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today"]
         }
       ],
       "lean": ["personality-v1:facet-analytical"],
@@ -285,6 +357,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "today",
           "tie": "stand",
           "requiresFacts": ["today-clause"]
@@ -306,6 +390,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"]
@@ -355,6 +451,18 @@
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
         }
       ],
       "after": ["contrast"],
@@ -374,6 +482,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["belief-sentence"]
@@ -443,6 +563,20 @@
           "tie": "law",
           "requiresFacts": ["to"],
           "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": [
@@ -486,6 +620,18 @@
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"]
         }
       ],
       "after": ["question"],
@@ -524,6 +670,18 @@
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-for"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"]
         }
       ],
       "after": ["question"],
@@ -540,6 +698,28 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -566,6 +746,18 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
@@ -589,6 +781,28 @@
             "stance-against",
             "law-in-force"
           ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
@@ -604,6 +818,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
@@ -702,6 +928,18 @@
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -721,6 +959,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
@@ -746,7 +996,34 @@
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"]
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
         }
       ],
       "after": ["today"],
@@ -769,6 +1046,18 @@
           "role": "question",
           "tie": "law",
           "requiresFacts": ["law-name", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["law-name", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["law-name", "law-in-force"]
         }
       ],
       "lean": [
@@ -787,6 +1076,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "law",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "law",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "law",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"]
@@ -828,6 +1129,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
@@ -877,6 +1190,18 @@
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
         }
       ],
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
@@ -895,6 +1220,18 @@
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
@@ -910,6 +1247,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"]
@@ -955,6 +1304,18 @@
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
         }
       ],
       "lean": [
@@ -973,6 +1334,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "question",
           "tie": "law",
           "requiresFacts": ["to"],
@@ -998,6 +1373,18 @@
           "role": "question",
           "tie": "law",
           "requiresFacts": ["law-name", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["law-name", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["law-name", "law-in-force"]
         }
       ],
       "lean": [
@@ -1019,6 +1406,18 @@
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -1035,6 +1434,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
@@ -1060,6 +1471,18 @@
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -1082,6 +1505,18 @@
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -1098,6 +1533,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
@@ -1120,6 +1567,18 @@
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -1136,6 +1595,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
@@ -1162,6 +1633,28 @@
             "stance-against",
             "law-not-in-force"
           ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
@@ -1177,6 +1670,18 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
@@ -1206,6 +1711,28 @@
             "stance-against",
             "law-in-force"
           ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
@@ -1221,6 +1748,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"],
@@ -1268,6 +1809,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
@@ -1325,6 +1880,30 @@
             "law-not-in-force"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-for",
+            "law-not-in-force"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-for",
+            "law-not-in-force"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
@@ -1341,6 +1920,30 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -1370,6 +1973,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -1389,6 +2006,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
@@ -1417,6 +2048,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1434,6 +2079,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"],
@@ -1459,6 +2118,20 @@
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -1480,6 +2153,20 @@
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -1497,6 +2184,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-for"],
@@ -1525,6 +2226,20 @@
           "tie": "stand",
           "requiresFacts": ["belief", "stance-for"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -1542,6 +2257,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-against"],
@@ -1567,6 +2296,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-for"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -1584,6 +2327,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"],
@@ -1612,6 +2369,20 @@
           "tie": "stand",
           "requiresFacts": ["belief", "stance-for"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -1636,6 +2407,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
@@ -1652,6 +2437,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"],
@@ -1676,6 +2475,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-sincere"],
@@ -1692,6 +2505,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["about", "stance-for", "law-not-in-force"],
@@ -1744,6 +2571,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1786,6 +2627,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1810,6 +2665,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1830,6 +2699,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
@@ -1908,6 +2791,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1928,6 +2825,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
@@ -1956,6 +2867,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -1973,6 +2898,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
@@ -2001,6 +2940,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -2018,6 +2971,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
@@ -2046,6 +3013,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -2065,7 +3046,36 @@
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
           "excludesFacts": []
         }
       ],
@@ -2091,6 +3101,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -2108,6 +3132,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["about", "stance-for", "law-not-in-force"],
@@ -2136,6 +3174,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-for", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -2157,6 +3209,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -2174,6 +3240,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
@@ -2207,6 +3287,30 @@
             "belief"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
@@ -2223,6 +3327,30 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -2260,6 +3388,30 @@
             "belief"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -2279,6 +3431,30 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -2308,6 +3484,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -2331,6 +3521,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -2350,6 +3554,30 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -2384,6 +3612,30 @@
             "belief"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -2403,6 +3655,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief", "stance-against"],
@@ -2428,6 +3694,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-against"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -2449,6 +3729,20 @@
           "tie": "stand",
           "requiresFacts": ["belief", "stance-for"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -2466,6 +3760,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-for"],
@@ -2511,6 +3819,20 @@
           "tie": "frame",
           "requiresFacts": ["theme-short"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -2527,6 +3849,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"],
@@ -2554,6 +3890,20 @@
           "tie": "frame",
           "requiresFacts": ["theme-short"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -2574,6 +3924,20 @@
           "tie": "frame",
           "requiresFacts": ["theme-short"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -2590,6 +3954,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"],
@@ -2617,6 +3995,20 @@
           "tie": "frame",
           "requiresFacts": ["theme-short"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -2640,6 +4032,20 @@
           "tie": "frame",
           "requiresFacts": ["theme-short"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
         }
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
@@ -2659,6 +4065,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"],
@@ -2706,6 +4126,20 @@
           "tie": "stand",
           "requiresFacts": ["other-side"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
@@ -2722,6 +4156,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"],
@@ -2749,6 +4197,20 @@
           "tie": "stand",
           "requiresFacts": ["other-side"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -2768,6 +4230,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"],
@@ -2795,6 +4271,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "after": ["contrast"],
@@ -2812,6 +4302,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["belief"],
@@ -2840,6 +4344,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "after": ["contrast"],
@@ -2864,6 +4382,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "after": ["contrast"],
@@ -2881,6 +4413,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "question",
           "tie": "stand",
           "requiresFacts": ["to"],
@@ -2908,6 +4454,20 @@
           "tie": "stand",
           "requiresFacts": ["to"],
           "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": [
@@ -2927,6 +4487,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "question",
           "tie": "stand",
           "requiresFacts": ["to"],
@@ -2975,7 +4549,21 @@
           "subject": "inaugural",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -3020,6 +4608,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -3043,6 +4645,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
@@ -3061,7 +4677,21 @@
           "subject": "inaugural",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -3086,6 +4716,20 @@
           "tie": "stand",
           "requiresFacts": ["today-clause"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
@@ -3102,6 +4746,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "today",
           "tie": "stand",
           "requiresFacts": ["today-clause"],
@@ -4577,6 +6235,20 @@
           "tie": "stand",
           "requiresFacts": ["belief"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -4596,6 +6268,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "creed",
           "tie": "stand",
           "requiresFacts": ["belief"],
@@ -4644,6 +6330,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -4665,6 +6365,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -4682,6 +6396,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
@@ -4710,6 +6438,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["creed"],
@@ -4730,6 +6472,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
@@ -4758,6 +6514,20 @@
           "tie": "stand",
           "requiresFacts": ["about", "stance-for", "law-not-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -4775,6 +6545,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["about", "stance-against", "law-not-in-force"],
@@ -4800,6 +6584,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -4817,6 +6615,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-for", "law-in-force"],
@@ -4842,6 +6654,20 @@
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
         }
       ],
       "after": ["today"],
@@ -4859,6 +6685,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["law-name", "stance-against", "law-in-force"],
@@ -4887,6 +6727,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
         }
       ],
       "after": ["contrast"],
@@ -4908,6 +6762,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
         }
       ],
       "after": ["contrast"],
@@ -4925,6 +6793,30 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
@@ -4959,6 +6851,30 @@
             "belief-sentence"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-for",
+            "law-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-for",
+            "law-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
@@ -4975,6 +6891,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "answer",
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-against"],
@@ -5000,6 +6930,20 @@
           "tie": "stand",
           "requiresFacts": ["belief-sentence", "stance-for"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
         }
       ],
       "after": ["question"],
@@ -5017,6 +6961,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "value",
           "tie": "frame",
           "requiresFacts": ["theme-short"],
@@ -5067,6 +7025,20 @@
           "tie": "stand",
           "requiresFacts": ["today-clause"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -5090,6 +7062,20 @@
           "tie": "stand",
           "requiresFacts": ["today-clause"],
           "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
@@ -5106,6 +7092,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"],
@@ -5149,6 +7149,20 @@
       "uses": [
         {
           "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
           "role": "contrast",
           "tie": "stand",
           "requiresFacts": ["other-side"],
@@ -5286,6 +7300,179 @@
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.stand.spoken-i-mean-to-change-that-and-are-where-i-start-plural",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I mean to change that, and {about} are where I start.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.stand.spoken-in-light-of-that-have-to-change-plural",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "In light of that, {law-name} have to change.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.question.spoken-are-worth-keeping-plural",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Are {law-name} worth keeping?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-theme.question.spoken-are-doing-what-they-were-meant-to-do-plural",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Are {law-name} doing what they were meant to do?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     }
   ]
 }

@@ -1,0 +1,31 @@
+{
+  "id": "one-in-five-students-attends-a-high-poverty-school",
+  "kind": "detail",
+  "summary": "About one in five public school students attend a school where most students qualify for free or reduced-price lunch.",
+  "realLife": "In fall 2021, about 10.5 million students, 21 percent of public school students, attended high-poverty schools, where more than 75 percent of students were eligible.",
+  "sources": [
+    "NCES, Fast Facts: Public school students eligible for free or reduced-price lunch: https://nces.ed.gov/fastfacts/display.asp?id=898"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-place"],
+  "gates": [],
+  "weights": {
+    "school-place": 0.5
+  },
+  "inGame": "the school row's share of eligible students. needs: eligibility share on the school row.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A low-poverty school, where few students are eligible.",
+      "pulledBy": "the school's neighborhood",
+      "writesBack": "a different school mix"
+    },
+    {
+      "turn": "neutral",
+      "what": "A mixed school.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}

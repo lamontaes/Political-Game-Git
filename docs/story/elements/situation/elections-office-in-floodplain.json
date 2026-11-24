@@ -1,0 +1,31 @@
+{
+  "id": "elections-office-in-floodplain",
+  "kind": "situation",
+  "summary": "With election day approaching, {person} needs a backup site for an elections office inside the floodplain.",
+  "realLife": "King County officials briefed a committee on possibly moving election operations before the November vote.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["Election operations use a site in the area under flood review."],
+  "weights": [
+    "The closer the election date, the greater the disruption from moving equipment."
+  ],
+  "usedBy": [],
+  "inGame": "needs: contingency locations for election operations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The election office remains open at its original address.",
+      "pulledBy": "The flood assessment clears access through election day.",
+      "writesBack": "The county withdraws the relocation notice."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff move ballot processing and keep voter services downtown.",
+      "pulledBy": "The alternate site can handle counting but lacks a public counter.",
+      "writesBack": "The election notice lists both locations and their functions."
+    }
+  ]
+}

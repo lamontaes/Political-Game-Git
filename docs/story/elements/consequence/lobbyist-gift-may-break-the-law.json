@@ -1,0 +1,29 @@
+{
+  "id": "lobbyist-gift-may-break-the-law",
+  "kind": "consequence",
+  "summary": "A donation to a sitting official from a registered lobbyist is reported as likely illegal.",
+  "realLife": "A $6,800 gift from a lobbyist to a sitting legislator's campaign was reported as likely violating state law.",
+  "sources": [
+    "Yahoo News, lobbyist's $6,800 donation to a sitting legislator's court campaign likely violates state law: https://www.yahoo.com/news/articles/lobbyist-6-800-donation-rep-125951989.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["money", "name"],
+  "gates": [],
+  "weights": {
+    "donor-ask": 0.8
+  },
+  "inGame": "campaign-gift with donor job; needs: a law barring lobbyist gifts and a complaint step",
+  "turns": [
+    {
+      "turn": "The gift is legal in this place",
+      "pull": "the place's law",
+      "writes": "writes no story and the donor call goes on"
+    },
+    {
+      "turn": "The official returns the money",
+      "pull": "a conscientious trait",
+      "writes": "writes a returned-gift story"
+    }
+  ],
+  "usedBy": ["donor-ask"]
+}

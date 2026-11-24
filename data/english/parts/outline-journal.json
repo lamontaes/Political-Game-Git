@@ -1,0 +1,977 @@
+{
+  "schema": "english-parts/1",
+  "register": "outline-journal",
+  "description": "The sentence that opens a Journal chapter on a new life's first page (outline row journal-chapter-open): the birth that opens the first chapter and a move that opens the next, told through the one outline planner. Seeded with the old Journal bank's opener lines for those moves, their text unchanged, under the Journal writer's spec (#9750, 7135335379; docs/story/writer-spec.md).",
+  "slots": {
+    "place": "the town, from the household or move record",
+    "moved-from": "the place the person moved from, from the move record, said as a place name (a state or a town)",
+    "moment-year": "the year the birth or move happened, from its own record",
+    "age-then": "the person's age on the day, from the birth record (left out at 0)"
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "outline-journal.moved.i-moved-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-back-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved back to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.born.i-was-born-in-place",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "outline-journal.born.my-life-started-in",
+      "move": "born",
+      "kind": "written",
+      "text": "My life started in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.i-come-from",
+      "move": "born",
+      "kind": "written",
+      "text": "I come from {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.i-started-out-in",
+      "move": "born",
+      "kind": "written",
+      "text": "I started out in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.my-story-starts-in",
+      "move": "born",
+      "kind": "written",
+      "text": "My story starts in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.my-first-home-was-in",
+      "move": "born",
+      "kind": "written",
+      "text": "My first home was in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.was-my-first-home",
+      "move": "born",
+      "kind": "written",
+      "text": "{place} was my first home.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.my-birth-was-in",
+      "move": "born",
+      "kind": "written",
+      "text": "My birth was in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.born.the-records-put-my-birth-in",
+      "move": "born",
+      "kind": "written",
+      "text": "The records put my birth in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["opens-with-who-the-writer-is-and-where-they-live"]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-out-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved out to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-contented"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-came-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I came to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-defensive"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-settled-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "I settled in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-made-the-move-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I made the move to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-observant"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-from-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved from {moved-from} to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-independent",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-left-for",
+      "move": "moved",
+      "kind": "written",
+      "text": "I left {moved-from} for {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-supportive"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-came-to-from",
+      "move": "moved",
+      "kind": "written",
+      "text": "I came to {place} from {moved-from}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-to-leaving-behind",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place}, leaving {moved-from} behind.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-came-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "We came to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-settled-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "We settled in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-left-for",
+      "move": "moved",
+      "kind": "written",
+      "text": "We left for {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.the-whole-household-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "The whole household moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-observant"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-from-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved from {moved-from} to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moved-from",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-left-and-came-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "We left {moved-from} and came to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moved-from",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-cynical"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-came-to-from",
+      "move": "moved",
+      "kind": "written",
+      "text": "We came to {place} from {moved-from}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moved-from",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.born.i-was-born-in-in",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "moment-year", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "opens-with-who-the-writer-is-and-where-they-live",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.born.my-life-started-in-in",
+      "move": "born",
+      "kind": "written",
+      "text": "My life started in {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "moment-year", "own-moment"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "opens-with-who-the-writer-is-and-where-they-live",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-to-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moment-year", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-generous",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.in-i-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moment-year}, I moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moment-year", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-to-from-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place} from {moved-from} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "moment-year", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-deferential"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-left-for-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "I left {moved-from} for {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "moved-from", "moment-year", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": ["personality-v1:facet-supportive", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-to-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved to {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moment-year",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.in-we-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moment-year}, we moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moment-year",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.we-left-for-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "We left {moved-from} for {place} in {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "moved-from",
+            "moment-year",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-shy"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-was-when-i-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I was {age-then} when I moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "age-then", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-to-at",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place} at {age-then}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "age-then", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-shy"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-moved-to-when-i-was",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place} when I was {age-then}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "age-then", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-contented"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.i-was-when-we-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I was {age-then} when we moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "age-then",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-independent"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-to-when-i-was",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved to {place} when I was {age-then}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "age-then",
+            "own-moment",
+            "household-together"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    }
+  ]
+}

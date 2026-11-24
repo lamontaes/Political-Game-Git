@@ -13,5 +13,20 @@
   "weights": {
     "state": 0.08
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The `greeting` move and trait lean (light-hearted, informal) exist. needs: a humor piece; none is written.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A grave opening in a year of loss (a disaster).",
+      "pulledBy": "the-disaster in the year",
+      "writesBack": "The first line honors the people hurt."
+    },
+    {
+      "turn": "neutral",
+      "what": "A warm opening with no joke.",
+      "pulledBy": "a friendly speaker",
+      "writesBack": "The greeting alone."
+    }
+  ]
 }

@@ -1,0 +1,31 @@
+{
+  "id": "four-year-schools-take-most-new-students",
+  "kind": "detail",
+  "summary": "Most new graduates who go to college go to four-year schools: 45 percent against 17 percent at two-year schools.",
+  "realLife": "About 45 percent of 2022 completers went to 4-year schools and 17 percent to 2-year schools.",
+  "sources": [
+    "NCES, Condition of Education: Immediate College Enrollment Rate: https://nces.ed.gov/programs/coe/indicator/cpa"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year"],
+  "gates": [],
+  "weights": {
+    "college-year": 0.5
+  },
+  "inGame": "the college row's level (the school engine's college kinds). needs: a college level on the college record.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A two-year start.",
+      "pulledBy": "the college row",
+      "writesBack": "a two-year school named"
+    },
+    {
+      "turn": "partial",
+      "what": "A two-year start and a transfer.",
+      "pulledBy": "a second college record",
+      "writesBack": "a transfer told"
+    }
+  ],
+  "usedBy": []
+}
