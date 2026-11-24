@@ -1,0 +1,31 @@
+{
+  "id": "governor-will-give-instructions",
+  "kind": "voice",
+  "summary": "{person} tells residents which official they should listen to if they are asked to leave.",
+  "realLife": "Speaking in Middletown, Carter told residents to follow any further safety instructions from Thornburgh.",
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The president addresses residents facing a decision under state authority."
+  ],
+  "weights": [
+    "Conflicting public instructions give greater weight to naming who speaks for the state."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the named issuer of public instructions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The president directs residents to follow county notices.",
+      "pulledBy": "Emergency instructions in the affected area are issued by the county.",
+      "writesBack": "The statement names the county as the source of local orders."
+    },
+    {
+      "turn": "partial",
+      "what": "The governor sets statewide guidance while towns announce their own routes.",
+      "pulledBy": "County officials have submitted different local travel plans.",
+      "writesBack": "The notice identifies who is responsible for each instruction."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "governor-lifts-advisory",
+  "kind": "moment",
+  "summary": "Families who left {place} receive word that the governor has lifted the advisory.",
+  "realLife": "Pennsylvania lifted its precaution for pregnant residents and young children on April 9, ten days after Thornburgh announced it.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": ["An advisory is in force and the issuing office can revise it."],
+  "weights": [
+    "A sustained improvement across the covered area favors lifting the whole advisory."
+  ],
+  "usedBy": [],
+  "inGame": "needs: expiration or partial withdrawal of an advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor renews the advisory.",
+      "pulledBy": "The latest assessment still meets the condition for issuing it.",
+      "writesBack": "The renewal records a new review date."
+    },
+    {
+      "turn": "partial",
+      "what": "One town receives clearance while a neighboring town remains covered.",
+      "pulledBy": "The findings differ across the boundary.",
+      "writesBack": "The advisory map shows where restrictions ended."
+    }
+  ]
+}
