@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10341
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T06:45:37.996Z
 ---
 
 **What.** The owner Nov 23 playtest, caught by the CTO (C15): My life repeats the Your life tab word for word. The You screen set out the life history as a My life section beside the Your life tab that tells the same lines.

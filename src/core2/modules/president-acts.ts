@@ -26,7 +26,7 @@ import {
   issueFederalOrder,
   presidentialOrderDecisions,
 } from "./executive";
-import { OFFICES_MODULE_ID } from "./offices";
+import { OFFICES_MODULE_ID, termHasBegun } from "./offices";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -37,6 +37,7 @@ const weighed = new WeakSet<object>();
 
 interface TermRow {
   readonly personId: string;
+  readonly startDate: string;
 }
 
 /** The sitting president, or null. */
@@ -50,7 +51,7 @@ function sittingPresident(api: CoreAPI): string | null {
         "serving",
       ]) as unknown as TermRow[]
   )[0];
-  return term?.personId ?? null;
+  return term && termHasBegun(api, term) ? term.personId : null;
 }
 
 export const PRESIDENT_ACTS_MODULE: CoreModule = {
