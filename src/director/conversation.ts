@@ -4506,13 +4506,30 @@ function playerFacts(
   // Where they stand: whether the player's own view on the same question is
   // on the same side, the other side, or none.
   if (last.kind === "own-view" && last.subject.news?.question) {
-    const mine = newsStake(core, playerId, last.subject);
-    const theirs = last.subject.facts["side-for"] ? "for" : "against";
-    if (mine.reason === "stance")
-      facts[mine.side === theirs ? "my-same" : "my-other"] = {
+    // What the player just said to them on this very question comes before
+    // the player's seeded stance: after an address point answered "Same here"
+    // or "I'd take her side", the replies to where they stand follow that,
+    // never only the side the player's record holds (Story lead, Nov 24, on
+    // #9750: the first evening's trapped replies).
+    const said = otherId
+      ? core.knowledgeByPerson
+          .get(otherId)
+          ?.get(pointKey(playerId, last.subject.news.question))
+      : undefined;
+    if (said?.value === "agree" || said?.value === "disagree")
+      facts[said.value === "agree" ? "my-same" : "my-other"] = {
         text: "yes",
-        sourceRecordIds: mine.recordIds,
+        sourceRecordIds: [said.sourceId],
       };
+    else {
+      const mine = newsStake(core, playerId, last.subject);
+      const theirs = last.subject.facts["side-for"] ? "for" : "against";
+      if (mine.reason === "stance")
+        facts[mine.side === theirs ? "my-same" : "my-other"] = {
+          text: "yes",
+          sourceRecordIds: mine.recordIds,
+        };
+    }
   }
   if (last.kind === "news") {
     const stake = newsStake(core, playerId, last.subject);
@@ -5614,15 +5631,14 @@ function ownViewComesUp(
   row: Pick<Subject, "weight" | "news">,
 ): boolean {
   const question = row.news?.question;
-  // Not on a question an address point of this talk already made: right after
-  // the point they have given their side, and raising it again restates a
-  // stand a turn later and asks the player the same thing twice (Story lead,
-  // Nov 24, on #9750: the first evening's trapped replies).
+  // Right after an address point, the listener's own view on that very point
+  // is the first related subject (CTO, Nov 19 10:48Z on #9750).
+  const afterPoint = subjectKindOf(conversation.topics[zero] ?? "") === POINT;
   return (
     !!(row.weight ?? zero) &&
     !!question &&
     (conversation.questions ?? []).includes(question) &&
-    !(conversation.pointed ?? []).includes(question)
+    (afterPoint || !(conversation.pointed ?? []).includes(question))
   );
 }
 
