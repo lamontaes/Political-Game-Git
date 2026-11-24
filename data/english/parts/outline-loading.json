@@ -3614,46 +3614,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.the-record-says-born-year-and-nobody-has-argued-with-it",
-      "move": "born",
-      "kind": "written",
-      "text": "The record says {born-year}, and nobody has argued with it.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year"]
-        }
-      ],
-      "elements": ["birth-is-a-form-the-state-keeps"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.born.by-the-end-of-born-year-you-had-a-name-a-certificate-and-no-plans",
       "move": "born",
       "kind": "written",
       "text": "By the end of {born-year} you had a name, a certificate and no plans.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year"]
-        }
-      ],
-      "elements": ["birth-is-a-form-the-state-keeps"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.born.you-started-in-born-year-with-a-certificate-a-name-and-a-lot-to-learn",
-      "move": "born",
-      "kind": "written",
-      "text": "You started in {born-year} with a certificate, a name and a lot to learn.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3704,42 +3668,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.in-school-year-school-place-gave-you-a-seat-and-a-rule-for-using-it",
-      "move": "school",
-      "kind": "written",
-      "text": "In {school-year}, {school-place} gave you a seat and a rule for using it.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "elements": ["school-is-assigned-by-address"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.school.school-place-was-your-first-school-starting-in-school-year-and-its-rules-were-po",
-      "move": "school",
-      "kind": "written",
-      "text": "{school-place} was your first school, starting in {school-year}, and its rules were posted by the door.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "elements": ["school-is-assigned-by-address"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.school.school-in-school-place-began-in-school-year-with-a-lunch-line-and-a-bell",
       "move": "school",
       "kind": "written",
@@ -3758,82 +3686,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.the-first-school-you-went-to-was-in-school-place-the-year-was-school-year",
-      "move": "school",
-      "kind": "written",
-      "text": "The first school you went to was in {school-place}. The year was {school-year}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "elements": ["school-is-assigned-by-address"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.moved.you-moved-to-moved-to-in-moved-year-and-moved-from-became-a-place-you-used-to-li",
-      "move": "moved",
-      "kind": "written",
-      "text": "You moved to {moved-to} in {moved-year}, and {moved-from} became a place you used to live.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
-        }
-      ],
-      "elements": ["housing-is-the-top-reason-people-move"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.moved.the-family-left-moved-from-in-moved-year-moved-to-was-where-the-next-address-was",
-      "move": "moved",
-      "kind": "written",
-      "text": "The family left {moved-from} in {moved-year}. {moved-to} was where the next address was.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
-        }
-      ],
-      "elements": ["housing-is-the-top-reason-people-move"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.moved.in-moved-year-the-family-packed-up-in-moved-from-and-unpacked-in-moved-to",
       "move": "moved",
       "kind": "written",
       "text": "In {moved-year} the family packed up in {moved-from} and unpacked in {moved-to}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
-        }
-      ],
-      "elements": ["housing-is-the-top-reason-people-move"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.moved.moved-from-to-moved-to-moved-year-a-new-address-a-new-route-to-school-and-the-sa",
-      "move": "moved",
-      "kind": "written",
-      "text": "{moved-from} to {moved-to}, {moved-year}: a new address, a new route to school and the same family.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3925,65 +3781,6 @@
         }
       ],
       "elements": ["some-moves-are-for-a-job"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.moved.work-was-the-reason-for-the-move-to-moved-to-in-moved-year-and-moved-from-was-th",
-      "move": "moved",
-      "kind": "written",
-      "text": "Work was the reason for the move to {moved-to} in {moved-year}, and {moved-from} was the place left behind.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-for-work"
-          ]
-        }
-      ],
-      "elements": ["some-moves-are-for-a-job"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.college.in-college-year-you-picked-classes-and-the-classes-picked-your-mornings",
-      "move": "college",
-      "kind": "written",
-      "text": "In {college-year} you picked classes, and the classes picked your mornings.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year"]
-        }
-      ],
-      "elements": ["college-is-paid-for-in-grants-and-loans"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.finished.in-finished-year-you-finished-school-and-had-a-diploma-to-show-for-it",
-      "move": "finished",
-      "kind": "written",
-      "text": "In {finished-year} you finished school and had a diploma to show for it.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "finished",
-          "tie": "record",
-          "requiresFacts": ["finished-year"]
-        }
-      ],
-      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
