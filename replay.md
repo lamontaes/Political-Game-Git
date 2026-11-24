@@ -131,3 +131,10 @@ Grade words: pass / fail (no open PR claims it) / open, fix in #N (not merged) /
 | --- | --- | --- | --- | --- |
 | A call: Announce, ask the paper for an interview, play into the call | Bloomsbury, New Jersey, seed 889339ca-07b9-48da-a6cc-ba33e16330ab | **no plate and no band** | replay-p381-porch-1.png | The call came the next morning (Jan 21, 8:00 AM): Emily Rogers' bust stands in the player's kitchen with a soft light pool and her name under it; no dark plate behind her. (The caller standing in the room is N16-44.) |
 | The porch talk: Announce, Campaign, Knock on doors, Go | same | **no plate and no band** | replay-p381-porch-5.png | Jan 21, 10:00 AM: Robin Mullen on a brick-row porch scene with a soft light pool, no plate. The talk plays on the first Go here (the interview call, a day later, came first). Day was not pressed (the Day control was covered by the sheet), so this is not the Player's Jan 22 route. |
+
+## Re-played on main 17df52dd (#10342 merged; #10376 is a test only)
+
+| Row | His words | PR and head | Place and seed | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- | --- | --- |
+| C11, P28 (stances part) | stances are budget category names in capitals; "only the stands a candidate runs on, for a reason" | #10342, main 961c6f84 (played at 17df52dd) | Bloomsbury NJ, seed 1b2d739c-b56c-4851-ad0e-d8f9df313ff7 | **pass** (C11: sentence case) / **open, fix in #10363 (not merged)** (P28: the stances are still budget lines: "Elementary and secondary education: For", "Natural resources: For", "Other programs: For") | replay-m4camp-elections-after.png | After Announce, Elections lists Samir Spence, Announced, with three budget-line stances in sentence case. |
+| P35 (record part) | "The only other candidate is ..." | main 17df52dd | same | **pass in this world** (no one else filed, and the Campaign tab says "stays open until August 26, with no one else in") | replay-m4camp-announce.png | The two-candidate case did not come up in this world; the earlier world's mismatch stays "open, fix in claude/pt-stuck-p35". |
