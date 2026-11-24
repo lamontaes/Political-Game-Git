@@ -2744,35 +2744,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-president-wants-to-keep-the-law-on-said-and-so-do-i",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{president} wants to keep the law on {said}, and so do I.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-in-force",
-            "president",
-            "president-for",
-            "said",
-            "stand-with"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict-cold.talk-address-point-i-d-change-the-law-on-said-if-i-could",
       "move": "verdict-cold",
       "kind": "spoken",
@@ -3289,82 +3260,6 @@
       "date": "2026-11-24",
       "elements": ["pattern-a47-the-first-word-on-the-address"],
       "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-with-president-for-i-think-it-s-because-reason-for",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I think it's because {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "reason-for",
-            "stand-with",
-            "why-view"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "reason-for",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-with-president-against-i-think-it-s-because-reason-against",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I think it's because {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "reason-against",
-            "stand-with",
-            "why-view"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "reason-against",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-stand-with-president-for-i-was-already-thinking-reason-for-before-president-got-to-said",
