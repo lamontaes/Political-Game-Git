@@ -518,7 +518,13 @@
           "shapes": ["loading-now"],
           "required": true
         }
-      ]
+      ],
+      "specificFloor": {
+        "value": 30,
+        "tag": "TUNABLE",
+        "spread": "6 to 60",
+        "note": "The loading story's sections hold 30 to 60 lines with one fact each and a few with two (the history facts); at the general floor of 6, a world with the history saw only its few two-fact lines and 127 of 360 lines never played (W7's draw count, Nov 24)."
+      }
     },
     "journal-evening": {
       "surface": "journal",

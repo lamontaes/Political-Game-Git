@@ -96,6 +96,8 @@ interface OutlineRow {
    * speech").
    */
   readonly leastSentences?: { readonly value: number };
+  /** This kind's own floor on how many pieces a move draws from (the weights' specificFloor otherwise). */
+  readonly specificFloor?: { readonly value: number };
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -391,8 +393,8 @@ const specificityOf = (part: {
  */
 function mostSpecific<P extends Parameters<typeof specificityOf>[0]>(
   sayable: readonly P[],
+  floor: number,
 ): P[] {
-  const floor = OUTLINES.weights.specificFloor.value;
   const tiers = [...new Set(sayable.map(specificityOf))].sort((a, b) => b - a);
   const pool: P[] = [];
   for (const tier of tiers) {
@@ -443,7 +445,11 @@ function wordMove(
     : oldest
       ? fitting.filter((part) => part.key === oldest)
       : fitting;
-  const pool = mostSpecific(open.filter(sayable));
+  const pool = mostSpecific(
+    open.filter(sayable),
+    outlineRow(input.kind).specificFloor?.value ??
+      OUTLINES.weights.specificFloor.value,
+  );
   if (!pool.length) return null;
   const base = OUTLINES.weights.pieceBase.value;
   const per = OUTLINES.weights.pieceLean.value;
