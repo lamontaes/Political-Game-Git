@@ -4561,7 +4561,7 @@
     {
       "key": "person-history.story.partner.widowed.third",
       "move": "story",
-      "text": "{who} became a widow when {name} died in {year}.",
+      "text": "{who} was widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4579,7 +4579,7 @@
     {
       "key": "person-history.story.partner.widowed.they",
       "move": "story",
-      "text": "They became a widow when {name} died in {year}.",
+      "text": "They were widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4588,7 +4588,7 @@
     {
       "key": "person-history.story.partner.widowed.they.w2",
       "move": "story",
-      "text": "{name} died in {year}, leaving they widowed.",
+      "text": "{name} died in {year}, leaving them widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4597,7 +4597,7 @@
     {
       "key": "person-history.story.partner.widowed.i",
       "move": "story",
-      "text": "I became a widow when {name} died in {year}.",
+      "text": "I was widowed when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4606,7 +4606,7 @@
     {
       "key": "person-history.story.partner.widowed.i.w2",
       "move": "story",
-      "text": "{name} died in {year}, leaving I widowed.",
+      "text": "{name} died in {year}, leaving me widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -8911,7 +8911,7 @@
     {
       "key": "person-history.story.partner.widowed.third.w3",
       "move": "story",
-      "text": "{who} became a widow when {name} died {then}.",
+      "text": "{who} was widowed when {name} died {then}.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -8937,7 +8937,7 @@
     {
       "key": "person-history.story.partner.widowed.they.w3",
       "move": "story",
-      "text": "They became a widow when {name} died {then}.",
+      "text": "They were widowed when {name} died {then}.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -8950,7 +8950,7 @@
     {
       "key": "person-history.story.partner.widowed.they.w4",
       "move": "story",
-      "text": "{name} died {then}, leaving they widowed.",
+      "text": "{name} died {then}, leaving them widowed.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -8963,7 +8963,7 @@
     {
       "key": "person-history.story.partner.widowed.i.w3",
       "move": "story",
-      "text": "I became a widow when {name} died {then}.",
+      "text": "I was widowed when {name} died {then}.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -8976,7 +8976,7 @@
     {
       "key": "person-history.story.partner.widowed.i.w4",
       "move": "story",
-      "text": "{name} died {then}, leaving I widowed.",
+      "text": "{name} died {then}, leaving me widowed.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -10419,7 +10419,7 @@
     {
       "key": "person-history.story.partner.widowed.third.w5",
       "move": "story",
-      "text": "{who} became a widow when {name} died.",
+      "text": "{who} was widowed when {name} died.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -10432,7 +10432,7 @@
     {
       "key": "person-history.story.partner.widowed.they.w5",
       "move": "story",
-      "text": "They became a widow when {name} died.",
+      "text": "They were widowed when {name} died.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
@@ -10445,7 +10445,7 @@
     {
       "key": "person-history.story.partner.widowed.i.w5",
       "move": "story",
-      "text": "I became a widow when {name} died.",
+      "text": "I was widowed when {name} died.",
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
