@@ -1392,5 +1392,281 @@
       "key": "honor"
     },
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-work-at-own-workplace-i-came-here-on-my-own-to-ask-you-to-pass-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I work at {own-workplace}. I came here on my own to ask you to pass {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "own-workplace",
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "witness-for"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-work-at-own-workplace-but-i-came-here-for-myself-what-you-heard-against-bill-was-my-opinion",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I work at {own-workplace}, but I came here for myself. What you heard against {bill} was my opinion.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill",
+          "own-workplace"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "witness-against"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-thank.thanks-for-staying-a-minute-i-wanted-to-hear-what-you-thought-of-bill-outside-the-hearing-too",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "Thanks for staying a minute. I wanted to hear what you thought of {bill} outside the hearing, too.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-works"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-i-bring-up-your-testimony-on-bill-how-should-i-introduce-you",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If I bring up your testimony on {bill}, how should I introduce you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "own-workplace"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.is-there-somebody-else-at-own-workplace-you-d-suggest-we-hear-from-about-bill",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Is there somebody else at {own-workplace} you'd suggest we hear from about {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "own-workplace",
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-works"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-name-will-do-i-m-the-one-who-testified-on-bill",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "My name will do. I'm the one who testified on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "own-workplace"
+        ],
+        "after": "scene-talk.reply-ask.if-i-bring-up-your-testimony-on-bill-how-should-i-introduce-you"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-say-i-work-at-own-workplace-just-use-my-name-for-the-testimony",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "You can say I work at {own-workplace}. Just use my name for the testimony.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "own-workplace"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "bill"
+        ],
+        "after": "scene-talk.reply-ask.if-i-bring-up-your-testimony-on-bill-how-should-i-introduce-you"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-want-to-ask-them-first-i-wouldn-t-give-you-a-name-from-own-workplace-without-checking",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd want to ask them first. I wouldn't give you a name from {own-workplace} without checking.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "own-workplace"
+        ],
+        "onlyWhen": [
+          "life-works",
+          "bill"
+        ],
+        "after": "scene-talk.reply-ask.is-there-somebody-else-at-own-workplace-you-d-suggest-we-hear-from-about-bill"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
   }
 ]
