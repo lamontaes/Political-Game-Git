@@ -19,12 +19,16 @@
     {
       "name": "turnout below expectations",
       "pulledBy": "a slow night",
-      "writes": "the story says fewer came than hoped"
+      "writes": "the story says fewer came than hoped",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "turnout as expected",
       "pulledBy": "a steady series",
-      "writes": "no comparison is made"
+      "writes": "no comparison is made",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

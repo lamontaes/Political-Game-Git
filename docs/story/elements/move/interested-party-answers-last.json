@@ -19,12 +19,16 @@
     {
       "name": "the party does not answer",
       "pulledBy": "someone who declined or could not be reached",
-      "writes": "the story says they did not respond"
+      "writes": "the story says they did not respond",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "the party answers first",
       "pulledBy": "a statement released with the story",
-      "writes": "the story opens on their statement"
+      "writes": "the story opens on their statement",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
