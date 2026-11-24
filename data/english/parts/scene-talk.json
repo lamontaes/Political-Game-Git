@@ -72933,6 +72933,532 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.slips-a-folded-note-into-your-hand-on-the-way-out-of",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} slips a folded note into your hand on the way out of {school}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.someone-has-covered-the-wall-by-the-door-at-with-sticky-notes-of-advice-for",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Someone has covered the wall by the door at {school} with sticky notes of advice for the people leaving, and {name} stands next to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.state-ask.did-you-read-what-people-wrote-on-the-wall-at",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did you read what people wrote on the wall at {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-will-you-remember-most-about",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What will you remember most about {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-read-all-of-them-some-people-at-said-things-i-didn-t-expect",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I read all of them. Some people at {school} said things I didn't expect.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-the-little-things-i-ll-remember-from-mostly-who-sat-where",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's the little things I'll remember from {school}, mostly who sat where.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-write-for-me-on-the-wall-at",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you write for me on the wall at {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-wrote-that-you-were-the-one-who-made-easier-to-get-through",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I wrote that you were the one who made {school} easier to get through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "ask",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.follow-accept.keep-the-note-read-it-again-when-feels-far-away",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Keep the note. Read it again when {school} feels far away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "tell",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.close-accept.take-a-picture-with-everyone-before-you-leave",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Take a picture with everyone before you leave {school}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-desk-at-is-bare-and-stands-beside-it-with-something-in-their-hand",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your desk at {employer} is bare, and {name} stands beside it with something in their hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.meets-you-where-your-space-at-used-to-be-now-just-a-table-and-an-outline-of",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} meets you where your space at {employer} used to be, now just a table and an outline of dust.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.state-ask.after-as-what-s-the-first-thing-you-ll-do-that-isn-t",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "After {tenure} as {position}, what's the first thing you'll do that isn't {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "position", "tenure"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.state-ask.is-it-strange-seeing-the-room-at-empty-after",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Is it strange, seeing the room at {employer} empty after {tenure}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "tenure"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-strange-at-and-the-room-doesn-t-show-any-of-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's strange. {tenure} at {employer}, and the room doesn't show any of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "tenure"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-thought-i-d-be-sadder-leaving-and-then-i-wasn-t",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I thought I'd be sadder leaving {employer}, and then I wasn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-stop-by-when-the-next-one-starts-so-they-know-someone-was-here",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll stop by {employer} when the next one starts, so they know someone was here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.follow-accept.people-at-won-t-forget-of-you-even-if-the-room-does",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "People at {employer} won't forget {tenure} of you, even if the room does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell",
+          "requiresFacts": ["employer", "tenure"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.follow-thank.do-that-they-ll-want-to-hear-what-was-really-like",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Do that. They'll want to hear what {position} was really like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
+      "key": "scene-talk.close-accept.come-back-and-see-us-at-we-ll-keep-the-door-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Come back and see us at {employer}. We'll keep the door open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
+    },
+    {
       "key": "scene-talk.reply-leave.i-ll-write-later",
       "move": "reply-leave",
       "kind": "spoken",
@@ -73676,6 +74202,487 @@
         "move": "press",
         "key": "arrival"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.starts-a-conversation-with-you-at-before-anyone-introduces-them",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} starts a conversation with you at {employer} before anyone introduces them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      },
+      "elements": ["invite-a-colleague-to-lunch-first"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.stops-by-your-station-at-having-asked-their-boss-who-to-talk-to-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops by your station at {employer}, having asked their boss who to talk to first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      },
+      "elements": ["manager-meets-new-hire-day-one"]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-new-at-would-it-be-alright-if-i-sat-with-you-at-lunch-and-asked-a-few-q",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm new at {employer}. Would it be alright if I sat with you at lunch and asked a few questions?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      },
+      "elements": [
+        "invite-a-colleague-to-lunch-first",
+        "asking-questions-is-expected-early"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.could-i-send-everyone-at-a-short-note-about-myself-and-could-you-tell-me-wh",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could I send everyone at {employer} a short note about myself, and could you tell me who to send it to?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      },
+      "elements": ["new-hire-asks-for-an-introduction-note"]
+    },
+    {
+      "key": "scene-talk.state-request.my-manager-at-said-you-know-the-work-best-can-i-ask-you-two-quick-things",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My manager at {employer} said you know the work best. Can I ask you two quick things?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      },
+      "elements": [
+        "asking-questions-is-expected-early",
+        "manager-meets-new-hire-day-one"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-know-who-to-ask-about-anything-at-yet-would-you-mind-if-it-were-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't know who to ask about anything at {employer} yet. Would you mind if it were you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-come-to-lunch-at-and-ask-me-whatever-you-like",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. Come to lunch at {employer}, and ask me whatever you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": ["invite-a-colleague-to-lunch-first"]
+    },
+    {
+      "key": "scene-talk.reply-agree.send-the-note-to-the-whole-floor-at-i-ll-tell-you-who-to-include",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Send the note to the whole floor at {employer}. I'll tell you who to include.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": ["new-hire-asks-for-an-introduction-note"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-to-know-first-about-the-job-at",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want to know first about the job at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-sure-you-know-everyone-s-name-on-this-floor-of-before-the-week-is",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make sure you know everyone's name on this floor of {employer} before the week is out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      },
+      "elements": ["new-hire-asks-for-an-introduction-note"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-tied-up-at-all-morning-come-find-me-at-the-end-of-the-shift-and-ask-the",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm tied up at {employer} all morning. Come find me at the end of the shift and ask then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-knowing-one-person-at-already-makes-tomorrow-easier",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Knowing one person at {employer} already makes tomorrow easier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "agree",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      },
+      "elements": ["invite-a-colleague-to-lunch-first"]
+    },
+    {
+      "key": "scene-talk.follow-accept.no-problem-i-ll-find-you-after-the-shift-at-with-my-questions-ready",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No problem. I'll find you after the shift at {employer}, with my questions ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "deflect",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.follow-answer.just-a-smaller-place-with-the-same-sort-of-work-i-wanted-something-steadier",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just a smaller place with the same sort of work. I wanted something steadier at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      },
+      "elements": ["invite-a-colleague-to-lunch-first"]
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-how-things-really-get-done-at-not-how-the-handbook-says-it-does",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly how things really get done at {employer}, not how the handbook says it does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.follow-press.even-a-minute-would-help-what-s-the-one-thing-at-i-ll-get-wrong-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even a minute would help. What's the one thing at {employer} I'll get wrong first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "deflect",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-see-you-at-lunch-then-it-really-does-help-at",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll see you at lunch, then. It really does help at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "outcome": "resolved",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      },
+      "elements": ["invite-a-colleague-to-lunch-first"]
+    },
+    {
+      "key": "scene-talk.close-press.find-me-when-things-slow-down-at-i-ll-have-my-list",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Find me when things slow down at {employer}. I'll have my list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "outcome": "open",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      },
+      "elements": ["asking-questions-is-expected-early"]
     },
     {
       "key": "scene-talk.reply-agree.you-re-right-yes",
@@ -82675,6 +83682,733 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.takes-you-aside-at-and-says-it-s-about-the-business-not-about-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} takes you aside at {workplace} and says it's about the business, not about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["manager-keeps-the-talk-about-the-business"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.calls-you-in-alone-at-with-nobody-else-from-in-the-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} calls you in alone at {employer}, with nobody else from {workplace} in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["private-meeting-then-outplacement-help"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-folder-with-your-name-on-it-is-already-on-the-table-at-and-keeps-a-hand-f",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A folder with your name on it is already on the table at {workplace}, and {name} keeps a hand flat on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-position-as-at-is-being-cut-it-s-about-the-business-not-about-how-you",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your position as {position} at {employer} is being cut. It's about the business, not about how you did the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "layoff-reason-position-abolished"
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-telling-you-myself-because-you-should-hear-it-from-me-the-job-at-is-goi",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm telling you myself because you should hear it from me: the {position} job at {workplace} is going away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "elements": [
+        "private-meeting-then-outplacement-help",
+        "layoff-reason-position-abolished"
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.is-closing-at-it-isn-t-a-judgment-of-you-and-i-ll-help-however-i-can",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{employer} is closing {position} at {workplace}. It isn't a judgment of you, and I'll help however I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "references-and-other-openings-offered"
+      ]
+    },
+    {
+      "key": "scene-talk.state-deliver-news.there-s-no-easy-way-to-say-it-the-shift-for-at-ends-and-so-does-your-place",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "There's no easy way to say it: the shift for {position} at {workplace} ends, and so does your place on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "elements": ["layoff-reason-position-abolished"]
+    },
+    {
+      "key": "scene-talk.reply-ask.was-there-any-warning-i-should-have-caught-at",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Was there any warning I should have caught at {workplace}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "deliver-news",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["only-some-get-written-notice"]
+    },
+    {
+      "key": "scene-talk.reply-ask.will-put-a-good-word-in-writing-for-me-as",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Will {employer} put a good word in writing for me as {position}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-any-other-opening-at-i-could-move-into",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there any other opening at {employer} I could move into?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-someone-at-who-can-walk-me-through-what-happens-next",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there someone at {employer} who can walk me through what happens next?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["private-meeting-then-outplacement-help"]
+    },
+    {
+      "key": "scene-talk.reply-ask.do-i-have-to-decide-about-this-folder-from-right-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do I have to decide about this folder from {workplace} right now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-won-t-sign-anything-from-today-give-me-time-to-read-it-properly",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I won't sign anything from {employer} today. Give me time to read it properly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-bargain.put-the-reference-for-my-work-as-in-writing-and-then-we-can-talk-about-the",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Put the reference for my work as {position} in writing, and then we can talk about the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
+      "key": "scene-talk.reply-confront.you-say-it-s-the-business-but-it-s-my-job-at-that-s-gone",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You say it's the business, but it's my job at {workplace} that's gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      },
+      "elements": ["manager-keeps-the-talk-about-the-business"]
+    },
+    {
+      "key": "scene-talk.reply-confront.i-came-in-this-morning-not-knowing-a-thing-about-this-at",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I came in this morning not knowing a thing about this at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      },
+      "elements": [
+        "laid-off-worker-stunned-and-distrustful",
+        "only-some-get-written-notice"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.if-it-s-the-business-and-not-me-i-ll-take-that-and-start-looking-from-tomor",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "If it's the business and not me, I'll take that and start looking from {workplace} tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["manager-keeps-the-talk-about-the-business"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-a-minute-before-i-say-anything-else-about",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need a minute before I say anything else about {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["laid-off-worker-stunned-and-distrustful"]
+    },
+    {
+      "key": "scene-talk.follow-answer.no-warning-that-was-your-fault-the-decision-on-at-came-from-above-and-it-ca",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No warning that was your fault. The decision on {position} at {employer} came from above and it came quickly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": [
+        "only-some-get-written-notice",
+        "manager-keeps-the-talk-about-the-business"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.yes-i-ll-write-a-reference-for-your-work-as-and-give-it-to-you-before-you-l",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes. I'll write a reference for your work as {position} and give it to you before you leave {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-check-what-else-is-open-at-and-i-ll-tell-you-by-the-end-of-the-week",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll check what else is open at {employer}, and I'll tell you by the end of the week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
+      "key": "scene-talk.follow-answer.someone-from-will-sit-down-with-you-after-this-and-go-over-what-comes-next",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Someone from {employer} will sit down with you after this and go over what comes next. I'll set that up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["private-meeting-then-outplacement-help"]
+    },
+    {
+      "key": "scene-talk.follow-accept.no-take-the-folder-from-home-and-read-it-i-d-rather-you-did",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No, take the folder from {workplace} home and read it. I'd rather you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "bargain",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-know-i-m-sorry-that-it-came-out-sounding-like-a-form-from",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I know. I'm sorry that it came out sounding like a form from {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "confront",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "loss"
+      },
+      "elements": ["manager-keeps-the-talk-about-the-business"]
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-tell-the-people-left-at-that-you-did-good-work-as",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll tell the people left at {workplace} that you did good work as {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "after": "accept",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "elements": ["remaining-staff-are-gathered-after-layoffs"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-it-from-me-at-i-ll-make-sure-the-rest-follows",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing it from me at {workplace}. I'll make sure the rest follows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["private-meeting-then-outplacement-help"]
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-the-reference-from-ready-before-you-clear-out",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have the reference from {employer} ready before you clear out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "elements": ["references-and-other-openings-offered"]
+    },
+    {
       "key": "scene-talk.close-warn.time-matters",
       "move": "close-warn",
       "kind": "spoken",
@@ -84072,6 +85806,579 @@
         "move": "promise",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.calls-and-says-they-ve-been-telling-nobody-at-about-this-yet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} calls and says they've been telling nobody at {employer} about this yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.starts-with-small-talk-about-and-then-gets-to-the-point",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} starts with small talk about {employer} and then gets to the point.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-calling-you-before-i-call-anyone-else-about-is-anyone-hiring-for",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm calling you before I call anyone else about {employer}. Is anyone hiring for {position}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.my-first-thought-was-you-let-me-go-and-i-need-to-hear-about-any-job-near",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My first thought was you. {employer} let me go, and I need to hear about any job near {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "young-and-non-college-lean-on-family-ties"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.do-you-know-a-person-i-could-talk-to-for-a-bit-about-work-like",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Do you know a person I could talk to for a bit about work like {position}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["one-to-one-meeting-builds-network"]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-using-every-contact-i-have-could-you-put-me-in-touch-with-someone-beyon",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm using every contact I have. Could you put me in touch with someone beyond {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-have-you-talked-to-about-so-far",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else have you talked to about {employer} so far?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-or-relatives-used-by-about-one-in-four"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-take-next-if-nothing-like-comes-up",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you take next if nothing like {position} comes up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["reemployment-two-thirds-after-layoff"]
+    },
+    {
+      "key": "scene-talk.reply-ask.would-you-want-me-to-ask-around-about-work-for-you-or-only-if-i-hear-of-som",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Would you want me to ask around about {employer} work for you, or only if I hear of something real?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-set-up-a-talk-with-someone-i-know-near-work-ask-them-anything-you-like",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll set up a talk with someone I know near {position} work. Ask them anything you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      },
+      "elements": ["one-to-one-meeting-builds-network"]
+    },
+    {
+      "key": "scene-talk.reply-offer.come-over-and-we-ll-make-a-list-of-everyone-who-might-know-about-work",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Come over and we'll make a list of everyone who might know about {position} work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "one-to-one-meeting-builds-network"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-promise.whatever-i-hear-about-work-like-you-ll-hear-it-from-me-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Whatever I hear about work like {position}, you'll hear it from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-wish-i-knew-someone-in-work-and-i-don-t-ask-me-again-next-month",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I wish I knew someone in {position} work, and I don't. Ask me again next month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.follow-answer.just-my-family-so-far-and-now-you-nobody-at-knows-how-it-feels-yet",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just my family so far, and now you. Nobody at {employer} knows how it feels yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-or-relatives-used-by-about-one-in-four"]
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-anything-steady-while-i-find-another-job-i-d-take-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly, anything steady while I find another {position} job. I'd take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": ["reemployment-two-thirds-after-layoff"]
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-around-only-if-there-s-something-real-i-don-t-want-people-at-feeling-pi",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask around only if there's something real. I don't want people at {employer} feeling pitied.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "ask",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-the-kind-of-lead-on-work-i-couldn-t-get-from-a-job-board",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's the kind of lead on {position} work I couldn't get from a job board.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["employer", "position", "workplace"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "promise",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": ["one-to-one-meeting-builds-network"]
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-thanks-for-hearing-me-out-about",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, I understand. Thanks for hearing me out about {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.follow-plea.even-a-name-helps-anyone-who-might-know-someone-who-hires-for",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Even a name helps. Anyone who might know someone who hires for {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-or-relatives-used-by-about-one-in-four"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-listening-i-ll-tell-you-how-the-search-after-goes",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for listening. I'll tell you how the search after {employer} goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": ["friends-and-family-as-job-leads"]
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-you-this-week-and-tell-you-who-i-ve-talked-to-about-work",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call you this week and tell you who I've talked to about {position} work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "elements": ["one-to-one-meeting-builds-network"]
     },
     {
       "key": "scene-talk.state-request.will-you-visit",
