@@ -3381,6 +3381,1120 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-count-for-office-is-final-and-your-name-isn-t-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count for {office} is final, and your name isn't first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.opponent-s-people-are-cheering-somewhere-else-your-room-is-quiet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{opponent}'s people are cheering somewhere else. Your room is quiet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.nobody-in-the-room-wants-to-be-the-first-to-say-opponent-s-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Nobody in the room wants to be the first to say {opponent}'s name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-coffee-has-gone-cold-and-the-count-for-office-hasn-t-moved",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The coffee has gone cold, and the count for {office} hasn't moved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.the-count-for-office-is-final-it-s-time-to-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The count for {office} is final. It's time to call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.will-you-call-opponent-and-concede-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you call {opponent} and concede {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.people-are-asking-whether-you-ll-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People are asking whether you'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.the-numbers-for-office-aren-t-going-to-change-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The numbers for {office} aren't going to change. Call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.opponent-is-waiting-to-hear-from-you-about-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{opponent} is waiting to hear from you about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-call-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-make-the-call-opponent-earned-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll make the call. {opponent} earned {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-agree.hand-me-the-phone-opponent-deserves-to-hear-it-from-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Hand me the phone. {opponent} deserves to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-many-votes-are-still-out-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How many votes are still out for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-any-chance-left-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there any chance left for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-ask.did-opponent-win-it-clean",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did {opponent} win it clean?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-calling-opponent-yet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not calling {opponent} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-reframes-the-loss"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-ready-to-hand-office-over",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not ready to hand {office} over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-reframes-the-loss"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-until-every-ballot-for-office-is-counted",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not until every ballot for {office} is counted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-reframes-the-loss"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-minutes-before-i-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few minutes before I call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-tell-my-family-before-i-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me tell my family before I call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-stall.not-yet-i-need-to-think-about-what-to-say-to-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Not yet. I need to think about what to say to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-before-i-call-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air before I call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-find-you-after-i-ve-talked-to-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll find you after I've talked to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-calling-opponent-is-the-hardest-call-there-is",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Calling {opponent} is the hardest call there is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "agree",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-doing-this-opponent-will-remember-how-you-handled-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for doing this. {opponent} will remember how you handled {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "agree",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You ran a good race for {office}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-count-for-office-is-final-opponent-won-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The count for {office} is final. {opponent} won it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.follow-answer.there-s-a-chance-but-opponent-s-lead-for-office-is-holding",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "There's a chance, but {opponent}'s lead for {office} is holding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-cleaner-than-you-d-think-opponent-carried-office-fairly",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's cleaner than you'd think. {opponent} carried {office} fairly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.follow-press.waiting-won-t-change-the-count-for-office-call-opponent",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Waiting won't change the count for {office}. Call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-press.the-longer-we-wait-on-opponent-the-worse-it-looks",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The longer we wait on {opponent}, the worse it looks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-press.that-won-t-bring-office-back-it-only-makes-the-call-harder",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That won't bring {office} back. It only makes the call harder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-for-everyone-who-worked-on-office-make-the-call",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, for everyone who worked on {office}, make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-know-it-hurts-please-call-opponent",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I know it hurts. Please call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-calling-opponent-it-was-a-gracious-thing-to-do",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for calling {opponent}. It was a gracious thing to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-opponent-will-hear-that-you-meant-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. {opponent} will hear that you meant it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-we-ll-wait-on-opponent-until-you-re-ready",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. We'll wait on {opponent} until you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-it-s-your-call-about-opponent-and-we-ll-back-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. It's your call about {opponent}, and we'll back it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-warn.the-longer-you-wait-on-opponent-the-harder-it-gets",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The longer you wait on {opponent}, the harder it gets.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-warn.waiting-on-office-only-makes-the-next-day-longer",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Waiting on {office} only makes the next day longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-once-the-count-for-office-is-certified",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again once the count for {office} is certified.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-press.we-ll-come-back-to-opponent-when-the-count-is-certified",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We'll come back to {opponent} when the count is certified.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-room-goes-quiet-for-the-last-numbers-then-loud-again-office-is-yours",
       "move": "narrate-narrate",
       "kind": "spoken",
