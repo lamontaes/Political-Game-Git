@@ -5040,60 +5040,6 @@
       "elements": ["first-vote-at-eighteen"]
     },
     {
-      "key": "journal.life-line-came-of-age.i-could-vote",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "I could vote.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
-      "key": "journal.life-line-came-of-age.voting-age-came",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "Voting age came.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
       "key": "journal.home-line-born.i-was-born-in-place",
       "move": "home-line-born",
       "kind": "spoken",

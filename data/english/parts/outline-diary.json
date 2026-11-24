@@ -50,7 +50,11 @@
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
     "count": "the vote count in words and figures (\"3 to 2\")",
     "reason-for": "the reason people give for the question, as a clause (question-names.json reasons.for)",
-    "reason-against": "the reason people give against it, as a clause (question-names.json reasons.against)"
+    "reason-against": "the reason people give against it, as a clause (question-names.json reasons.against)",
+    "housemate-worker": "a housemate's given name, from the job record",
+    "housemate-employer": "that housemate's employer as people say it, from the employer record",
+    "kin-wrote": "a relative's given name, from a family.contact letter in the past month",
+    "kin-wrote-from": "the town that relative wrote from"
   },
   "maxWords": 30,
   "parts": [
@@ -817,6 +821,288 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-had-the-news-on-for-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house had the news on for {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-mediating"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-gave-the-first-speech-as-president-tonight-and-the-whole-house-watched",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} gave the first speech as President tonight, and the whole house watched.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-turned-on-the-news-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} turned on the news and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-put-the-news-on-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "I put the news on and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-stayed-for-all-of-s-speech-by-myself",
+      "move": "watched",
+      "kind": "written",
+      "text": "I stayed for all of {president-name}'s speech, by myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-got-home-from-in-time-to-watch-with",
+      "move": "watched",
+      "kind": "written",
+      "text": "{housemate-worker} got home from {housemate-employer} in time to watch {president-name} with {us}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": [
+            "housemate-worker",
+            "housemate-employer",
+            "we",
+            "us",
+            "president-name"
+          ],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-sassy", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-got-home-from-in-time-to-watch-with-the-rest-of-the-house",
+      "move": "watched",
+      "kind": "written",
+      "text": "{housemate-worker} got home from {housemate-employer} in time to watch {president-name} with the rest of the house.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": [
+            "housemate-worker",
+            "housemate-employer",
+            "watched-many",
+            "president-name"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-studious"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-housemate-back-at-work-tomorrow",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow {housemate-worker} is back at {housemate-employer}, and I will ask what they thought of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["housemate-worker", "housemate-employer"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-deferential"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "ordinary-day-follows-the-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tell-the-relative-who-wrote",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I want to tell {kin-wrote} in {kin-wrote-from} what I thought of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["kin-wrote", "kin-wrote-from"]
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "ordinary-day-follows-the-event"
       ]
     }
   ]
