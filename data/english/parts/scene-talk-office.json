@@ -4646,6 +4646,886 @@
       "bearing": "guarded",
       "elements": ["governor-explains-precaution"],
       "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.how-do-i-give-people-a-straight-answer-on-the-disaster-if-two-departments-tell-me-different-things",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How do I give people a straight answer on the {disaster} if two departments tell me different things?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "one-release-before-the-cameras"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-tell-people-what-both-departments-know-about-the-disaster-and-name-the-part-we-re-still-checking",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd tell people what both departments know about the {disaster} and name the part we're still checking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.how-do-i-give-people-a-straight-answer-on-the-disaster-if-two-departments-tell-me-different-things"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "one-release-before-the-cameras"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.before-you-go-on-the-air-in-place-let-me-get-the-two-people-who-gave-you-those-accounts-on-the-same-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Before you go on the air in {place}, let me get the two people who gave you those accounts on the same call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.how-do-i-give-people-a-straight-answer-on-the-disaster-if-two-departments-tell-me-different-things"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "one-release-before-the-cameras"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.who-would-you-call-about-the-disaster-besides-the-reporters-who-usually-cover-this-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who would you call about the {disaster} besides the reporters who usually cover this office?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "neighborhood-newsroom-on-distribution-list"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-start-with-the-neighborhood-papers-in-place-some-of-their-readers-won-t-see-your-briefing",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd start with the neighborhood papers in {place}. Some of their readers won't see your briefing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.who-would-you-call-about-the-disaster-besides-the-reporters-who-usually-cover-this-office"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "neighborhood-newsroom-on-distribution-list"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.a-local-radio-host-could-tell-you-when-people-are-likely-to-hear-an-update-on-the-disaster-and-where-to-send-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A local radio host could tell you when people are likely to hear an update on the {disaster} and where to send it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.who-would-you-call-about-the-disaster-besides-the-reporters-who-usually-cover-this-office"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "neighborhood-newsroom-on-distribution-list"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-i-go-on-camera-about-the-disaster-how-would-somebody-who-signs-follow-what-i-m-saying",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If I go on camera about the {disaster}, how would somebody who signs follow what I'm saying?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "interpreter-at-the-storm-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.for-the-briefing-on-the-disaster-i-d-ask-the-station-to-keep-you-and-an-interpreter-in-the-same-shot",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "For the briefing on the {disaster}, I'd ask the station to keep you and an interpreter in the same shot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-i-go-on-camera-about-the-disaster-how-would-somebody-who-signs-follow-what-i-m-saying"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "interpreter-at-the-storm-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.let-s-look-at-the-picture-somebody-in-place-would-actually-see-can-they-see-the-interpreter-s-hands",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Let's look at the picture somebody in {place} would actually see. Can they see the interpreter's hands?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-i-go-on-camera-about-the-disaster-how-would-somebody-who-signs-follow-what-i-m-saying"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "interpreter-at-the-storm-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-a-council-member-calls-me-about-a-family-caught-up-in-the-disaster-what-do-you-need-from-them",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If a council member calls me about a family caught up in the {disaster}, what do you need from them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "constituent-need-through-storm-hotline"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.if-the-call-s-from-place-i-d-still-need-the-street-address-and-a-way-to-reach-the-family-afterward",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If the call's from {place}, I'd still need the street address and a way to reach the family afterward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-a-council-member-calls-me-about-a-family-caught-up-in-the-disaster-what-do-you-need-from-them"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "constituent-need-through-storm-hotline"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-ask-what-the-family-needs-because-of-the-disaster-and-who-can-reach-them-the-council-member-shouldn-t-have-to-start-over-with-every-office-they-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd ask what the family needs because of the {disaster} and who can reach them. The council member shouldn't have to start over with every office they call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-a-council-member-calls-me-about-a-family-caught-up-in-the-disaster-what-do-you-need-from-them"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "constituent-need-through-storm-hotline"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-good-is-my-update-on-the-disaster-to-somebody-whose-phone-is-dead",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What good is my update on the {disaster} to somebody whose phone is dead?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "printed-directions-to-charge-a-phone"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.if-there-s-a-working-charging-site-in-place-put-the-address-on-paper-where-people-can-find-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If there's a working charging site in {place}, put the address on paper where people can find it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.what-good-is-my-update-on-the-disaster-to-somebody-whose-phone-is-dead"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "printed-directions-to-charge-a-phone"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.somebody-who-comes-for-help-with-the-disaster-can-take-a-printed-notice-home-a-link-won-t-do-them-much-good-today",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Somebody who comes for help with the {disaster} can take a printed notice home. A link won't do them much good today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.what-good-is-my-update-on-the-disaster-to-somebody-whose-phone-is-dead"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "printed-directions-to-charge-a-phone"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.how-do-we-keep-people-up-to-date-on-the-disaster-once-the-cameras-leave",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How do we keep people up to date on the {disaster} once the cameras leave?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "recovery-update-after-the-headlines"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-keep-the-neighborhood-groups-in-place-on-the-list-when-a-service-moves-they-re-the-ones-people-will-ask-where-it-went",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd keep the neighborhood groups in {place} on the list. When a service moves, they're the ones people will ask where it went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.how-do-we-keep-people-up-to-date-on-the-disaster-once-the-cameras-leave"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "recovery-update-after-the-headlines"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.put-a-name-on-the-next-update-about-the-disaster-give-people-somebody-to-call-tomorrow",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Put a name on the next update about the {disaster}. Give people somebody to call tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.how-do-we-keep-people-up-to-date-on-the-disaster-once-the-cameras-leave"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "recovery-update-after-the-headlines"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-people-leave-home-during-the-disaster-can-i-use-a-shelter-count-to-say-how-many-left",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If people leave home during the {disaster}, can I use a shelter count to say how many left?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "evacuees-on-a-friends-couch"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.a-family-that-rode-out-the-disaster-on-a-friend-s-couch-wouldn-t-show-up-in-that-count",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A family that rode out the {disaster} on a friend's couch wouldn't show up in that count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-people-leave-home-during-the-disaster-can-i-use-a-shelter-count-to-say-how-many-left"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "evacuees-on-a-friends-couch"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-call-it-shelter-attendance-to-say-how-many-people-left-place-we-d-have-to-ask-households-where-they-stayed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd call it shelter attendance. To say how many people left {place}, we'd have to ask households where they stayed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.if-people-leave-home-during-the-disaster-can-i-use-a-shelter-count-to-say-how-many-left"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "evacuees-on-a-friends-couch"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-should-i-tell-somebody-who-needs-information-about-the-disaster-and-doesn-t-know-which-number-to-call",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What should I tell somebody who needs information about the {disaster} and doesn't know which number to call?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "elements": [
+        "mayor-separates-urgent-calls-at-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.let-s-check-which-office-in-place-is-taking-routine-calls-and-give-that-number-alongside-the-emergency-instructions",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Let's check which office in {place} is taking routine calls and give that number alongside the emergency instructions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "place"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.what-should-i-tell-somebody-who-needs-information-about-the-disaster-and-doesn-t-know-which-number-to-call"
+        }
+      ],
+      "bearing": "steady",
+      "elements": [
+        "mayor-separates-urgent-calls-at-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.if-someone-s-in-immediate-danger-from-the-disaster-tell-them-to-call-for-emergency-help-for-everything-else-i-d-first-check-who-s-available-to-take-the-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If someone's in immediate danger from the {disaster}, tell them to call for emergency help. For everything else I'd first check who's available to take the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "disaster"
+          ],
+          "excludesFacts": [
+            "again"
+          ],
+          "after": "scene-talk-office.reply-ask.what-should-i-tell-somebody-who-needs-information-about-the-disaster-and-doesn-t-know-which-number-to-call"
+        }
+      ],
+      "bearing": "warm",
+      "elements": [
+        "mayor-separates-urgent-calls-at-briefing"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "issues": [
+        "none"
+      ]
     }
   ]
 }
