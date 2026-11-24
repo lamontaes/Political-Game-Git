@@ -14,6 +14,9 @@ import { countSaid } from "../english/count-words";
 import type { Fact } from "../english/journal-words";
 import { topicInSentence } from "../english/policy-names";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { P } from "../core2/parameters";
+
+const one = P.one;
 import { coreAPI } from "../core2/state";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -27,7 +30,9 @@ export function officePhrase(office: {
   if (!office.title) return undefined;
   // One of several seats takes an article: "a council member", but "mayor".
   const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
-  return (office.seats ?? 1) > 1 ? `${article} ${office.title}` : office.title;
+  return (office.seats ?? one) > one
+    ? `${article} ${office.title}`
+    : office.title;
 }
 
 interface TermInput {
@@ -120,7 +125,7 @@ export function laterRecordsOf(
     const note = (date: string) => {
       if (date > latest) latest = date;
     };
-    const office = laterTerms[0];
+    const office = laterTerms.find(() => true);
     if (office) {
       facts["later-office"] = {
         text: office.said,
@@ -134,16 +139,23 @@ export function laterRecordsOf(
     for (const bill of laterBills)
       for (const topic of bill.topics)
         byTopic.set(topic, [...(byTopic.get(topic) ?? []), bill]);
-    const top = [...byTopic.entries()].sort(
-      (a, b) =>
-        b[1].length - a[1].length || a[1][0]!.id.localeCompare(b[1][0]!.id),
-    )[0];
+    const ranked = [...byTopic.entries()]
+      .map(([topic, rows]) => ({ topic, rows }))
+      .sort(
+        (a, b) =>
+          b.rows.length - a.rows.length ||
+          a.rows
+            .map((r) => r.id)
+            .join()
+            .localeCompare(b.rows.map((r) => r.id).join()),
+      );
+    const top = ranked.find(() => true);
     if (top) {
       facts["later-topic"] = {
-        text: top[0],
-        sourceRecordIds: top[1].map((bill) => bill.id),
+        text: top.topic,
+        sourceRecordIds: top.rows.map((bill) => bill.id),
       };
-      for (const bill of top[1]) note(bill.date);
+      for (const bill of top.rows) note(bill.date);
     }
     const same = question
       ? laterBills.find((bill) => bill.questions.includes(question))
@@ -154,7 +166,7 @@ export function laterRecordsOf(
     }
     if (latest) {
       const years = ageOnDate(makeIsoDate(since), makeIsoDate(latest));
-      if (years >= 1)
+      if (years >= one)
         facts["later-years"] = {
           text: countSaid(years, Infinity),
           sourceRecordIds: [
