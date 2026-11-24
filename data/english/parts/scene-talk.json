@@ -25079,6 +25079,8 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "{bill} is on your desk until {deadline}, and I'm asking you to sign it.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25104,6 +25106,8 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "You have {bill} until {deadline}, and I'm asking you to sign it.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
