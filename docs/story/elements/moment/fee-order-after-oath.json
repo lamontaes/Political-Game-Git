@@ -1,0 +1,33 @@
+{
+  "id": "fee-order-after-oath",
+  "kind": "moment",
+  "summary": "Minutes after taking office, {person} signs the order that carries out a promise about a fee.",
+  "realLife": "Arnold Schwarzenegger acted on California’s vehicle license fee increase immediately after his inauguration.",
+  "sources": [
+    "https://consumerwatchdog.org/energy/governors-first-act-rescind-car-fee-hike/"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "An incoming executive has made a fee pledge and the fee is in force."
+  ],
+  "weights": [
+    "An approaching collection date increases pressure for an early decision."
+  ],
+  "usedBy": [],
+  "inGame": "needs: a signed fee order and its effective date.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The fee remains in effect after inauguration.",
+      "pulledBy": "A legal review finds that changing it takes a vote.",
+      "writesBack": "The incoming executive sends a proposal to the legislature."
+    },
+    {
+      "turn": "late",
+      "what": "The executive delays signing until collection offices can implement the change.",
+      "pulledBy": "Local offices need new instructions for pending renewals.",
+      "writesBack": "The signed order gives a later start date."
+    }
+  ]
+}
