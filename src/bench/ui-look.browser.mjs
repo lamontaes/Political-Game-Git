@@ -113,6 +113,14 @@ const open = async () => {
     await browser.newContext({ viewport: { width: 1440, height: 900 } })
   ).newPage();
   fresh.setDefaultTimeout(120000);
+  fresh.on("crash", () => console.log(`PAGE CRASHED after ${menus.at(-1)}`));
+  fresh.on("close", () => console.log(`PAGE CLOSED after ${menus.at(-1)}`));
+  if (process.env.UI_LOOK_SEED)
+    await fresh.route("**/api/newlife*", (route) => {
+      const u = new URL(route.request().url());
+      u.searchParams.set("seed", process.env.UI_LOOK_SEED);
+      route.continue({ url: u.toString() });
+    });
   fresh.on("pageerror", (e) =>
     errors.push(
       `after ${menus.at(-1) ?? "start"}: ${e.message} (${String(e.stack)
