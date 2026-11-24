@@ -1,0 +1,31 @@
+{
+  "id": "envoy-takes-staff-along",
+  "kind": "detail",
+  "summary": "The helicopter carrying {person} to the site has the response team aboard as well.",
+  "realLife": "Denton and a group of regulatory staff flew to Three Mile Island by White House helicopter.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": ["An envoy has been assigned to travel to the affected site."],
+  "weights": [
+    "More technical issues awaiting answers favor sending specialists with the envoy."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the people assigned to a field visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The envoy travels alone and draws on local staff.",
+      "pulledBy": "Local specialists are already on duty at the site.",
+      "writesBack": "The assignment names the local contacts."
+    },
+    {
+      "turn": "late",
+      "what": "A specialist follows on a later trip.",
+      "pulledBy": "The first briefing reveals a question the envoy cannot answer.",
+      "writesBack": "The deployment record adds a specialist and arrival time."
+    }
+  ]
+}

@@ -13,5 +13,20 @@
   "weights": {
     "inaugural": 0.1
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Shape hired-then-charge in the `occasion` section with run-hard facts from the macro months.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Thanks after the crisis is named.",
+      "pulledBy": "a blunt speaker",
+      "writesBack": "The trouble is the first line."
+    },
+    {
+      "turn": "neutral",
+      "what": "Thanks only, no crisis.",
+      "pulledBy": "a good year",
+      "writesBack": "The opening reads as a thank-you."
+    }
+  ]
 }
