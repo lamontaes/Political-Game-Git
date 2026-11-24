@@ -3243,30 +3243,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-against.i-don-t-think-we-should-to-whatever-president-says",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I don't think we should {to}, whatever {president} says.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "requiresFacts": ["president-for", "about"],
-          "stages": ["against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-core-against.i-think-we-should-to-and-president-is-wrong-to-fight-it",
       "move": "address-point-core-against",
       "kind": "spoken",
@@ -4395,28 +4371,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-closer.am-i-wrong-to-see-it-that-way",
-      "move": "address-point-closer",
-      "kind": "spoken",
-      "text": "Am I wrong to see it that way?",
-      "uses": [
-        {
-          "move": "address-point-closer",
-          "subject": "address-point",
-          "role": "closer",
-          "setsFacts": ["asks-player"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "closer"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-closer.what-do-you-think-about-that-part",
       "move": "address-point-closer",
       "kind": "spoken",
@@ -5136,30 +5090,6 @@
         "required": true
       },
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
-      "move": "address-point-back-disagree",
-      "kind": "spoken",
-      "text": "You'll come around, {you}. Or I will.",
-      "uses": [
-        {
-          "move": "address-point-back-disagree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"

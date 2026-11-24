@@ -40,5 +40,6 @@
       "pulledBy": "a state kind with a measure",
       "writesBack": "The figure is the line the news story quotes."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

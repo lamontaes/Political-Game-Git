@@ -1,0 +1,32 @@
+{
+  "id": "walk-from-the-audience-to-the-stage",
+  "kind": "moment",
+  "summary": "{official} traces the route a wheelchair user would take from an auditorium seat to the stage.",
+  "realLife": "At O'Banion Auditorium, inspectors found no accessible path between the wheelchair seating and the stage.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=Route%20to%20Stage"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{official}"],
+  "gates": [
+    "A public event uses a stage in an auditorium with a documented gap in the route from seating."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the event layout, wheelchair seating location and route to the platform.",
+  "turns": [
+    {
+      "turn": "floor microphone",
+      "what": "They set up the microphone on the audience floor.",
+      "pulledBy": "Organizers can move the speakers to floor level.",
+      "writesBack": "The event plan records the new speaking location."
+    },
+    {
+      "turn": "permanent route",
+      "what": "Facilities staff check how it connects to the seating area.",
+      "pulledBy": "A permanent stage route is proposed.",
+      "writesBack": "The capital request includes both ends of the route."
+    }
+  ],
+  "issues": ["budget:parks"]
+}
