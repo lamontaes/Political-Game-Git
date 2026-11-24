@@ -94060,6 +94060,942 @@
         "filing-the-first-time-is-new-to-the-clerk",
         "petition-struck-names-decide-it"
       ]
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-in-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.put-me-down-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Put me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-can-help-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I can help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-i-ll-help-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay, I'll help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-show-up-volunteer",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.always-for-you-volunteer-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Always, for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-volunteer-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.don-t-thank-me-volunteer-tie-rival",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Don't thank me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.just-this-once-volunteer-tie-rival",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Just this once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time-volunteer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-sorry-volunteer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't, sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-for-me-volunteer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-too-busy-volunteer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm too busy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.maybe-later-volunteer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Maybe later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.sorry-i-can-t-volunteer-tie-friend",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Sorry, I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-right-now-volunteer-tie-friend",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-a-chance-volunteer-tie-rival",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not a chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.ask-someone-else-volunteer-tie-rival",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Ask someone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-it-endorse",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.use-my-name-endorse",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Use my name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-back-you-endorse",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll back you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-with-you-endorse",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-say-so-endorse",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.proudly-yes-endorse-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Proudly, yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-it-endorse-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-use-it-endorse-tie-rival",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. Use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.make-it-count-endorse-tie-rival",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Make it count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time-endorse",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-staying-out-endorse",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm staying out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-not-endorse",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.keep-me-out-endorse",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Keep me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-sorry-endorse-tie-friend",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet, sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.sorry-not-now-endorse-tie-friend",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Sorry, not now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-a-chance-endorse-tie-rival",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not a chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-decline.ask-someone-else-endorse-tie-rival",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Ask someone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      },
+      "elements": ["official-declines-to-endorse"]
     }
   ]
 }
