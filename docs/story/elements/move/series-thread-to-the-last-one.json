@@ -19,12 +19,16 @@
     {
       "name": "no earlier meeting",
       "pulledBy": "a first town hall of its kind",
-      "writes": "the story says it is the first"
+      "writes": "the story says it is the first",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the earlier meeting's promise",
       "pulledBy": "a promise made at the last one",
-      "writes": "the story says whether it was kept"
+      "writes": "the story says whether it was kept",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
