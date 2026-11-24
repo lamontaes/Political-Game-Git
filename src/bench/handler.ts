@@ -151,7 +151,6 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
-  creatorRandomPlace,
   drawBirthday,
   drawCharacter,
   drawName,
@@ -952,7 +951,6 @@ const ROUTES: readonly Route[] = [
       else if (route === "states") send(200, creatorStates());
       else if (route === "towns")
         send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? "", seed));
-      else if (route === "place") send(200, creatorRandomPlace(seed, draw));
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
@@ -2200,6 +2198,10 @@ const ROUTES: readonly Route[] = [
         kind: url.searchParams.get("kind") ?? "",
         outletId: url.searchParams.get("outletId") ?? undefined,
       });
+      // A doors outing stages its porch scene now, while the player is out
+      // (the director stages it at the day's close otherwise).
+      if (url.searchParams.get("kind") === "canvass")
+        state.director?.stageDoors(requireCore());
       // The outing's hours come off the same clock the packet reports.
       const spent = state.player.spend(day.hours);
       send(200, {

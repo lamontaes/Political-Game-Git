@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10297
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T04:58:43.737Z
 ---
 
 **What.** The owner, Nov 23 (P2), said: when I click new game, the patch notes still stay on top of it. A sheet opened from the title (Patch notes, Options, Saves) stays on screen when a front panel opens.
