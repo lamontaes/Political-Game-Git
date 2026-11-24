@@ -4,3 +4,5 @@ impact: none
 ---
 
 Add review dialogue about lease dates, rent collections and tenant testimony for state legislators debating rent stabilization.
+
+Expand the repeal exchange with questions about renewal notices, partial payments, witness cards and charges during a signed rent freeze.
