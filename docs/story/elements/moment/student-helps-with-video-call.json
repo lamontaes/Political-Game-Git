@@ -1,0 +1,38 @@
+{
+  "id": "student-helps-with-video-call",
+  "kind": "moment",
+  "summary": "An older resident in {place} brings a phone to a lesson with a high school student.",
+  "realLife": "Queens voters chose individual technology lessons in which students could help older residents make video calls.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The program pairs students with older residents for individual technology lessons."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the program pairs students with older residents for individual technology lessons.",
+  "turns": [
+    {
+      "turn": "the-pair-has-a-session-booked",
+      "pulledBy": "The pair has a session booked.",
+      "what": "Practice the call together.",
+      "writesBack": "Record the skill practiced at the session."
+    },
+    {
+      "turn": "no-student-is-assigned-yet",
+      "pulledBy": "No student is assigned yet.",
+      "what": "Ask the coordinator for a match.",
+      "writesBack": "Keep the learner on the matching list."
+    }
+  ]
+}

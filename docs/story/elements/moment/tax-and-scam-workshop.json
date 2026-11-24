@@ -1,0 +1,38 @@
+{
+  "id": "tax-and-scam-workshop",
+  "kind": "moment",
+  "summary": "A resident in {place} brings a suspicious tax message to a money workshop.",
+  "realLife": "A Brooklyn winner proposed teaching tax filing and scam avoidance alongside budgeting and credit.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The local workshop program includes both tax filing and fraud prevention."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local workshop program includes both tax filing and fraud prevention.",
+  "turns": [
+    {
+      "turn": "a-class-covers-fraud",
+      "pulledBy": "A class covers fraud.",
+      "what": "Ask the instructor how to check the message.",
+      "writesBack": "Log the subject raised in class."
+    },
+    {
+      "turn": "the-class-only-covers-filing-today",
+      "pulledBy": "The class only covers filing today.",
+      "what": "Request the fraud session date.",
+      "writesBack": "Keep a follow-up request for the fraud class."
+    }
+  ]
+}

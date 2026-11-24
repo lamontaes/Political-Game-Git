@@ -1,0 +1,38 @@
+{
+  "id": "one-on-one-after-housing-workshop",
+  "kind": "moment",
+  "summary": "A resident in {place} stays after the housing workshop with a half-finished application.",
+  "realLife": "Manhattan voters chose a housing search program with individual counseling as well as workshops.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The local housing search program offers individual application help."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local housing search program offers individual application help.",
+  "turns": [
+    {
+      "turn": "a-counselor-has-an-opening",
+      "pulledBy": "A counselor has an opening.",
+      "what": "Book time to finish the application.",
+      "writesBack": "Put the private session on the schedule."
+    },
+    {
+      "turn": "only-the-group-class-is-available",
+      "pulledBy": "Only the group class is available.",
+      "what": "Request a private appointment.",
+      "writesBack": "Leave the application pending."
+    }
+  ]
+}

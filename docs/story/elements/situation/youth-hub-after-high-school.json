@@ -1,0 +1,38 @@
+{
+  "id": "youth-hub-after-high-school",
+  "kind": "situation",
+  "summary": "A young adult asks {person} whether leaving school meant aging out of the youth center.",
+  "realLife": "Brooklyn voters backed a youth hub intended to serve people through age twenty-five.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "The local youth center has a recorded upper age limit."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local youth center has a recorded upper age limit.",
+  "turns": [
+    {
+      "turn": "the-center-s-age-rule-covers-the-resident",
+      "pulledBy": "The center's age rule covers the resident.",
+      "what": "Check which services are taking referrals.",
+      "writesBack": "Record the available referral."
+    },
+    {
+      "turn": "the-resident-is-over-the-limit",
+      "pulledBy": "The resident is over the limit.",
+      "what": "Ask for an adult-service referral.",
+      "writesBack": "Record the age limit on the referral request."
+    }
+  ]
+}

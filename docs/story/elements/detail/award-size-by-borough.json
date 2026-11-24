@@ -1,0 +1,38 @@
+{
+  "id": "award-size-by-borough",
+  "kind": "detail",
+  "summary": "A budget aide checks which part of {place} a project serves before quoting its award.",
+  "realLife": "New York City listed different amounts per winning idea in different boroughs in 2026.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The award schedule sets amounts by district and the project's district can be checked."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the award schedule sets amounts by district and the project's district can be checked.",
+  "turns": [
+    {
+      "turn": "the-district-is-on-the-award-sheet",
+      "pulledBy": "The district is on the award sheet.",
+      "what": "Use that district's amount.",
+      "writesBack": "Attach the award schedule to the estimate."
+    },
+    {
+      "turn": "the-boundary-is-in-dispute",
+      "pulledBy": "The boundary is in dispute.",
+      "what": "Hold the estimate for a district check.",
+      "writesBack": "Keep the estimate provisional."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "unsold-food-pickup-route",
+  "kind": "detail",
+  "summary": "A pantry in {place} needs a pickup time before it can deliver a vendor's unsold food.",
+  "realLife": "Staten Island voters selected a project linking vendors with existing pantries to recover edible surplus for facilities in need.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A pantry and vendor participate in a surplus collection program."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a pantry and vendor participate in a surplus collection program.",
+  "turns": [
+    {
+      "turn": "the-vendor-and-pantry-confirm-a-time",
+      "pulledBy": "The vendor and pantry confirm a time.",
+      "what": "Put the pickup on the route.",
+      "writesBack": "Add a confirmed stop to the manifest."
+    },
+    {
+      "turn": "the-vendor-has-no-surplus-today",
+      "pulledBy": "The vendor has no surplus today.",
+      "what": "Release the pickup slot.",
+      "writesBack": "Leave that vendor off the day’s collection total."
+    }
+  ]
+}

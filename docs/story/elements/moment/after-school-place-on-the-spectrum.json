@@ -1,0 +1,38 @@
+{
+  "id": "after-school-place-on-the-spectrum",
+  "kind": "moment",
+  "summary": "A parent asks {person} whether their autistic child can join an activity after school.",
+  "realLife": "One Bronx winner proposed extracurricular choices for autistic children, with music and sports among the possibilities.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "The proposed activity serves autistic children and its enrollment status is known."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the proposed activity serves autistic children and its enrollment status is known.",
+  "turns": [
+    {
+      "turn": "an-activity-is-taking-registrations",
+      "pulledBy": "An activity is taking registrations.",
+      "what": "Give the family the activity contact.",
+      "writesBack": "Record the registration contact shared."
+    },
+    {
+      "turn": "activities-are-still-being-designed",
+      "pulledBy": "Activities are still being designed.",
+      "what": "Pass the family's preference to the organizer.",
+      "writesBack": "Add the requested activity to the planning notes."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "certificate-leads-to-interview",
+  "kind": "consequence",
+  "summary": "A trainee in {place} finishes a short course and asks which employer will interview them.",
+  "realLife": "A winning Queens proposal for immigrants paired paid certification training with a subsequent job interview.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The training partnership provides an interview after completion."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the training partnership provides an interview after completion.",
+  "turns": [
+    {
+      "turn": "the-employer-has-offered-an-interview-time",
+      "pulledBy": "The employer has offered an interview time.",
+      "what": "Pass the appointment to the trainee.",
+      "writesBack": "Record an interview appointment."
+    },
+    {
+      "turn": "no-slot-has-been-set",
+      "pulledBy": "No slot has been set.",
+      "what": "Ask the partner business to schedule one.",
+      "writesBack": "Keep the employer follow-up open."
+    }
+  ]
+}

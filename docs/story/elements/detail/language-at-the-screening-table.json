@@ -1,0 +1,38 @@
+{
+  "id": "language-at-the-screening-table",
+  "kind": "detail",
+  "summary": "A patient asks {person} what language the blood pressure screening will be offered in.",
+  "realLife": "Brooklyn's selected screening proposal included language access for routine checks.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "The screening program offers language assistance and has a service schedule."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the screening program offers language assistance and has a service schedule.",
+  "turns": [
+    {
+      "turn": "the-patient-s-language-is-on-the-schedule",
+      "pulledBy": "The patient's language is on the schedule.",
+      "what": "Give the matching time.",
+      "writesBack": "Record the language and service slot together."
+    },
+    {
+      "turn": "language-coverage-is-unconfirmed",
+      "pulledBy": "Language coverage is unconfirmed.",
+      "what": "Request confirmation before booking.",
+      "writesBack": "Leave the appointment unconfirmed."
+    }
+  ]
+}

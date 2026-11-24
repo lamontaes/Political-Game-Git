@@ -1,0 +1,38 @@
+{
+  "id": "fellowship-inside-pantry-award",
+  "kind": "detail",
+  "summary": "The pantry organizer in {place} separates the fellowship money from the grocery budget.",
+  "realLife": "Brooklyn's choice pantry award included extra funding and facilitation for a community design fellowship.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The pantry award includes a separately identified fellowship."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the pantry award includes a separately identified fellowship.",
+  "turns": [
+    {
+      "turn": "the-award-identifies-the-supplement",
+      "pulledBy": "The award identifies the supplement.",
+      "what": "Show the fellowship amount separately.",
+      "writesBack": "Keep grocery and fellowship funds distinct in the estimate."
+    },
+    {
+      "turn": "the-organizer-has-only-the-headline-total",
+      "pulledBy": "The organizer has only the headline total.",
+      "what": "Request the itemized award.",
+      "writesBack": "Leave the grocery share unverified."
+    }
+  ]
+}
