@@ -2927,7 +2927,7 @@ async function personCardNode(
         }))
         .concat(
           known.positions.map((p) => ({
-            label: policyLabel(p.question),
+            label: p.said ?? policyLabel(p.question),
             value: p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
           })),
         )
@@ -3118,6 +3118,19 @@ async function fitCard(root) {
           column.getBoundingClientRect().top,
       ),
     );
+  // Two columns of unlike height (the President's long record beside a short
+  // story): the leading sections of the first column stand above the story,
+  // while that makes the taller of the two shorter. The story stays whole and
+  // last, and the sections keep their order.
+  if (back && root.querySelector(".mx3cols:not(.one)"))
+    while (front.children.length > 1) {
+      const before = Math.max(filled(front), filled(back));
+      const moved = front.firstElementChild;
+      back.prepend(moved);
+      if (Math.max(filled(front), filled(back)) < before - 8) continue;
+      front.prepend(moved);
+      break;
+    }
   const leftHeight = filled(root.querySelector(".mx3left"));
   if (
     back &&

@@ -39,7 +39,10 @@ it(`the header's office year is the public record's service start (seed ${seed})
   for (const term of terms.filter((row) => row.status === "serving")) {
     const card = knownCard(core, playerId!, `official:${term.id}`) as {
       offices?: { from: number; to: number | null }[];
-      publicKnowledge?: { serviceStart: string } | null;
+      publicKnowledge?: {
+        serviceStart: string;
+        positions: { question: string; said: string | null }[];
+      } | null;
     };
     const entered = card.publicKnowledge?.serviceStart;
     const serving = card.offices?.find((office) => office.to === null);
@@ -47,6 +50,10 @@ it(`the header's office year is the public record's service start (seed ${seed})
     expect(serving.from, `${where}: ${term.id}`).toBe(
       Number(entered.slice(0, 4)),
     );
+    for (const stand of card.publicKnowledge?.positions ?? [])
+      expect(stand.said, `${where}: ${stand.question}`).not.toBe(
+        stand.question,
+      );
     checked += 1;
     if (term.serviceStart && term.serviceStart < term.startDate) later += 1;
   }

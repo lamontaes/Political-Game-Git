@@ -1704,13 +1704,30 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
  * tells (owner, Nov 1: the header's "Since 2025" against elections in 2011,
  * 2013 and 2015), so the header, the lines under the name and the story agree.
  */
-function withSince<T extends { serviceStart: string }>(
-  known: T,
-  run: OfficeRun | null,
-): T {
-  return run && run.since < known.serviceStart
-    ? { ...known, serviceStart: run.since }
-    : known;
+function withSince<
+  T extends {
+    serviceStart: string;
+    positions?: readonly { question: string }[];
+  },
+>(known: T, run: OfficeRun | null): T {
+  const start =
+    run && run.since < known.serviceStart
+      ? { ...known, serviceStart: run.since }
+      : known;
+  // Each stand is named by what it is about, in the question's own plain words
+  // ("Public broadband", never the catalog's name), where the bank has them.
+  return start.positions
+    ? {
+        ...start,
+        positions: start.positions.map((stand) => {
+          const about = questionAbout(stand.question);
+          return {
+            ...stand,
+            said: about ? about[0]!.toUpperCase() + about.slice(1) : null,
+          };
+        }),
+      }
+    : start;
 }
 
 /** The tie between two people, either way round, when they have one. */
