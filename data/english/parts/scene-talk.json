@@ -42452,31 +42452,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.that-helps-place-is-a-lot-quieter-than-i-expected",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That helps. {place} is a lot quieter than I expected.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-blame.it-wasn-t-supposed-to-go-like-this-name-somebody-let-me-down",
       "move": "reply-blame",
       "kind": "spoken",

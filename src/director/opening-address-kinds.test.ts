@@ -21,27 +21,33 @@ import { WORDS_STOPGAP_HITS } from "./stopgaps";
 
 // Which kinds' outline banks the test lets say every required section: a
 // kind named here is told as the inaugural's bank tells it, the oath held, so
-// the route is seen without a line written for the kind. Off, the planner
-// reads the banks as they are.
-const banks = vi.hoisted(() => ({ say: new Set<string>() }));
+// the route is seen without a line written for the kind; a kind in `mute`
+// says nothing, so the fallback is seen whatever its bank holds. Off, the
+// planner reads the banks as they are.
+const banks = vi.hoisted(() => ({
+  say: new Set<string>(),
+  mute: new Set<string>(),
+}));
 vi.mock("../english/outline-planner", async (importOriginal) => {
   const real = await importOriginal<typeof OutlinePlanner>();
   return {
     ...real,
     tell: (input: TellingInput) =>
-      banks.say.has(input.kind)
-        ? real.tell({
-            ...input,
-            kind: "inaugural",
-            facts: {
-              ...input.facts,
-              "took-oath": {
-                text: "yes",
-                sourceRecordIds: input.sourceRecordIds,
+      banks.mute.has(input.kind)
+        ? null
+        : banks.say.has(input.kind)
+          ? real.tell({
+              ...input,
+              kind: "inaugural",
+              facts: {
+                ...input.facts,
+                "took-oath": {
+                  text: "yes",
+                  sourceRecordIds: input.sourceRecordIds,
+                },
               },
-            },
-          })
-        : real.tell(input),
+            })
+          : real.tell(input),
   };
 });
 
@@ -210,6 +216,8 @@ describe("the State of the Union and the State of the State are told through the
 
   it("falls back to the old composer while the kind's outline bank cannot say a required section", () => {
     banks.say.clear();
+    // The kinds' banks say nothing here, whatever the writers have filled.
+    banks.mute = new Set(["state-of-the-union", "state-of-the-state"]);
     WORDS_STOPGAP_HITS.clear();
     const story = stateOfTheUnion();
     expect(story?.speechKind, where).toBe("state-of-the-union");
@@ -228,9 +236,11 @@ describe("the State of the Union and the State of the State are told through the
         local.sentences.flatMap((row) => row.pieces).some(outlinePiece),
         `${where}: ${local.text}`,
       ).toBe(false);
+    banks.mute.clear();
   });
 
   it("says the outline planner's sentences where the kind's bank can say it", () => {
+    banks.mute.clear();
     banks.say = new Set(["state-of-the-union", "state-of-the-state"]);
     try {
       WORDS_STOPGAP_HITS.clear();
