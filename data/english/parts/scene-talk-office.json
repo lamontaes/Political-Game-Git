@@ -1089,10 +1089,10 @@
       "elements": ["readings-and-forecast-disagree"]
     },
     {
-      "key": "scene-talk-office.open-greet.i-m-back-about-the-disaster-governor-what-would-you-like-me-to-pass-on-to-the-counties",
+      "key": "scene-talk-office.open-greet.i-can-pass-your-decision-on-the-disaster-straight-to-the-counties-governor",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm back about the {disaster}, Governor. What would you like me to pass on to the counties?",
+      "text": "I can pass your decision on the {disaster} straight to the counties, Governor.",
       "uses": [
         {
           "subject": "scene",
@@ -1115,10 +1115,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.we-have-until-deadline-is-there-anything-you-d-like-checked-before-you-decide",
+      "key": "scene-talk-office.open-greet.we-have-until-deadline-if-you-want-me-to-check-the-recommendation",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "We have until {deadline}. Is there anything you'd like checked before you decide?",
+      "text": "We have until {deadline} if you want me to check the recommendation.",
       "uses": [
         {
           "subject": "scene",
@@ -1141,10 +1141,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.governor-who-else-would-you-like-to-hear-from-about-the-disaster",
+      "key": "scene-talk-office.open-greet.governor-i-can-get-someone-who-saw-the-disaster-on-the-phone",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Governor, who else would you like to hear from about the {disaster}?",
+      "text": "Governor, I can get someone who saw the {disaster} on the phone.",
       "uses": [
         {
           "subject": "scene",
@@ -1219,10 +1219,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.is-there-anyone-you-want-included-in-today-s-briefing-on-the-disaster",
+      "key": "scene-talk-office.open-greet.if-you-want-the-health-department-in-on-the-disaster-briefing-there-s-still-time",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Is there anyone you want included in today's briefing on the {disaster}?",
+      "text": "If you want the health department in on the {disaster} briefing, there's still time.",
       "uses": [
         {
           "subject": "scene",
@@ -1271,10 +1271,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.the-offer-stays-open-until-deadline-what-can-we-tell-residents-in-the-meantime",
+      "key": "scene-talk-office.open-greet.we-can-tell-residents-the-decision-stays-with-you-until-deadline",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "The offer stays open until {deadline}. What can we tell residents in the meantime?",
+      "text": "We can tell residents the decision stays with you until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -1323,10 +1323,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.it-s-deadline-people-are-going-to-want-to-hear-your-decision-in-your-own-words",
+      "key": "scene-talk-office.open-greet.whatever-you-decide-by-deadline-people-will-want-to-hear-why",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "It's {deadline}. People are going to want to hear your decision in your own words.",
+      "text": "Whatever you decide by {deadline}, people will want to hear why.",
       "uses": [
         {
           "subject": "scene",
@@ -1401,10 +1401,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.we-re-out-of-meetings-governor-what-do-you-still-need-to-know-about-the-disaster",
+      "key": "scene-talk-office.open-greet.i-can-go-over-our-recommendation-on-the-disaster-once-more-governor",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "We're out of meetings, Governor. What do you still need to know about the {disaster}?",
+      "text": "I can go over our recommendation on the {disaster} once more, Governor.",
       "uses": [
         {
           "subject": "scene",
@@ -1427,10 +1427,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.it-s-deadline-i-d-like-the-local-offices-to-hear-your-decision-from-us",
+      "key": "scene-talk-office.open-greet.i-d-like-us-to-get-word-to-the-local-offices-before-deadline",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "It's {deadline}. I'd like the local offices to hear your decision from us.",
+      "text": "I'd like us to get word to the local offices before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -1453,10 +1453,10 @@
       }
     },
     {
-      "key": "scene-talk-office.open-greet.before-the-offer-on-the-disaster-expires-who-should-get-word-of-your-decision",
+      "key": "scene-talk-office.open-greet.i-ll-make-sure-public-health-hears-your-decision-about-the-disaster",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Before the offer on the {disaster} expires, who should get word of your decision?",
+      "text": "I'll make sure public health hears your decision about the {disaster}.",
       "uses": [
         {
           "subject": "scene",

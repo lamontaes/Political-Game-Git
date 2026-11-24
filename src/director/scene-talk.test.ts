@@ -2,6 +2,7 @@ import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "./scene-talk";
 import { wordSceneMove, type BankPart } from "../english/scene-talk-words";
+import officeBank from "../../data/english/parts/scene-talk-office.json" with { type: "json" };
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
@@ -141,6 +142,50 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           talk.gaps.some((row) => row.includes("question left unasked")),
           where,
         ).toBe(true);
+    }
+  });
+
+  it("opens each return briefing before the department head asks for a declaration", () => {
+    const type = types.find((row) => row.key === "emergency-briefing")!;
+    for (const phase of ["midway", "last"]) {
+      const seen = new Set<string>();
+      const openings = officeBank.parts.filter((part) =>
+        part.uses.some(
+          (use) =>
+            use.step === "open" &&
+            use.requiresFacts?.includes(`return-${phase}`),
+        ),
+      );
+      expect(openings.length).toBeGreaterThan(0);
+      for (let draw = 0; draw < 600 && seen.size < openings.length; draw++) {
+        const result = composeSceneTalk(
+          core,
+          director,
+          {
+            askerId,
+            askedId,
+            causeId: `return-${phase}-${draw}`,
+          },
+          type,
+          {
+            name: fact("Pat Rivera"),
+            disaster: fact("severe storm"),
+            deadline: fact("Friday"),
+            again: fact(""),
+            [`return-${phase}`]: fact(""),
+          },
+          { askerTraits: { "people-mind-v1:sociability": 1 } },
+        );
+        expect(result.kind).toBe("composed");
+        if (result.kind !== "composed") continue;
+        const { open, state } = result.talk;
+        expect(open).toBeDefined();
+        expect(open?.asks).toBe(false);
+        expect(open?.text).not.toMatch(/^It['’]s Friday\b/);
+        expect(state.asks).toBe(true);
+        seen.add(open!.parts[0]!);
+      }
+      expect(seen).toEqual(new Set(openings.map((part) => part.key)));
     }
   });
 
