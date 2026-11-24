@@ -337,7 +337,7 @@ function boardOffices(
         kind: `county-${row.office}`,
         title: row.title,
         seats: 1,
-        termYears,
+        termYears: row.termYears ?? termYears,
         elected: row.elected,
         districted: false,
         coversTown: true,

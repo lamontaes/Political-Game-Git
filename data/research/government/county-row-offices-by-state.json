@@ -682,11 +682,37 @@
       }
     },
     "NJ": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nj/the-new-jersey-constitution-of-1947-annotated/nj-const-art-7-sect-2-2/",
+        "note": "N.J. Const. art. VII, sec. II, para. 2: \"County clerks, surrogates and sheriffs shall be elected by the people of their respective counties at general elections\"; \"of sheriffs three years\".",
+        "termYears": 3
+      },
       "prosecutor": {
         "elected": false,
         "basis": "read",
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nj/the-new-jersey-constitution-of-1947-annotated/nj-const-art-7-sect-2-2/",
+        "note": "N.J. Const. art. VII, sec. II, para. 2: county clerks \"shall be elected by the people of their respective counties at general elections\"; \"The term of office of county clerks and surrogates shall be five years\".",
+        "termYears": 5
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-9-27/",
+        "note": "N.J.S.A. 40A:9-27: the board of county commissioners \"shall appoint a county treasurer for a term of 3 years\"."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/new-jersey/title-54/section-54-3-2/",
+        "note": "No county assessor is elected. The county board of taxation is \"to be appointed by the Governor by and with the advice and consent of the Senate\" (N.J.S.A. 54:3-2), and each municipality appoints its own tax assessor (N.J.S.A. 40A:9-146, https://law.justia.com/codes/new-jersey/2017/title-40a/section-40a-9-146/)."
       },
       "coroner": {
         "elected": false,

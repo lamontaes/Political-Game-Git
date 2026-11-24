@@ -35,6 +35,11 @@ export interface CountyRowOfficeRule {
   readonly source: string;
   /** A prosecutor elected for a circuit or district wider than the county. */
   readonly scope: "county" | "judicial-circuit" | "judicial-district";
+  /**
+   * The office's own term where its state's law sets one apart from the
+   * board's (a New Jersey county clerk's five years); absent, the county's.
+   */
+  readonly termYears?: number;
 }
 
 interface OfficeDefault {
@@ -54,6 +59,7 @@ interface StateRow {
   /** The regional pattern an estimated row takes. */
   readonly estimatedFrom?: string;
   readonly scope?: string;
+  readonly termYears?: number;
 }
 
 const DEFAULTS = table.offices as unknown as Readonly<
@@ -90,6 +96,9 @@ export function countyRowOfficeRule(
       scope === "judicial-circuit" || scope === "judicial-district"
         ? scope
         : "county",
+    ...(read && row?.termYears !== undefined
+      ? { termYears: row.termYears }
+      : {}),
   };
 }
 
