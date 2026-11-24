@@ -14,5 +14,17 @@
     "town-hall": 0.5
   },
   "inGame": "the \"interview\" record and an official's stated reasons; needs: a quote kept from an event",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a quote from the event",
+      "pulledBy": "an official who spoke up in the room",
+      "writes": "the story quotes the event"
+    },
+    {
+      "name": "no quote at all",
+      "pulledBy": "an official who declined",
+      "writes": "the story says they did not comment"
+    }
+  ]
 }

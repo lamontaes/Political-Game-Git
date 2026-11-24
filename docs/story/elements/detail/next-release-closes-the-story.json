@@ -14,5 +14,17 @@
     "conditions": 0.7
   },
   "inGame": "`economy.state-jobs-report` next month's date; the calendar",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no next date",
+      "pulledBy": "a one-time report",
+      "writes": "the story ends on the figure"
+    },
+    {
+      "name": "a revision",
+      "pulledBy": "a corrected report",
+      "writes": "the story says the earlier figure was revised"
+    }
+  ]
 }

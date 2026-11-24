@@ -15,5 +15,17 @@
     "town-hall": 0.9
   },
   "inGame": "public-action question (the demand or issue); needs: more than one topic per meeting",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "one topic only",
+      "pulledBy": "a single-issue meeting",
+      "writes": "the story names it and goes straight to the answers"
+    },
+    {
+      "name": "topics left unsaid",
+      "pulledBy": "an issue the officials avoided",
+      "writes": "the story says what was not answered"
+    }
+  ]
 }

@@ -14,5 +14,17 @@
     "town-hall": 1.0
   },
   "inGame": "record \"town-hall\" and \"public-action\" (place, date, size, question); the meetings engine's town halls for a body",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a town hall nobody attends",
+      "pulledBy": "a poor turnout",
+      "writes": "the story is a short line that few came"
+    },
+    {
+      "name": "a town hall that turns hostile",
+      "pulledBy": "a hot issue and a hostile crowd",
+      "writes": "the story leads with the sharpest exchange"
+    }
+  ]
 }

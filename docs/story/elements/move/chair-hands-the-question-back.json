@@ -14,5 +14,17 @@
     "exposed": 0.9
   },
   "inGame": "scene \"office-doubt\" and the exposed-conflict scenes; needs: abstaining as an option on a vote",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the chair steps aside",
+      "pulledBy": "a chair who recuses",
+      "writes": "the story says they left the room for the vote"
+    },
+    {
+      "name": "the chair abstains",
+      "pulledBy": "a vote the chair sat out",
+      "writes": "the story says it passed without their vote"
+    }
+  ]
 }

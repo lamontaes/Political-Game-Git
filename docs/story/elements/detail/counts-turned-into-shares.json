@@ -14,5 +14,17 @@
     "conditions": 0.7
   },
   "inGame": "jobs-report rows; the town's jobs counted by employer",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "shares turned back into counts",
+      "pulledBy": "a small sector",
+      "writes": "the story gives the count of jobs"
+    },
+    {
+      "name": "no share",
+      "pulledBy": "a flat figure",
+      "writes": "the story states the number alone"
+    }
+  ]
 }

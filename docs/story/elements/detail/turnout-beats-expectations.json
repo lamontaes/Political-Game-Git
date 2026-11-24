@@ -14,5 +14,17 @@
     "town-hall": 0.6
   },
   "inGame": "public-action size; needs: an expected size",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "turnout below expectations",
+      "pulledBy": "a slow night",
+      "writes": "the story says fewer came than hoped"
+    },
+    {
+      "name": "turnout as expected",
+      "pulledBy": "a steady series",
+      "writes": "no comparison is made"
+    }
+  ]
 }

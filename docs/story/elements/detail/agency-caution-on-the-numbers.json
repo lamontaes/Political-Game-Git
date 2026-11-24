@@ -14,5 +14,17 @@
     "conditions": 0.6
   },
   "inGame": "needs: a seasonal adjustment note on a jobs report",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no caution",
+      "pulledBy": "a report with no caveat",
+      "writes": "the story gives the figures plainly"
+    },
+    {
+      "name": "a caution that changes the story",
+      "pulledBy": "a caveat that undoes the headline",
+      "writes": "the story leads with the caveat"
+    }
+  ]
 }

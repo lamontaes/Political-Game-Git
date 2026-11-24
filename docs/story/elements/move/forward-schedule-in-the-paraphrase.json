@@ -14,5 +14,17 @@
     "town-hall": 0.6
   },
   "inGame": "needs: a body's planned future meetings (the meetings engine keeps held ones)",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no more planned",
+      "pulledBy": "a one-time event",
+      "writes": "the story says it will not repeat"
+    },
+    {
+      "name": "more planned but undated",
+      "pulledBy": "a series with no dates",
+      "writes": "the story says dates will come later"
+    }
+  ]
 }

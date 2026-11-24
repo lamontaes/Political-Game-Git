@@ -14,5 +14,17 @@
     "vote": 0.8
   },
   "inGame": "roll-call voters and each member's party or backers; the member's `office.voted` rows",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no dissent",
+      "pulledBy": "a bloc that voted as one",
+      "writes": "the story says no member voted against"
+    },
+    {
+      "name": "a dissenter from the other side",
+      "pulledBy": "a member who crossed over",
+      "writes": "the story names who crossed"
+    }
+  ]
 }

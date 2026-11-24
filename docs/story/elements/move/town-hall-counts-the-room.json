@@ -15,5 +15,17 @@
     "town-hall": 1.0
   },
   "inGame": "public-action size and place; needs: the room the event was held in by name",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a crowd too large for the room",
+      "pulledBy": "a hot issue",
+      "writes": "the line says people were turned away"
+    },
+    {
+      "name": "an empty room",
+      "pulledBy": "a poor turnout",
+      "writes": "the line says how few came"
+    }
+  ]
 }

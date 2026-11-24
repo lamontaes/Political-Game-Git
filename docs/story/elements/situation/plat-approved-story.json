@@ -14,5 +14,17 @@
     "homes-built": 0.9
   },
   "inGame": "`housing.completed` (units); needs: a plat approval record",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a plat denied",
+      "pulledBy": "a project that missed a requirement",
+      "writes": "the story says what was missing"
+    },
+    {
+      "name": "a plat approved with conditions",
+      "pulledBy": "a project with open items",
+      "writes": "the story lists what must be done"
+    }
+  ]
 }

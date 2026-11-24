@@ -14,5 +14,17 @@
     "exposed": 0.9
   },
   "inGame": "contracts engine award with a bid process; needs: a \"no-bid\" flag on an award",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "an emergency reason",
+      "pulledBy": "a disaster or urgent need",
+      "writes": "the story says why bidding was skipped"
+    },
+    {
+      "name": "a late bid",
+      "pulledBy": "a vendor who offered after the deadline",
+      "writes": "the story says it was refused"
+    }
+  ]
 }

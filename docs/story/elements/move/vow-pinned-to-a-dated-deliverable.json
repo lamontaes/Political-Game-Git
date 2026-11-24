@@ -14,5 +14,17 @@
     "town-hall": 0.9
   },
   "inGame": "the promises module (a promise kind, the record that settles it, a due date)",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the vow is kept",
+      "pulledBy": "a deliverable handed in on time",
+      "writes": "a later story says it was delivered"
+    },
+    {
+      "name": "the vow is broken",
+      "pulledBy": "a deadline passed with nothing delivered",
+      "writes": "a later story names the missed date"
+    }
+  ]
 }

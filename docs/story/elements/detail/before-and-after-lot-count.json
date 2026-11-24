@@ -14,5 +14,17 @@
     "homes-built": 0.8
   },
   "inGame": "`housing.completed` unit counts; needs: a plan's earlier count",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a plan with more lots",
+      "pulledBy": "a revised plan that grew",
+      "writes": "the story says the count went up"
+    },
+    {
+      "name": "an unchanged count",
+      "pulledBy": "a plan that held",
+      "writes": "the story says nothing changed"
+    }
+  ]
 }

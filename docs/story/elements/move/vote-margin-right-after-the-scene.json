@@ -14,5 +14,17 @@
     "vote": 1.0
   },
   "inGame": "roll-call record (`by-one`, `count`)",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a lopsided vote",
+      "pulledBy": "a unanimous or wide vote",
+      "writes": "the story gives the count and no scene"
+    },
+    {
+      "name": "a vote that fails",
+      "pulledBy": "a measure rejected after the scene",
+      "writes": "the story says it failed and by how many"
+    }
+  ]
 }

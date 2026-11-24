@@ -14,5 +14,17 @@
     "meetings": 0.6
   },
   "inGame": "needs: attendance at a meeting; the seat-holders at the meeting from the offices table",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "everyone present",
+      "pulledBy": "a full attendance",
+      "writes": "no absence line"
+    },
+    {
+      "name": "the absent person answers later",
+      "pulledBy": "an official who missed it and later spoke",
+      "writes": "a later story carries their word"
+    }
+  ]
 }

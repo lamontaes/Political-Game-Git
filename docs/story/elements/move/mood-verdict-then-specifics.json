@@ -14,5 +14,17 @@
     "town-hall": 0.6
   },
   "inGame": "needs: a read of the room (approval read of the town's view exists at the town level)",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "specifics first",
+      "pulledBy": "a measured meeting",
+      "writes": "the lede is the count and the place"
+    },
+    {
+      "name": "praise only",
+      "pulledBy": "a meeting that went well",
+      "writes": "the lede says residents were pleased"
+    }
+  ]
 }

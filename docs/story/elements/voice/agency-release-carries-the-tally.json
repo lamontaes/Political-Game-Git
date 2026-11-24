@@ -14,5 +14,17 @@
     "conditions": 1.0
   },
   "inGame": "`economy.state-jobs-report` row for the state; needs: counties",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the reporter carries the tally",
+      "pulledBy": "a release with no usable table",
+      "writes": "the story's own text gives the counts"
+    },
+    {
+      "name": "the release is quoted in part",
+      "pulledBy": "a long release",
+      "writes": "the story quotes the sentence that matters"
+    }
+  ]
 }

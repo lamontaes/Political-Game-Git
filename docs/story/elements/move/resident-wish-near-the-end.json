@@ -14,5 +14,17 @@
     "town-hall": 0.8
   },
   "inGame": "a filled-in resident (the two-level population: named when met); needs: residents at a public action",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no resident named",
+      "pulledBy": "a crowd that gave no names",
+      "writes": "the story relays the suggestion unnamed"
+    },
+    {
+      "name": "resident opposes",
+      "pulledBy": "a resident who opposes the plan",
+      "writes": "the story ends on their objection"
+    }
+  ]
 }

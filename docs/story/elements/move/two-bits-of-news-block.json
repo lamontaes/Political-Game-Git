@@ -14,5 +14,17 @@
     "meetings": 0.8
   },
   "inGame": "meetings-week side items; a body's next agenda items; needs: an agenda",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "one bit of news",
+      "pulledBy": "a single announcement",
+      "writes": "one line after the quotes"
+    },
+    {
+      "name": "a long list",
+      "pulledBy": "a meeting with many items",
+      "writes": "a labelled list of items"
+    }
+  ]
 }

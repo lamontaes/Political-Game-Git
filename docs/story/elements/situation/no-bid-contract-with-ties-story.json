@@ -14,5 +14,17 @@
     "exposed": 1.0
   },
   "inGame": "the contracts engine's award record (firm, amount), the exposed story (`press.exposed`), the conflict facts (`found-conflict`, `relative-lives-with`, `firm-yours`)",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a bid process that was followed",
+      "pulledBy": "a contract put out for proposals",
+      "writes": "the story says how many bid"
+    },
+    {
+      "name": "ties denied and no conflict found",
+      "pulledBy": "an inquiry that found nothing",
+      "writes": "the story says the review cleared it"
+    }
+  ]
 }

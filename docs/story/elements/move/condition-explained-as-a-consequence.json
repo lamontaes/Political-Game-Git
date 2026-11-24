@@ -14,5 +14,17 @@
     "homes-built": 0.5
   },
   "inGame": "needs: conditions on an approval",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a condition waived",
+      "pulledBy": "a waiver for a small project",
+      "writes": "the story says no condition was added"
+    },
+    {
+      "name": "a condition the builder disputes",
+      "pulledBy": "a builder who objects",
+      "writes": "the story gives the builder's side"
+    }
+  ]
 }

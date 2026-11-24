@@ -14,5 +14,17 @@
     "conditions": 0.9
   },
   "inGame": "`economy.state-jobs-report`; needs: jobs by sector for a place",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "year first",
+      "pulledBy": "a month with little change",
+      "writes": "the year's change leads"
+    },
+    {
+      "name": "month only",
+      "pulledBy": "a report with no yearly figure",
+      "writes": "the story gives the month and stops"
+    }
+  ]
 }

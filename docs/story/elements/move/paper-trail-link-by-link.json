@@ -14,5 +14,17 @@
     "exposed": 1.0
   },
   "inGame": "organizations and ownership rows, the family records (`relative`), the contracts award; needs: campaign finance rows",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "one link only",
+      "pulledBy": "a single tie in the records",
+      "writes": "the story states the one tie"
+    },
+    {
+      "name": "a tie the records do not show",
+      "pulledBy": "a rumor with no record",
+      "writes": "the story says no record shows it"
+    }
+  ]
 }

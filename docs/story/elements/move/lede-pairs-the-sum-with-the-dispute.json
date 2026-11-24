@@ -14,5 +14,17 @@
     "exposed": 1.0
   },
   "inGame": "contract award amount; the exposure record that names the objection",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the dispute without a sum",
+      "pulledBy": "a contract with no stated amount",
+      "writes": "the lede names the objection only"
+    },
+    {
+      "name": "the sum without a dispute",
+      "pulledBy": "a contract no one questioned",
+      "writes": "the lede names the amount and the vendor"
+    }
+  ]
 }
