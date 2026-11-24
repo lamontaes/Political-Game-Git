@@ -52,7 +52,8 @@
     "born-president-party": "The party that held the White House on the day the player was born, from the history run's presidency row.",
     "school-president-party": "The party that held the White House when the player started school.",
     "moved-president-party": "The party that held the White House when the player's household moved.",
-    "start-president-party": "The party that held the White House when the game opens."
+    "start-president-party": "The party that held the White House when the game opens.",
+    "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row."
   },
   "maxWords": 30,
   "parts": [
@@ -4719,6 +4720,150 @@
         }
       ],
       "elements": ["no-one-is-elected-president-more-than-twice"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.your-first-job-started-in-first-job-year-and-with-it-came-a-form-for-the-employe",
+      "move": "job",
+      "kind": "written",
+      "text": "Your first job started in {first-job-year}, and with it came a form for the employer.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.in-first-job-year-you-were-hired-for-the-first-time-and-the-employer-asked-for-y",
+      "move": "job",
+      "kind": "written",
+      "text": "In {first-job-year} you were hired for the first time, and the employer asked for your documents.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.first-job-year-was-the-first-year-anyone-paid-you-to-show-up",
+      "move": "job",
+      "kind": "written",
+      "text": "{first-job-year} was the first year anyone paid you to show up.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.you-were-hired-in-first-job-year-after-that-someone-else-s-schedule-set-most-of",
+      "move": "job",
+      "kind": "written",
+      "text": "You were hired in {first-job-year}. After that, someone else's schedule set most of your week.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.in-first-job-year-you-started-working-and-a-payroll-office-learned-your-name",
+      "move": "job",
+      "kind": "written",
+      "text": "In {first-job-year} you started working, and a payroll office learned your name.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.the-first-job-came-in-first-job-year-and-with-it-the-first-form-that-asked-for-y",
+      "move": "job",
+      "kind": "written",
+      "text": "The first job came in {first-job-year}, and with it the first form that asked for your employer.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.you-went-to-work-for-the-first-time-in-first-job-year-with-a-form-to-fill-out-on",
+      "move": "job",
+      "kind": "written",
+      "text": "You went to work for the first time in {first-job-year}, with a form to fill out on the first day.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.job.first-job-year-first-job-first-paycheck-first-look-at-what-comes-out-of-it",
+      "move": "job",
+      "kind": "written",
+      "text": "{first-job-year}: first job, first paycheck, first look at what comes out of it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "job",
+          "tie": "record",
+          "requiresFacts": ["first-job-year"]
+        }
+      ],
+      "elements": ["a-new-hire-fills-out-an-employment-form"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"

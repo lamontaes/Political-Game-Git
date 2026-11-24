@@ -510,6 +510,10 @@
           "shapes": ["loading-college"]
         },
         {
+          "name": "job",
+          "shapes": ["loading-job"]
+        },
+        {
           "name": "lost",
           "shapes": ["loading-lost"]
         },
@@ -1210,6 +1214,9 @@
     "running-alone": {
       "moves": ["running"],
       "fallback": true
+    },
+    "loading-job": {
+      "moves": ["job"]
     }
   },
   "weights": {

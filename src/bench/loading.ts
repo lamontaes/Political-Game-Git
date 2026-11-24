@@ -17,6 +17,7 @@ const SECTION_YEAR: Readonly<Record<string, string>> = {
   moved: "moved-year",
   finished: "finished-year",
   college: "college-year",
+  job: "first-job-year",
   lost: "lost-year",
   now: "start-year",
 };
