@@ -33,11 +33,18 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
       });
       const core = world.core;
       const api = coreAPI(core);
-      advanceCore(core, addDays(makeIsoDate(core.date), 40));
-      const whole =
-        residentsRuntime(core)?.store.weightedPeople(
-          [...core.visiblePlaceIds][0]!,
-        ) ?? 0;
+      // A row counts the people its household stood for on the day it was
+      // written, and the town's counted people move in the 40 days (households
+      // leave the counts), so the reach is held to the most counted people the
+      // town had on any day of the window, not to the town at the end of it.
+      const town = [...core.visiblePlaceIds][0]!;
+      const peopleToday = () =>
+        residentsRuntime(core)?.store.weightedPeople(town) ?? 0;
+      let whole = peopleToday();
+      for (let day = 0; day < 40; day += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        whole = Math.max(whole, peopleToday());
+      }
       let witnessed = 0;
       for (const key of KEYS) {
         const rows = appliedOn(api, key).filter((r) => r.target === "group");
@@ -48,7 +55,7 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
           witnessed += 1;
           expect(
             people,
-            `${where}: ${key} (${lawId}) counted groups stand for ${people} of ${whole} counted people`,
+            `${where}: ${key} (${lawId}) counted groups stand for ${people} of at most ${whole} counted people`,
           ).toBeLessThanOrEqual(whole);
         }
       }
