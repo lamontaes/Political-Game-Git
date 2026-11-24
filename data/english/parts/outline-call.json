@@ -2636,7 +2636,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-imagine-a-shop-owner-standing-in-the-store-the-emptied-deciding-whethe",
@@ -5118,7 +5119,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-a-shop-owner-somewhere-is-deciding-whether-to-rebuild-after-the",
@@ -5190,7 +5192,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-a-child-somewhere-is-starting-a-new-school-this-year-because-of-the",
@@ -6178,7 +6181,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-a-man-somewhere-is-sleeping-in-his-truck-outside-what-s-left",
@@ -6200,7 +6204,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-a-nurse-somewhere-is-working-a-double-shift-in-a-clinic-the",
@@ -7123,7 +7128,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-by-thanking-legislators"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-thank-you",
@@ -7251,7 +7257,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
+      "elements": [
+        "sots-opens-by-thanking-legislators",
+        "sots-opens-with-a-salutation-to-named-officials"
+      ]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-people-of-it-s-good-to-be-with-you",
