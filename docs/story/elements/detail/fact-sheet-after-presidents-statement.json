@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/248009"],
   "fits": ["office", "journal", "news"],
   "slots": ["{issue}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive's office is preparing a public statement on an incident."
+  ],
+  "weights": [
+    "More verified details than the speaker can give in person favor a written supplement."
+  ],
   "usedBy": [],
   "inGame": "needs: publication and revision of a briefing sheet.",
   "turns": [

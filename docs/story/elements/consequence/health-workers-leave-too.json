@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A public advisory covers an area where health workers live."],
+  "weights": [
+    "More affected workers on the next shift increases the chance of a staffing shortage."
+  ],
   "usedBy": [],
   "inGame": "needs: staff availability during a public advisory.",
   "turns": [

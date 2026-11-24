@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/249528"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive addresses residents of the affected area in person."
+  ],
+  "weights": [
+    "Resident participation in the response gives public thanks greater weight."
+  ],
   "usedBy": [],
   "inGame": "needs: who receives public credit in a crisis appearance.",
   "turns": [

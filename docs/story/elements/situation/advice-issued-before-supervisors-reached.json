@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A recommendation has reached the executive before supervisory confirmation."
+  ],
+  "weights": [
+    "Less time before the decision deadline makes acting on provisional advice more likely."
+  ],
   "usedBy": [],
   "inGame": "needs: agency approval before a recommendation goes outside.",
   "turns": [

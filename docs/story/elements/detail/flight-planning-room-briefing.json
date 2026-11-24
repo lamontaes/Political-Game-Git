@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/249528"],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An arriving executive and a field adviser are scheduled to meet at an airfield."
+  ],
+  "weights": [
+    "A short interval between arrival and the site visit favors briefing at the airfield."
+  ],
   "usedBy": [],
   "inGame": "needs: where a visiting executive receives the first briefing.",
   "turns": [

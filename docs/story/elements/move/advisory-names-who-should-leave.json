@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive has authority to issue an advisory for the affected area."
+  ],
+  "weights": [
+    "A risk assessment that distinguishes populations favors a narrower advisory."
+  ],
   "usedBy": [],
   "inGame": "needs: the groups and places covered by a public advisory.",
   "turns": [

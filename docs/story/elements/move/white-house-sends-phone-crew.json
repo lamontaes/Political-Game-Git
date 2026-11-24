@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Response officials report difficulty reaching one another and communications help is available."
+  ],
+  "weights": [
+    "More failed calls on a decision deadline favor dispatching a crew."
+  ],
   "usedBy": [],
   "inGame": "needs: communications support requested and restored.",
   "turns": [

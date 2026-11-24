@@ -6,8 +6,10 @@
   "sources": ["https://www.presidency.ucsb.edu/node/248009"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A commission is considering who may act between meetings."],
+  "weights": [
+    "A longer interval before the next meeting favors a temporary delegation."
+  ],
   "usedBy": [],
   "inGame": "needs: the scope of an acting chair's authority.",
   "turns": [

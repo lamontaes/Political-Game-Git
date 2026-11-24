@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/248009"],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A public appearance includes a question period and an adviser is present."
+  ],
+  "weights": [
+    "Technical questions directed to the executive favor a handoff to the adviser."
+  ],
   "usedBy": [],
   "inGame": "needs: which staff took which press questions.",
   "turns": [

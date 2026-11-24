@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/249528"],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A presidential visit and the governor's attendance are on the schedule."
+  ],
+  "weights": [
+    "Competing duties at the response office favor sending a deputy to meet the flight."
+  ],
   "usedBy": [],
   "inGame": "needs: the officials present for a presidential visit.",
   "turns": [

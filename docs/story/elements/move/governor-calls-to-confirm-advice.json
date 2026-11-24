@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The governor receives an agency recommendation through an intermediary."
+  ],
+  "weights": [
+    "A discrepancy between accounts increases the value of checking with the original source."
+  ],
   "usedBy": [],
-  "inGame": "needs: confirmation of an agency recommendation.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: confirmation of an agency recommendation.",
   "turns": [
     {
       "turn": "opposite",

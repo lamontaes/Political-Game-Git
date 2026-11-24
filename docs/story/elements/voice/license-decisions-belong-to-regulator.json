@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/248009"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A license application is pending before an independent regulator."
+  ],
+  "weights": [
+    "Public requests for executive action favor explaining who has authority to decide."
+  ],
   "usedBy": [],
   "inGame": "needs: who decides a license application and when.",
   "turns": [

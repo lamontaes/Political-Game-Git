@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A state briefing and a county contact for an affected locality are on record."
+  ],
+  "weights": [
+    "More affected towns give greater weight to relaying the briefing through counties."
+  ],
   "usedBy": [],
-  "inGame": "needs: the recipients and timing of successive briefings.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: the recipients and timing of successive briefings.",
   "turns": [
     {
       "turn": "opposite",

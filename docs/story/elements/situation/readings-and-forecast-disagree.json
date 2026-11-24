@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The briefing contains both observations and a forecast concerning the same hazard."
+  ],
+  "weights": [
+    "A wider difference between current conditions and predicted harm favors hearing both advisers."
+  ],
   "usedBy": [],
-  "inGame": "needs: the measured and forecast basis of a recommendation.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: the measured and forecast basis of a recommendation.",
   "turns": [
     {
       "turn": "opposite",

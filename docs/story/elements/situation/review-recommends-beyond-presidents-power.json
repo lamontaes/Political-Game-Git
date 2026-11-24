@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/248009"],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive has received recommendations with identified implementing authorities."
+  ],
+  "weights": [
+    "More recommendations assigned outside the executive branch favor a public referral."
+  ],
   "usedBy": [],
   "inGame": "needs: assignment of responsibility for findings.",
   "turns": [

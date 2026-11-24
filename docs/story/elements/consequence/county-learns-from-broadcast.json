@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A county response office needs the decision and a news report carries it."
+  ],
+  "weights": [
+    "A longer delay in the official notice favors the broadcast as the first source."
+  ],
   "usedBy": [],
-  "inGame": "needs: who first told each local office about the decision.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: who first told each local office about the decision.",
   "turns": [
     {
       "turn": "opposite",

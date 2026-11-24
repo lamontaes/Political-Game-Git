@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["An envoy has been assigned to travel to the affected site."],
+  "weights": [
+    "More technical issues awaiting answers favor sending specialists with the envoy."
+  ],
   "usedBy": [],
   "inGame": "needs: the people assigned to a field visit.",
   "turns": [

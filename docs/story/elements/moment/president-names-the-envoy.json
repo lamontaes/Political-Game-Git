@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The president has been offered a choice of field representatives."
+  ],
+  "weights": [
+    "Previous work with a candidate favors asking for that person by name."
+  ],
   "usedBy": [],
   "inGame": "needs: the executive's selection of a field representative.",
   "turns": [

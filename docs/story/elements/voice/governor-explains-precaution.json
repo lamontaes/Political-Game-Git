@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The governor has issued a precaution and is addressing residents about it."
+  ],
+  "weights": [
+    "A gap between current conditions and the forecast favors explaining the reason for acting early."
+  ],
   "usedBy": [],
-  "inGame": "needs: the reason given publicly for an advisory.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: the reason given publicly for an advisory.",
   "turns": [
     {
       "turn": "opposite",

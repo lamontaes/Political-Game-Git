@@ -8,10 +8,14 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An incident requires a public health notification and the notification plan is available."
+  ],
+  "weights": [
+    "A recent change in health leadership raises the value of checking the contact list."
+  ],
   "usedBy": [],
-  "inGame": "needs: the agencies on a notification list.",
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: the agencies on a notification list.",
   "turns": [
     {
       "turn": "opposite",

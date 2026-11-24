@@ -6,8 +6,12 @@
   "sources": ["https://www.presidency.ucsb.edu/node/249528"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive is visiting an operating site and has a public appearance scheduled."
+  ],
+  "weights": [
+    "A shift change or unresolved operating problem favors delaying access to the room."
+  ],
   "usedBy": [],
   "inGame": "needs: where a visiting official can observe operations.",
   "turns": [

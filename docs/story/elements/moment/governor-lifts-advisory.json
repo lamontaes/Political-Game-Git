@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["An advisory is in force and the issuing office can revise it."],
+  "weights": [
+    "A sustained improvement across the covered area favors lifting the whole advisory."
+  ],
   "usedBy": [],
   "inGame": "needs: expiration or partial withdrawal of an advisory.",
   "turns": [
