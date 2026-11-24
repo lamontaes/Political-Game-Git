@@ -1,0 +1,41 @@
+{
+  "id": "pattern-a27-the-incumbent-who-changed-her-mind",
+  "kind": "situation",
+  "summary": "The incumbent who changed her mind: {incumbent}, who endorsed you for her seat, has filed to keep it after all.",
+  "realLife": "In 1995 state senator Alice Palmer backed him to succeed her, then filed to keep her seat. His campaign challenged petitions, and she withdrew after most of her signatures were ruled invalid; he ran unopposed.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Illinois_Senate_career_of_Barack_Obama"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["incumbent", "lawyer"],
+  "gates": [
+    "Candidate.",
+    "{incumbent} endorsed you and then filed for the seat again."
+  ],
+  "weights": [
+    "How strong your campaign is.",
+    "How close your tie with her is.",
+    "Problems on her petition, when the record holds them."
+  ],
+  "pattern": "A27",
+  "choices": [
+    "challenge her petition before the election board",
+    "run against her on the ballot",
+    "step aside for her"
+  ],
+  "branches": [
+    {
+      "when": "you win on paper",
+      "then": "The board throws her off and you face no one. Some say you won on a technicality."
+    },
+    {
+      "when": "she calls you",
+      "then": "She asks you to drop the challenge, and the talk is about promises; both records are read."
+    },
+    {
+      "when": "years later",
+      "then": "You run against an entrenched member for a higher seat and lose badly; the people you knocked off the ballot do not help."
+    }
+  ],
+  "usedBy": []
+}

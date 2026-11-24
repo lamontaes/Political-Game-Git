@@ -1,0 +1,45 @@
+{
+  "id": "pattern-a26-a-powerful-officeholder-comes-to-campaign",
+  "kind": "situation",
+  "summary": "A powerful officeholder comes to campaign: {powerful officeholder} offers to campaign beside you, and will want something afterward.",
+  "realLife": "Appointed to her late husband's Senate seat in 1931, Caraway faced a primary in 1932. Senator Huey Long of Louisiana toured Arkansas with her for a week, partly to gain influence in the home state of a rival, and she won easily.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hattie_Caraway",
+    "https://en.wikipedia.org/wiki/Huey_Long"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["powerful officeholder", "their rival"],
+  "gates": [
+    "Candidate.",
+    "{powerful officeholder} is on record with a reason to want influence in your place."
+  ],
+  "weights": [
+    "How weak your campaign is on the record.",
+    "How much {their rival} matters to your place."
+  ],
+  "pattern": "A26",
+  "choices": [
+    "accept the whole tour",
+    "accept one event, not the tour",
+    "turn it down"
+  ],
+  "branches": [
+    {
+      "when": "the crowds come",
+      "then": "You win, and the first ask comes before you are sworn in."
+    },
+    {
+      "when": "{their rival} calls to warn you off",
+      "then": "Whatever you say goes on the record."
+    },
+    {
+      "when": "you speak first at the last stop",
+      "then": "The speech you build shows whether you are their candidate or your own."
+    },
+    {
+      "when": "the crowd is hostile to the visitor",
+      "then": "The visit becomes the story instead of the help."
+    }
+  ],
+  "usedBy": []
+}

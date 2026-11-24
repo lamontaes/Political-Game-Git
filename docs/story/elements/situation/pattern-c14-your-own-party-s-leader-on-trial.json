@@ -1,0 +1,44 @@
+{
+  "id": "pattern-c14-your-own-party-s-leader-on-trial",
+  "kind": "situation",
+  "summary": "Your own party's leader on trial: {the body} is voting on whether to impeach or remove {party leader}, the head of your own party.",
+  "realLife": "One life: In January 2021 she voted to impeach President Trump after the Capitol attack. Colleagues demanded her removal from leadership, and Wyoming's party censured her. Another: In 1998 he was the first prominent Democrat to criticize President Clinton in a Senate speech, then voted against removal. The speech was used against him in his 2006 primary. Another: At President Clinton's 1999 trial he cited Scottish law to vote not proven. The Senate recorded it as not guilty.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Liz_Cheney",
+    "https://en.wikipedia.org/wiki/Joe_Lieberman",
+    "https://en.wikipedia.org/wiki/Arlen_Specter"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["party leader"],
+  "gates": [
+    "You hold a seat in a body that can impeach or try an executive.",
+    "{party leader} is charged in that body."
+  ],
+  "weights": [
+    "How strong the evidence is.",
+    "How loyal your district is to {party leader}.",
+    "Traits about loyalty and rules."
+  ],
+  "pattern": "C14",
+  "choices": [
+    "vote to impeach or remove",
+    "vote against",
+    "speak against what they did but vote against removal",
+    "cast a vote of your own kind"
+  ],
+  "branches": [
+    {
+      "when": "you vote to remove",
+      "then": "Members of your party demand your post, your party at home censures you, and a challenger is recruited (C15, C29)."
+    },
+    {
+      "when": "you speak against them but vote to keep them",
+      "then": "The speech is quoted against you years later, in a primary from the other side of your party."
+    },
+    {
+      "when": "you cast a vote of your own kind",
+      "then": "The record writes it as a no, and both sides call you slippery."
+    }
+  ],
+  "usedBy": []
+}

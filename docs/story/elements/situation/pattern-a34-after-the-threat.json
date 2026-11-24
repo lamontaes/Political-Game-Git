@@ -1,0 +1,36 @@
+{
+  "id": "pattern-a34-after-the-threat",
+  "kind": "situation",
+  "summary": "After the threat: Someone has threatened or attacked your household after {your stand}, and {household member} asks what now.",
+  "realLife": "In 1962, days after she tried to register, shots were fired into the home where she was staying. She and her family left for about three months, then came back and kept organizing.",
+  "sources": ["https://en.wikipedia.org/wiki/Fannie_Lou_Hamer"],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["your stand", "household member"],
+  "gates": [
+    "A threat or attack on your household is on record (never authored).",
+    "{your stand} is on record."
+  ],
+  "weights": ["Children at home.", "How public the stand was."],
+  "pattern": "A34",
+  "choices": [
+    "send the family to stay with relatives for a while",
+    "stay and go to the police",
+    "go public about it",
+    "step back from the cause or the race"
+  ],
+  "branches": [
+    {
+      "when": "{household member} wants to move for good",
+      "then": "What you decide changes the household's records."
+    },
+    {
+      "when": "the police",
+      "then": "They treat it as a prank or take it seriously, by the place's record, and either way it becomes a story."
+    },
+    {
+      "when": "coming back",
+      "then": "Weeks later the neighbors who helped meet you, and they are the first of your volunteers."
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,55 @@
+{
+  "id": "pattern-c20-an-attack-aimed-at-you",
+  "kind": "situation",
+  "summary": "An attack aimed at you: At {the event}, or through the mail, someone attacks you or your people, and {the place} watches what you do next.",
+  "realLife": "One life: In 2011 she was shot in the head at a meeting with constituents outside a Tucson grocery store; six people died. She returned to vote that August, and a wounded staffer, Ron Barber, later won her seat. Another: In July 2024 he was shot in the ear at an outdoor rally and raised his fist. The head of the Secret Service resigned after hearings. Another: In October 2001 an aide in his Senate office opened a letter containing anthrax. Another: In 2011 a caller threatened his wife and daughter. The caller pleaded guilty and went to prison.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/2011_Tucson_shooting",
+    "https://en.wikipedia.org/wiki/Gabby_Giffords",
+    "https://en.wikipedia.org/wiki/Attempted_assassination_of_Donald_Trump_in_Pennsylvania",
+    "https://en.wikipedia.org/wiki/2001_anthrax_attacks",
+    "https://en.wikipedia.org/wiki/Eric_Cantor"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "office", "speeches"],
+  "slots": ["the event", "staffer"],
+  "gates": [
+    "You hold an office or are a candidate.",
+    "An attack or threat against you, your staff or your office is on record."
+  ],
+  "weights": [
+    "How badly you or your staff were hurt.",
+    "How heated the race had been.",
+    "Traits that stand firm."
+  ],
+  "pattern": "C20",
+  "choices": [
+    "go back to public events",
+    "change how you meet people",
+    "speak about how hot politics has run",
+    "let your family speak for you",
+    "step back to recover"
+  ],
+  "branches": [
+    {
+      "when": "you are badly hurt",
+      "then": "Months of recovery. When you return to vote, the whole body stands."
+    },
+    {
+      "when": "it comes by mail",
+      "then": "An aide opens it, the building closes, and the staff are tested."
+    },
+    {
+      "when": "the threats name your family",
+      "then": "A caller threatens your partner and child, the case goes to court, and you pay for guards."
+    },
+    {
+      "when": "you survive in front of cameras",
+      "then": "Your gesture becomes the picture of the race, and the head of the protection service resigns."
+    },
+    {
+      "when": "{staffer} is among the wounded",
+      "then": "Later {staffer} runs for your seat and wins (C42)."
+    }
+  ],
+  "usedBy": []
+}
