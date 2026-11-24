@@ -22,7 +22,23 @@
     "said": "what the President's point was about, as people say it",
     "decider": "who decides it (Congress), from said-as",
     "place": "the speaker's town",
-    "employer": "the speaker's employer, through the said-as reader"
+    "employer": "the speaker's employer, through the said-as reader",
+    "born-year": "the year the player was born, from the birth record",
+    "school-year": "the year the player first started school",
+    "school-place": "the town the player first went to school in",
+    "moved-year": "the year the player's household moved",
+    "moved-from": "the town they moved from",
+    "moved-to": "the town they moved to",
+    "arrest-year": "the year of an arrest on the player's record",
+    "finished-year": "the year the player finished high school",
+    "college-year": "the year the player started college",
+    "lost-office": "the office the player ran for and lost, as people say it",
+    "lost-year": "the year of that race",
+    "lost-votes": "the player's votes in it, as a number",
+    "winner-votes": "the winner's votes in it",
+    "start-month": "the month the game opens",
+    "start-year": "the year the game opens",
+    "state": "the player's state, as a sentence says it"
   },
   "maxWords": 30,
   "parts": [
@@ -3013,6 +3029,311 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline.born.loading-story-you-turned-up-in-which-the-government-noted-on-a-form",
+      "move": "born",
+      "kind": "written",
+      "text": "You turned up in {born-year}, which the government noted on a form.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.born.loading-story-you-were-born-in-and-nobody-asked-you-first",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}, and nobody asked you first.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.school.loading-story-by-the-state-had-you-in-a-classroom-in-that-s-how-the-state-",
+      "move": "school",
+      "kind": "written",
+      "text": "By {school-year} the state had you in a classroom in {school-place}. That's how the state says hello.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.school.loading-story-in-you-started-school-in-where-the-first-lesson-was-standing",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-year} you started school in {school-place}, where the first lesson was standing in line.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.moved.loading-story-in-the-family-packed-up-for-because-the-economy-said-so",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} the family packed up {moved-from} for {moved-to}, because the economy said so.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-for-work"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.moved.loading-story-in-you-landed-in-survived-the-loss",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} you landed in {moved-to}. {moved-from} survived the loss.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.arrested.loading-story-there-was-also-the-arrest-in-the-paperwork-outlived-the-exci",
+      "move": "arrested",
+      "kind": "written",
+      "text": "There was also the arrest in {arrest-year}. The paperwork outlived the excitement.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "arrested",
+          "tie": "record",
+          "requiresFacts": ["arrest-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.arrested.loading-story-included-an-arrest-which-the-police-wrote-down-in-more-detai",
+      "move": "arrested",
+      "kind": "written",
+      "text": "{arrest-year} included an arrest, which the police wrote down in more detail than you'd like.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "arrested",
+          "tie": "record",
+          "requiresFacts": ["arrest-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.finished.loading-story-you-finished-school-in-the-diploma-came-with-no-instructions",
+      "move": "finished",
+      "kind": "written",
+      "text": "You finished school in {finished-year}. The diploma came with no instructions.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.finished.loading-story-in-you-got-out-of-high-school-with-a-diploma-and-no-particul",
+      "move": "finished",
+      "kind": "written",
+      "text": "In {finished-year} you got out of high school with a diploma and no particular plan.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.college.loading-story-in-you-started-college-which-is-a-lot-like-school-with-a-bil",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you started college, which is a lot like school with a bill attached.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"],
+          "excludesFacts": ["college-same-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.college.loading-story-brought-college-because-everyone-said-so-with-great-confiden",
+      "move": "college",
+      "kind": "written",
+      "text": "{college-year} brought college, because everyone said so with great confidence.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"],
+          "excludesFacts": ["college-same-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lost.loading-story-that-fall-you-ran-for-and-got-votes-the-winner-got-the-voter",
+      "move": "lost",
+      "kind": "written",
+      "text": "That fall you ran for {lost-office} and got {lost-votes} votes. The winner got {winner-votes}. The voters were clear.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-office",
+            "lost-votes",
+            "winner-votes",
+            "lost-same-year"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline.lost.loading-story-you-even-ran-for-in-people-voted-for-you-which-beats-zero",
+      "move": "lost",
+      "kind": "written",
+      "text": "You even ran for {lost-office} in {lost-year}. {lost-votes} people voted for you, which beats zero.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": ["lost-office", "lost-year", "lost-votes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.now.loading-story-and-now-it-s-a-new-president-takes-the-oath-has-its-legislat",
+      "move": "now",
+      "kind": "written",
+      "text": "And now it's {start-month} {start-year}. A new President takes the oath, {state} has its legislature back, and {place} has been talking about all of it without you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "state", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline.now.loading-story-it-s-washington-has-a-new-president-has-its-usual-problems-a",
+      "move": "now",
+      "kind": "written",
+      "text": "It's {start-month} {start-year}. Washington has a new President, {state} has its usual problems, and {place} has saved you a seat.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "state", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline.college.loading-story-that-fall-came-college-a-lot-like-school-with-a-bill",
+      "move": "college",
+      "kind": "written",
+      "text": "That fall came college, which is a lot like school with a bill attached. Welcome to {college-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
     }
   ]
 }

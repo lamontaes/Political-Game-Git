@@ -81,6 +81,47 @@
           ]
         }
       ]
+    },
+    "loading-story": {
+      "surface": "journal",
+      "budgets": {
+        "*": 3
+      },
+      "sections": [
+        {
+          "name": "born",
+          "shapes": ["loading-born"]
+        },
+        {
+          "name": "school",
+          "shapes": ["loading-school"]
+        },
+        {
+          "name": "moved",
+          "shapes": ["loading-moved"]
+        },
+        {
+          "name": "arrested",
+          "shapes": ["loading-arrested"]
+        },
+        {
+          "name": "finished",
+          "shapes": ["loading-finished"]
+        },
+        {
+          "name": "college",
+          "shapes": ["loading-college"]
+        },
+        {
+          "name": "lost",
+          "shapes": ["loading-lost"]
+        },
+        {
+          "name": "now",
+          "shapes": ["loading-now"],
+          "required": true
+        }
+      ]
     }
   },
   "shapes": {
@@ -264,6 +305,30 @@
       "moves": ["heard", "verdict", "why?"],
       "needs": ["point-heard"],
       "pull": ["personality-v1:facet-calm"]
+    },
+    "loading-born": {
+      "moves": ["born"]
+    },
+    "loading-school": {
+      "moves": ["school"]
+    },
+    "loading-moved": {
+      "moves": ["moved"]
+    },
+    "loading-arrested": {
+      "moves": ["arrested"]
+    },
+    "loading-finished": {
+      "moves": ["finished"]
+    },
+    "loading-college": {
+      "moves": ["college"]
+    },
+    "loading-lost": {
+      "moves": ["lost"]
+    },
+    "loading-now": {
+      "moves": ["now"]
     }
   },
   "weights": {
