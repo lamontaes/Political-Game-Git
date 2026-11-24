@@ -787,7 +787,6 @@
     "whoIAm": "Who I am",
     "whatImLike": "What I'm like",
     "myPeople": "My people",
-    "myLife": "My life",
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
@@ -813,7 +812,9 @@
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
     "printedNothing": "Nothing from {name} yet.",
-    "followsNone": "You don't follow a paper or a station."
+    "followsNone": "You don't follow a paper or a station.",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   },
   "jobs": {
     "work": "Work",

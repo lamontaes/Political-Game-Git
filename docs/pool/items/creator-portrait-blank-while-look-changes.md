@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n16-9
-pr:
+pr: #10313
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N16-9)
+merged-at: 2026-11-24T05:08:17.146Z
 ---
 
 **What.** In the creator, picking a hair, head, top or color clears the portrait until the new look's pictures have all arrived, so the person flashes to an empty glow on every pick. Carried from the Nov 16 playtest as N16-9, "The portrait goes blank while the look changes".

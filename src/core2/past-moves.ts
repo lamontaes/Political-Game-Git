@@ -314,7 +314,7 @@ function moveRecords(
       },
     });
   }
-  return cameOnce(rows);
+  return cameOnce(core, rows);
 }
 
 /**
@@ -325,19 +325,46 @@ function moveRecords(
  * leaves them out, and their own later move is not written.
  */
 function cameOnce(
+  core: Readonly<CoreState>,
   rows: Omit<HistoryRecord, "moduleId">[],
 ): Omit<HistoryRecord, "moduleId">[] {
   const came = new Set<string>();
+  const arrivedOn = new Map(
+    rows.map((row) => [String(row.facts.personId), String(row.date)]),
+  );
+  // A child whose other parent was already living here the day they were
+  // born was born here: a later arrival of one parent does not bring them.
+  const bornHere = (childId: string, moverId: string): boolean => {
+    const child = core.people.get(childId as PersonId);
+    if (!child) return false;
+    return (child.pastFacts ?? []).some((fact) => {
+      if (!["family:parent", "family:other-parent"].includes(fact.kind))
+        return false;
+      const parent = core.people.get(fact.facts?.otherPersonId as PersonId);
+      if (!parent || parent.id === moverId || !parent.alive) return false;
+      if (parent.placeId !== child.placeId) return false;
+      const on =
+        arrivedOn.get(parent.id) ??
+        preStartHistory(core as CoreState, {
+          kind: PERSON_MOVED_IN,
+          personId: parent.id,
+        })[0]?.date;
+      // No arrival on record: they came before the run's window, or came as
+      // a child, or were always here.
+      return on === undefined || on < child.birthDate;
+    });
+  };
   const kept = new Set<Omit<HistoryRecord, "moduleId">>();
   for (const row of [...rows].sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   )) {
     const [mover, ...withThem] = row.personIds ?? [];
     if (mover === undefined || came.has(mover)) continue;
-    const children = withThem.filter((id) => !came.has(id));
+    const comes = (id: string) => !came.has(id) && !bornHere(id, mover);
+    const children = withThem.filter(comes);
     const childIds = String(row.facts?.childIds ?? "")
       .split(" ")
-      .filter((id) => id && !came.has(id));
+      .filter((id) => id && comes(id));
     for (const id of [mover, ...children, ...childIds]) came.add(id);
     row.personIds = [mover, ...children];
     if (row.facts?.childIds !== undefined) {

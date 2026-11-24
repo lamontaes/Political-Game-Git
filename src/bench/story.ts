@@ -253,7 +253,16 @@ export function storyScene(
     momentId,
     place: pictured,
     backdrop,
-    people: peopleHere(core, backdrop.file, cast).people,
+    // A call or a letter is between two people who are not in one room: the
+    // one who rings or writes is heard or read, never staged standing beside
+    // the player (owner, Nov 16, N16-44). They stay in `names` for their lines.
+    people: peopleHere(
+      core,
+      backdrop.file,
+      scene.setting.kind === "phone" || scene.setting.kind === "letter"
+        ? cast.filter((row) => row.id === personId)
+        : cast,
+    ).people,
     // One narrator: a scene with a purpose opens on its own narration, the
     // same voice that speaks between its lines; the situation's paragraph is
     // for a moment with no exchange (the plan of Oct 28, section 1: "Two

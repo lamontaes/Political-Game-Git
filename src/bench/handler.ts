@@ -74,7 +74,13 @@ import {
   resultMomentOf,
   stayedHomeLine,
 } from "./election-night";
-import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
+import {
+  followChoices,
+  followOutlet,
+  followsAnyOutlet,
+  homePapers,
+  wordOwnResult,
+} from "./archive-words";
 import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
@@ -2198,6 +2204,10 @@ const ROUTES: readonly Route[] = [
         kind: url.searchParams.get("kind") ?? "",
         outletId: url.searchParams.get("outletId") ?? undefined,
       });
+      // A doors outing stages its porch scene now, while the player is out
+      // (the director stages it at the day's close otherwise).
+      if (url.searchParams.get("kind") === "canvass")
+        state.director?.stageDoors(requireCore(), state.player.personId);
       // The outing's hours come off the same clock the packet reports.
       const spent = state.player.spend(day.hours);
       send(200, {
@@ -2413,7 +2423,22 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       send(200, {
         any: followsAnyOutlet(requireCore(), url.searchParams.get("id") ?? ""),
+        outlets: followChoices(requireCore(), url.searchParams.get("id") ?? ""),
       });
+    },
+  },
+  {
+    // The player follows an outlet or stops: News's Follow control.
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/news/follow",
+    run: async ({ url, send }) => {
+      const done = followOutlet(
+        requireCore(),
+        url.searchParams.get("id") ?? "",
+        url.searchParams.get("outlet") ?? "",
+        url.searchParams.get("on") === "1",
+      );
+      send(done ? 200 : 400, { done });
     },
   },
   {
