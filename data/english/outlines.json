@@ -606,7 +606,9 @@
     "news-roll-call": {
       "surface": "dialogue",
       "budgets": {
-        "*": 2
+        "*": 2,
+        "sponsor": 1,
+        "lone-voter": 1
       },
       "sections": [
         {
