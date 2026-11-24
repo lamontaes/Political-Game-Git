@@ -18,12 +18,16 @@
     {
       "name": "no comparison",
       "pulledBy": "a first of its kind",
-      "writes": "the item says no state has done it"
+      "writes": "the item says no state has done it",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a comparison that cuts against",
       "pulledBy": "a state that repealed it",
-      "writes": "the item says it was ended elsewhere"
+      "writes": "the item says it was ended elsewhere",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

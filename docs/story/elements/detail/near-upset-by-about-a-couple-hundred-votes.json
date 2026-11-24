@@ -18,12 +18,16 @@
     {
       "name": "the challenger wins",
       "pulledBy": "a swing of a few hundred",
-      "writes": "the story says the incumbent lost by that few"
+      "writes": "the story says the incumbent lost by that few",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a wide win",
       "pulledBy": "a large margin",
-      "writes": "the story gives the margin and no drama"
+      "writes": "the story gives the margin and no drama",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

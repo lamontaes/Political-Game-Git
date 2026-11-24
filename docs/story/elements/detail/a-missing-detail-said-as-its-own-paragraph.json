@@ -18,12 +18,16 @@
     {
       "name": "date known",
       "pulledBy": "a dated letter",
-      "writes": "the story gives it in the lede"
+      "writes": "the story gives it in the lede",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "date disputed",
       "pulledBy": "two members who disagree",
-      "writes": "the story gives both"
+      "writes": "the story gives both",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

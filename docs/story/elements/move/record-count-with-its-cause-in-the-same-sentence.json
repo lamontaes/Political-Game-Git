@@ -19,12 +19,16 @@
     {
       "name": "a drop with its cause",
       "pulledBy": "a rule that got stricter",
-      "writes": "the sentence says the count fell and the rule"
+      "writes": "the sentence says the count fell and the rule",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "a record with no cause named",
       "pulledBy": "an unexplained rise",
-      "writes": "the sentence says it is not yet known why"
+      "writes": "the sentence says it is not yet known why",
+      "requiresFacts": ["up"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

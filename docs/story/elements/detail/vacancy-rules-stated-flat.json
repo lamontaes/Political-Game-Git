@@ -18,12 +18,16 @@
     {
       "name": "a special election instead",
       "pulledBy": "a charter that requires a vote",
-      "writes": "the story says voters decide"
+      "writes": "the story says voters decide",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a different rule by body",
       "pulledBy": "a county board with its own rule",
-      "writes": "the story gives that body's rule"
+      "writes": "the story gives that body's rule",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "the chair blames turnout",
       "pulledBy": "a low turnout",
-      "writes": "the quote is about apathy"
+      "writes": "the quote is about apathy",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the chair says it was a win",
       "pulledBy": "a closer margin than before",
-      "writes": "the quote counts the gain"
+      "writes": "the quote counts the gain",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

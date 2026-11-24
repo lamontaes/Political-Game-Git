@@ -18,12 +18,16 @@
     {
       "name": "final results",
       "pulledBy": "a certified count",
-      "writes": "the hedges are dropped"
+      "writes": "the hedges are dropped",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "results changed",
       "pulledBy": "a late count that moved a race",
-      "writes": "the story corrects the earlier figure"
+      "writes": "the story corrects the earlier figure",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

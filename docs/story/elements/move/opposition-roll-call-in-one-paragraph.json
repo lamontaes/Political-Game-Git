@@ -18,12 +18,16 @@
     {
       "name": "no opposition",
       "pulledBy": "a project nobody opposes",
-      "writes": "the story says no one objected"
+      "writes": "the story says no one objected",
+      "requiresFacts": ["nobody"],
+      "excludesFacts": []
     },
     {
       "name": "support listed",
       "pulledBy": "a project with allies",
-      "writes": "the paragraph lists who backs it"
+      "writes": "the paragraph lists who backs it",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

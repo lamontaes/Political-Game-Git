@@ -18,12 +18,16 @@
     {
       "name": "all paraphrase",
       "pulledBy": "speakers who gave no quotes",
-      "writes": "the story relays what they said"
+      "writes": "the story relays what they said",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "quotes only",
       "pulledBy": "a loud event",
-      "writes": "the quotes run with no tags"
+      "writes": "the quotes run with no tags",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

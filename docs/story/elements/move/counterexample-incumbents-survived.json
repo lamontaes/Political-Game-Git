@@ -18,12 +18,16 @@
     {
       "name": "no counterexample",
       "pulledBy": "a clean pattern",
-      "writes": "the story states the pattern plainly"
+      "writes": "the story states the pattern plainly",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the pattern reversed",
       "pulledBy": "incumbents mostly surviving",
-      "writes": "the story leads with survival"
+      "writes": "the story leads with survival",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "opposition speaks at the vote",
       "pulledBy": "an open debate",
-      "writes": "the story quotes the floor debate"
+      "writes": "the story quotes the floor debate",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no criticism",
       "pulledBy": "a unanimous pick",
-      "writes": "the story ends on the appointee"
+      "writes": "the story ends on the appointee",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

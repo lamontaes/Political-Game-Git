@@ -18,12 +18,16 @@
     {
       "name": "a small turnout",
       "pulledBy": "a poor night",
-      "writes": "the lede says how few came"
+      "writes": "the lede says how few came",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on the decision",
       "pulledBy": "an official ruling soon",
-      "writes": "the lede names who decides and when"
+      "writes": "the lede names who decides and when",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

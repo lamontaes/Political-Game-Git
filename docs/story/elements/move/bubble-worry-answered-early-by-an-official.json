@@ -18,12 +18,16 @@
     {
       "name": "the official says it is a bubble",
       "pulledBy": "a town with speculative buying",
-      "writes": "the quote warns of a correction"
+      "writes": "the quote warns of a correction",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no one addresses it",
       "pulledBy": "a town with steady demand",
-      "writes": "the story does not raise the question"
+      "writes": "the story does not raise the question",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

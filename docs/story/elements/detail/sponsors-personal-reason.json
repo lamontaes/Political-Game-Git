@@ -18,12 +18,16 @@
     {
       "name": "a sponsor who gives no reason",
       "pulledBy": "a sponsor who declined",
-      "writes": "the item says the sponsor did not comment"
+      "writes": "the item says the sponsor did not comment",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "an opponent's reason",
       "pulledBy": "an opponent with a story of their own",
-      "writes": "the item quotes the opponent"
+      "writes": "the item quotes the opponent",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
