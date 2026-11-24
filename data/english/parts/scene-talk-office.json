@@ -3149,20 +3149,30 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.close-thank.thanks-for-making-time-before-deadline-i-wanted-you-to-hear-from-the-person-who-brought-you-the-bill",
-      "move": "close-thank",
+      "key": "scene-talk-office.follow-thank.then-i-ll-tell-the-members-you-re-leaning-yes-and-leave-it-at-that",
+      "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks for making time before {deadline}. I wanted you to hear from the person who brought you the bill.",
+      "text": "Then I'll tell the members you're leaning yes and leave it at that.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "thank",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "outcome": "resolved",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "after": "scene-talk.reply-agree.i-m-leaning-toward-signing-bill-but-i-m-not-there-yet",
+          "requiresFacts": ["for", "bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-signing-it",
+          "requiresFacts": ["for", "bill"]
         }
       ],
       "origin": "authored",
@@ -3179,20 +3189,30 @@
       ]
     },
     {
-      "key": "scene-talk-office.close-thank.you-could-have-let-me-wait-until-deadline-to-hear-from-you-i-appreciate-the-conversation",
-      "move": "close-thank",
+      "key": "scene-talk-office.follow-thank.thanks-if-anyone-asks-me-about-bill-i-ll-say-you-still-have-it-under-consideration",
+      "move": "follow-thank",
       "kind": "spoken",
-      "text": "You could have let me wait until {deadline} to hear from you. I appreciate the conversation.",
+      "text": "Thanks. If anyone asks me about {bill}, I'll say you still have it under consideration.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "thank",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "outcome": "resolved",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "after": "scene-talk.reply-agree.i-m-leaning-toward-signing-bill-but-i-m-not-there-yet",
+          "requiresFacts": ["for", "bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-signing-it",
+          "requiresFacts": ["for", "bill"]
         }
       ],
       "origin": "authored",
@@ -3209,27 +3229,37 @@
       ]
     },
     {
-      "key": "scene-talk-office.close-promise.if-anyone-asks-me-about-deadline-i-ll-tell-them-where-things-stood-when-we-spoke",
-      "move": "close-promise",
+      "key": "scene-talk-office.follow-thank.i-appreciate-the-straight-answer-nobody-s-going-to-hear-from-me-that-you-ve-signed-it",
+      "move": "follow-thank",
       "kind": "spoken",
-      "text": "If anyone asks me about {deadline}, I'll tell them where things stood when we spoke.",
+      "text": "I appreciate the straight answer. Nobody's going to hear from me that you've signed it.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
-          "move": "promise",
+          "step": "follow",
+          "move": "thank",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "outcome": "resolved",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "after": "scene-talk.reply-agree.i-m-leaning-toward-signing-bill-but-i-m-not-there-yet",
+          "requiresFacts": ["for", "bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-signing-it",
+          "requiresFacts": ["for", "bill"]
         }
       ],
       "origin": "authored",
       "author": "Codex writer A",
       "date": "2026-11-24",
       "tag": {
-        "move": "promise",
+        "move": "thank",
         "key": "desk-visit"
       },
       "bearing": "calm",
@@ -3239,27 +3269,37 @@
       ]
     },
     {
-      "key": "scene-talk-office.close-promise.i-ll-check-the-bill-record-before-i-tell-anybody-what-happened-by-deadline",
-      "move": "close-promise",
+      "key": "scene-talk-office.follow-thank.that-s-enough-for-me-to-take-back-today-if-the-members-want-a-definite-answer-they-ll-have-to-wait",
+      "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll check the bill record before I tell anybody what happened by {deadline}.",
+      "text": "That's enough for me to take back today. If the members want a definite answer, they'll have to wait.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
-          "move": "promise",
+          "step": "follow",
+          "move": "thank",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "outcome": "resolved",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "after": "scene-talk.reply-agree.i-m-leaning-toward-signing-bill-but-i-m-not-there-yet",
+          "requiresFacts": ["for", "bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-signing-it",
+          "requiresFacts": ["for", "bill"]
         }
       ],
       "origin": "authored",
       "author": "Codex writer A",
       "date": "2026-11-24",
       "tag": {
-        "move": "promise",
+        "move": "thank",
         "key": "desk-visit"
       },
       "bearing": "guarded",

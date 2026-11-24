@@ -5,4 +5,4 @@ section: Changed
 title: Bill sponsors can take the executive’s answer back to the members.
 ---
 
-After a desk visit, the sponsor can explain what they will tell the members who cast the vote or thank the executive for hearing their case before the deadline.
+After a vote, the sponsor can thank the executive for the hearing or say what they will tell their colleagues. If the executive is still leaning toward a signature, the sponsor can tell the members the bill is pending.
