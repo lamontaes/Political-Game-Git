@@ -3214,24 +3214,6 @@
       "elements": ["tally-sits-mid-story"]
     },
     {
-      "key": "outline-news.lede.news-roll-call-law-got-a-count-vote-in-the-body-on-date-enough-to-pass",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {law} got a {count} vote in the {body} on {date}, enough to pass.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["council-vote-story", "lede-names-the-body-that-acted"]
-    },
-    {
       "key": "outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-against-law",
       "move": "lede",
       "kind": "written",
