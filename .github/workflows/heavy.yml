@@ -18,6 +18,7 @@ on:
   schedule:
     - cron: "41 4 * * *"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: [main]
     paths-ignore:
       # Story element and owner-idea files are research rows no client reads;
@@ -40,7 +41,7 @@ concurrency:
 jobs:
   full-suite:
     name: full suite ${{ matrix.shard }} of 12
-    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 240
     strategy:
@@ -71,7 +72,7 @@ jobs:
 
   calibration:
     name: calibration lane
-    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 240
     steps:
@@ -89,7 +90,7 @@ jobs:
   slowest:
     name: slowest test files
     needs: full-suite
-    if: always() && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/'))
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (always() && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/'))) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
