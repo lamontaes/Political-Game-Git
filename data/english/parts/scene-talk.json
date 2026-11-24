@@ -91754,6 +91754,543 @@
       ]
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-been-to-the-office-twice-already-and-is-back-with-a-question-about-wher",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} has been to the office twice already and is back with a question about where to start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-at-the-edge-of-the-room-while-the-others-get-their-lists-nobody-has-h",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} waits at the edge of the room while the others get their lists. Nobody has handed them one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-signed-up-before-and-never-got-a-job-give-me-a-street-for-office-and-i-ll-take",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I signed up before and never got a job. Give me a street for {office} and I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "asked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-showed-up-and-stood-around-last-time-this-time-tell-me-where-to-go-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I showed up and stood around last time. This time tell me where to go for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "helped-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-can-do-evenings-i-d-rather-have-a-street-and-a-list-than-a-vague-thank-you-for",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can do evenings. I'd rather have a street and a list than a vague thank-you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.whatever-s-open-for-office-i-ll-take-it-a-street-a-phone-list-a-table-at-the-mar",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Whatever's open for {office}, I'll take it: a street, a phone list, a table at the market.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-to-be-one-of-the-first-on-office-before-it-s-a-crowd-what-do-you-need",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like to be one of the first on {office}, before it's a crowd. What do you need?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "organizer-names-the-original-volunteers",
+        "volunteer-comes-in-out-of-character"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-ll-be-on-your-side-from-the-start-of-office-so-give-me-a-job-that-counts",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll be on your side from the start of {office}, so give me a job that counts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "tie-friend"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "organizer-names-the-original-volunteers",
+        "volunteer-comes-in-out-of-character"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-take-the-east-side-first-i-ll-get-you-a-list-and-a-pen-for-office-tomorrow",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You take the east side first. I'll get you a list and a pen for {office} tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.phones-first-then-doors-on-the-weekend-that-s-your-start-on-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Phones first, then doors on the weekend. That's your start on {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.be-at-my-place-when-it-s-quiet-and-i-ll-hand-you-everything-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Be at my place when it's quiet and I'll hand you everything for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "organizer-names-the-original-volunteers",
+        "volunteer-comes-in-out-of-character"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-haven-t-sorted-who-does-what-for-office-yet-give-me-until-the-end-of-the-week",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I haven't sorted who does what for {office} yet. Give me until the end of the week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-have-a-job-for-you-on-office-right-now-and-i-d-rather-say-so-than-leave",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't have a job for you on {office} right now, and I'd rather say so than leave you waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ll-be-ready-the-first-street-for-office-is-mine",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll be ready. The first street for {office} is mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "relent"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-wanted-a-place-to-start-on-office-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I wanted, a place to start on {office}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "relent"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "organizer-names-the-original-volunteers",
+        "volunteer-comes-in-out-of-character"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.a-small-job-today-beats-a-big-one-next-month-for-office-can-you-give-me-one",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A small job today beats a big one next month for {office}. Can you give me one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-wait-call-me-when-office-has-something",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right, I'll wait. Call me when {office} has something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-meets-you-at-the-door-of-the-party-meeting-and-shakes-your-hand",
       "move": "narrate-narrate",
       "kind": "written",
@@ -92773,6 +93310,123 @@
       "elements": [
         "campaign-manager-is-someone-close",
         "campaign-manager-takes-it-personally"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.you-wouldn-t-have-to-start-from-nothing-for-office-i-d-sit-with-you-and-build-th",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You wouldn't have to start from nothing for {office}. I'd sit with you and build the list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "organizer-names-the-original-volunteers",
+        "volunteer-comes-in-out-of-character"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.somebody-has-to-give-the-others-their-jobs-on-office-let-it-be-me-and-let-it-be",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Somebody has to give the others their jobs on {office}. Let it be me and let it be early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.then-you-give-out-the-jobs-on-office-and-you-tell-me-when-one-is-missing",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then you give out the jobs on {office}, and you tell me when one is missing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-give-everyone-who-offers-a-street-and-a-day-so-nobody-waits-around-on-offic",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll give everyone who offers a street and a day, so nobody waits around on {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "volunteer-waits-for-a-field-assignment",
+        "volunteers-need-a-specific-ask"
       ]
     },
     {
