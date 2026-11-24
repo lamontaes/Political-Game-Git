@@ -648,6 +648,13 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://msa.maryland.gov/megafile/msa/speccol/sc2900/sc2908/000001/000166/html/am166--388.html",
+        "note": "Md. Const. art. IV, sec. 44, as printed in the Maryland Manual 1955-56: \"There shall be elected in each county and in Baltimore City in the year 1946 and in every fourth year thereafter, one person... to the office of Sheriff\"; \"He shall hold office for four years\". A current printing was not read.",
+        "termYears": 4
       }
     },
     "ME": {
@@ -656,6 +663,13 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://legislature.maine.gov/statutes/30-A/title30-Asec151.html",
+        "note": "30-A M.R.S. sec. 151: \"Except as provided in section 156, the voters of each county shall elect a county treasurer\", who \"shall hold office for 4 years\". Section 156 (an appointed treasurer) was not read.",
+        "termYears": 4
       }
     },
     "MI": {
@@ -933,13 +947,31 @@
     "NH": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
       }
     },
     "NJ": {
@@ -1277,6 +1309,28 @@
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "basis": "read",
         "elected": true
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
       }
     },
     "SD": {
