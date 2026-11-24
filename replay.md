@@ -122,3 +122,5 @@ Grade words: pass / fail (no open PR claims it) / open, fix in #N (not merged) /
 | N16-49, N16-50, C19 | **open, waiting on art** (#10336, #10311) | |
 | N16-21 | **Story's (words)** | Quorum's "Here" text. |
 | Bills list scroller | **fail, with Box and scroll** | Overflow auto with the fourth bill cut off. |
+| N8-P21 | "File for it" after filing (#9856) | main d679d71c | Pillsbury ND, 830250bf | **not reached** (dev mode's run-until-may-file opened the window on Mar 30; pressing File for it left the button in place and put a badge on the talk icon; the filing visit was not played to its end) | replay-m3e-may-file.png, replay-m3e-after-file.png | Elections lists Council member and Mayor with "File for it"; after the press nothing on the sheet changed. |
+| N8-C20 | a state income tax shown at 43.99% | main d679d71c | same | **not reached** (Issues shows "Adopt income tax: In force, state law, since January 1, 1926"; no state tax rate figure on Issues or Metrics in North Dakota) | replay-m3e-incometax.png | No percentage shown on either screen. |
