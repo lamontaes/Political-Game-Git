@@ -18,13 +18,13 @@
       "turn": "the-board-defers-the-vote",
       "what": "The board defers the vote.",
       "pulledBy": "The county recommendation is ambiguous.",
-      "writesBack": "Staff must obtain clarification before returning the case.."
+      "writesBack": "Staff must obtain clarification before returning the case."
     },
     {
       "turn": "the-clerk-enters-the-response",
       "what": "The clerk enters the response.",
       "pulledBy": "The county explains which name it wants retained.",
-      "writesBack": "The chair can put the matter back on the docket.."
+      "writesBack": "The chair can put the matter back on the docket."
     }
   ]
 }

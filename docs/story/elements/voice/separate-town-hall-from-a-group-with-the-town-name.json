@@ -18,13 +18,13 @@
       "turn": "the-clerk-identifies-its-signers",
       "what": "The clerk identifies its signers.",
       "pulledBy": "The letter comes from a residents’ group.",
-      "writesBack": "The record attributes the objection to that group.."
+      "writesBack": "The record attributes the objection to that group."
     },
     {
       "turn": "the-clerk-attaches-the-vote",
       "what": "The clerk attaches the vote.",
       "pulledBy": "The select board adopts its own position.",
-      "writesBack": "The file now has an official town recommendation.."
+      "writesBack": "The file now has an official town recommendation."
     }
   ]
 }

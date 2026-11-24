@@ -18,13 +18,13 @@
       "turn": "the-editor-substitutes-a-general-description",
       "what": "The editor substitutes a general description.",
       "pulledBy": "Staff approves removing the personal name.",
-      "writesBack": "The decision remains publicly traceable.."
+      "writesBack": "The decision remains publicly traceable."
     },
     {
       "turn": "the-clerk-explains-which-material-stays-public",
       "what": "The clerk explains which material stays public.",
       "pulledBy": "The applicant seeks removal of the entire proposal.",
-      "writesBack": "The published proposal remains on the list.."
+      "writesBack": "The published proposal remains on the list."
     }
   ]
 }

@@ -18,13 +18,13 @@
       "turn": "the-clerk-asks-about-this-particular-case",
       "what": "The clerk asks about this particular case.",
       "pulledBy": "An objection identifies another waterway.",
-      "writesBack": "The earlier objection remains attached to its own proposal.."
+      "writesBack": "The earlier objection remains attached to its own proposal."
     },
     {
       "turn": "the-clerk-adds-the-response",
       "what": "The clerk adds the response.",
       "pulledBy": "The officer answers about this waterway.",
-      "writesBack": "The committee has a position specific to this docket.."
+      "writesBack": "The committee has a position specific to this docket."
     }
   ]
 }

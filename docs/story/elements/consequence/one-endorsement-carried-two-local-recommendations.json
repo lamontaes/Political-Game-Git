@@ -18,13 +18,13 @@
       "turn": "the-clerk-sends-the-correction-to-the-county",
       "what": "The clerk sends the correction to the county.",
       "pulledBy": "The county cites the sponsor as its reason.",
-      "writesBack": "The county recommendation is flagged for a reply.."
+      "writesBack": "The county recommendation is flagged for a reply."
     },
     {
       "turn": "the-clerk-adds-its-letter",
       "what": "The clerk adds its letter.",
       "pulledBy": "The township confirms its own reasons.",
-      "writesBack": "The township position can stand independently.."
+      "writesBack": "The township position can stand independently."
     }
   ]
 }

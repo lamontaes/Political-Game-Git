@@ -2,7 +2,7 @@
   "id": "two-creek-names-can-both-lose",
   "kind": "consequence",
   "summary": "A board considering rival names for the same stream can close the case without choosing either.",
-  "realLife": "Members withdrew a motion favoring Newcosta Creek after comparing Michigan municipalities’ positions and then voted against both Newcosta and Chitch.",
+  "realLife": "Members discussed local recommendations for Chitch Creek and Newcosta Creek. A motion favoring Newcosta was withdrawn before a vote, and the committee then rejected both names.",
   "sources": [
     "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=8"
   ],
@@ -18,13 +18,13 @@
       "turn": "the-board-votes-on-rejecting-both",
       "what": "The board votes on rejecting both.",
       "pulledBy": "Neither proposal has sufficient backing.",
-      "writesBack": "The decision approves no name for the stream.."
+      "writesBack": "The decision approves no name for the stream."
     },
     {
       "turn": "the-chair-reopens-discussion",
       "what": "The chair reopens discussion.",
       "pulledBy": "One municipality clarifies its preference before the vote.",
-      "writesBack": "The clarification joins the record before action.."
+      "writesBack": "The clarification joins the record before action."
     }
   ]
 }

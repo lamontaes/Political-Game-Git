@@ -18,13 +18,13 @@
       "turn": "the-chair-calls-for-the-substantive-motion",
       "what": "The chair calls for the substantive motion.",
       "pulledBy": "Only reconsideration has passed.",
-      "writesBack": "The existing name remains in force.."
+      "writesBack": "The existing name remains in force."
     },
     {
       "turn": "the-clerk-enters-the-restored-name",
       "what": "The clerk enters the restored name.",
       "pulledBy": "The restoration motion passes.",
-      "writesBack": "The decision carries an effective outcome.."
+      "writesBack": "The minutes identify the restored name and the vote that authorized it."
     }
   ]
 }

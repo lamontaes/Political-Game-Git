@@ -18,13 +18,13 @@
       "turn": "the-applicant-withdraws-the-competing-proposal",
       "what": "The applicant withdraws the competing proposal.",
       "pulledBy": "Residents supply an established local name.",
-      "writesBack": "The docket closes without adopting the proposed name.."
+      "writesBack": "The docket closes without adopting the proposed name."
     },
     {
       "turn": "staff-requests-independent-examples",
       "what": "Staff requests independent examples.",
       "pulledBy": "Residents disagree over local usage.",
-      "writesBack": "The file retains competing accounts.."
+      "writesBack": "The file retains competing accounts."
     }
   ]
 }

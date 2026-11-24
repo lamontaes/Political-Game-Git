@@ -18,13 +18,13 @@
       "turn": "the-clerk-marks-the-feature-on-the-map",
       "what": "The clerk marks the feature on the map.",
       "pulledBy": "The proposal concerns a natural feature.",
-      "writesBack": "The park name falls outside the motion.."
+      "writesBack": "The park name falls outside the motion."
     },
     {
       "turn": "the-director-directs-them-to-the-park-authority",
       "what": "The director directs them to the park authority.",
       "pulledBy": "Residents want the park renamed as well.",
-      "writesBack": "A separate local request can be filed.."
+      "writesBack": "A separate local request can be filed."
     }
   ]
 }

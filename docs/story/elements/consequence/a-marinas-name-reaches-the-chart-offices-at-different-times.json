@@ -2,9 +2,12 @@
   "id": "a-marinas-name-reaches-the-chart-offices-at-different-times",
   "kind": "consequence",
   "summary": "A marina’s local name reaches one federal listing while other agencies still use the old channel name.",
-  "realLife": "The Coast Guard had already adopted Deering Bay Channel while NOAA and the federal names database still carried Cutler Channel. The committee approved the change.",
+  "realLife": "The Coast Guard used Deering Bay Channel while NOAA charts still labeled the channel Cutler. After the vote the Florida register listed Deering Bay Channel as official, and the national names file retained Cutler Channel as a variant under feature 1989332.",
   "sources": [
-    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=9"
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=9",
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=40",
+    "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_FL_Text.zip",
+    "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/Topical/AllNames_National_Text.zip"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{marina}", "{channel}"],
@@ -18,13 +21,13 @@
       "turn": "the-clerk-documents-both-usages",
       "what": "The clerk documents both usages.",
       "pulledBy": "Two federal listings disagree.",
-      "writesBack": "The board has a specific discrepancy to resolve.."
+      "writesBack": "The board has a specific discrepancy to resolve."
     },
     {
       "turn": "the-registrar-records-the-decision",
       "what": "The registrar records the decision.",
       "pulledBy": "The committee approves the locally used name.",
-      "writesBack": "The chart office has an official change to consult.."
+      "writesBack": "The chart office has an official change to consult."
     }
   ]
 }

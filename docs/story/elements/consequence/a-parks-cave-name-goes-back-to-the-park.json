@@ -18,13 +18,13 @@
       "turn": "the-clerk-closes-its-file",
       "what": "The clerk closes its file.",
       "pulledBy": "The federal proposal is withdrawn.",
-      "writesBack": "The park can continue its own review.."
+      "writesBack": "The park can continue its own review."
     },
     {
       "turn": "the-park-director-records-that-local-decision",
       "what": "The park director records that local decision.",
       "pulledBy": "The park settles on another name.",
-      "writesBack": "The park has a name it can use on its own materials.."
+      "writesBack": "The park has a name it can use on its own materials."
     }
   ]
 }

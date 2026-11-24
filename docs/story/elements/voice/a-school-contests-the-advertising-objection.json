@@ -18,13 +18,13 @@
       "turn": "the-applicant-adds-the-letter",
       "what": "The applicant adds the letter.",
       "pulledBy": "The state committee sends a new recommendation.",
-      "writesBack": "The reconsideration request has new evidence.."
+      "writesBack": "The reconsideration request has new evidence."
     },
     {
       "turn": "the-clerk-records-the-advocate-s-objection",
       "what": "The clerk records the advocate’s objection.",
       "pulledBy": "The state position stays neutral.",
-      "writesBack": "The earlier rejection still stands.."
+      "writesBack": "The earlier rejection still stands."
     }
   ]
 }

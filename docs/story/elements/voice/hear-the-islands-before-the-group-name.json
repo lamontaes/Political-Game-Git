@@ -18,13 +18,13 @@
       "turn": "the-chair-calls-the-individual-names",
       "what": "The chair calls the individual names.",
       "pulledBy": "Enough members are present today.",
-      "writesBack": "The group name stays pending after their vote.."
+      "writesBack": "The group name stays pending after their vote."
     },
     {
       "turn": "the-clerk-carries-the-items-forward",
       "what": "The clerk carries the items forward.",
       "pulledBy": "The meeting lacks enough members.",
-      "writesBack": "The names await a meeting that can act.."
+      "writesBack": "The names await a meeting that can act."
     }
   ]
 }

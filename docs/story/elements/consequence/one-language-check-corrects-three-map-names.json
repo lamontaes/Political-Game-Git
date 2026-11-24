@@ -18,13 +18,13 @@
       "turn": "the-registrar-updates-the-approved-entries",
       "what": "The registrar updates the approved entries.",
       "pulledBy": "The specialist verifies all the forms.",
-      "writesBack": "The map index can use the verified spellings.."
+      "writesBack": "The map index can use the verified spellings."
     },
     {
       "turn": "the-reviewer-separates-that-entry",
       "what": "The reviewer separates that entry.",
       "pulledBy": "One translation remains uncertain.",
-      "writesBack": "The uncertain form stays open for further evidence.."
+      "writesBack": "The uncertain form stays open for further evidence."
     }
   ]
 }

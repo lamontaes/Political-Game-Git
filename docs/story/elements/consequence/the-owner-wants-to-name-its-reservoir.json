@@ -18,13 +18,13 @@
       "turn": "the-clerk-closes-the-withdrawn-case",
       "what": "The clerk closes the withdrawn case.",
       "pulledBy": "The owner only expresses interest.",
-      "writesBack": "The docket contains no replacement proposal.."
+      "writesBack": "The docket contains no replacement proposal."
     },
     {
       "turn": "staff-opens-a-separate-case",
       "what": "Staff opens a separate case.",
       "pulledBy": "The owner submits a complete alternative.",
-      "writesBack": "The new name receives its own review.."
+      "writesBack": "The new name receives its own review."
     }
   ]
 }

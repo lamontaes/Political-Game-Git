@@ -18,13 +18,13 @@
       "turn": "staff-explains-the-eligibility-rule",
       "what": "Staff explains the eligibility rule.",
       "pulledBy": "The member objects only to length.",
-      "writesBack": "The creek stays under consideration.."
+      "writesBack": "The creek stays under consideration."
     },
     {
       "turn": "the-member-asks-which-one-is-meant",
       "what": "The member asks which one is meant.",
       "pulledBy": "The map shows two disconnected channels.",
-      "writesBack": "The application needs a clearer description.."
+      "writesBack": "The application needs a clearer description."
     }
   ]
 }

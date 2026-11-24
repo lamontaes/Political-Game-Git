@@ -18,13 +18,13 @@
       "turn": "a-staff-member-attaches-their-vote",
       "what": "A staff member attaches their vote.",
       "pulledBy": "The directors confirm the endorsement.",
-      "writesBack": "The endorsement stays in the file.."
+      "writesBack": "The endorsement stays in the file."
     },
     {
       "turn": "the-sponsor-asks-for-reconsideration",
       "what": "The sponsor asks for reconsideration.",
       "pulledBy": "The directors disavow the endorsement.",
-      "writesBack": "The file records a disputed endorsement.."
+      "writesBack": "The file records a disputed endorsement."
     }
   ]
 }

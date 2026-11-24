@@ -19,13 +19,13 @@
       "turn": "the-chair-delays-a-decision",
       "what": "The chair delays a decision.",
       "pulledBy": "Members cannot explain the state recommendation.",
-      "writesBack": "The creek returns to staff for clarification.."
+      "writesBack": "The creek returns to staff for clarification."
     },
     {
       "turn": "the-clerk-records-the-rejection",
       "what": "The clerk records the rejection.",
       "pulledBy": "Members vote to follow the state recommendation.",
-      "writesBack": "The proposal leaves the pending list.."
+      "writesBack": "The proposal leaves the pending list."
     }
   ]
 }
