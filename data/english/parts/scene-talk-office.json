@@ -8,7 +8,12 @@
     "cut": "The amount taken from the adopted budget line.",
     "line": "The service named on the budget line.",
     "post": "The department head’s recorded post.",
-    "percent": "The percentage cut from that line."
+    "percent": "The percentage cut from that line.",
+    "remaining-funds": "The recorded appropriation after the amendment.",
+    "original-percent": "The percentage removed by the original cut.",
+    "still-needed": "The amount still missing from the original appropriation.",
+    "original-cut": "The amount removed by the original amendment.",
+    "restored-amount": "The amount later put back into the account."
   },
   "maxWords": 70,
   "parts": [
@@ -7420,7 +7425,7 @@
       "key": "scene-talk-office.state-deliver-news.the-road-line-lost-cut-give-me-a-chance-to-price-the-work-under-the-pavement-before-you-call-that-a-saving",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "The road line lost {cut}. Give me a chance to price the work under the pavement before you call that a saving.",
+      "text": "The road line lost {cut}. Give me a chance to price the work under the asphalt before you call that a saving.",
       "uses": [
         {
           "subject": "scene",
@@ -7622,7 +7627,7 @@
       "key": "scene-talk-office.state-deliver-news.would-it-help-if-i-put-a-road-cross-section-beside-the-request-for-still-needed-you-could-see-which-costs-run-below-the-pavement",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Would it help if I put a road cross section beside the request for {still-needed}? You could see which costs run below the pavement.",
+      "text": "Would it help if I put a road cross section beside the request for {still-needed}? You could see which costs run below the road surface.",
       "uses": [
         {
           "subject": "scene",
@@ -7776,7 +7781,7 @@
       "key": "scene-talk-office.follow-answer.i-d-start-with-a-cross-section-you-can-see-the-pavement-from-your-car-you-can-t-see-what-holds-it-up",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd start with a cross section. You can see the pavement from your car. You can't see what holds it up.",
+      "text": "I'd start with a cross section. You can see the asphalt from your car. You can't see what holds it up.",
       "uses": [
         {
           "subject": "scene",
@@ -10887,7 +10892,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-move-to-put-half-of-it-back-give-me-the-first-piece-of-work-you-d-spend-that-on",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll move to put half of it back. Give me the first piece of work you'd spend that on.",
+      "text": "I'll move to put half of it back. Which job would you fund first?",
       "uses": [
         {
           "subject": "scene",
@@ -11601,7 +11606,7 @@
       "key": "scene-talk-office.follow-accept.i-ll-see-whether-there-s-a-piece-a-contractor-could-finish-for-that-amount-half-a-budget-doesn-t-always-buy-half-a-job",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll see whether there's a piece a contractor could finish for that amount. Half a budget doesn't always buy half a job.",
+      "text": "I'll see whether there's a stretch a contractor could finish for that amount. Half a budget doesn't always buy half a job.",
       "uses": [
         {
           "subject": "scene",
