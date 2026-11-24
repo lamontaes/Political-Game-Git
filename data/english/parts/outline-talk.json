@@ -3379,69 +3379,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-where-about-is-concerned-president-is-for-it",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "Where {about} is concerned, {president} is for it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-us-to-say-yes-to-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants us to say yes to {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-on-about-president-is-on-the-yes-side",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "On {about}, {president} is on the yes side.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-is-firmly-against-about",
       "move": "lead",
       "kind": "spoken",
@@ -3456,69 +3393,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-where-about-is-concerned-president-is-against-it",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "Where {about} is concerned, {president} is against it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-on-about-president-is-on-the-no-side",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "On {about}, {president} is on the no side.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-us-to-say-no-to-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants us to say no to {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
@@ -3562,30 +3436,6 @@
         }
       ],
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-on-about-president-wants-things-left-as-they-are",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "On {about}, {president} wants things left as they are.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
@@ -3642,57 +3492,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-where-about-is-concerned-president-wants-it-ended",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "Where {about} is concerned, {president} wants it ended.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-on-about-president-wants-a-change",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "On {about}, {president} wants a change.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-wants-to-protect-about",
       "move": "lead",
       "kind": "spoken",
@@ -3739,81 +3538,6 @@
         "personality-v1:facet-practical",
         "personality-v1:facet-assertive"
       ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-spoke-up-to-defend-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} spoke up to defend {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-no-changes-to-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants no changes to {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-guarded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-said-to-leave-about-as-is",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} said to leave {about} as is.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
@@ -3873,30 +3597,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-the-word-on-about-from-president-was-to-keep-it",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "The word on {about} from {president} was to keep it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-backing-about",
       "move": "lead",
       "kind": "spoken",
@@ -3948,30 +3648,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-spoke-up-to-end-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} spoke up to end {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-about",
       "move": "lead",
       "kind": "spoken",
@@ -3999,108 +3675,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-plans-to-take-apart-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} plans to take apart {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-change-about-for-good",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants to change {about} for good.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-is-campaigning-to-end-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} is campaigning to end {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-the-word-on-about-from-president-was-to-end-it",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "The word on {about} from {president} was to end it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-about",
       "move": "lead",
       "kind": "spoken",
@@ -4122,6 +3696,356 @@
       "lean": [
         "personality-v1:facet-argumentative",
         "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-backs-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} backs {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-spoke-in-favor-of-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} spoke in favor of {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-argued-for-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} argued for {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-made-the-case-for-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} made the case for {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-wants-about-and-made-that-clear",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} wants {about}, and made that clear.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-argued-against-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} argued against {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-spoke-against-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} spoke against {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-studious"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-turned-down-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} turned down {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-doesn-t-want-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} doesn't want {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-made-the-case-against-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} made the case against {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-rejected-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} rejected {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-keep-about-in-place",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} wants to keep {about} in place.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-for",
+            "law-in-force"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-argued-to-keep-about-as-the-law",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} argued to keep {about} as the law.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-for",
+            "law-in-force"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-argued-to-end-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} argued to end {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-against",
+            "law-in-force"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-get-rid-of-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} wants to get rid of {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-against",
+            "law-in-force"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-president-argued-to-repeal-about",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} argued to repeal {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-against",
+            "law-in-force"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
