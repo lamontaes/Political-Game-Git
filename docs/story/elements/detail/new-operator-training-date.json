@@ -6,15 +6,8 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/105/?locale=en"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "A published training date exists for partners chosen in this round."
   ],

@@ -6,18 +6,9 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "The internship program provides pay and includes civic work."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["The internship program provides pay and includes civic work."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the internship program provides pay and includes civic work.",

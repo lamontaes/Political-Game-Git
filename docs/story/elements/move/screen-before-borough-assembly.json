@@ -6,15 +6,8 @@
   "sources": [
     "https://www.nyc.gov/site/civicengagement/our-programs/participatory-budgeting.page"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "The locality screens ideas before assembly review and has an intake record for this proposal."
   ],

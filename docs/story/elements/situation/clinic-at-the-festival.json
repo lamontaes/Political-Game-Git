@@ -6,15 +6,8 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "A mobile screening project and a proposed outreach event appear in the local record."
   ],

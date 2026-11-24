@@ -6,15 +6,8 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/105/?locale=en"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "A group applied to operate the project and the selection calendar is on file."
   ],

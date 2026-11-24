@@ -6,18 +6,9 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A pantry and vendor participate in a surplus collection program."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A pantry and vendor participate in a surplus collection program."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a pantry and vendor participate in a surplus collection program.",

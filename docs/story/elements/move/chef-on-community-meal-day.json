@@ -6,18 +6,9 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A meal project assigns local cooks to community serving days."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A meal project assigns local cooks to community serving days."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a meal project assigns local cooks to community serving days.",

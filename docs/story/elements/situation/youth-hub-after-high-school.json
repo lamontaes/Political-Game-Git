@@ -6,18 +6,9 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "The local youth center has a recorded upper age limit."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["The local youth center has a recorded upper age limit."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the local youth center has a recorded upper age limit.",

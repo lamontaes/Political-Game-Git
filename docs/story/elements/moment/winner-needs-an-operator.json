@@ -6,15 +6,8 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "Residents selected the proposal and the operator selection record is available."
   ],

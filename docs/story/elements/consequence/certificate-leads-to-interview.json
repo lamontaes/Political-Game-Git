@@ -6,18 +6,9 @@
   "sources": [
     "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "The training partnership provides an interview after completion."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["The training partnership provides an interview after completion."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the training partnership provides an interview after completion.",
