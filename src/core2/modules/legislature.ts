@@ -690,6 +690,8 @@ function reopenHeldBill(
   // vote, which a re-listing would count a second time, so that hold stands.
   if (!bill || bill.status !== "failed") return;
   if (held.chamber !== chambersOf(api, bill)[0]) return;
+  // The chair's new answer supersedes the choice that produced this hold.
+  table(api, "choices").remove(`${bill.id}|${held.chairId}|hear`);
   table(api, "replies").put({
     id: `hearing:${bill.id}`,
     replyId: event.id,

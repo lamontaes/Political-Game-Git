@@ -10,7 +10,12 @@ import { CORRUPTION_MODULE_ID } from "./modules/corruption";
 import { lawChain } from "./modules/laws";
 import { wordPrintedStory } from "../bench/archive-words";
 import { wireItem } from "./press-topics";
-import { billOf, chambersOf, committeeRecords } from "./modules/legislature";
+import {
+  billOf,
+  castChairHearing,
+  chambersOf,
+  committeeRecords,
+} from "./modules/legislature";
 import { coreAPI } from "./state";
 import { applyCoreEvent } from "./state";
 
@@ -105,6 +110,8 @@ it(`a held bill names its sponsor, reaches the wire and the committee story, and
           ).filter((row) => row.billId === billId).length
         : 0;
     expect(settledFor(bill.id), `${where}: ${bill.id} settled a bribe`).toBe(0);
+    // Cover an explicit no from the chair as well as the hold on their position.
+    castChairHearing(api, bill.id, chambersOf(api, bill)[0]!, false);
     applyCoreEvent(core, {
       id: `scene-reply:${hold!.id}:bill-held-chair:0`,
       date: core.date,
