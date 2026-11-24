@@ -60,7 +60,7 @@ const runSeed =
 
 it(
   "a first-year entry's packet carries the office and the bill the person took up later, by record id",
-  { timeout: 600_000 },
+  { timeout: 600_000 * Number(process.env.JOURNAL_LATER_YEARS ?? 1) },
   () => {
     const place = drawPlace(runSeed, "journal-later");
     const where = `${place.name} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
