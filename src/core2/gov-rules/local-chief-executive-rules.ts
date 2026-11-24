@@ -5,6 +5,7 @@ import {
   type MunicipalReading,
 } from "./municipal-government";
 import { publishedPlacePopulation } from "./place-population";
+import { municipalClassForm } from "./municipal-class-form";
 
 /**
  * Ported from the old engine's `nationwide-world/local-chief-executive-rules.ts`.
@@ -59,6 +60,7 @@ import { publishedPlacePopulation } from "./place-population";
 
 export type ChiefExecutiveBasis =
   | "read"
+  | "class-law"
   | "typical"
   /** The owner's interim rule for large cities, until the city is read. */
   | "owner-interim";
@@ -155,19 +157,31 @@ export function localChiefExecutiveRules(
   const largeCity =
     population !== null && population > OWNER_LARGE_CITY_POPULATION;
   const term = reading ? readMayorTerm(reading) : null;
+  // What the town's own reading leaves unsaid comes from its class's form in
+  // its state's law (a New Jersey borough's Mayor, four years), before the
+  // typical town.
+  const chief = municipalClassForm(unit)?.chief;
   return {
     unitId: unit.id,
     researchedGovernmentKey: government?.key ?? null,
     directlyElected:
       direct !== null
         ? { value: direct, basis: "read" }
-        : largeCity
-          ? { value: true, basis: "owner-interim" }
-          : MOST_COMMON_DIRECT_ELECTION,
+        : chief
+          ? { value: chief.directlyElected, basis: "class-law" }
+          : largeCity
+            ? { value: true, basis: "owner-interim" }
+            : MOST_COMMON_DIRECT_ELECTION,
     title: reading?.mayor?.title
       ? { value: reading.mayor.title, basis: "read" }
-      : { value: "Mayor", basis: "typical" },
+      : chief
+        ? { value: chief.title, basis: "class-law" }
+        : { value: "Mayor", basis: "typical" },
     termYears:
-      term !== null ? { value: term, basis: "read" } : MOST_COMMON_TERM,
+      term !== null
+        ? { value: term, basis: "read" }
+        : chief?.termYears !== undefined
+          ? { value: chief.termYears, basis: "class-law" }
+          : MOST_COMMON_TERM,
   };
 }

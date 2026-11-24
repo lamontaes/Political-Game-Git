@@ -22,6 +22,10 @@ import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rule
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
 import {
+  municipalClassForm,
+  municipalClassSource,
+} from "./gov-rules/municipal-class-form";
+import {
   boardGoverningBodyRules,
   townshipBoardTerm,
 } from "./gov-rules/township-governing-body-rules";
@@ -121,7 +125,7 @@ export interface OfficeInput {
   readonly seatTerm?: "ward" | "district";
   /** Whether the method comes from the charter or is an estimate, and its source. */
   readonly method?: {
-    readonly basis: "charter" | "estimated";
+    readonly basis: "charter" | "class-law" | "estimated";
     readonly citation: string;
   };
   /** True when the office's seats represent the player's town. */
@@ -221,6 +225,7 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
 function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
   const offices: OfficeInput[] = [];
   const body = localGoverningBodyRules(unit);
+  const form = municipalClassForm(unit);
   if (
     body?.researchedGovernmentKey &&
     STATE_LEVEL_GOVERNMENTS.has(body.researchedGovernmentKey)
@@ -249,8 +254,10 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       coversTown: true,
       source: body.researchedGovernmentKey
         ? `Municipal reading ${body.researchedGovernmentKey}`
-        : "ICMA municipal form of government survey: the national typical council size and term",
-      estimate: body.seats.basis !== "read",
+        : form && body.seats.basis === "class-law"
+          ? municipalClassSource(form)
+          : "ICMA municipal form of government survey: the national typical council size and term",
+      estimate: body.seats.basis === "typical",
     });
   const chief = localChiefExecutiveRules(unit);
   if (chief)
@@ -268,8 +275,12 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       coversTown: true,
       source: chief.researchedGovernmentKey
         ? `Municipal reading ${chief.researchedGovernmentKey}`
-        : "ICMA municipal form of government survey: whether the typical town elects its mayor directly",
-      estimate: chief.directlyElected.basis !== "read",
+        : form && chief.directlyElected.basis === "class-law"
+          ? municipalClassSource(form)
+          : "ICMA municipal form of government survey: whether the typical town elects its mayor directly",
+      estimate:
+        chief.directlyElected.basis !== "read" &&
+        chief.directlyElected.basis !== "class-law",
     });
   return offices;
 }

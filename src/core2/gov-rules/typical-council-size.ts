@@ -17,7 +17,11 @@ export const TYPICAL_COUNCIL_SOURCE =
   "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), in " +
   "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/. Not a claim about this town's charter.";
 
-export type LocalRuleBasis = "read" | "typical";
+/**
+ * "read": the town's own charter; "class-law": its class's form in its
+ * state's law (`municipal-class-form.ts`); "typical": the national mode.
+ */
+export type LocalRuleBasis = "read" | "class-law" | "typical";
 
 export interface LocalRuleValue {
   readonly value: number;
