@@ -306,10 +306,14 @@ ol {
   width: calc(var(--mine) * 1.9);
   height: calc(var(--mine) * 1.6);
   transform: translate(-50%, -50%);
+  /* Eased all the way out, so on a bright sky it is a faint shade and never a patch
+     (CTO, Nov 24: nothing hard-edged). */
   background: radial-gradient(
     closest-side,
-    rgba(24, 20, 16, 0.62),
-    rgba(24, 20, 16, 0.3) 55%,
+    rgba(24, 20, 16, 0.26),
+    rgba(24, 20, 16, 0.2) 25%,
+    rgba(24, 20, 16, 0.11) 50%,
+    rgba(24, 20, 16, 0.04) 75%,
     transparent
   );
   pointer-events: none;
@@ -355,10 +359,13 @@ ol {
 /* The office a scene names someone by, under their name; . */
 .bust-strip .busts-role {
   font: 500 var(--t-label) var(--ui);
-  color: var(--muted);
+  color: var(--text);
   padding-bottom: 8px;
   white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  /* Read on a bright sky now that no dark pool sits behind it. */
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 6px rgba(0, 0, 0, 0.6);
 }
 .bust-strip .busts-person:has(.busts-role) .busts-name {
   padding-bottom: 0;
