@@ -30127,31 +30127,6 @@
       }
     },
     {
-      "key": "scene-talk.close-press.the-door-at-outlet-stays-open",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "The door at {outlet} stays open.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "invite-interview",
-          "key": "favor-asked",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.a-call-comes-in-from-name",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -89633,6 +89608,31 @@
         "key": "door"
       },
       "elements": ["canvasser-says-just-talking-to-neighbors"]
+    },
+    {
+      "key": "scene-talk.close-press.outlet-will-print-the-race-without-your-answers",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "{outlet} will print the race without your answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
     }
   ]
 }
