@@ -1,0 +1,30 @@
+{
+  "id": "opening-lede-on-the-place-and-month",
+  "kind": "move",
+  "summary": "An announcement opens on what is coming, where, and the month.",
+  "realLife": "The first sentence said a coffeehouse that becomes a cocktail bar opens in the downtown this December.",
+  "sources": [
+    "Patch (Bel Air, Maryland), 'New Coffeehouse, Cocktail Bar Opening In Bel Air', Nov. 23, 2026: https://patch.com/maryland/belair/new-coffeehouse-cocktail-bar-opening-bel-air",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["subject", "place", "date"],
+  "gates": [],
+  "weights": {
+    "opening": 1.0
+  },
+  "inGame": "`organization.opened` with a future date; needs: an announced opening",
+  "turns": [
+    {
+      "name": "opens on the owner",
+      "pulledBy": "a story about a person",
+      "writes": "the lede names the owner and the plan"
+    },
+    {
+      "name": "opens on a delay",
+      "pulledBy": "a pushed-back opening",
+      "writes": "the lede says the new date"
+    }
+  ],
+  "usedBy": []
+}

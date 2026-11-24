@@ -1,0 +1,30 @@
+{
+  "id": "bring-former-opponents-onto-revised-bill",
+  "kind": "move",
+  "summary": "Members who opposed an earlier bill put their names on the revised text when it is introduced.",
+  "realLife": "Kirsten Gillibrand and Joni Ernst wrote a revised military justice bill together. Several senators who had opposed earlier legislation signed on at introduction.",
+  "sources": [
+    "https://www.gillibrand.senate.gov/news/press/release/gillibrand-statement-on-inclusion-of-military-justice-improvement-and-increasing-prevention-act-in-ndaa/",
+    "https://www.military.com/daily-news/2021/05/14/after-8-years-of-effort-senate-has-votes-it-needs-overhaul-military-sexual-assault-prosecutions.html"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{sponsor}", "{colleague}", "{bill}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "The cosponsor-ask scene records a colleague signing a bill. needs: a prior version and that colleague's vote on it.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A former opponent agrees to testify for the revision but declines a sponsor credit.",
+      "pulledBy": "The member supports the change while reserving judgment on another provision.",
+      "writesBack": "The hearing has a supportive witness without a new sponsor."
+    },
+    {
+      "turn": "late",
+      "what": "A former opponent signs after the promised amendment enters the bill.",
+      "pulledBy": "The disputed wording still stands at introduction.",
+      "writesBack": "The sponsorship record dates from the amendment."
+    }
+  ]
+}

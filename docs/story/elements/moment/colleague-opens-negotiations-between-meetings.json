@@ -1,0 +1,23 @@
+{
+  "id": "colleague-opens-negotiations-between-meetings",
+  "kind": "moment",
+  "summary": "A colleague catches a member between meetings to begin discussing a vote.",
+  "realLife": "owner, Nov 8: A corridor encounter can open a negotiation.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L54"
+  ],
+  "inGame": "The hallway-colleague circumstance stages vote-asked for a serving member.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{colleague}", "{bill}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member hears which provision is disputed and asks for the text at their desk.",
+      "pulledBy": "The next meeting is starting and the colleague has no copy along.",
+      "writesBack": "The open request identifies the provision to review."
+    }
+  ]
+}
