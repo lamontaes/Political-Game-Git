@@ -456,6 +456,11 @@ export function tell(input: TellingInput): Told | null {
   return told && told.sentences.length < least ? tellOnce(input, true) : told;
 }
 
+/** The text with every optional section and move that fits: what `tell` gives a text the draws left too short. */
+export function tellFully(input: TellingInput): Told | null {
+  return tellOnce(input, true);
+}
+
 /** One telling; `full` says every optional section and move that fits. */
 function tellOnce(input: TellingInput, full: boolean): Told | null {
   const row = outlineRow(input.kind);

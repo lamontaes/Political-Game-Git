@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
-import { partsOf, tell, type TellingFacts } from "./outline-planner";
+import { partsOf, tell, tellFully, type TellingFacts } from "./outline-planner";
 
 /**
  * The one outline planner (the Story lead, Nov 24, 2026; owner, Nov 23:
@@ -110,11 +110,11 @@ describe("the outline planner", () => {
       expect(text).not.toMatch(/Hold me to it/);
     }
   });
-  it("orders its middle sections by the speaker and leaves the call out for some, never one fixed run of sections", () => {
+  it("orders its middle sections by the speaker, never one fixed run of sections, and never tells a four-line rally", () => {
     // The CTO, Nov 24 (send-back 2 on #10390): every address said all six
     // sections in one order, so one close ended four of six addresses.
     const runs = new Set<string>();
-    let withoutCall = 0;
+    const lengths: number[] = [];
     for (const traits of [
       ...PROFILES,
       traitsOf(["mediating", "forgiving", "fair-minded", "humble"], 2),
@@ -124,7 +124,21 @@ describe("the outline planner", () => {
         const text = told(traits, key)!;
         const sections = [...new Set(text.sentences.map((row) => row.section))];
         runs.add(sections.join(" "));
-        if (!sections.includes("call")) withoutCall += 1;
+        // Under the row's least, a text is the full telling: every optional
+        // part that fits is said.
+        if (text.sentences.length < 11)
+          expect(text.sentences.length).toBe(
+            tellFully({
+              kind: "inaugural",
+              facts,
+              momentKey: key,
+              worldSeed: "seed",
+              sourceRecordIds: ["record:test"],
+              knower: "person:president",
+              traits,
+            })!.sentences.length,
+          );
+        lengths.push(text.sentences.length);
         // A line that names the stand again comes only after the stand.
         const stand = sections.indexOf("theme");
         for (const row of text.sentences)
@@ -140,6 +154,8 @@ describe("the outline planner", () => {
       ),
     );
     expect(orders.size, [...runs].join("\n")).toBeGreaterThanOrEqual(2);
-    expect(withoutCall).toBeGreaterThan(0);
+    // Pre-grade round 5, Nov 24: 56-word addresses ("A four-line rally is
+    // not a speech"); these facts give eight sentences told in full.
+    expect(Math.min(...lengths)).toBeGreaterThanOrEqual(8);
   });
 });
