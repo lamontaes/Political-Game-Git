@@ -358,8 +358,10 @@ export function purposeScene(
       ...options,
       stopMinute: entry.stop?.at.minuteOfDay,
     });
-    if (result.kind === "composed")
+    if (result.kind === "composed") {
+      if (options.next && closedDeskVisit(core, result.scene)) continue;
       return { kind: "composed", scene: { ...result.scene, unit } };
+    }
     skipped ??= result;
   }
   return skipped;
@@ -3489,6 +3491,20 @@ function walkThroughFacts(
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
 const DESK_VISIT_TYPE = "desk-visit";
+
+function closedDeskVisit(
+  core: Readonly<CoreState>,
+  scene: PurposeScene,
+): boolean {
+  return (
+    scene.typeKey === DESK_VISIT_TYPE &&
+    typeof scene.cause.facts.billId === "string" &&
+    core.modules.has(OFFICE_DAY_MODULE_ID) &&
+    !deskWaiting(coreAPI(core)).some(
+      (bill) => bill.id === scene.cause.facts.billId,
+    )
+  );
+}
 /** The desk visit's replies that say the act: their pieces, by the act. */
 /**
  * The reason a veto said in the visit gives, from what the player asked
@@ -3650,6 +3666,7 @@ export function replyInScene(
   const id = `scene-reply:${entry.momentId}:${unit}:${path.join(".")}`;
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
+  if (closedDeskVisit(core, scene)) return null;
   if (!entry.answered?.includes(unit))
     entry.answered = [...(entry.answered ?? []), unit];
   // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a

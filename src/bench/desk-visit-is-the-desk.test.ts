@@ -12,6 +12,7 @@ import {
   members,
 } from "../core2/modules/legislature";
 import {
+  decideDesk,
   deskWaiting,
   officeActsOf,
   setStops,
@@ -44,7 +45,7 @@ type Stop = {
   };
 };
 
-it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE.seed}`, () => {
+function playVisit(decidedOnPanel: boolean) {
   const bookkeeping = setBookkeeping(false);
   const world = buildBenchWorld(PLACE.seed, gameStartDate(), {
     twoLevel: true,
@@ -135,6 +136,32 @@ it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE
     typeKey: "desk-visit",
   });
   expect(composed?.kind).toBe("composed");
+  if (decidedOnPanel) {
+    try {
+      expect(
+        composed?.kind === "composed" &&
+          composed.scene.talk.tree.replies.length,
+      ).toBeTruthy();
+      decideDesk(api, bill.id, true);
+      const before = core.eventIds.size;
+      expect(() =>
+        storyReply(core, world.director, mayor, visit!.recordId!, [0], {
+          typeKey: "desk-visit",
+        }),
+      ).toThrow("Not a reply the scene offers.");
+      const next = purposeScene(core, world.director, mayor, entry, {
+        next: true,
+      });
+      expect(
+        next?.kind === "composed" && next.scene.typeKey === "desk-visit",
+      ).toBeFalsy();
+      expect(core.eventIds.size).toBe(before);
+      expect(entry.answered ?? []).not.toContain("desk-visit");
+    } finally {
+      setBookkeeping(bookkeeping);
+    }
+    return;
+  }
   let yes: number[] | undefined;
   if (composed?.kind === "composed")
     (function walk(node: TreeNode, at: number[]) {
@@ -215,4 +242,12 @@ it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE
     `VISIT-SWITCH-OFF ${PLACE.name}: ${away.id} still ${billOf(api, away.id).status}, visit ${staged?.outcome ?? "not staged"}\n`,
   );
   setBookkeeping(bookkeeping);
+}
+
+it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE.seed}`, () => {
+  playVisit(false);
+}, 120_000);
+
+it(`signing on the desk panel closes the sponsor’s visit in ${PLACE.name}`, () => {
+  playVisit(true);
 }, 120_000);

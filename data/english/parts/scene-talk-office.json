@@ -3667,6 +3667,488 @@
         "council-vote-story",
         "mayor-treats-the-council-as-partner-or-opponent"
       ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.that-means-a-lot-to-me-i-was-the-one-who-put-bill-up-for-a-vote",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That means a lot to me. I was the one who put {bill} up for a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "warm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.thanks-for-hearing-the-case-for-it-even-after-you-saw-how-the-vote-went",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for hearing the case for it even after you saw how the vote went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.i-wanted-to-hear-that-from-you-myself-thank-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I wanted to hear that from you myself. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "guarded",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.i-m-glad-i-came-over-there-s-only-so-much-you-can-tell-from-a-roll-call",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad I came over. There's only so much you can tell from a roll call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.i-brought-it-forward-so-it-mattered-to-me-to-be-here-for-your-answer",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I brought it forward, so it mattered to me to be here for your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.the-members-did-their-part-and-you-heard-me-out-on-mine-i-appreciate-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "The members did their part, and you heard me out on mine. I appreciate it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "warm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.thanks-for-taking-the-time-after-the-vote-to-hear-why-this-one-matters-to-me",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for taking the time after the vote to hear why this one matters to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-thank.i-appreciate-that-i-can-go-back-and-look-the-members-in-the-eye",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate that. I can go back and look the members in the eye.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.they-ll-hear-it-from-the-person-who-put-bill-before-them",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "They'll hear it from the person who put {bill} before them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.let-me-be-the-one-to-tell-the-members-i-d-like-to-do-that-myself",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Let me be the one to tell the members. I'd like to do that myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "warm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.when-somebody-asks-where-you-came-down-i-can-give-them-your-answer-now",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "When somebody asks where you came down, I can give them your answer now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.i-ll-stick-to-what-you-said-if-anybody-asks-me-to-speak-for-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll stick to what you said if anybody asks me to speak for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "guarded",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.next-time-somebody-asks-what-happened-after-our-vote-send-them-my-way",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Next time somebody asks what happened after our vote, send them my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.i-ll-put-a-note-about-our-conversation-in-my-update-on-bill",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll put a note about our conversation in my update on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.i-ll-make-time-for-anyone-back-home-who-wants-to-talk-about-where-the-bill-stands",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll make time for anyone back home who wants to talk about where the bill stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "warm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent",
+        "answer-residents-after-board-vote"
+      ]
+    },
+    {
+      "key": "scene-talk-office.close-promise.anyone-who-has-a-question-about-my-part-in-this-can-come-directly-to-me",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Anyone who has a question about my part in this can come directly to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": [
+        "council-vote-story",
+        "mayor-treats-the-council-as-partner-or-opponent",
+        "answer-residents-after-board-vote"
+      ]
     }
   ]
 }
