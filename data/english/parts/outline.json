@@ -1,0 +1,1867 @@
+{
+  "schema": "english-parts/1",
+  "register": "outline",
+  "description": "The one outline planner's pieces (src/english/outline-planner.ts, data/english/outlines.json): each piece is one move of a section's shape, said only where its facts hold and, where it leans on the sentence before it, only after the moves it names in `after`. Written by the Story lead from counts of real inaugurals (docs/research/first-evening-2026-11-24.md); no real President's words. The first evening's texts come first: the President's inaugural.",
+  "slots": {
+    "term-left": "the time left in the speaker's term, in words (\"four years\"), from the term's record",
+    "theme-name": "the speech's theme said as people say it (speech-outlines.json themeNames), from the planner's theme",
+    "theme-short": "the theme said short (speech-outlines.json themeShort)",
+    "run-span": "how long the economy's run lasted, in words, from the macro months (address-story.ts)",
+    "the-disaster": "the year's worst declared disaster as people say it after 'the' (outlines.json disasterWords), from the national events engine's row",
+    "about": "the policy question's spoken noun phrase (question-names.json)",
+    "to": "the policy question's spoken verb phrase",
+    "law-name": "the law in force or proposed, named (question-names.json law)",
+    "other-side": "what the other side of the speaker's stand wants done, as a verb phrase",
+    "belief": "the speaker's reason on the question, as a clause (question-names.json reasons)",
+    "belief-sentence": "the same reason as its own sentence",
+    "today": "how the question stands today, said from the speaker's side, as a sentence",
+    "today-clause": "the same, as a clause that ends the sentence",
+    "the-vice-president": "the Vice President by office and name, from the officials engine's seat"
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "outline.greeting.inaugural-my-fellow-americans",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "My fellow Americans.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "greeting",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.greeting.inaugural-fellow-citizens",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Fellow citizens.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "greeting",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.greeting.inaugural-good-afternoon-everybody",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Good afternoon, everybody.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "greeting",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.greeting.inaugural-thank-you-everyone",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Thank you, everyone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "greeting",
+          "tie": "frame"
+        }
+      ],
+      "lean": ["personality-v1:facet-charming", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-a-few-minutes-ago-i-swore-to-defend-the-constitution-for-the",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "A few minutes ago I swore to defend the Constitution for the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-the-oath-i-just-took-is-one-sentence-long-keeping-it-for-is-",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I just took is one sentence long. Keeping it for {term-left} is the job.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-i-ve-taken-the-oath-and-from-here-on-you-get-to-judge-me-by-",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I've taken the oath, and from here on you get to judge me by what I do with the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-last-november-you-hired-me-for",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "Last November you hired me for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-last-november-you-gave-me-this-job-for-and-today-i-start-it",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "Last November you gave me this job for {term-left}, and today I start it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-you-voted-last-november-and-as-of-noon-today-the-next-are-on",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "You voted last November, and as of noon today the next {term-left} are on me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-cocky",
+        "personality-v1:facet-proud"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-most-of-what-i-have-to-say-today-is-about",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Most of what I have to say today is about {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-i-want-to-tell-you-how-i-ll-spend-them-starting-with",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I want to tell you how I'll spend them, starting with {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-i-didn-t-run-to-keep-a-chair-warm-i-ran-because-of",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I didn't run to keep a chair warm. What I came to talk about is {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-proud",
+        "personality-v1:facet-cocky"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-prices-have-outrun-paychecks-for-and-nobody-here-needed-a-go",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Prices have outrun paychecks for {run-span}, and nobody here needed a government report to know it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-for-the-grocery-bill-has-grown-faster-than-the-paycheck-that",
+      "move": "run",
+      "kind": "spoken",
+      "text": "For {run-span}, the grocery bill has grown faster than the paycheck that pays it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-more-people-are-looking-for-work-today-than-ago",
+      "move": "run",
+      "kind": "spoken",
+      "text": "More people are looking for work today than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": ["run-prices-ahead"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-these-last-have-been-hard-on-working-families-and-i-won-t-st",
+      "move": "run",
+      "kind": "spoken",
+      "text": "These last {run-span} have been hard on working families, and I won't stand up here and pretend they weren't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-for-paychecks-have-been-growing-faster-than-prices",
+      "move": "run",
+      "kind": "spoken",
+      "text": "For {run-span}, paychecks have been growing faster than prices.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-there-s-more-work-out-there-than-there-was-ago",
+      "move": "run",
+      "kind": "spoken",
+      "text": "There's more work out there than there was {run-span} ago.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": ["run-pay-ahead"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-i-didn-t-make-that-mess-but-for-the-next-it-s-mine-to-clean-",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "I didn't make that mess, but for the next {term-left} it's mine to clean up.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"]
+        }
+      ],
+      "after": ["run"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-no-speech-fixes-of-that-work-does",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "No speech fixes {run-span} of that. Work does.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-span"]
+        }
+      ],
+      "after": ["run"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-i-own-my-share-of-those-and-i-m-not-going-to-blame-anyone-el",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "I own my share of those {run-span}, and I'm not going to blame anyone else for them.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-own", "run-span"]
+        }
+      ],
+      "after": ["run"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-i-didn-t-earn-those-you-did-and-i-don-t-plan-to-give-them-ba",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "I didn't earn those {run-span}. You did, and I don't plan to give them back.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"]
+        }
+      ],
+      "after": ["run"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-charming"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-we-got-there-together-and-the-next-are-about-staying-there",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "We got there together, and the next {term-left} are about staying there.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-own", "term-left"]
+        }
+      ],
+      "after": ["run"],
+      "lean": ["personality-v1:facet-proud", "personality-v1:facet-persistent"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-question.inaugural-how-many-of-you-have-stood-at-a-checkout-in-the-last-and-put",
+      "move": "run-question",
+      "kind": "spoken",
+      "text": "How many of you have stood at a checkout in the last {run-span} and put something back on the shelf?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-question",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-dramatic"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-question.inaugural-who-here-hasn-t-carried-home-less-from-the-store-these-last-",
+      "move": "run-question",
+      "kind": "spoken",
+      "text": "Who here hasn't carried home less from the store these last {run-span} and paid more for it?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-question",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-question.inaugural-how-many-of-you-know-someone-who-s-been-out-of-work-for-most",
+      "move": "run-question",
+      "kind": "spoken",
+      "text": "How many of you know someone who's been out of work for most of the last {run-span}?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-question",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-answer.inaugural-that-isn-t-your-failing-washington-spent-looking-the-other-w",
+      "move": "run-answer",
+      "kind": "spoken",
+      "text": "That isn't your failing. Washington spent {run-span} looking the other way.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-answer",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-inherited", "run-span"]
+        }
+      ],
+      "after": ["run-question"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-answer.inaugural-you-didn-t-do-anything-wrong-and-i-m-not-going-to-spend-tell",
+      "move": "run-answer",
+      "kind": "spoken",
+      "text": "You didn't do anything wrong, and I'm not going to spend {term-left} telling you to be patient.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-answer",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "term-left"]
+        }
+      ],
+      "after": ["run-question"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster.inaugural-some-of-you-are-still-cleaning-up-after-the-and-you-deserve-",
+      "move": "disaster",
+      "kind": "spoken",
+      "text": "Some of you are still cleaning up after the {the-disaster}, and you deserve a government that shows up and stays.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster.inaugural-the-this-past-year-took-homes-and-jobs-and-the-rebuilding-is",
+      "move": "disaster",
+      "kind": "spoken",
+      "text": "The {the-disaster} this past year took homes and jobs, and the rebuilding isn't close to finished.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-image.inaugural-think-about-the-families-who-lived-through-the-this-past-yea",
+      "move": "disaster-image",
+      "kind": "spoken",
+      "text": "Think about the families who lived through the {the-disaster} this past year.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-image",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-the-cameras-have-moved-on-for-the-next-i-won-t",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "The cameras have moved on. For the next {term-left}, I won't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-devoted"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-rebuilding-after-the-stays-on-my-desk-long-after-it-leaves-t",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "The rebuilding stays on my desk for all {term-left}, long after it leaves the news.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "after": ["disaster-image"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-i-believe",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-here-s-what-i-believe",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "Here's what I believe: {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-i-ve-believed-for-a-long-time-that",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I've believed for a long time that {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-proud",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-i-came-to-this-office-believing-and-i-still-do",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I came to this office believing {belief}, and I still do.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-so-if-a-bill-for-reaches-my-desk-it-goes-back-unsigned",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "So if a bill for {about} reaches my desk, it goes back unsigned.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-as-long-as-i-m-president-won-t-become-law",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "As long as I'm President, {about} won't become law.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-proud"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-i-ll-work-to-undo-and-i-ll-start-this-week",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I'll work to undo {law-name}, and I'll start this week.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-so-i-mean-to-see-gone-before-my-term-is-up",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "So I mean to see {law-name} gone before my term is up.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-i-ll-keep-pushing-to-until-it-s-done",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I'll keep pushing to {to} until it's done.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-so-i-m-going-to-ask-congress-to-and-i-m-going-to-keep-asking",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "So I'm going to ask Congress to {to}, and I'm going to keep asking.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.pledge.inaugural-i-ll-defend-for-as-long-as-i-hold-this-office",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I'll defend {law-name} for as long as I hold this office.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"]
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.today.inaugural-",
+      "move": "today",
+      "kind": "spoken",
+      "text": "{today}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today"]
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.today.inaugural-right-now",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Right now, {today-clause}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-that-s-exactly-why-i-m-against",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "That's exactly why I'm against {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-and-that-s-why-i-want-to-undo",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "And that's why I want to undo {law-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"]
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-that-s-why-i-want-to",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "That's why I want to {to}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-i-ll-defend-for-all",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'll defend {law-name} for all {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-for",
+            "law-in-force",
+            "term-left"
+          ]
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-i-m-not-one-of-them-because",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm not one of them, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "after": ["contrast"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-not-me",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "Not me. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"]
+        }
+      ],
+      "after": ["contrast"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-cocky",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.contrast.inaugural-there-are-people-in-washington-who-want-to",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "There are people in Washington who want to {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.contrast.inaugural-you-ll-hear-plenty-of-folks-in-washington-say-we-ought-to",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "You'll hear plenty of folks in Washington say we ought to {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.question.inaugural-should-we",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we {to}?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.question.inaugural-so-should-this-country",
+      "move": "question",
+      "kind": "spoken",
+      "text": "So should this country {to}?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-excitable",
+        "personality-v1:facet-imaginative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.answer.inaugural-my-answer-is-no-because",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "My answer is no, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"]
+        }
+      ],
+      "after": ["question"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.answer.inaugural-not-while-i-m-president-i-believe",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Not while I'm President. I believe {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-against"]
+        }
+      ],
+      "after": ["question"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-proud"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.answer.inaugural-my-answer-is-yes-because",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "My answer is yes, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for"]
+        }
+      ],
+      "after": ["question"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.answer.inaugural-yes-and-i-ll-spend-getting-it-done-because",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Yes, and I'll spend {term-left} getting it done, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief", "stance-for", "term-left"]
+        }
+      ],
+      "after": ["question"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-excitable"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-m-against-and-i-ll-tell-you-why",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'm against {about}, and I'll tell you why: {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-want-to-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I want to {to}, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-want-to-undo-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I want to undo {law-name}, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-ll-defend-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'll defend {law-name}, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.unity.inaugural-if-you-didn-t-vote-for-me-i-ll-spend-the-next-trying-to-earn",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "If you didn't vote for me, I'll spend the next {term-left} trying to earn your vote anyway.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "unity",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-and-i-m-asking-every-one-of-you-to-talk-with-a-neighbor-who-",
+      "move": "call",
+      "kind": "spoken",
+      "text": "And I'm asking every one of you to talk with a neighbor who sees {theme-short} differently than you do.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["unity", "address-to"],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-talk-with-a-neighbor-who-sees-differently-than-you-do-and-re",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Talk with a neighbor who sees {theme-short} differently than you do, and really listen.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["start"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-call-your-member-of-congress-about-and-tell-them-where-you-s",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Call your member of Congress about {about}, and tell them where you stand, whichever side you're on.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "law",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-i-ll-need-i-ll-need-congress-and-most-of-all-i-ll-need-you",
+      "move": "call",
+      "kind": "spoken",
+      "text": "I'll need {the-vice-president}, I'll need Congress, and most of all I'll need you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.send-off.inaugural-we-have-let-s-not-waste-the-first-afternoon",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "We have {term-left}. Let's not waste the first afternoon.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.send-off.inaugural-thank-you-for-trusting-me-with",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for trusting me with {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.send-off.inaugural-the-next-will-go-fast-so-i-m-going-to-get-to-work",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The next {term-left} will go fast, so I'm going to get to work.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.blessing.inaugural-god-bless-america",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "God bless America.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.blessing.inaugural-thank-you",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame"
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.blessing.inaugural-thank-you-everybody",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thank you, everybody.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.blessing.inaugural-god-bless-you",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "God bless you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame"
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-everyone-who-voted-against-me-last-november-i-work-for-yo",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To everyone who voted against me last November: I work for you too, every day of the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-forgiving"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-the-families-still-rebuilding-after-the-the-government-yo",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the families still rebuilding after the {the-disaster}: the government you pay for is going to show up.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-anyone-who-has-spent-the-last-looking-for-work-this-gover",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To anyone who has spent the last {run-span} looking for work: this government works for you now.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["run-jobs-lost", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-everyone-stretching-a-paycheck-i-took-this-job-for-you",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To everyone stretching a paycheck that doesn't go as far as it did {run-span} ago: I took this job for you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["run-prices-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-the-people-who-sent-me-here-thank-you-and-keep-an-eye-on-",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who sent me here: thank you, and keep an eye on me for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-a-few-minutes-ago-i-swore-the-same-oath-took-just-before-me",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "A few minutes ago I swore the same oath {the-vice-president} took just before me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "the-vice-president"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-last-november-you-hired-me-and-with-me",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "Last November you hired me, and {the-vice-president} with me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "the-vice-president"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-if-you-think-i-m-wrong-about-tell-me-i-d-rather-hear-it-from",
+      "move": "call",
+      "kind": "spoken",
+      "text": "If you think I'm wrong about {about}, tell me. Better to hear it from you than from a poll.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "law",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-i-ll-be-judged-on-and-i-should-be",
+      "move": "value",
+      "kind": "spoken",
+      "text": "I'll be judged on {theme-short}, and I should be.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-on-i-d-rather-be-clear-than-liked",
+      "move": "value",
+      "kind": "spoken",
+      "text": "On {theme-short}, I'd rather be clear than liked.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-cocky"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-whatever-we-do-on-the-people-who-pay-for-it-get-to-know-why",
+      "move": "value",
+      "kind": "spoken",
+      "text": "Whatever we do on {theme-short}, the people who pay for it get to know why.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    }
+  ]
+}

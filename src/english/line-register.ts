@@ -25,6 +25,7 @@ import meetingJson from "../../data/english/parts/meeting.json" with { type: "js
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import noticeJson from "../../data/english/parts/notice.json" with { type: "json" };
+import outlineJson from "../../data/english/parts/outline.json" with { type: "json" };
 import openingSpeechJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import sceneTalkJson from "../../data/english/parts/scene-talk.json" with { type: "json" };
@@ -80,6 +81,10 @@ const BANKS: Record<
     slots?: Record<string, string>;
   },
   notice: noticeJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
+  outline: outlineJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },

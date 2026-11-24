@@ -935,5 +935,29 @@
     "addedAt": "2026-11-12",
     "replacement": "Each stage offers the planner's points for the player's stands and /give composes the speech from the plan; the floor day offers the player composeFloorSpeech.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-addresses-await-outline",
+    "kind": "missing-hook",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "Only the President's inaugural is told through the one outline planner (src/english/outline-planner.ts); the State of the Union, a governor's and a mayor's addresses still go through the old point shapes and composeBlocks.",
+    "why": "The owner's plan of Nov 24 (via the CTO): one stretch, the first evening, until he says it is right in the installed game; nothing else is rewritten before then.",
+    "addedBy": "the Story lead, Nov 24",
+    "addedAt": "2026-11-24",
+    "replacement": "Each address kind gets its outline row and pieces in the planner's bank, and composeBlocks, pointShapes and the old opening-speech pieces are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-inauguration-dated-at-world-open",
+    "kind": "assumed-data",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The opening on the game's first day is the inaugural when the President's taking office is on record, though the offices engine dates that record the day the world opened (two months before January 20), not Inauguration Day.",
+    "why": "The offices engine seats the President with a term that starts the day the world opens and records the inauguration then (src/core2/modules/offices.ts recordInauguration), so no inauguration is on record on January 20 and the opening fell to the State of the Union (owner, Nov 23, P8: 'why are we singling out random people? ... I thought he was supposed to be in the Oval Office').",
+    "addedBy": "the Story lead, Nov 24",
+    "addedAt": "2026-11-24",
+    "replacement": "The offices engine records the new term's inauguration on January 20 at noon, and the opening reads that record alone.",
+    "status": "open"
   }
 ]
