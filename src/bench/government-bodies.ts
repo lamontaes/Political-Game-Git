@@ -106,7 +106,7 @@ function roomPlace(office: Office, usps: string | null): string {
     ? capitolPlaceFor(usps)
     : office.level === "federal"
       ? CONGRESS_KINDS.has(office.kind)
-        ? "state-capitol-dome"
+        ? "us-capitol-exterior"
         : "oval-office-standard"
       : office.kind === "governor"
         ? "governor-office"
