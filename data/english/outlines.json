@@ -179,7 +179,12 @@
         {
           "name": "evening",
           "required": true,
-          "shapes": ["watched-said-mine", "said-then-mine", "watched-said"]
+          "shapes": [
+            "watched-said-mine",
+            "said-then-mine",
+            "watched-theme-stance",
+            "watched-said"
+          ]
         },
         {
           "name": "ahead",
@@ -456,7 +461,8 @@
       "moves": ["now"]
     },
     "watched-said-mine": {
-      "moves": ["watched", "said", "said?", "mine"],
+      "moves": ["watched", "stance", "said?", "mine"],
+      "needs": ["about"],
       "pull": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-devoted",
@@ -484,7 +490,7 @@
       "moves": ["margin"]
     },
     "said-then-mine": {
-      "moves": ["said", "said", "mine"],
+      "moves": ["stance", "said", "mine"],
       "needs": ["about"],
       "pull": [
         "personality-v1:facet-analytical",
@@ -494,8 +500,18 @@
       ]
     },
     "watched-said": {
-      "moves": ["watched", "said", "said?"],
+      "moves": ["watched", "stance?", "said?"],
       "fallback": true
+    },
+    "watched-theme-stance": {
+      "moves": ["watched", "said", "stance", "mine"],
+      "needs": ["about"],
+      "pull": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-fair-minded"
+      ]
     }
   },
   "weights": {

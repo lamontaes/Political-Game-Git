@@ -3134,7 +3134,7 @@
           "requiresFacts": ["theme-name"]
         }
       ],
-      "after": ["watched", "said"],
+      "after": ["watched", "said", "stance"],
       "lean": ["personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the Story lead",
@@ -3153,7 +3153,7 @@
           "requiresFacts": ["theme-short", "stand-with"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": ["personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
@@ -3172,7 +3172,7 @@
           "requiresFacts": ["theme-short", "stand-against"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": ["personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the Story lead",
@@ -3191,7 +3191,7 @@
           "requiresFacts": ["about", "stand-unsure"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": ["personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the Story lead",
@@ -3210,7 +3210,7 @@
           "requiresFacts": ["theme-short", "stand-with"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-humble",
         "personality-v1:facet-fair-minded"
@@ -3341,14 +3341,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-came-out-against",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-came-out-against",
+      "move": "stance",
       "kind": "written",
       "text": "The President came out against {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-against"],
           "excludesFacts": ["law-in-force"]
@@ -3361,14 +3361,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-came-out-for",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-came-out-for",
+      "move": "stance",
       "kind": "written",
       "text": "The President came out for {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-for"],
           "excludesFacts": ["law-in-force"]
@@ -4482,14 +4482,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-wants",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-wants",
+      "move": "stance",
       "kind": "written",
       "text": "The President wants {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-for"],
           "excludesFacts": ["law-in-force"]
@@ -4502,14 +4502,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-is-against",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-is-against",
+      "move": "stance",
       "kind": "written",
       "text": "The President is against {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-against"],
           "excludesFacts": ["law-in-force"]
@@ -4522,14 +4522,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-means-to-keep",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-means-to-keep",
+      "move": "stance",
       "kind": "written",
       "text": "The President means to keep {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-for", "law-in-force"]
         }
@@ -4541,14 +4541,14 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.said.journal-evening-the-president-wants-to-get-rid-of",
-      "move": "said",
+      "key": "outline.stance.journal-evening-the-president-wants-to-get-rid-of",
+      "move": "stance",
       "kind": "written",
       "text": "The President wants to get rid of {about}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "said",
+          "role": "stance",
           "tie": "record",
           "requiresFacts": ["about", "president-against", "law-in-force"]
         }
@@ -4572,7 +4572,7 @@
           "requiresFacts": ["theme-name"]
         }
       ],
-      "after": ["watched", "said"],
+      "after": ["watched", "said", "stance"],
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-studious"
@@ -4594,7 +4594,7 @@
           "requiresFacts": ["theme-short", "stand-with"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
@@ -4613,7 +4613,7 @@
           "requiresFacts": ["theme-short", "stand-against"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
@@ -4632,7 +4632,7 @@
           "requiresFacts": ["theme-short", "stand-against"]
         }
       ],
-      "after": ["said"],
+      "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-informal",
         "personality-v1:facet-argumentative"
