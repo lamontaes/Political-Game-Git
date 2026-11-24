@@ -1327,30 +1327,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.why.talk-address-point-i-m-thinking-about-the-people-here-in-place-mostly",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I'm thinking about the people here in {place}, mostly.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.why.talk-address-point-it-comes-down-to-what-i-see-in-place-every-day",
       "move": "why",
       "kind": "spoken",
