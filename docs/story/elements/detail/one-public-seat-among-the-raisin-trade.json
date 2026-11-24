@@ -1,0 +1,33 @@
+{
+  "id": "one-public-seat-among-the-raisin-trade",
+  "kind": "detail",
+  "summary": "A public representative sits with the growers and handlers who administer the crop order at {place}.",
+  "realLife": "The raisin committee had one public seat on a body with 47 members, including 35 producer representatives and ten handler representatives.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=5",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the committee roster and membership classes."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: committee roster and membership classes.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Bring the public member into the deliberation.",
+      "pulledBy": "The public member attends.",
+      "writesBack": "Public seat status in the minutes."
+    },
+    {
+      "turn": "another-way",
+      "what": "Record a vacancy in the public seat.",
+      "pulledBy": "The appointment is still vacant.",
+      "writesBack": "Public seat status in the minutes."
+    }
+  ]
+}

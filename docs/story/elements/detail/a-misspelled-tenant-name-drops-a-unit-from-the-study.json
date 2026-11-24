@@ -1,0 +1,34 @@
+{
+  "id": "a-misspelled-tenant-name-drops-a-unit-from-the-study",
+  "kind": "detail",
+  "summary": "A spelling change in the primary tenant's name can exclude {apartment} from a long-term lease study.",
+  "realLife": "New York City board staff required an exact primary-name match across ten registration years. They acknowledged that a typo could remove a continuing tenant from the sample.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/06/2026-Apartment-ES.pdf#page=35"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{apartment}"],
+  "gates": [
+    "The case record identifies the registration series, matching rule and name discrepancy."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: registration series, matching rule and name discrepancy.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff exclude the record under the published method.",
+      "pulledBy": "The names differ",
+      "writesBack": "Exclusion reason."
+    },
+    {
+      "turn": "another-way",
+      "what": "The correction can inform a later analysis.",
+      "pulledBy": "A separate review verifies continuity",
+      "writesBack": "Documented match and revised sample."
+    }
+  ]
+}

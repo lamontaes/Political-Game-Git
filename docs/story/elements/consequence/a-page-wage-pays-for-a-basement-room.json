@@ -1,0 +1,33 @@
+{
+  "id": "a-page-wage-pays-for-a-basement-room",
+  "kind": "consequence",
+  "summary": "The appointment gives {person} enough money to rent a room near work.",
+  "realLife": "Johnson described moving out of a crowded family home and using his page earnings to rent a small basement apartment near the Capitol.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=14",
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=15"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the historical housing arrangement and available wages."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: historical housing arrangement and available wages.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Move into the rented room.",
+      "pulledBy": "The pay covers a separate room.",
+      "writesBack": "Living arrangement."
+    },
+    {
+      "turn": "another-way",
+      "what": "Share a household near the chamber.",
+      "pulledBy": "Another page's family offers a place.",
+      "writesBack": "Living arrangement."
+    }
+  ]
+}

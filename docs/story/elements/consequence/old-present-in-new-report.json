@@ -1,0 +1,30 @@
+{
+  "id": "old-present-in-new-report",
+  "kind": "consequence",
+  "summary": "A present received years ago appears in the report on {person}'s desk today.",
+  "realLife": "State's compilation for 2024 included a gift from 2017 because the information had arrived too late for the earlier listing.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["Late information with a known year of receipt."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: late information with a known year of receipt.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A reporter calls it a new gift",
+      "what": "Point to the receipt year",
+      "writesBack": "The headline dates the presentation correctly"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "An archivist searches the old annual list",
+      "what": "Send the later publication reference",
+      "writesBack": "The older file gains a cross-reference"
+    }
+  ]
+}

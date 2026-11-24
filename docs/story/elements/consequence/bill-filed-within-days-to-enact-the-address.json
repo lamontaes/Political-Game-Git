@@ -1,0 +1,44 @@
+{
+  "id": "bill-filed-within-days-to-enact-the-address",
+  "kind": "consequence",
+  "summary": "Within days of the address, allies file the bills that put its promises into writing.",
+  "realLife": "One state senator said the same day that he and a House member had filed bills to put the governor's requests into law. In another state a governor sent nearly 340 bills to the Legislature days after the address, including a visitor fee and an amnesty for short-term rentals that return to long-term housing, and some bills were in competition with others already filed.",
+  "sources": [
+    "Talk Business & Politics (Arkansas), 'Legislators react to Gov. Hutchinson's State of the State address', January 12, 2021: https://talkbusiness.net/2021/01/legislators-react-to-gov-hutchinsons-state-of-the-state-address/",
+    "Honolulu Star-Advertiser via Hawaii Tribune-Herald (Hawaii), 'Almost 340 bills are introduced to Hawaii lawmakers by the governor', January 27, 2024: https://www.hawaiitribune-herald.com/?p=315855",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "about", "place"],
+  "gates": [],
+  "weights": {
+    "address": 0.5,
+    "bill": 0.6
+  },
+  "inGame": "the bill-introduction record and the executive's requested bills; the stage view of each bill",
+  "issues": ["budget:housing", "law:income-tax"],
+  "turns": [
+    {
+      "name": "filed the same week",
+      "pulledBy": "the governor's party leads the chamber",
+      "writes": "the bill record shows a filing days after the speech and the story names its sponsor",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "filed in a slimmer form",
+      "pulledBy": "the chamber rejected a bigger version before",
+      "writes": "the story says the bill is narrower than the one in the speech",
+      "requiresFacts": ["earlier-bill-failed"],
+      "excludesFacts": []
+    },
+    {
+      "name": "no sponsor steps forward",
+      "pulledBy": "no member of the chamber will carry it",
+      "writes": "the speech's item gets no bill and the office says it will study it instead",
+      "requiresFacts": [],
+      "excludesFacts": ["sponsor-found"]
+    }
+  ],
+  "usedBy": []
+}

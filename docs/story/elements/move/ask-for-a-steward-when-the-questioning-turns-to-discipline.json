@@ -1,0 +1,33 @@
+{
+  "id": "ask-for-a-steward-when-the-questioning-turns-to-discipline",
+  "kind": "move",
+  "summary": "An employee at {workplace} asks for a union representative during questioning that could lead to discipline.",
+  "realLife": "When the store manager and a loss investigator questioned Collins, she repeatedly asked for someone from the union and the manager denied her requests.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=4",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=5"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the represented employee, investigatory interview, reasonable concern about discipline and request."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: represented employee, investigatory interview, reasonable concern about discipline and request.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Questioning continues with assistance.",
+      "pulledBy": "A representative is available and admitted",
+      "writesBack": "Attendance and time of first question."
+    },
+    {
+      "turn": "another-way",
+      "what": "The employee returns without answering further questions.",
+      "pulledBy": "The employer ends the interview",
+      "writesBack": "Time questioning stopped."
+    }
+  ]
+}
