@@ -2835,6 +2835,318 @@
         "move": "answer",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk-office.state-request.nobody-voted-against-bill-may-i-tell-the-members-you-ll-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody voted against {bill}. May I tell the members you'll sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.when-they-called-the-roll-on-bill-there-wasn-t-a-single-no-is-there-anything-keeping-you-from-signing",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "When they called the roll on {bill}, there wasn't a single no. Is there anything keeping you from signing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "curious",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.the-vote-is-public-and-so-is-my-name-on-bill-i-d-like-your-signature-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The vote is public, and so is my name on {bill}. I'd like your signature on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-can-tell-people-how-the-vote-went-what-i-can-t-tell-them-yet-is-whether-you-ll-sign-bill-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can tell people how the vote went. What I can't tell them yet is whether you'll sign {bill}. Will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.some-members-voted-against-bill-we-had-enough-votes-to-override-but-i-d-like-to-see-it-signed-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Some members voted against {bill}. We had enough votes to override, but I'd like to see it signed. Will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "guarded",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-could-point-to-the-votes-we-have-for-bill-i-d-rather-hear-whether-you-ll-sign-it-on-its-merits",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I could point to the votes we have for {bill}. I'd rather hear whether you'll sign it on its merits.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.we-had-the-numbers-on-the-first-vote-i-can-t-promise-how-a-second-one-would-go-will-you-sign-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We had the numbers on the first vote. I can't promise how a second one would go. Will you sign {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-don-t-want-to-go-back-and-ask-everybody-to-vote-on-bill-twice-can-we-finish-it-here-with-your-signature",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't want to go back and ask everybody to vote on {bill} twice. Can we finish it here with your signature?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "calm",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.we-passed-bill-but-we-didn-t-have-the-votes-to-override-will-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We passed {bill}, but we didn't have the votes to override. Will you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "firm",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.if-you-send-bill-back-i-d-have-to-change-some-minds-i-d-like-to-come-back-with-your-signature-instead",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If you send {bill} back, I'd have to change some minds. I'd like to come back with your signature instead.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "guarded",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-can-answer-for-my-vote-on-bill-i-can-t-speak-for-the-members-who-voted-no-will-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can answer for my vote on {bill}. I can't speak for the members who voted no. Will you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "steady",
+      "elements": ["council-vote-story"]
+    },
+    {
+      "key": "scene-talk-office.state-request.we-got-bill-through-once-a-veto-would-take-more-votes-than-we-had-what-would-it-take-for-you-to-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We got {bill} through once. A veto would take more votes than we had. What would it take for you to sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      },
+      "bearing": "curious",
+      "elements": ["council-vote-story"]
     }
   ]
 }
