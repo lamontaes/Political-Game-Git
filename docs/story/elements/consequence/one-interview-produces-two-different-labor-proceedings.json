@@ -1,0 +1,32 @@
+{
+  "id": "one-interview-produces-two-different-labor-proceedings",
+  "kind": "consequence",
+  "summary": "A charge about representation and a grievance about meals at {workplace} take different routes.",
+  "realLife": "The Weingarten record separated the interview charge from a complaint about ending free lunches the next day. The Board deferred the latter issue to the contractual arbitration process.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the separate allegations, grievance clause and board disposition."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: separate allegations, grievance clause and board disposition.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The representative tracks it on the contract calendar.",
+      "pulledBy": "The meal issue goes to arbitration",
+      "writesBack": "Grievance deadline."
+    },
+    {
+      "turn": "another-way",
+      "what": "The interview evidence stays in the agency case.",
+      "pulledBy": "The representation issue proceeds before the board",
+      "writesBack": "Agency docket and charge."
+    }
+  ]
+}
