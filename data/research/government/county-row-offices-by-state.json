@@ -61,6 +61,18 @@
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
       },
+      "clerk": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "AS 29.20.360: \"Unless otherwise provided by ordinance, the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator.\""
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "AS 29.20.360: \"Unless otherwise provided by ordinance, the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator.\""
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
@@ -283,11 +295,26 @@
       }
     },
     "DE": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/de/constitution-of-the-state-of-delaware/de-const-art-3-sect-22/",
+        "note": "Del. Const. art. III § 22: \"The terms of office of Clerks of the Peace, Registers of Wills, Recorders, and Sheriffs shall be 4 years.\" They are \"chosen by the qualified electors of the respective counties at general elections and be commissioned by the Governor.\"",
+        "termYears": 4
+      },
       "prosecutor": {
         "elected": false,
         "basis": "read",
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "clerk": {
+        "title": "Clerk of the Peace",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/de/constitution-of-the-state-of-delaware/de-const-art-3-sect-22/",
+        "note": "Del. Const. art. III § 22: \"The terms of office of Clerks of the Peace, Registers of Wills, Recorders, and Sheriffs shall be 4 years.\" They are \"chosen by the qualified electors of the respective counties at general elections and be commissioned by the Governor.\"",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
@@ -631,6 +658,19 @@
       }
     },
     "MA": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVI/Chapter37/Section1",
+        "note": "M.G.L. c. 37 § 1: \"A sheriff shall be elected in each county, as provided in section one hundred and fifty-nine of chapter fifty-four, for six years\".",
+        "termYears": 6
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section143",
+        "note": "M.G.L. c. 54 § 143 fills a county treasurer's office by election: \"Upon failure to choose a county treasurer or a register of deeds for a county or district, except Suffolk and Nantucket counties, the county commissioners shall forthwith issue precepts\". The section sets no term."
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
