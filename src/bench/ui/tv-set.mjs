@@ -16,3 +16,20 @@ export function tvSet({ live, speaker, station, onClick }) {
     }),
   ];
 }
+
+/**
+ * The broadcast on a set a room picture paints: the speaker's bust on its
+ * glass (the one strip of busts, nothing drawn here), placed by `rect`
+ * ([left, top, width, height] in percent of the picture, scene-places.json
+ * paintedScreens), over the room's own picture.
+ */
+export function tvGlass({ rect, speaker }) {
+  const [left, top, width, height] = rect.map((n) => `${n}%`);
+  const glass = el(
+    "div",
+    { id: "tv-screen" },
+    bustStrip({ people: [speaker], speakingId: speaker.personId }),
+  );
+  Object.assign(glass.style, { left, top, width, height });
+  return glass;
+}

@@ -11,7 +11,13 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addressMontage, namedInParts, beatKinds, partLevels } from "./montage";
+import {
+  addressMontage,
+  namedInParts,
+  beatKinds,
+  partLevels,
+  stagedAddress,
+} from "./montage";
 import { buildBenchWorld } from "./world";
 
 const runSeed =
@@ -75,11 +81,14 @@ it.each(["a", "b", "c"])(
     });
     const story = world.director.ledger.opening!;
     // The real address of the world: one beat per part, keyed to its level.
-    const parts = story.address.parts.length;
-    const levels = partLevels(story.address.sentences, parts);
+    // The montage splits a part on a sentence when the address has too few
+    // parts for both cutaways (no word changes).
+    const staged = stagedAddress(story.address.sentences, story.speechKind);
+    const parts = staged.parts?.length || story.address.parts.length;
+    const levels = partLevels(staged.sentences, parts);
     const named = namedInParts(
       world.core,
-      story.address.sentences,
+      staged.sentences,
       parts,
       story.president.id,
     );
@@ -90,6 +99,7 @@ it.each(["a", "b", "c"])(
       levels,
       20 * 60 + 30,
       named,
+      story.speechKind,
     );
     // Each beat shows the people its part names (owner, Nov 12: "random
     // busts of people ... unless it's people that he's introducing"): an
@@ -100,7 +110,7 @@ it.each(["a", "b", "c"])(
       if (beat.kind === "america")
         for (const id of shown)
           expect(named[at], `${where}: part ${at} shows ${id}`).toContain(id);
-      if (beat.kind !== "home")
+      if (beat.kind !== "home" && beat.kind !== "desk")
         for (const id of named[at]!)
           expect(
             beat.sourceRecordIds,
@@ -110,7 +120,7 @@ it.each(["a", "b", "c"])(
     expect(
       beats.map((beat) => beat.kind),
       where,
-    ).toEqual(beatKinds(levels));
+    ).toEqual(beatKinds(levels, story.speechKind));
     expect(beats.length, where).toBe(parts);
     for (const beat of beats) {
       if (beat.kind === "state") {
@@ -219,5 +229,187 @@ it.each(["a", "b"])(
       kinds.slice(1, -1),
       `${where}: middle beats ${kinds.join(", ")}`,
     ).toContain("america");
+  },
+);
+
+it("an inaugural is given at the Capitol with the Oval Office as a cutaway, never on the House floor (owner, Nov 23)", () => {
+  const kinds = beatKinds(
+    [
+      "salutation",
+      "occasion",
+      "country",
+      "people",
+      "congress",
+      "vice-president",
+      "states",
+      "close",
+    ],
+    "inaugural",
+  );
+  // The speech at the Capitol's stand, the President at the Resolute desk,
+  // America along a route, the desk again, the key people named at the
+  // colonnade, the states, and home.
+  expect(kinds).toEqual([
+    "stand",
+    "desk",
+    "desk",
+    "america",
+    "colonnade",
+    "colonnade",
+    "state",
+    "home",
+  ]);
+  expect(kinds).not.toContain("chamber");
+  // Every inaugural has its Oval Office cutaway, even one of three parts; the
+  // country parts after it alternate America and the Oval Office.
+  expect(beatKinds(["occasion", "country", "close"], "inaugural")).toEqual([
+    "stand",
+    "desk",
+    "home",
+  ]);
+  expect(
+    beatKinds(
+      ["occasion", "country", "country", "country", "close"],
+      "inaugural",
+    ),
+  ).toEqual(["stand", "desk", "america", "desk", "home"]);
+  // A State of the Union is still given in the chamber.
+  expect(beatKinds(["salutation", "occasion", "country", "close"])[0]).toBe(
+    "chamber",
+  );
+});
+
+it("a three-part inaugural splits a part on a sentence to show both cutaways", () => {
+  const row = (part: number, level: string) =>
+    ({
+      part,
+      level,
+      pieces: [] as string[],
+      values: {},
+      bare: {},
+    }) as never;
+  const rows = [
+    row(0, "salutation"),
+    row(0, "occasion"),
+    row(2, "country"),
+    row(2, "country"),
+    row(3, "close"),
+  ] as Parameters<typeof stagedAddress>[0];
+  const staged = stagedAddress(rows, "inaugural");
+  const levels = partLevels(staged.sentences, 4);
+  expect(beatKinds(levels, "inaugural")).toEqual([
+    "stand",
+    "desk",
+    "america",
+    "home",
+  ]);
+  // Not staged: nothing splits.
+  expect(stagedAddress(rows).parts).toBeNull();
+});
+
+it.each(["a", "b"])(
+  "the world's inaugural address plays its cutaways with fallbacks for pictures not yet painted (draw %s)",
+  { timeout: 900_000 },
+  (draw) => {
+    setBookkeeping(false);
+    const place = drawPlace(`${runSeed}:inaugural:${draw}`, "montage");
+    const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const story = world.director.ledger.opening!;
+    // The game starts on Jan 20: its address is the inaugural.
+    expect(story.speechKind, where).toBe("inaugural");
+    // The montage splits a part on a sentence when the address has too few
+    // parts for both cutaways (no word changes).
+    const staged = stagedAddress(story.address.sentences, story.speechKind);
+    const parts = staged.parts?.length || story.address.parts.length;
+    const levels = partLevels(staged.sentences, parts);
+    const named = namedInParts(
+      world.core,
+      staged.sentences,
+      parts,
+      story.president.id,
+    );
+    const beats = addressMontage(
+      world.core,
+      world.playerId!,
+      story.president.id,
+      levels,
+      20 * 60 + 30,
+      named,
+      story.speechKind,
+    );
+    // Beat 1 is the speech at the Capitol's stand (its fallback is the
+    // Capitol's exterior until the stand is painted); no beat is the House.
+    expect(beats[0]!.kind, where).toBe("stand");
+    expect(beats[0]!.backdrop.file, where).toMatch(
+      /^(inaugural-stand|us-capitol-exterior)/,
+    );
+    for (const beat of beats)
+      expect(beat.backdrop.file, `${where}: ${beat.kind}`).not.toMatch(
+        /^us-(house|senate)-floor/,
+      );
+    // Every part is the cutaway its level calls for: the desk for the
+    // occasion, America along a route for the country, the colonnade for the
+    // key people, in the order of the address.
+    const expected = beatKinds(levels, "inaugural");
+    expect(
+      beats.map((beat) => beat.kind),
+      where,
+    ).toEqual(expected);
+    // Both cutaways, every time (owner, Nov 23): the Oval Office first, then
+    // America, even in a three-part address.
+    const middle = beats.slice(1, -1).map((beat) => beat.kind);
+    expect(middle, `${where}: middle beats ${middle.join(", ")}`).toContain(
+      "desk",
+    );
+    expect(middle, where).toContain("america");
+    expect(middle.indexOf("desk"), where).toBeLessThan(
+      middle.indexOf("america"),
+    );
+    // A split changes where the same words divide, never the words.
+    expect((staged.parts ?? story.address.parts).join(" "), where).toBe(
+      story.address.parts.join(" "),
+    );
+    levels.forEach((level, at) => {
+      if (at === 0 || at === levels.length - 1) return;
+      if (level === "congress" || level === "vice-president")
+        expect(beats[at]!.kind, `${where}: part ${at}`).toBe("colonnade");
+    });
+    for (const beat of beats.filter((row) => row.kind === "colonnade"))
+      expect(beat.backdrop.file, where).toMatch(/^white-house-colonnade/);
+    // The Oval Office cutaway is the President alone at the Resolute desk.
+    for (const beat of beats.filter((row) => row.kind === "desk")) {
+      expect(beat.backdrop.file, where).toMatch(/^oval-/);
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: desk`,
+      ).toEqual([story.president.id]);
+    }
+    // The key people a part names are on its beat as it is spoken.
+    beats.forEach((beat, at) => {
+      if (beat.kind === "home" || beat.kind === "desk") return;
+      for (const id of named[at]!)
+        expect(
+          beat.sourceRecordIds,
+          `${where}: part ${at} names ${id}`,
+        ).toContain(id);
+    });
+    // A cutaway is heard on a set: the speaker stands on the strip only in
+    // the beats that show him in the room (CTO, Nov 24).
+    for (const beat of beats.filter((row) =>
+      ["america", "state", "home"].includes(row.kind),
+    ))
+      expect(beat.inRoom, `${where}: ${beat.kind}`).toBe(false);
+    // The President is the large bust on the beats that show him working.
+    for (const beat of beats.filter((row) =>
+      ["chamber", "stand", "desk"].includes(row.kind),
+    ))
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: ${beat.kind}`,
+      ).toContain(story.president.id);
   },
 );

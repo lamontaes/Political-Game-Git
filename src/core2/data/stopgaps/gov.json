@@ -2142,10 +2142,21 @@
     "resolvedBy": "Elections"
   },
   {
+    "id": "SG-GOV-board-chair-beside-presiding-executive",
+    "kind": "missing-data",
+    "file": "src/core2/modules/leadership.ts",
+    "line": 187,
+    "whatItFakes": "Every county and township board elects a chair from its members, as Arizona's does (A.R.S. sec. 11-216(A)). Where state law has the county's executive preside over the body (a Texas county judge over the commissioners court, an Arkansas county judge over the quorum court, a Kentucky judge/executive over the fiscal court), a member is still elected chair, and no state's own title for the post (chairman, president, director) is read.",
+    "why": "The leadership engine organizes a body from its own members; the county executive office's presidesOverBody mark (src/core2/gov-rules/county-governing-body-rules.ts) is not read by it yet, and county-governing-bodies.json holds no presiding title per state.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-24",
+    "replacement": "Each state's row in data/research/local-government/county-governing-bodies.json carries its presiding title and who presides, read from statute; where the executive presides, the chair post is that executive's, and the news reads the post's title from the record."
+  },
+  {
     "id": "SG-GOV-office-areas-estimated",
     "kind": "assumed-data",
     "file": "src/core2/contest-positions.ts",
-    "line": 130,
+    "line": 131,
     "whatItFakes": "The policy areas and budget lines each county row office (sheriff, prosecutor, clerk, treasurer, assessor, coroner) can run on are estimated from what every state's county code gives the office, in src/core2/data/campaigns/office-areas.json, not read office by office and state by state; and which question families a local budget line is about (src/core2/data/campaigns/budget-line-areas.json), so a council or board runs on schools, higher education, health and hospitals or welfare only where its state lets it decide a question of that family.",
     "why": "The Nov 23 sitting (P28, C11): a coroner ran on immigration enforcement and every county seat ran on budget lines. The county codes' duties are not yet compiled per state.",
     "addedBy": "Stands lane",

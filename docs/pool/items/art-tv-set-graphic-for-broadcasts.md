@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10316
 after:
 blocked-on:
 lead: play
@@ -17,6 +17,7 @@ effort: medium
 root: design-director-on-core2
 source: carryover N16-27 (the Governor's address on TV: "this TV thing needs a graphic made for it")
 checked: sonnet 2026-11-23
+merged-at: 2026-11-24T11:06:33.606Z
 ---
 
 **What.** A speech heard on television draws the speaker's bust in a plain dark box with LIVE over it, and the owner wants a real TV graphic for it. The owner said so on Nov 17. The graphic is a picture, which this step does not make. Seen: on the LIVE corner at any broadcast part of an address.
