@@ -75081,6 +75081,438 @@
         "move": "thank",
         "key": "desk-visit"
       }
+    },
+    {
+      "key": "scene-talk.close-thank.being-able-to-drop-in-on-your-sister-in-place-without-checking-your-wallet-first-means-something-i-m-glad-you-signed",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Being able to drop in on your sister in {place} without checking your wallet first means something. I'm glad you signed.",
+      "elements": ["one-bus-to-visit-family"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-one-bus-to-visit-family"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-signed-bill-i-ll-be-there-when-we-take-up-what-the-city-owes-the-operator-i-asked-for-this",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You signed {bill}. I'll be there when we take up what the city owes the operator. I asked for this.",
+      "elements": ["city-pays-agency-for-foregone-fares"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "bill",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-city-pays-agency-for-foregone-fares"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-be-careful-how-i-describe-bill-if-you-still-need-a-pass-to-get-to-work-you-may-spend-exactly-what-you-did-last-month",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll be careful how I describe {bill}. If you still need a pass to get to work, you may spend exactly what you did last month.",
+      "elements": ["monthly-pass-still-needed"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "bill",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-monthly-pass-still-needed"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.one-less-argument-for-the-driver-to-settle-in-place-i-appreciate-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "One less argument for the driver to settle in {place}. I appreciate that.",
+      "elements": ["operator-no-longer-argues-over-the-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-operator-no-longer-argues-over-the-fare"]
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.a-ride-home-after-class-counts-just-as-much-as-the-ride-in-i-m-glad-you-thought-about-the-round-trip-in-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "A ride home after class counts just as much as the ride in. I'm glad you thought about the round trip in {place}.",
+      "elements": ["student-counts-a-semester-of-fares"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-student-counts-a-semester-of-fares"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-take-that-answer-back-to-place-i-ll-make-sure-nobody-hears-me-promise-a-free-train-ride-just-because-the-bus-was-free",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll take that answer back to {place}. I'll make sure nobody hears me promise a free train ride just because the bus was free.",
+      "elements": ["paid-transfer-after-free-first-leg"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.people-in-place-who-pay-cash-will-ask-where-they-can-buy-a-pass-i-d-like-an-address-i-can-give-them",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "People in {place} who pay cash will ask where they can buy a pass. I'd like an address I can give them.",
+      "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-offline-fare-payment"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-at-the-next-meeting-in-place-somebody-will-ask-how-to-pay-for-the-kids-riding-with-them-let-s-get-the-driver-s-answer",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks. At the next meeting in {place}, somebody will ask how to pay for the kids riding with them. Let's get the driver's answer.",
+      "elements": ["tell-the-driver-before-paying-for-the-family"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": [
+            "heard-tell-the-driver-before-paying-for-the-family"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-ve-signed-bill-could-the-seller-explain-when-the-clock-starts-i-d-hate-to-see-someone-buy-it-and-lose-a-day-guessing",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You've signed {bill}. Could the seller explain when the clock starts? I'd hate to see someone buy it and lose a day guessing.",
+      "elements": ["pass-clock-starts-at-first-use"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "bill",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-pass-clock-starts-at-first-use"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.same-card-on-the-way-home-that-s-what-people-in-place-will-ask-if-the-operator-puts-a-daily-limit-on-fares",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Same card on the way home? That's what people in {place} will ask if the operator puts a daily limit on fares.",
+      "elements": ["fare-cap-follows-the-payment-device"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-fare-cap-follows-the-payment-device"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-appreciate-your-hearing-this-through-before-the-first-paid-ride-in-place-drivers-deserve-a-straight-answer-about-what-to-do-with-a-damp-dollar-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate your hearing this through. Before the first paid ride in {place}, drivers deserve a straight answer about what to do with a damp dollar bill.",
+      "elements": ["crumpled-bills-at-the-farebox"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": ["heard-crumpled-bills-at-the-farebox"]
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-folks-who-take-the-van-in-place-to-check-their-own-fare-schedule-they-shouldn-t-have-to-guess-from-a-headline-about-the-bus",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the folks who take the van in {place} to check their own fare schedule. They shouldn't have to guess from a headline about the bus.",
+      "elements": ["the-bus-fare-and-the-van-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-signature",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
     }
   ]
 }
