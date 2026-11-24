@@ -5544,6 +5544,23 @@ select.release-pick {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  /* A long list (an outlet's back issues) scrolls a whole row at a time and
+     fades at its foot, so no headline is left cut off at the edge. */
+  scroll-snap-type: y proximity;
+  scroll-padding-block: 0 24px;
+  padding-bottom: 24px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - 28px),
+    transparent
+  );
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+}
+.news-list .news-row {
+  scroll-snap-align: start;
+}
+.news-list {
+  scrollbar-color: rgba(214, 189, 132, 0.85) transparent;
 }
 .pick-list .news-row,
 #sheet-body .pick-list .news-row {

@@ -17,7 +17,7 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { lawRows } from "./modules/laws";
+import { lawInForce, lawRows } from "./modules/laws";
 import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStories } from "./modules/press";
 import type { PastTown } from "./past-bodies";
@@ -120,6 +120,24 @@ export function buildNewsArchive(
       jurisdiction: history.jurisdiction,
       body: history.body,
     };
+    // A law that moved nothing is not news (the amount in force the day it
+    // took effect is the amount in force the day before): the rate "still 16%".
+    // Only an amount law of the town's own chain can be read this way; a
+    // policy law, and another state's, are told as they are.
+    const amount = row && row.unit && row.unit !== "program";
+    const before = amount
+      ? lawInForce(api, history.series, shiftDays(history.effectiveDate, -1))
+          .value
+      : null;
+    const after = amount
+      ? lawInForce(api, history.series, history.effectiveDate).value
+      : null;
+    if (
+      typeof before === "number" &&
+      typeof after === "number" &&
+      before === after
+    )
+      continue;
     add("law-enacted", history.id, history.enactedOn, facts, {
       topic: history.series,
       desiredChange: "enact",

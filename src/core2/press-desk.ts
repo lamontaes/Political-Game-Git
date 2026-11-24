@@ -760,10 +760,30 @@ export function runDesk(
 ): PrintedStory[] {
   const p = ctx.parameter;
   const since = addDays(makeIsoDate(api.state.date), -p("storyFreshDays"));
+  // The jurisdictions whose law binds the town: the nation, its state, its
+  // county, its township and the town itself (the laws engine's chain).
+  const chainJurisdictions = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(lawChain(api).levels.map((level) => level.jurisdiction))
+    : null;
+  const bindsTown = (lawId: string): boolean => {
+    if (!chainJurisdictions) return true;
+    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+      { jurisdiction?: string } | undefined;
+    return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
+  };
   const open = wire.filter(
     (item) =>
       item.date >= since &&
       !ctx.printed(item.id, outlet.id) &&
+      // Another state's or town's law reaches none of a local outlet's
+      // readers, so a local outlet does not carry it: it is national news
+      // (a Guam law in a Kentucky station's week).
+      !(
+        outlet.tier !== "national" &&
+        item.kind === "law-took-effect" &&
+        item.facts?.lawId &&
+        !bindsTown(String(item.facts.lawId))
+      ) &&
       !(outlet.tier === "national" && !nationalCarries(item)) &&
       // A legal notice runs in the town's paper of record only.
       !(item.kind === NOTICE_KIND && ctx.paperOfRecord?.(outlet) === false),
@@ -821,15 +841,6 @@ export function runDesk(
   // full follower.
   // The jurisdictions whose law binds the town: the nation, its state, its
   // county, its township and the town itself (the laws engine's chain).
-  const chainJurisdictions = api.state.modules.has(LAWS_MODULE_ID)
-    ? new Set(lawChain(api).levels.map((level) => level.jurisdiction))
-    : null;
-  const bindsTown = (lawId: string): boolean => {
-    if (!chainJurisdictions) return true;
-    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-      { jurisdiction?: string } | undefined;
-    return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
-  };
   // Who a count's result concerns: the named voters on its roll.
   const countRoll = (item: WireItem): ((id: string) => boolean) | null => {
     const facts = item.facts ?? {};

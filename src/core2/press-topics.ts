@@ -226,6 +226,15 @@ export function wireItem(
     case "concession":
       return null;
     case "law-took-effect": {
+      // A law that left the amount in force where it was changed nothing a
+      // reader can meet, and is no news ("still 16%"). Only an amount law the
+      // laws engine sized (it records what stood and what stands) is read so.
+      if (
+        facts.priorValue !== undefined &&
+        facts.inForceValue !== undefined &&
+        Number(facts.priorValue) === Number(facts.inForceValue)
+      )
+        return null;
       const topic = facts.series ?? event.kind;
       // A policy law at 0, or an amount set to nothing, ends what stood.
       const ending = Number(facts.value) === 0;

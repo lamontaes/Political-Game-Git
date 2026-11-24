@@ -2938,6 +2938,15 @@ export function writeArchiveStories(
     return item ? [{ event, item }] : [];
   });
   const ctx = deskContext(api);
+  const outsideLaw = (item: WireItem): boolean => {
+    const jurisdiction = item.facts?.jurisdiction;
+    return (
+      (item.kind === "law-took-effect" || item.kind === "law-enacted") &&
+      !!jurisdiction &&
+      jurisdiction !== "US" &&
+      !chain.levels.some((level) => level.jurisdiction === jurisdiction)
+    );
+  };
   const alive = (outlet: OutletRow) =>
     (outlet.reporterIds ?? []).filter((id) => api.state.people.get(id)?.alive);
   const week = (date: string) =>
@@ -2950,6 +2959,10 @@ export function writeArchiveStories(
     const carried = items.filter(
       ({ item }) =>
         outletCarries(outlet, item, ofRecord) &&
+        // Another state's law binds no one here and is national news: a local
+        // outlet does not carry it, a national one does (the live desk's
+        // reach, `involved`: it reaches none of a local outlet's readers).
+        !(outlet.tier === "local" && outsideLaw(item)) &&
         (outlet.tier !== "national" ||
           item.level === "nation" ||
           item.level === "state"),
