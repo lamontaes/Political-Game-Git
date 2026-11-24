@@ -3372,58 +3372,6 @@
       "elements": ["ask-in-the-middle-belief-after"]
     },
     {
-      "key": "outline-theme.stand-reason.inaugural-i-ve-thought-about-and-i-land-on-no-since",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I've thought about {about}, and I land on no, since {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-against",
-            "law-not-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-against",
-            "law-not-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-against",
-            "law-not-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-humble"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["ask-in-the-middle-belief-after"]
-    },
-    {
       "key": "outline-theme.stand-reason.inaugural-for-me-fails-on-one-point",
       "move": "stand-reason",
       "kind": "spoken",
@@ -5755,29 +5703,6 @@
       "lean": [
         "personality-v1:facet-assertive",
         "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-of-everything-on-my-list-is-where-i-expect-to-be-tested-first",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Of everything on my list, {theme-short} is where I expect to be tested first.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",

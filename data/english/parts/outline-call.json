@@ -1298,43 +1298,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.call.spoken-whatever-you-think-of-take-a-minute-to-learn-what-the-other-side-is-af",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Whatever you think about whether to {to}, take a minute to learn what the other side is afraid of.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
       "key": "outline-call.call.spoken-show-someone-younger-how-to-find-their-polling-place-they-ll-be-voting",
       "move": "call",
       "kind": "spoken",
