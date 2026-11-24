@@ -87,8 +87,17 @@ export function billPaper(paper) {
       ? estimates(paper.sections[0])
       : estimateOf(paper.blank)),
   );
-  const showEstimate = (section) =>
+  // The estimate's strip shows only when the records give it something to say: a section with no
+  // figure and no step leaves no heading over an empty card.
+  const estimateStrip = stripSection(4, paper.estimateLabel, aside);
+  const fitEstimate = () => {
+    estimateStrip.hidden = !aside.childElementCount;
+  };
+  fitEstimate();
+  const showEstimate = (section) => {
     aside.replaceChildren(...estimates(section));
+    fitEstimate();
+  };
   // The bill as typed: Compare strikes the clause the law in force holds and inserts the bill's;
   // Clean copy shows the bill's alone (the views are the same records, drawn two ways).
   const views = paper.views;
@@ -222,7 +231,7 @@ export function billPaper(paper) {
       el(
         "div",
         { className: "mx3col" },
-        stripSection(4, paper.estimateLabel, aside),
+        estimateStrip,
         ...(paper.extra ?? []),
         ...(votes.length ? [stripSection(2, paper.voteLabel, ...votes)] : []),
       ),
