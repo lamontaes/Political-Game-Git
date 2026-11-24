@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10323
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T04:59:33.797Z
 ---
 
 **What.** The owner, Nov 23 (P21), said: look at the tiny headshots. Their bodies are cut off. The CTO caught (C8) that the hover name tip covers the member name. The council list draws each member as a 46 px face crop with no shoulders, and the card repeats name, party and office in a hover tip that lands on the name.

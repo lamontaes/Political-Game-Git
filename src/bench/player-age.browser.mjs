@@ -60,6 +60,8 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
+  await page.locator("#cr-random").click();
+  await page.waitForFunction(() => document.getElementById("cr-given").value);
   await page.locator("[data-gender=female]").click();
   await page.locator("#cr-given").fill("Test");
   await page.locator("#cr-family").fill("Person");
@@ -73,7 +75,6 @@ try {
   await page
     .locator("#cr-year")
     .selectOption({ index: ages.indexOf(Math.min(...ages)) });
-  await page.locator("#cr-place-random").click();
   await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
   const born = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",

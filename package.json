@@ -48,6 +48,7 @@
     "new-game-check": "node --max-old-space-size=8192 --import tsx scripts/new-game-check.ts",
     "zero-dice": "node scripts/zero-dice-guard.mjs",
     "guards": "node --import tsx scripts/guards/index.ts",
+    "ui-look": "node src/bench/ui-look.browser.mjs",
     "zero-real-data": "NODE_OPTIONS=--max-old-space-size=12288 vitest run src/core2/realistic-not-real.test.ts",
     "old-imports": "node scripts/core2-guard/old-imports.mjs",
     "all-places": "node --import tsx scripts/core2-year/all-places.mjs",

@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10312
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T05:04:19.829Z
 ---
 
 **What.** The owner, Nov 23 (P31), said: it is the same thing with the city and state on the loading screen. The card is 400 px wide, so a place like Los Altos, Texas wraps its title onto two lines.

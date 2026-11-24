@@ -19,6 +19,10 @@ export function rosterScreen({
   render,
   className = "",
   chosenKey,
+  /** The most rows the list shows before it scrolls in its box; a screen that holds the whole window asks for more. */
+  maxRows = 14,
+  /** Pixels of the window the screen's chrome takes above the list (the title, the tabs); a list that fills the sheet reserves less. */
+  reserve = 330,
 }) {
   const entries = groups.flatMap((g) => g.entries);
   let chosen = entries.find((e) => e.key === chosenKey) ?? entries[0];
@@ -88,7 +92,10 @@ export function rosterScreen({
     pager({
       items,
       render: rowOf,
-      rows: Math.max(6, Math.min(14, Math.floor((viewHeight() - 330) / 36))),
+      rows: Math.max(
+        6,
+        Math.min(maxRows, Math.floor((viewHeight() - reserve) / 36)),
+      ),
       columns: 1,
       rowHeight: 34,
       growRows: true,

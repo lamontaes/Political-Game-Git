@@ -95,7 +95,7 @@ try {
     if (opened >= 2) break;
     await page.locator("select.government-state").selectOption(value);
     await page.waitForTimeout(1500);
-    const rows = page.locator(".vote-rows .pick");
+    const rows = page.locator(".vote-rows .open-row");
     if (!(await rows.count())) continue;
     const rowText = await rows.first().innerText();
     const want = counts(rowText.split("·").pop());
@@ -125,12 +125,12 @@ try {
         .locator("#sheet-tabs")
         .getByRole("button", { name: "Government", exact: true })
         .click();
-      await page.locator(".vote-rows .pick").first().waitFor();
+      await page.locator(".vote-rows .open-row").first().waitFor();
       await page.waitForTimeout(800);
     };
     await backToGovernment();
     if (opened === 0) await shot("state-recent-votes");
-    await page.locator(".vote-rows .pick").first().click();
+    await page.locator(".vote-rows .open-row").first().click();
     await page
       .getByText(/^Yes \(\d+\)/)
       .first()

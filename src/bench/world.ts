@@ -28,6 +28,8 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import type { EntityId } from "../core2/kernel/brands";
+import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import {
@@ -73,7 +75,7 @@ import {
 } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
-import { openPress } from "../core2/modules/press";
+import { openHouseholdOutlets, openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openPresidentActs } from "../core2/modules/president-acts";
@@ -863,6 +865,13 @@ function* benchWorldStages(
   if (warmUp) {
     yield "warmup";
     director.whileWarming(() => warmUpOpening(core, startDate, playerId));
+  }
+  // The player's household knows its paper and station from day one. After
+  // the warm-up, so the ages are read on the start date: a player who turns
+  // 18 inside the warm-up window is an adult here.
+  if (playerId) {
+    const home = core.people.get(playerId as EntityId)?.householdId;
+    if (home) openHouseholdOutlets(coreAPI(core), home);
   }
   director.start(core);
   options.onWorld?.(core, playerId);

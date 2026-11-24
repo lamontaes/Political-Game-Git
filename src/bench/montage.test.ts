@@ -124,6 +124,20 @@ it.each(["a", "b", "c"])(
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
+    // The people the address names wear formal clothes, a jacket, wherever
+    // the beat is drawn (owner, Nov 23, P10: "why is Stephen Morales not in
+    // the right clothes?"); a person the bank paints with a whole top only
+    // has none.
+    beats.forEach((beat, at) => {
+      if (beat.kind === "home") return;
+      for (const person of beat.people.filter((row) =>
+        named[at]!.includes(row.personId),
+      ))
+        expect(
+          person.face.bust.layers.some((layer) => layer.includes("jacket")),
+          `${where}: ${person.name} is not in a jacket in part ${at}`,
+        ).toBe(true);
+    });
     // The speaker is the one in the chamber.
     for (const kind of ["chamber"])
       for (const beat of beats.filter((row) => row.kind === kind))
@@ -181,5 +195,29 @@ it.each(["a", "b", "c"])(
     expect(home, where).not.toContain(world.playerId);
     for (const id of home)
       expect(household?.memberIds ?? [], where).toContain(id);
+  },
+);
+
+it.each(["a", "b"])(
+  "the address's middle parts cut away to America in the world's own address (draw %s)",
+  { timeout: 900_000 },
+  (draw) => {
+    setBookkeeping(false);
+    const place = drawPlace(`${runSeed}:america:${draw}`, "montage");
+    const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const address = world.director.ledger.opening!.address;
+    // One level per part the player sees, read from the record's sentences
+    // whatever numbers their parts carry (P8, Nov 23).
+    const levels = partLevels(address.sentences, address.parts.length);
+    const kinds = beatKinds(levels);
+    expect(kinds.length, where).toBe(address.parts.length);
+    expect(
+      kinds.slice(1, -1),
+      `${where}: middle beats ${kinds.join(", ")}`,
+    ).toContain("america");
   },
 );
