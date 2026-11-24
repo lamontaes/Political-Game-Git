@@ -4946,6 +4946,18 @@ select.release-pick {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
 }
+/* Tabular figures widen a space in the font: a name in a value reads as one word, spaced once. */
+.strip-screen .dotvalue .nm {
+  font-variant-numeric: lining-nums;
+}
+/* A stand wrapped over two lines keeps its For or Against on the last line, beside the leader. */
+.candidate .dotrow {
+  align-items: last baseline;
+}
+.candidate .dotvalue {
+  flex: none;
+  white-space: nowrap;
+}
 #person.dossier .sheet-head {
   position: absolute;
   top: 22px;
@@ -5641,6 +5653,17 @@ select.release-pick {
   font: var(--pick-aside-font);
   color: var(--muted);
   white-space: nowrap;
+}
+/* A list whose rows all break alike (Elections): the aside always sits on its own
+   line under the name, so one row never carries it beside the name and the next
+   under it (owner, Nov 23: "Why is the 2021 on a different line?"). */
+.pick-list.roster-stacked .pick,
+#sheet-body .pick-list.roster-stacked .pick {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
 }
 #sheet-body .pick-list .pick:hover,
 #sheet-body .pick-list .pick:focus-visible {
