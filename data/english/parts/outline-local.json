@@ -3667,6 +3667,409 @@
       "date": "2026-11-24",
       "elements": ["stump-platform-as-a-topic-by-topic-list"],
       "issues": ["budget:corrections"]
+    },
+    {
+      "key": "outline-local.stand.a-new-ball-field-in-means-nothing-to-a-family-whose-street-floods-i-d-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A new ball field in {realm-name} means nothing to a family whose street floods. I'd fix the street first.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:parks",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:parks",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:parks"]
+    },
+    {
+      "key": "outline-local.stand.every-dollar-for-new-roads-in-is-a-dollar-not-spent-patching-the-ones-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "Every dollar for new roads in {realm-name} is a dollar not spent patching the ones we have. I'm against the increase.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:highways",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:highways",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "outline-local.stand.i-won-t-add-to-the-school-budget-in-unless-the-money-reaches-the-class",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I won't add to the school budget in {realm-name} unless the money reaches the classroom and not the central office.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:schools",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:schools",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:schools"]
+    },
+    {
+      "key": "outline-local.stand.people-who-finish-their-time-in-come-home-to-no-job-no-id-and-no-place",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "People who finish their time in {realm-name} come home to no job, no ID and no place to stay. I'd spend more to help them start over.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:budget:corrections",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:budget:corrections",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:corrections"]
+    },
+    {
+      "key": "outline-local.stand.a-bigger-jail-in-costs-more-every-year-to-run-i-d-put-that-money-into-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A bigger jail in {realm-name} costs more every year to run. I'd put that money into keeping people out of it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:corrections",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:corrections",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:corrections"]
+    },
+    {
+      "key": "outline-local.stand.if-the-creek-in-goes-bad-every-family-on-it-pays-i-d-spend-more-to-kee",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "If the creek in {realm-name} goes bad, every family on it pays. I'd spend more to keep it clean.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:budget:naturalResources",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:budget:naturalResources",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:naturalResources"]
+    },
+    {
+      "key": "outline-local.stand.i-m-against-spending-more-to-protect-land-in-that-its-owners-already-l",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against spending more to protect land in {realm-name} that its owners already look after.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:naturalResources",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:naturalResources",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:naturalResources"]
+    },
+    {
+      "key": "outline-local.stand.assistance-in-should-get-people-back-to-work-and-the-money-should-foll",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "Assistance in {realm-name} should get people back to work, and the money should follow that. I'd say no to more until it does.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:welfareAndMedicaid",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:budget:welfareAndMedicaid",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:welfareAndMedicaid"]
+    },
+    {
+      "key": "outline-local.stand.a-call-to-the-police-in-shouldn-t-wait-twenty-minutes-i-d-pay-for-more",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A call to the police in {realm-name} shouldn't wait twenty minutes. I'd pay for more officers on the night shift.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["budget:police"]
+    },
+    {
+      "key": "outline-local.stand.when-an-officer-in-is-accused-of-misconduct-someone-outside-the-depart",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "When an officer in {realm-name} is accused of misconduct, someone outside the department should look into it. I'm for a civilian oversight board.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": [
+        "question:us-policy-positions:justice-public-safety.civilian-oversight-of-police"
+      ]
+    },
+    {
+      "key": "outline-local.stand.a-board-of-civilians-can-t-know-what-an-officer-faces-in-a-second-on-t",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A board of civilians can't know what an officer faces in a second on the street. I'm against an oversight board in {realm-name}. The chief should answer for it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": [
+        "question:us-policy-positions:justice-public-safety.civilian-oversight-of-police"
+      ]
     }
   ]
 }
