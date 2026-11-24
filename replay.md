@@ -155,3 +155,14 @@ Local head cf1b9219 = origin/main 1ceba440 with #10338 (3a6892d5), #10375 (059b5
 | N8-P41 | #10346, local | **fail** (one Week from Jan 28 to Feb 4 with a letter scene took 8.9 s on the clock; the 0.6 s first-talk claim was not measured) | replay-m5week-after.png | Week plays a letter scene then lands Feb 4, 7:00 AM. |
 | N16-27, C18 | #10309, local | **not reached** (the Governor's address showed the LIVE box and the household strip in the kitchen; this room has no television) | replay-m5w-2.png | WWHH-TV address with Governor Douglas Colón in LIVE; no TV in the room. |
 | C10 | #10338, local | **not reached** (the mayor card did not open in this run) | none | Not played. |
+
+## Coordinator's step-3 corrections (08:10Z)
+
+Heads: main 1ceba440; main+#10346 925a2448 (local merge); main+ten PRs+#10391 4a466fe6 (local merge). None pushed.
+
+| Row | Grade | Picture | Detail |
+| --- | --- | --- | --- |
+| P8 (Capitol beat and Oval cutaway) | **open, fix in #10391 (not merged)**; played with #10344 and #10391 merged locally. Capitol beat **pass**; America cutaway **pass**; Oval cutaway of the President alone **not reached** in three draws | replay-m6open-01.png (Bryceland, Louisiana, seed a3a040af-b2ee-49dd-8e92-a33f23c6a24e), replay-m6open-02.png | The speech opens in front of the Capitol at night (President large, Speaker and Vice President small), then the train-station America cutaway with LIVE, then the home. No Oval Office frame in the three draws (Bryceland LA; Walthill, Nebraska seed 567111a1-8684-4ce3-ba8b-a8eedb8bd323; Garden City, Texas seed 64919196-9f0d-45f9-b4e0-00a40aad3a26). |
+| N8-P41 (Week speed) | **measured, no change from #10346** | none | Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, fresh life, reading time left out, three runs each side. Week press to first stop shown: main 325, 356, 372 ms (median 356 ms); main+#10346 302, 318, 374 ms (median 318 ms). New-life response to first talk open (the 9.4 s to 0.6 s claim): main 9,829, 9,913, 9,924 ms (median 9,913 ms); main+#10346 9,401, 9,404, 9,581 ms (median 9,404 ms). So the first talk still opens in about 9.4 s with #10346, not 0.6 s. |
+| N16-27, C18 | **open, art** | replay-m6aopen-03.png (Walthill NE) | In a room with a painted TV (a living room), the TV screen is dark while the LIVE box shows the President. The kitchen has no TV. |
+| C10 | **pass on main in this draw** (the earlier Pillsbury draw failed; #10338 not merged) | replay-m6d-mayor.png (card text in the table) | Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, main 1ceba440: Mayor Kelly Donovan, born 1990, mayor since 2018; story runs school 1996 to 2009, college 2009 to 2011, one job in 2011, hired again at 26, won mayor in 2018. One job in any year. |
