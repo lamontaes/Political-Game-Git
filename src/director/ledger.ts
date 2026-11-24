@@ -1205,7 +1205,7 @@ export function createDirector(
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
-        change(
+        const made = change(
           named ? named.event.id : (priorJob ?? nowJob)!,
           kind,
           "money",
@@ -1215,6 +1215,9 @@ export function createDirector(
             ? named.event.id
             : undefined,
         );
+        // The person's own job starting or ending is their own record: met
+        // where its scene is set (a first day at work stops the day there).
+        if (memberId === book.personId) made.selfNamed = true;
         break;
       }
     }
