@@ -27069,36 +27069,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.what-did-you-do-in-place-before-you-decided-to-run",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did you do in {place} before you decided to run?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
       "key": "scene-talk.follow-thank.thank-you-tell-rival-s-people-you-re-taken",
       "move": "follow-thank",
       "kind": "spoken",
@@ -86041,36 +86011,6 @@
         "door-answer-is-frustration-with-the-body",
         "door-ask-is-what-should-the-office-do",
         "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.i-live-in-place-and-i-decided-it-was-time-to-run",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I live in {place}, and I decided it was time to run.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["place"],
-          "after": "scene-talk.reply-ask.what-did-you-do-in-place-before-you-decided-to-run"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
       ]
     },
     {
