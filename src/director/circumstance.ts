@@ -49,6 +49,12 @@ const one = P.one;
 
 export interface CircumstanceRow {
   id: string;
+  /**
+   * Every qualifying record is its own pick, not only the day's best: a
+   * canvassing session's doors with a stake each stage their scene, in the
+   * order the session reached them (owner, Nov 24, P46).
+   */
+  each?: boolean;
   /** Who may receive the row's scene (scheduling.ts `receives`); a cast that breaks it is not made. */
   receive?: ReceiveRule;
   /** Trigger record kinds ("job" is a job record started today). */
@@ -696,7 +702,8 @@ export function circumstancePicks(
             (named ? weights.named : weights.witnessed) +
             weights.tie * closeness +
             weights.sociability * social;
-          const held = best.get(row.id);
+          const key = row.each ? `${row.id}|${record.id}` : row.id;
+          const held = best.get(key);
           if (
             !held ||
             score > held.score ||
@@ -704,7 +711,7 @@ export function circumstancePicks(
               (record.id < held.record.id ||
                 (record.id === held.record.id && id < held.castId)))
           )
-            best.set(row.id, { row, record, castId: id, score, closeness });
+            best.set(key, { row, record, castId: id, score, closeness });
         }
     }
   }

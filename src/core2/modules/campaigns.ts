@@ -343,6 +343,12 @@ export interface CauseRow {
   readonly shownIds?: readonly string[];
   /** The record that made the touch, where one did (a scene's reply). */
   readonly sourceId?: string;
+  /**
+   * A door's place in its canvassing session: the minutes from the session's
+   * first knock to this one, from its place in the walk at the canvasser's
+   * pace. The door scene says how far into the session it is, never the clock.
+   */
+  readonly minuteIn?: number;
 }
 
 /**
@@ -1085,6 +1091,8 @@ function reach(
     readonly rapport: number;
     readonly target?: number;
     readonly shownIds?: readonly string[];
+    /** A door's minutes into its canvassing session (`CauseRow.minuteIn`). */
+    readonly minuteIn?: number;
   },
 ): CauseRow | null {
   const voter = api.state.people.get(voterId);
@@ -1115,6 +1123,7 @@ function reach(
     rapport: options.rapport,
     weight: options.weight,
     ...(options.shownIds?.length ? { shownIds: options.shownIds } : {}),
+    ...(options.minuteIn !== undefined ? { minuteIn: options.minuteIn } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({
@@ -1431,6 +1440,8 @@ function* walkDoors(
 ): Generator<{
   readonly home: string;
   readonly opener: ReturnType<typeof adultsAt>[number];
+  /** Minutes from the session's first knock to this door's. */
+  readonly minuteIn: number;
 }> {
   const doors = input.doors;
   const done = input.done;
@@ -1474,13 +1485,15 @@ function* walkDoors(
     readonly opener: ReturnType<typeof adultsAt>[number];
     readonly share: number;
     readonly owed: number;
+    readonly minuteIn: number;
   }[] = [];
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
     input.walked.push(home.id);
     input.lastKnocked.set(home.id, api.state.date);
     // Who's home at the minute of the knock: not at a scheduled shift.
-    const minute = start + Math.floor((index * 60) / perHour);
+    const minuteIn = Math.floor((index * 60) / perHour);
+    const minute = start + minuteIn;
     const athome = home.adults.filter(
       (a) => !a.slots.some((c) => atWork(c!, api.state.date, minute)),
     );
@@ -1511,7 +1524,7 @@ function* walkDoors(
     // what the home is owed (starting even).
     const share = logistic(opener.score / campaignParameter("doorAnswerScale"));
     const owed = (input.carries.get(home.id) ?? OPENING_CARRY) + share;
-    knocks.push({ home: home.id, opener: opener.adult, share, owed });
+    knocks.push({ home: home.id, opener: opener.adult, share, owed, minuteIn });
   }
   // The evening opens as many doors as the shares add up to, with what the
   // campaign's earlier evenings carried, so a street of reluctant homes still
@@ -1528,7 +1541,7 @@ function* walkDoors(
   for (const k of knocks) {
     const opened = opening.has(k.home);
     input.carries.set(k.home, opened ? k.owed - 1 : k.owed);
-    if (opened) yield { home: k.home, opener: k.opener };
+    if (opened) yield { home: k.home, opener: k.opener, minuteIn: k.minuteIn };
   }
 }
 
@@ -1620,7 +1633,7 @@ function walkWith(
     opened.map((o) => o.opener),
     fillCounted,
   );
-  for (const { home, opener } of opened) {
+  for (const { home, opener, minuteIn } of opened) {
     const openerId = opener.id;
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
@@ -1663,6 +1676,7 @@ function walkWith(
         carriesPlatform: true,
         weight: campaignParameter("doorContactWeight"),
         rapport: rapport(canvasser, answers),
+        minuteIn,
       },
     );
     if (!cause) continue;

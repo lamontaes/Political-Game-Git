@@ -1,12 +1,15 @@
 /**
  * The doors a candidate knocked themself today, from the campaign engine's
  * own records of who it reached (its causes table): each door that opened,
- * and whether the candidate had knocked there before. Of the day's doors,
- * a door whose resident has a cause on record first (a variant other than
- * the plain one), then the one whose resident most agrees or disagrees with the candidate's
- * platform (the cause's own agreement) is the household with a stake: the
- * owner's porch scene in a day of door knocking (Oct 8). While the
- * candidate's petition circulates, each door says whether its resident signed.
+ * and whether the candidate had knocked there before. Every door whose
+ * resident has a reason of their own on record (a variant other than the
+ * plain one: a layoff, a rent notice, an illness at home, a tie to the
+ * candidate, a shared party) has a stake, so a canvassing session stages no
+ * door scene, one, or several, in the order the session reached them (owner,
+ * Nov 24: "you might get 50 signatures. You might not even have a scene. You
+ * might get 32 and have 2 scenes"). Each door carries its minutes into the
+ * session. While the candidate's petition circulates, each door says whether
+ * its resident signed.
  */
 import {
   CAMPAIGNS_MODULE_ID,
@@ -20,7 +23,6 @@ import {
   petitionSignerIds,
   type FilingRow,
 } from "../core2/modules/elections";
-import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { QueuedRecord } from "./circumstance";
@@ -62,11 +64,9 @@ export function doorsKnocked(
   const today = (
     causes.query("byCandidate", [personId]) as unknown as CauseRow[]
   ).filter((row) => door(row) && row.date === core.date && before(row));
-  const strength = (row: CauseRow) => Math.abs(row.agreement ?? P.zero);
   // A door whose resident's own records give the scene a cause (a layoff, a
   // rent notice, an illness at home, a tie to the candidate: any variant but
-  // the plain one) is staged before a plain door (Words lead, Nov 14, ruling
-  // 62); among them, the strongest agreement or disagreement, as before.
+  // the plain one) is a door with a stake (Words lead, Nov 14, ruling 62).
   const caused = new Map(
     today.map((row) => {
       const knock = knockFacts(core, row);
@@ -81,14 +81,6 @@ export function doorsKnocked(
       return [row.id, !!choice && choice.variant !== PLAIN_DOOR] as const;
     }),
   );
-  const most = today
-    .filter((row) => row.agreement !== null)
-    .sort(
-      (a, b) =>
-        Number(caused.get(b.id)) - Number(caused.get(a.id)) ||
-        strength(b) - strength(a) ||
-        a.id.localeCompare(b.id),
-    )[P.zero];
   return today.map((row) => ({
     id: row.id,
     kind: "campaign.door",
@@ -97,8 +89,9 @@ export function doorsKnocked(
     witnessIds: [],
     facts: {
       ...knockFacts(core, row),
-      stake: String(row.id === most?.id),
+      stake: String(caused.get(row.id) === true),
       candidateId: personId,
+      ...(row.minuteIn !== undefined ? { minuteIn: String(row.minuteIn) } : {}),
     },
   }));
 }

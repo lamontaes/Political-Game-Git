@@ -217,6 +217,16 @@
         "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
       }
     },
+    "directorDoorYoungAdultMaxAge": {
+      "value": 34,
+      "tag": "SOURCED",
+      "citation": "The oldest age the U.S. Census Bureau counts as a young adult, ages 18 to 34 (Vespa, J., 'The Changing Economics and Demographics of Young Adulthood: 1975-2016', Current Population Reports P20-579, U.S. Census Bureau, 2017). A door's narration may say a young resident answered (owner, Nov 24, P47; W6's door lines): words only, never a count or an outcome."
+    },
+    "directorDoorOlderAdultMinAge": {
+      "value": 65,
+      "tag": "SOURCED",
+      "citation": "The age from which the U.S. Census Bureau counts the older population, 65 and over (Roberts, A. W., et al., 'The Population 65 Years and Older in the United States: 2016', American Community Survey Reports ACS-38, U.S. Census Bureau, 2018). A door's narration may say an older resident answered: words only, never a count or an outcome."
+    },
     "directorCircumstanceDoorEveryDays": {
       "value": 3,
       "tag": "TUNABLE",

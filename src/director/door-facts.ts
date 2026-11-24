@@ -18,19 +18,32 @@
  * - `voted-last` / `sat-out-last`: the resident's own ballot in the last
  *   election this office was on, from the voting engine's ballot rows; set only
  *   where such a ballot is on record.
+ * - `age-band`: who answered, as narration says it: "young" up to the Census
+ *   Bureau's young-adult ages, "older" from its older population's, else
+ *   "middle-aged" (`directorDoorYoungAdultMaxAge`, `directorDoorOlderAdultMinAge`),
+ *   from the resident's birth record.
+ * - `session-hours` / `session-early`: how far into the canvassing session the
+ *   door opened, from the door's own cause record (`minuteIn`, its place in the
+ *   walk at the canvasser's pace): the hours as people say a span ("two
+ *   hours") from half an hour in, else that it is early in the session. Never
+ *   the clock (owner, Nov 24, P45 and P47).
  */
 import {
   ELECTIONS_MODULE_ID,
   petitionOf,
   petitionSignerIds,
 } from "../core2/modules/elections";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { VOTING_MODULE_ID, ballotOf } from "../core2/modules/voting";
 import { VIEWS_MODULE_ID, viewOf, viewOn } from "../core2/modules/views";
+import { ageOnDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { hoursSaid } from "../english/count-words";
 import { questionSide } from "../english/question-names";
 import type { Fact } from "../english/scene-talk-words";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 
 interface FilingLike {
   readonly id: string;
@@ -151,6 +164,34 @@ export function doorReads(
           ids,
         );
     }
+  }
+  // Who answered, by age as narration says it, from their birth record.
+  const resident = core.people.get(residentId);
+  if (resident?.birthDate) {
+    const age = ageOnDate(resident.birthDate, core.date);
+    const rows = DEFAULT_DIRECTOR_DATA.parameters;
+    facts["age-band"] = fact(
+      age <= rows.directorDoorYoungAdultMaxAge!.value
+        ? "young"
+        : age >= rows.directorDoorOlderAdultMinAge!.value
+          ? "older"
+          : "middle-aged",
+      [residentId],
+    );
+  }
+  // How far into the canvassing session the door opened (its cause record).
+  if (core.modules.has(CAMPAIGNS_MODULE_ID)) {
+    const minuteIn = (
+      api.moduleState(CAMPAIGNS_MODULE_ID).table("causes").get(causeId) as
+        { minuteIn?: number } | undefined
+    )?.minuteIn;
+    // From half an hour in, the hours as people say them; before, early on.
+    const halfHour = P.minutesPerHour / (P.one + P.one);
+    if (minuteIn !== undefined)
+      facts[minuteIn >= halfHour ? "session-hours" : "session-early"] = fact(
+        minuteIn >= halfHour ? hoursSaid(minuteIn) : "yes",
+        [causeId],
+      );
   }
   return facts;
 }
