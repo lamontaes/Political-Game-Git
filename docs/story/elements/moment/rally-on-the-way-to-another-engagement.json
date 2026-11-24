@@ -11,5 +11,13 @@
   "slots": ["{companion}", "{event}", "{place}"],
   "gates": ["The route and time coincide with a recorded rally."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The two pause long enough to identify the speaker and then continue to coffee.",
+      "pulledBy": "Their appointment leaves little time to stay.",
+      "writesBack": "They can recall the speaker but did not hear the whole address."
+    }
+  ]
 }

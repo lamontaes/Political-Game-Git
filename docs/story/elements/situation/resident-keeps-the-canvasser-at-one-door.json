@@ -11,5 +11,13 @@
   "slots": ["{resident}", "{canvasser}"],
   "gates": ["Both people are still at the door."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident asks for a later visit so the canvasser can finish the street.",
+      "pulledBy": "The resident has more questions than either can cover before dark.",
+      "writesBack": "The route continues with one return visit requested."
+    }
+  ]
 }

@@ -14,5 +14,13 @@
     "The reporter and member encounter each other outside an appointment."
   ],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member gives the reporter a time to call after the meeting.",
+      "pulledBy": "The next engagement has already started.",
+      "writesBack": "The interview request stays outstanding until the agreed time."
+    }
+  ]
 }

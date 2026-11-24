@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{manager}"],
   "gates": ["The candidate has deferred the call."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The candidate asks everyone else to step outside and stays at the desk.",
+      "pulledBy": "The candidate wants privacy and needs the returns within reach.",
+      "writesBack": "The room clears until the candidate calls the manager back."
+    }
+  ]
 }

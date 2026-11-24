@@ -11,5 +11,13 @@
   "slots": ["{member}", "{reporter}", "{quote}"],
   "gates": ["The member has already declined attribution in this interview."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The reporter accepts the refusal and asks where to find the public filing.",
+      "pulledBy": "The member is willing to locate documents after declining a quote.",
+      "writesBack": "The reporter leaves with a document reference."
+    }
+  ]
 }

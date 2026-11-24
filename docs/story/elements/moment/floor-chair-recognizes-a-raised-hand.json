@@ -11,5 +11,13 @@
   "slots": ["{chair}", "{member}", "{bill}"],
   "gates": ["The member has sought recognition."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The chair acknowledges the member and calls on them after the pending question.",
+      "pulledBy": "Another member already has the floor.",
+      "writesBack": "The speaking order preserves the earlier recognition."
+    }
+  ]
 }

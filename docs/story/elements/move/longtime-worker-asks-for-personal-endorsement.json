@@ -11,5 +11,13 @@
   "slots": ["{worker}", "{candidate}", "{office}"],
   "gates": ["The worker’s service and new candidacy are recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The officeholder offers a private reference and declines a public endorsement.",
+      "pulledBy": "Another longtime colleague is already in the same race.",
+      "writesBack": "The worker can cite the reference only on the agreed terms."
+    }
+  ]
 }

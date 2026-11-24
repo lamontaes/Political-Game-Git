@@ -11,5 +11,13 @@
   "slots": ["{business}", "{law}", "{place}"],
   "gates": ["A repeal has taken effect and a business impact is established."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The employer keeps the current schedule until its existing contracts expire.",
+      "pulledBy": "The repeal changes future costs while the signed contracts fix today's terms.",
+      "writesBack": "The review date falls at contract renewal."
+    }
+  ]
 }

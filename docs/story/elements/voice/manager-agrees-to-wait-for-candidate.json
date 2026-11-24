@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{manager}"],
   "gates": ["The candidate has just asked for time alone."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The manager leaves a trusted aide by the door and returns to the count room.",
+      "pulledBy": "The election office is about to release an update.",
+      "writesBack": "The candidate knows whom to find immediately on returning."
+    }
+  ]
 }

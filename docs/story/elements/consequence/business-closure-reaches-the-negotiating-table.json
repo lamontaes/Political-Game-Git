@@ -11,5 +11,13 @@
   "slots": ["{business}", "{industry}", "{negotiator}"],
   "gates": ["A closure and related negotiation are recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The negotiators set aside the closed firm's figures and ask the remaining firms for current estimates.",
+      "pulledBy": "The closure predates the proposal under discussion.",
+      "writesBack": "The minutes identify which employers still supplied evidence."
+    }
+  ]
 }

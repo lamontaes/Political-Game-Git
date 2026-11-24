@@ -11,5 +11,13 @@
   "slots": ["{president}", "{occasion}"],
   "gates": ["The speaker is giving the national address."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The president names the host town before turning to people listening around the country.",
+      "pulledBy": "The address has both a local audience and a national broadcast.",
+      "writesBack": "The opening distinguishes the venue from the reach of the address."
+    }
+  ]
 }

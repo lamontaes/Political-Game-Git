@@ -11,5 +11,13 @@
   "slots": ["{member}", "{bill}", "{question}"],
   "gates": ["There is a recorded vote and evidence of electoral disagreement."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The member explains the vote and leaves its effect on the next election open.",
+      "pulledBy": "No election or reliable measure of support has followed the vote.",
+      "writesBack": "The interview records the position without assigning an electoral loss."
+    }
+  ]
 }

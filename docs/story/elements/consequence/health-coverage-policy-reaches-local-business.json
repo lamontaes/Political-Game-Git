@@ -11,5 +11,13 @@
   "slots": ["{industry}", "{place}", "{policy}"],
   "gates": ["The coverage change has a supported local industry effect."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "A clinic changes its hours when the first post-change payments arrive.",
+      "pulledBy": "Its operating decision depends on actual reimbursements after the coverage change.",
+      "writesBack": "The new schedule starts in the payment period that prompted it."
+    }
+  ]
 }

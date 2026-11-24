@@ -11,5 +11,13 @@
   "slots": ["{petitioner}", "{place}"],
   "gates": ["A canvassing shift has ended."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "A resident calls headquarters after finding the canvasser's card.",
+      "pulledBy": "The resident returned home after the shift ended.",
+      "writesBack": "A later callback is linked to the unanswered visit."
+    }
+  ]
 }

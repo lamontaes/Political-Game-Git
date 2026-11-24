@@ -11,5 +11,13 @@
   "slots": ["{reporter}", "{outlet}", "{deadline}"],
   "gates": ["The story has a recorded deadline."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The reporter calls back after the deadline moves.",
+      "pulledBy": "The editor has held the story for the next edition.",
+      "writesBack": "The member receives a new comment deadline."
+    }
+  ]
 }

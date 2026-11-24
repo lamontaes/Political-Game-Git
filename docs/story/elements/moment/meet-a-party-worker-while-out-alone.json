@@ -13,5 +13,13 @@
     "The player is out alone and the other person belongs to the committee."
   ],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The party worker recognizes the member but leaves only a name before catching the bus.",
+      "pulledBy": "The bus arrives during the introduction.",
+      "writesBack": "The member knows whom they met without agreeing to a meeting."
+    }
+  ]
 }

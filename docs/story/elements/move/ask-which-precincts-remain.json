@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{manager}", "{precinct}"],
   "gates": ["Outstanding returns are known."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The manager names the missing precinct and says its absentee total is still unknown.",
+      "pulledBy": "The board has posted a precinct list without a ballot count.",
+      "writesBack": "The candidate has the location and an unresolved count."
+    }
+  ]
 }

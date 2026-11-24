@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{manager}", "{winner}"],
   "gates": ["The candidate accepts the result and chooses to call."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The candidate asks the manager to arrange the connection and waits to speak.",
+      "pulledBy": "The campaigns have agreed to route the call through their offices.",
+      "writesBack": "The manager places the call and the candidate delivers the message."
+    }
+  ]
 }

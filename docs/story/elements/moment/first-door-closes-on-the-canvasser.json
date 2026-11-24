@@ -11,5 +11,13 @@
   "slots": ["{canvasser}", "{resident}"],
   "gates": ["This is the canvasser’s first outing."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident opens the door long enough to ask who sent the canvasser.",
+      "pulledBy": "The resident recognizes the group on the volunteer's card.",
+      "writesBack": "The first stop yields a brief conversation."
+    }
+  ]
 }

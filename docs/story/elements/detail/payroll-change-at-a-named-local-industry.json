@@ -11,5 +11,13 @@
   "slots": ["{industry}", "{place}", "{law}"],
   "gates": ["The industry operates there and a payroll effect is supported."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The employer closes the first pay period under the law with payroll level.",
+      "pulledBy": "Hours and staffing at that establishment have held steady.",
+      "writesBack": "The industry record shows the unchanged payroll for that period."
+    }
+  ]
 }

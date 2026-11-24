@@ -11,5 +11,13 @@
   "slots": ["{member}", "{constituent}"],
   "gates": ["The two have met and the member knows the constituent."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member recognizes the visitor but asks how they would like to be introduced.",
+      "pulledBy": "The visitor brought someone new to the office.",
+      "writesBack": "The introduction uses the name the visitor supplies."
+    }
+  ]
 }

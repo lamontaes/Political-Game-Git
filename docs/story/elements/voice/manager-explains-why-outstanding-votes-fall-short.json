@@ -11,5 +11,13 @@
   "slots": ["{manager}", "{contest}"],
   "gates": ["The outstanding vote cannot cover the deficit."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The manager shows that the remaining ballots could still change the result.",
+      "pulledBy": "The reported gap is smaller than the verified outstanding count.",
+      "writesBack": "The campaign leaves the result open."
+    }
+  ]
 }
