@@ -1,9 +1,9 @@
 [
   {
-    "key": "scene-talk.narrate-narrate.in-place-name-stops-to-ask-you-about-law",
+    "key": "scene-talk.narrate-narrate.name-stops-to-ask-you-about-law",
     "kind": "spoken",
     "move": "narrate-narrate",
-    "text": "In {place}, {name} stops to ask you about {law}.",
+    "text": "{name} stops to ask you about {law}.",
     "uses": [
       {
         "subject": "scene",
@@ -12,7 +12,7 @@
         "role": "narrator",
         "purpose": "law-reaches",
         "key": "news-received",
-        "requiresFacts": ["place", "name", "law"],
+        "requiresFacts": ["name", "law"],
         "onlyWhen": ["in-force"]
       }
     ],
@@ -27,10 +27,10 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.narrate-narrate.you-re-out-in-place-when-name-brings-up-law",
+    "key": "scene-talk.narrate-narrate.you-hear-your-name-it-s-name-with-a-question-about-law",
     "kind": "spoken",
     "move": "narrate-narrate",
-    "text": "You're out in {place} when {name} brings up {law}.",
+    "text": "You hear your name. It's {name}, with a question about {law}.",
     "uses": [
       {
         "subject": "scene",
@@ -39,7 +39,7 @@
         "role": "narrator",
         "purpose": "law-reaches",
         "key": "news-received",
-        "requiresFacts": ["place", "name", "law"],
+        "requiresFacts": ["name", "law"],
         "onlyWhen": ["in-force"]
       }
     ],
