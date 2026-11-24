@@ -1,0 +1,30 @@
+{
+  "id": "annual-law-roundup-on-the-effective-date",
+  "kind": "situation",
+  "summary": "On the day laws take effect a roundup says what changes across several places.",
+  "realLife": "A public radio roundup on January first sampled new laws from six states, one item each.",
+  "sources": [
+    "Michigan Public (NPR copy), 'Rideshare union rights, social media limits and other state laws taking effect Jan. 1', Jan. 1, 2026: https://www.michiganpublic.org/2026-01-01/rideshare-union-rights-social-media-limits-and-other-state-laws-taking-effect-jan-1",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "place", "law"],
+  "gates": [],
+  "weights": {
+    "law": 1.0
+  },
+  "inGame": "`law-took-effect` builder with its effective date; the nation module's other states' laws",
+  "turns": [
+    {
+      "name": "one law only",
+      "pulledBy": "a single big law",
+      "writes": "the story is about that law alone"
+    },
+    {
+      "name": "a law delayed",
+      "pulledBy": "a court order",
+      "writes": "the story says the date moved"
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "sponsors-personal-reason",
+  "kind": "detail",
+  "summary": "A sponsor's own reason puts a face on a policy item.",
+  "realLife": "A sponsor said why a leave bill mattered to them, in a short quote.",
+  "sources": [
+    "Michigan Public (NPR copy), 'Rideshare union rights, social media limits and other state laws taking effect Jan. 1', Jan. 1, 2026: https://www.michiganpublic.org/2026-01-01/rideshare-union-rights-social-media-limits-and-other-state-laws-taking-effect-jan-1",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "law": 0.8
+  },
+  "inGame": "the sponsor record on a bill and a member's stated reasons (`belief`)",
+  "turns": [
+    {
+      "name": "a sponsor who gives no reason",
+      "pulledBy": "a sponsor who declined",
+      "writes": "the item says the sponsor did not comment"
+    },
+    {
+      "name": "an opponent's reason",
+      "pulledBy": "an opponent with a story of their own",
+      "writes": "the item quotes the opponent"
+    }
+  ],
+  "usedBy": []
+}
