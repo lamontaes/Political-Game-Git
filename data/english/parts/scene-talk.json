@@ -39839,6 +39839,4508 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-repair-bill-for-home-was-on-the-table-and-the-disaster-was-still-on-everybody-s-mind",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The repair bill for {home} was on the table, and the {disaster} was still on everybody's mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home", "disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-gone-over-the-repair-papers-for-home-more-than-once",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had gone over the repair papers for {home} more than once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-aid-had-come-and-so-had-the-bill-for-home",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The aid had come, and so had the bill for {home}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["aid", "home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-home-and-what-the-disaster-left-us",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about {home}, and what the {disaster} left us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home", "disaster"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-went-through-the-repair-papers-for-home-sit-with-me-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I went through the repair papers for {home}. Sit with me a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.the-repair-bill-for-home-came-and-i-didn-t-want-to-open-it-alone",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The repair bill for {home} came, and I didn't want to open it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-aid-paid-aid-and-the-repairs-still-come-to-loss",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The aid paid {aid}, and the repairs still come to {loss}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["aid-short", "aid", "loss"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-aid-covered-the-loss-so-home-is-paid-for",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The aid covered the {loss}, so {home} is paid for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["aid-covers", "loss", "home"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.no-aid-came-for-home-and-the-repairs-are-loss",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "No aid came for {home}, and the repairs are {loss}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["no-aid", "loss", "home"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.we-still-owe-left-on-the-repairs-after-the-disaster",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "We still owe {left} on the repairs after the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["unpaid", "left", "disaster"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.it-s-all-paid-up-home-is-fixed-and-the-disaster-is-behind-us",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "It's all paid up. {home} is fixed, and the {disaster} is behind us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["paid-up", "home", "disaster"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-see-the-repairs-through-and-left-will-get-paid",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll see the repairs through, and {left} will get paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["left"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.we-ll-fix-home-i-ll-make-sure-of-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We'll fix {home}. I'll make sure of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-of-the-loss-is-still-open",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much of the {loss} is still open?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["loss"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-the-aid-for-home-come-with-any-strings",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did the aid for {home} come with any strings?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home", "aid"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-disaster-leave-in-home-that-we-haven-t-seen-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the {disaster} leave in {home} that we haven't seen yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["disaster", "home"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-can-put-in-toward-left",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I can put in toward {left}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["left"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-chip-in-on-home-out-of-my-own-pay",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll chip in on {home} out of my own pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-look-at-loss-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't look at {loss} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["loss"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-talk-about-home-again-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not talk about {home} again today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-didn-t-want-to-face-home-alone",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I didn't want to face {home} alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "promise",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-really-see-home-through-it-s-a-lot",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll really see {home} through? It's a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "promise",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-loss-in-all-and-the-aid-is-what-it-is",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's {loss} in all, and the aid is what it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "ask",
+          "requiresFacts": ["loss"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-disaster-did-more-than-we-saw-so-there-may-be-more-to-fix",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The {disaster} did more than we saw, so there may be more to fix.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "ask",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-helps-it-makes-the-repairs-on-home-easier-to-face",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That helps. It makes the repairs on {home} easier to face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "offer",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-won-t-cover-it-home-needs-more-than-that",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That won't cover it. {home} needs more than that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "offer",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-can-t-put-home-off-winter-is-coming",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We can't put {home} off. Winter is coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "deflect",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-take-a-day-but-home-won-t-fix-itself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. Take a day, but {home} won't fix itself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "deflect",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.yes-we-ll-get-home-done",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes. We'll get {home} done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "press",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-put-in-what-i-can-on-home-honestly",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll put in what I can on {home}, honestly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "press",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-a-day-to-think-loss-is-a-lot-to-take-in",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me a day to think. {loss} is a lot to take in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "press",
+          "requiresFacts": ["loss"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-start-on-home-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll start on {home} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "answer",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-put-in-what-i-have-loss-gets-smaller-that-way",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll put in what I have. {loss} gets smaller that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "answer",
+          "requiresFacts": ["loss"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-more-than-i-can-take-in-about-home-just-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's more than I can take in about {home} just now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "answer",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-find-another-way-to-pay-for-home",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll find another way to pay for {home}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "refuse",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-work-out-home-and-come-back-to-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me work out {home} and come back to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "after": "refuse",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-feel-better-we-ll-get-home-sorted-together",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I feel better. We'll get {home} sorted together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "outcome": "resolved",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-start-on-home-first-thing",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll start on {home} first thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "outcome": "resolved",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-i-ll-leave-home-to-you-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll leave {home} to you, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "outcome": "refused",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-on-home-it-only-gets-worse",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait on {home}. It only gets worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "outcome": "refused",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-tell-me-what-you-decide-about-home",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and tell me what you decide about {home}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "outcome": "open",
+          "requiresFacts": ["home"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-landlord-s-notice-was-on-the-table-and-owed-was-the-number-on-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The landlord's notice was on the table, and {owed} was the number on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-have-to-show-you-something-from-the-landlord-and-it-says-owed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I have to show you something from the landlord, and it says {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-re-late-on-the-rent-and-the-landlord-sent-a-notice",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We're {late} on the rent, and the landlord sent a notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["late"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.the-landlord-served-notice-on-us-here-in-place-and-i-didn-t-want-you-to-hear-it-from-anyone-else",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The landlord served notice on us here in {place}, and I didn't want you to hear it from anyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-landlord-says-we-owe-owed-and-we-have-until-deadline",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The landlord says we owe {owed}, and we have until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.we-re-late-on-the-rent-the-landlord-wants-owed-or-we-leave",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "We're {late} on the rent. The landlord wants {owed}, or we leave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["late", "owed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.it-s-only-owed-but-they-mean-it-we-have-until-deadline",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "It's only {owed}, but they mean it. We have until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["short-little", "owed", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.it-s-owed-and-i-don-t-see-how-we-get-there-by-deadline",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "It's {owed}, and I don't see how we get there by {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["short-deep", "owed", "deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-notice-says-pay-or-get-out-and-i-don-t-know-what-we-do-here-in-place",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The notice says pay or get out, and I don't know what we do here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-get-owed-together-before-deadline",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get {owed} together before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-fix-it-we-re-not-losing-the-house-over-owed",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll fix it. We're not losing the house over {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.leave-it-with-me-i-ll-deal-with-the-landlord-about-the-rent-in-place",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Leave it with me. I'll deal with the landlord about the rent in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-owed-everything-we-owe-or-is-there-more",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is {owed} everything we owe, or is there more?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-if-we-re-past-deadline",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens if we're past {deadline}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-we-get-to-be-late",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did we get to be {late}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["late"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-landlord-say-when-they-served-it-here-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the landlord say when they served it, here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-cover-part-of-owed-and-we-ll-find-the-rest",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll cover part of {owed}, and we'll find the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-can-pick-up-extra-work-to-cover-owed",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I can pick up extra work to cover {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-talk-to-the-landlord-about-more-time-past-deadline",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll talk to the landlord about more time past {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-deal-with-owed-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't deal with {owed} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-settle-owed-while-we-re-both-angry",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not settle {owed} while we're both angry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-think-about-the-rent-while-place-is-on-my-mind",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't think about the rent while {place} is on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-was-scared-i-d-be-handling-owed-alone",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I was scared I'd be handling {owed} alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.do-you-really-have-owed-by-deadline-be-honest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Do you really have {owed} by {deadline}? Be honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "promise",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.yes-that-s-all-of-it-owed-and-we-have-until-deadline",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes, that's all of it, {owed}, and we have until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "ask",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-been-late-and-the-notices-just-kept-coming",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've been {late}, and the notices just kept coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "ask",
+          "requiresFacts": ["late"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-helps-it-makes-owed-less-scary",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That helps. It makes {owed} less scary.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-won-t-be-enough-for-owed-we-ll-need-more",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That won't be enough for {owed}. We'll need more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "offer",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-can-t-put-this-off-the-notice-says-deadline",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We can't put this off. The notice says {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "deflect",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-take-a-day-but-deadline-isn-t-moving",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. Take a day, but {deadline} isn't moving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "deflect",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.yes-i-ll-have-it-before-deadline",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes. I'll have it before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-put-in-what-i-can-owed-won-t-pay-itself",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll put in what I can. {owed} won't pay itself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-a-day-to-think-owed-is-a-lot-to-take-in",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me a day to think. {owed} is a lot to take in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "press",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-start-with-owed-first-thing",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll start with {owed} first thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-put-in-what-i-have-owed-gets-smaller-that-way",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll put in what I have. {owed} gets smaller that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-more-than-i-can-take-in-about-place-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's more than I can take in about {place} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-find-another-way-to-cover-owed",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll find another way to cover {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "refuse",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-work-out-how-to-cover-owed-and-come-back-to-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me work out how to cover {owed} and come back to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "after": "refuse",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-feel-better-we-ll-get-through-owed-together",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I feel better. We'll get through {owed} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "outcome": "resolved",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-start-with-owed-first-thing",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll start with {owed} first thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "outcome": "resolved",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-i-ll-leave-it-to-you-then-with-deadline-coming",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll leave it to you, then, with {deadline} coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "outcome": "refused",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-past-deadline",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait past {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "outcome": "refused",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-tell-me-before-deadline",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and tell me before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "notice-home",
+          "key": "notice",
+          "outcome": "open",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "notice"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-come-to-say-goodbye-before-leaving-for-destination",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had come to say goodbye before leaving for {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-moving-to-destination-with-companion-and-had-stopped-by-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was moving to {destination} with {companion}, and had stopped by first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "companion"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-lost-the-place-to-an-eviction-and-this-was-the-last-visit",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had lost the place to an eviction, and this was the last visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-evicted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-leaving-for-destination-and-the-goodbye-was-not-easy-for-either-of-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was leaving for {destination}, and the goodbye was not easy for either of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-couldn-t-leave-for-destination-without-seeing-you-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I couldn't leave for {destination} without seeing you first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-off-to-destination-and-i-wanted-to-say-it-to-your-face",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm off to {destination}, and I wanted to say it to your face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.companion-is-waiting-but-i-had-to-see-you-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{companion} is waiting, but I had to see you first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["companion"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-re-home-place-won-t-be-mine-much-longer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you're home. {place} won't be mine much longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-moving-to-destination-it-s-decided",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm moving to {destination}. It's decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-re-going-to-destination-companion-and-i",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We're going to {destination}, {companion} and I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "companion"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-lost-the-place-so-i-m-moving-to-destination",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I lost the place, so I'm moving to {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-evicted"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.work-ended-for-me-and-destination-is-where-i-can-start-over",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Work ended for me, and {destination} is where I can start over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-work-lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.there-s-a-job-waiting-for-me-in-destination",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "There's a job waiting for me in {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-job-elsewhere"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.family-is-in-destination-so-that-s-where-i-m-going",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Family is in {destination}, so that's where I'm going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-family"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.everyone-i-know-has-moved-on-so-i-m-going-to-destination-too",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Everyone I know has moved on, so I'm going to {destination} too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-kin-moved"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.after-what-we-lost-i-can-t-stay-here-i-m-going-to-destination",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "After what we lost, I can't stay here. I'm going to {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-loss"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-leaving-place-i-wanted-you-to-hear-it-from-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm leaving {place}. I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.you-ll-make-something-good-of-destination",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "You'll make something good of {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.place-won-t-be-the-same-without-you",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "{place} won't be the same without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.whatever-happens-in-destination-you-ll-land-on-your-feet",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Whatever happens in {destination}, you'll land on your feet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-destination-of-all-places",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why {destination}, of all places?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-companion-going-with-you-then",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is {companion} going with you, then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["companion"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-finally-made-you-choose-destination",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What finally made you choose {destination}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination", "why-given"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-will-you-be-once-you-re-not-in-place-anymore",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where will you be, once you're not in {place} anymore?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-come-see-you-in-destination",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll come see you in {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-won-t-lose-me-even-with-destination-so-far-off",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You won't lose me, even with {destination} so far off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-you-and-i-ll-tell-you-everything-about-place",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call you, and I'll tell you everything about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-everything-you-did-for-me-here-in-place",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for everything you did for me here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-m-glad-you-came-by-before-destination",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I'm glad you came by before {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-means-a-lot-and-i-ll-take-it-with-me-to-destination",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That means a lot, and I'll take it with me to {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "comfort",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-what-i-needed-from-you-before-destination",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's what I needed from you before {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "comfort",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-helps-i-ll-carry-it-out-of-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That helps. I'll carry it out of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-where-i-can-start-over-destination-is-far-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's where I can start over. {destination} is far enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "ask",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.companion-is-going-so-i-m-going",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{companion} is going, so I'm going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "ask",
+          "requiresFacts": ["companion"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-didn-t-plan-on-leaving-place-it-just-came-to-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I didn't plan on leaving {place}. It just came to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "ask"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-destination-will-feel-closer-if-you-do",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {destination} will feel closer if you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "promise",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-really-come-to-destination-don-t-let-it-slide",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll really come to {destination}? Don't let it slide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "promise",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-re-square-take-care-of-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we're square. Take care of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.yes-i-ll-be-in-destination-before-you-ve-unpacked",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes. I'll be in {destination} before you've unpacked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "press",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.you-ll-be-fine-in-destination-whether-i-get-there-or-not",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "You'll be fine in {destination}, whether I get there or not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "press",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-tell-you-when-i-can-destination-is-a-long-way",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll tell you when I can. {destination} is a long way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "press",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.that-sounds-like-a-fresh-start-in-destination",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "That sounds like a fresh start, in {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "answer",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-visit-destination-the-first-chance-i-get",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll visit {destination} the first chance I get.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "answer",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-telling-me-why-you-picked-destination",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for telling me why you picked {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "after": "answer",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-this-i-ll-write-from-destination",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for this. I'll write from {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "outcome": "resolved",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-you-the-first-week-in-destination",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call you the first week in {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "outcome": "resolved",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-take-care-of-yourself-in-place",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. Take care of yourself in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-let-place-swallow-you-while-i-m-gone",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't let {place} swallow you while I'm gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-tell-me-before-i-leave-for-destination",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and tell me before I leave for {destination}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye",
+          "outcome": "open",
+          "requiresFacts": ["destination"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stood-in-the-doorway-looking-past-you-toward-kid",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stood in the doorway, looking past you toward {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-house-was-quiet-the-way-a-house-is-with-kid-asleep-in-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The house was quiet the way a house is with {kid} asleep in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.partner-had-kid-on-one-arm-when-name-came-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{partner} had {kid} on one arm when {name} came in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "partner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-came-to-the-door-to-meet-kid-and-stayed-a-long-while",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} came to the door to meet {kid} and stayed a long while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-come-all-the-way-from-hometown-to-see-kid",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had come all the way from {hometown} to see {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "hometown"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.is-that-kid-i-hear-i-couldn-t-wait-any-longer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is that {kid} I hear? I couldn't wait any longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-straight-from-hometown-to-see-kid",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came straight from {hometown} to see {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-drop-in-like-this-i-had-to-see-kid",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to drop in like this. I had to see {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.can-i-hold-kid-and-is-there-anything-i-can-do-for-you-two",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Can I hold {kid}? And is there anything I can do for you two?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.let-me-bring-you-dinner-this-week-while-kid-keeps-you-up-can-i",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Let me bring you dinner this week while {kid} keeps you up. Can I?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.partner-has-to-be-wiped-out-what-can-i-take-off-your-plate-for-kid",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{partner} has to be wiped out. What can I take off your plate for {kid}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "partner"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.will-you-let-me-watch-kid-one-afternoon-so-you-and-partner-can-sleep",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Will you let me watch {kid} one afternoon so you and {partner} can sleep?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "partner"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.promise-you-ll-call-me-when-kid-needs-anything-or-when-you-do",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Promise you'll call me when {kid} needs anything, or when you do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-d-love-to-see-kid-again-once-you-re-settled-even-from-hometown-when-is-good",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'd love to see {kid} again once you're settled, even from {hometown}. When is good?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.kid-eats-sleeps-and-stares-at-the-ceiling-that-s-all-so-far",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{kid} eats, sleeps and stares at the ceiling. That's all so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-re-tired-but-kid-is-worth-every-bit-of-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We're tired, but {kid} is worth every bit of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.come-in-kid-is-just-through-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Come in. {kid} is just through here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.honestly-i-m-scared-i-m-doing-it-wrong-with-kid",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "Honestly, I'm scared I'm doing it wrong with {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-didn-t-expect-to-feel-this-lost-with-kid-so-small",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I didn't expect to feel this lost, with {kid} so small.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-haven-t-slept-and-kid-knows-it-before-i-do",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I haven't slept, and {kid} knows it before I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.would-you-really-take-kid-for-an-afternoon-i-d-sleep",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Would you really take {kid} for an afternoon? I'd sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.i-could-use-a-hand-with-kid-more-than-i-ve-said",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I could use a hand with {kid} more than I've said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.could-you-stay-a-while-and-help-me-settle-kid",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Could you stay a while and help me settle {kid}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-do-when-yours-wouldn-t-sleep-like-kid",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you do when yours wouldn't sleep, like {kid}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-you-manage-the-first-weeks-before-kid-found-a-rhythm",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did you manage the first weeks, before {kid} found a rhythm?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-sounds-right-for-kid-take-all-the-time-you-need",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That sounds right for {kid}. Take all the time you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.kid-is-lucky-to-have-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "{kid} is lucky to have you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.of-course-kid-won-t-be-this-small-for-long-so-let-me-help",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Of course. {kid} won't be this small for long, so let me help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "request",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.anything-you-need-for-kid-just-say-so",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Anything you need for {kid}, just say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "request",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.rest-then-kid-has-a-long-way-to-go-and-so-do-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Rest, then. {kid} has a long way to go and so do you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "thank",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.everybody-feels-that-way-kid-just-needs-you-there",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Everybody feels that way. {kid} just needs you there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "confess",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-re-not-doing-it-wrong-look-how-kid-settles-for-you",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You're not doing it wrong. Look how {kid} settles for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "confess",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-i-walked-the-hall-kid-will-sleep-i-promise",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly I walked the hall. {kid} will sleep, I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-leaned-on-everyone-i-knew-kid-is-lucky-to-have-people",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I leaned on everyone I knew. {kid} is lucky to have people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-helps-thank-you-for-coming-for-kid",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That helps. Thank you for coming for {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "comfort",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.then-help-me-through-the-next-few-weeks-with-kid",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Then help me through the next few weeks with {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "comfort",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-hold-on-to-that-kid-will-be-up-soon-though",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll hold on to that. {kid} will be up soon, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "comfort",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-what-partner-said-about-kid-too",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's what {partner} said about {kid}, too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["kid", "partner"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.would-you-walk-the-hall-with-me-with-kid-like-this",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Would you walk the hall with me, with {kid} like this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-try-it-kid-is-stirring-so-i-should-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll try it. {kid} is stirring, so I should go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-i-came-give-kid-a-kiss-from-me",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad I came. Give {kid} a kiss from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-back-soon-to-see-kid",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be back soon to see {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-rest-and-i-ll-see-kid-another-day",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. Rest, and I'll see {kid} another day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-to-ask-for-help-with-kid",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait to ask for help with {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-call-me-about-kid",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and call me about {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.relatives-stayed-on-after-the-cake-at-your-wedding-to",
       "move": "narrate-narrate",
       "kind": "spoken",
