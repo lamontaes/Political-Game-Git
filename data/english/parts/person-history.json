@@ -10657,6 +10657,318 @@
         "a-turning-year-stated-in-the-life-story",
         "births-and-deaths-in-the-family-set-down-plainly"
       ]
+    },
+    {
+      "key": "person-history.story.moved.away.they.w9",
+      "move": "story",
+      "text": "{who} moved out of town.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": [
+        "a-turning-year-stated-in-the-life-story",
+        "a-move-told-by-its-reason-and-how-they-went"
+      ]
+    },
+    {
+      "key": "person-history.story.moved.away.i.w9",
+      "move": "story",
+      "text": "{who} went elsewhere to live.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": [
+        "a-turning-year-stated-in-the-life-story",
+        "a-move-told-by-its-reason-and-how-they-went"
+      ]
+    },
+    {
+      "key": "person-history.story.law.victim.they.w3",
+      "move": "story",
+      "text": "{who} were wronged by a crime.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.law.arrested.they.w3",
+      "move": "story",
+      "text": "{who} were taken into custody.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.law.convicted.they.w3",
+      "move": "story",
+      "text": "{who} were found guilty in court.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they.w9",
+      "move": "story",
+      "text": "{who} were cut from their job.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i.w9",
+      "move": "story",
+      "text": "{who} was cut from my job.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.out.they.w9",
+      "move": "story",
+      "text": "{who} were between jobs.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.out.i.w9",
+      "move": "story",
+      "text": "{who} was between jobs.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.home.evicted.they.w3",
+      "move": "story",
+      "text": "{who} were forced out of their home.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.home.evicted.i.w3",
+      "move": "story",
+      "text": "{who} was forced out of my home.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.home.damaged.they.w2",
+      "move": "story",
+      "text": "{who} saw their home damaged in a disaster.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.home.damaged.i.w2",
+      "move": "story",
+      "text": "{who} saw my home damaged in a disaster.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.raised.they.w2",
+      "move": "story",
+      "text": "{who} were paid more after the minimum wage rose.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.out-second.they.w9",
+      "move": "story",
+      "text": "{who} were jobless a second time.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.work.out-second.i.w9",
+      "move": "story",
+      "text": "{who} was jobless a second time.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.moved.home-second.they.w7",
+      "move": "story",
+      "text": "{who} took another home.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": [
+        "a-turning-year-stated-in-the-life-story",
+        "a-move-told-by-its-reason-and-how-they-went"
+      ]
+    },
+    {
+      "key": "person-history.story.moved.home-second.i.w7",
+      "move": "story",
+      "text": "{who} switched homes once more.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": [
+        "a-turning-year-stated-in-the-life-story",
+        "a-move-told-by-its-reason-and-how-they-went"
+      ]
+    },
+    {
+      "key": "person-history.story.school.college.they.w7",
+      "move": "story",
+      "text": "{who} went off to college.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.school.college.i.w7",
+      "move": "story",
+      "text": "{who} became a college student.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.school.degree.they.w9",
+      "move": "story",
+      "text": "{who} were awarded a bachelor's degree.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.school.degree.i.w9",
+      "move": "story",
+      "text": "{who} was awarded a bachelor's degree.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w9",
+      "move": "story",
+      "text": "{who} were done with college, degree or not.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w9",
+      "move": "story",
+      "text": "{who} was done with college, degree or not.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.health.hospital.they.w7",
+      "move": "story",
+      "text": "{who} were admitted to the hospital.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.health.hospital.i.w7",
+      "move": "story",
+      "text": "{who} was treated in a hospital.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w9",
+      "move": "story",
+      "text": "{who} signed up with the armed forces.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w9",
+      "move": "story",
+      "text": "{who} took the oath to enlist.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w9",
+      "move": "story",
+      "text": "{who} were released from military duty.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w9",
+      "move": "story",
+      "text": "{who} ended military service.",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written",
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     }
   ]
 }
