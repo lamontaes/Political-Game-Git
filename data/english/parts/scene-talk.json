@@ -3381,6 +3381,1613 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-room-goes-quiet-for-the-last-numbers-then-loud-again-office-is-yours",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The room goes quiet for the last numbers, then loud again. {office} is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.someone-has-already-hung-a-banner-for-office-you-didn-t-ask-for-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Someone has already hung a banner for {office}. You didn't ask for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-phone-is-full-of-messages-and-the-count-for-office-is-final",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your phone is full of messages, and the count for {office} is final.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.people-keep-asking-about-opponent-and-the-count-for-office-is-final",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "People keep asking about {opponent}, and the count for {office} is final.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.folding-chairs-paper-cups-and-a-count-for-office-that-came-out-your-way",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Folding chairs, paper cups, and a count for {office} that came out your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-did-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}! You did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-congratulations",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.open-greet.over-here-first-everyone-s-been-waiting-for-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Over here, {first}. Everyone's been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.state-ask.how-does-it-feel-to-win-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How does it feel to win {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-the-first-thing-you-ll-do-as-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's the first thing you'll do as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-say-to-the-people-who-voted-for-opponent",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you say to the people who voted for {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.did-you-think-you-d-win-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did you think you'd win {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.will-you-call-opponent",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Will you call {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-happens-tomorrow-now-that-you-ve-won-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What happens tomorrow, now that you've won {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-answer.honestly-office-hasn-t-sunk-in-yet-ask-me-tomorrow",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Honestly, {office} hasn't sunk in yet. Ask me tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-start-by-listening-and-then-i-ll-get-to-work-on-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll start by listening, and then I'll get to work on {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-wanted-office-and-i-ll-try-to-deserve-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I wanted {office}, and I'll try to deserve it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-answer.right-now-i-want-to-thank-everyone-in-this-room-office-can-wait-until-morning",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Right now I want to thank everyone in this room. {office} can wait until morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-answer.ask-me-again-once-i-ve-slept-office-is-still-new",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Ask me again once I've slept. {office} is still new.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-tired-i-m-happy-and-i-m-a-little-scared-of-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm tired, I'm happy, and I'm a little scared of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-thought-about-quitting-twice-on-this-race-for-office-i-m-glad-i-didn-t",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I thought about quitting twice on this race for {office}. I'm glad I didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-tell.opponent-ran-a-hard-race-and-i-respect-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{opponent} ran a hard race, and I respect that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-couldn-t-have-run-for-office-without-every-one-of-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I couldn't have run for {office} without every one of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-hear-out-there-about-opponent-s-side",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you hear out there about {opponent}'s side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-do-i-need-to-call-first-about-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who do I need to call first about {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-opponent-called-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has {opponent} called yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-people-expect-from-office-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do people expect from {office} now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-boast.i-told-you-we-d-win-office-and-we-did",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I told you we'd win {office}, and we did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-boast.we-outworked-opponent-and-the-count-shows-it",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "We outworked {opponent}, and the count shows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-boast.nobody-believed-we-d-win-office-look-at-us",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Nobody believed we'd win {office}. Look at us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-find-my-family-first-thank-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to find my family, {first}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-i-ll-be-back-for-office-s-first-morning",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. I'll be back for {office}'s first morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-get-through-this-crowd-first-then-i-ll-answer-everything-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me get through this crowd first. Then I'll answer everything about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-first-i-got-carried-away-about-office",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, {first}. I got carried away about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-shouldn-t-have-said-that-about-opponent-not-now",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I shouldn't have said that about {opponent}. Not now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-what-we-wanted-to-hear-about-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's what we wanted to hear about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": ["answer", "tell"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-we-ll-be-with-you-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. We'll be with you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": ["answer", "tell"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-accept.you-earned-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You earned {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": ["answer", "tell"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-honest-we-needed-to-hear-it-from-whoever-won-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's honest. We needed to hear it from whoever won {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": ["answer", "tell"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-an-answer-what-will-you-do-first-as-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not an answer. What will you do first as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-press.come-on-give-us-one-thing-you-ll-do-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on. Give us one thing you'll do for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-press.be-specific-what-changes-first-with-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Be specific: what changes first with {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-answer.plenty-of-us-came-out-for-you-in-the-race-for-office-and-we-d-do-it-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Plenty of us came out for you in the race for {office}, and we'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-answer.people-expect-you-to-deliver-on-office-that-s-all",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "People expect you to deliver on {office}. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-hasn-t-called-yet-we-re-watching-the-phone",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} hasn't called yet. We're watching the phone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-warn.careful-opponent-s-people-are-in-this-room-too",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Careful. {opponent}'s people are in this room too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.follow-warn.don-t-gloat-office-is-a-long-job",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Don't gloat. {office} is a long job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "boast",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.follow-warn.easy-win-it-first-then-brag-about-office",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Easy. Win it first, then brag about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "boast",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-for-running-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}, for running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-all-of-it-first-this-belongs-to-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for all of it, {first}. This belongs to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-we-needed-someone-to-run-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. We needed someone to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-be-with-you-for-office",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll be with you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-promise.count-on-us-for-office-we-ll-show-up",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Count on us for {office}. We'll show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-be-there-when-office-gets-hard",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll be there when {office} gets hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-enjoy-it-you-ve-earned-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go enjoy it. You've earned {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-find-your-family-office-starts-tomorrow",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go find your family. {office} starts tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-we-ll-talk-about-office-when-you-ve-slept",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. We'll talk about {office} when you've slept.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-warn.enjoy-this-soon-office-is-real",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Enjoy this. Soon, {office} is real.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.close-warn.enjoy-it-because-office-won-t-be-this-easy",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Enjoy it, because {office} won't be this easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.close-press.we-ll-be-asking-about-office",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We'll be asking about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.close-press.don-t-forget-what-you-said-about-office",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't forget what you said about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
       "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
       "move": "follow-accept",
       "kind": "spoken",
