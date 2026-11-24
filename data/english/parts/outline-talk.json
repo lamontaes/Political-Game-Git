@@ -3611,6 +3611,173 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-would-be-better-for-it-and-is-the-first-to-say-so",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{place} would be better for it, and {president} is the first to say so.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-d-back-it-for-even-if-someone-else-were-saying-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I'd back it for {place} even if someone else were saying it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "stand-with", "president-for"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-is-right-to-hold-off-on-that-for",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{president} is right to hold off on that for {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-it-isn-t-right-for-whatever-says-about-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "It isn't right for {place}, whatever {president} says about it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-look-at-and-i-can-t-see-how-that-helps-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I look at {place} and I can't see how that helps it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-look-at-and-i-can-t-see-why-would-stand-in-the-way",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I look at {place} and I can't see why {president} would stand in the way.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-curious"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
     }
   ]
 }
