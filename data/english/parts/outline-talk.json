@@ -578,7 +578,7 @@
         }
       ],
       "after": ["why-first"],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -2773,10 +2773,7 @@
           "excludesFacts": []
         }
       ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-analytical"
-      ],
+      "lean": ["personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -2819,61 +2816,6 @@
         }
       ],
       "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-i-m-with-president-object-because-reason-for",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "I'm with {president-object} because {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "president-object",
-            "reason-for",
-            "stand-with"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-i-side-with-president-object-because-reason-against",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "I side with {president-object} because {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "president-object",
-            "reason-against",
-            "stand-with"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -2928,119 +2870,6 @@
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-guarded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-since-reason-for-i-m-with-president-object",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Since {reason-for}, I'm with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "president-object",
-            "reason-for",
-            "stand-with"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-since-reason-against-i-side-with-president-object",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Since {reason-against}, I side with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "president-object",
-            "reason-against",
-            "stand-with"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-since-reason-against-i-can-t-go-along-with-president-object",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Since {reason-against}, I can't go along with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "president-object",
-            "reason-against",
-            "stand-against"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-sensitive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-since-reason-for-i-can-t-go-along-with-president-object",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Since {reason-for}, I can't go along with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "president-object",
-            "reason-for",
-            "stand-against"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-fair-minded"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
