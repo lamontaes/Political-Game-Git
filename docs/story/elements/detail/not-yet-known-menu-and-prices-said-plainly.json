@@ -1,0 +1,30 @@
+{
+  "id": "not-yet-known-menu-and-prices-said-plainly",
+  "kind": "detail",
+  "summary": "The story says what is not yet released: the full menu and the prices.",
+  "realLife": "The story said the full menu and prices had not been released.",
+  "sources": [
+    "Patch (Bel Air, Maryland), 'New Coffeehouse, Cocktail Bar Opening In Bel Air', Nov. 23, 2026: https://patch.com/maryland/belair/new-coffeehouse-cocktail-bar-opening-bel-air",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "opening": 0.7
+  },
+  "inGame": "needs: a business with unannounced details",
+  "turns": [
+    {
+      "name": "everything known",
+      "pulledBy": "a business with a posted menu",
+      "writes": "the story gives the prices"
+    },
+    {
+      "name": "a delay",
+      "pulledBy": "an opening pushed back",
+      "writes": "the story says why"
+    }
+  ],
+  "usedBy": []
+}

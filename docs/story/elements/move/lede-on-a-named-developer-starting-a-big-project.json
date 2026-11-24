@@ -1,0 +1,30 @@
+{
+  "id": "lede-on-a-named-developer-starting-a-big-project",
+  "kind": "move",
+  "summary": "The lede is a developer turning the first dirt on a very large project.",
+  "realLife": "A story opened on a developer breaking ground on a project of thousands of homes.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "number", "place"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9
+  },
+  "inGame": "`organization.opened` for a developer firm and `housing.completed` for the project; needs: a project under way",
+  "turns": [
+    {
+      "name": "lede on a stalled project",
+      "pulledBy": "a developer who paused",
+      "writes": "the lede says work stopped"
+    },
+    {
+      "name": "lede on the buyers",
+      "pulledBy": "a project with a waiting list",
+      "writes": "the lede says how many have signed up"
+    }
+  ],
+  "usedBy": []
+}

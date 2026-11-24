@@ -1,0 +1,30 @@
+{
+  "id": "share-of-sales-by-price-band",
+  "kind": "detail",
+  "summary": "The story gives the share of sales at or below set price bands.",
+  "realLife": "It said the share of sales at or below a price rose and gave the next bands down.",
+  "sources": [
+    "myMotherLode.com (Sonora, California), 'Tuolumne County Home Sales Show Shift In Market Dynamics', July 15, 2025: https://www.mymotherlode.com/news/local/4105533/tuolumne-county-home-sales-show-shift-in-market-dynamics.html/amp",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["percent", "amount"],
+  "gates": [],
+  "weights": {
+    "home-sale": 0.9
+  },
+  "inGame": "`home-sale` rows grouped by price band",
+  "turns": [
+    {
+      "name": "more expensive sales",
+      "pulledBy": "a luxury run",
+      "writes": "the share above a price rose"
+    },
+    {
+      "name": "no bands",
+      "pulledBy": "a thin report",
+      "writes": "only the median"
+    }
+  ],
+  "usedBy": []
+}

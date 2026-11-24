@@ -3067,7 +3067,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.place-had-fewer-break-ins-this-month-than-last",
@@ -3089,7 +3090,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.robberies-in-place-went-up-this-month",
@@ -3375,7 +3377,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.police-in-place-saw-more-break-ins-this-month-than-the-month",
@@ -3397,7 +3400,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.there-were-more-burglaries-in-place-this-month",
@@ -3419,7 +3423,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.break-ins-fell-in-place-this-month",
@@ -3441,7 +3446,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.police-in-place-saw-fewer-break-ins-this-month-than-the-mont",
@@ -3463,7 +3469,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.there-were-fewer-burglaries-in-place-this-month",
@@ -3485,7 +3492,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.robberies-rose-in-place-this-month",
@@ -5655,7 +5663,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.founded.name-began-a-business-in-place",
@@ -5844,7 +5855,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-now-owns-a-home-in-place",
@@ -5865,7 +5877,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.homes-built.number-new-houses-went-up-in-place",
@@ -5887,7 +5900,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.one-new-house-was-built-in-place-on-date",
@@ -5909,7 +5923,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homeless-count.place-took-a-count-of-people-who-have-no-home",
@@ -10359,7 +10374,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-house-in-place-was-burglarized-on-date-the-ordinal",
@@ -10381,7 +10397,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.police-recorded-a-property-crime-in-place-on-date",
@@ -10403,7 +10420,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.police-recorded-a-property-crime-in-place-on-date-the",
@@ -10425,7 +10443,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.property-was-vandalized-in-place-on-date",
@@ -10447,7 +10466,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.property-was-vandalized-in-place-on-date-the-ordinal-case",
@@ -10469,7 +10489,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-robbed-on-date",
@@ -10491,7 +10512,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-robbed-on-date-the-ordinal",
@@ -10513,7 +10535,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-assaulted-on-date",
@@ -10535,7 +10558,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-assaulted-on-date-the-ordinal",
@@ -10557,7 +10581,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.burglars-broke-into-a-house-in-place-on-date",
@@ -10579,7 +10604,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-home-in-place-was-broken-into-on-date",
@@ -10601,7 +10627,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-burglary-was-reported-in-place-on-date",
@@ -10623,7 +10650,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.someone-broke-into-a-house-in-place-on-date",
@@ -10645,7 +10673,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.on-date-a-house-in-place-was-broken-into-the-ordinal-burglar",
@@ -10667,7 +10696,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.someone-vandalized-property-in-place-on-date",
@@ -10689,7 +10719,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.property-in-place-was-damaged-on-date",
@@ -10711,7 +10742,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.on-date-place-had-its-ordinal-case-of-vandalism-this-month",
@@ -10733,7 +10765,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-robbery-was-reported-in-place-on-date",
@@ -10755,7 +10788,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.someone-in-place-was-robbed-on-date",
@@ -10777,7 +10811,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-police-took-a-report-of-a-robbery-on-date",
@@ -10799,7 +10834,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.on-date-place-had-its-ordinal-robbery-this-month",
@@ -10821,7 +10857,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.the-robbery-in-place-on-date-was-the-ordinal-this-month",
@@ -10843,7 +10880,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.an-assault-was-reported-in-place-on-date",
@@ -10865,7 +10903,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.someone-in-place-was-attacked-on-date",
@@ -10887,7 +10926,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-police-took-a-report-of-an-assault-on-date",
@@ -10909,7 +10949,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.on-date-place-had-its-ordinal-assault-this-month",
@@ -10931,7 +10972,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.the-assault-in-place-on-date-was-the-ordinal-this-month",
@@ -10953,7 +10995,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-had-a-break-in-on-date-the-ordinal-this-month",
@@ -10975,7 +11018,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-had-a-robbery-on-date-the-ordinal-this-month",
@@ -10997,7 +11041,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-had-an-assault-on-date-the-ordinal-this-month",
@@ -11019,7 +11064,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.place-had-a-case-of-vandalism-on-date-the-ordinal-this-month",
@@ -11041,7 +11087,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.graduation.graduates-of-the-number-seniors-in-place-finished-school",
@@ -11195,7 +11242,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-one-new-home-in-place",
@@ -11217,7 +11265,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-apartments-were-completed-in-place",
@@ -11239,7 +11288,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-homes-were-completed-in-place-and-affordable-are",
@@ -11261,7 +11311,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-number-new-apartments-in-place-after-starting-work",
@@ -11283,7 +11334,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-built-a-new-home-that-was-completed-in-place",
@@ -11305,7 +11357,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.all-number-of-the-new-homes-in-place-are-priced",
@@ -11327,7 +11380,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.work-started-in-began-and-produced-number-new-homes-in",
@@ -11349,7 +11403,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.home-sale.the-family-family-paid-money-for-a-home-in-place",
@@ -11371,7 +11426,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.a-home-in-place-was-sold-for-money-to-the",
@@ -11393,7 +11449,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-put-down-down-on-a-home-in",
@@ -11415,7 +11472,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-had-been-renting-and-now-owns-a",
@@ -11437,7 +11495,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-bought-a-home-in-place-with-a",
@@ -11459,7 +11518,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.birth.name-was-born-in-place-on-date-the-child-of",
@@ -11549,7 +11609,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization-opened.subject-began-business-with-staff-on-staff",
@@ -11572,7 +11635,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.founded.name-started-a-business-in-industry",
@@ -11842,7 +11908,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.in-month-number-reports-reached-place-police-mostly-crimes",
@@ -11864,7 +11931,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.place-police-took-number-reports-of-crimes-in-month",
@@ -11886,7 +11954,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.police-in-place-took-a-single-report-in-month",
@@ -11908,7 +11977,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.honor.name-won-the-place-spelling-bee-this-year",
@@ -16433,7 +16503,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-has-opened-in-place",
@@ -16456,7 +16529,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-opened-its-doors",
@@ -16478,7 +16554,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-is-open-for-business",
@@ -16500,7 +16579,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-started-taking-customers",
@@ -16522,7 +16604,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-opened-its-doors-in-place",
@@ -16545,7 +16630,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.place-has-a-new-business-subject",
@@ -16568,7 +16656,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-set-up-shop-in-place",
@@ -16591,7 +16682,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.owner-opened-subject-in-place",
@@ -16614,7 +16708,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.a-new-business-subject-opened-in-place",
@@ -16637,7 +16734,10 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.honor.the-regional-bee-comes-soon",
@@ -16725,7 +16825,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.place-police-logged-number-reports-in-month",
@@ -16747,7 +16848,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.there-were-number-police-reports-in-place-in-month",
@@ -16769,7 +16871,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.month-saw-number-reports-to-place-police",
@@ -16791,7 +16894,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.extra-more-than-in-a-usual-month",

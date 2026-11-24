@@ -1,0 +1,30 @@
+{
+  "id": "comparison-line-with-another-state",
+  "kind": "move",
+  "summary": "A line sets one state beside another that did the same thing earlier.",
+  "realLife": "One state's new program was set beside two states that already had one.",
+  "sources": [
+    "Michigan Public (NPR copy), 'Rideshare union rights, social media limits and other state laws taking effect Jan. 1', Jan. 1, 2026: https://www.michiganpublic.org/2026-01-01/rideshare-union-rights-social-media-limits-and-other-state-laws-taking-effect-jan-1",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {
+    "law": 0.8
+  },
+  "inGame": "the nation module's other states' laws",
+  "turns": [
+    {
+      "name": "no comparison",
+      "pulledBy": "a first of its kind",
+      "writes": "the item says no state has done it"
+    },
+    {
+      "name": "a comparison that cuts against",
+      "pulledBy": "a state that repealed it",
+      "writes": "the item says it was ended elsewhere"
+    }
+  ],
+  "usedBy": []
+}

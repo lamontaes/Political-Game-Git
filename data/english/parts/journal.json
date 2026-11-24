@@ -272,7 +272,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.school-line-started.i-attended-school",
@@ -299,7 +300,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.school-line-started.i-was-enrolled-at-school",
@@ -326,7 +328,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.school-line-started.i-sat-in-class-at-school",
@@ -353,7 +356,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-elementary.i-started-at-school",
@@ -380,7 +384,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-elementary.i-began-school-at-school",
@@ -407,7 +412,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-elementary.my-first-school-was-school",
@@ -434,7 +440,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-high.i-entered-school-for-high-school",
@@ -461,7 +468,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-high.high-school-began-for-me-at-school",
@@ -488,7 +496,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.home-school-started-high.i-began-high-school-at-school",
@@ -515,7 +524,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "journal.life-school-finished-passed.i-graduated-from-school",
@@ -541,7 +551,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.life-school-finished-passed.i-got-my-diploma-at-school",
@@ -567,7 +578,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.life-school-finished-passed.i-finished-high-school-at-school",
@@ -593,7 +605,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.life-school-finished-left.i-left-school-without-a-diploma",
@@ -619,7 +632,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.life-school-finished-left.i-finished-at-school-without-a-diploma",
@@ -645,7 +659,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.life-school-finished-left.i-stopped-at-school-without-a-diploma",
@@ -671,7 +686,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["graduates-then-straight-to-work-in-the-family-business"]
     },
     {
       "key": "journal.work-line-started.i-went-to-work-for-employer",
@@ -702,7 +718,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-line-started.i-took-a-job-with-employer",
@@ -733,7 +750,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-line-started.employer-hired-me",
@@ -764,7 +782,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-line-started.i-joined-employer",
@@ -795,7 +814,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-other-started.relation-got-a-job",
@@ -821,7 +841,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-other-started.relation-started-work",
@@ -847,7 +868,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-other-started.relation-took-a-job",
@@ -873,7 +895,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-pay-told-as-a-weekly-or-hourly-sum"]
     },
     {
       "key": "journal.work-line-again.i-found-work-again-at-employer",
@@ -900,7 +923,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "journal.work-line-again.employer-took-me-on",
@@ -927,7 +951,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "journal.work-line-again.i-went-back-to-work-for-employer",
@@ -954,7 +979,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "journal.work-line-again.i-found-work-again-in-place",
@@ -981,7 +1007,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "journal.work-line-lost.employer-let-me-go",
@@ -1012,7 +1039,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "journal.work-line-lost.i-was-laid-off-from-employer",
@@ -1043,7 +1071,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "journal.work-line-lost.employer-let-me-go-and-i-was-out-of-work",
@@ -1074,7 +1103,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "journal.work-line-lost.employer-ended-my-job",
@@ -1105,7 +1135,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "journal.work-line-on.i-left-employer-for-a-job-at-next",
@@ -1287,7 +1318,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retirement-told-with-what-came-after"]
     },
     {
       "key": "journal.work-line-retired.i-retired-after-my-years-at-employer",
@@ -1313,7 +1345,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retirement-told-with-what-came-after"]
     },
     {
       "key": "journal.work-line-retired.i-left-employer-and-retired",
@@ -1339,7 +1372,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retirement-told-with-what-came-after"]
     },
     {
       "key": "journal.money-line-short.i-went-unpaid",
@@ -1448,7 +1482,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["a-birth-recorded-by-its-size"]
     },
     {
       "key": "journal.family-line-born.we-welcomed-named",
@@ -1479,7 +1514,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["a-birth-recorded-by-its-size"]
     },
     {
       "key": "journal.family-line-born.named-came-into-the-world",
@@ -1510,7 +1546,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["a-birth-recorded-by-its-size"]
     },
     {
       "key": "journal.family-line-born.i-became-a-parent-when-named-was-born",
@@ -1541,7 +1578,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["a-birth-recorded-by-its-size"]
     },
     {
       "key": "journal.death-line-died.other-died",
@@ -1568,7 +1606,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
     },
     {
       "key": "journal.death-line-died.other-passed-away",
@@ -1595,7 +1634,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
     },
     {
       "key": "journal.death-line-died.i-lost-other",
@@ -1622,7 +1662,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
     },
     {
       "key": "journal.home-met-met.i-met-other-in-place",
@@ -1648,7 +1689,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-met-met.other-and-i-met-in-place",
@@ -1674,7 +1716,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-met-met.i-first-saw-other-in-place",
@@ -1700,7 +1743,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parent-apart-parent-apart.named-lived-apart-from-us",
@@ -1726,7 +1770,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["parents-divorce-and-the-child-is-told-late"]
     },
     {
       "key": "journal.home-parent-apart-parent-apart.named-lived-in-another-home",
@@ -1752,7 +1797,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["parents-divorce-and-the-child-is-told-late"]
     },
     {
       "key": "journal.home-parent-apart-parent-apart.named-kept-a-separate-home",
@@ -1778,7 +1824,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["parents-divorce-and-the-child-is-told-late"]
     },
     {
       "key": "journal.home-line-moved.i-moved-to-place",
@@ -1805,7 +1852,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.home-line-moved.we-moved-to-place",
@@ -1832,7 +1880,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.home-line-moved.we-moved-back-to-place",
@@ -1859,7 +1908,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.home-line-moved.i-came-to-place",
@@ -1886,7 +1936,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.moved-other-away.relation-moved-away",
@@ -1991,7 +2042,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-line-evicted.they-evicted-me",
@@ -2018,7 +2070,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-line-evicted.we-were-evicted",
@@ -2045,7 +2098,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-other-evicted.relation-was-evicted",
@@ -2072,7 +2126,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-other-evicted.relation-was-put-out",
@@ -2099,7 +2154,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.contact-line-saw.i-met-other",
@@ -4950,7 +5006,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-vote-at-eighteen"]
     },
     {
       "key": "journal.life-line-came-of-age.i-could-vote",
@@ -4976,7 +5033,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-vote-at-eighteen"]
     },
     {
       "key": "journal.life-line-came-of-age.voting-age-came",
@@ -5002,7 +5060,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-vote-at-eighteen"]
     },
     {
       "key": "journal.home-line-born.i-was-born-in-place",
@@ -8419,7 +8478,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-line-took-office.i-was-sworn-in-as-office",
@@ -8445,7 +8505,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-line-took-office.i-started-my-term-as-office",
@@ -8471,7 +8532,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-line-took-office.i-took-the-oath-of-office-for-office",
@@ -8497,7 +8559,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-other-took-office.other-took-office-as-office",
@@ -8523,7 +8586,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-other-took-office.other-was-sworn-in-as-office",
@@ -8549,7 +8613,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.office-other-took-office.other-started-a-term-as-office",
@@ -8575,7 +8640,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "journal.home-line-bought.i-bought-property",
@@ -8601,7 +8667,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.home-line-bought.we-bought-property",
@@ -8627,7 +8694,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.home-line-bought.bought-a-house",
@@ -8653,7 +8721,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.home-other-bought.relation-bought-a-house",
@@ -8679,7 +8748,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.home-other-bought.relation-bought-a-home-of-their-own",
@@ -8705,7 +8775,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.home-other-bought.relation-became-a-homeowner",
@@ -8731,7 +8802,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["first-home-bought-with-a-veterans-benefit"]
     },
     {
       "key": "journal.work-line-founded.i-founded-business",

@@ -1,0 +1,29 @@
+{
+  "id": "lost-by-a-handful-of-votes-to-a-write-in",
+  "kind": "move",
+  "summary": "A lost race is told with the exact margin and the winner's kind.",
+  "realLife": "The same woman lost by seventeen votes to a write-in candidate.",
+  "sources": [
+    "Sturgis Historical Society, Bumpy Road to Victory, a recollection of the 1975 city commission race: https://www.sturgismuseum.org/?p=1170"
+  ],
+  "fits": ["journal"],
+  "slots": ["office", "votes"],
+  "gates": [],
+  "inGame": "`event:election-result` as the loser, with `lost-votes` and `winner-votes`. `needs:` a write-in winner as a result kind.",
+  "turns": [
+    {
+      "turn": "Lost by a wide margin.",
+      "pulledBy": "a large gap in the result",
+      "writesBack": "the line says it was not close"
+    },
+    {
+      "turn": "Won by a handful.",
+      "pulledBy": "the margin is small and the writer won",
+      "writesBack": "the line gives the margin"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "canvass-date-closes-an-election-story",
+  "kind": "move",
+  "summary": "The last line says the results are not final and gives the canvass date.",
+  "realLife": "The story ended on the county board's canvass date and a note that it has changed outcomes before.",
+  "sources": [
+    "WHQR (Wilmington, North Carolina), 'For the second election in a row, Democrats sweep Wilmington council and mayoral races', Nov. 5, 2025: https://www.whqr.org/local/2025-11-05/for-the-second-election-in-a-row-democrats-sweep-wilmington-council-and-mayoral-races",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "election": 0.9
+  },
+  "inGame": "`election-notice`; needs: a canvass or certification date",
+  "turns": [
+    {
+      "name": "results certified",
+      "pulledBy": "a canvass finished",
+      "writes": "a later story says the result stands"
+    },
+    {
+      "name": "a recount",
+      "pulledBy": "a margin under the recount line",
+      "writes": "a later story says a recount was ordered"
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,31 @@
+{
+  "id": "owner-already-runs-a-first-place",
+  "kind": "detail",
+  "summary": "The story says the owner already runs another place and this is the second.",
+  "realLife": "The owner's original location was named with its address and its events at the end.",
+  "sources": [
+    "Patch (Bel Air, Maryland), 'New Coffeehouse, Cocktail Bar Opening In Bel Air', Nov. 23, 2026: https://patch.com/maryland/belair/new-coffeehouse-cocktail-bar-opening-bel-air",
+    "Patch (Naperville, Illinois), 'We Want Every Dish To Tell A Story: Taco Grill Cantina Now Open In Naperville', Nov. 23, 2026: https://patch.com/illinois/naperville/we-want-every-dish-tell-story-taco-grill-cantina-now-open-naperville",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "place"],
+  "gates": [],
+  "weights": {
+    "opening": 0.9
+  },
+  "inGame": "the owner's other business rows in the organizations table",
+  "turns": [
+    {
+      "name": "a first business",
+      "pulledBy": "a new owner",
+      "writes": "the story says it is their first"
+    },
+    {
+      "name": "a closing elsewhere",
+      "pulledBy": "an owner closing one to open this",
+      "writes": "the story says the other one closed"
+    }
+  ],
+  "usedBy": []
+}
