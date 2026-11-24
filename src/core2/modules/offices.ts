@@ -80,6 +80,8 @@ import {
   centurySeatParty,
   centurySeatRace,
   senateClassNext,
+  townBodyParties,
+  townRightShare,
   worldSeatParty,
 } from "./elections";
 
@@ -935,7 +937,20 @@ export function openOffices(
   const rule = municipalVacancyRule(stateKey.slice(3));
   const taken = new Set<string>();
   const local = localOfficesForPlace(placeKey!);
+  const townRight = local.some((o) => o.byParty)
+    ? townRightShare(api.state)
+    : null;
   for (const office of local) {
+    const parties = office.byParty
+      ? townBodyParties(
+          worldSeed,
+          townRight,
+          Array.from(
+            { length: office.seats },
+            (_, index) => `seat:${office.id.slice("office:".length)}:${index}`,
+          ),
+        )
+      : [];
     const seats: SeatInput[] = Array.from(
       { length: office.seats },
       (_, index) => ({
@@ -948,7 +963,7 @@ export function openOffices(
             : null,
         index,
         coversTown: true,
-        party: null,
+        party: parties[index] ?? null,
       }),
     );
     putOffice(api, { office: { ...office, vacancyRule: rule }, seats });

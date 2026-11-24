@@ -110,6 +110,11 @@ export interface OfficeInput {
   /** The month and day a new term starts (MM-DD), where read. */
   readonly termStarts?: string;
   readonly elected: boolean;
+  /**
+   * Whether the law has the body's candidates run under party labels, so each
+   * seat on day one is held by the party the town's voters give it.
+   */
+  readonly byParty?: boolean;
   /** Seats elected by district, or at large. */
   readonly districted: boolean;
   /**

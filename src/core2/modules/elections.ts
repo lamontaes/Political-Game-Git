@@ -2514,5 +2514,7 @@ export {
   countyPlaceIdOf,
   countyPlaceOfWorld,
   statePlaces,
+  townBodyParties,
+  townRightShare,
 } from "../electorate-places";
 export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";
