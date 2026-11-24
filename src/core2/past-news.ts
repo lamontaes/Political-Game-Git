@@ -19,7 +19,7 @@
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lawRows } from "./modules/laws";
 import { printStory, readingDelay, type Story } from "./modules/news";
-import { writeArchiveStory } from "./modules/press";
+import { writeArchiveStories } from "./modules/press";
 import type { PastTown } from "./past-bodies";
 import type { PastClosureRow } from "./past-business";
 import {
@@ -62,7 +62,7 @@ export function buildNewsArchive(
   // no paper to carry the past, and the archive is empty.
   // A resident's parent who died is archived for full residents only.
   api.stopgap("SG-CORE-past-counted-parents-deaths");
-  const stories: Story[] = [];
+  const records: CoreEventInput[] = [];
   const add = (
     kind: string,
     recordId: string,
@@ -71,7 +71,7 @@ export function buildNewsArchive(
     more: Partial<CoreEventInput> = {},
   ) => {
     if (!within(date)) return;
-    const story = writeArchiveStory(api, {
+    records.push({
       id: `${kind}:${recordId}`,
       kind,
       date: makeIsoDate(date),
@@ -85,7 +85,6 @@ export function buildNewsArchive(
       facts: { ...facts, recordId },
       ...more,
     });
-    if (story) stories.push(story);
   };
   for (const election of past.elections)
     add(
@@ -200,6 +199,8 @@ export function buildNewsArchive(
           },
           { personIds: [person.id] },
         );
+  // Each record at every outlet that carries it, by the press desk's own rules.
+  const stories = [...writeArchiveStories(api, records)];
   stories.sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   );

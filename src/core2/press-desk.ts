@@ -59,6 +59,20 @@ const RACE_KINDS: ReadonlySet<string> = new Set([
 const nationalCarries = (item: WireItem): boolean =>
   !RACE_KINDS.has(item.kind) ||
   (item.kind === "campaign-endorsed" && item.level === "nation");
+/**
+ * Whether an outlet carries a record at all, by the desk's own carry rules
+ * (the ones `runDesk` filters by): a national outlet carries only what
+ * `nationalCarries` lets through, and a legal notice runs in the town's paper
+ * of record only. The archive (past-news.ts) asks it for each outlet.
+ */
+export function outletCarries(
+  outlet: Pick<DeskOutlet, "tier">,
+  item: WireItem,
+  paperOfRecord: boolean,
+): boolean {
+  if (outlet.tier === "national" && !nationalCarries(item)) return false;
+  return !(item.kind === NOTICE_KIND && !paperOfRecord);
+}
 const raceTold = (item: WireItem): string | null =>
   RACE_KINDS.has(item.kind) && item.facts?.contestId
     ? `${item.kind}:${item.facts.contestId}`

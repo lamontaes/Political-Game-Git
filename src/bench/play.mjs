@@ -371,10 +371,12 @@ function hideNewsToast() {
  * The night's paper: the news engine's stories the player heard, newest
  * first, only those still news on its date (the archive keeps the rest).
  */
-async function nightsNews(personId) {
+async function nightsNews(personId, { backIssues = false } = {}) {
   const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
+  // The night's toast and first page show what is still news; the News screen
+  // also carries each outlet's back issues, from before day one (owner, Nov 24).
   const stories = rows
-    .filter((r) => r.fresh !== false)
+    .filter((r) => backIssues || r.fresh !== false)
     .filter((r) => r.headline || r.lede)
     .filter(storyHeadline);
   return { stories, outlet: stories[0]?.outlet };
@@ -4922,7 +4924,7 @@ const sheets = {
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
-    const { stories } = await nightsNews(me.id);
+    const { stories } = await nightsNews(me.id, { backIssues: true });
     if (newsFor !== me.id) {
       newsFor = me.id;
       newsOrder = [];
