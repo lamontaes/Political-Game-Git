@@ -3855,74 +3855,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.you-moved-from-moved-from-to-moved-to-in-moved-year-before-your-first-day-of-sch",
-      "move": "moved",
-      "kind": "written",
-      "text": "You moved from {moved-from} to {moved-to} in {moved-year}, before your first day of school.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-before-school"
-          ]
-        }
-      ],
-      "elements": ["a-move-changes-the-school"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.moved.school-came-after-the-move-the-family-left-moved-from-for-moved-to-in-moved-year",
-      "move": "moved",
-      "kind": "written",
-      "text": "School came after the move: the family left {moved-from} for {moved-to} in {moved-year}, and the first classroom was a new one.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-before-school"
-          ]
-        }
-      ],
-      "elements": ["a-move-changes-the-school"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.college.you-finished-school-and-started-college-in-the-same-year-college-year",
       "move": "college",
       "kind": "written",
       "text": "You finished school and started college in the same year, {college-year}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year", "college-same-year"]
-        }
-      ],
-      "elements": ["college-is-paid-for-in-grants-and-loans"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.college.college-year-a-high-school-diploma-and-a-college-enrollment-in-the-same-year",
-      "move": "college",
-      "kind": "written",
-      "text": "{college-year}: a high school diploma and a college enrollment in the same year.",
       "uses": [
         {
           "subject": "loading-story",
