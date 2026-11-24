@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10357
 after:
 blocked-on:
 lead: governing
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: "Interview check thread, Nov 15, 2026; owner's sitting 2026-11-23-1, row P50, traced by the Dead stops tracer (lane 5), Nov 23"
 milestone: play-first
+merged-at: 2026-11-24T06:45:22.623Z
 ---
 
 **What.** The owner, Nov 23 (P50): "Let's ask for an interview. Okay. Nothing happened." He had announced for a council seat whose filing opens later, as the Nov 17 ruling lets him ("Run now, file on the date"). Asking the town paper for an interview spends an hour and shows only the outing's name, and no outlet ever asks him either.

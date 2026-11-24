@@ -63,7 +63,7 @@ function item(part) {
   if (part.actions)
     return el(
       "div",
-      { className: "acts record-actions" },
+      { className: "acts" },
       ...part.actions.map((action) => {
         const b = makeButton({
           className: action.className ?? "",

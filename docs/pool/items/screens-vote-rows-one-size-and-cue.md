@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10320
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T06:45:43.673Z
 ---
 
 **What.** The owner, Nov 23 (P22), said: I can click on the recent votes, but it gives me no highlight thing or anything to indicate that it is a hyperlink. The CTO caught (C7) that the third row is in a bigger font than the first two. The openable rows are drawn smaller than the others and have no cue.
