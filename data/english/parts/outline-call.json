@@ -957,6 +957,441 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-start-with-because-that-s-where-the-most-people-are-waiting-on-an-answ",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Start with {theme-name}, because that's where the most people are waiting on an answer.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-that-s-where-this-administration-begins",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "{theme-name}: that's where this administration begins.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-ambitious"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-of-everything-waiting-on-this-desk-can-t-wait",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Of everything waiting on this desk, {theme-name} can't wait.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-which-question-comes-first-for-me-it-s",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Which question comes first? For me it's {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-i-d-like-to-spend-my-first-minutes-on-and-then-tell-you-what-comes-aft",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I'd like to spend my first minutes on {theme-name}, and then tell you what comes after.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-polite",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-if-you-re-wondering-where-i-m-headed-watch-what-happens-to",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "If you're wondering where I'm headed, watch what happens to {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-forget-the-long-list-for-a-minute-is-why-i-m-standing-here",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Forget the long list for a minute. {theme-name} is why I'm standing here.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-dramatic"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-plenty-of-people-asked-me-about-and-i-owe-them-an-answer-today",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Plenty of people asked me about {theme-name}, and I owe them an answer today.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-devoted"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-nobody-has-to-guess-what-i-think-matters-most-it-s",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Nobody has to guess what I think matters most. It's {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-pay-attention-to-because-that-s-where-i-ll-be-spending-the-hours",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Pay attention to {theme-name}, because that's where I'll be spending the hours.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-bring-a-friend-to-the-next-hearing-on-two-people-in-a-room-get-noticed",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Bring a friend to the next hearing on {theme-short}. Two people in a room get noticed.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-what-would-you-tell-a-stranger-about-go-find-one-and-tell-them",
+      "move": "call",
+      "kind": "spoken",
+      "text": "What would you tell a stranger about {about}? Go find one and tell them.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-whatever-you-think-of-take-a-minute-to-learn-what-the-other-side-is-af",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Whatever you think of {about}, take a minute to learn what the other side is afraid of.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-and-i-ll-be-out-of-washington-as-much-as-we-can-for-the-next-come-tell",
+      "move": "call",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I'll be out of Washington as much as we can for the next {term-left}. Come tell us what you think.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-ask-your-local-paper-what-it-hears-about-and-read-the-answer",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask your local paper what it hears about {theme-short}, and read the answer.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-show-someone-younger-how-to-find-their-polling-place-they-ll-be-voting",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Show someone younger how to find their polling place. They'll be voting long after these {term-left} are over.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-nurturing",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-spend-one-evening-this-year-at-a-school-board-or-council-meeting-whate",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Spend one evening this year at a school board or council meeting. Whatever {term-left} bring, a good deal of it gets settled in small rooms like that.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-the-last-went-well-for-a-lot-of-us-look-around-for-the-neighbor-it-ski",
+      "move": "call",
+      "kind": "spoken",
+      "text": "The last {run-span} went well for a lot of us. Look around for the neighbor it skipped.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-ask-someone-who-has-never-voted-what-would-make-them-bother-especially",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask someone who has never voted what would make them bother, especially about {theme-short}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-mediating", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-stay-curious-about-for-the-next-even-on-the-days-it-s-boring",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Stay curious about {theme-short} for the next {term-left}, even on the days it's boring.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
