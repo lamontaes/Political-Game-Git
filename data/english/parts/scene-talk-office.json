@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "scene-talk-office",
-  "description": "The first request for an emergency declaration and the governor\u2019s answers.",
+  "description": "The department head and governor discuss a declaration at the first briefing and when an offer remains open.",
   "slots": {
     "disaster": "The incident named in the emergency offer.",
     "deadline": "The day the emergency offer expires."
@@ -1087,6 +1087,422 @@
       },
       "bearing": "solemn",
       "elements": ["readings-and-forecast-disagree"]
+    },
+    {
+      "key": "scene-talk-office.open-greet.i-m-back-about-the-disaster-governor-what-would-you-like-me-to-pass-on-to-the-counties",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm back about the {disaster}, Governor. What would you like me to pass on to the counties?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["briefing-travels-through-county"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.we-have-until-deadline-is-there-anything-you-d-like-checked-before-you-decide",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We have until {deadline}. Is there anything you'd like checked before you decide?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.governor-who-else-would-you-like-to-hear-from-about-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor, who else would you like to hear from about the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["governor-calls-to-confirm-advice"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.before-we-say-anything-publicly-about-the-disaster-i-d-like-to-hear-where-you-stand",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before we say anything publicly about the {disaster}, I'd like to hear where you stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.you-still-have-time-to-speak-with-someone-at-the-site-of-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You still have time to speak with someone at the site of the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["president-names-the-envoy"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.is-there-anyone-you-want-included-in-today-s-briefing-on-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is there anyone you want included in today's briefing on the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "solemn",
+      "elements": ["health-office-missing-from-plan"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.i-can-take-your-questions-on-the-disaster-before-we-go-back-to-the-declaration",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I can take your questions on the {disaster} before we go back to the declaration.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["advisers-take-over-press-room"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.the-offer-stays-open-until-deadline-what-can-we-tell-residents-in-the-meantime",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The offer stays open until {deadline}. What can we tell residents in the meantime?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.governor-this-is-our-last-meeting-on-the-declaration-for-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor, this is our last meeting on the declaration for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.it-s-deadline-people-are-going-to-want-to-hear-your-decision-in-your-own-words",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's {deadline}. People are going to want to hear your decision in your own words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "deadline"]
+        }
+      ],
+      "bearing": "solemn",
+      "elements": ["governor-explains-precaution"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.this-is-my-last-chance-to-get-your-answer-on-the-disaster-back-to-the-counties",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "This is my last chance to get your answer on the {disaster} back to the counties.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["briefing-travels-through-county"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.if-you-want-to-check-anything-about-the-disaster-before-you-decide-now-s-the-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "If you want to check anything about the {disaster} before you decide, now's the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["governor-calls-to-confirm-advice"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.we-re-out-of-meetings-governor-what-do-you-still-need-to-know-about-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We're out of meetings, Governor. What do you still need to know about the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.it-s-deadline-i-d-like-the-local-offices-to-hear-your-decision-from-us",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's {deadline}. I'd like the local offices to hear your decision from us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "deadline"]
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.before-the-offer-on-the-disaster-expires-who-should-get-word-of-your-decision",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before the offer on the {disaster} expires, who should get word of your decision?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["health-office-missing-from-plan"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.open-greet.i-can-answer-for-the-department-on-the-disaster-only-you-can-give-the-final-word-on-declaring",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I can answer for the department on the {disaster}. Only you can give the final word on declaring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster"]
+        }
+      ],
+      "bearing": "solemn",
+      "elements": ["advisers-take-over-press-room"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     }
   ]
 }
