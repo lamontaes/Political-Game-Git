@@ -1,0 +1,33 @@
+{
+  "id": "the-consensus-has-two-hands-against-it",
+  "kind": "moment",
+  "summary": "A member thinks the room agrees about {design} until the chair counts the hands.",
+  "realLife": "Arthur Bernstein saw agreement on the Supergirl designs and moved their adoption, but two members raised their hands against the package.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-10/9.16.2025_Minutes_final.pdf#page=4",
+    "https://www.ccac.gov/system/files/2025-09/Sec_letter_Supergirl.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "A member has moved adoption of a set after hearing comments around the table."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: member motion and counted hands.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "Another member asks for a counted vote.",
+      "pulledBy": "The voices in the room overlap.",
+      "writesBack": "The chair records the tally."
+    },
+    {
+      "turn": "partial",
+      "what": "One dissenter asks to separate the two faces.",
+      "pulledBy": "The objection concerns the reverse alone.",
+      "writesBack": "The chair takes up a motion to divide the question."
+    }
+  ],
+  "issues": ["none"]
+}

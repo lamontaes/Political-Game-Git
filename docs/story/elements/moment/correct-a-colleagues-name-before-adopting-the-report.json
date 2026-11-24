@@ -1,0 +1,32 @@
+{
+  "id": "correct-a-colleagues-name-before-adopting-the-report",
+  "kind": "moment",
+  "summary": "A working group's report comes up for adoption with a correction to {member}'s name.",
+  "realLife": "After a motion to delay the theme report drew no second, Arthur Bernstein moved approval with Sam Gelberd's name corrected and the committee agreed.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "A working group's draft is up for approval and a contributor's credit is disputed."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: working group credits and corrected report.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The name is fixed before the vote.",
+      "pulledBy": "The working group confirms the spelling.",
+      "writesBack": "The corrected copy becomes the approved report."
+    },
+    {
+      "turn": "partial",
+      "what": "The correction reveals a missing contributor.",
+      "pulledBy": "The attendance sheet names another author.",
+      "writesBack": "The report goes back for an amended credit line."
+    }
+  ],
+  "issues": ["none"]
+}

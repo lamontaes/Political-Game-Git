@@ -1,0 +1,32 @@
+{
+  "id": "bus-lane-needs-a-hearing",
+  "kind": "situation",
+  "summary": "The bus lane on {street} needs a conversation with riders before the paving crew gets a start date.",
+  "realLife": "Oakland distinguished routine work at existing stops from changes such as transit lanes that warranted additional public outreach.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=13"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{street}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: proposed transit lane, outreach schedule and resurfacing decision date.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: proposed transit lane, outreach schedule and resurfacing decision date.",
+      "what": "Fund the outreach and hold a design date before the striping order.",
+      "writesBack": "Public design calendar and striping scope."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: proposed transit lane, outreach schedule and resurfacing decision date.",
+      "what": "Publish the narrower funded scope and keep the transit proposal open for public input.",
+      "writesBack": "Public design calendar and striping scope."
+    }
+  ]
+}

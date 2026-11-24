@@ -1,0 +1,31 @@
+{
+  "id": "encouraged-to-speak-but-the-election-runs-late",
+  "kind": "consequence",
+  "summary": "A delegate who was encouraged to speak at recess leaves while the election is still underway.",
+  "realLife": "Harrington said a lawyer encouraged him and Chapman during recess to address the convention, but voting was still underway when they left late that afternoon.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=5",
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=6"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{delegate}", "{meeting}"],
+  "gates": ["Someone has invited a delegate to speak without reserving time."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a proposed speaking opportunity and the times the member left and voting ended.",
+  "turns": [
+    {
+      "turn": "chair-makes-time",
+      "what": "The delegate gets part of the remarks on the record.",
+      "pulledBy": "The chair inserts a short break between ballots.",
+      "writesBack": "The minutes identify what the room actually heard."
+    },
+    {
+      "turn": "remarks-submitted-later",
+      "what": "The secretary attaches them to the correspondence.",
+      "pulledBy": "The delegate sends the remarks to the secretary after leaving.",
+      "writesBack": "The written submission has a receipt separate from the proceedings."
+    }
+  ]
+}

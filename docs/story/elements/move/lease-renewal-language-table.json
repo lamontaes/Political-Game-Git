@@ -1,0 +1,31 @@
+{
+  "id": "lease-renewal-language-table",
+  "kind": "move",
+  "summary": "An older tenant asks {person} for help reading a lease renewal in their own language.",
+  "realLife": "A Queens winner proposed multilingual lease renewal events staffed by social service workers.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The local lease renewal event offers language help to older tenants."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local lease renewal event offers language help to older tenants.",
+  "turns": [
+    {
+      "turn": "a-worker-speaks-the-tenant-s-language",
+      "pulledBy": "A worker speaks the tenant's language.",
+      "what": "Connect them at the event.",
+      "writesBack": "Record the language match on the referral."
+    },
+    {
+      "turn": "that-language-is-missing-from-the-roster",
+      "pulledBy": "That language is missing from the roster.",
+      "what": "Request language support before the renewal deadline.",
+      "writesBack": "Flag the deadline on the unresolved request."
+    }
+  ]
+}

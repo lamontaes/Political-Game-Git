@@ -1,0 +1,32 @@
+{
+  "id": "tree-roots-on-the-sidewalk-sheet",
+  "kind": "move",
+  "summary": "A homeowner on {street} asks whose bill it is when a city tree lifts the sidewalk beside the paving job.",
+  "realLife": "Oakland's proposed corridor work distinguished damage from municipal trees from private sidewalk repairs handled through reimbursement agreements.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=12"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{street}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: sidewalk inspection, tree ownership and applicable payment agreement.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: sidewalk inspection, tree ownership and applicable payment agreement.",
+      "what": "Add the verified city-tree repair to the corridor work order.",
+      "writesBack": "Sidewalk repair ledger by payer."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: sidewalk inspection, tree ownership and applicable payment agreement.",
+      "what": "Identify the responsible payer and put the outstanding municipal repair on the sidewalk list.",
+      "writesBack": "Sidewalk repair ledger by payer."
+    }
+  ]
+}

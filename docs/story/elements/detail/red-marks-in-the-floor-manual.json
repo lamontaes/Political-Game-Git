@@ -1,0 +1,30 @@
+{
+  "id": "red-marks-in-the-floor-manual",
+  "kind": "detail",
+  "summary": "A member’s marked-up procedural manual shows which questions they have worked through.",
+  "realLife": "Riddick recalled that Senator Robert Byrd heavily annotated the copy of Senate Procedure he gave him, using red marks.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=54"
+  ],
+  "fits": ["office", "journal", "speeches"],
+  "slots": ["{member}", "{manual}", "{ruling}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a member’s working copy of the procedure manual.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member opens the passage.",
+      "pulledBy": "A colleague asks about one mark.",
+      "writesBack": "The two compare their readings."
+    },
+    {
+      "turn": "late",
+      "what": "The member dates a fresh note beside the old mark.",
+      "pulledBy": "A later ruling changes the answer.",
+      "writesBack": "Both readings remain traceable."
+    }
+  ],
+  "issues": ["none"]
+}
