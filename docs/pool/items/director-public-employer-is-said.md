@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/pt-board-public-employer
-pr:
+pr: 10524
 blocked-on:
 source: Board mock's trace of #10519 (layoff terms), #10377 comments 7142299019 and 7142310689; the Coordinator routed it to its own PR
 claimed-at: 2026-11-24T19:50:00.000Z
