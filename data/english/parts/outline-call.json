@@ -7017,98 +7017,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-since-i-took-office-pay-in-has-gone-up",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Since I took office, pay in {realm-name} has gone up.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-calm"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-paychecks-in-are-bigger-than-when-my-term-began",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Paychecks in {realm-name} are bigger than when my term began.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-since-i-took-office-pay-in-has-gone-down",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Since I took office, pay in {realm-name} has gone down.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-paychecks-in-are-smaller-than-when-my-term-began",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Paychecks in {realm-name} are smaller than when my term began.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-calm"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-thank-you-for-having-me-members-of-the",
       "move": "greeting",
       "kind": "spoken",
@@ -8085,85 +7993,23 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-workers-in-earn-more-than-they-did-when-i-took-office",
+      "key": "outline-call.report.state-of-the-state-this-is-a-year-of-real-opportunity-and-real-challenges-for",
       "move": "report",
       "kind": "spoken",
-      "text": "Workers in {realm-name} earn more than they did when I took office.",
+      "text": "This is a year of real opportunity and real challenges for {realm-name}.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "report",
           "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name"],
+          "requiresFacts": ["realm-name"],
           "excludesFacts": []
         }
       ],
       "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-has-gone-up-in-over-my-term",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay has gone up in {realm-name} over my term.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-people-in-are-paid-more-now-than-at-the-start-of-my-term",
-      "move": "report",
-      "kind": "spoken",
-      "text": "People in {realm-name} are paid more now than at the start of my term.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-in-has-risen-over-the-last-stretch-of-my-term",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay in {realm-name} has risen over the last stretch of my term.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-duty-bound",
         "personality-v1:facet-polite"
       ],
       "origin": "authored",
@@ -8171,86 +8017,348 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-workers-in-earn-less-than-they-did-when-i-took-office",
+      "key": "outline-call.report.state-of-the-state-what-does-this-year-will-matter-for-a-long-time",
       "move": "report",
       "kind": "spoken",
-      "text": "Workers in {realm-name} earn less than they did when I took office.",
+      "text": "What {realm-name} does this year will matter for a long time.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "report",
           "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name"],
+          "requiresFacts": ["realm-name"],
           "excludesFacts": []
         }
       ],
       "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-pay-has-gone-down-in-over-my-term",
+      "key": "outline-call.report.state-of-the-state-is-a-state-that-does-hard-things-when-it-has-to",
       "move": "report",
       "kind": "spoken",
-      "text": "Pay has gone down in {realm-name} over my term.",
+      "text": "{realm-name} is a state that does hard things when it has to.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "report",
           "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name"],
+          "requiresFacts": ["realm-name"],
           "excludesFacts": []
         }
       ],
       "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-people-in-are-paid-less-now-than-at-the-start-of-my-term",
+      "key": "outline-call.report.state-of-the-state-the-future-of-depends-on-what-the-and-i-do-with-the-next-few",
       "move": "report",
       "kind": "spoken",
-      "text": "People in {realm-name} are paid less now than at the start of my term.",
+      "text": "The future of {realm-name} depends on what the {body-word} and I do with the next few months.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "report",
           "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name"],
+          "requiresFacts": ["realm-name", "body-word"],
           "excludesFacts": []
         }
       ],
       "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-pay-in-has-slipped-over-the-last-stretch-of-my-term",
+      "key": "outline-call.report.state-of-the-state-there-s-a-lot-to-be-proud-of-in-and-a-lot-left-to-do",
       "move": "report",
       "kind": "spoken",
-      "text": "Pay in {realm-name} has slipped over the last stretch of my term.",
+      "text": "There's a lot to be proud of in {realm-name}, and a lot left to do.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "report",
           "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name"],
+          "requiresFacts": ["realm-name"],
           "excludesFacts": []
         }
       ],
       "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
       "lean": [
-        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-has-always-asked-a-lot-of-the-people-who-run-it-and-it-shoul",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} has always asked a lot of the people who run it, and it should.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-i-think-is-a-place-where-good-work-can-still-get-done",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I think {realm-name} is a place where good work can still get done.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-whatever-else-is-true-is-a-state-that-takes-care-of-its-own",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Whatever else is true, {realm-name} is a state that takes care of its own.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-question-for-this-year-is-how-well-we-use-what-we-have",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The question for {realm-name} this year is how well we use what we have.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
         "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-s-best-years-depend-on-the-choices-made-in-this-room",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name}'s best years depend on the choices made in this room.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-people-in-have-reason-to-be-hopeful-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More people in {realm-name} have reason to be hopeful this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-better"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-has-good-reason-to-feel-hopeful-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} has good reason to feel hopeful this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-better"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-there-s-more-to-be-hopeful-about-in-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "There's more to be hopeful about in {realm-name} this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-better"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-a-lot-of-people-in-have-reason-to-be-worried-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "A lot of people in {realm-name} have reason to be worried this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-worse"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-has-real-reason-for-concern-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} has real reason for concern this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-worse"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-there-s-more-to-worry-about-in-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "There's more to worry about in {realm-name} this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "pay-worse"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["sots-opens-with-a-claim-about-the-state"],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-nurturing"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
