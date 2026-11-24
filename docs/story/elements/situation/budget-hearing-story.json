@@ -1,0 +1,16 @@
+{
+  "id": "budget-hearing-story",
+  "kind": "situation",
+  "summary": "A county or town adopts or hears a budget and the paper tells what it costs households.",
+  "realLife": "Five county budget stories read: lede, stakes, a household example, figures, officials' quotes, side items.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["measure", "from", "to"],
+  "gates": [],
+  "weights": {
+    "budget": 1.0
+  },
+  "usedBy": []
+}

@@ -1,0 +1,16 @@
+{
+  "id": "law-takes-effect-story",
+  "kind": "situation",
+  "summary": "A law comes into force on a date and the paper says where, what it changes and who it reaches.",
+  "realLife": "Every sampled story reports something decided or ended that week; none reports a law that stayed the same.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["law", "place", "date", "purpose"],
+  "gates": ["effective", "ended"],
+  "weights": {
+    "law": 1.0
+  },
+  "usedBy": ["law"]
+}

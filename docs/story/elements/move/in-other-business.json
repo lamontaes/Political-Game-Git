@@ -1,0 +1,17 @@
+{
+  "id": "in-other-business",
+  "kind": "move",
+  "summary": "A meeting story carries the meeting's other acts, grouped by meeting and not by subject.",
+  "realLife": "5 of 7 meeting stories add the same meeting's other business, and 3 end on such an item.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["body", "date"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8,
+    "meetings-week": 1.0
+  },
+  "usedBy": ["meetings-week"]
+}

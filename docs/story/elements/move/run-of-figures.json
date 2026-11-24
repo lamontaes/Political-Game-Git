@@ -1,0 +1,17 @@
+{
+  "id": "run-of-figures",
+  "kind": "move",
+  "summary": "A story spends several paragraphs in a row on the numbers when the numbers are the point.",
+  "realLife": "Five figure paragraphs in a row in one county budget story; five of six in another.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["measure", "from", "to", "percent"],
+  "gates": [],
+  "weights": {
+    "budget": 1.0,
+    "rate": 0.8
+  },
+  "usedBy": ["rate", "law-amount"]
+}

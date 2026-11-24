@@ -1,0 +1,16 @@
+{
+  "id": "headline-names-what-the-body-holds",
+  "kind": "detail",
+  "summary": "A headline names the thing the story is about; the story's body holds the rest, so the headline does not repeat the lede.",
+  "realLife": "One agenda-order story put the two ordinances in its headline and reached them in paragraphs 16 and 17.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["law", "body"],
+  "gates": [],
+  "weights": {
+    "headline": 1.0
+  },
+  "usedBy": ["news-roll-call-headline", "news-address-headline"]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "plain-attribution",
+  "kind": "voice",
+  "summary": "A paper says who said it with the plain verb and the surname, after the quote.",
+  "realLife": "Reporters in the sample attribute with 'said' and the name; nobody writes 'put it this way'.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "surname"],
+  "gates": [],
+  "weights": {
+    "address": 1.0
+  },
+  "usedBy": ["news-address"]
+}

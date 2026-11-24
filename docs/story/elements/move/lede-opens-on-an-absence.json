@@ -1,0 +1,16 @@
+{
+  "id": "lede-opens-on-an-absence",
+  "kind": "move",
+  "summary": "A lede makes what did not happen the news: nobody came to speak, nobody was out of work.",
+  "realLife": "A county budget hearing story opened on the silence of residents at the hearing.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["place", "date"],
+  "gates": ["nobody"],
+  "weights": {
+    "conditions": 0.8
+  },
+  "usedBy": ["conditions"]
+}

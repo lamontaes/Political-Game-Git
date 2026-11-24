@@ -1,0 +1,16 @@
+{
+  "id": "tally-sits-mid-story",
+  "kind": "move",
+  "summary": "The vote count is not the first thing a paper prints; it sits in the middle, after the process and the officials' views.",
+  "realLife": "In two long meeting stories the tally came in paragraph 13 of 22.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["count", "body"],
+  "gates": ["by-one", "lone-vote", "no-dissent"],
+  "weights": {
+    "vote": 1.0
+  },
+  "usedBy": ["news-roll-call"]
+}

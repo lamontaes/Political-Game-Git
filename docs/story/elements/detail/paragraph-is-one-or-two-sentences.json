@@ -1,0 +1,16 @@
+{
+  "id": "paragraph-is-one-or-two-sentences",
+  "kind": "detail",
+  "summary": "A news paragraph is one or two sentences; a story runs 6 to 22 paragraphs.",
+  "realLife": "Stories ran about 235 to 1,000 words across paragraphs of one or two sentences.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "shape": 1.0
+  },
+  "usedBy": []
+}

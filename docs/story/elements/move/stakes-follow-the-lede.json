@@ -1,0 +1,17 @@
+{
+  "id": "stakes-follow-the-lede",
+  "kind": "move",
+  "summary": "The second paragraph says what changes for residents when the lede gave only the government's side.",
+  "realLife": "Where a lede had no stakes, they arrived in paragraph two; in some stories they never came.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["place", "purpose"],
+  "gates": [],
+  "weights": {
+    "vote": 0.9,
+    "law": 0.8
+  },
+  "usedBy": ["news-roll-call", "law"]
+}

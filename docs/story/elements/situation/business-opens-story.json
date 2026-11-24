@@ -1,0 +1,16 @@
+{
+  "id": "business-opens-story",
+  "kind": "situation",
+  "summary": "A business opens and a paper marks it in the owner's voice, shorter than a closing.",
+  "realLife": "Built from the closing-story shape read in the sample: owner, history, what comes next. The sample held no opening story.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["subject", "owner", "place", "industry"],
+  "gates": [],
+  "weights": {
+    "opening": 1.0
+  },
+  "usedBy": ["organization.opened"]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "paraphrase-then-quote",
+  "kind": "move",
+  "summary": "A named official is paraphrased in one paragraph and quoted in the next.",
+  "realLife": "Seven of 11 stories pair a paraphrase with the speaker's own words in the next paragraph; first full quote falls around paragraph four.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "address": 0.9,
+    "vote": 0.7
+  },
+  "usedBy": ["news-address"]
+}

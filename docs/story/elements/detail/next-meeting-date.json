@@ -1,0 +1,16 @@
+{
+  "id": "next-meeting-date",
+  "kind": "detail",
+  "summary": "The story ends on the date the body meets again.",
+  "realLife": "A school board story closed on the next meeting date; a council story on the next reading.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8
+  },
+  "usedBy": []
+}

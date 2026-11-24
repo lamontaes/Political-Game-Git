@@ -1,0 +1,17 @@
+{
+  "id": "lede-opens-on-a-scene",
+  "kind": "move",
+  "summary": "A lede opens on a scene in the place before it says what changed.",
+  "realLife": "A story on a local business closing opened on the scene at the shop, then named the owner and the date.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["subject", "place"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0,
+    "opening": 0.7
+  },
+  "usedBy": ["organization.opened"]
+}

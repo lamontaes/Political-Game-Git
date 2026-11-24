@@ -1,0 +1,16 @@
+{
+  "id": "what-a-law-undone-changes",
+  "kind": "consequence",
+  "summary": "A law that is undone is told as the rule it replaced no longer applying, never as 'passed'.",
+  "realLife": "The sampled stories report a decision or an end; the game's rule is that a law in force is kept or undone.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["law", "place", "date"],
+  "gates": ["ended"],
+  "weights": {
+    "law": 1.0
+  },
+  "usedBy": ["law"]
+}

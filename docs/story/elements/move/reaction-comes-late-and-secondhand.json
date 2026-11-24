@@ -1,0 +1,16 @@
+{
+  "id": "reaction-comes-late-and-secondhand",
+  "kind": "move",
+  "summary": "What residents feel arrives late in a story and often through someone else.",
+  "realLife": "Only 1 of 11 stories quotes an ordinary resident directly; closings relay customers through the owner.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0
+  },
+  "usedBy": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "ends-on-a-kicker-quote",
+  "kind": "move",
+  "summary": "A story ends on a short quote about the speaker's own plans.",
+  "realLife": "Two of 11 stories end on the owner's or official's own words about what they will do next.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "name"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0,
+    "address": 0.5
+  },
+  "usedBy": []
+}

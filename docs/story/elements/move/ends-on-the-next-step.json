@@ -1,0 +1,17 @@
+{
+  "id": "ends-on-the-next-step",
+  "kind": "move",
+  "summary": "A story ends on what happens next: the next meeting, the next reading, the date a rule applies.",
+  "realLife": "Two of 11 stories close on the next step; none closes on a moral or summary.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8,
+    "law": 0.8
+  },
+  "usedBy": ["news-roll-call", "law"]
+}

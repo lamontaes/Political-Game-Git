@@ -1,0 +1,17 @@
+{
+  "id": "lede-names-the-body-that-acted",
+  "kind": "move",
+  "summary": "A news story's lede opens on the body or business that acted, then says what it did.",
+  "realLife": "In 7 of 11 stories read, the first sentence names the council, board or business and its act. Ledes run about 17 to 54 words, middle value 31, packing three to six facts.",
+  "sources": [
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+  ],
+  "fits": ["news"],
+  "slots": ["body", "law", "date"],
+  "gates": [],
+  "weights": {
+    "vote": 1.0,
+    "opens": 0.6
+  },
+  "usedBy": ["news-roll-call", "news-address"]
+}
