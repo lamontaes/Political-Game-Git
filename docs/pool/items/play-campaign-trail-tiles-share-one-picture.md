@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/pt-board-tiles
-pr:
+pr: #10382
 blocked-on:
 source: owner sitting 2026-11-23-1, CTO's catch on #10377 (comment 7124283577)
 claimed-at: 2026-11-24T07:00:00.000Z
