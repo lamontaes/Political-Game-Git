@@ -18,12 +18,16 @@
     {
       "name": "a written note instead",
       "pulledBy": "a message in writing",
-      "writes": "the story quotes the note"
+      "writes": "the story quotes the note",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no recording",
       "pulledBy": "an allegation with no proof",
-      "writes": "the story says there is no recording"
+      "writes": "the story says there is no recording",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

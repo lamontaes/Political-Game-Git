@@ -18,12 +18,16 @@
     {
       "name": "no suits",
       "pulledBy": "a law nobody challenged",
-      "writes": "the item says it faces no challenge"
+      "writes": "the item says it faces no challenge",
+      "requiresFacts": ["nobody"],
+      "excludesFacts": []
     },
     {
       "name": "a suit filed",
       "pulledBy": "a challenge filed on the day",
-      "writes": "the item says a court will hear it"
+      "writes": "the item says a court will hear it",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
