@@ -15,6 +15,7 @@ import lineNames from "../core2/data/budgets/line-names.json" with { type: "json
 import {
   billJurisdiction,
   billOf,
+  committeeRecords,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
@@ -84,6 +85,7 @@ export function floorDebateFacts(
   said: Readonly<Record<string, string>>,
   causeId: string,
   speakerId: PersonId,
+  listenerId?: PersonId,
 ): void {
   if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;
   const api = coreAPI(core as CoreState);
@@ -126,6 +128,31 @@ export function floorDebateFacts(
         text: "yes",
         sourceRecordIds: before.recordId ? [...cited, before.recordId] : cited,
       };
+      const hearing = committeeRecords(api, bill.id).find(
+        (record) =>
+          record.chamber === said.chamber &&
+          record.heard &&
+          record.date <= core.date,
+      );
+      if (hearing?.witnesses) {
+        for (const witness of hearing.witnesses) {
+          if (witness.stake !== "for" && witness.stake !== "against") continue;
+          const key =
+            witness.stake === "for" ? "hearing-supporter" : "hearing-opponent";
+          const person = core.people.get(witness.personId);
+          if (
+            !person?.alive ||
+            person.id === speakerId ||
+            person.id === listenerId ||
+            facts[key]
+          )
+            continue;
+          facts[key] = {
+            text: `${person.givenName} ${person.familyName}`,
+            sourceRecordIds: [...cited, hearing.id, person.id],
+          };
+        }
+      }
     }
   }
   if (about) facts.issue = { text: about, sourceRecordIds: cited };

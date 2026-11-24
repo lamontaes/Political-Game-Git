@@ -1490,7 +1490,7 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
-    floorDebateFacts(core, facts, said, moment.causeId, askerId);
+    floorDebateFacts(core, facts, said, moment.causeId, askerId, askedId);
   }
   // A study committee (legislature.ts referToStudy and reportStudy): who chairs
   // it (the asker), who else sits on it and the body that sent the bill; at its

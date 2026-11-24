@@ -49,6 +49,8 @@
     "child": "The youngest child at home, by name, from the household record.",
     "law": "A law, by its policy's name, from the law record.",
     "cost": "What a law in force costs a household each month, from the price record it moved.",
+    "hearing-supporter": "A living witness listed for this bill at this chamber's completed hearing, by full name. Excludes both floor speakers.",
+    "hearing-opponent": "A living witness listed against this bill at this chamber's completed hearing, by full name. Excludes both floor speakers.",
     "chair": "The committee's chair, by name, from the committee's hold record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
     "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
