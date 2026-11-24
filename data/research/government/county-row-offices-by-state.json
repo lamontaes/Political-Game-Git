@@ -354,7 +354,25 @@
     "IA": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"a treasurer, a recorder, and a county attorney who shall each hold office for a term of four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"an auditor and a sheriff, each to hold office for a term of four years\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"a treasurer, a recorder, and a county attorney who shall each hold office for a term of four years\".",
+        "termYears": 4
       }
     },
     "ID": {
@@ -399,12 +417,62 @@
       "prosecutor": {
         "title": "State's attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
       }
     },
     "IN": {
       "prosecutor": {
         "title": "Prosecuting attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
       }
     },
     "KS": {
@@ -558,7 +626,32 @@
     "MI": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
       }
     },
     "MN": {
@@ -871,8 +964,37 @@
     },
     "OH": {
       "prosecutor": {
-        "title": "County prosecutor",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "title": "Prosecuting attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-321.01",
+        "note": "Ohio Rev. Code 321.01: \"A county treasurer shall be elected quadrennially in each county\"; he \"shall hold his office for four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "clerk": {
+        "title": "Clerk of the court of common pleas",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
       }
     },
     "OK": {
