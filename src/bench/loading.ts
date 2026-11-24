@@ -8,6 +8,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { townSeats } from "../core2/modules/offices";
 import { centuryOf, historyMode } from "../core2/electorate-century";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
@@ -139,6 +140,28 @@ export function loadingTelling(
       put(`${part}-president-party`, held.party, held.rowId);
       if (held.again) put(`${part}-party-again`, "yes", held.rowId);
     }
+  }
+  // The parties of the governor and of the town's U.S. Representative at the
+  // opening, from the offices engine's seats (each fact cites its term row),
+  // and whether the governor's party is the White House's.
+  if (core.modules.has("core2-offices-v1")) {
+    const seats = townSeats(coreAPI(core));
+    const heldBy = (kind: string) =>
+      seats.find((row) => row.office.kind === kind && row.holder?.party)
+        ?.holder;
+    const governor = heldBy("governor");
+    if (governor) put("governor-party", governor.party as string, governor.id);
+    const house = heldBy("us-house");
+    if (house) put("us-house-party", house.party as string, house.id);
+    const white = facts["start-president-party"];
+    if (governor && white)
+      put(
+        governor.party === white.text
+          ? "governor-matches-white-house"
+          : "governor-differs-from-white-house",
+        "yes",
+        governor.id,
+      );
   }
   const home = corePlaceByJurisdictionId(person.placeId as never);
   put("start-year", yearOf(core.date), person.householdId);

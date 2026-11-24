@@ -53,7 +53,9 @@
     "school-president-party": "The party that held the White House when the player started school.",
     "moved-president-party": "The party that held the White House when the player's household moved.",
     "start-president-party": "The party that held the White House when the game opens.",
-    "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row."
+    "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row.",
+    "governor-party": "The party of the governor of the player's state when the game opens, from the offices engine's governor seat.",
+    "us-house-party": "The party of the U.S. Representative whose district covers the player's town when the game opens."
   },
   "maxWords": 30,
   "parts": [
@@ -3152,6 +3154,261 @@
       ],
       "after": ["start"],
       "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-governor-of-state-and-the-white-house-are-both-governor-party-as-start-month",
+      "move": "now",
+      "kind": "written",
+      "text": "The governor of {state} and the White House are both {governor-party} as {start-month} {start-year} begins.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "governor-matches-white-house"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.state-has-a-governor-party-governor-and-a-start-president-party-white-house-in-s",
+      "move": "now",
+      "kind": "written",
+      "text": "{state} has a {governor-party} governor and a {start-president-party} White House in {start-month} {start-year}, so the two are on the same side.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "governor-matches-white-house"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-state-has-a-governor-party-governor-and-the-white-hous",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year}, {state} has a {governor-party} governor and the White House is {start-president-party}, so the two do not share a party.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "governor-differs-from-white-house"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.a-governor-party-governor-in-state-and-a-start-president-party-white-house-in-st",
+      "move": "now",
+      "kind": "written",
+      "text": "A {governor-party} governor in {state} and a {start-president-party} White House: in {start-month} {start-year} they will not always agree.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "governor-differs-from-white-house"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-has-a-governor-party-governor-in-state-and-a-start-president-party-white-h",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} has a {governor-party} governor in {state} and a {start-president-party} White House as {start-month} {start-year} begins, and it gets both.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "governor-differs-from-white-house"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.start-month-start-year-in-place-a-governor-party-governor-a-start-president-part",
+      "move": "now",
+      "kind": "written",
+      "text": "{start-month} {start-year} in {place}: a {governor-party} governor, a {start-president-party} White House and a {us-house-party} representative in Congress.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "us-house-party"
+          ]
+        }
+      ],
+      "elements": [
+        "governors-are-elected-state-by-state-on-their-own-years",
+        "a-presidential-term-ends-at-noon-on-january-twentieth"
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-is-represented-in-congress-by-a-us-house-party-member-while-state-has-a-go",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} is represented in Congress by a {us-house-party} member, while {state} has a {governor-party} governor and the White House is {start-president-party}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "state",
+            "governor-party",
+            "start-president-party",
+            "us-house-party"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.governors-are-elected-state-by-state-and-in-start-month-start-year-the-governor",
+      "move": "now",
+      "kind": "written",
+      "text": "Governors are elected state by state, and in {start-month} {start-year} the governor of {state} is a {governor-party}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "state",
+            "governor-party"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-governor-of-state-was-elected-by-the-voters-of-state-and-in-start-month-star",
+      "move": "now",
+      "kind": "written",
+      "text": "The governor of {state} was elected by the voters of {state}, and in {start-month} {start-year} the governor is a {governor-party}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "state",
+            "governor-party"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.as-start-month-start-year-begins-the-u-s-representative-for-place-is-a-us-house",
+      "move": "now",
+      "kind": "written",
+      "text": "As {start-month} {start-year} begins, the U.S. Representative for {place} is a {us-house-party} member, and the White House is {start-president-party}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "us-house-party",
+            "start-president-party"
+          ]
+        }
+      ],
+      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
