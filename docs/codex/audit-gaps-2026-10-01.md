@@ -1,0 +1,664 @@
+# Audit gaps to finish — October 1, 2026 (CTO cross-check)
+
+The three Sept 30 audits (Claude, Codex, Cursor) list 169 items. Checked against main 7fe0435c1: 20 done, 52 not-started, 30 partly, 67 not-in-plan.
+
+The owner's rule: every audit instruction gets completed. Work your section top to bottom: partly done first, then not started, then not in the plan. Each item names the remaining bounded action. Use existing systems only, never a new engine. Decisions never roll dice. Life outcomes (deaths, crimes, births) come from rates set by the world's own conditions; where chance is the real phenomenon, keep one seeded draw against that condition-set rate and say so in the PR.
+
+Mark an item finished in your PR body by its ID (A1, A2, ...). The CTO re-runs this cross-check before declaring the rebuild complete.
+
+## Audit/Systems (25)
+
+- **A124** [partly] Remove the -1/0/+1 roll on close decisions; a true tie stays 'undecided'.
+  - Do: Land #1405 once callers handle undecided.
+  - Now: #1321 added the undecided result; #1410 removed the roll from political reflection. decisions.ts:199-205 still adds the roll (open #1405).
+  - Audit: summary.md fix 6; dice.md:2; codex-removal-ledger.md:10
+- **A110** [not-started] Count every race one way, from an electorate (population x turnout, party lean, the player's support).
+  - Do: Extend statewideContestOutcome (statewide-electorate.ts) to all contests; return unresolved when no electorate exists.
+  - Now: Docket E1 todo. election-contests.ts:199 still draws 1,000-9,999 votes per candidate as a fallback.
+  - Audit: summary.md fix 7; dice.md:3.2
+- **A111** [not-started] Remove election-night swings, starting-support rolls, campaign-effect rolls and noisy polls.
+  - Do: Use 850 plus the recorded adjustment, effect 100, true polling figure rounded, and latestSupportState as the vote share.
+  - Now: Docket E2 todo. campaigns.ts:457 (start), :1165 (action effect), :1226-1228 (poll error), :1652 (±350 swing).
+  - Audit: dice.md:3.2 + 5 item 2; bedrock.md:2.7; golden-rule.md:1.5
+- **A112** [not-started] Town elections should come from residents' views and turnout, not drawn turnout, support, candidate counts and dates.
+  - Do: Turnout from the town's prior turnout, candidates from residents with recorded goals, base support 1 for all.
+  - Now: living-world/local-elections.ts:435 (shares), :750 (date), drawTownResident (who runs).
+  - Audit: dice.md:3.2 + 5 item 5; golden-rule.md:1.5 + 1.7
+- **A113** [not-started] The presidency should be decided by national mood and recorded conditions, not random national/regional/state swings and coin-flip ties.
+  - Do: Use national-mood.ts and macro conditions; nominees from recorded governors and senators.
+  - Now: nationwide-world/presidential-turnover.ts:402 drawState, :745 standardNormal swings.
+  - Audit: dice.md:3.2 + 5 item 3
+- **A114** [not-started] Party nominations should come from recorded support, not a drawn 'campaign pull'.
+  - Do: Use latestSupportState, record in office and endorsements.
+  - Now: nominations/party-nominations.ts:124 still draws.
+  - Audit: dice.md:3.2
+- **A126** [not-started] Break exact ties by the person's records, not alphabetical option names.
+  - Do: Return undecided on an exact tie in decisions.ts (part of #1405).
+  - Now: decisions.ts:219 still sorts by option key.
+  - Audit: dice.md:2; codex-verification-supplement.md:Alphabetical ties
+- **A127** [not-started] Stop drawing effect sizes; use the central estimate and treat research ranges as checks (owner ruled).
+  - Do: Land #1421 and delete drawnLinkSize and DEFAULT_SPREAD; tell the X5 lane its PR text conflicts with the ruling.
+  - Now: Ruling 'effect sizes are no longer drawn', but outcome-web/index.ts:653 drawnLinkSize is still used (:714) for all 131 sized links; #1423 (merged) describes a new contested link drawn per world. Open #1421.
+  - Audit: summary.md question 2; golden-rule.md:3 finding 1; bedrock.md:4 item 2; dice.md:3.4; codex-verification-supplement.md:Exact effect-catalog counts
+- **A128** [not-started] Delete the unjustified default spreads (±25/50/100%) used when research gave no range.
+  - Do: Goes with the drawn-size removal above.
+  - Now: outcome-web/index.ts:638 DEFAULT_SPREAD unchanged.
+  - Audit: bedrock.md:2.10 + 4 item 2
+- **A163** [not-started] Give each link a status and mark the provisional and to-confirm ones; a null link should say why it is not wired.
+  - Do: Add status and unsupportedReason fields in links.json and validate them in outcome-web/index.ts.
+  - Now: 0 of 222 links have a status field; none of the 50 null links carries an unsupported reason.
+  - Audit: summary.md fix 11; bedrock.md:3
+- **A2** [not-started] Run the daily steps once when the date changes, not again at every finished task or activity inside the same day.
+  - Do: In time-work.ts make setCurrentMoment skip applyDateBoundary when the date is unchanged, keeping noon inaugurations as saved due items (ruling 9:14 p.m.); prove with the C5 parity runner.
+  - Now: time-work.ts:1973 still calls setCurrentMoment on a same-date move and setCurrentMoment (time-work.ts:1987) always runs applyDateBoundary. Docket C2 is todo.
+  - Audit: engines.md:0.2
+- **A115** [not-in-plan] Opening political leans, seat parties, regime and economy should start from certified records, not random swings.
+  - Do: Use the certified baselines with zero residual.
+  - Now: world-setup/political-start.ts:135, world-setup/conditions.ts:60 and :189, nationwide-world/state-legislature-opening.ts:653 still draw.
+  - Audit: dice.md:3.2 + 3.4
+- **A117** [not-in-plan] Midterm results, name recognition and patronage loyalty should come from what voters experienced, not a fixed 3.6-point penalty, an authored curve and household-wide debt weights.
+  - Do: Fold into E2: support from recorded contacts and experiences; keep 3.6 as a check.
+  - Now: national-mood.ts:25 MIDTERM_PENALTY_POINTS 3.6; campaign-recognition.ts; patronage/following.ts:23-25.
+  - Audit: codex-verification-supplement.md:Campaign recognition and midterms, Interest groups and favor voting
+- **A12** [not-in-plan] Fold the six separate office turnover routines (President, governors, Congress, state legislatures, delegates, statehood) into one office lifecycle with each office's legal rules as data.
+  - Do: After C2, extract shared vacancy/tenure operations from presidential-turnover.ts and state-legislature-turnover.ts first, proving each crossed date acts once with the C5 runner.
+  - Now: The six apply* turnover functions are still separate links in applyDateBoundary (time-work.ts:1996-2030).
+  - Audit: codex-owner-roadmap.md:5; codex-removal-ledger.md:11
+- **A130** [not-in-plan] Who dies and of what should come from recorded health, hazards and crime, not a lottery; delete the dormant second death engine.
+  - Do: Design first (owner question: how a natural death is produced without dice); delete vitality-integrity's mortality draw.
+  - Now: crisis/mortality.ts:91, vitality-integrity.ts:210, crisis/death-causes.ts:136 still draw.
+  - Audit: dice.md:5 item 1 + 3.5; summary.md fix 13
+- **A131** [not-in-plan] Crime victims and whether crimes are reported should come from recorded causes, not monthly dice.
+  - Do: Design with the crime offenders model: crimes from recorded offenders and conditions.
+  - Now: crime/producer.ts:164 and :174 still draw.
+  - Audit: dice.md:3.5 + 5 item 10
+- **A132** [not-in-plan] Disasters, their footprint and damage should come from hazard records and housing stock, not Poisson counts, alphabetical places and damage rolls; one damage result per home.
+  - Do: Replay recorded FEMA episodes on their dates; derive household damage from its dwelling.
+  - Now: crisis/hazard-producer.ts:321, :330, :339 (sort().slice); crisis/disaster.ts tables and separate dwelling/household homeLevel calls (:393, :402).
+  - Audit: dice.md:3.5 + 5 item 11; bedrock.md:2.6; codex-removal-ledger.md:12; codex-verification-supplement.md:Resampled storms, Disaster damage
+- **A133** [not-in-plan] International crises and violence should not be decided by escalation, ally, kill and injury rolls; missing anger data must not count as calm.
+  - Do: Fix the missing-reading case now in ladder.ts; design attack outcomes from recorded protection.
+  - Now: crisis/international.ts:102 roll(), :606 counterRoll; pressure/ladder.ts:436 treats a missing reading as calm.
+  - Audit: dice.md:3.5; codex-verification-supplement.md:Pressure ladder
+- **A134** [not-in-plan] Remove the probability mode from incidents in real game producers.
+  - Do: Remove the mode once no producer uses it.
+  - Now: incidents.ts:151 and :797 still support probabilistic occurrence.
+  - Audit: codex-verification-supplement.md:Incident randomness
+- **A135** [not-in-plan] Who moves away, where they go and how many arrive should come from jobs, rent and family, not blanket 4% rolls.
+  - Do: Move on recorded causes (job loss, eviction, kin elsewhere); ACS rates as checks.
+  - Now: migration/review.ts:106 BLANKET_DEPARTURE_CHANCE_PER_YEAR 0.04, :326 leaveChance, chooseDestination.
+  - Audit: dice.md:3.5 + 5 item 13; bedrock.md:2.9 + 4 item 10; codex-verification-supplement.md:Migration
+- **A151** [not-in-plan] Opening population sampling from survey households needs a deterministic allocation.
+  - Do: Low priority: replace with deterministic allocation if it becomes reachable.
+  - Now: src/source/adapters/acs-pums-character-history.ts weighted donor draw (no direct production caller per the audit).
+  - Audit: codex-verification-supplement.md:Opening population sampling
+- **A166** [not-in-plan] Review the 334 declared assumption markers in production code.
+  - Do: Have Audit/Systems tag each marker with its owning rebuild step or 'acceptable'.
+  - Now: Inventory only; no step owns it.
+  - Audit: codex-declared-assumptions.md
+- **A167** [not-in-plan] Cities that cross counties should be split by population, not assigned to the first county.
+  - Do: Use population intersection weights.
+  - Now: outcome-web/place-outcome-store.ts overlap rule unchanged.
+  - Audit: codex-verification-supplement.md:Place aggregation
+- **A63** [not-in-plan] The national economy and every place's measures should move from recorded causes, not monthly random noise, era jumps and price shocks.
+  - Do: Set innovations and drift to zero and drive changes from the effects map and dated crises; the macro policy table becomes a check.
+  - Now: macro-economy/kernel.ts:115 and outcome-web/place-outcomes.ts:76-78 still draw.
+  - Audit: dice.md:3.4 + 5 item 6; golden-rule.md:1.6; bedrock.md:4 item 8; codex-verification-supplement.md:Migration and saved place outcomes
+- **A64** [not-in-plan] Real payments should not be turned into economy shocks with a made-up $50 million saturation, and every bank failure should not count as a full credit shock.
+  - Do: Model spending and credit from the recorded payments and loans in macro-economy/sources.ts.
+  - Now: macro-economy/policy.ts:244 UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS unchanged.
+  - Audit: codex-verification-supplement.md:Actual payments still become unsupported macro shocks
+
+## Team 6 (18)
+
+- **A16** [partly] Turn the ~45 pieces of code that each handle one named law into data rows of the shared engine, in the audit's order.
+  - Do: Next convert the per-resident cost readers (public-budgets/age-verification-cost.ts, consumer-privacy-cost.ts) into rows on the spending path (M9).
+  - Now: Medicaid expansion and work requirement moved to coverage rows (#1318); sentence floors moved to the legal-outcome kind (#1313, #1378). About 43 reader groups remain, e.g. public-budgets/rules.ts (8 keys), minimum-wage.ts, town-rent.ts, housing-market.ts, justice/pretrial.ts, justice/juvenile-court.ts, the federal-*.ts files. 41 non-test files still hold a policy-question literal.
+  - Audit: engines.md:Appendix A1 + 2.5 step 7; golden-rule.md:2.3
+- **A47** [partly] Keep one cash account per government (federal included); budgets become a view of real payments; retire the separate federal treasury and fixed tallies.
+  - Do: Move the readers of store.federal (federal-cost-ledger.ts, outcome-web) to the federal account row, then delete settleFederalTreasuryMonth (M5 parts 2-3).
+  - Now: #1327, #1383, #1400 merged; the federal row settles through settleGovernmentMonth (public-budgets/index.ts:200). The legacy settleFederalTreasuryMonth still runs every month (index.ts:210) and month.ts:1124 falls back to its private balance when no account exists.
+  - Audit: summary.md fix 3; engines.md:F1 + 2.5 step 6; codex-owner-roadmap.md:1; codex-removal-ledger.md:1
+- **A51** [partly] Counties and cities should be covered by tax and spending laws instead of silently getting 'no effect'.
+  - Do: Finish M8 part 2 (local law spending), then add a taxing-level field to each row so county and city laws apply.
+  - Now: #1383 settles local budgets from real cash. 25 `level === "state"` checks remain across 11 public-budgets files (month.ts, cannabis-sales-revenue.ts, road-usage-charge.ts, ...).
+  - Audit: golden-rule.md:2.2; summary.md 'One rule, all states'
+- **A129** [not-started] Keep one cause-and-effect system; fold the second engine into the effects map.
+  - Do: Emit causal-effects activations from links.json rows, then retire the second schema.
+  - Now: Docket X2 todo. causal-effects.ts still used by policy-semantics.ts and incidents.ts.
+  - Audit: summary.md 'two wirings'; engines.md:F14 + 2.5 step 9; codex-verification-supplement.md:Policy realization
+- **A17** [not-started] Remove the 12 budget files that each exist for one law.
+  - Do: Delete each file as its law becomes a tax or spending row (M7/M9), starting with age-verification-cost.ts and consumer-privacy-cost.ts.
+  - Now: All 12 are on main: cannabis-sales-tax, cannabis-sales-revenue, age-verification-cost, consumer-privacy-cost, road-usage-charge, tuition-freeze, parks-dedication, income-tax-adoption, statehood-funds, reserve-rule, pension-share, staffing (src/simulation/public-budgets/).
+  - Audit: engines.md:Appendix A1 count
+- **A22** [not-started] A newly adopted state income tax should use the rates in the bill, not other states' average collections or a drawn rate scale.
+  - Do: Read the enacted brackets with readFinalEnactedLawTerm (#1337) in state-income-tax-law.ts; with no bill number, use the ranked-similar-states estimate from #1369 with no draw.
+  - Now: public-budgets/income-tax-adoption.ts is on main; state-income-tax-law.ts:285-296 still draws a rate scale and deduction from the world seed.
+  - Audit: codex-verification-supplement.md:Newly adopted income tax; dice.md:3.4; golden-rule.md:1.4
+- **A28** [not-started] Federal laws should carry their own bill terms: no fixed 39.6% top rate, 2023 debt-deal cut, median aid rise, historical defense growth, rail ridership projection or drawn privacy cost.
+  - Do: Convert each into a tax or spending row that reads the passed bill's numbers (readFinalEnactedLawTerm, #1337); start with defense and farm on the appropriation path (M9).
+  - Now: Unchanged on main: federal-top-income-tax-law.ts, federal-outlay-laws.ts, federal-farm-subsidy-law.ts, federal-defense-spending.ts, federal-passenger-rail.ts, federal-data-privacy-law.ts:46 (still draws).
+  - Audit: codex-verification-supplement.md:Federal terms, Four federal laws
+- **A29** [not-started] Size each federal money law once, not two or three ways (top tax rate per paycheck and as a treasury share; debt limit and foreign aid three ways).
+  - Do: Once the tax kind is live, delete the treasury share rows and let collections come from recorded paychecks; one program-to-budget-line classifier.
+  - Now: FEDERAL_LAW_EFFECTS in public-budgets/federal-treasury.ts and outcome-web/index.ts federal measures are unchanged.
+  - Audit: engines.md:F8, F9, F16
+- **A30** [not-started] Compute a law's per-resident cost once instead of three copies of the same arithmetic.
+  - Do: Make per-resident cost a spending row on the appropriation path and delete the two stamp-only files.
+  - Now: month.ts lawSpendingForMonth, public-budgets/age-verification-cost.ts and consumer-privacy-cost.ts are all present.
+  - Audit: engines.md:F11
+- **A31** [not-started] Cannabis revenue should come from sales under the law's own tax rate, not a ten-state $40.70-per-resident average, and not three arithmetic branches.
+  - Do: Finish #1287 as a tax-kind row: sales from recorded purchases times the law's rate; keep the MPP average as a check.
+  - Now: public-budgets/cannabis-sales-tax.ts:13 and :21 still set CANNABIS_TAX_PER_RESIDENT 40.7 and an 11-month lag. Open WIP PR #1287.
+  - Audit: engines.md:F12; bedrock.md:4 item 11; golden-rule.md:1.4
+- **A32** [not-started] Stop applying one state's fiscal note (Oklahoma, California, Utah, Virginia) to every state's revenue or cost.
+  - Do: Replace each row with the state's own base times the bill's rate change (statutory-tax schedules) as tax-kind rows.
+  - Now: public-budgets/rules.ts:101 TAX_QUESTION_EFFECTS and :213 SPENDING_QUESTION_EFFECTS unchanged.
+  - Audit: bedrock.md:2.3 + 4 item 12; golden-rule.md:1.4 + 2.3
+- **A33** [not-started] Feed the one tax engine automatically from recorded paychecks, sales and home values; retire the per-question tax factors.
+  - Do: Register the tax kind and have tax-policy.ts assessTaxBase read recorded bases; delete taxLawFactor branches as rows convert.
+  - Now: Docket M7 is 1/3 (#1341 only). taxLawFactor in public-budgets/month.ts still sizes tax laws.
+  - Audit: summary.md fix 3; engines.md:2.3 item 5 + 2.5 step 8
+- **A42** [not-started] An office with no published salary should not get a pay drawn from other states' range.
+  - Do: Use the ranked-similar-states estimate from #1369 in office-pay.ts with no draw, and model when an enacted pay change reaches sitting holders.
+  - Now: office-pay.ts:135 still draws. Docket X3 'remove the remaining money draws' is marked done but did not touch this.
+  - Audit: codex-verification-supplement.md:Missing office salaries; dice.md:3.4; golden-rule.md:1.1
+- **A45** [not-started] Paid-leave premium and benefit rates should come from the law, not a draw around other states' averages.
+  - Do: Read the bill's rate via readFinalEnactedLawTerm; for unread starting programs use the ranked-similar-states estimate (#1369) with no draw.
+  - Now: state-paid-leave-law.ts:178-179 and paid-leave-benefits.ts:114-115 still draw. Docket X3 is marked done but these remain.
+  - Audit: codex-verification-supplement.md:Paid-leave legal rates; dice.md:3.4; golden-rule.md:1.4
+- **A61** [not-started] A town bank's balance-sheet ratios should not be drawn from a pool.
+  - Do: Use the state's median small bank (FDIC) in town-finances.ts with no draw.
+  - Now: living-world/town-finances.ts:557 still calls drawBankShape with a seeded draw; docket X3 is marked done.
+  - Audit: dice.md:3.4; golden-rule.md:1.3
+- **A24** [not-in-plan] Statehood aid should come from admission conditions and real program spending, not a private reading and frozen 2024 dollars.
+  - Do: Express the aid loss as a spending row tied to recorded Medicaid spending and retire statehood-funds.ts with the per-law files.
+  - Now: public-budgets/statehood-funds.ts is unchanged on main.
+  - Audit: codex-verification-supplement.md:Statehood aid
+- **A49** [not-in-plan] Governments' opening cash is made up ($1 billion federal, $100 million per state, $5 million per town).
+  - Do: Open each public account from the researched opening balance already in the budget store (NASBO/Census figures in public-budgets/opening.ts).
+  - Now: world-setup/conditions.ts:43-49 unchanged.
+  - Audit: codex-verification-supplement.md:Public budgets and spendable public cash
+- **A50** [not-in-plan] Public employees' pay (police, teachers) should come out of their government's account.
+  - Do: Make public employers pay from the public-government account (tax-policy.ts publicOrganizationKey) through the shared payroll.
+  - Now: No public-account link in living-world/town-employment.ts or public-budgets/staffing.ts; public employers are still ordinary town employers.
+  - Audit: engines.md:2.1 + 2.5 step 6; summary.md fix 3
+
+## Team 5 (18)
+
+- **A136** [partly] Break-ups, moving in, marriages, births and dating should come from couples' decisions, not quarterly rolls; the player should not follow different rules.
+  - Do: Route town couples through people-family-plan.ts decisions; births only from a recorded family plan.
+  - Now: #1387: an unanswered request is not a no. Rolls remain at living-world/town-families.ts:583, 609, 646, 757, 818, 829, 339.
+  - Audit: dice.md:3.6 + 5 item 12; codex-verification-supplement.md:Family events
+- **A158** [partly] One way for people to form opinions.
+  - Do: Finish N2 part 2.
+  - Now: #1374 (party questions), #1399 (item veto), #1410 (reflection) use one pipeline. Other routes remain (official-views.ts, principled-view-formation.ts, political-culture.ts).
+  - Audit: summary.md 'One engine per job'; codex-removal-ledger.md:10
+- **A18** [not-started] Remove the transit special case inside the shared law entry point.
+  - Do: Route pinned transit programs through the service-delivered kind (law-consequences/service-delivered.ts) and delete the branch.
+  - Now: enacted-law-effects.ts:276 and :308 still branch on isPinnedTransitMeasure.
+  - Audit: codex-removal-ledger.md:5; codex-owner-roadmap.md:2
+- **A137** [not-in-plan] A person's childhood (including a parent's death, illness, law trouble) should not be drawn by percent.
+  - Do: Read recorded parents; otherwise record unknown and let prose omit it.
+  - Now: people-upbringing.ts:75-76 drawMoney and the percent table remain.
+  - Audit: dice.md:3.6 + 5 item 9; bedrock.md:2.9
+- **A138** [not-in-plan] Personality traits and life tendencies should come from upbringing records, not a lottery.
+  - Do: Use upbringingTraitTendencies only; middle values otherwise.
+  - Now: people-traits.ts:315 and :438; life-personality.ts:41-67 still pick.
+  - Audit: dice.md:3.6
+- **A139** [not-in-plan] The 48/48/4 gender split is unmarked and wrong.
+  - Do: Use Census sex ratio and Pew non-binary share, cited.
+  - Now: person-identity.ts:208 unchanged.
+  - Audit: bedrock.md:4 item 15
+- **A140** [not-in-plan] School term dates should be one calendar per school, not drawn per child.
+  - Do: Read the district calendar once per school and year.
+  - Now: school-stages.ts:66-67 spreadDays still drawn per person.
+  - Audit: codex-verification-supplement.md:School dates; dice.md:3.6
+- **A141** [not-in-plan] Finishing paid study time should not by itself grant a degree.
+  - Do: Add recorded progress requirements to the education record.
+  - Now: education-study-progression.ts:557 completeStudyPeriod unchanged.
+  - Audit: codex-verification-supplement.md:Paid elapsed time
+- **A142** [not-in-plan] Relationship fading uses unsupported cutoffs and treats every gap as neglect.
+  - Do: Record reasons for absence; mark cutoffs as stand-ins for research.
+  - Now: relationship-absence.ts:80-82 constants unchanged.
+  - Audit: codex-verification-supplement.md:Relationship fading
+- **A146** [not-in-plan] Which life scene comes next should follow recent events, not a hash.
+  - Do: Pick the scene tied to the most recent recorded event, else first in order.
+  - Now: presentation/life-scene-flow.ts:362 stableHash pick.
+  - Audit: dice.md:3.7
+- **A147** [not-in-plan] Childhood scene pacing (how many days are skipped) should not be drawn.
+  - Do: Use the next meaningful saved event or a player time choice.
+  - Now: presentation/formative-context.ts:398-401 formative-pacing draw.
+  - Audit: codex-verification-supplement.md:A school scene can create the teacher it needs
+- **A148** [not-in-plan] The player's opening family (other parent deceased by lot, family shape, birthday) and town households' work status and housing should not be drawn levels.
+  - Do: Ask in setup where it is the player's fact; derive town facts from age, pay and household size.
+  - Now: presentation/production-world.ts:917, :1198; creator-full-birthday.ts:203; town-employment.ts:1109-1115; town-homes.ts:305, :331; family-shape.ts:95.
+  - Audit: dice.md:3.4 + 3.6 + 3.9
+- **A156** [not-in-plan] The opening meeting notice is authored and makes the player responsible without a decision.
+  - Do: Mark it as an authored opening or create it from a recorded organizer decision.
+  - Now: life-opportunities.ts opening meeting builder unchanged (audit lines 305-366).
+  - Audit: codex-verification-supplement.md:Follow-through on the school and meeting grounding question
+- **A157** [not-in-plan] A resident's civic attendance event should point to a real meeting.
+  - Do: Tie attendance to scheduled meeting records.
+  - Now: living-world/civic-actions.ts:245 still writes 'attended a public meeting' with no meeting.
+  - Audit: codex-verification-supplement.md:Civic attendance and employment
+- **A159** [not-in-plan] Officials' standing and interest groups use placeholder weights and react only to money.
+  - Do: Fold into N2; let rights and eligibility losses count too.
+  - Now: living-world/official-views.ts:65 visibility weights, :386-387 temperament multipliers; law-interest-groups.ts thresholds.
+  - Audit: codex-verification-supplement.md:Exposure and reflection, Interest groups
+- **A161** [not-in-plan] Make every invented person the same way: one age-window table and one birth-date helper.
+  - Do: Add one person-maker module and switch the 15 inline windows.
+  - Now: No rebuild step covers it; age windows still inline (e.g. office-continuity.ts, presidential-turnover.ts).
+  - Audit: summary.md fix 13
+- **A35** [not-in-plan] When a law reaches a person, starting laws and passed laws should leave the same kind of record; the 28-day pay window is an assumption.
+  - Do: Let law-exposure.ts accept starting-law ids from lawInForce so both reach people the same way.
+  - Now: law-exposure.ts still refuses exposure without an enacted measure (audit lines 54-58).
+  - Audit: codex-verification-supplement.md:Exposure and reflection
+- **A65** [not-in-plan] Central bank board members' views on inflation should come from their records, not a dice roll that decides rate votes.
+  - Do: Form the lean through the one opinion path (N2) from principles on price stability.
+  - Now: macro-economy/central-bank.ts:238-241 drawInflationLean still draws.
+  - Audit: dice.md:3.4 + 5 item 15
+
+## Team 7 (15)
+
+- **A121** [partly] Party chapter outreach dates should not be drawn.
+  - Do: Use the chapter's recorded meeting cadence.
+  - Now: #1335: an undecided organizer waits. Dates still drawn at living-world/party-chapters.ts:238 and :561.
+  - Audit: dice.md:3.2 + 3.8; codex-verification-supplement.md:Party outreach
+- **A125** [partly] Teach each decision caller to handle 'undecided' before the roll is removed.
+  - Do: Continue C8 down the list (civil-personnel, moguls, press, campaign callers).
+  - Now: 6 of 37 done (#1325, #1335, #1349, #1381, #1387, #1418). 38 explicit close-choice settings remain on main plus the default in political-belief-formation.ts:195. Open #1427.
+  - Audit: dice.md:2; codex-removal-ledger.md:10; codex-verification-supplement.md:Correct close-choice count
+- **A3** [partly] Have one way to move time: the whole-day clock should become a thin call to the minute clock everyone plays on.
+  - Do: Switch those three callers to advanceWorldMinutes(world, days*1440, handlers) and delete advanceWorldUnchecked in world.ts.
+  - Now: advanceWorld now shares the daily chain (world.ts:1427) but still exists with its own due-item resolution and three callers: demo.ts:663, people-continuation.ts:871, character-history.ts:2297.
+  - Audit: engines.md:0.2 survivor, 0.3 T2
+- **A4** [partly] Give every way of moving time the same complete list of scheduled jobs, so nothing runs only on some buttons (including the committee-hearing handler registered twice).
+  - Do: Land #1358 so advanceWorld and the dev viewer use createCampaignElectionTransitionRegistry by default.
+  - Now: #1317 merged (complete handler list for ordinary time and hearing waits). Docket C7 1/3: the world-advance default list is still open (open PR #1358).
+  - Audit: engines.md:0.3 T3, T5, T6
+- **A5** [partly] Settle the player's mortgage, living costs and office salary on the shared monthly clock so Day and Week never skip them.
+  - Do: Land open PR #1353 so these are monthly due items, then remove the three calls from life-opportunities.ts.
+  - Now: #1336 and #1338 create the agreements on the day play starts, but the three settlers are still only called from refreshLifeOpportunities (life-opportunities.ts:452-455).
+  - Audit: engines.md:0.3 T8 + 2.5 step 3; summary.md fix 1; codex-verification-supplement.md:Money timing
+- **A116** [not-started] Use one term-limit engine and one eligibility check for NPCs and the player; no invented age-21 candidacy rule.
+  - Do: Normalize service records and write one eligibility evaluator; an unread age rule is 'unknown', not 21.
+  - Now: Docket E3 todo. living-world/local-council-term-limits.ts and nationwide-world/state-legislative-term-limits.ts separate; candidacy-packs.ts:77 GAME_ADULT_CANDIDACY_AGE 21.
+  - Audit: summary.md fix 7; codex-verification-supplement.md:Term limits, Candidacy
+- **A122** [not-started] Volunteer contacts, field-work effects and campaign outreach dates should not be drawn.
+  - Do: Fold into E2/E4: count actual contacts; fixed cadence.
+  - Now: campaign-life-activities.ts:1708 (coin flip), :1818 (60-140%), outreach day draws.
+  - Audit: dice.md:3.3; codex-verification-supplement.md:Fundraising and canvassing
+- **A123** [not-started] A rival campaign's message, spending and support shifts should come from its records, not draws.
+  - Do: Fold into E4 with the same rules the player faces.
+  - Now: campaign-opponents.ts:395 (emphasis), :820-832 (spend and swing).
+  - Audit: dice.md:3.3; codex-verification-supplement.md:Rival campaign funding
+- **A66** [not-started] Campaign money should come from named donors' decisions, not drawn amounts or a faceless supporters account; campaign bills should be real purchases.
+  - Do: Build E4 on campaign-money-sources.ts donors and campaign-week-actions mailer counts; delete the ranges.
+  - Now: Docket E4 todo. Still drawn: campaigns.ts:1320, campaign-opponents.ts:93 and :752, campaign-life-activities.ts:1448, campaign-operating-costs.ts:225/286/300.
+  - Audit: dice.md:3.2 + 3.3; golden-rule.md:1.5; bedrock.md:2.7; codex-verification-supplement.md:Campaign bills, Rival campaign funding, Fundraising
+- **A119** [not-in-plan] Invented candidates' years of residence should not be drawn (it decides whether they qualify).
+  - Do: Give them exactly the required years or record unknown (E3).
+  - Now: nationwide-world/state-legislature-candidates.ts:234 still draws.
+  - Audit: dice.md:3.2
+- **A143** [not-in-plan] Whether an NPC accepts session work should not be a random pick.
+  - Do: Leave the offer pending (as #1349 did for job offers).
+  - Now: life-paths2.ts:1402 work-response-v1 pick remains.
+  - Audit: dice.md:3.6; codex-verification-supplement.md:Work consent
+- **A6** [not-in-plan] Start the death and goal-review schedules on every time path, not only when the player's day buttons run.
+  - Do: Seed ensureCrisisMortality and ensurePeopleGoalReview once at world opening (or inside the shared registry) so advanceWorld-only routes also get deaths and goal reviews.
+  - Now: ensureCrisisMortality is still seeded only by presentation/opening-life.ts:484 and presentation/ordinary-life.ts:527.
+  - Audit: engines.md:0.3 T7
+- **A7** [not-in-plan] Honor the player's interruption preferences instead of ignoring them.
+  - Do: Make interruptionHandlers in interruption-policy.ts use the saved preferences, or remove the unused parameter.
+  - Now: presentation/interruption-policy.ts:71 still reads `void preferences;`.
+  - Audit: engines.md:0.3 T9
+- **A9** [not-in-plan] Use one kind of monthly trigger (first-of-month due items) instead of also counting month starts inside the daily chain.
+  - Do: Make speech retelling a first-of-month due item like crisis:public-budgets.
+  - Now: speech-retelling.ts:295 and :311 still count month starts with monthStartsCrossed.
+  - Audit: engines.md:0.3 T4
+- **A90** [not-in-plan] Spending after enactment should not depend on a handler being on a hand-kept list.
+  - Do: Apply program matters inside applyEnactedLawEffects so every enactment route gets it.
+  - Now: withProgramMatters is still applied by list membership (governing/state-governing.ts:2844, :2902).
+  - Audit: engines.md:G18
+
+## Team 1 (15)
+
+- **A72** [partly] Use one bill filer for every body, with cosponsors, tie-breaks and refile rules as settings.
+  - Do: Fold councilFilings into fileMemberAgendaBills with council settings (strongest-stake tie-break, 365-day refile, preemption).
+  - Now: #1314, #1320, #1330, #1375 merged; fileCongressBill, fileLegislatureMeasure, fileLocalMemberAgendaBill and fileLocalPositionBill are gone. Two filers remain: governing/member-agenda.ts:359 fileMemberAgendaBills and governing/council-lawmaking.ts:169 councilFilings (used by DC and town councils).
+  - Audit: summary.md fix 5; engines.md:G2 + 1.5 step 6; codex-owner-roadmap.md:3; codex-removal-ledger.md:7
+- **A87** [partly] Amendment ballots and each state's ratification date should come from voters and legislatures, not dice.
+  - Do: Schedule each state's action on its next session day from the rule pack (G5 calendars).
+  - Now: #1420 merged: state amendment ballots count voters' recorded views (constitutional-reform.ts has no draw). Still drawn: article-v.ts:399 and federal-reform.ts:544 (each state's action day).
+  - Audit: dice.md:3.1 + 5 item 7; codex-verification-supplement.md:Constitutional ratification dates
+- **A11** [not-started] Replace seven hand-set legislative calendars with one calendar row per body, read from data.
+  - Do: Add a sitting-calendar field to each rule pack (legislature-rules.ts) and have legislative-clock.ts, dc-council-sittings.ts and local-council-meetings.ts read it.
+  - Now: Docket G5 todo. Still in code: STATE_GOVERNING_CALENDAR (governing/governing-calendar.ts:20), LEGISLATIVE_CADENCE_PROFILE (legislative-clock.ts:130), LOCAL_AGENDA_DEFAULT_QUARTERS (member-agenda.ts:86), Congress Tue/Thu sittings, two separate 14-day council profiles.
+  - Audit: engines.md:G12 + 1.4; codex-verification-supplement.md:Legislative sitting dates
+- **A77** [not-started] Move every bill with one driver (Congress, states, councils, DC, towns and the player's session).
+  - Do: Land #1392, add reading-interval and quorum to the council packs, and run councils, DC and towns through applyInstitutionStep.
+  - Now: Docket G3 todo (open #1392). Five drivers on main: legislative-clock.ts:490 applyInstitutionStep, presentation/legislation-session.ts:150, municipal-ordinance-procedure.ts:479/797, local-council-meetings.ts:357/339, dc-council-sittings.ts:193.
+  - Audit: summary.md fix 5; engines.md:G1 + 1.5 step 5
+- **A78** [not-started] The player's legislative session should use the right committee, allow NPC amendments and let bills die at session end like the clock does.
+  - Do: Make applyLegislativeStep a thin caller of applyInstitutionStep (G3).
+  - Now: presentation/legislation-session.ts:177 still uses chamber.committees[0].
+  - Audit: engines.md:G1, G13, G14
+- **A83** [not-started] Compute a law's effective date once and have every reader use it.
+  - Do: Make recordEnactment set effectiveAt from the pack schedule and delete the readers' fallbacks.
+  - Now: Docket G4 todo. ORDINANCE_EFFECTIVE_AFTER_DAYS used at municipal-ordinance-procedure.ts:821, :876 and local-council-meetings.ts:351; readers recompute at law-in-force.ts:221, minimum-wage.ts:138, public-budgets/fiscal.ts:145.
+  - Audit: engines.md:G10 + 1.5 step 2
+- **A84** [not-started] Use one bill-numbering system.
+  - Do: Land #1411 and delete the two private numberers.
+  - Now: nextDcCouncilDesignation (dc-council-sittings.ts:119) and nextOrdinanceDesignation (presentation/municipal-governing.ts:357) still exist beside measure-numbering.ts. Open #1411.
+  - Audit: engines.md:G11
+- **A85** [not-started] Amendments, riders and item vetoes should work for every body, not only state legislatures and Congress.
+  - Do: Comes with G3 once councils use applyInstitutionStep.
+  - Now: Docket G14 todo; planFloorAmendment is still called only from legislative-clock.ts.
+  - Audit: engines.md:G14
+- **A86** [not-started] Use one constitutional-amendment process for Article V, federal reform and state amendments.
+  - Do: Write one proposeAmendment(body, question) and route all three through it (G14/G15).
+  - Now: article-v.ts, living-world/federal-reform.ts and living-world/constitutional-reform.ts remain separate.
+  - Audit: engines.md:G15 + 1.5 step 8
+- **A88** [not-started] Recall petitions and votes should count real signatures and ballots.
+  - Do: Count signatures from eligible residents' views (official-views.ts) and tally the recall with the town election counter.
+  - Now: Docket G15 todo; recall.ts:420 and :428 still draw.
+  - Audit: dice.md:3.1 + 5 item 7; codex-verification-supplement.md:Recall outcomes
+- **A89** [not-started] Congress should be a rule pack like the 50 states, not special-cased inside state code.
+  - Do: Add seat-roll-source and calendar fields to rule packs and replace the branches during G3.
+  - Now: 37 US_CONGRESS_PACK_ID/isCongressMeasure references remain across 12 files (e.g. chamber-votes.ts, legislative-clock.ts, congress-chambers.ts).
+  - Audit: engines.md:G16, G17; golden-rule.md:2.2
+- **A20** [not-in-plan] Move bill wording families and the question-to-bill mapping table into data, without separate per-level branches.
+  - Do: Move AUTOMATIC_LAW_POSITION_MAPPINGS (governing/automatic-legislation.ts) and the family object literals into JSON rows read by compileAutomaticLawDraft.
+  - Now: Eight legislation-*-families.ts files remain; automatic-legislation.ts still has 4 Congress branches (US_CONGRESS_PACK_ID/isCongressMeasure).
+  - Audit: engines.md:G4 + 1.4
+- **A74** [not-in-plan] The player's legislative work should open on a bill the office actually filed, not a drawn bill with a drawn sponsor.
+  - Do: Pick the measure the player's member has filed through fileMemberAgendaBills; with none, offer no session.
+  - Now: presentation/legislation-world.ts:264 (opening measure) and :941 (seated sponsor) still draw.
+  - Audit: dice.md:3.1; codex-verification-supplement.md:The legislative presentation layer
+- **A76** [not-in-plan] Use one bill-title template and one support/repeal rule instead of copies per body.
+  - Do: Add a title template field to each rule pack and delete the per-body title functions.
+  - Now: Filer merges removed some copies; dcCouncilActTitle (dc-council-sittings.ts) and ordinanceTitle (local-council-meetings.ts) remain.
+  - Audit: engines.md:G3, G4
+- **A82** [not-in-plan] NPC councils should be able to override a veto, with each body's override window as data.
+  - Do: Let applyInstitutionStep handle council overrides once councils run on it (G3).
+  - Now: overrideCouncilVeto (municipal-ordinance-procedure.ts:1057) has no clock caller; OVERRIDE_WINDOW_DAYS (:732) lists DC only.
+  - Audit: engines.md:G9
+
+## Team 2 (13)
+
+- **A80** [partly] Presidents, mayors and town councils should decide bills the way governors do, and the player President gets a desk.
+  - Do: Add a mayor step to afterAdoption in local-council-meetings.ts (or record 'no executive' in that pack).
+  - Now: #1326 and #1340 merged: congress-lawmaking.ts:118 and municipal-ordinance-procedure.ts:1003/1231 call evaluateGovernorBill. Still no executive step for town-profile councils (local-council-meetings.ts:339-353) and the player scenario uses scenario.governorAction (legislation-session.ts:477).
+  - Audit: summary.md fix 5; engines.md:G7 + 1.5 step 4; codex-verification-supplement.md:Executive choices
+- **A81** [partly] Executive deadlines should come from each body's rules, and a lapsed bill should be recorded.
+  - Do: Replace DEADLINE_DAYS.bill with the pack window and confirm a lapsed player-governor bill records inaction.
+  - Now: governor-bill-decision.ts:352 reads actionWindowDaysInSession; President has the real 10-day window (#1326). state-governing.ts:825 DEADLINE_DAYS still sets governor deadlines.
+  - Audit: engines.md:G8
+- **A108** [not-started] Charlottesville and DC charter rules should be rule-pack data, not code branches naming the city.
+  - Do: Move these into council-action rows keyed by government in the municipal rule registry.
+  - Now: municipal-ordinance-procedure.ts:1357 CVILLE_2_98_AMENDED_ON, :1380 Charlottesville-only check, :732 DC override window; municipal-public-work.ts:1550.
+  - Audit: summary.md fix 12; golden-rule.md:2.1; engines.md:1.4
+- **A79** [not-started] Use one member-vote function (chambers, councils, constitutional votes, Senate confirmations, bargaining) and one weight table.
+  - Do: Add deference, constitutional-bar and confirmation considerations to decideChamberVote and route the other five through it.
+  - Now: Docket G7 todo. Still separate: decideChamberVote, deriveMemberDisposition, memberBallot (article-v.ts:335), termLimitBallot (federal-reform.ts:373), decideOrdinaryCouncilReading vs decideCouncilVote; weight() copies at chamber-votes.ts:721, legislative-member-decisions.ts:201, federal-reform.ts:465, supreme-court-appointments.ts:491, joint-assembly.ts:217.
+  - Audit: summary.md fix 5; engines.md:G5, G6 + 1.5 step 3
+- **A109** [not-in-plan] Maine/Nebraska electors, the California slug, DC's census region and the DC/territory test should be data columns.
+  - Do: Add electorAllocation and jurisdictionKind columns to the place data and read them.
+  - Now: national-election-rules.ts:116, constitutional-process.ts:184, presidential-turnover.ts:768, governing/question-authority.ts:149.
+  - Audit: golden-rule.md:2.1
+- **A120** [not-in-plan] A governor's Senate appointment should not always take exactly 10 days.
+  - Do: Make it a governor decision within the legal deadline.
+  - Now: nationwide-world/senate-vacancy-law.ts:58 unchanged.
+  - Audit: codex-verification-supplement.md:Vacancy appointment; golden-rule.md:1.7
+- **A144** [not-in-plan] Which legislative district a person belongs to should not be drawn.
+  - Do: Use the district with the larger population share, or the recorded address.
+  - Now: district-residence.ts:840 pick(crossing).
+  - Audit: dice.md:3.6
+- **A149** [not-in-plan] The player's ward should come from their recorded home, not a hash of their id.
+  - Do: Use the dwelling from town-homes.
+  - Now: living-world/town-wards.ts:185-190 hash.
+  - Audit: dice.md:3.10
+- **A92** [not-in-plan] Chief-of-staff advice, first-year priorities, budget options and NPC governing choices should come from records, not dice.
+  - Do: Decide through evaluateDecision with the holder's principles and recorded budget shortfalls; leave the matter open when nothing decides it.
+  - Now: governing/state-governing.ts:1043 (recommendation), :1436 (agenda), :2414 (npc-choice), :2700 (budget subjects) still draw.
+  - Audit: dice.md:3.1; codex-verification-supplement.md:Staff advice and offered priorities
+- **A93** [not-in-plan] Staff candidates should not get scripted careers picked at random, and no evidence should not count as steady.
+  - Do: Hire from real residents' work histories; with no history, steadiness is unknown.
+  - Now: governing/staff-evidence.ts:172 still picks a career with rng.
+  - Audit: codex-verification-supplement.md:Saving invented careers
+- **A94** [not-in-plan] Committee seats should come from recorded appointments, not a shuffle.
+  - Do: Order by seniority at minimum, then by the presiding officer's recorded appointment decision.
+  - Now: governing/committee-assignment.ts:110-116 still shuffles.
+  - Audit: dice.md:3.1; codex-verification-supplement.md:Committee power; codex-removal-ledger.md:9
+- **A96** [not-in-plan] The Vice-President nominee should not be a random pick when the President's choice comes back empty.
+  - Do: Leave the office vacant until the President's decision selects someone.
+  - Now: governing/office-continuity.ts:1575 still picks from the pool.
+  - Audit: dice.md:3.1; codex-verification-supplement.md:Two further randomness classifications
+- **A97** [not-in-plan] A body should not be marked as having obeyed a law just because someone works there.
+  - Do: Require the actual filing/report/service record; otherwise record 'compliance unknown'.
+  - Now: enacted-duties.ts:461 still returns 'complied' when hasWorkers is true.
+  - Audit: codex-verification-supplement.md:Duties
+
+## Team 3 (11)
+
+- **A37** [partly] Have one payroll: retire the remaining separate pay writers.
+  - Do: Route office-salary.ts settleOne through settleTownCompensations; retire local-economy flows with the business-books work (X4).
+  - Now: Three remain: the shared town payroll, office-salary.ts:174 settleOne (own withholding, own CATCH_UP_LIMIT_WEEKS at office-salary.ts:55) and local-economy.ts:756 settleFlows (always 'completed').
+  - Audit: engines.md:2.1 Pay P3, P5 + F2; codex-removal-ledger.md:3
+- **A39** [partly] A minimum-wage bill must carry its own number: no $15 federal placeholder, no average state raise, no 9.23% California city premium.
+  - Do: Read the hourly term with readFinalEnactedLawTerm (#1337) in minimum-wage.ts and delete the three fallbacks; no number means no raise.
+  - Now: Starting wages now come from dated official tables (rulings 9:37 p.m., 11:04 p.m.). Enacted-bill fallbacks remain: minimum-wage.ts:95 FEDERAL_RAISE_PLACEHOLDER, :58 STATE_RAISE_TERM, :435 CITY_PREMIUM_RATIO.
+  - Audit: codex-verification-supplement.md:Minimum-wage law terms; bedrock.md:2.1; golden-rule.md:1.1
+- **A8** [partly] Pay a job once per clock press, not through two callers.
+  - Do: Once player pay is a scheduled payday, drop the presentation call in ordinary-life.ts:426.
+  - Now: Pay now goes through one payroll (#1319, #1334) but settleJobPay is still called from presentation/ordinary-life.ts:426 and job-market.ts:2156.
+  - Audit: engines.md:0.3 T10
+- **A38** [not-started] Use one minimum-wage and pay-floor rule instead of four copies with different scope rules.
+  - Do: Land #1367 so all four call the pay kind; delete the three copies.
+  - Now: Docket M2 todo (open #1367). Still separate: raiseWeeklyPayToMinimum (job-market.ts:1932), raiseShiftPayToMinimum (life-paths2.ts:752), raiseTownPayToMinimum (town-pay.ts:1014), office raiseToPayInForce.
+  - Audit: engines.md:F3; summary.md fix 4
+- **A40** [not-started] Set a worker's wage level from tenure and recorded schooling, not a ±15-percentile dice roll.
+  - Do: In townPayPercentile use tenure plus EducationFact credentials and drop the draw argument.
+  - Now: Docket M3 todo. living-world/town-pay.ts:238-240 and :719-731 still draw the percentile.
+  - Audit: golden-rule.md:1.1; dice.md:3.4 + 5 item 14; bedrock.md:4 item 6; summary.md fix 8
+- **A41** [not-started] Read wages one way, not as a drawn percentile, a fixed 50th percentile, a $21.64 public-clerk wage and a $60,000 office default.
+  - Do: Pay public roles from the government's payroll by function (Census ASPEP) through the M3 wage reader.
+  - Now: job-market.ts:172 hourlyMinor 2164; office-salary.ts:38 annualMinor 6_000_000; local-economy.ts:78 monthlyWageMinor 280_000.
+  - Audit: engines.md:F4; golden-rule.md:1.1; bedrock.md:2.1
+- **A43** [not-started] A teacher salary floor should use the bill's dollar floor and apply to starting laws too.
+  - Do: Make the teacher floor a pay-kind row reading the bill's amount; drop drawnLinkSize and the enacted-only check.
+  - Now: teacher-salary-floor.ts:69 still calls drawnLinkSize and :126 returns no floor unless origin is 'enacted'.
+  - Audit: codex-verification-supplement.md:Teacher floors; golden-rule.md:1.1; bedrock.md:2.4
+- **A44** [not-started] The fairness-law 2.7% average should be a check, not a pay cut applied to every matching man.
+  - Do: Route the law through the pay kind as a rule on employer offers; keep Burn 2018 as a calibration check.
+  - Now: fairness-pay-law.ts:38 FAIRNESS_LAW_PAY_GAIN 0.027 unchanged; open #1260.
+  - Audit: codex-verification-supplement.md:Fairness law; golden-rule.md:1.1; bedrock.md:2.4
+- **A60** [not-started] Employers should pay only from cash they have, with a recorded partial or blocked payment otherwise.
+  - Do: Land #1402 (limit business wage transfers to recorded employer cash).
+  - Now: Docket M4 todo; open PR #1402.
+  - Audit: codex-removal-ledger.md:3; codex-verification-supplement.md:Fixed business receipts
+- **A69** [not-in-plan] Budget layoffs should not skip the player, and an unknown school record should not pass a credential check.
+  - Do: Remove the player filter in staffing.ts and treat a missing credential as not qualified.
+  - Now: public-budgets/staffing.ts:214-273 still passes playerPersonId into layOff.
+  - Audit: codex-verification-supplement.md:Civic attendance and employment
+- **A70** [not-in-plan] Layoffs, quits and hires should come from employers' needs and people's decisions, not fixed rankings (newest out, youngest quit).
+  - Do: Fold into M4: employer staffing decisions through the shared decision engine.
+  - Now: living-world/town-labor-market.ts:288 still marked HARDWIRED youngest-quit-first.
+  - Audit: codex-verification-supplement.md:Civic attendance and employment; bedrock.md:2.2
+
+## Team 9 (9)
+
+- **A10** [partly] Move criminal prosecutions and pardons off the newspaper's weekly sweep onto their own dated schedule.
+  - Do: Land the prosecution-stage scheduling PRs (#1357, #1363) and remove both calls from pressWeeklyHandler in press/transitions.ts.
+  - Now: #1389 gives pardon petitions their own deadline (justice/clemency-transitions.ts:14), but press/transitions.ts:54 still runs advanceClemency(advanceProsecutions(world)) every week. Open PRs #1357, #1363, #1393, #1403.
+  - Audit: engines.md:1.1 Courts + 1.5 step 9; summary.md fix 9; codex-verification-supplement.md:Removal order step 4
+- **A100** [partly] Use one 'which court' function with a federal branch, so federal laws and crimes get federal courts.
+  - Do: Write courtFor(jurisdiction, level, caseKind) and remove the national skip in judicial-review.ts.
+  - Now: Docket G13 1/3. judiciary/judicial-review.ts:371 still skips national laws; reviewingCourt (:113) and sentencingJudge (court-reasoning.ts:427) are separate.
+  - Audit: summary.md fix 9; engines.md:G19 + 1.5 step 9; golden-rule.md:2.2
+- **A103** [partly] A mandatory-minimum law should set the actual sentence length; other sentences should not be fixed midpoints.
+  - Do: Read state sentencing ranges as legal data and let the judge choose within them.
+  - Now: #1313 and #1378 apply the passed law's floor to listed crimes. prosecution.ts:100-102 and :222-227 midpoints remain for everything else.
+  - Audit: codex-verification-supplement.md:Mandatory-minimum laws; bedrock.md:2.8; golden-rule.md:1.6
+- **A102** [not-started] Build civil cases on shared court records: evictions should have a real lawyer and a real judge.
+  - Do: Move filing, counsel and judgment into the court path built for G13; counsel only from a recorded lawyer.
+  - Now: Docket G16 todo. living-world/town-rent.ts:2142 lawyer = tenantAnswers && law; :2150 counsel stamp; :2166 'the court' with no judge; decideEvictionCase :2171.
+  - Audit: summary.md fix 9; engines.md:1.1; codex-verification-supplement.md:Civil eviction rulings
+- **A104** [not-started] Charging and plea decisions should come from real prosecutors and defendants, not stand-in rules and alphabetical ties.
+  - Do: Build G17 on the shared decision engine with an 'undecided' outcome.
+  - Now: Docket G17 todo (prosecutors become real people).
+  - Audit: codex-verification-supplement.md:Criminal decisions
+- **A25** [not-started] Juvenile court age should come from each state's real jurisdiction and transfer rules, not 'yes means 18, no means 17'.
+  - Do: Make the juvenile age a legal-outcome row (law-consequences/legal-outcome.ts) with the state's sourced age and transfer list.
+  - Now: justice/juvenile-court.ts:38 still maps the answer to 17 or 18.
+  - Audit: codex-verification-supplement.md:Juvenile justice
+- **A101** [not-in-plan] Court challenges should need a real claimant, forum and filing, not appear automatically from a table.
+  - Do: After G13, file a case only when a recorded person or group is harmed and chooses to sue.
+  - Now: judicial-review.ts still schedules reviews from the precedent table.
+  - Audit: codex-verification-supplement.md:Constitutional review
+- **A105** [not-in-plan] A jury smaller than the law requires should not return a verdict.
+  - Do: Read the panel size from legal data and hold the trial until it is filled.
+  - Now: justice/prosecution.ts:594 blocks only a zero-person jury.
+  - Audit: codex-verification-supplement.md:Jury selection
+- **A98** [not-in-plan] A pardon board with no seated members should not produce a 'board vote'.
+  - Do: Leave the petition waiting until members are seated, like courts now do (#1343).
+  - Now: justice/clemency.ts:612 unseatedBodyReading and :953 'board-vote' remain.
+  - Audit: codex-verification-supplement.md:Missing legal decision-makers
+
+## Team 4 (8)
+
+- **A52** [partly] Living costs should be real household bills, not a fixed $1,500 per adult with a $900 housing share.
+  - Do: Land #1380 (BLS spending by region) and delete LIVING_COSTS_PLACEHOLDER.
+  - Now: #1328: housing is paid only through real leases and mortgages. The non-housing stand-in remains (cost-of-living.ts:52-56); open #1380 swaps in BLS categories.
+  - Audit: codex-verification-supplement.md:Living costs; bedrock.md:4 item 1; golden-rule.md:1.2
+- **A57** [partly] Housing laws should act through the town's own housing market, not fixed uplifts (rents +5.1%, prices -0.146%/month, 15% set-aside, one cap for every place).
+  - Do: Make set-aside and caps read the bill's terms (price-cost kind) and let supply withdrawal move asking rents.
+  - Now: #1322/#1346 apply a rent cap's own number from the passed bill. Still fixed: town-rent.ts:271 rentRise 0.051, :237 INCLUSIONARY_SET_ASIDE, :245 RENT_STABILIZATION_CAP, housing-market.ts:80.
+  - Audit: golden-rule.md:1.2; bedrock.md:2.2 + 4 item 9
+- **A21** [not-started] A tuition freeze should limit each school's tuition decision, not apply a drawn growth factor to the state budget; the July 1 start is hard-wired.
+  - Do: Make tuition a price-cost row on each public college's tuition charge (law-consequences/price-cost.ts) using the bill's own term, and delete tuition-freeze.ts.
+  - Now: public-budgets/tuition-freeze.ts:55 still calls drawnLinkSize; the file is still a per-law budget reader.
+  - Audit: codex-verification-supplement.md:Tuition freeze
+- **A53** [not-started] Service mortgages through the shared loan servicer with real terms, not a private player-only loop with no interest and a fixed $50,000/$1,200.
+  - Do: Give new mortgages a rate and term at purchase and service them with household-loans.ts; then remove settleMortgages.
+  - Now: Docket X6 todo. home-purchase.ts:79-80 and settleMortgages (:620) unchanged; ruling 9:14 p.m. moved the shared servicer to Wave 2.
+  - Audit: codex-removal-ledger.md:4; codex-verification-supplement.md:Mortgages; bedrock.md:2.1; golden-rule.md:1.2
+- **A58** [not-started] Retire the old fixed-revenue business engine; business money should come from real sales and never be marked fully paid by default.
+  - Do: Point adultStartEmployer at town-finances employers and delete local-economy.ts.
+  - Now: Docket X4 todo. local-economy.ts present; refreshLocalEconomy still called (life-opportunities.ts:451); fixed revenue local-economy.ts:137.
+  - Audit: engines.md:F5 + 2.5 step 4; codex-verification-supplement.md:Fixed business receipts; codex-removal-ledger.md:3; bedrock.md:4 item 4
+- **A54** [not-in-plan] A home's purchase price should follow the same modeled home-price level as rents, not consumer prices.
+  - Do: Have homePurchaseTerms in home-purchase.ts read homePriceLevel from housing-market.ts.
+  - Now: home-purchase.ts:122 still scales by priceIndex; town-rent.ts:307 uses homePriceLevel.
+  - Audit: engines.md:F6 + 2.5 step 5
+- **A56** [not-in-plan] Who the landlord is and how many bedrooms a home has should not be rolled at each lease.
+  - Do: Keep the recorded landlord on renewal and set bedrooms from household size deterministically.
+  - Now: living-world/town-rent.ts:1244 (bedrooms) and :1256 (landlord) still draw.
+  - Audit: dice.md:3.4
+- **A59** [not-in-plan] Businesses should close or open from their books and owners' decisions, not quarterly dice.
+  - Do: Close when recorded books stay negative; found when a resident with capital decides to.
+  - Now: living-world/town-businesses.ts:638 (close) and :685 (found) still roll.
+  - Audit: dice.md:3.4
+
+## Standby Claude Team 5 (8)
+
+- **A162** [partly] Wire or drop the effects-map links that are named and cited but have no size.
+  - Do: Size or mark unsupported the remaining 50 (FXDONE).
+  - Now: X5 PRs #1391, #1397, #1404, #1413, #1417, #1423, #1426 merged. links.json now has 222 links: 131 sized, 41 zero, 50 still null (was 82).
+  - Audit: summary.md fix 11; bedrock.md:3 + 4 item 3
+- **A165** [partly] Replace the most consequential hand-set numbers (office pay $60k, local business revenue, migration 4%, disaster tables, macro policy, campaign ranges).
+  - Do: Queue each as a research item with a named dataset (bedrock.md column 'replace with').
+  - Now: Gone: $900 housing share (#1328), rent spread (#1315), opening budget draw SD (#1373). Still: office-salary.ts:38, local-economy.ts:137, migration/review.ts:106, crisis/disaster.ts tables, macro-economy/policy.ts, campaign ranges.
+  - Audit: bedrock.md:4
+- **A164** [not-started] Four 'about zero' links are not backed by a measured zero (housing vouchers on graduation and crime, Congress stock trading, library removals).
+  - Do: Land #1275 and re-mark these as evidence gaps, not zeros.
+  - Now: All four are still size 0 with evidence about-zero in links.json; open #1275.
+  - Audit: codex-verification-supplement.md:Exact effect-catalog counts
+- **A107** [not-in-plan] Bail amounts and prosecution timing are national stand-ins awaiting research.
+  - Do: Queue bail schedules and time-to-disposition (BJS) as research rows.
+  - Now: justice/pretrial.ts bail table and prosecution.ts:100-102 unchanged.
+  - Audit: engines.md:1.4; bedrock.md:2.8
+- **A118** [not-in-plan] A town's election rules, council size, terms, qualification ages and filing deadlines should be read, not chosen by hash or a blanket 28 days.
+  - Do: Research charter rows; where unread, use the modal national rule (no hash) and mark it estimated.
+  - Now: municipal-ballot-rules.ts:121 stablePick, nationwide-world/typical-council-size.ts:95, office-qualification-profile.ts:151, campaign-compliance.ts:593, nationwide-world/town-election-calendar.ts:28.
+  - Audit: dice.md:3.1; codex-verification-supplement.md:Stable hashes, Local council powers, Filing date
+- **A160** [not-in-plan] Make the English engine the voice for all prose by converting authored line banks into its parts.
+  - Do: Schedule after the engine work: start with legislative dialogue motifs.
+  - Now: No rebuild step covers it.
+  - Audit: summary.md fix 14
+- **A23** [not-in-plan] A government's opening pension debt should come from plan data, not 1.2 times its spending.
+  - Do: Research public-pension-funding-by-state (Public Plans Data) and read it in public-budgets/opening.ts.
+  - Now: public-budgets/rules.ts:65 still sets liabilityToSpending: 1.2.
+  - Audit: codex-verification-supplement.md:Pension obligations; bedrock.md:2.3
+- **A71** [not-in-plan] Replace unmarked or placeholder money constants: 4% default borrowing rate, credit table, town finance elasticities and credit line.
+  - Do: Queue as research items (Bond Buyer index, Fed SBCS) and read them as data.
+  - Now: public-budgets/rules.ts:277 DEFAULT_INTEREST_RATE 0.04; town-finances.ts:123 creditLineDaysOfRevenue, :129 localDemandElasticity.
+  - Audit: bedrock.md:2.2, 2.3, 2.5
+
+## Team 8 (6)
+
+- **A145** [partly] Newsroom layoffs and outlet acquisitions should come from owners' books and decisions, not likelihood rolls.
+  - Do: Act only when recorded books meet the trigger; lay off by seniority.
+  - Now: #1361 makes purchases pay. Draws remain at press/ownership.ts:346 (practice roll), :523 (who is laid off), :626 (which outlet).
+  - Audit: dice.md:3.7; codex-verification-supplement.md:Newsroom layoffs
+- **A152** [partly] The press should only read: move fines, restitution, support loss and referrals to the engines that own them.
+  - Do: Land #1409; move support loss to Elections and penalties to Government.
+  - Now: Docket N3 2/3 (#1350, #1361). press/finding-consequences.ts:82 and :393 still order restitution; open #1409.
+  - Audit: summary.md fix 10; summary.md Narrative
+- **A153** [not-started] Asking for a reporter should not create a newsroom and a job.
+  - Do: Return 'no reporter available' when none exists.
+  - Now: press-reach.ts:183-218 still generates a reporter and newsroom (only the weekly sweep was fixed in #1350).
+  - Audit: codex-verification-supplement.md:Asking for a reporter
+- **A154** [not-in-plan] Press capacity should come from reporters' assignments, not a 1/3/8 tier label.
+  - Do: Derive capacity from staffed reporter time.
+  - Now: press/records.ts tier capacities unchanged (roll part is covered by C8).
+  - Audit: codex-verification-supplement.md:A close-choice roll can suppress the story
+- **A27** [not-in-plan] Health coverage applies a whole-population death-rate study to each covered person and uses a 15th-of-month pass that is not a benefit rule.
+  - Do: Separate legal eligibility, enrollment and the health mechanism in health-coverage.ts; use the study only as a population check.
+  - Now: crisis/health-coverage.ts still holds the per-person hazard and 15th-day pass (header lines 18-39, 72-80 at audit).
+  - Audit: codex-verification-supplement.md:Health coverage, Further boundaries
+- **A34** [not-in-plan] Label the Law Effects screen's 'without this law' number as a model estimate, not an observed effect.
+  - Do: Change the wording in law-effects-here.ts to say the comparison is a model estimate.
+  - Now: presentation/law-effects-here.ts unchanged.
+  - Audit: codex-verification-supplement.md:Federal terms bullet 3
+
+## Coordinator (3)
+
+- **A13** [partly] Run every law through one shared law engine: each law says who it reaches, what changes and how much, with one handler per kind of effect.
+  - Do: Register the pay kind (open #1367), the tax kind (Team 6 M7) and the right-permission kind (open #1333) in law-consequence-registry.ts.
+  - Now: #1305 merged the engine; law-consequence-registry.ts:13-22 registers 5 of 8 kinds (legal outcome, coverage, price-cost, service, institution rule). Pay, tax and right-permission are not registered.
+  - Audit: summary.md fix 2; engines.md:2.3 item 6; codex-owner-roadmap.md:2; codex-removal-ledger.md:5
+- **A15** [partly] Make laws already on the books at the start use the same path as laws passed in play.
+  - Do: Land #1309, then convert the enacted-only readers (teacher floor, farm, defense, rail, data privacy) into rows of the shared kinds.
+  - Now: Registered kinds resolve through lawInForce, which includes starting-law rows (governing/law-in-force.ts:403-420), and the 8:42/9:14 rulings say starting laws apply once. But older readers still accept only laws passed in play: teacher-salary-floor.ts:126 and the four federal readers. Open PR #1309 wires starting laws through shared consequences.
+  - Audit: engines.md:2.1 Law effects + 2.3 item 6; codex-removal-ledger.md:5; codex-verification-supplement.md:Teacher floors, Four federal laws
+- **A19** [partly] Keep one registry of law-effect stamp kinds instead of a made-up label in each reader.
+  - Do: Make lawEffectStamp accept only kinds listed in law-consequence-types.ts and migrate the remaining callers as their readers convert.
+  - Now: Registered kinds stamp through the engine; old readers still pass bespoke labels, e.g. living-world/town-rent.ts:2150 "eviction-counsel-representation".
+  - Audit: engines.md:F13
+
+## Scoreboard checked against code
+
+- Kinds of law effects that work (of 8): docket 5 · on main 5 (Read src/simulation/law-consequence-registry.ts:13-22 (5 registrations; pay, tax, right-permission are comments).)
+- Code written for one specific law: docket 44 · on main 43 (Checked each reader group in engines.md Appendix A1 for its question key on main; only Medicaid x2 left code (health-coverage.ts, #1318). 41 non-test files still hold a policy-question literal.)
+- Budget files for one specific law: docket 12 · on main 12 (ls src/simulation/public-budgets/{cannabis-sales-tax,...,staffing}.ts: all 12 present.)
+- Separate places that pay people: docket 3 · on main 3 (grep settleTownCompensations / settleOne / settleFlows: town-pay.ts:1387, office-salary.ts:174, local-economy.ts:756.)
+- Separate government money records: docket 5 · on main 5 (Public account (tax-policy.ts), budget rows (month.ts:1124 still keeps a private balance without an account), FederalTreasury (index.ts:210 still settles), government.revenue/outlays metrics, business books. Budget rows now follow real cash where an account exists.)
+- Separate daily routines: docket 1 · on main 1 (grep applyJudicialReview( : only time-work.ts:2005 inside applyDateBoundary; world.ts:1427 calls it.)
+- Separate systems that move bills: docket 5 · on main 5 (grep 'function applyInstitutionStep|applyLegislativeStep|recordCouncilReadingVote|moveOrdinances|moveActs'.)
+- Separate ways bills get filed: docket 2 · on main 2 (grep filer functions: fileMemberAgendaBills (member-agenda.ts:359) and councilFilings (council-lawmaking.ts:169); fileOrdinances/fileActs call councilFilings.)
+- Separate ways members vote: docket 5 · on main 5 (grep decideChamberVote, deriveMemberDisposition, memberBallot, termLimitBallot, Senate decide; plus two council variants (decideOrdinaryCouncilReading, decideCouncilVote) and 5 weight() copies.)
+- Separate ways executives decide: docket 2 · on main 2 (grep evaluateGovernorBill( : governor, President (congress-lawmaking.ts:118), mayor (municipal-ordinance-procedure.ts:1003,1231); town-profile councils have no executive step and the player scenario uses scenario.governorAction.)
+- Separate rules for when laws start: docket 7 · on main 7 (grep ORDINANCE_EFFECTIVE_AFTER_DAYS (3 callers), operativeDateForEnactment, 'effectiveAt ??' fallbacks in law-in-force.ts:221, minimum-wage.ts:138, fiscal.ts:145, enacted-duties.ts:301.)
+- Separate bill numbering systems: docket 3 · on main 3 (measure-numbering.ts, nextDcCouncilDesignation (dc-council-sittings.ts:119), nextOrdinanceDesignation (presentation/municipal-governing.ts:357).)
+- Places where dice decide what someone chooses: docket 38 · on main 38 (grep 'randomness: "close-choices"' outside decisions.ts: 38 explicit settings, plus the '?? "close-choices"' default in political-belief-formation.ts:195 that political reflection no longer uses (#1410). The roll itself (decisions.ts:205) is still live.)
+- Effects whose strength is set by dice: docket 97 · on main 131 (drawnLinkSize (outcome-web/index.ts:653, used :714) draws every nonzero size; links.json now has 131 nonzero sizes (X5 added 34). Plus teacher-salary-floor.ts:69 and tuition-freeze.ts:55. The docket number is stale and moving the wrong way.)
+- Records of things that never happened: docket 3 · on main None (Not countable exactly. At least 8 audit-named cases remain on main: duties 'complied' from staffing (enacted-duties.ts:461), credential from paid time (education-study-progression.ts:557), eviction lawyer and judge-less ruling (town-rent.ts:2142, :2166), meeting attendance with no meeting (civic-actions.ts:245), press contact newsroom (press-reach.ts:183-218), recall 'not enough signatures' (recall.ts:420), calm from a missing anger reading (pressure/ladder.ts:436), clemency 'board vote' with no board (clemency.ts:953). The docket's 3 looks too low.)
+- Separate vote counters: docket 9 · on main 9 (E1 not started; election-contests.ts:199 random fallback still present; no counter removed.)
+- Separate term-limit checks: docket 4 · on main 4 (local-council-term-limits.ts, state-legislative-term-limits.ts and the others unchanged (E3 not started).)
+- Separate ways opinions form: docket 3 · on main 3 (#1374, #1399, #1410 moved party stances, item veto and reflection to one pipeline; official-views.ts, principled-view-formation.ts and political-culture.ts remain.)
+- Separate cause-and-effect systems: docket 2 · on main 2 (causal-effects.ts still called by policy-semantics.ts and incidents.ts beside outcome-web.)
+- Dice rolls deciding outcomes during play: docket 94 · on main 85 (Rechecked the 95 outcome rows in dice.md by file and pattern. About 10 are gone: bill and sponsor pick (legislative-clock), 4 automatic-bill picks, amendment ballot (#1420), Chief Justice fallback, per-lease rent, party stance, local filer shuffle. About 85 remain. Estimate, ±3.)
+
+Summary: 169 audit items checked against main 7fe0435c1: 20 done, 30 partly done, 52 in the plan but not started, 67 not in the rebuild plan at all. The biggest gap: effect sizes are still drawn by dice for all 131 sized links, even though you ruled they should not be; the X5 batches added 34 more drawn links, and #1423's text describes a per-world draw. Docket step X3 ('remove the remaining money draws') is marked done, but office pay, paid-leave premiums and benefits, a new state's income-tax rates, bank balance sheets and the data-privacy cost are still drawn. The 67 findings with no rebuild step are mostly the life and crisis dice (who dies, crime victims, disasters, migration, couples and births, childhood, traits), the national economy's noise, and invented records such as duties 'complied' from staffing and degrees from paid time. On the scoreboard, 'records of things that never happened' (3) and 'effects set by dice' (97) are understated (at least 8 and 131 on main); the other rows match the code.

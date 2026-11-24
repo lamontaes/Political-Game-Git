@@ -1,0 +1,13 @@
+[
+  {
+    "artifactId": "mo-constitution",
+    "requestedUrl": "https://www.sos.mo.gov/CMSImages/Publications/CurrentMissouriConstitution.pdf",
+    "retrievedAt": "2026-10-02T11:36:20.886212+00:00",
+    "url": "https://www.sos.mo.gov/CMSImages/Publications/CurrentMissouriConstitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 1912293,
+    "sha256": "474609e310cd7792f799e898f01bb2f263cbe19ae5f2b69404046d7e30e3f52b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mo-constitution.pdf"
+  }
+]

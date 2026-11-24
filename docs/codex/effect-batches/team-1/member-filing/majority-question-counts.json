@@ -1,0 +1,2578 @@
+{
+  "sourceHead": "999144d4a7de8751cbcf9aedb0a17ff7d90b5330",
+  "runtimeSourceHead": "a522ed5be56ab97afedc24d8d73e847a7586852a",
+  "observerSeed": "team1-member-filing-20261001",
+  "selectionSeed": "team1-majority-questions-20261001",
+  "snapshotDate": "2028-01-05",
+  "filingThreshold": 3,
+  "initialSequence": 423039,
+  "finalSequence": 423039,
+  "limits": "Terminal retained records, not historical intake reconstruction. D/R-led requires the saved governor and strict seated majorities in all chambers; split requires known D/R control with disagreement. Majority-member count reuses the filer's actual agendaCaucus. Question counts are unique propositions; pair counts retain chamber/person/proposition. Openness reuses pendingBillOn and authority uses stateQuestions. Directional difference reuses positionBillAnswer; zero has no directional view and constitution-closed questions cannot change by statute. No numeric requested-term difference, compilation, cooldown, origination or eventual filing is inferred. No principle producer, clock, threshold change or new year run.",
+  "rows": [
+    {
+      "classification": "D-led",
+      "status": "COUNTED",
+      "candidateCount": 16,
+      "place": "MD",
+      "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+      "packId": "us-md-general-assembly-v1",
+      "governor": {
+        "personId": "person_a0331cc0b866161a",
+        "party": "democratic"
+      },
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "seatedMembers": 140,
+          "majorityParty": "democratic",
+          "caucusMembers": 118
+        },
+        {
+          "chamberKey": "senate",
+          "seatedMembers": 47,
+          "majorityParty": "democratic",
+          "caucusMembers": 38
+        }
+      ],
+      "authorityQuestions": 68,
+      "openQuestions": 68,
+      "constitutionClosedOpenQuestions": 0,
+      "openQuestionsWithMajorityViewDifferent": 26,
+      "openQuestionsWithMajorityDifferenceClearingThreshold": 0,
+      "differingMemberQuestionPairs": 3652,
+      "differingPairsClearingThreshold": 0,
+      "questions": [
+        {
+          "propositionId": "proposition_3347bd735b48dc43",
+          "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.adopt-income-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_60db72327bf3dde0",
+          "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.graduated-income-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_7cf61b066a051141",
+          "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.cap-property-tax-growth",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -1.965625,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_054d69d61b0f2e46",
+          "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.271875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -1.271875,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_8713ccd04c9bfeb3",
+          "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.balanced-operating-budget",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -1.965625,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_b5806d32973d68f6",
+          "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.925,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -0.925,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c4822182ecd43dff",
+          "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:fiscal.minimum-reserve-balance",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.503125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -1.503125,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_5f0c0c759f8c111d",
+          "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.independent-redistricting",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_46bd2a6a7b2e2ac0",
+          "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f1c455e9a0c27a7b",
+          "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.automatic-voter-registration",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_062c7f11d0f36966",
+          "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.legislative-term-limits",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f5084abbf907dbad",
+          "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.ban-lobbying-after-office",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.809375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -0.809375,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_68045d80db0be016",
+          "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:government-operations.broaden-local-authority",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_10b40c2eafd5b764",
+          "questionKey": "us-policy-positions:education.equalize-school-funding",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.85,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.85,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_65973e41b73e143a",
+          "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:education.public-funds-for-private-schooling",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_44341ed5208487e8",
+          "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:education.raise-teacher-minimum-salary",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.503125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.503125,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_ca8f52a74467b1fc",
+          "questionKey": "us-policy-positions:education.universal-preschool",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:education.universal-preschool",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_542f765e70b23c5b",
+          "questionKey": "us-policy-positions:education.freeze-public-tuition",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.734375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.734375,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_45641e7d27cc756b",
+          "questionKey": "us-policy-positions:education.state-curriculum-standards",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.3875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.3875,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_555d6908898e4959",
+          "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_03751de3f40f5f56",
+          "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.medicaid-work-requirement",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_508b97dfeccd994a",
+          "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": -2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c418c80593f6db6a",
+          "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.965625,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_ddb4770b47bafe7f",
+          "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.965625,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_3b69403fbe087d28",
+          "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_9d88404e486fa58b",
+          "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:justice-public-safety.end-cash-bail",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b6fdfba1734fdb5c",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+          "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_912b67dd23138a09",
+          "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_53a930136019308a",
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_a63ef4942a117be8",
+          "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b119c90b8a36123f",
+          "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_67b712e931d5626d",
+          "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:housing-land-use.rent-stabilization",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_6ae1e44ec1921c72",
+          "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_a7ece54730819fa2",
+          "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:housing-land-use.inclusionary-requirement",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.85,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.85,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_199588d238f8a9ca",
+          "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_d5d37c97e4e00984",
+          "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_96e212c1b9f200ca",
+          "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_88a5a92bfb0d8d75",
+          "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.69375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 2.69375,
+            "principleRecordIds": [
+              "principle_a1d8afaae471932a",
+              "principle_9cffe79db9bbcd05"
+            ],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_f10b861e23e3c412",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_068bc5251f39f225",
+          "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_25301390ffebe7d8",
+          "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:transportation-infrastructure.public-broadband",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_e5f4015f38900487",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 55,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.05,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.05,
+            "principleRecordIds": ["principle_9cffe79db9bbcd05"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_4850d4cc2bf02f7b",
+          "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_76c74a09b6ad389b",
+          "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_3881e6fd4022321e",
+          "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc1e960a523bf8a7",
+          "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c4724aab29cbcbc8",
+          "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:labor-workforce.raise-minimum-wage",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ac60a3e5428a5b3d",
+          "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b4cb824f1a35c05f",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:labor-workforce.paid-family-leave",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_0c00df9e1d7d9146",
+          "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc75bd0f2f347d26",
+          "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:labor-workforce.right-to-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_2466a4fb302ee14e",
+          "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:environment-energy.clean-electricity-standard",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ae1d3c57840c759e",
+          "questionKey": "us-policy-positions:environment-energy.price-carbon",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:environment-energy.price-carbon",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_0b12dbedbf131b65",
+          "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "differingMemberQuestionPairs": 55,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.4875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.4875,
+            "principleRecordIds": ["principle_9cffe79db9bbcd05"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c907fe2a199efe8d",
+          "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 55,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.3125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.3125,
+            "principleRecordIds": ["principle_9cffe79db9bbcd05"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_60bed958c581e5f8",
+          "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:environment-energy.bottle-deposit",
+          "differingMemberQuestionPairs": 55,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.575,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 1.575,
+            "principleRecordIds": ["principle_9cffe79db9bbcd05"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_5677fab5d6dc185e",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b68c4a8d0d0ae664",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f01e4adde7e59f97",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.2249999999999999,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_fa975dd73a5751ca",
+            "score": 1.2249999999999999,
+            "principleRecordIds": ["principle_5f13310d661a5760"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_422764a9e0425384",
+          "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f9d763234f9116dc",
+          "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:civil-family-community.restrict-abortion",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_15ce1518227e5b1e",
+          "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 156,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.196875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_621e66f267a2a9a4",
+            "score": 2.196875,
+            "principleRecordIds": ["principle_a1d8afaae471932a"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_66dbf22264dba11f",
+          "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_2fae18249369ab7e",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "lawAnswer": "yes",
+          "lawMeasureId": "legislative-measure_4f1660f7ad72f350",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c710bf4639ffa1f1",
+          "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ca9a73f1bdb76d37",
+          "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ab5255427ba9c172",
+          "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MD:us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        }
+      ]
+    },
+    {
+      "classification": "R-led",
+      "status": "COUNTED",
+      "candidateCount": 25,
+      "place": "GA",
+      "jurisdictionId": "jurisdiction_23ccafc89341e657",
+      "packId": "us-ga-legislature-profile-v1",
+      "governor": {
+        "personId": "person_ff1f1081d1d9d58f",
+        "party": "republican"
+      },
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "seatedMembers": 178,
+          "majorityParty": "republican",
+          "caucusMembers": 102
+        },
+        {
+          "chamberKey": "senate",
+          "seatedMembers": 56,
+          "majorityParty": "republican",
+          "caucusMembers": 33
+        }
+      ],
+      "authorityQuestions": 68,
+      "openQuestions": 68,
+      "constitutionClosedOpenQuestions": 0,
+      "openQuestionsWithMajorityViewDifferent": 14,
+      "openQuestionsWithMajorityDifferenceClearingThreshold": 0,
+      "differingMemberQuestionPairs": 560,
+      "differingPairsClearingThreshold": 0,
+      "questions": [
+        {
+          "propositionId": "proposition_3347bd735b48dc43",
+          "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.adopt-income-tax",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.4875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -1.4875,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_60db72327bf3dde0",
+          "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.graduated-income-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_7cf61b066a051141",
+          "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.cap-property-tax-growth",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_054d69d61b0f2e46",
+          "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_8713ccd04c9bfeb3",
+          "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.balanced-operating-budget",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b5806d32973d68f6",
+          "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.05,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -1.05,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c4822182ecd43dff",
+          "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:fiscal.minimum-reserve-balance",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_5f0c0c759f8c111d",
+          "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.independent-redistricting",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_46bd2a6a7b2e2ac0",
+          "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f1c455e9a0c27a7b",
+          "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.automatic-voter-registration",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.4875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -1.4875,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_062c7f11d0f36966",
+          "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.legislative-term-limits",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.3500000000000001,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 0.3500000000000001,
+            "principleRecordIds": [
+              "principle_301c47ba64ba9a1b",
+              "principle_17499420274dca6d"
+            ],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_f5084abbf907dbad",
+          "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.ban-lobbying-after-office",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_68045d80db0be016",
+          "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:government-operations.broaden-local-authority",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.1375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -1.1375,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_10b40c2eafd5b764",
+          "questionKey": "us-policy-positions:education.equalize-school-funding",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_65973e41b73e143a",
+          "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:education.public-funds-for-private-schooling",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_44341ed5208487e8",
+          "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:education.raise-teacher-minimum-salary",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ca8f52a74467b1fc",
+          "questionKey": "us-policy-positions:education.universal-preschool",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:education.universal-preschool",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_542f765e70b23c5b",
+          "questionKey": "us-policy-positions:education.freeze-public-tuition",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_45641e7d27cc756b",
+          "questionKey": "us-policy-positions:education.state-curriculum-standards",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_555d6908898e4959",
+          "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_03751de3f40f5f56",
+          "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.medicaid-work-requirement",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_508b97dfeccd994a",
+          "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c418c80593f6db6a",
+          "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ddb4770b47bafe7f",
+          "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_3b69403fbe087d28",
+          "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_9d88404e486fa58b",
+          "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.end-cash-bail",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b6fdfba1734fdb5c",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.7875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 0.7875,
+            "principleRecordIds": ["principle_17499420274dca6d"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+          "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_912b67dd23138a09",
+          "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_53a930136019308a",
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_a63ef4942a117be8",
+          "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.1375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -1.1375,
+            "principleRecordIds": ["principle_17499420274dca6d"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_b119c90b8a36123f",
+          "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_67b712e931d5626d",
+          "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:housing-land-use.rent-stabilization",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_6ae1e44ec1921c72",
+          "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.3125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 1.3125,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_a7ece54730819fa2",
+          "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:housing-land-use.inclusionary-requirement",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_199588d238f8a9ca",
+          "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_d5d37c97e4e00984",
+          "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_96e212c1b9f200ca",
+          "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_88a5a92bfb0d8d75",
+          "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f10b861e23e3c412",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_068bc5251f39f225",
+          "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_25301390ffebe7d8",
+          "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:transportation-infrastructure.public-broadband",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.9625000000000001,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": -0.9625000000000001,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_e5f4015f38900487",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_4850d4cc2bf02f7b",
+          "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.575,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 1.575,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_76c74a09b6ad389b",
+          "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_3881e6fd4022321e",
+          "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc1e960a523bf8a7",
+          "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c4724aab29cbcbc8",
+          "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:labor-workforce.raise-minimum-wage",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ac60a3e5428a5b3d",
+          "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b4cb824f1a35c05f",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:labor-workforce.paid-family-leave",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_0c00df9e1d7d9146",
+          "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc75bd0f2f347d26",
+          "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:labor-workforce.right-to-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_2466a4fb302ee14e",
+          "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:environment-energy.clean-electricity-standard",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ae1d3c57840c759e",
+          "questionKey": "us-policy-positions:environment-energy.price-carbon",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:environment-energy.price-carbon",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_0b12dbedbf131b65",
+          "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c907fe2a199efe8d",
+          "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_60bed958c581e5f8",
+          "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:environment-energy.bottle-deposit",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_5677fab5d6dc185e",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b68c4a8d0d0ae664",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f01e4adde7e59f97",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.05,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 1.05,
+            "principleRecordIds": ["principle_17499420274dca6d"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_422764a9e0425384",
+          "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f9d763234f9116dc",
+          "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:civil-family-community.restrict-abortion",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_15ce1518227e5b1e",
+          "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_66dbf22264dba11f",
+          "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.9625000000000001,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 0.9625000000000001,
+            "principleRecordIds": ["principle_17499420274dca6d"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_2fae18249369ab7e",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c710bf4639ffa1f1",
+          "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ca9a73f1bdb76d37",
+          "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.2249999999999999,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 1.2249999999999999,
+            "principleRecordIds": ["principle_301c47ba64ba9a1b"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_ab5255427ba9c172",
+          "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-GA:us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "differingMemberQuestionPairs": 40,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.05,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_a359a427dc2b9293",
+            "score": 1.05,
+            "principleRecordIds": ["principle_17499420274dca6d"],
+            "clearsThreshold": false
+          }
+        }
+      ]
+    },
+    {
+      "classification": "split",
+      "status": "COUNTED",
+      "candidateCount": 7,
+      "place": "MI",
+      "jurisdictionId": "jurisdiction_e3b5bf248cf4b8b5",
+      "packId": "us-mi-legislature-profile-v1",
+      "governor": {
+        "personId": "person_b2b379733fbab8d2",
+        "party": "republican"
+      },
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "seatedMembers": 109,
+          "majorityParty": "democratic",
+          "caucusMembers": 64
+        },
+        {
+          "chamberKey": "senate",
+          "seatedMembers": 38,
+          "majorityParty": "democratic",
+          "caucusMembers": 20
+        }
+      ],
+      "authorityQuestions": 68,
+      "openQuestions": 68,
+      "constitutionClosedOpenQuestions": 1,
+      "openQuestionsWithMajorityViewDifferent": 28,
+      "openQuestionsWithMajorityDifferenceClearingThreshold": 1,
+      "differingMemberQuestionPairs": 2100,
+      "differingPairsClearingThreshold": 21,
+      "questions": [
+        {
+          "propositionId": "proposition_3347bd735b48dc43",
+          "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.adopt-income-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_60db72327bf3dde0",
+          "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+          "lawAnswer": "closed",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.graduated-income-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_7cf61b066a051141",
+          "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.cap-property-tax-growth",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -1.965625,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_054d69d61b0f2e46",
+          "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.271875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -1.271875,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_8713ccd04c9bfeb3",
+          "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.balanced-operating-budget",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -1.965625,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_b5806d32973d68f6",
+          "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 0.925,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -0.925,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c4822182ecd43dff",
+          "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:fiscal.minimum-reserve-balance",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_5f0c0c759f8c111d",
+          "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.independent-redistricting",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_46bd2a6a7b2e2ac0",
+          "questionKey": "us-policy-positions:government-operations.require-photo-id-to-vote",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.require-photo-id-to-vote",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f1c455e9a0c27a7b",
+          "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.automatic-voter-registration",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_062c7f11d0f36966",
+          "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.legislative-term-limits",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.271875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -1.271875,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_f5084abbf907dbad",
+          "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.ban-lobbying-after-office",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_68045d80db0be016",
+          "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:government-operations.broaden-local-authority",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_10b40c2eafd5b764",
+          "questionKey": "us-policy-positions:education.equalize-school-funding",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.85,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.85,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_65973e41b73e143a",
+          "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:education.public-funds-for-private-schooling",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_44341ed5208487e8",
+          "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:education.raise-teacher-minimum-salary",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.503125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.503125,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_ca8f52a74467b1fc",
+          "questionKey": "us-policy-positions:education.universal-preschool",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:education.universal-preschool",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_542f765e70b23c5b",
+          "questionKey": "us-policy-positions:education.freeze-public-tuition",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.734375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.734375,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_45641e7d27cc756b",
+          "questionKey": "us-policy-positions:education.state-curriculum-standards",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.3875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.3875,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_555d6908898e4959",
+          "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_03751de3f40f5f56",
+          "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.medicaid-work-requirement",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_508b97dfeccd994a",
+          "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US:us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": -2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c418c80593f6db6a",
+          "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.965625,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_ddb4770b47bafe7f",
+          "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.965625,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_3b69403fbe087d28",
+          "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_9d88404e486fa58b",
+          "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:justice-public-safety.end-cash-bail",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b6fdfba1734fdb5c",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+          "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_912b67dd23138a09",
+          "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_53a930136019308a",
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_a63ef4942a117be8",
+          "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b119c90b8a36123f",
+          "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_67b712e931d5626d",
+          "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:housing-land-use.rent-stabilization",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_6ae1e44ec1921c72",
+          "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_a7ece54730819fa2",
+          "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:housing-land-use.inclusionary-requirement",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.85,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.85,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_199588d238f8a9ca",
+          "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_d5d37c97e4e00984",
+          "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.734375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.734375,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_96e212c1b9f200ca",
+          "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 21,
+          "largestAbsoluteDifferingScore": 3.1343750000000004,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 3.1343750000000004,
+            "principleRecordIds": [
+              "principle_ea0e1d8e959a6897",
+              "principle_22fdedba4ce9de68"
+            ],
+            "clearsThreshold": true
+          }
+        },
+        {
+          "propositionId": "proposition_88a5a92bfb0d8d75",
+          "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.69375,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.69375,
+            "principleRecordIds": [
+              "principle_22fdedba4ce9de68",
+              "principle_ea0e1d8e959a6897"
+            ],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_f10b861e23e3c412",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:transportation-infrastructure.fare-free-transit",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_068bc5251f39f225",
+          "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_25301390ffebe7d8",
+          "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:transportation-infrastructure.public-broadband",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.0812500000000003,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.0812500000000003,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_e5f4015f38900487",
+          "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 21,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.05,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.05,
+            "principleRecordIds": ["principle_ea0e1d8e959a6897"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_4850d4cc2bf02f7b",
+          "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_76c74a09b6ad389b",
+          "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_3881e6fd4022321e",
+          "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc1e960a523bf8a7",
+          "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c4724aab29cbcbc8",
+          "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:labor-workforce.raise-minimum-wage",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ac60a3e5428a5b3d",
+          "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b4cb824f1a35c05f",
+          "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:labor-workforce.paid-family-leave",
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.965625,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.965625,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_0c00df9e1d7d9146",
+          "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_bc75bd0f2f347d26",
+          "questionKey": "us-policy-positions:labor-workforce.right-to-work",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:labor-workforce.right-to-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_2466a4fb302ee14e",
+          "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:environment-energy.clean-electricity-standard",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ae1d3c57840c759e",
+          "questionKey": "us-policy-positions:environment-energy.price-carbon",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:environment-energy.price-carbon",
+          "differingMemberQuestionPairs": 21,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.6624999999999999,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.6624999999999999,
+            "principleRecordIds": ["principle_ea0e1d8e959a6897"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_0b12dbedbf131b65",
+          "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "differingMemberQuestionPairs": 21,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.4875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.4875,
+            "principleRecordIds": ["principle_ea0e1d8e959a6897"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_c907fe2a199efe8d",
+          "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 21,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.3125,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 1.3125,
+            "principleRecordIds": ["principle_ea0e1d8e959a6897"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_60bed958c581e5f8",
+          "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:environment-energy.bottle-deposit",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_5677fab5d6dc185e",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_b68c4a8d0d0ae664",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f01e4adde7e59f97",
+          "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 1.2249999999999999,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_5843c1e86bfade1f",
+            "score": 1.2249999999999999,
+            "principleRecordIds": ["principle_64ee1f6716d14dcc"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_422764a9e0425384",
+          "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_f9d763234f9116dc",
+          "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:civil-family-community.restrict-abortion",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_15ce1518227e5b1e",
+          "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 84,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": 2.196875,
+          "strongestRecordedExample": {
+            "chamberKey": "house",
+            "personId": "person_84e0126f14cd1077",
+            "score": 2.196875,
+            "principleRecordIds": ["principle_22fdedba4ce9de68"],
+            "clearsThreshold": false
+          }
+        },
+        {
+          "propositionId": "proposition_66dbf22264dba11f",
+          "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+          "lawAnswer": null,
+          "lawMeasureId": null,
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_2fae18249369ab7e",
+          "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "lawAnswer": "yes",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_c710bf4639ffa1f1",
+          "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ca9a73f1bdb76d37",
+          "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        },
+        {
+          "propositionId": "proposition_ab5255427ba9c172",
+          "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "lawAnswer": "no",
+          "lawMeasureId": "starting-law:US-MI:us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "differingMemberQuestionPairs": 0,
+          "differingPairsClearingThreshold": 0,
+          "largestAbsoluteDifferingScore": null,
+          "strongestRecordedExample": null
+        }
+      ]
+    }
+  ]
+}

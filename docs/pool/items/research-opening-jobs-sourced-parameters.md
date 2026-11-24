@@ -1,0 +1,56 @@
+---
+id: research-opening-jobs-sourced-parameters
+title: "Research: sourced parameters for the opening's jobs, workgroups and pay calendars"
+area: core
+kind: research
+priority: 3
+size: M
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: "collapsed Oct 19, 2026 from core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar"
+claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
+---
+
+**What.** Source the numbers behind the opening's jobs, workgroups and pay calendars. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The pay-calendar row is nearly sourced: the 44 pay-frequency weights (`openingPayrollBls*Weight`) already come from BLS, and the BLS Current Employment Statistics 'Length of pay period' page (https://www.bls.gov/ces/publications/length-pay-period.htm, February 2023: weekly 27.0, biweekly 43.0, semimonthly 19.8, monthly 10.3 percent of establishments) is the newer source to check them against. What stays estimated is the phase span, the period-end lag and the boundary days. Coworker groups and the job mix need mechanics, not numbers, and stay registered.
+
+- `SG-P15-coworker-groups` in src/core2/data/opening-coworkers.json: Residents of the same opening employer are split into seeded balanced workgroups of at most openingCoworkerGroupSize, and each pair knows the other by name since the later of their two start dates. Replacement: Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time worked together adding to closeness on the shifts both attend.
+- `SG-P8-authored-job-mix` in src/core2/data/opening-employment.json: The existing town-employment generator uses an authored workplace and role mix; sourced employment totals do not source those content options. Replacement: A source-grounded open occupation/employer mix with verified coverage and deterministic individual matching.
+- `SG-P8-opening-employment` in src/core2/opening-employment.ts: Adds fictional opening jobs against sourced sector stock and age-target priors at existing recorded employers. Replacement: County-resident employment and firm/occupation supported capacity matched with source spreads, preserving original records.
+- `SG-P8-opening-employer-pay-calendar` in src/core2/data/opening-payroll-calendar.json: Fresh employer-owned payroll frequency/phase/lag calendars estimated from dated business-frequency evidence and separately qualified public/education examples; no actual fictional employer term or legal compliance claimed. Replacement: Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. (parameter rows: src/core2/data/parameters.json:openingPayrollPrivatePhaseSpanFraction, src/core2/data/parameters.json:openingPayrollPeriodEndLagDays, src/core2/data/parameters.json:openingPayrollMonthlyBoundaryDay, src/core2/data/parameters.json:openingPayrollSemimonthlyFirstBoundaryDay, src/core2/data/parameters.json:openingPayrollSemimonthlySecondBoundaryDay, src/core2/data/parameters.json:openingPayrollEducationBiweeklyWeight, src/core2/data/parameters.json:openingPayrollEducationMonthlyWeight)
+
+**Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/core-parameter-sources-2026-10-12.md.
+
+**Fix.** Check the pay-calendar frequency weights against the BLS CES February 2023 table (a data change only, but it moves which opening employers pay on which cycle, so check it in a played year). Coworker groups and the job mix need mechanics, not numbers, and stay registered.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
+**Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
+
+**Done when.** A second session reads the parameter tables for the pay-calendar frequency weights and finds each SOURCED or ESTIMATED with a citation (publisher, year, URL) and a spread (low, high, unit, citation). In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) it sees the engine read each new value by record id, with where the town landed reported next to the real figure; the real figure is reported only and is not a pass mark. Each stopgap row this item takes is resolved in its family file under src/core2/data/stopgaps/ with the source named, or stays open with its replacement naming the research file, the estimate's source and spread, and the item that would close it. tests/guards/research-data-has-reader.test.ts and the tripwire and calibration-guard tests pass.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/data/opening-coworkers.json (new), src/core2/data/opening-employment.json, src/core2/data/opening-payroll-calendar.json, src/core2/opening-employment.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/p15.json, src/core2/data/stopgaps/p8.json, data/research/core/
+
+**Notes.** Folded from: core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Looked at Oct 20 (claude/political-game-pool-3xfqef-12), released unbuilt. Of the four rows, the pay-calendar row is already mostly sourced: `opening-payroll-calendar.json` carries per-industry frequency weights as BLS parameters (`openingPayrollBls*Weight`), and the BLS Current Employment Statistics page "Length of pay period" (https://www.bls.gov/ces/publications/length-pay-period.htm; establishments, Feb 2023: biweekly 43.0, weekly 27.0, semimonthly 19.8, monthly 10.3 percent; biweekly rises from 39.0 percent of establishments with 1 to 9 employees to 66.6 percent with 1,000 or more) is the source to check them against. What stays estimated is the phase span, period-end lag and boundary days (`openingPayrollPrivatePhaseSpanFraction`, `openingPayrollPeriodEndLagDays` and the monthly and semimonthly boundary days), which need dated employer payroll records, not a published table. The other three rows (coworker groups, authored job mix, opening employment allocation) need sources I could not retrieve with a citation from the cloud session. A researcher with web access takes them one row per PR.
+
+Looked at Oct 20 (claude/political-game-pool-8defjq), released unbuilt. SG-P8-opening-employer-pay-calendar: the 44 pay-frequency weights (`openingPayrollBls*Weight`, SOURCED) already come from BLS (Burgess, Beyond the Numbers, 2014; March 2013). BLS has a newer table, the Current Employment Statistics "Frequency of pay period", February 2023 (https://www.bls.gov/ces/publications/length-pay-period.htm, last modified August 4, 2023): all private weekly 27.0, biweekly 43.0, semimonthly 19.8, monthly 10.3; by industry and by establishment size class, with the same industry groups the calendar uses. Swapping the weights is a data change only, but it moves which opening employers pay on which cycle, so it needs the parameter table's pinned hash in src/core2/tooling/calibration-targets.json re-pinned and the saved-trace and payday fingerprint tests (saved-trace-v1, opening-payday-wiring-observation, work-pay-period, work-payroll-cash) re-baselined together; that is a play-visible change, so it is left for a builder who can run those. The other pay-calendar parameters (phase span, five-day lag, month boundary days, the education options' equal weight) have no public source: BLS gives no individual lag or phase. They are authored conventions and could be registered as owner decisions rather than researched. SG-P15-coworker-groups, SG-P8-authored-job-mix and SG-P8-opening-employment are mechanics (matching, staffing patterns), not numbers, so they belong to the jobs builder.
+
+Looked at Oct 20 (claude, claude/political-game-pool-yucp92-aa), nothing sourced. None of the four rows is a number to look up: coworker workgroups from BLS occupation staffing patterns and a measured count of coworkers known (a mechanic that reads time on shared shifts), an open occupation and employer mix with verified coverage, county-resident employment matched to firm capacity, and employer payroll calendars with legal frequency and holiday rules. Each needs a model of how the engine would read the data before a figure can be put in a parameter row, so each belongs to the area's builder first and the researcher second.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-yucp92-aa` (2026-10-20). Cleared from the front matter and kept here.

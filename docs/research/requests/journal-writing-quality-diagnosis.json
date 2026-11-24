@@ -1,0 +1,49 @@
+{
+  "filedAt": "2026-09-23T03:15:00.000Z",
+  "impact": "blocks-work",
+  "lane": "dialogue and choices depth",
+  "notes": [
+    "THE OWNER'S WORDS, 2026-09-22 11:09 p.m. Eastern, on the grounded sample Journal year: \"the writing looks awful. It needs to be sent to ChatGPT to help diagnose and maybe fix the skills file or something.\"",
+    "FULL REPORT: /mnt/project-files/research/FOR-CHATGPT-journal-writing-diagnosis-2026-09-23.md, with the sample at /mnt/project-files/playtest/journal-sample-year-for-approval-2026-09-23.md. The sample passed an independent grounding check, so the fault is the writing, not invented facts.",
+    "THIS LANE'S DIAGNOSIS, for ChatGPT to confirm or correct: (1) Journal lines are the scenes' present-tense aftermath sentences cut loose from their scenes, so 'the building at the end of the road' and 'the day Sage Rowland suggested' point at nothing; (2) people are bare names although the relationship record exists; (3) nothing is weighed, so a titled volunteer role sits beside fifteen minutes of reading; (4) the only joins allowed are by date; (5) the dramatic question was forced onto a small step; (6) bookkeeping lines ('Trip to Logan Salazar's home concluded') reach the player; (7) the civic-prose skill has no chronicle register and no chronicle examples, so the grounding floor was the only rule.",
+    "ChatGPT dialogue export owner review, 2026-09-23 12:10 a.m. ET (docs/research/chatgpt-answers/2026-09-23-dialogue-review-0415/Our Civic Duty - dialogue export owner review - September 23 2026.md), bears on the writing rules: scene text must be plain American English (it found British spellings of favor and neighbor, and 'rang', 'queue', 'timetable', 'the table closed back up', 'put it up the line'); the owner-rejected blue crayon is still present; instant choices stay unlabeled and 'No time passes' is dropped; branches must not invent or collapse outcomes (it-got-worse, the-one-you-did-not-go-with, it-was-taken-seriously, arrangement-held, the-offer, and 'Remembered as' lines in formative.friend-conflict, civic-volunteering, caring-for-someone). Routed to How deep are choices and dialogue."
+  ],
+  "priority": "P1",
+  "question": "Why does the grounded Journal chronicle read badly, and what writing rules, selection rule and examples should the prose skill carry so a year of a life reads as a story without inventing facts?",
+  "questionId": "journal-writing-quality-diagnosis",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "dialogue and choices depth lane",
+  "sourcesChecked": [
+    {
+      "source": ".agents/skills/civic-prose/SKILL.md and references/surface-registers.md at main 6fb4e1b5",
+      "whatItDidNotSettle": "Nine registers for scenes, dialogue, choices and in-world documents; none for a retrospective chronicle, and no chronicle examples."
+    },
+    {
+      "source": "The owner's Journal voice ruling, cto-handoff-2230 ('Expressive narrator, recorded inner life')",
+      "whatItDidNotSettle": "Sets what may be claimed; leaves length, selection and final wording open, and says nothing on how to make grounded sentences read well."
+    },
+    {
+      "source": "src/presentation/world39-journal.ts and journal-views.ts",
+      "whatItDidNotSettle": "They print each record's own summary sentence; nothing describes people by relationship or carries a scene's subject into the retelling."
+    }
+  ],
+  "title": "Why the Journal chronicle reads badly, and the writing rules to fix it",
+  "usableAnswer": "Six parts, each usable alone: (1) a diagnosis confirming or correcting the lane's list; (2) a chronicle register written to drop into surface-registers.md and owner-authoring-contract.md (person, tense, introducing people, carrying a scene's subject into a retelling, joins, what a year leaves out); (3) a selection rule code can apply to any life; (4) which record fields beyond the summary sentence the Journal may draw on, such as the relationship to name a person by or the scene's premise; (5) the sample's 2026 year rewritten from its record as a target; (6) two or three approved and rejected examples in the shape of examples/approved.jsonl and rejected.jsonl.",
+  "whyItMatters": "The owner reads the Journal to see his life back and has now rejected the grounded version on sight. The lane cannot fix it by adding facts, and without a register and a selection rule every further attempt will read the same way.",
+  "candidateAnswers": [
+    {
+      "label": "Story from turning points, context from the record",
+      "position": "Each year opens on its turning points, names people by their recorded relationship, carries the scene's premise to explain what a line refers to, folds routine into at most one sentence, and drops bookkeeping.",
+      "recommended": true,
+      "argumentFor": "Addresses every item in the diagnosis with fields the record already holds, and matches the owner's own example, which is built on turning points.",
+      "argumentAgainst": "Needs a rule for what counts as a turning point, and some scene premises are written for the moment and would need their own retelling line."
+    },
+    {
+      "label": "Rewrite the scenes' result lines for retelling",
+      "position": "Give every scene choice a second, retrospective result sentence authored for the Journal, and keep the chronicle's joins simple.",
+      "recommended": false,
+      "argumentFor": "Each line then reads well on its own, authored once.",
+      "argumentAgainst": "A large authoring job across every scene, and it still leaves the year unweighed."
+    }
+  ]
+}

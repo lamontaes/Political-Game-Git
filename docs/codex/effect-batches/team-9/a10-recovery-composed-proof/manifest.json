@@ -1,0 +1,47 @@
+{
+  "auditId": "A10",
+  "testedHead": "9d45c506275381c7fbdd419f9375debb40c638b7",
+  "main": "16d1176f9cb09074e97a008613d47e1d133e00c8",
+  "auditPayload": "c22464d3652180419358c1489b5518b211c8352b",
+  "preservedPreviousHead": "73cd92265b2a61d5cb436b1ff501d39ed48c2e60",
+  "command": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/justice/prosecution-transitions.test.ts src/simulation/justice/clemency-clock.test.ts scripts/engine-proof/prosecution-load-opening-main.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a10-recovery-composed-tests.json",
+  "result": {
+    "passed": 13,
+    "failed": 0,
+    "durationSeconds": 228.38,
+    "originalCaseTimeoutMs": 30000
+  },
+  "sourceBlobs": {
+    "src/player/PlayerGame.tsx": "78d60e8f7326ac4e8348df8d4aa550040dc97d95",
+    "src/presentation/opening-life.ts": "7dd30d5eddd8fc04d272557a1f84ff400f5e2af4",
+    "src/presentation/open-saved-played-life.ts": "60b164ddb2b8227736322dec524ba9a275b7a050",
+    "scripts/engine-proof/prosecution-load-opening-main.test.ts": "d9229c5af8283eaa0c4097d2c121c3befb6ab5ef",
+    "docs/release/changes/played-save-prosecution-recovery.md": "f9f3c49305f4786f1c5d1b341f4fa5532959c7f2",
+    "src/simulation/press/transitions.ts": "f1769a68930e0c0517ab79dd6f73e4c67b531f01",
+    "src/simulation/justice/prosecution-transitions.test.ts": "1cdb41d706fa0bcd7385f45d1a7105559f240b5a",
+    "src/simulation/justice/clemency-clock.test.ts": "4fafdaa6d6dacfaef32c762fcf90b3999b722c55"
+  },
+  "checks": {
+    "types": "8 roots,1558 files,0 diagnostics",
+    "lint": "PASS",
+    "format": "PASS",
+    "zeroDice": "PASS 0 new,5 gone",
+    "auditScan": "A10 5/5 source rules:done; runtime scope remains limited",
+    "release": "FAIL identical main ci-changed-tests-only.md d6c9921a82b800d9c0b27d0a9da55c2feb676ff8;main-to-main reproduces"
+  },
+  "notRun": [
+    "browser load interaction",
+    "uninterrupted natural-play stale recovery",
+    "all56 watched plays",
+    "year performance",
+    "full suite",
+    "final-main acceptance"
+  ],
+  "preservation": [
+    "A1001598/8643ef865549abec063ef56fd0d3bb3fb3da153f unchanged",
+    "A1021546 unchanged",
+    "two untracked research inputs retained",
+    "original8PASS2TIMEOUT and10PASS260.65 receipts retained"
+  ],
+  "next": "CTO exact-source review then A100 dependency composition; A103 requires actual applicability and numeric judge decision contract"
+}

@@ -1,0 +1,47 @@
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -1,3 +1,4 @@
++import { IncidentResponsePanel } from "./IncidentResponsePanel";
+ import { PressWorkspace } from "./PressWorkspace";
+ import {
+   SavedAppearanceProvider,
+@@ -2537,9 +2538,11 @@
+       );
+ 
+     case "work": {
++      const responseFrame: typeof frame = (title, testid, body, kicker) =>
++        frame(title, testid, <><IncidentResponsePanel world={session.world} onWorldChange={onWorldChange} />{body}</>, kicker);
+       const offices = judicialOfficeContexts(session.world);
+       if (offices.length > 0)
+-        return frame(
++        return responseFrame(
+           "Office work",
+           "judicial-office-section",
+           <>
+@@ -2556,7 +2559,7 @@
+           </>,
+         );
+       if (resolveExecutiveOffice(session.world))
+-        return frame(
++        return responseFrame(
+           "Executive work",
+           "executive-office-section",
+           <ExecutiveWorkWorkspace
+@@ -2569,7 +2572,7 @@
+           />,
+         );
+       if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
+-        return frame(
++        return responseFrame(
+           "Education and work",
+           "personal-work-section",
+           <LifePathsPanel
+@@ -2591,7 +2594,7 @@
+             docketKey,
+           })
+         : null;
+-      return frame(
++      return responseFrame(
+         "The office",
+         "office-section",
+         <WorkWorkspace world={session.world} personId={session.personId}>

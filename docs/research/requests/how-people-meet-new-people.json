@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-23T01:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "personality and relationships",
+  "notes": [
+    "Measured 2026-09-23 on main at 4956bb95: a 24-year-old started in Houma, Louisiana or Reno, Nevada knows 2 people on day one (their household) and still 2 after 180 ordinary days, in a world of about 560 people. No job, no coworkers, no partner. A ten-year Lexington playtest the day before found the same: the number of people known goes from 2 to 4 in the first year and never moves again.",
+    "The owner asked for it directly on 2026-09-22 at 7:39 p.m. Eastern: 'there needs to be a way to expand your social circle. College is supposed to be one of those ways. Do what you can do here, but defer to ChatGPT.' The coordinator named the routes: work, neighbors, clubs, church, friends of friends, college.",
+    "ChatGPT's earlier answer to how-a-life-begins-and-grows-up said FRIENDSHIPS and career changes come first. This is the friendship half.",
+    "Two separate things need answers. How someone comes to meet a new person (which settings, how often, what makes an introduction happen), and what a first meeting establishes (an acquaintance only, with any warmth earned later through the conduct rubric already in place)."
+  ],
+  "priority": "P0",
+  "question": "How does an adult (and a child or teenager) come to know new people over a life: through which settings (work, school and college, neighbors, a congregation, clubs and volunteering, friends of friends, online), roughly how often in each, what makes an introduction more or less likely (personality, age, life stage, moving, the size of the place), and what does a first meeting establish between the two people?",
+  "questionId": "how-people-meet-new-people",
+  "relatedQuestionIds": [
+    "college-friendship-and-appointment",
+    "how-a-life-begins-and-grows-up",
+    "where-two-people-meet"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae, 2026-09-22 23:39Z: 'there needs to be a way to expand your social circle ... defer to chat GPT'",
+  "sourcesChecked": [
+    {
+      "source": "DEPTH1 answers (friendship conduct rubric) and DEPTH2 A01/A03",
+      "whatItDidNotSettle": "Say how an existing relationship grows, holds and fades. Nothing says how two strangers first come to know each other."
+    },
+    {
+      "source": "college-friendship-and-appointment (answered)",
+      "whatItDidNotSettle": "Says a college cohort should persist into later life. It does not say how many people a college year introduces, or cover the other settings."
+    }
+  ],
+  "title": "How people come to know new people",
+  "usableAnswer": "Per setting: whether it introduces people, who (people who actually share that setting in the world), and a pace given as labeled calibration if no evidence exists, with what raises or lowers it. Also what a first meeting records between the two, and whether the player chooses to meet people or it happens as life passes, or both. Behavior before numbers.",
+  "whyItMatters": "Without it nobody's circle ever grows, so there are no friends to make, no one to date and no network to build a political career on, which is the game's core. Inventing the pace would be invented depth, which the owner has ruled out.",
+  "answer": {
+    "summary": "People meet through settings they actually share: school, college and youth activities; work; neighbors in the same building or nearby homes; congregations, clubs, volunteering, sports and civic groups; friends of friends and family introductions; online groups. Survey anchors (all cumulative, none annual): 87 percent of teens had a close friend from school (Pew 2018); 54 percent of adults with close friends met one at their or a spouse's workplace, 40 percent through existing friends, 21 percent at a place of worship, 19 percent at a club (Survey Center 2021); 26 percent of adults know all or most neighbors, 62 percent some, 12 percent none (Pew 2025); 57 percent of teens made a friend online (Pew 2015). Rules: a shared setting creates a candidate, never a bond; living in the same town or attending the same large institution is not enough; the player may initiate or accept, and people may initiate on their own; a first meeting records an acquaintance with date, setting and any introducer, and nothing about friendship, trust or romance until later conduct supports it (D-092). Owner decision (People card): add someone after an actual introduction or meaningful exchange; sharing a school, job, neighborhood or room alone does not mean two people know each other.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-how-people-meet-new-people-2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/READ FIRST - Our Civic Duty research handoff - 2026-09-22 2230 ET.md"
+    ],
+    "answeredBy": "ChatGPT (online-friends denominator independently corrected and reviewed)",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "No source gives an annual count of new acquaintances, a chance per interaction, personality modifiers, the effect of moving or place size, or how often an acquaintance becomes trusted. Any number used is a labeled game calibration, not a fact."
+  }
+}

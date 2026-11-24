@@ -1,0 +1,31 @@
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -1,3 +1,5 @@
++import { LifePathsPanel } from "./LifePathsPanel";
++import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+ import {
+   useCallback,
+   useEffect,
+@@ -1632,6 +1634,7 @@
+           onClose={() => setOpen(null)}
+         >
+           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
++          <LifePathsPanel world={session.world} onWorldChange={onWorldChange} transitionHandlers={createCampaignElectionTransitionRegistry()} />
+           {/*
+             Politics is a thing an ordinary life can turn into, so this sits
+             below the ordinary day rather than replacing it. A character who
+--- a/src/simulation/campaigns.ts
++++ b/src/simulation/campaigns.ts
+@@ -1,3 +1,4 @@
++import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
+ import { requireCandidacyPack } from "./candidacy-packs";
+ import { candidacyEligibility } from "./candidacy";
+ import {
+@@ -1691,6 +1692,7 @@
+   // life handlers: election day and a promised conversation can fall due on the
+   // same day, and time refuses to step over a due item it has no handler for.
+   return composeFutureTransitionHandlerRegistries(
++    LIFE_PATHS2_HANDLERS,
+     createFutureTransitionHandlerRegistry([
+       [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+     ]),

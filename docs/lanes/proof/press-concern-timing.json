@@ -1,0 +1,103 @@
+{
+  "town": "Tallulah Falls, Georgia",
+  "place": "1375328",
+  "replay": "e998a30ab889846b",
+  "host": "4c46091479ea",
+  "base": "ee2927103d2da5a8a2dd52d4b69c0ca61ff5160f",
+  "head": "d524292988be225798c206d63b9f0150a52cd4e7",
+  "sourceDiff": [
+    "src/core2/modules/press.ts",
+    "src/core2/press-local-concern.test.ts"
+  ],
+  "heapMiB": 8192,
+  "semiSpaceMiB": 64,
+  "serial": true,
+  "recordEqualityRequired": false,
+  "reason": "Changing interview questions can change the downstream played world. This is a behavior repair.",
+  "baseReceiptSha256": "10e50bf34364d7b921c2c0ae3cbb71fd52cf85dff72bbb56e89c2c468dbb49d9",
+  "headReceiptSha256": "2ed875c7c894f6ffea8cd327b7f8dfb540efc8431d69eadf877a94dc35e7ced5",
+  "rows": [
+    {
+      "year": 1,
+      "baseSeconds": 28.3,
+      "headSeconds": 27.2,
+      "percentChange": -3.89,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "f7c7482db261180e",
+      "headFingerprint": "8f90917f97dfaf0b",
+      "baseRecords": 182367,
+      "headRecords": 182367,
+      "differingTableCount": 1,
+      "differingTableExamples": [
+        "core2-press-v1.interviews"
+      ],
+      "differingTableNamesSha256": "35f505aaf0b8294180c0bbcecde09f2f2e7829263a8ab81b4491fc1be66d11bb"
+    },
+    {
+      "year": 2,
+      "baseSeconds": 86,
+      "headSeconds": 79.4,
+      "percentChange": -7.67,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "7cb413b268617047",
+      "headFingerprint": "1ef3db0bc3d22d44",
+      "baseRecords": 369509,
+      "headRecords": 368510,
+      "differingTableCount": 263,
+      "differingTableExamples": [
+        "business.closures",
+        "business.compliance",
+        "business.draws",
+        "business.foundings",
+        "business.outsideCosts"
+      ],
+      "differingTableNamesSha256": "711e3942f93552445856063254565e080043385b62a7626cb899614daa778522"
+    },
+    {
+      "year": 3,
+      "baseSeconds": 56.5,
+      "headSeconds": 56.5,
+      "percentChange": 0.0,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "3dfe2d057d2c526d",
+      "headFingerprint": "b46bb109b324c3ba",
+      "baseRecords": 480773,
+      "headRecords": 475611,
+      "differingTableCount": 294,
+      "differingTableExamples": [
+        "business.closures",
+        "business.compliance",
+        "business.draws",
+        "business.foundings",
+        "business.outsideCosts"
+      ],
+      "differingTableNamesSha256": "065984143926ef1343a584cc11eb947b4960722ff4401a8dd58c94d6541c2d2d"
+    },
+    {
+      "year": 4,
+      "baseSeconds": 105.3,
+      "headSeconds": 104.9,
+      "percentChange": -0.38,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "7ee643e8e9f370e7",
+      "headFingerprint": "0bb5ea79df8f9e8f",
+      "baseRecords": 624800,
+      "headRecords": 585707,
+      "differingTableCount": 314,
+      "differingTableExamples": [
+        "business.choices",
+        "business.closures",
+        "business.compliance",
+        "business.draws",
+        "business.foundings"
+      ],
+      "differingTableNamesSha256": "f5df704bd32fc819d91e29bd43456a69bce1ebd158f6b4bae54063a01c098f08"
+    }
+  ],
+  "observer": {
+    "timedLoopByteIdentical": true,
+    "runnerSha256": "49d09fcdadf74f0e34ac8fd103c4e3fcaa9d755569b61ae2544584f123d1ed42",
+    "observerSha256": "3448d531af90e753b4a9d84f4ea5b5fd376b15bb4af38f7c631e5ae1bdd37ce7",
+    "observerPosition": "after all four timed years and record digests"
+  }
+}

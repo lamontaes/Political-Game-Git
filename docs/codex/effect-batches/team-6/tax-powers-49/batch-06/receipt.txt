@@ -1,0 +1,10 @@
+TEAM6 #1341 bounded tax-power batch06
+Parent a800f153a5b7f93597d30549e37ed7ed1f410a91 (#1942), inherited receivingmain6ad1064aa280441713da222ea4054410e0360343; latestmain d5b8a32c98a0ec676079d87afadc07e8702f132a fetched read-only for static audit, not composed.
+Three new state foundations VA/PA/UT;3 captured scopes;30 states total includingAK;20 states still unsupported.
+Complete changed src/fiscal-authority/tax-powers.test.ts:3/3 PASS23.43s,5.63s bodies, native61765 exit0. Stocklimits/cloud override, nofullsuite.
+Scoped types one changed root,1060 imported files,0 diagnostics; native69533 exit0.
+Changed-file ESLint,Prettier and whitespace PASS; committed declaration parse/transition terminal receipt onPR.
+Branch A13 audit5/6; fresh pinned main d5b8a32c audit5/6; noflips. Shared pay-kind rule remainsfalse.
+Helper a22_a45_reuse readonly LA source review identified explicit2019 publication; LA remains historical/unadmitted. No helper edits/fetch/tests/gates.
+CTO source approval, complete applicable-condition enforcement and officialClaude gate pending. No rate/base/collection/account/spending writer added. Capture date is observed baseline, not full historical interval.
+NoLOAD/browser/fullsuite/whole-app types. Error/shell/misidentified-section captures remain unadmitted gaps.

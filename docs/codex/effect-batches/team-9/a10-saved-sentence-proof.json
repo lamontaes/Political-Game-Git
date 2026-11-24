@@ -1,0 +1,106 @@
+{
+  "gap": "A10",
+  "composedParent": "a4ab85eae727bd9106987b9c541dbd37e34ae17d",
+  "mainBase": "bae84ff3a9fa6d580b6cb31e1e9c46ac99815aeb",
+  "stackDependency": "PR1477 6cc1c05010848c7ea4776889953931ea983b1632",
+  "executedCommand": "A10_NPC_REQUEST_PROOF_PATH=/tmp/team9-a10-saved-sentence.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-request-activities.test.ts -t 'US-(LA|TX|CT|ND)' --reporter=default --reporter=json --outputFile=/tmp/team9-a10-saved-sentence-results.json",
+  "passed": 4,
+  "notRun": [
+    "Iowa",
+    "wholeSuite",
+    "year",
+    "browser",
+    "naturalElection",
+    "opening/loadRecovery",
+    "all56PopulatedWorlds",
+    "finalMain"
+  ],
+  "durationSeconds": 99.73,
+  "budgets": "unchanged stock30s test/60s hook",
+  "originalTestSHA256": "2644a16b9786262cf8c21ddd9a7f2eb555e32957becb6e5be71d85295e6f8572",
+  "sourceBlobs": {
+    "src/simulation/justice/prosecution.ts": "6843780ec344156788584be5294dbbca1be1302e",
+    "src/simulation/justice/clemency.ts": "764023762cf6b774119f55bfa34cd195b187ea7a",
+    "src/simulation/justice/clemency-request-activities.test.ts": "5e0b6f54e72600281cbc38b4ae62382469b58584"
+  },
+  "namedCases": [
+    {
+      "seed": "team9-a10-npc-request:US-LA",
+      "place": "2200100",
+      "personId": "person_4ea2342b9f23e330",
+      "name": "Diego Shaw",
+      "referralId": "event_dd1868753a97304e",
+      "sentenceId": "event_373f9380245ac280",
+      "sentenceDate": "2026-07-04",
+      "decisionId": "decision-trace_8877beb0b3640c1d",
+      "selectedOptionKey": "petition",
+      "petitionIds": ["event_59e26099d852f651"],
+      "composer": "composeWorldTimeHandlers",
+      "replay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-npc-request:US-TX",
+      "place": "4800100",
+      "personId": "person_e1d060c8a73f58c6",
+      "name": "William Sosa",
+      "referralId": "event_05f22885398867f0",
+      "sentenceId": "event_beced49a64305dc6",
+      "sentenceDate": "2026-07-04",
+      "decisionId": "decision-trace_5f46ecf7a40fc0e9",
+      "selectedOptionKey": "petition",
+      "petitionIds": ["event_a55e2ece495b5ad9"],
+      "composer": "composeWorldTimeHandlers",
+      "replay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-npc-request:US-CT",
+      "place": "0901150",
+      "personId": "person_05293e4103641b54",
+      "name": "Sherry Robertson",
+      "referralId": "event_8dab0a82b86eb972",
+      "sentenceId": "event_65debf78ae8ebcac",
+      "sentenceDate": "2026-07-04",
+      "decisionId": "decision-trace_63d5e424f7a56b07",
+      "selectedOptionKey": "petition",
+      "petitionIds": ["event_78bb4c68eae09d31"],
+      "composer": "composeWorldTimeHandlers",
+      "replay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-npc-request:US-ND",
+      "place": "3800100",
+      "personId": "person_aa0cea6708389e58",
+      "name": "Harold Schneider",
+      "referralId": "event_61fd619be3ca6576",
+      "sentenceId": "event_0bb4cfecd75c2668",
+      "sentenceDate": "2026-07-04",
+      "decisionId": "decision-trace_47b90f4fdc1f714f",
+      "selectedOptionKey": "petition",
+      "petitionIds": ["event_38db18ef7922feff"],
+      "composer": "composeWorldTimeHandlers",
+      "replay": "unchanged"
+    }
+  ],
+  "checks": {
+    "ownedTypeRoots": 3,
+    "sourceFiles": 984,
+    "ownedTypeDiagnostics": 0,
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "report": "0errors/0warnings",
+    "release": "PASS",
+    "zeroDice": "FAIL:0new/5inheritedgone; baseline untouched"
+  },
+  "priorAttempts": [
+    "first selection matched no tests",
+    "stale helper-name run canceled exit130 after type diagnostic; corrected eventsFor; no pass claimed"
+  ],
+  "preserved": [
+    "weeklyfallback",
+    "G11cashbail/refunds",
+    "originaltest/assertions/timeouts",
+    "oldpetitioners",
+    "untrackedreplacementintake"
+  ]
+}

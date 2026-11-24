@@ -1,0 +1,1450 @@
+{
+  "version": 1,
+  "team": 6,
+  "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+  "scope": "Fourteen transport, environment and agriculture laws only",
+  "weightBasis": "ALL weights are authored design choices grounded in cited positions, NOT empirical estimates or sampled probabilities. They are relevance strengths, not vote or support shares.",
+  "sourcePolicy": "Sources were actually read; broad positions are not mislabeled as endorsements of an exact law. Conditional directions specify affected actors and terms. Statements in party platforms are positions, not independently verified factual estimates.",
+  "canonicalPolicy": "Question and principle keys validated against existing catalog/inventory. No saved organization IDs or institutional memberships are invented. The current law-interest-group reader creates groups from actual exposure; this payload does not bypass it.",
+  "catalogIntegrationOwner": "Coordinator only",
+  "sources": [
+    {
+      "id": "democratic-platform",
+      "title": "Democratic Party, 2024 platform",
+      "url": "https://democrats.org/wp-content/uploads/2025/07/2024-Democratic-Party-Platform.pdf",
+      "locator": "Chapters 2 and 4: infrastructure, clean energy, polluters, resilience and conservation",
+      "quote": "We\u2019ll further expand public transit, connecting communities that have been cut off for too long.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "republican-platform",
+      "title": "Republican Party, 2024 platform",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "locator": "Chapters 1, 3 and 4: spending, regulations, energy and housing",
+      "quote": "slashing wasteful Government spending",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "farmland-trust",
+      "title": "American Farmland Trust, Our Work",
+      "url": "https://farmland.org/our-work/",
+      "locator": "LAND, PRACTICES and PEOPLE",
+      "quote": "We advance farmland protection through agricultural conservation easements, smart growth, and smart tax policies.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "community-networks",
+      "title": "Institute for Local Self-Reliance, Community Networks: About Us",
+      "url": "https://communitynets.org/content/about-us",
+      "locator": "Local accountability and public/community ownership",
+      "quote": "Networks must be accountable first to the needs of the community, not the short-term interests of shareholders.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "bottle-bill",
+      "title": "Container Recycling Institute, Bottle Bill Resource Guide",
+      "url": "https://www.bottlebill.org/about-bottle-bills/",
+      "locator": "Project description",
+      "quote": "dedicated to providing comprehensive information about beverage container deposit laws",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "reason-mileage",
+      "title": "Jay Derr, Reason Foundation, Mileage-based user fees: Lessons from state programs",
+      "url": "https://reason.org/policy-study/mileage-based-user-fees-lessons-states/",
+      "locator": "September 17, 2026, executive summary and recommendations",
+      "quote": "A mileage-based user fee (MBUF) restores that users-pay/users-benefit relationship by charging drivers based on the miles they actually drive.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "afbf-water",
+      "title": "American Farm Bureau Federation, Drought and Responsible Water Management",
+      "url": "https://www.fb.org/issue/drought-and-responsible-water-management",
+      "locator": "Water usage, storage and sustainability",
+      "quote": "Water is a precious resource to all farmers and ranchers",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "afbf-broadband",
+      "title": "American Farm Bureau Federation, Rural Broadband",
+      "url": "https://www.fb.org/issue/infrastructure/rural-broadband",
+      "locator": "Issue overview",
+      "quote": "Farm Bureau supports using the Universal Service Fund to expand broadband deployment to rural areas.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "bha-lands",
+      "title": "Backcountry Hunters & Anglers, United We Stand for Public Lands",
+      "url": "https://www.backcountryhunters.org/get-involved/take-action/united-we-stand-for-public-lands",
+      "locator": "Campaign purpose and stewardship priorities",
+      "quote": "inspire action to expand access, strengthen stewardship, and secure the future of our wild public lands and waters.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source, not an empirical strength estimate or exact-bill endorsement unless explicitly stated."
+    },
+    {
+      "id": "transitcenter-fares",
+      "title": "RIDE New Orleans, guest advocacy post at TransitCenter",
+      "url": "https://transitcenter.org/free-fares-for-youth-in-new-orleans/",
+      "locator": "October 20, 2023; targeted youth fare relief and sustainable operator funding",
+      "quote": "advocates across the country are fighting for \u2013 and winning \u2013 programs that allow agencies to zero out fares for youth",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source; not an empirical weight estimate."
+    },
+    {
+      "id": "afbf-grazing",
+      "title": "American Farm Bureau Federation, Grazing on Public Lands",
+      "url": "https://www.fb.org/issue/other/grazing-on-public-lands",
+      "locator": "Our Position; multiple use, affected partners and public access",
+      "quote": "Farm Bureau supports the multiple-use mandate of federal land management and opposes legislation and federal regulatory actions that reduce public access to our nation\u2019s shared lands.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source; not an empirical weight estimate."
+    },
+    {
+      "id": "bottle-benefits",
+      "title": "Container Recycling Institute, Benefits of Bottle Bills",
+      "url": "https://www.bottlebill.org/benefits-of-bottle-bills/",
+      "locator": "Advocates describe waste and cost-responsibility arguments",
+      "quote": "bottle bills shift the costs of litter cleanup, recycling, and waste disposal from government and taxpayers to producers and consumers of beverage containers.",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source; not an empirical weight estimate."
+    },
+    {
+      "id": "bottle-myths",
+      "title": "Container Recycling Institute, Myths & Facts",
+      "url": "https://www.bottlebill.org/myths-facts/",
+      "locator": "Advocacy account of opponents; no independent endorsement assumed",
+      "quote": "Their arguments concentrate on the increased costs to bottlers, distributors and retailers",
+      "readAt": "2026-09-30",
+      "httpStatus": 200,
+      "scope": "Position source; not an empirical weight estimate."
+    }
+  ],
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Support lower-emission shared travel.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Support publicly funded network access.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Connect communities excluded from useful service.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Oppose reallocation that leaves necessary road work unfunded.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Actual displaced road spending, not all transit spending."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Oppose a compulsory allocation that overrides local project priorities.",
+          "sourceIds": ["republican-platform"],
+          "conditions": ["Mandatory earmark, not optional flexibility."],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "tradition",
+          "bearing": "against",
+          "strength": 0.35,
+          "why": "Prefer established road investment arrangements.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Design application; platform does not expressly oppose this exact reallocation."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "support",
+          "why": "Published public-transit investment position; application to shifting this specific budget is conditional.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Road-dependent households and businesses",
+          "direction": "conditional-opposition",
+          "why": "Interested if displaced road maintenance harms their access; affected constituency, not a measured organization endorsement.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "principles": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Fund access that individual households cannot supply as a network.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Improve connection to jobs and services for underserved communities.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Support useful access to essential services; actual route must reach them.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.35,
+          "why": "Support shared trips only when actual service displaces higher-emission travel.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Oppose obligations without a sustainable government revenue or trade-off.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.4,
+          "why": "Prefer a smaller government service commitment.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "support",
+          "why": "Connect cut-off communities through transit; rural application is conditional on actual routes.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Rural residents lacking useful service",
+          "direction": "support",
+          "why": "Interested in usable access, not an appropriation alone.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Republican Party",
+          "direction": "conditional-opposition",
+          "why": "Spending restraint is explicit; opposition to this exact appropriation is not claimed.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "principles": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Pool the cost of a useful public service.",
+          "sourceIds": ["transitcenter-fares"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Lower the entry price for low-income riders.",
+          "sourceIds": ["transitcenter-fares"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Use the same covered fare rule for eligible riders.",
+          "sourceIds": ["transitcenter-fares"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Oppose replacing fare revenue without financing service.",
+          "sourceIds": ["transitcenter-fares"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "why": "Prefer a user price rather than an indiscriminate public subsidy.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Authored application of a broad limited-intervention position, not exact endorsement."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "RIDE New Orleans",
+          "direction": "support",
+          "why": "Explicit advocacy for youth zero fares, paired with sustainable operator funding; this is not a universal all-rider endorsement.",
+          "sourceIds": ["transitcenter-fares"],
+          "positionStatus": "explicit targeted fare-policy advocacy",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization; no saved-world membership invented."
+        },
+        {
+          "name": "Transit riders facing fare barriers",
+          "direction": "support",
+          "why": "Interested in covered fare relief, conditional on usable service.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Public transit operators",
+          "direction": "conditional",
+          "why": "Interested in maintaining service and replacing lost fare revenue; no universal operator position asserted.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Republican Party",
+          "direction": "conditional-opposition",
+          "why": "Fiscal concern applies when unfunded service costs rise; exact fare-free position not asserted.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "principles": [
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Preserve road-use revenue as the fuel-tax base erodes.",
+          "sourceIds": ["reason-mileage"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Charge road users on use rather than engine type.",
+          "sourceIds": ["reason-mileage"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "transparency",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Publish collection costs and revenue.",
+          "sourceIds": ["reason-mileage"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "personal-liberty",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Object to intrusive tracking; the concern depends on the reporting method.",
+          "sourceIds": ["reason-mileage"],
+          "conditions": [
+            "GPS is not assumed; odometer reporting changes this concern."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "against",
+          "strength": 0.4,
+          "why": "Object if replacing fuel-based charges weakens the incentive to conserve fuel.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [
+            "Conditional design argument; no measured opposition or effect size."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.35,
+          "why": "Object to additional collection machinery.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Reason Foundation",
+          "direction": "support",
+          "why": "Explicitly argues for mileage-based user fees and lower administration costs.",
+          "sourceIds": ["reason-mileage"],
+          "positionStatus": "explicit policy argument",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Drivers concerned about reporting privacy",
+          "direction": "conditional-opposition",
+          "why": "Interested in tracking and reporting burden; no organization membership inferred.",
+          "sourceIds": ["reason-mileage"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "principles": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Treat connectivity as essential shared infrastructure.",
+          "sourceIds": ["community-networks", "afbf-broadband"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Support networks accountable to their own community.",
+          "sourceIds": ["community-networks"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Give rural households and farms access to markets and services.",
+          "sourceIds": ["afbf-broadband"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Object if a publicly favored provider crowds out competitors.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Conditional design concern; public networks can also increase competition."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Require a credible capital and operating budget.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Prefer less direct government ownership.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Institute for Local Self-Reliance",
+          "direction": "support",
+          "why": "Explicit public/community network accountability position.",
+          "sourceIds": ["community-networks"],
+          "positionStatus": "explicit policy argument",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "American Farm Bureau Federation",
+          "direction": "conditional-support",
+          "why": "Explicit rural broadband deployment support; not a blanket endorsement of municipal ownership.",
+          "sourceIds": ["afbf-broadband"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Private broadband providers",
+          "direction": "conditional-opposition",
+          "why": "Interested if subsidies or entry rules impair their competition; design application, not universal endorsement.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "principles": [
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Preserve existing assets before accepting new liabilities.",
+          "sourceIds": ["reason-mileage"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Maintain useful, safe roads and bridges.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Avoid unnecessary land consumption from new infrastructure.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "against",
+          "strength": 0.4,
+          "why": "Object if a rigid priority prevents needed local projects.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Conditional design application, not express platform opposition."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.3,
+          "why": "New development firms may prefer additional connections.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Affected interest, not a measured organizational position."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Road users and maintenance-dependent businesses",
+          "direction": "support",
+          "why": "Interested in dependable existing infrastructure.",
+          "sourceIds": ["reason-mileage"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Growth-oriented developers and expansion-dependent communities",
+          "direction": "conditional-opposition",
+          "why": "Interested if a strict priority blocks needed connections.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Transition generation away from polluting energy.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Reduce harmful air pollution.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "why": "Support good-paying jobs and a managed transition.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Object to mandated technology or generation choices.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Oppose burdensome energy restrictions.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Object to unfinanced compliance and utility cost increases.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Costs depend on actual terms and starting generation mix."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "support",
+          "why": "Explicit clean-energy and pollution-reduction position; exact standard percentage remains a bill term.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Republican Party",
+          "direction": "opposition",
+          "why": "Explicit opposition to energy restrictions and burdensome mandates; application to exact standard is conditional.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Utilities, generators and electricity customers",
+          "direction": "conditional",
+          "why": "Interested in actual compliance costs, reliability and bills.",
+          "sourceIds": ["democratic-platform", "republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Make polluting activity bear a cost.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Protect communities from pollution.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Use a pollution price rather than prescribe every production decision.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [
+            "Authored application of polluter-pays principle, not exact pricing endorsement."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Object to a new compulsory charge.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-treatment",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Object if the charge burdens lower-income users without relief.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [
+            "Depends on rebates, exemptions and household exposure."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.4,
+          "why": "Object to collection and transition costs without a balanced plan.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "conditional-support",
+          "why": "Explicit polluter-pays position; not a claim of endorsing every carbon-tax design.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Republican Party",
+          "direction": "conditional-opposition",
+          "why": "Explicit low-cost energy and deregulation position.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Emissions-intensive producers and low-income energy users",
+          "direction": "conditional-opposition",
+          "why": "Interested in actual liabilities and compensating relief.",
+          "sourceIds": ["democratic-platform", "republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Support lower-emission buildings.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Seek healthier indoor and neighborhood environments.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "why": "Support locally tailored building codes within lawful authority.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": ["Actual federal preemption still applies."],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "personal-liberty",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Object to losing an appliance or fuel choice.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Object to technology restrictions.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Oppose mandatory building conversion rules.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "conditional-support",
+          "why": "Explicit energy-efficient building-code support; exact gas prohibition is not asserted.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Gas utilities, appliance users and covered builders",
+          "direction": "conditional-opposition",
+          "why": "Interested in lawful connection choices and costs; no organization-wide endorsement inferred.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "principles": [
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Prevent avoidable exposure to flood hazards.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Preserve flood-buffering wetlands and resilience.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Avoid new long-lived public liabilities in hazardous places.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Object to a restriction on existing lawful land use.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Property restriction argument; platform supports cutting housing-cost regulations, not this exact flood bill."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "why": "Object to development constraints that raise housing costs.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Object if higher-level rules override local choices.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Democratic Party",
+          "direction": "conditional-support",
+          "why": "Explicit flood resilience and wetland-protection position.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Homebuilders and affected landowners",
+          "direction": "conditional-opposition",
+          "why": "Interested where the restriction limits development rights or supply.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Flood-exposed households",
+          "direction": "support",
+          "why": "Interested in safety and exposure; no universal preference inferred.",
+          "sourceIds": ["democratic-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Encourage container recovery and reduce waste.",
+          "sourceIds": ["bottle-benefits"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.35,
+          "why": "Support cleaner shared places.",
+          "sourceIds": ["bottle-benefits"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Object to a compulsory transaction and return system.",
+          "sourceIds": ["bottle-myths"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Object to special producer/retailer handling obligations.",
+          "sourceIds": ["bottle-myths"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.5,
+          "why": "Object to administrative costs and unsettled fund liabilities.",
+          "sourceIds": ["bottle-myths"],
+          "conditions": [
+            "Actual deposit ownership and budget treatment differ by statute."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Container Recycling Institute",
+          "direction": "support",
+          "why": "Deposit-system resource and advocacy interest.",
+          "sourceIds": ["bottle-benefits"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Beverage producers, retailers and redemption operators",
+          "direction": "conditional",
+          "why": "Interested in real deposit, handling, reporting and refund obligations; no uniform stance claimed.",
+          "sourceIds": ["bottle-myths"],
+          "positionStatus": "Opposition costs described by an advocacy source; not an independently verified stance of every named industry actor.",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Consumers who return covered containers",
+          "direction": "conditional-support",
+          "why": "Interested in refunds and practical return access.",
+          "sourceIds": ["bottle-benefits"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "principles": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Preserve scarce water and recharge.",
+          "sourceIds": ["afbf-water"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Manage a shared aquifer whose withdrawals affect others.",
+          "sourceIds": ["afbf-water"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Protect reliable essential water access.",
+          "sourceIds": ["democratic-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Object if allocations impair established lawful water rights.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Conditional property argument; rights and legal authority must be researched."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "local-control",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Object to limits detached from actual local water conditions.",
+          "sourceIds": ["afbf-water"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Object to unfunded monitoring and farmer compliance burdens.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "American Farm Bureau Federation",
+          "direction": "conditional",
+          "why": "Supports conservation and water infrastructure; no blanket endorsement or opposition to withdrawal caps is asserted.",
+          "sourceIds": ["afbf-water"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Irrigators subject to allocations",
+          "direction": "conditional-opposition",
+          "why": "Interested in actual rights, crop water and compliance costs.",
+          "sourceIds": ["afbf-water"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Households and water users sharing the aquifer",
+          "direction": "conditional-support",
+          "why": "Interested in reliable water access.",
+          "sourceIds": ["afbf-water"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "principles": [
+        {
+          "principle": "tradition",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Preserve rural farming communities and continuity.",
+          "sourceIds": ["farmland-trust"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Conserve productive land and ecosystem services.",
+          "sourceIds": ["farmland-trust"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Support public conservation purchases where lawful and funded.",
+          "sourceIds": ["farmland-trust"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Object to compulsory or uncompensated development-right restrictions.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Voluntary easement sales are different and are expressly supported by AFT."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Object if restrictions prevent lawful housing or other land uses.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.5,
+          "why": "Require a sustainable acquisition and stewardship budget.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "American Farmland Trust",
+          "direction": "support",
+          "why": "Explicit easement, smart-growth and farmland-protection position.",
+          "sourceIds": ["farmland-trust"],
+          "positionStatus": "explicit policy argument",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Owners voluntarily selling agricultural easements",
+          "direction": "conditional-support",
+          "why": "Interested in compensation and continued farming.",
+          "sourceIds": ["farmland-trust"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Owners/developers subject to compulsory restrictions",
+          "direction": "conditional-opposition",
+          "why": "Interested in lost lawful development options.",
+          "sourceIds": ["republican-platform"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "principles": [
+        {
+          "principle": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Support freedom to reach lawfully open public land.",
+          "sourceIds": ["bha-lands"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Public lands belong to shared public use.",
+          "sourceIds": ["bha-lands"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Access should not depend on income or background.",
+          "sourceIds": ["bha-lands"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "tradition",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Preserve hunting, fishing and outdoor recreation.",
+          "sourceIds": ["bha-lands"],
+          "conditions": [],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Object if access improperly crosses private land or interferes with valid rights.",
+          "sourceIds": ["republican-platform"],
+          "conditions": [
+            "Wholly public lawful entry does not itself impair private ownership."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Object to unmanaged access that harms sensitive habitat.",
+          "sourceIds": ["bha-lands"],
+          "conditions": [
+            "The cited group supports access together with stewardship, not unrestricted entry."
+          ],
+          "weightBasis": "authored design choice grounded in cited position; not an empirical estimate"
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Backcountry Hunters & Anglers",
+          "direction": "support",
+          "why": "Explicit access and stewardship campaign.",
+          "sourceIds": ["bha-lands"],
+          "positionStatus": "explicit policy argument",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Hunters, anglers and other public-land visitors",
+          "direction": "conditional-support",
+          "why": "Interested in lawful access and enduring habitat.",
+          "sourceIds": ["bha-lands"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "Adjacent private owners and holders of valid existing use rights",
+          "direction": "conditional-opposition",
+          "why": "Interested if access crosses their property or impairs rights; no universal opposition inferred.",
+          "sourceIds": ["republican-platform", "bha-lands"],
+          "positionStatus": "conditional application of published position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization or affected constituency; no saved organization membership or endorsement is invented."
+        },
+        {
+          "name": "American Farm Bureau Federation",
+          "direction": "conditional-support",
+          "why": "Explicitly supports public access and multiple use while demanding affected farmers and permittees be involved; access changes must preserve lawful rights.",
+          "sourceIds": ["afbf-grazing"],
+          "positionStatus": "explicit multiple-use and access position",
+          "organizationId": null,
+          "canonicalOrganizationKey": null,
+          "keyStatus": "Named real organization; no saved-world membership invented."
+        }
+      ],
+      "integrationOwner": "Coordinator",
+      "runtimeIntegration": "NOT RUN; proposal only"
+    }
+  ],
+  "numbers": {
+    "lawEntries": 14,
+    "principleArguments": 81,
+    "runtimeIntegrated": 0,
+    "allFivePartsComplete": 0
+  },
+  "checks": [
+    "14 exact owned question keys",
+    "All principle keys exist in current source vocabulary",
+    "All strengths in inclusive range 0\u20131",
+    "Every cited quote matched normalized fetched text",
+    "No duplicate principle key within a law"
+  ],
+  "notRun": [
+    "Runtime integration and voting effect verification",
+    "Nationwide proof for ideology reactions"
+  ]
+}

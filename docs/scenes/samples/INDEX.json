@@ -1,0 +1,194 @@
+{
+  "schema": "scene-samples-index/1",
+  "about": "One playable sample per scene type, written by scripts/words/scene-samples.ts from a played world. The CTO publishes these on the owner's click-through Scenes page.",
+  "samples": {
+    "becoming-friends": {
+      "file": "becoming-friends.json",
+      "title": "Becoming friends",
+      "purpose": "friend-ask",
+      "place": "Troutman, North Carolina",
+      "seed": "story-batch-4",
+      "date": "2025-04-21",
+      "standing": "mayor at Troutman, North Carolina",
+      "depth": 2,
+      "endings": {
+        "said-yes-to-friend": 2,
+        "friend-asked-and-waited": 2
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "constituent-stop": {
+      "file": "constituent-stop.json",
+      "title": "Constituent stop",
+      "purpose": "law-reaches",
+      "place": "Troutman, North Carolina",
+      "seed": "story-batch-4",
+      "date": "2025-09-10",
+      "standing": "mayor at Troutman, North Carolina",
+      "depth": 2,
+      "endings": {
+        "explained": 2,
+        "left-angry": 1
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "first-meeting": {
+      "file": "first-meeting.json",
+      "title": "First meeting",
+      "purpose": "introduction",
+      "place": "Dededo, Guam",
+      "seed": "nov19b",
+      "date": "2025-02-20",
+      "standing": "a resident of Dededo, Guam, not in office",
+      "depth": 3,
+      "endings": {
+        "took-them-in-hand": 10,
+        "brushed-off-newcomer": 2
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
+    },
+    "floor-debate": {
+      "file": "floor-debate.json",
+      "title": "Floor debate",
+      "purpose": "floor-debate",
+      "place": "Rhododendron, Oregon",
+      "seed": "story-batch-3",
+      "date": "2025-02-11",
+      "standing": "legislature-lower at Rhododendron, Oregon",
+      "depth": 3,
+      "endings": {
+        "stood-with": 4,
+        "held-against": 2,
+        "heard-out": 3
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "gathering-missing": {
+      "file": "gathering-missing.json",
+      "title": "Gathering missing",
+      "purpose": "gathering-ask",
+      "place": "Seven Mile, Arizona",
+      "seed": "nov19c",
+      "date": "2025-06-14",
+      "standing": "a resident of Seven Mile, Arizona, not in office",
+      "depth": 3,
+      "endings": {
+        "said-you-would-reach-out": 4,
+        "would-not-reach-out": 2
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
+    },
+    "last-day": {
+      "file": "last-day.json",
+      "title": "Last day",
+      "purpose": "last-day-farewell",
+      "place": "Troutman, North Carolina",
+      "seed": "story-batch-4",
+      "date": "2025-03-02",
+      "standing": "mayor at Troutman, North Carolina",
+      "depth": 3,
+      "endings": {
+        "said-it": 3,
+        "kept-in-touch": 3,
+        "slipped-out": 3,
+        "another-day": 1
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "letter": {
+      "file": "letter.json",
+      "title": "Letter",
+      "purpose": "letter-ask",
+      "place": "Dededo, Guam",
+      "seed": "nov19b",
+      "date": "2025-03-02",
+      "standing": "a resident of Dededo, Guam, not in office",
+      "depth": 3,
+      "endings": {
+        "wrote-back-yes": 4,
+        "wrote-back-no": 2
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
+    },
+    "moving-goodbye": {
+      "file": "moving-goodbye.json",
+      "title": "Moving goodbye",
+      "purpose": "moving-goodbye",
+      "place": "Sumatra, Florida",
+      "seed": "story-batch-2",
+      "date": "2025-04-17",
+      "standing": "a resident of Sumatra, Florida, not in office",
+      "depth": 2,
+      "endings": {
+        "said-goodbye": 4,
+        "promised-to-visit": 2
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "no-diploma-home": {
+      "file": "no-diploma-home.json",
+      "title": "No diploma home",
+      "purpose": "no-diploma-home",
+      "place": "Seven Mile, Arizona",
+      "seed": "nov19c",
+      "date": "2025-06-07",
+      "standing": "a resident of Seven Mile, Arizona, not in office",
+      "depth": 5,
+      "endings": {
+        "a-plan": 4,
+        "not-tonight": 9,
+        "left-there": 18
+      },
+      "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9"
+    },
+    "office-hours": {
+      "file": "office-hours.json",
+      "title": "Office hours",
+      "purpose": "constituent-help",
+      "place": "Troutman, North Carolina",
+      "seed": "story-batch-4",
+      "date": "2025-02-20",
+      "standing": "mayor at Troutman, North Carolina",
+      "depth": 3,
+      "endings": {
+        "will-call": 3,
+        "caseworker": 3,
+        "cant-help": 1,
+        "false-call": 1
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "reach-out": {
+      "file": "reach-out.json",
+      "title": "Reach out",
+      "purpose": "favor-job",
+      "place": "Sumatra, Florida",
+      "seed": "story-batch-2",
+      "date": "2025-09-02",
+      "standing": "a resident of Sumatra, Florida, not in office",
+      "depth": 3,
+      "endings": {
+        "refused": 2,
+        "held-to-posting": 2,
+        "favor-done": 4
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    },
+    "town-hall-question": {
+      "file": "town-hall-question.json",
+      "title": "Town hall question",
+      "purpose": "town-hall-question",
+      "place": "Troutman, North Carolina",
+      "seed": "story-batch-4",
+      "date": "2025-01-29",
+      "standing": "mayor at Troutman, North Carolina",
+      "depth": 4,
+      "endings": {
+        "met-after": 10,
+        "brushed-off": 4,
+        "false-comfort": 1
+      },
+      "head": "5e72741a0af8735be027a854ac1e6a43831964bf"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+---
+id: core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time
+title: "The fast clock, part 3: prices, pay and hiring move in skipped time as they do day by day"
+area: core
+kind: feature
+priority: 1
+size: M
+status: done
+standard: 2
+claimed-by: claude/fable-b2-skip-pay-prices-jobs
+pr: #8238
+after:
+blocked-on:
+lead: money
+model: opus
+effort: high
+root: design-country-tier
+source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
+merged-at: 2026-11-10T22:52:21.793Z
+seen-by: second-session-1
+seen-at: 2026-11-11T00:00:38.282Z
+---
+
+**What.** With only dated work running, a skipped year leaves prices flat and unemployment well above the day-by-day year's. Some of what moves prices and fills jobs runs in daily loops. This part finds which, and gives those engines a monthly step.
+
+**Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year: prices up 1.2 percent and 4.0 percent out of work day by day; prices flat and 7.2 percent out of work with only the module calendar's dated work. Which daily loops make the difference has not been traced; the largest daily costs measured there were the health producer, the jobs engine and the news pass.
+
+**Fix.** First list, from a profile of one day-by-day month (skill speed-work), every module's `onDay` and what it writes that the calendar's dated work does not; put the list in the pull request. Then give the work engine, the jobs engine and the engine that sets the town's prices the monthly hook from part 1 (`onResultsMonth`), each applying a month of its own daily work on counts: the month's payroll paid (part 1's builder found that a skipped year pays no wages, because payroll runs in the work engine's daily loop, so household cash drains), openings filled from the people looking, and the month's price change. Nothing else is added. Write this part's test in its own file, not in part 1's.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
+**Rules.** One engine per mechanic: each hook calls the engine's own functions. No dice. Sliding scales. Speed: a hook reads indexes the engine already keeps. One model, two tiers.
+
+**Done when.** A second session runs the part's test in a drawn place it names with its seed and reads its printed line: the town's price change and share out of work after one year day by day and after the same year skipped. They are within a fifth of each other, or the pull request explains each difference by its cause. The share out of work never leaves the range from zero to all adults in any skipped month.
+
+**Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
+
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, src/core2/results-mode-pay-prices-jobs.test.ts (new)
+
+**Notes.** Seen in the game (2026-11-11, second-session-1): Barrigada, Guam, seed 9d41e6a07b3c58f2e610, main c330c7fe8fe102d9e3932836b4e5a307cb26d32d: Test printed prices 2.13% and 10.29% out of work day by day against 2.44% and 11.00% skipped, within a fifth; in the browser the skip in Ponce, Puerto Rico (seed 835bc84d-d3db-4c92-92e3-08c18fed5ed9) read every count possible, took 63.0 seconds a year, and a played week afterward ran with no error.

@@ -1,0 +1,29 @@
+NEWLIFE http://localhost:3000/api/newlife?seed=ab5f58e9be125c95&date=&placeKey=0132704&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A1985%2C%22birthMonth%22%3A4%2C%22birthDay%22%3A10%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitblack%3Achin-length+bob%22%2C%22colors%22%3A%7B%22top%22%3A%22royal+blue%22%2C%22trousers%22%3A%22maroon%22%2C%22shoes%22%3A%22cream%22%2C%22hair%22%3A%22blond%22%7D%7D%7D
+PLACE Haleyville, Alabama PERSON person_ac1cd0c0b705f97c
+TALK 0 {"who":"David Jennings","lines":"My fellow Americans, thank you. This country was never finished. Each generation has been handed it half-built and asked to carry it a little further, and now it is our turn.","replies":[]}
+TALK 1 {"who":"David Jennings","lines":"I come to this office from Idaho, after my time as Governor, and I begin knowing how much I have yet to learn. I asked for this responsibility, and I will not shrink from it now that it is mine.","replies":[]}
+TALK 2 {"who":"David Jennings","lines":"I believe a family should keep more of what it earns, and that Washington should earn every dollar it asks for. The campaign is over. The country is not divided into those who voted for me and those who did not; it is one country, and I serve all of it.","replies":[]}
+TALK 3 {"who":"David Jennings","lines":"We meet in a hopeful season. The country is better off than it was a year ago, and that is worth protecting. Paychecks have grown faster than prices this year, and that is real progress for working people. But work has grown harder to find this year, and there are men and women in every part of the country still looking for it. Every American who wants to work should be able to find it, and until that is true, it is the first thing I will answer for.","replies":[]}
+TALK 4 {"who":"David Jennings","lines":"To the members of Congress: the people sent us here together, and they will judge us together. I mean to work with you, and I will come to you often.\nVICE PRESIDENT SUSAN TERRELL · STATE REPRESENTATIVE MARGARET ROACH · STATE SENATOR KENNETH HENRY · U.S. REPRESENTATIVE WILLIAM COBB","replies":[]}
+TALK 5 {"who":"David Jennings","lines":"I am grateful to Vice President Susan Terrell, who will stand beside me in this work and tell me when I am wrong.\nVICE PRESIDENT SUSAN TERRELL · STATE REPRESENTATIVE MARGARET ROACH · STATE SENATOR KENNETH HENRY · U.S. REPRESENTATIVE WILLIAM COBB","replies":[]}
+TALK 6 {"who":"David Jennings","lines":"To the governors and legislators of every state: much of what this country needs will be built in your capitals, not this one. I will be your partner.\nVICE PRESIDENT SUSAN TERRELL · STATE REPRESENTATIVE MARGARET ROACH · STATE SENATOR KENNETH HENRY · U.S. REPRESENTATIVE WILLIAM COBB","replies":[]}
+TALK 7 {"who":"David Jennings","lines":"Whether you work a shift, run a shop or raise a family, this work is for you. Let us leave this day better neighbors than we came, and leave this country stronger than we found it. Thank you, and God bless America.","replies":[]}
+OPENING-DONE Monday, January 20, 2025
+8:30 PM
+WTALK 1 Wednesday, January 29, 2025
+7:00 AM {"who":"","lines":"Your partner asks you to sit down first.","replies":[]}
+WTALK 2 Wednesday, January 29, 2025
+7:00 AM {"who":"Ryan Carter","lines":"I liked what the President had to say.","replies":["You and me both.","I saw it differently.","We'll see what the President actually does.","Washington's a long way from here, though."]}
+WPICK 2 I saw it differently.
+WTALK 3 Wednesday, January 29, 2025
+7:00 AM {"who":"Ryan Carter","lines":"RYAN CARTER\nI liked what the President had to say.\nEMILY CARTER\nI saw it differently.\nThen we'll see which of us was right.\nLet's leave it there for now.","replies":[]}
+OFFICE Travel | State party chair; Secretary of State | Filing office | Go | WHAT YOU DO HERE | You file here to run for office. The clerk takes your papers, tells you each race's dates and what it asks of you, and keeps your filing. | Closed now. Opens Tuesday, November 25, 2025 at 8:00 AM.
+CLERK 0 {"who":"Seth Sharp","lines":"You step up to the counter to ask for the papers to run. Seth Sharp, the Secretary of State, sets down a stack of mail.","replies":[]}
+CLERK 1 {"who":"Seth Sharp","lines":"How can I help you?","replies":["I want to run for U.S. Senator. November 3, 2026 · Held by Timothy Tanner","I want to run for U.S. Representative (04). Seat 04 · November 3, 2026 · Held by Maria Ortega","I want to run for Governor. November 3, 2026 · Held by Michael Barrett","I want to run for State Senator (004). Seat 004 · November 3, 2026 · Held by Sarah Snyder"]}
+PICK-CLERK 1 I want to run for U.S. Senator. November 3, 2026 · Held by Timothy Tanner
+CLERK 2 {"who":"Seth Sharp","lines":"SETH SHARP\nHow can I help you?\nEMILY CARTER\nI want to run for U.S. Senator.\nAll right, U.S. Senator. Let's get you started. You'd serve 6 years. First comes the primary, May 19, 2026, and then the general, November 3, 2026. It's a statewide office. Every voter in the state gets a say in who holds it. You've got until January 23, 2026 to get it all back to me.","replies":["All right. I'll take the papers and get started."]}
+PICK-CLERK 2 All right. I'll take the papers and get started.
+CLERK 3 {"who":"","lines":"EMILY CARTER\nI want to run for U.S. Senator.\nAll right, U.S. Senator. Let's get you started. You'd serve 6 years. First comes the primary, May 19, 2026, and then the general, November 3, 2026. It's a statewide office. Every voter in the state gets a say in who holds it. You've got until January 23, 2026 to get it all back to me.\nEMILY CARTER\nAll right. I'll take the papers and get started.\nCOLLECTING SIGNATURES","replies":[]}
+CLERK-DONE Tuesday, November 25, 2025
+8:00 AM
+ERRORS []

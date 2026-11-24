@@ -1,0 +1,105 @@
+{
+  "team": 4,
+  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+  "verifiedMain": "e3182daa79e221604c5a328a1b6b4e055ebf648e",
+  "catalogDeclarations": {
+    "path": "src/simulation/policy-pack-us-policy-positions.ts",
+    "parameters": {
+      "authorized": "yes-or-no",
+      "minimum-age": "years-of-age",
+      "tax-rate": "share-of-taxable-sales"
+    },
+    "numericValuesEstablished": false,
+    "rule": "Never parse a declaration's unit label as an operative value"
+  },
+  "existingContracts": [
+    {
+      "path": "src/simulation/governing/law-in-force.ts",
+      "contract": "LawInForce supplies answer, measureId, origin, operativeAt and legal level; no numeric tax term"
+    },
+    {
+      "path": "src/simulation/tax-types.ts",
+      "contract": "TaxTerms supplies exact rational rateNumerator/rateDenominator, seriesKey/baseKey, exemptions, per-occurrence allowance, currency and timing; TaxProposalRecord binds terms to measureId/levyProvisionId; TaxPolicyRecord binds proposal to enactmentId/effectiveAt"
+    },
+    {
+      "path": "src/simulation/tax-policy.ts",
+      "contract": "adoptEnactedTaxPolicy validates canonical current tax-levy provision identity/text and enacted measure before recording an effective policy; effectiveTaxPolicy selects jurisdiction/series/date; taxLevyText is exact supported rendering, not arbitrary prose parsing"
+    },
+    {
+      "path": "src/simulation/legislative-politics.ts",
+      "contract": "currentMeasureProvisions follows append-only provision revisions; filing lineage alone is not the current amended law"
+    },
+    {
+      "path": "src/simulation/types.ts",
+      "contract": "LegislativeProvisionEffectIntent supports tax-policy/public-program-appropriation; no cannabis authorization/age numeric intent is produced today"
+    }
+  ],
+  "implementedReader": {
+    "path": "src/simulation/public-budgets/cannabis-tax-terms.ts",
+    "function": "cannabisTaxTermsForLaw",
+    "requires": [
+      "Canonical law supplied from lawInForce",
+      "Explicit registered cannabis series/base binding",
+      "Effective saved TaxPolicyRecord",
+      "Same enacted measure and jurisdiction",
+      "Exact unchanged supported tax-levy provision",
+      "Representable ad-valorem USD base without silently dropped exemptions or allowance"
+    ],
+    "returns": "Exact numerator/denominator plus law/enactment/proposal/levy/policy record IDs, or an explicit missing/unsupported status with terms:null",
+    "startingLawFallback": "NONE; a starting-law yes/no observation cannot produce numeric starting tax terms",
+    "productionCaller": false,
+    "worldRevenueRepairComplete": false
+  },
+  "missingProducers": [
+    {
+      "ownerRequested": "Existing filing/content producer owner via coordinator",
+      "work": "Bind the cannabis tax clause to a registered taxable adult-retail base and exact TaxProposalRecord/TaxPolicyRecord under the enacted measure; produce terms from saved sponsor edits/current law, not an automatic benchmark or draw"
+    },
+    {
+      "ownerRequested": "Research/current-law data owner via coordinator",
+      "work": "Source effective state and lawful local/federal tax components, instrument and base, medical exclusions, age coverage, exemptions and start dates; create immutable starting numeric terms with citations; unknown authority is not permission"
+    },
+    {
+      "ownerRequested": "Team4 market reader with Team9 research",
+      "work": "Use actual adult buyers, purchases/spending, legal retailer access/capacity and competition to produce legal sales; survey use is not purchasing and observed licensed quantity share is not a generated spending share"
+    }
+  ],
+  "additionalSchemaNeedsForCoordinator": [
+    {
+      "need": "No extra generic numeric bag on LawInForce for an ad-valorem rate",
+      "existingReuse": "Exact TaxTerms ratio and canonical policy/proposal/provision chain already hold the operative amount"
+    },
+    {
+      "need": "An explicit cannabis rule provision intent or linked typed record for authorized/minimum-age and coverage",
+      "scope": "Proposal only: source provision identity, numeric minimumAgeYears, jurisdiction, operative date and covered sale classes; saved revisions must replace earlier values through ordinary amendment/enactment writers"
+    },
+    {
+      "need": "Explicit tax-base composition for sales tax including excise",
+      "scope": "Proposal only: exact linked levy/series references identifying which levies belong in another tax's base; do not infer from the single tax-rate declaration"
+    },
+    {
+      "need": "Separate instrument/quantity terms for wholesale, weight or potency taxes",
+      "scope": "Proposal only: same sourced current-law record chain plus actual covered quantity/unit base; do not convert to a guessed retail percentage"
+    },
+    {
+      "need": "Numeric starting-law term source record",
+      "scope": "Proposal only: statutory source/effective interval and exact ratios/coverage, distinct from yes/no starting-law observations and fictional tax-service profiles"
+    }
+  ],
+  "receivedResearch": {
+    "head": "88e98c5b7b1eefbf9bb240c86052a374b48c9932",
+    "coordinatorCurrentHead": "3ecee24b0fa45f26132492dc439eb4f2c986f5b6",
+    "path": "docs/codex/effect-batches/team-9/team4-cannabis-demand-sources.json",
+    "consumed": "SAMHSA use tables and California DCC full-report calibration; no redundant reread of already-consumed packet",
+    "retainedGaps": [
+      "18+ use is not 21+ licensed buyers",
+      "Annual buyer spending unsupported",
+      "Quantity share is not spending share",
+      "California medical/visitor/store-county sales do not identify resident adult-use spending",
+      "No sourced high-tax/low-tax/new-market mechanism comparison yet"
+    ]
+  },
+  "sharedCatalogOrSchemaEdited": false,
+  "fivePartsComplete": 0,
+  "assignedLaws": 10
+}

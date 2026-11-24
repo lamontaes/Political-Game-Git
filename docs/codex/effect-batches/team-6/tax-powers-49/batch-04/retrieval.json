@@ -1,0 +1,114 @@
+[
+  {
+    "artifactId": "mi-constitution",
+    "requestedUrl": "https://www.legislature.mi.gov/Publications/MIConstitution.pdf",
+    "retrievedAt": "2026-10-02T11:25:09.519726+00:00",
+    "url": "https://www.legislature.mi.gov/Publications/MIConstitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 1882809,
+    "sha256": "898f1d33840a4bc1d3e845e4ce407d21b04188ca631bf338275e9e0bf82c3535",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mi-constitution.pdf"
+  },
+  {
+    "artifactId": "ms-constitution",
+    "requestedUrl": "https://www.sos.ms.gov/content/documents/ed_pubs/pubs/Mississippi_Constitution.pdf",
+    "retrievedAt": "2026-10-02T11:25:09.520401+00:00",
+    "url": "https://www.sos.ms.gov/content/documents/ed_pubs/pubs/Mississippi_Constitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 1228982,
+    "sha256": "83aa76847e97a6b9aadb065e65a00f2fbf20a9e97b25b9a2d1c02c92e45d5459",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/ms-constitution.pdf"
+  },
+  {
+    "artifactId": "mo-article-x-1",
+    "requestedUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++1",
+    "retrievedAt": "2026-10-02T11:25:09.520850+00:00",
+    "url": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++1",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 28314,
+    "sha256": "aea3e1eb39a587c752c97b9c924a4b539463bcbef0d1122c8ec9dff2b19528bb",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mo-article-x-1.html"
+  },
+  {
+    "artifactId": "mo-article-x-3",
+    "requestedUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++3",
+    "retrievedAt": "2026-10-02T11:25:09.775488+00:00",
+    "url": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++3",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 32391,
+    "sha256": "561fdb26fb4bc37e76061097d148a5e5b61a2857f18a33fe6f2672f724c0955b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mo-article-x-3.html"
+  },
+  {
+    "artifactId": "mo-article-x-18",
+    "requestedUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++18",
+    "retrievedAt": "2026-10-02T11:25:09.799252+00:00",
+    "url": "https://revisor.mo.gov/main/OneSection.aspx?section=X+++18",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 30808,
+    "sha256": "39880a88b142b4ded05a0b1503b27cbbc111d0b1805c936f46acfcc20bc9a0a0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mo-article-x-18.html"
+  },
+  {
+    "artifactId": "mt-article-viii",
+    "requestedUrl": "https://archive.legmt.gov/bills/mca/Constitution/VIII.htm",
+    "retrievedAt": "2026-10-02T11:25:10.006188+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "ne-article-viii-1",
+    "requestedUrl": "https://nebraskalegislature.gov/laws/articles.php?article=VIII-1",
+    "retrievedAt": "2026-10-02T11:25:10.048044+00:00",
+    "url": "https://nebraskalegislature.gov/laws/articles.php?article=VIII-1",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 63623,
+    "sha256": "288a30c6df36eda82011c91caf21f2a72b2947a675d595508ffb3b68a6770bbf",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/ne-article-viii-1.html"
+  },
+  {
+    "artifactId": "nh-constitution",
+    "requestedUrl": "https://www.nh.gov/glance/constitution.htm",
+    "retrievedAt": "2026-10-02T11:25:10.068152+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "artifactId": "nd-article-x",
+    "requestedUrl": "https://ndlegis.gov/constit/a10.pdf",
+    "retrievedAt": "2026-10-02T11:25:10.197075+00:00",
+    "url": "https://ndlegis.gov/constit/a10.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 82992,
+    "sha256": "84a04c70147e6ffbfa2152925d6fbd143ce109b95d85d46f8e2d991eb12bb9de",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/nd-article-x.pdf"
+  },
+  {
+    "artifactId": "oh-article-xii",
+    "requestedUrl": "https://codes.ohio.gov/ohio-constitution/article-12",
+    "retrievedAt": "2026-10-02T11:25:10.536801+00:00",
+    "url": "https://codes.ohio.gov/ohio-constitution/article-12",
+    "httpStatus": 200,
+    "mediaType": "text/html;charset=UTF-8",
+    "responseBytes": 28311,
+    "sha256": "6d44e793e6a4a3e0f707d5ab8ace164f796d0f0bce13180cb295050a868de25f",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/oh-article-xii.html"
+  },
+  {
+    "artifactId": "ok-constitution",
+    "requestedUrl": "https://oksenate.gov/sites/default/files/2019-12/oc65.pdf",
+    "retrievedAt": "2026-10-02T11:25:10.568459+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "pa-constitution",
+    "requestedUrl": "https://www.palegis.us/statutes/constitution",
+    "retrievedAt": "2026-10-02T11:25:10.875180+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]

@@ -1,0 +1,142 @@
+{
+  "kind": "isolated-authored-sampling-experiment-not-game-or-human-data",
+  "worlds": 100,
+  "adultsPerWorld": 1000,
+  "seedRange": [
+    0,
+    99
+  ],
+  "pythonRandom": "MT19937 via random.Random; not the game RNG; not reference outputs for its algorithm",
+  "countDistribution": {
+    "2": 50151,
+    "1": 49849
+  },
+  "familyObservations": [
+    {
+      "family": "Self-image",
+      "selectionWeight": 8,
+      "artificialAdultsWithFamilyPercent": 11.573,
+      "across100ArtificialWorlds5to95Percent": [
+        9.9,
+        13.0
+      ]
+    },
+    {
+      "family": "Social approach",
+      "selectionWeight": 11,
+      "artificialAdultsWithFamilyPercent": 15.923,
+      "across100ArtificialWorlds5to95Percent": [
+        13.7,
+        18.0
+      ]
+    },
+    {
+      "family": "Social manner",
+      "selectionWeight": 8,
+      "artificialAdultsWithFamilyPercent": 11.674,
+      "across100ArtificialWorlds5to95Percent": [
+        10.1,
+        13.3
+      ]
+    },
+    {
+      "family": "Thinking and learning",
+      "selectionWeight": 11,
+      "artificialAdultsWithFamilyPercent": 15.864,
+      "across100ArtificialWorlds5to95Percent": [
+        13.9,
+        17.5
+      ]
+    },
+    {
+      "family": "Work and follow-through",
+      "selectionWeight": 11,
+      "artificialAdultsWithFamilyPercent": 15.884,
+      "across100ArtificialWorlds5to95Percent": [
+        13.9,
+        17.8
+      ]
+    },
+    {
+      "family": "Goals and advantage",
+      "selectionWeight": 9,
+      "artificialAdultsWithFamilyPercent": 13.19,
+      "across100ArtificialWorlds5to95Percent": [
+        11.7,
+        15.0
+      ]
+    },
+    {
+      "family": "Concern and reciprocity",
+      "selectionWeight": 9,
+      "artificialAdultsWithFamilyPercent": 13.239,
+      "across100ArtificialWorlds5to95Percent": [
+        11.1,
+        14.8
+      ]
+    },
+    {
+      "family": "Trust and integrity",
+      "selectionWeight": 6,
+      "artificialAdultsWithFamilyPercent": 8.805,
+      "across100ArtificialWorlds5to95Percent": [
+        7.5,
+        10.5
+      ]
+    },
+    {
+      "family": "Rules and flexibility",
+      "selectionWeight": 5,
+      "artificialAdultsWithFamilyPercent": 7.247,
+      "across100ArtificialWorlds5to95Percent": [
+        6.0,
+        8.5
+      ]
+    },
+    {
+      "family": "Conflict and repair",
+      "selectionWeight": 5,
+      "artificialAdultsWithFamilyPercent": 7.233,
+      "across100ArtificialWorlds5to95Percent": [
+        5.7,
+        8.6
+      ]
+    },
+    {
+      "family": "Pacing and risk",
+      "selectionWeight": 5,
+      "artificialAdultsWithFamilyPercent": 7.489,
+      "across100ArtificialWorlds5to95Percent": [
+        6.3,
+        8.7
+      ]
+    },
+    {
+      "family": "Emotional style",
+      "selectionWeight": 4,
+      "artificialAdultsWithFamilyPercent": 5.888,
+      "across100ArtificialWorlds5to95Percent": [
+        4.8,
+        7.0
+      ]
+    },
+    {
+      "family": "Emotional outlook",
+      "selectionWeight": 4,
+      "artificialAdultsWithFamilyPercent": 6.022,
+      "across100ArtificialWorlds5to95Percent": [
+        4.7,
+        7.1
+      ]
+    },
+    {
+      "family": "Attachment and closeness",
+      "selectionWeight": 4,
+      "artificialAdultsWithFamilyPercent": 6.027,
+      "across100ArtificialWorlds5to95Percent": [
+        4.7,
+        7.3
+      ]
+    }
+  ]
+}

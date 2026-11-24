@@ -1,0 +1,983 @@
+{
+  "replay": "8d5e52aae98296b1",
+  "place": {
+    "seed": "8d7626e2436513a931b1b81a4ac846ecda301b2b4ffb642a4544f941d44d0155",
+    "key": "3429220",
+    "name": "Hamburg, New Jersey",
+    "state": "US-NJ"
+  },
+  "proof": [
+    {
+      "body": "office:US-NJ:legislature-upper",
+      "jurisdiction": "US-NJ",
+      "policyId": "law:local-power:rent-stabilization",
+      "operation": "raise",
+      "status": "enacted",
+      "billId": "bill:office:US-NJ:legislature-upper:2025-01-21:official:term:seat:US-NJ:upper:024:0:2025-01-20:0",
+      "sponsorId": "official:term:seat:US-NJ:upper:024:0:2025-01-20",
+      "votes": 121,
+      "provisions": [
+        {
+          "kind": "law-amount",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "value": 1,
+          "effectiveDate": "2025-01-22",
+          "policyId": "law:local-power:rent-stabilization",
+          "operation": "raise"
+        },
+        {
+          "kind": "policy-question",
+          "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "value": -1
+        }
+      ],
+      "rows": [
+        {
+          "id": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-22:S1",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 1,
+          "effectiveDate": "2025-01-22",
+          "endDate": null,
+          "source": "S1, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-21",
+          "estimate": false,
+          "unit": "percent",
+          "terms": {
+            "margin": 0.975,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-21:official:term:seat:US-NJ:upper:024:0:2025-01-20:0",
+            "enactedBy": "S1",
+            "enactedSequence": 1
+          }
+        },
+        {
+          "id": "law:US-NJ:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-07-04:S1",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2025-07-04",
+          "endDate": null,
+          "source": "S1, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-21",
+          "estimate": false,
+          "terms": {
+            "margin": 0.975,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-21:official:term:seat:US-NJ:upper:024:0:2025-01-20:0",
+            "enactedBy": "S1",
+            "enactedSequence": 2
+          }
+        }
+      ],
+      "after": {
+        "series": "us-policy-positions:housing-land-use.rent-stabilization",
+        "date": "2025-01-22",
+        "doctrine": "single",
+        "value": 0,
+        "unit": null,
+        "governing": {
+          "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2024-07-01",
+          "endDate": null,
+          "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+          "retrieved": "2024-07-01",
+          "estimate": false,
+          "terms": {
+            "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+          }
+        },
+        "levels": [
+          {
+            "level": "federal",
+            "jurisdiction": "US",
+            "row": null
+          },
+          {
+            "level": "state",
+            "jurisdiction": "US-NJ",
+            "row": {
+              "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+              "jurisdiction": "US-NJ",
+              "level": "state",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 0,
+              "effectiveDate": "2024-07-01",
+              "endDate": null,
+              "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+              "retrieved": "2024-07-01",
+              "estimate": false,
+              "terms": {
+                "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+              }
+            }
+          },
+          {
+            "level": "county",
+            "jurisdiction": "county:34037",
+            "row": null
+          },
+          {
+            "level": "city",
+            "jurisdiction": "place:3429220",
+            "row": null
+          }
+        ],
+        "pending": [
+          {
+            "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-02-20:2025-1",
+            "jurisdiction": "place:3429220",
+            "level": "city",
+            "series": "us-policy-positions:housing-land-use.rent-stabilization",
+            "tier": "general",
+            "value": 1,
+            "effectiveDate": "2025-02-20",
+            "endDate": null,
+            "source": "Ordinance 2025-1, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+            "retrieved": "2025-01-21",
+            "estimate": true,
+            "terms": {
+              "margin": 0.6,
+              "decidedBy": "person_47fc72ca96183f0c",
+              "decision": "overridden",
+              "enactedByBill": "bill:office:gus2025:170240:council:2025-01-21:person_aeaf59b8f4307fb4:2",
+              "enactedBy": "2025-1",
+              "enactedSequence": 6
+            }
+          }
+        ],
+        "estimate": false
+      },
+      "paper": {
+        "id": "bill:office:US-NJ:legislature-upper:2025-01-21:official:term:seat:US-NJ:upper:024:0:2025-01-20:0",
+        "number": "S1",
+        "spoken": "S1",
+        "title": "A bill for an act to decide whether local governments may make their own rules on limits on rent increases and to require new housing developments to include affordable homes.",
+        "purpose": "an end to affordable home requirements in new developments",
+        "sponsor": "Lee Freeman",
+        "sections": [
+          {
+            "index": 0,
+            "key": "law:local-power:rent-stabilization",
+            "text": "Section 1. Be it enacted by the Senate and General Assembly of the State of New Jersey. That each city, town and county may make its own rules on limits on rent increases, by ordinance.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "S1",
+              "lawId": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-22:S1",
+              "beforeValue": 1,
+              "beforeUnit": "percent",
+              "afterValue": 1,
+              "afterUnit": "percent",
+              "effectiveDate": "2025-01-22",
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          },
+          {
+            "index": 1,
+            "key": null,
+            "text": "Section 2. And be it further enacted, That the law now in force on affordable homes in new buildings is repealed.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "N.J. Stat. Ann. \u00a7 52:27D-329.9; Fair Housing Act, N.J. Stat. Ann. \u00a7 52:27D-301 et seq.",
+              "lawId": "law:US-NJ:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting",
+              "beforeValue": 1,
+              "beforeUnit": null,
+              "afterValue": -1,
+              "afterUnit": null,
+              "effectiveDate": null,
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          }
+        ],
+        "authorityWarning": null,
+        "effective": null,
+        "estimate": {
+          "workers": 0,
+          "payMinor": 0,
+          "note": "no pay effect"
+        },
+        "agendaDate": null,
+        "floorDate": null,
+        "whip": [
+          {
+            "chamber": "State Senator",
+            "yes": 40,
+            "no": 0,
+            "undecided": 0
+          },
+          {
+            "chamber": "Assemblymember",
+            "yes": 79,
+            "no": 1,
+            "undecided": 0
+          }
+        ],
+        "tally": {
+          "yes": 117,
+          "no": 0
+        },
+        "decision": {
+          "status": "enacted",
+          "passedOn": "2025-01-21"
+        }
+      }
+    },
+    {
+      "body": "office:gus2025:170240:council",
+      "jurisdiction": "place:3429220",
+      "policyId": "question:us-policy-positions:housing-land-use.rent-stabilization",
+      "operation": "enact",
+      "status": "enacted",
+      "billId": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+      "sponsorId": "person_2aa5188f797f1744",
+      "votes": 6,
+      "provisions": [
+        {
+          "kind": "policy-question",
+          "question": "us-policy-positions:housing-land-use.rent-stabilization",
+          "value": 1,
+          "effectiveDate": "2025-01-24",
+          "policyId": "question:us-policy-positions:housing-land-use.rent-stabilization",
+          "operation": "enact"
+        }
+      ],
+      "rows": [
+        {
+          "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+          "jurisdiction": "place:3429220",
+          "level": "city",
+          "series": "us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 1,
+          "effectiveDate": "2025-01-24",
+          "endDate": null,
+          "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+          "retrieved": "2025-01-23",
+          "estimate": true,
+          "terms": {
+            "margin": 0.6,
+            "decidedBy": "person_47fc72ca96183f0c",
+            "decision": "signed",
+            "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+            "enactedBy": "2025-3",
+            "enactedSequence": 8
+          }
+        }
+      ],
+      "after": {
+        "series": "us-policy-positions:housing-land-use.rent-stabilization",
+        "date": "2025-01-24",
+        "doctrine": "single",
+        "value": 1,
+        "unit": null,
+        "governing": {
+          "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+          "jurisdiction": "place:3429220",
+          "level": "city",
+          "series": "us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 1,
+          "effectiveDate": "2025-01-24",
+          "endDate": null,
+          "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+          "retrieved": "2025-01-23",
+          "estimate": true,
+          "terms": {
+            "margin": 0.6,
+            "decidedBy": "person_47fc72ca96183f0c",
+            "decision": "signed",
+            "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+            "enactedBy": "2025-3",
+            "enactedSequence": 8
+          }
+        },
+        "levels": [
+          {
+            "level": "federal",
+            "jurisdiction": "US",
+            "row": null
+          },
+          {
+            "level": "state",
+            "jurisdiction": "US-NJ",
+            "row": {
+              "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+              "jurisdiction": "US-NJ",
+              "level": "state",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 0,
+              "effectiveDate": "2024-07-01",
+              "endDate": null,
+              "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+              "retrieved": "2024-07-01",
+              "estimate": false,
+              "terms": {
+                "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+              }
+            }
+          },
+          {
+            "level": "county",
+            "jurisdiction": "county:34037",
+            "row": null
+          },
+          {
+            "level": "city",
+            "jurisdiction": "place:3429220",
+            "row": {
+              "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+              "jurisdiction": "place:3429220",
+              "level": "city",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 1,
+              "effectiveDate": "2025-01-24",
+              "endDate": null,
+              "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+              "retrieved": "2025-01-23",
+              "estimate": true,
+              "terms": {
+                "margin": 0.6,
+                "decidedBy": "person_47fc72ca96183f0c",
+                "decision": "signed",
+                "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+                "enactedBy": "2025-3",
+                "enactedSequence": 8
+              }
+            }
+          }
+        ],
+        "pending": [
+          {
+            "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-02-20:2025-1",
+            "jurisdiction": "place:3429220",
+            "level": "city",
+            "series": "us-policy-positions:housing-land-use.rent-stabilization",
+            "tier": "general",
+            "value": 1,
+            "effectiveDate": "2025-02-20",
+            "endDate": null,
+            "source": "Ordinance 2025-1, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+            "retrieved": "2025-01-21",
+            "estimate": true,
+            "terms": {
+              "margin": 0.6,
+              "decidedBy": "person_47fc72ca96183f0c",
+              "decision": "overridden",
+              "enactedByBill": "bill:office:gus2025:170240:council:2025-01-21:person_aeaf59b8f4307fb4:2",
+              "enactedBy": "2025-1",
+              "enactedSequence": 6
+            }
+          }
+        ],
+        "estimate": true
+      },
+      "paper": {
+        "id": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+        "number": "2025-3",
+        "spoken": "Ordinance 2025-3",
+        "title": "An ordinance to limit how much a landlord may raise the rent each year.",
+        "purpose": "limits on how much rents can rise",
+        "sponsor": "Keanu Rosario",
+        "sections": [
+          {
+            "index": 0,
+            "key": "question:us-policy-positions:housing-land-use.rent-stabilization",
+            "text": "Section 1. Be it ordained by the Hamburg Borough Council, That a landlord shall not raise the rent in a year by more than the limit set here.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "state-has-own-law"
+            },
+            "estimate": {
+              "statute": "2025-3",
+              "lawId": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+              "beforeValue": 1,
+              "beforeUnit": null,
+              "afterValue": 1,
+              "afterUnit": null,
+              "effectiveDate": "2025-01-24",
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          }
+        ],
+        "authorityWarning": null,
+        "effective": "This ordinance takes effect on January 24, 2025.",
+        "estimate": {
+          "workers": 0,
+          "payMinor": 0,
+          "note": "no pay effect"
+        },
+        "agendaDate": null,
+        "floorDate": null,
+        "whip": [
+          {
+            "chamber": "Council member",
+            "yes": 4,
+            "no": 1,
+            "undecided": 0
+          }
+        ],
+        "tally": {
+          "yes": 4,
+          "no": 1
+        },
+        "decision": {
+          "status": "enacted",
+          "passedOn": "2025-01-23"
+        }
+      }
+    },
+    {
+      "body": "office:US-NJ:legislature-upper",
+      "jurisdiction": "US-NJ",
+      "policyId": "law:local-power:rent-stabilization",
+      "operation": "lower",
+      "status": "enacted",
+      "billId": "bill:office:US-NJ:legislature-upper:2025-01-25:official:term:seat:US-NJ:upper:024:0:2025-01-20:8",
+      "sponsorId": "official:term:seat:US-NJ:upper:024:0:2025-01-20",
+      "votes": 121,
+      "provisions": [
+        {
+          "kind": "law-amount",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "value": 0,
+          "effectiveDate": "2025-01-26",
+          "policyId": "law:local-power:rent-stabilization",
+          "operation": "lower"
+        },
+        {
+          "kind": "policy-question",
+          "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "value": -1
+        }
+      ],
+      "rows": [
+        {
+          "id": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-26:S3",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2025-01-26",
+          "endDate": null,
+          "source": "S3, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-25",
+          "estimate": false,
+          "unit": "percent",
+          "terms": {
+            "margin": 0.975,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-25:official:term:seat:US-NJ:upper:024:0:2025-01-20:8",
+            "enactedBy": "S3",
+            "enactedSequence": 11
+          }
+        },
+        {
+          "id": "law:US-NJ:state:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-07-04:S3",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "us-policy-positions:justice-public-safety.end-cash-bail",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2025-07-04",
+          "endDate": null,
+          "source": "S3, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-25",
+          "estimate": false,
+          "terms": {
+            "margin": 0.975,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-25:official:term:seat:US-NJ:upper:024:0:2025-01-20:8",
+            "enactedBy": "S3",
+            "enactedSequence": 12
+          }
+        }
+      ],
+      "after": {
+        "series": "us-policy-positions:housing-land-use.rent-stabilization",
+        "date": "2025-01-26",
+        "doctrine": "single",
+        "value": 0,
+        "unit": null,
+        "governing": {
+          "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2024-07-01",
+          "endDate": null,
+          "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+          "retrieved": "2024-07-01",
+          "estimate": false,
+          "terms": {
+            "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+          }
+        },
+        "levels": [
+          {
+            "level": "federal",
+            "jurisdiction": "US",
+            "row": null
+          },
+          {
+            "level": "state",
+            "jurisdiction": "US-NJ",
+            "row": {
+              "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+              "jurisdiction": "US-NJ",
+              "level": "state",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 0,
+              "effectiveDate": "2024-07-01",
+              "endDate": null,
+              "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+              "retrieved": "2024-07-01",
+              "estimate": false,
+              "terms": {
+                "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+              }
+            }
+          },
+          {
+            "level": "county",
+            "jurisdiction": "county:34037",
+            "row": null
+          },
+          {
+            "level": "city",
+            "jurisdiction": "place:3429220",
+            "row": {
+              "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+              "jurisdiction": "place:3429220",
+              "level": "city",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 1,
+              "effectiveDate": "2025-01-24",
+              "endDate": null,
+              "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+              "retrieved": "2025-01-23",
+              "estimate": true,
+              "terms": {
+                "margin": 0.6,
+                "decidedBy": "person_47fc72ca96183f0c",
+                "decision": "signed",
+                "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+                "enactedBy": "2025-3",
+                "enactedSequence": 8
+              }
+            },
+            "setAside": "state law bars its places from making this rule"
+          }
+        ],
+        "pending": [
+          {
+            "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-02-20:2025-1",
+            "jurisdiction": "place:3429220",
+            "level": "city",
+            "series": "us-policy-positions:housing-land-use.rent-stabilization",
+            "tier": "general",
+            "value": 1,
+            "effectiveDate": "2025-02-20",
+            "endDate": null,
+            "source": "Ordinance 2025-1, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+            "retrieved": "2025-01-21",
+            "estimate": true,
+            "terms": {
+              "margin": 0.6,
+              "decidedBy": "person_47fc72ca96183f0c",
+              "decision": "overridden",
+              "enactedByBill": "bill:office:gus2025:170240:council:2025-01-21:person_aeaf59b8f4307fb4:2",
+              "enactedBy": "2025-1",
+              "enactedSequence": 6
+            }
+          }
+        ],
+        "estimate": false
+      },
+      "paper": {
+        "id": "bill:office:US-NJ:legislature-upper:2025-01-25:official:term:seat:US-NJ:upper:024:0:2025-01-20:8",
+        "number": "S3",
+        "spoken": "S3",
+        "title": "A bill for an act to decide whether local governments may make their own rules on limits on rent increases and to end the use of cash bail before trial.",
+        "purpose": "the return of cash bail",
+        "sponsor": "Lee Freeman",
+        "sections": [
+          {
+            "index": 0,
+            "key": "law:local-power:rent-stabilization",
+            "text": "Section 1. Be it enacted by the Senate and General Assembly of the State of New Jersey. That no city, town or county shall make its own rule on limits on rent increases, and any such rule in force shall end.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "S3",
+              "lawId": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-26:S3",
+              "beforeValue": 0,
+              "beforeUnit": "percent",
+              "afterValue": 0,
+              "afterUnit": "percent",
+              "effectiveDate": "2025-01-26",
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          },
+          {
+            "index": 1,
+            "key": null,
+            "text": "Section 2. And be it further enacted, That the law now in force on an end to cash bail is repealed.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "N.J.S.A. 2A:162-15 et seq. (P.L.2014, c.31)",
+              "lawId": "law:US-NJ:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting",
+              "beforeValue": 1,
+              "beforeUnit": null,
+              "afterValue": -1,
+              "afterUnit": null,
+              "effectiveDate": null,
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          }
+        ],
+        "authorityWarning": null,
+        "effective": null,
+        "estimate": {
+          "workers": 0,
+          "payMinor": 0,
+          "note": "no pay effect"
+        },
+        "agendaDate": null,
+        "floorDate": null,
+        "whip": [
+          {
+            "chamber": "State Senator",
+            "yes": 39,
+            "no": 1,
+            "undecided": 0
+          },
+          {
+            "chamber": "Assemblymember",
+            "yes": 80,
+            "no": 0,
+            "undecided": 0
+          }
+        ],
+        "tally": {
+          "yes": 117,
+          "no": 0
+        },
+        "decision": {
+          "status": "enacted",
+          "passedOn": "2025-01-25"
+        }
+      }
+    },
+    {
+      "body": "office:US-NJ:legislature-upper",
+      "jurisdiction": "US-NJ",
+      "policyId": "law:local-power:rent-stabilization",
+      "operation": "raise",
+      "status": "enacted",
+      "billId": "bill:office:US-NJ:legislature-upper:2025-01-26:official:term:seat:US-NJ:upper:024:0:2025-01-20:10",
+      "sponsorId": "official:term:seat:US-NJ:upper:024:0:2025-01-20",
+      "votes": 121,
+      "provisions": [
+        {
+          "kind": "law-amount",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "value": 1,
+          "effectiveDate": "2025-01-27",
+          "policyId": "law:local-power:rent-stabilization",
+          "operation": "raise"
+        },
+        {
+          "kind": "policy-question",
+          "question": "us-policy-positions:education.raise-teacher-minimum-salary",
+          "value": -1
+        }
+      ],
+      "rows": [
+        {
+          "id": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-27:S4",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 1,
+          "effectiveDate": "2025-01-27",
+          "endDate": null,
+          "source": "S4, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-26",
+          "estimate": false,
+          "unit": "percent",
+          "terms": {
+            "margin": 0.3,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-26:official:term:seat:US-NJ:upper:024:0:2025-01-20:10",
+            "enactedBy": "S4",
+            "enactedSequence": 14
+          }
+        },
+        {
+          "id": "law:US-NJ:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-07-04:S4",
+          "jurisdiction": "US-NJ",
+          "level": "state",
+          "series": "us-policy-positions:education.raise-teacher-minimum-salary",
+          "tier": "general",
+          "value": 0,
+          "effectiveDate": "2025-07-04",
+          "endDate": null,
+          "source": "S4, enacted (effective by N.J. Stat. Ann. \u00a7 1:2-3)",
+          "retrieved": "2025-01-26",
+          "estimate": false,
+          "terms": {
+            "margin": 0.3,
+            "decidedBy": "official:term:seat:US-NJ:governor:2025-01-20",
+            "decision": "signed",
+            "enactedByBill": "bill:office:US-NJ:legislature-upper:2025-01-26:official:term:seat:US-NJ:upper:024:0:2025-01-20:10",
+            "enactedBy": "S4",
+            "enactedSequence": 15
+          }
+        }
+      ],
+      "after": {
+        "series": "us-policy-positions:housing-land-use.rent-stabilization",
+        "date": "2025-01-27",
+        "doctrine": "single",
+        "value": 1,
+        "unit": null,
+        "governing": {
+          "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+          "jurisdiction": "place:3429220",
+          "level": "city",
+          "series": "us-policy-positions:housing-land-use.rent-stabilization",
+          "tier": "general",
+          "value": 1,
+          "effectiveDate": "2025-01-24",
+          "endDate": null,
+          "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+          "retrieved": "2025-01-23",
+          "estimate": true,
+          "terms": {
+            "margin": 0.6,
+            "decidedBy": "person_47fc72ca96183f0c",
+            "decision": "signed",
+            "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+            "enactedBy": "2025-3",
+            "enactedSequence": 8
+          }
+        },
+        "levels": [
+          {
+            "level": "federal",
+            "jurisdiction": "US",
+            "row": null
+          },
+          {
+            "level": "state",
+            "jurisdiction": "US-NJ",
+            "row": {
+              "id": "law:US-NJ:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+              "jurisdiction": "US-NJ",
+              "level": "state",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 0,
+              "effectiveDate": "2024-07-01",
+              "endDate": null,
+              "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+              "retrieved": "2024-07-01",
+              "estimate": false,
+              "terms": {
+                "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))"
+              }
+            }
+          },
+          {
+            "level": "county",
+            "jurisdiction": "county:34037",
+            "row": null
+          },
+          {
+            "level": "city",
+            "jurisdiction": "place:3429220",
+            "row": {
+              "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-24:2025-3",
+              "jurisdiction": "place:3429220",
+              "level": "city",
+              "series": "us-policy-positions:housing-land-use.rent-stabilization",
+              "tier": "general",
+              "value": 1,
+              "effectiveDate": "2025-01-24",
+              "endDate": null,
+              "source": "Ordinance 2025-3, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+              "retrieved": "2025-01-23",
+              "estimate": true,
+              "terms": {
+                "margin": 0.6,
+                "decidedBy": "person_47fc72ca96183f0c",
+                "decision": "signed",
+                "enactedByBill": "bill:office:gus2025:170240:council:2025-01-23:person_2aa5188f797f1744:6",
+                "enactedBy": "2025-3",
+                "enactedSequence": 8
+              }
+            }
+          }
+        ],
+        "pending": [
+          {
+            "id": "law:place:3429220:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-02-20:2025-1",
+            "jurisdiction": "place:3429220",
+            "level": "city",
+            "series": "us-policy-positions:housing-land-use.rent-stabilization",
+            "tier": "general",
+            "value": 1,
+            "effectiveDate": "2025-02-20",
+            "endDate": null,
+            "source": "Ordinance 2025-1, effective 30 days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)",
+            "retrieved": "2025-01-21",
+            "estimate": true,
+            "terms": {
+              "margin": 0.6,
+              "decidedBy": "person_47fc72ca96183f0c",
+              "decision": "overridden",
+              "enactedByBill": "bill:office:gus2025:170240:council:2025-01-21:person_aeaf59b8f4307fb4:2",
+              "enactedBy": "2025-1",
+              "enactedSequence": 6
+            }
+          }
+        ],
+        "estimate": true
+      },
+      "paper": {
+        "id": "bill:office:US-NJ:legislature-upper:2025-01-26:official:term:seat:US-NJ:upper:024:0:2025-01-20:10",
+        "number": "S4",
+        "spoken": "S4",
+        "title": "A bill for an act to decide whether local governments may make their own rules on limits on rent increases and to raise the lowest salary a school may pay a teacher.",
+        "purpose": "removing the raised minimum salary for teachers",
+        "sponsor": "Lee Freeman",
+        "sections": [
+          {
+            "index": 0,
+            "key": "law:local-power:rent-stabilization",
+            "text": "Section 1. Be it enacted by the Senate and General Assembly of the State of New Jersey. That each city, town and county may make its own rules on limits on rent increases, by ordinance.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "S4",
+              "lawId": "law:US-NJ:state:local-power:us-policy-positions:housing-land-use.rent-stabilization:general:2025-01-27:S4",
+              "beforeValue": 1,
+              "beforeUnit": "percent",
+              "afterValue": 1,
+              "afterUnit": "percent",
+              "effectiveDate": "2025-01-27",
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          },
+          {
+            "index": 1,
+            "key": null,
+            "text": "Section 2. And be it further enacted, That the law now in force on a higher minimum teacher salary is repealed.",
+            "authority": {
+              "allowed": true,
+              "warning": "none",
+              "reason": "within-own-power"
+            },
+            "estimate": {
+              "statute": "N.J.S.A. 18A:29-5; 18A:29-5.3-.4",
+              "lawId": "law:US-NJ:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+              "beforeValue": 1,
+              "beforeUnit": null,
+              "afterValue": -1,
+              "afterUnit": null,
+              "effectiveDate": null,
+              "line": null,
+              "lineAmountMinor": null,
+              "ofMinor": null
+            }
+          }
+        ],
+        "authorityWarning": null,
+        "effective": null,
+        "estimate": {
+          "workers": 0,
+          "payMinor": 0,
+          "note": "no pay effect"
+        },
+        "agendaDate": null,
+        "floorDate": null,
+        "whip": [
+          {
+            "chamber": "State Senator",
+            "yes": 26,
+            "no": 14,
+            "undecided": 0
+          },
+          {
+            "chamber": "Assemblymember",
+            "yes": 57,
+            "no": 23,
+            "undecided": 0
+          }
+        ],
+        "tally": {
+          "yes": 83,
+          "no": 37
+        },
+        "decision": {
+          "status": "enacted",
+          "passedOn": "2025-01-26"
+        }
+      }
+    }
+  ]
+}

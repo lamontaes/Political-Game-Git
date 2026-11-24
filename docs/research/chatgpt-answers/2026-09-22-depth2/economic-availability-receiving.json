@@ -1,0 +1,125 @@
+{
+  "schema": "ocd-economic-availability-receiving/1",
+  "date": "2026-09-22",
+  "request": "economic-figure-availability-date",
+  "status": "Answered date semantics and supplied six sourced product/vintage records; whole locked-corpus version reconciliation and older-vintage acquisition remain to execute.",
+  "source_head": "4965f63c41fe69621c72f47725c0d2914257f3ea",
+  "source_path": "public/data/economic-context/v1/manifest.json",
+  "repo_scope_correction": "The manifest covers three publishers but at least six distinct observation products: CAINC1, SARPP, MARPP, FMR, Section 8 Income Limits and LAUS, besides reference tables. LAUS coverage is 79 seasonally-adjusted areas in the committed slice, not every town as a direct local estimate.",
+  "decision": "Use the actual publisher release/notice for the specific value edition, retaining period, effective date, retrieval and knowledge as separate fields. A product calendar is a discovery/indexing source, not a timeless formula inferred from observation year. Do not silently show undated current/revised agency values as historical knowledge. Do not hide the whole panel because one product or edition is unavailable.",
+  "fields": [
+    "series/product identity",
+    "observation geography and geography vintage",
+    "observation period",
+    "value edition/revision",
+    "publishedAt or evidence-backed known-by bound with basis",
+    "effectiveFrom/effectiveTo where it is an administrative value",
+    "retrievedAt for build provenance only",
+    "in-world learnedAt/perception where individual knowledge matters"
+  ],
+  "records": [
+    {
+      "product": "BEA CAINC1 county personal income",
+      "period": "2024",
+      "release_date": "2026-02-05",
+      "release_time": "08:30 America/New_York",
+      "basis": "Official BEA release header; the same release revises 2020–2023.",
+      "sources": [
+        "bea-county-2024"
+      ],
+      "limit": "Need compare the locked bytes and table edition to this release. A 2023 row revised in 2026 is not the 2023 estimate available in 2024."
+    },
+    {
+      "product": "BEA county personal income initial 2023 vintage",
+      "period": "2023",
+      "release_date": "2024-11-14",
+      "release_time": "08:30 America/New_York",
+      "basis": "Official original release; older-vintage alternative for a January 2026 world.",
+      "sources": [
+        "bea-county-2023"
+      ],
+      "limit": "Original vintage values have not been downloaded in this research pass. Do not date current revised 2023 values to this earlier release."
+    },
+    {
+      "product": "BEA regional price parities SARPP/MARPP",
+      "period": "2024",
+      "release_date": "2026-02-19",
+      "release_time": "08:30 America/New_York",
+      "basis": "Official RPP product page names state/metro current release; release header and table references establish SARPP.",
+      "sources": [
+        "bea-rpp-2024",
+        "bea-rpp-product"
+      ],
+      "limit": "Verify exact locked table edition/geographic product before stamping rows. RPP compares relative price levels; it is not an inflation rate."
+    },
+    {
+      "product": "HUD FY2025 Fair Market Rents, original edition",
+      "period": "FY2025",
+      "release_date": "2024-08-14",
+      "effective_date": "2024-10-01",
+      "basis": "89 FR 66127 / 2024-18002 original notice, subject to area reevaluation exceptions.",
+      "sources": [
+        "hud-fmr-2025",
+        "hud-fmr"
+      ],
+      "limit": "A historical announcement can be known before its effective date. Verify whether locked rows are original or an area-specific later revision. The current HUD index itself shows later amendments, so fiscal year alone is insufficient."
+    },
+    {
+      "product": "HUD FY2025 Section 8 Income Limits",
+      "period": "FY2025",
+      "release_date": null,
+      "effective_date": "2025-04-01",
+      "basis": "Official HUD document/data heading states effective date; precise initial posting timestamp not established here.",
+      "sources": [
+        "hud-il"
+      ],
+      "limit": "Do not borrow FMR release dates or substitute MTSP/ESG products. The effective date supports programme validity, not an asserted exact publication timestamp. Match official notice/bytes for a defensible known-by date."
+    },
+    {
+      "product": "BLS model-based LAUS January 2026 initial monthly release and annual revision",
+      "period": "2026-01",
+      "release_date": "2026-04-08",
+      "release_time": "10:00 America/New_York",
+      "basis": "Official archived release and annual revision notice.",
+      "sources": [
+        "laus-jan-2026",
+        "laus-revisions"
+      ],
+      "limit": "The annual revision also changes older periods. Other months and non-modeled substate products have their own actual release/revision dates. No fixed next-month day is supplied."
+    }
+  ],
+  "sources": {
+    "bea-county-2024": "https://www.bea.gov/news/2026/gross-domestic-product-county-and-personal-income-county-2024",
+    "bea-county-2023": "https://www.bea.gov/news/2024/personal-income-county-and-metropolitan-area-2023",
+    "bea-rpp-2024": "https://www.bea.gov/news/2026/real-personal-consumption-expenditures-state-and-real-personal-income-state-2024",
+    "bea-rpp-product": "https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area",
+    "hud-fmr-2025": "https://www.federalregister.gov/documents/2024/08/14/2024-18002/fair-market-rents-for-the-housing-choice-voucher-program-moderate-rehabilitation-single-room",
+    "hud-fmr": "https://www.huduser.gov/portal/datasets/fmr.html",
+    "hud-il": "https://www.huduser.gov/portal/datasets/il.html",
+    "laus-jan-2026": "https://www.bls.gov/news.release/archives/laus_04082026.htm",
+    "laus-revisions": "https://www.bls.gov/lau/launews1.htm"
+  },
+  "fallback": [
+    "Prefer the latest demonstrably available older edition for that geography/measure/cutoff. Display its date and scope.",
+    "An unknown publisher timestamp stays unknown; do not relabel retrieval or observation period as release. Keep that exact agency edition out of historical public-news/certification use until a release or defensible known-by bound is established.",
+    "The player can still see appropriately labelled generated-world conditions and historical reference context where already authorized. That is an explicit simulation/baseline channel, not a false claim that a future agency release was known.",
+    "Retrospective calibration of a fictional 2026 world using subsequently estimated historical conditions is different from a simulated person reading a 2026 publication early. Preserve that distinction and the owner's bounded fictional-world variation.",
+    "No date computation, profile read or external reference refresh mutates actual simulated prices, payments or beliefs. Official reference data is not the simulation itself."
+  ],
+  "acquisition_recipe": [
+    "Identify each locked file and current edition, not just corpus family.",
+    "Attach release metadata to that exact edition; use source archives for prior editions actually needed at Begin.",
+    "For mutable current-series files, carry separate release/vintage identities rather than assign each row its original-period release date.",
+    "Check the currently cited source calendars/archives at refresh; persist the resolved metadata so live web calls are not required in gameplay.",
+    "Complete HUD notice/edition matching first for a dated reference available at January 2026; do not wait for all economic products to be compiled before the known rows work."
+  ],
+  "checks": [
+    "A September download of an already released original FY2025 FMR does not hide it until September.",
+    "A February2026 BEA release is not available as that release on January5,2026 despite describing2024.",
+    "A 2026-revised 2023 value is not backdated to the first2023 release.",
+    "An announced but not yet effective FMR may be reported as forthcoming, not charged as an active programme rule.",
+    "Refreshing a retrieval timestamp does not remove previously established availability.",
+    "Missing LAUS local coverage uses correctly labelled wider geography or absence, never pretends a state figure is measured at every town.",
+    "Source publication and actual in-world knowledge remain separate."
+  ]
+}

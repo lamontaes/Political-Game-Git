@@ -1,0 +1,85 @@
+{
+  "town": "Westlake, Ohio",
+  "place": "3983622",
+  "replay": "5e7657e2c76ba1bc",
+  "host": "4c46091479ea",
+  "controlledBase": "d7ceabe6e9de2c8c18b991d001f2791d400b1d56",
+  "rawBaseReceiptCheckout": "c0170eff3666fe44df767ecfb5f3cfab79324f44",
+  "head": "a81a92f504a01398cd891aaccb9a6a384f4f2261",
+  "sourceDiff": ["src/core2/modules/views.ts"],
+  "baseSetup": "The preserved wrapper asserted the entire production difference, restored all five files to the controlled base during timing, then restored original bytes. Tests were not run by the year runner. Scripts and package files are identical between the raw checkout and controlled base.",
+  "baseRestoredFiles": [
+    "src/core2/counted-news-views.ts",
+    "src/core2/modules/views.ts",
+    "src/core2/modules/news.ts",
+    "src/core2/modules/press.ts",
+    "src/core2/modules/residents.ts"
+  ],
+  "baseWrapperSha256": "8cece8c77ccb6ef91c4cd538ae1d695b940da983cde46df1f1fa30b7fe099f6b",
+  "baseReceiptSha256": "679033ad6853b7be0c2ef7ca543ca7ccefb76997392cb7bf792735156429ce40",
+  "headReceiptSha256": "4bc0fe8ed73f0dd74d4f3b5dedc5e90837e118dc317ba630f80a7fe7473ff1bd",
+  "observer": {
+    "source": "/workspace/lane-2-sibling/scripts/speed-years/run.ts",
+    "sourceSha256": "49d09fcdadf74f0e34ac8fd103c4e3fcaa9d755569b61ae2544584f123d1ed42",
+    "changes": [
+      "resolve relative imports to their same absolute modules",
+      "read one named naturally produced stance via public readers after all timed years and digests",
+      "preserve absolute and relative failure exit"
+    ],
+    "status": "completed after all timed years and record digests",
+    "observerSha256": "9e68bd97ebcbb362dd0e79ccf0daa8214aa9efbd170d214d23f8c78679d84121",
+    "timedLoopByteIdentical": true,
+    "witnessSelection": "First named nonzero naturally caused enact/repeal stance; no world or outcome edit.",
+    "executedHead": "a81a92f504a01398cd891aaccb9a6a384f4f2261"
+  },
+  "rows": [
+    {
+      "year": 1,
+      "baseSeconds": 127.8,
+      "headSeconds": 144.1,
+      "percentChange": 12.75,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "ecce527d0359c597",
+      "headFingerprint": "ecce527d0359c597",
+      "differingTables": [],
+      "baseRecords": 443681,
+      "headRecords": 443681
+    },
+    {
+      "year": 2,
+      "baseSeconds": 223.6,
+      "headSeconds": 258.5,
+      "percentChange": 15.61,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "63c0f7abe8c2cc96",
+      "headFingerprint": "63c0f7abe8c2cc96",
+      "differingTables": [],
+      "baseRecords": 858844,
+      "headRecords": 858844
+    },
+    {
+      "year": 3,
+      "baseSeconds": 295.1,
+      "headSeconds": 336.7,
+      "percentChange": 14.1,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "33a29ff04afd942f",
+      "headFingerprint": "33a29ff04afd942f",
+      "differingTables": [],
+      "baseRecords": 1523840,
+      "headRecords": 1523840
+    },
+    {
+      "year": 4,
+      "baseSeconds": 536.3,
+      "headSeconds": 584.4,
+      "percentChange": 8.97,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "1593042db6620282",
+      "headFingerprint": "1593042db6620282",
+      "differingTables": [],
+      "baseRecords": 1887267,
+      "headRecords": 1887267
+    }
+  ]
+}

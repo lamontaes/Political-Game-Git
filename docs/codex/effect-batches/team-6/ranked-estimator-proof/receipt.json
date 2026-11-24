@@ -1,0 +1,136 @@
+{
+  "sourceHead": "5004428e4d076f1a6daf03ffac4cc18f359ba14b",
+  "base": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+  "sourceSha256": {
+    "src/simulation/income-tax-withholding.ts": "06719d2cd1e66cbcaf1fca1bca808c81d0b4e08030b4e63e71c37bc64f988df0",
+    "src/simulation/income-tax-withholding.test.ts": "7e26f3e03f08523a105addf4abadf8972e9420336fad34522d67d156ff306ade",
+    "src/simulation/state-income-tax-law.ts": "07946f22ac52c70d3637ba15387db75ebd3810afa09ec965f27e1f91abffcc3a",
+    "src/simulation/office-pay.ts": "7d7c610b83ba2153398044a3d3f555d7beb2ef7d01b515330ec6dc89643d7a2d",
+    "src/simulation/paid-leave-estimates.ts": "0e0db1036b8d5ee2b85dcca77b567f1f11b731c768210c146564973f4166a0ea"
+  },
+  "currentCompositionTests": {
+    "passed": 30,
+    "failed": 0,
+    "durationSeconds": 20.1,
+    "files": 4
+  },
+  "priorFinal": {
+    "passed": 30,
+    "durationSeconds": 17.34
+  },
+  "firstRun": {
+    "passed": 27,
+    "failed": 3,
+    "durationSeconds": 21.38,
+    "typeErrors": 2,
+    "repair": "restore the existing references field omitted during extraction; tests/assertions unchanged"
+  },
+  "types": {
+    "roots": 5,
+    "files": 843,
+    "ownedDiagnostics": 0
+  },
+  "savedExamples": [
+    {
+      "personName": "Sonia Velasquez",
+      "personId": "person_c3f0a51afb382f25",
+      "workRelationshipId": "work-relationship_04319793a43926e1",
+      "annualEstimateDollars": 51700,
+      "scope": "existing salary reader, not proof of actual salary collection"
+    },
+    {
+      "personName": "Diana Hansen",
+      "personId": "person_a1f6300bb87e3f99",
+      "flowId": "resource-flow_e8e1c268c4f1d30e",
+      "transferId": "resource-transfer-outcome_7efbcf40fdde6585",
+      "paidMinorUnits": 17548,
+      "scope": "existing benefit writer with authored claim/cash, not a naturally observed claim"
+    }
+  ],
+  "spelling": {
+    "count": 26,
+    "mainIdentical": [
+      {
+        "path": "docs/audits/2026-09-30/bedrock.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/dice.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/engines.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/golden-rule.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/audit-verified-2026-10-01.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/audit-verified-2026-10-01.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-9/a10-composer-proof.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-9/michigan-cpl-source.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/release/changes/plain-american-wording.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/release/changes/team2-governing-reports-require-recorded-actions.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/presentation/mayor-executive-decision.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/presentation/president-player-desk.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/governing/recorded-governing-action.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/governing/state-governing.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/justice/clemency-request-activities.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/justice/prosecution-composer.test.ts",
+        "identicalToMain": true
+      }
+    ]
+  },
+  "unsupported": [
+    "A22 adopted annual brackets and deduction key/unit contract",
+    "A45 adopted premium key/unit contract",
+    "A13/root live assessment and question convergence"
+  ],
+  "mapExecutingCount": "94/220 unchanged audit baseline",
+  "notRun": [
+    "full suite",
+    "year",
+    "browser",
+    "performance",
+    "nationwide laws"
+  ]
+}

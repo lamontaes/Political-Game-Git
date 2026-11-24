@@ -1,0 +1,332 @@
+/* ---------- Legislation (Nov 7): built only from the owner's recorded words, quoted in legislation-record.md ---------- */
+/* People added for these screens (names only: no pack figure is left for them) */
+Object.assign(GP, {
+  barrett: { n: "Lewis Barrett", t: "Town attorney", who: "He has been Latimer's town attorney since 2012 and keeps a law office on Main Street.", us: "He's drafting the bond resolution's final wording for the board." },
+  wells: { n: "Dorothy Wells", t: "Cypress Street", who: "She has lived on Cypress Street for thirty-one years, two houses from the big ditch.", us: "She testified for the bond at the finance committee." },
+  spencer: { n: "John Spencer", t: "Alderman, District 2", p: "D", face: "mefig", who: "He won District 2 in June with 54 percent and took his seat July 1. He ran on the west side drainage.", us: "His drainage bond is on my desk." },
+});
+SHE.add("wells");
+/* "Between us" for this group: John on the board from July 1, 2025; the mayor's desk is played as Carol Whitfield */
+const LEGUS = {
+  hill: "We sit together on the finance committee. He's careful with money, and he told me so.",
+  price: "She signed on to the bond the day I filed it.",
+  greer: "He told me at the July 15 meeting that he'd vote for half the bond and not a dollar more.",
+  nair: "She hasn't told me where she stands on the bond.",
+  freeman: "She hasn't told me where she stands. She'll speak last, like always.",
+  whitfield: "After the July 15 meeting she told me she won't go above 38 mills.",
+  rhodes: "He walked the west side ditches with me the first week of July.",
+  hale: "She wrote the estimate for the bond and attested it.",
+  barrett: "He's drafting the bond resolution's final wording.",
+  wells: "She testified for the bond at the finance committee.",
+};
+const LEGUS_W = {
+  spencer: "He came to my office twice about the bond. He wants it whole.",
+  rhodes: "He's run public works for me since 2022. He wants the bond.",
+  greer: "He's backed every budget I've sent the board since 2021.",
+  hale: "She wrote the estimate for the bond.",
+  hill: "He chairs the finance committee and voted for the bond.",
+  price: "She cosponsored the bond.",
+  nair: "She voted for the bond on August 5.",
+  freeman: "She voted against the bond on August 5.",
+};
+const legUs = (id) => cur === "leg-desk" ? LEGUS_W[id] : (cur.startsWith("leg-") && cur !== "leg-track") ? LEGUS[id] : null;
+
+/* the bond: the terms John can change, and the clerk's estimate read from them */
+const LB = { amt: 1200000, years: 20, cap: "4.5", area: "cypress", fund: "tax", when: "passage", name: "bond" };
+const LBDEF = { ...LB };
+const YW = { 10: "ten", 15: "fifteen", 20: "twenty", 25: "twenty-five", 30: "thirty" };
+const AREA = { pecan: "the west side, from Highway 51 to Pecan Street", cypress: "the west side, from Highway 51 to Cypress Street", line: "the whole west side, from Highway 51 to the town line" };
+const FUND = { tax: "a tax on all taxable property in the Town", water: "the revenues of the Town's water and sewer system" };
+const WHEN = { passage: "on passage", oct: "on October 1, 2025", two: "in two series, half on passage and half on October 1, 2026" };
+const NAMES = { bond: "THE DRAINAGE BOND", ditch: "THE WEST SIDE DITCH BOND", none: "" };
+const MILL = 1180000 / 38;                        /* the prototype's property tax: 38 mills raise $1,180,000 */
+const yearly = (P, n, r = 0.04) => P * r / (1 - Math.pow(1 + r, -n));
+function legEst(L = LB) {
+  const y = yearly(L.amt, L.years), all = y * L.years, mills = y / MILL;
+  return { y, all, int: all - L.amt, mills, home: mills * 10, water: y / 1890 / 12 };
+}
+const m1 = (x) => (Math.round(x * 10) / 10).toFixed(1);
+let legPart = null, legView = "clean", legStaff = false, legIdx = "topic", legLaw = false;
+const legVote = { amend: null, floor: null, override: null, desk: null };
+
+/* a term on the bill you can click; lit at rest, brass when open */
+const term = (key, text) => `<span class="lterm pick${legPart === key ? " sel" : ""}" tabindex="0" role="button" data-lpart="${key}">${text}</span>`;
+const cite = (key, text) => `<span class="lcite pick" tabindex="0" role="button" data-llaw="${key}">${text}</span>`;
+const ins = (t) => legView === "compare" ? `<u class="lins">${t}</u>` : t;
+const del = (t) => legView === "compare" ? `<s class="ldel">${t}</s>` : "";
+const lsec = (depth, title, body, cls = "", right = "") => `<section class="sec strips dp${depth} ${cls}"><h3 class="sechead">${title}${right}</h3><div class="secbody">${body}</div></section>`;
+const lead3 = (label, amt, sub) => `<div class="dl"><div class="t"><span>${label}</span><i></i><em>${amt}</em></div>${sub ? `<p class="bmsub">${sub}</p>` : ""}</div>`;
+const said = (id, words, extra = "") => `<div class="told">${gnm(id)}${words ? `<p>${esc(words)}</p>` : `<p class="quiet">Hasn't said.</p>`}${extra}</div>`;
+const sign = (name, title) => `<div class="lsig"><div class="hand">${esc(name)}</div><span>${esc(title)}</span></div>`;
+
+/* the subject index: navigation only (REG:422); the 18 subjects of the accepted catalog */
+const SUBJECTS = ["Infrastructure", "Healthcare", "Education", "Taxes & Public Finance", "Assistance & Social Insurance", "Housing & Land Use", "Labor & Employment", "Business & Economic Development", "Energy & Environment", "Justice & Public Safety", "Government & Democracy", "Rights, Family & Consumer Protection", "Science, Technology & Communications", "Agriculture & Food", "Parks, Culture & Community Life", "Immigration & Citizenship", "Defense & Veterans", "Foreign Affairs & Trade"];
+const INFRA = ["Transportation", "Water and wastewater", "Flood control and drainage", "Waste collection and disposal", "Public buildings and facilities", "Digital infrastructure"];
+function legIndex() {
+  if (legIdx === "all") return lsec(1, "Subjects", `<div class="lidx all">${SUBJECTS.map((s) => `<button type="button" class="lidxrow${s === "Infrastructure" ? " has" : ""}" data-lidx="topic">${esc(s)}</button>`).join("")}</div>`, "lidxsec");
+  return `${lsec(1, "Infrastructure", `<div class="lidx">${INFRA.map((s) => `<button type="button" class="lidxrow${s === "Flood control and drainage" ? " on" : ""}">${esc(s)}</button>`).join("")}</div><button type="button" class="kbtn lidxall" data-lidx="all">All subjects</button>`, "lidxsec")}
+    ${lsec(2, "In force in Latimer", `<div class="ink lforce">${lead3("DRAINAGE REPAIRS", "$92,000", "Last year $214,000")}${lead3("DRAINAGE BONDS", "None")}${lead3("WATER BONDS", "$410,000", "A year, paid off in 2039")}</div>`)}`;
+}
+
+/* the bill, typed straight on the panel; staff redraft shown against John's draft when Compare is on */
+function legBill() {
+  const s = legStaff;
+  const nameT = NAMES[LB.name] ? ` · ${term("name", NAMES[LB.name])}` : ` · ${term("name", "NO NAME")}`;
+  return `<div class="ink lbill">
+    <p class="lnum">RESOLUTION NO. 25-31${nameT}</p>
+    <p class="ltitle">A RESOLUTION OF THE MAYOR AND BOARD OF ALDERMEN OF THE TOWN OF LATIMER, MISSISSIPPI, DECLARING ITS INTENTION TO ISSUE GENERAL OBLIGATION BONDS FOR DRAINAGE ON THE WEST SIDE.</p>
+    <p class="lsect"><b>SECTION 1.</b> The Town shall issue general obligation bonds${s ? ins(", in one or more series,") : ""} of not more than ${term("amt", H.usd(LB.amt))} to rebuild the ditches and culverts on ${term("area", AREA[LB.area])}.</p>
+    <p class="lsect"><b>SECTION 2.</b> The bonds shall be repaid over ${s ? ins("not more than ") : ""}${term("years", `${YW[LB.years]} (${LB.years}) years`)}${s ? ins(" from their date") : ""} at not more than ${term("cap", `${LB.cap} percent`)} a year.</p>
+    <p class="lsect"><b>SECTION 3.</b> The bonds shall be paid from ${s ? (legView === "compare" ? del(FUND[LB.fund] + ", levied each year") + " " : "") + ins("a direct tax on all taxable property in the Town, levied each year without limit as to rate or amount") : `${term("fund", FUND[LB.fund])}, levied each year`}.</p>
+    <p class="lsect"><b>SECTION 4.</b> The Clerk shall publish this resolution in The Latimer Ledger once a week for three weeks. If twenty percent of the qualified electors protest in writing, the bonds shall go to an election, as ${cite("21-33-307", "Section 21-33-307, Mississippi Code of 1972")} requires.</p>
+    <p class="lsect"><b>SECTION 5.</b> This resolution takes effect ${term("when", WHEN[LB.when])}.</p>
+    <div class="lfoot"><button type="button" class="kbtn" data-lidx="all">Add another section</button>
+      <div class="lsigs">${sign("John Spencer", "ALDERMAN, DISTRICT 2")}${sign("Angela Price", "ALDERWOMAN, DISTRICT 3")}</div></div>
+  </div>`;
+}
+/* the compact panel: only what that part can do, with a picker that fits it (REG:422) */
+function legPop() {
+  if (!legPart) return "";
+  const tog = (key, opts) => `<div class="lptogs">${Object.entries(opts).map(([v, t]) => `<button type="button" class="ktog3" data-lset="${key}:${v}" aria-pressed="${String(LB[key]) === v}">${esc(t)}</button>`).join("")}</div>`;
+  const ask = `<button type="button" class="kbtn" data-lstaff="1">Ask Lewis Barrett to redraft it</button>`;
+  const P = {
+    amt: ["THE AMOUNT", `<div class="lpamt"><button type="button" class="kbtn" data-lamt="-1">Lower</button><b>${H.usd(LB.amt)}</b><button type="button" class="kbtn" data-lamt="1">Raise</button></div>`],
+    years: ["HOW LONG TO REPAY", tog("years", { 10: "10 years", 15: "15 years", 20: "20 years", 25: "25 years", 30: "30 years" })],
+    cap: ["THE MOST IT CAN PAY IN INTEREST", tog("cap", { "4": "4 percent", "4.5": "4.5 percent", "5": "5 percent" })],
+    area: ["WHERE THE WORK GOES", tog("area", { pecan: "To Pecan Street", cypress: "To Cypress Street", line: "To the town line" })],
+    fund: ["HOW IT'S PAID FOR", tog("fund", { tax: "Property tax", water: "Water and sewer bills" })],
+    when: ["WHEN IT TAKES EFFECT", tog("when", { passage: "On passage", oct: "October 1, 2025", two: "In two steps" })],
+    name: ["ITS NAME", tog("name", { bond: "The Drainage Bond", ditch: "The West Side Ditch Bond", none: "Its number only" })],
+  }[legPart];
+  return `<div class="legpop" data-for="${legPart}"><div class="lpk">${P[0]}</div>${P[1]}<div class="lpfoot">${legPart === "name" ? "" : ask}<button type="button" class="kbtn lpdone" data-lpart="">Done</button></div></div>`;
+}
+function legEstHTML() {
+  const e = legEst(), tax = LB.fund === "tax";
+  return `<div class="ink lest">
+    ${lead3("BORROWED", H.usd(LB.amt))}
+    ${lead3("EACH YEAR", H.usd(Math.round(e.y / 100) * 100), `For ${LB.years} years at about 4 percent`)}
+    ${lead3("IN ALL", H.usd(Math.round(e.all / 1000) * 1000), `${H.usd(Math.round(e.int / 1000) * 1000)} of it interest`)}
+    ${tax ? lead3("PROPERTY TAX", `+${m1(e.mills)} mills`, `38 today · ${m1(38 + e.mills)} with the bond`) : lead3("WATER BILLS", `+$${e.water.toFixed(2)} a month`, "On each of about 1,890 bills")}
+    ${tax ? lead3("ON A $100,000 HOME", `$${Math.round(e.home)} a year`) : lead3("PROPERTY TAX", "No change")}
+    ${lead3("FIRST PAYMENT", "2026 budget")}
+    <div class="bmsign"><div class="hand">Margaret Hale</div><span>CITY CLERK</span></div>
+  </div>`;
+}
+function legDraft() {
+  const viewTabs = legStaff ? `<span class="lviews">${tabsData(["Clean copy", "Compare"], legView === "compare" ? "Compare" : "Clean copy", "lview")}</span>` : "";
+  const staffBar = legStaff ? `<div class="lstaffbar"><span class="lstaffby">REDRAFT BY ${gnm("barrett", "LEWIS BARRETT")}, TOWN ATTORNEY</span><span><button type="button" class="kbtn" data-lkeep="his">Keep his wording</button> <button type="button" class="kbtn" data-lkeep="mine">Keep mine</button></span></div>` : "";
+  return `<div class="ex leg ol-g">
+    <div class="ldraft">
+      <div class="lcol">${legIndex()}</div>
+      ${lsec(3, "The bill", `${staffBar}<div class="lbillwrap">${legBill()}${legPop()}</div>`, "lbillsec", viewTabs)}
+      <div class="lcol">
+        ${lsec(4, "The clerk's estimate", legEstHTML())}
+        ${lsec(5, "Who's with me", `${said("price", "Put my name on it.")}${said("hill", "I'll look at it.")}${said("greer", "Not at a million two.")}${said("nair", "", ` <button type="button" class="kbtn lask">Ask her</button>`)}${said("freeman", "", ` <button type="button" class="kbtn lask">Ask her</button>`)}`)}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* the board meeting header, a picture of the room */
+const legPic = (pic, name, line) => `<div class="govpic lpic" style="background-image:url(img/${pic})"><div><b>${esc(name)}</b><span>${esc(line)}</span></div></div>`;
+/* a vote's result from the members' stands and mine: numbers, then the names in words */
+const joinNames = (ids) => { const n = ids.filter((i) => i !== "me").map((i) => gnm(i)); if (ids.includes("me")) n.push("I"); return n.length <= 1 ? n.join("") : n.slice(0, -1).join(", ") + " and " + n[n.length - 1]; };
+function legTally(yes, no, mine) { const Y = [...yes], N = [...no]; if (mine === "Yes") Y.push("me"); if (mine === "No") N.push("me"); return { Y, N, words: `${joinNames(Y)} voted yes. ${joinNames(N)} voted no.${mine === "Abstain" ? " I abstained." : ""}` }; }
+const myVote = (key, labels = ["Yes", "No", "Abstain"]) => `<div class="lvotes">${labels.map((t) => `<button type="button" class="kbtn big${legVote[key] === t ? " on" : ""}" data-lvote="${key}:${t}">${t}</button>`).join("")}</div>`;
+
+function legCommittee() {
+  const R = (id, t) => gnm(id, t);
+  return `<div class="ex leg ol-g">
+    ${legPic("public-meeting-room__midday.jpg", "Finance Committee", "City Hall · Thursday, July 24, 2025, 5:30 PM")}
+    <div class="lcomm">
+      <div class="lcol">
+        ${lsec(1, "Who's on it", `<p class="intro">${gnm("hill")}, chair, ${gnm("greer")} and me.</p>`)}
+        ${lsec(2, "The committee's vote", `<p class="lbig">2 to 1</p><p class="intro">Sent to the full board. ${gnm("hill")} and I voted yes. ${gnm("greer")} voted no.</p>`)}
+        ${lsec(4, "Next", `<p class="intro">The full board votes on Tuesday, August 5, at 6 PM.</p>`)}
+      </div>
+      ${lsec(3, "Minutes", `<div class="ink lmin">
+        <p class="typedI">The chair called Resolution 25-31, the drainage bond.</p>
+        <p class="typedI"><b>${R("rhodes", "TOMMY RHODES")}, Director of Public Works:</b> The west side ditches were dug in 1974, for half the houses there now. Eleven culverts have collapsed since 2020. Water stood on Cypress Street for four days in April.</p>
+        <p class="typedI lq"><b>MR. GREER:</b> Could you do it for half?</p>
+        <p class="typedI lq"><b>MR. RHODES:</b> Half gets you to Pecan Street. Cypress still floods.</p>
+        <p class="typedI"><b>${R("wells", "DOROTHY WELLS")}, Cypress Street:</b> I've bailed out my den three springs out of the last five. I'm not asking for anything fancy. I'm asking for a ditch that works.</p>
+        <p class="typedI lq"><b>MR. HILL:</b> Thank you, Mrs. Wells. We've all seen the pictures.</p>
+        <p class="typedI"><b>${R("hale", "MARGARET HALE")}, City Clerk:</b> About 2.8 mills, or $28 a year on a $100,000 home.</p>
+      </div>`, "lminsec")}
+      <div class="lcol">
+        ${lsec(5, "Changed in committee", `<div class="ink"><p class="lsect"><b>SECTION 6.</b> <u class="lins">The Director of Public Works shall report to the Board on the work every three months until it is finished.</u></p>
+          <p class="bmsub lby">Offered by ${gnm("hill", "Marcus Hill")}. Adopted without objection.</p></div>`)}
+        ${lsec(2, "The bill now", `<p class="intro">Still $1,200,000 over twenty years, all the way to Cypress Street, now with Hill's report every three months.</p><button type="button" class="kbtn lread" data-lpage="draft">Read the bill</button>`)}
+      </div>
+    </div>
+  </div>`;
+}
+
+function legAmend() {
+  const voted = legVote.amend, T = legTally(["greer", "hill"], ["price", "nair", "freeman"], voted);
+  const result = voted ? lsec(2, "The vote on the amendment", `<p class="lbig">${T.Y.length > T.N.length ? "Adopted" : "Failed"}, ${T.Y.length} to ${T.N.length}</p><p class="intro">${T.words}</p>`) : "";
+  return `<div class="ex leg ol-g">
+    ${legPic("public-meeting-room__midday.jpg", "Board of Aldermen", "City Hall · Tuesday, August 5, 2025, 6 PM")}
+    <div class="lamend">
+      <div class="lcol">${lsec(1, "Amendment 1 to Resolution 25-31", `<div class="ink">
+        <p class="typedI">Offered by ${gnm("greer", "Walter Greer")}, Alderman, District 4. Amend Section 1 to read:</p>
+        <p class="lsect"><b>SECTION 1.</b> The Town shall issue general obligation bonds of not more than <s class="ldel">$1,200,000</s> <u class="lins">$600,000</u> to rebuild the ditches and culverts on the west side, from Highway 51 to <s class="ldel">Cypress Street</s> <u class="lins">Pecan Street</u>.</p>
+        <div class="lamest">${lead3("EACH YEAR", "$44,100", "$88,300 as filed")}${lead3("PROPERTY TAX", "+1.4 mills", "+2.8 mills as filed")}${lead3("CYPRESS STREET", "Not reached")}</div>
+      </div>`, "lamendsec")}${result}</div>
+      <div class="lcol">
+        ${lsec(3, "What they've told me", `${said("greer", "Half gets the worst of it done, and we can pay for half.")}${said("hill", "I could live with half.")}${said("price", "Half a ditch still floods.")}${said("nair", "", ` <button type="button" class="kbtn lask">Talk to her</button>`)}${said("freeman", "", ` <button type="button" class="kbtn lask">Talk to her</button>`)}`)}
+        ${lsec(4, "My vote on the amendment", myVote("amend"))}
+      </div>
+    </div>
+  </div>`;
+}
+
+function legFloor() {
+  const v = legVote.floor, T = legTally(["hill", "price", "nair"], ["greer", "freeman"], v), ok = T.Y.length > T.N.length;
+  const result = v ? lsec(2, "The vote", `<p class="lbig">${ok ? "Adopted" : "Failed"}, ${T.Y.length} to ${T.N.length}</p><p class="intro">${T.words}</p>${ok ? `<p class="intro" style="margin-top:8px">It goes to Mayor ${gnm("whitfield", "Carol Whitfield")}. She has until the August 19 meeting to sign it or send it back.</p>` : ""}`) : "";
+  return `<div class="ex leg ol-g">
+    ${legPic("public-meeting-room__midday.jpg", "Board of Aldermen", "City Hall · Tuesday, August 5, 2025, 6 PM")}
+    <div class="lamend">
+      <div class="lcol">${lsec(1, "Resolution 25-31 · The drainage bond", `<div class="ink lbill small">
+        <p class="lsect"><b>SECTION 1.</b> General obligation bonds of not more than $1,200,000 for the ditches and culverts on the west side, from Highway 51 to Cypress Street.</p>
+        <p class="lsect"><b>SECTION 2.</b> Repaid over twenty (20) years at not more than 4.5 percent a year.</p>
+        <p class="lsect"><b>SECTION 3.</b> Paid from a tax on all taxable property in the Town, about 2.8 mills.</p>
+        <p class="lsect"><b>SECTIONS 4 TO 6.</b> Notice and protest; effect on passage; a report every three months.</p>
+        <p class="typedI">Offered by Spencer and Price. ${`<span class="pick lrowpick" tabindex="0" role="button" data-lpage="amend">Greer's amendment to halve it failed, 2 to 4.</span>`}</p>
+      </div><button type="button" class="kbtn lread" data-lpage="draft">Read the bill</button>`, "lamendsec")}${result}</div>
+      <div class="lcol">
+        ${lsec(3, "What they've told me", `${said("hill", "It's a lot of money. I'm with you.")}${said("price", "Yes.")}${said("nair", "You've got me, as long as Section 6 stays in.")}${said("greer", "No, and I'll say why.")}${said("freeman", "", ` <button type="button" class="kbtn lask">Talk to her</button>`)}`)}
+        ${lsec(4, "My vote", myVote("floor"))}
+      </div>
+    </div>
+  </div>`;
+}
+
+function legDesk() {
+  const e = legEst(LBDEF);
+  const d = legVote.desk;
+  return `<div class="ex leg ol-g">
+    <div class="ldesk">
+      ${lsec(1, "On my desk", `<div class="ink lbill small">
+        <p class="lnum">RESOLUTION NO. 25-31 · THE DRAINAGE BOND</p>
+        <p class="lsect"><b>SECTION 1.</b> General obligation bonds of not more than $1,200,000 for the ditches and culverts on the west side, from Highway 51 to Cypress Street.</p>
+        <p class="lsect"><b>SECTION 2.</b> Repaid over twenty (20) years at not more than 4.5 percent a year.</p>
+        <p class="lsect"><b>SECTION 3.</b> Paid from a tax on all taxable property in the Town.</p>
+        <p class="lsect"><b>SECTIONS 4 TO 6.</b> Notice and protest; effect on passage; a report every three months.</p>
+        <p class="lstamp">ADOPTED AUGUST 5, 2025 · 4 TO 2</p>
+        <div class="lsigs">${sign("John Spencer", "SPONSOR")}${sign("Margaret Hale", "ATTEST, CITY CLERK")}</div>
+      </div>`)}
+      <div class="lcol">
+        ${lsec(2, "The clerk's estimate", `<div class="ink lest">${lead3("EACH YEAR", H.usd(Math.round(e.y / 100) * 100), "For 20 years")}${lead3("PROPERTY TAX", `+${m1(e.mills)} mills`, `38 today · ${m1(38 + e.mills)} with the bond`)}${lead3("ON A $100,000 HOME", `$${Math.round(e.home)} a year`)}</div>`)}
+        ${lsec(4, "What I promised", `<div class="wants2 lwants"><p>Keep the town's property tax at 38 mills</p><p>Bring the Highway 8 store and its nine jobs to town</p><p>Finish the Pecan Street paving before summer</p></div>`)}
+      </div>
+      <div class="lcol">
+        ${lsec(3, "Who's asked me", `${said("rhodes", "Sign it. Those ditches won't hold another spring.")}${said("greer", "Send it back. Forty mills will run off the Highway 8 store.")}${said("spencer", "Thirty-eight doors on the west side asked me for this.")}`)}
+        ${lsec(5, "Until the August 19 meeting", `${myVote("desk", ["Sign it", "Veto it"])}${d ? `<p class="intro lafter">${d === "Sign it" ? "I signed it. It takes effect today." : "I'll send it back with my reasons."}</p>` : ""}`)}
+      </div>
+    </div>
+  </div>`;
+}
+
+function legOverride() {
+  const v = legVote.override, T = legTally(["hill", "price", "nair"], ["greer", "freeman"], v), ok = T.Y.length >= 4;
+  const result = v ? lsec(2, "The vote", `<p class="lbig">${ok ? "Overridden" : "Sustained"}, ${T.Y.length} to ${T.N.length}</p><p class="intro">${T.words} ${ok ? "The bond takes effect today." : "The veto stands."}</p>`) : "";
+  return `<div class="ex leg ol-g">
+    ${legPic("public-meeting-room__midday.jpg", "Board of Aldermen", "City Hall · Tuesday, August 19, 2025, 6 PM")}
+    <div class="lamend">
+      <div class="lcol">${lsec(1, "The mayor's veto", `<div class="lveto">${govBust("whitfield", 130, 150, 0.95)}<div class="ink">
+        <p class="typedI">TO THE BOARD OF ALDERMEN: I return Resolution 25-31 without my signature. The west side needs its ditches, and I've said so since I took office. But this bond would take the town's property tax from 38 mills to 40.8, and I promised the people of Latimer 38. Bring me a bond the town can pay for out of what it has, and I'll sign it the day it reaches my desk.</p>
+        <div class="bmsign"><div class="hand">Carol Whitfield</div><span>MAYOR · AUGUST 15, 2025</span></div>
+      </div></div>`, "lamendsec")}${result}</div>
+      <div class="lcol">
+        ${lsec(3, "What they've told me", `${said("hill", "I voted for it once. I'll vote for it again.")}${said("price", "Override.")}${said("nair", "She has a point about the mills. I'm still with you.")}${said("greer", "She's right, and you know it.")}${said("freeman", "I'm not crossing Carol on this one.")}`)}
+        ${lsec(4, "My vote to override", `<p class="intro">It takes 4 of the 6 of us. It passed 4 to 2 on August 5.</p>${myVote("override")}`)}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* following a bill: The Political Process's bill page (refs/tpp/ss11), with no exact count before a vote */
+let trackView = "compare";
+function legTrack() {
+  const c = trackView === "compare";
+  return `<div class="ex leg ol-g">
+    ${legPic("state-house-chamber__midday.jpg", "House Bill 1 · Mississippi Legislature", "2025 regular session, January 7 to April 6 · Jackson")}
+    <div class="ltrack">
+      <div class="lcol">
+        ${lsec(1, "Where it is", `<p class="lbig lbigs">Senate Finance Committee</p><p class="intro">Speaker ${gnm("bufkin")} filed it on January 7, and it reached the Senate on the 17th. The Senate has until March 13 to pass it. My senator, ${gnm("lofton")}, hasn't said how he'll vote.</p>`)}
+      </div>
+      ${lsec(3, "The bill", `<div class="ink lbill">
+        <p class="lnum">HOUSE BILL NO. 1</p>
+        <p class="ltitle">AN ACT TO AMEND ${cite("27-65-17", "SECTION 27-65-17, MISSISSIPPI CODE OF 1972")}, TO REDUCE THE SALES TAX ON FOOD FOR HOME CONSUMPTION FROM SEVEN PERCENT TO FIVE PERCENT; AND FOR RELATED PURPOSES.</p>
+        <p class="typedI lenact">BE IT ENACTED BY THE LEGISLATURE OF THE STATE OF MISSISSIPPI:</p>
+        <p class="lsect"><b>SECTION 1.</b> ${cite("27-65-17", "Section 27-65-17, Mississippi Code of 1972")}, is amended as follows: The tax on retail sales of food for human consumption, not purchased with food stamps, shall be ${c ? `<s class="ldel">seven percent (7%)</s> <u class="lins">five percent (5%)</u>` : "five percent (5%)"} of the gross proceeds of sales.</p>
+        <p class="lsect"><b>SECTION 2.</b> This act shall take effect and be in force from and after July 1, 2025.</p>
+      </div>`, "lbillsec", `<span class="lviews">${tabsData(["Clean copy", "Compare"], c ? "Compare" : "Clean copy", "lview")}</span>`)}
+      <div class="lcol">
+        ${lsec(4, "The estimate", `<div class="ink lest">${lead3("STATE SALES TAX", "$120,000,000", "Less each year")}${lead3("LATIMER'S SHARE", "$90,000", "Less each year, of $1,320,000")}${lead3("A FAMILY'S GROCERIES", "$12 a month", "Saved on $600 a month")}<div class="bmsign"><span>LEGISLATIVE BUDGET OFFICE</span></div></div>`)}
+        ${lsec(2, "The House vote", `<p class="lbig pick lrowpick" tabindex="0" role="button" data-bill="grocery">Passed, 109 to 10</p><p class="intro">Thursday, January 16. Three didn't vote. Republicans 79 to 0, Democrats 29 to 10, independents 1 to 0.</p><p class="intro" style="margin-top:8px">My representative, ${gnm("hollins")}, voted yes.</p>`)}
+      </div>
+    </div>
+  </div>`;
+}
+/* the game's own page for a law a bill cites (Oct 26: "not to actual web pages, but to have the game display them") */
+const LAWS = {
+  "21-33-307": { n: "Section 21-33-307, Mississippi Code of 1972", by: "Mississippi Legislature", what: "A town that means to issue bonds publishes its resolution once a week for three weeks. If twenty percent of its qualified electors, or 1,500 of them, whichever is fewer, protest in writing, the bonds go to an election.", now: "In force for every town and city in Mississippi. Only the Legislature can change it." },
+  "27-65-17": { n: "Section 27-65-17, Mississippi Code of 1972", by: "Mississippi Legislature", what: "The state's sales tax: 7 percent on most retail sales, groceries included.", now: "House Bill 1 would cut the rate on groceries to 5 percent from July 1, 2025. It's in the Senate Finance Committee." },
+};
+function lawCard(id) {
+  const L = LAWS[id];
+  return `<div class="card2"><button class="x cx" type="button" data-cardclose aria-label="Close">${X}</button>
+    <div class="card2head"><div><h4>${esc(L.n)}</h4><p class="lead2sub">${esc(L.by)}</p></div></div>
+    ${gsec(1, "What it says", `<p class="intro">${esc(L.what)}</p>`)}
+    ${gsec(5, "Where it stands", `<p class="intro">${esc(L.now)}</p>`)}
+  </div>`;
+}
+
+/* who the player card shows on each example (the desk is played as the mayor) */
+const LEGHUD = {
+  "leg-draft": ["me", "John Spencer", "Monday, July 7, 2025", "4:15 PM"],
+  "leg-committee": ["me", "John Spencer", "Thursday, July 24, 2025", "7:40 PM"],
+  "leg-amend": ["me", "John Spencer", "Tuesday, August 5, 2025", "6:40 PM"],
+  "leg-floor": ["me", "John Spencer", "Tuesday, August 5, 2025", "7:05 PM"],
+  "leg-desk": ["whitfield", "Carol Whitfield", "Wednesday, August 6, 2025", "9:10 AM"],
+  "leg-override": ["me", "John Spencer", "Tuesday, August 19, 2025", "6:20 PM"],
+};
+const LEGEX = {
+  "leg-draft": ["Politics", "Writing the bill", "writing a bill the way he approved on Sept 25 and said again on Oct 14 and Oct 26: the subjects on the left are only for getting around, the bill typed on the panel is the workspace, a lit term opens a small panel with only what that part can do, and the clerk's estimate sits beside it. John holds the District 2 seat here, from July 1, 2025", legDraft],
+  "leg-committee": ["Politics", "Committee", "the finance committee's hearing as minutes (witnesses testify and members question them, Oct 12), what it changed, and its vote by name", legCommittee],
+  "leg-amend": ["Politics", "Amendment", "an amendment typed as a strike and an insert, what each member has told me, and my vote on it (amendments, Sept 21 and Oct 14; one member's vote on an amendment, Oct 14)", legAmend],
+  "leg-floor": ["Politics", "Floor vote", "the final vote: what each member has told me, my own vote (Oct 13), then the result in numbers and words with each name (\"When? How? Who else?\", Oct 26)", legFloor],
+  "leg-desk": ["Politics", "Mayor's desk", "the executive's desk, played as Mayor Carol Whitfield: the bill as adopted, the clerk's estimate, who asked for what, sign or veto (Oct 14: the executive signs or vetoes everywhere)", legDesk],
+  "leg-override": ["Politics", "Override", "her veto message typed and signed, what each member has told me, and my vote to override (hearing, amendment, passage, veto, override, Sept 26)", legOverride],
+  "leg-track": ["Politics", "Following a bill", "following House Bill 1 on January 20, 2025, after The Political Process's bill page: where it is, the House vote in numbers with my representative by name, the bill with the law it changes (click it), and the state's estimate tied to Latimer", legTrack],
+};
+
+/* clicks on the legislation screens; returns true when it handled one */
+function legClick(e) {
+  const t = (sel) => e.target.closest(sel);
+  let el;
+  if ((el = t("[data-llaw]"))) { hideTip(); $("#cardhost").innerHTML = lawCard(el.dataset.llaw); return true; }
+  if ((el = t("[data-lamt]"))) { LB.amt = Math.max(300000, Math.min(2000000, LB.amt + 100000 * +el.dataset.lamt)); render(); return true; }
+  if ((el = t("[data-lset]"))) { const [k, v] = el.dataset.lset.split(":"); LB[k] = k === "years" ? +v : v; render(); return true; }
+  if ((el = t("[data-lpart]"))) { const k = el.dataset.lpart; legPart = k && legPart !== k ? k : null; render(); return true; }
+  if (t("[data-lstaff]")) { legStaff = true; legView = "compare"; legPart = null; render(); return true; }
+  if ((el = t("[data-lkeep]"))) { legStaff = false; legView = "clean"; render(); return true; }
+  if ((el = t("[data-lview]"))) { const v = el.dataset.lview === "Compare" ? "compare" : "clean"; if (cur === "leg-track") trackView = v; else legView = v; render(); return true; }
+  if ((el = t("[data-lidx]"))) { legIdx = el.dataset.lidx; legPart = null; render(); return true; }
+  if ((el = t("[data-lvote]"))) { const [k, v] = el.dataset.lvote.split(":"); legVote[k] = legVote[k] === v ? null : v; render(); return true; }
+  if ((el = t("[data-lpage]"))) { cur = "leg-" + el.dataset.lpage; legPart = null; closeCard(); render(); return true; }
+  if (t(".lask")) return true;
+  return false;
+}
+/* the compact panel sits just under the term it changes, inside the bill */
+function placePop() {
+  const pop = $(".legpop"), wrap = $(".lbillwrap"); if (!pop || !wrap) return;
+  const tm = wrap.querySelector(`.lterm[data-lpart="${pop.dataset.for}"]`); if (!tm) return;
+  const rects = tm.getClientRects(), last = rects[rects.length - 1], wr = wrap.getBoundingClientRect(), k = wr.width / wrap.offsetWidth;
+  let top = (last.bottom - wr.top) / k + 8, left = (last.left - wr.left) / k - 12;
+  left = Math.max(0, Math.min(left, wrap.offsetWidth - pop.offsetWidth));
+  if (top + pop.offsetHeight > wrap.offsetHeight + 40) top = (rects[0].top - wr.top) / k - pop.offsetHeight - 8;
+  pop.style.top = top + "px"; pop.style.left = left + "px";
+}

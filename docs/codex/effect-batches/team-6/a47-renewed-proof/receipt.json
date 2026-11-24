@@ -1,0 +1,125 @@
+{
+  "base": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "predecessor": "6850989da5d268e0370e4e82e81fa1675eb2d2c9",
+  "sourceSha256": {
+    "src/simulation/public-budgets/index.ts": "43a66228ad29b050c2914c7dff2030b3d4c11c485a0ee74f78f6e22a250bcd95",
+    "src/simulation/public-budgets/store.ts": "6e0be63997ef16e2791b4c3d9be5e20fcf40038eb97e6268fa3545bd80e8733e",
+    "src/simulation/public-budgets/federal-treasury.ts": "82eb6529c02e42562c917b5f3c8c75f0b2c318cf53dfe8437dad37a0dfd2138c",
+    "src/simulation/public-budgets/federal-account.test.ts": "1cf016b5630b9f0917b0352fa4154632172674c2a0a4ce9b9b77e8e6e69bed2a",
+    "src/simulation/public-budgets/federal-law-cost-stamps.test.ts": "61081a757596b36daed72f97b0543cee308e0e9d17196e39b8c3b173e13a88a7"
+  },
+  "finalChangedTests": {
+    "passed": 84,
+    "failed": 1,
+    "durationSeconds": 60.28,
+    "inheritedFailure": "rail fixture unchanged30000ms timeout"
+  },
+  "mainRailComparison": {
+    "failed": 1,
+    "skipped": 58,
+    "durationSeconds": 60.74,
+    "limitMilliseconds": 30000,
+    "loadedExactMainChangedSources": [
+      "src/simulation/public-budgets/index.ts",
+      "src/simulation/public-budgets/store.ts",
+      "src/simulation/public-budgets/federal-treasury.ts",
+      "src/simulation/public-budgets/federal-account.test.ts",
+      "src/simulation/public-budgets/federal-law-cost-stamps.test.ts"
+    ]
+  },
+  "firstRun": {
+    "passed": 83,
+    "failed": 2,
+    "correction": "new opening case wrongly expected unrelated state budget rows unchanged; now checks federal row and cash only; earlier assertions unchanged"
+  },
+  "scopedTypes": {
+    "roots": 5,
+    "files": 1147,
+    "ownedDiagnostics": 0
+  },
+  "spelling": {
+    "count": 26,
+    "sameMainBlobs": [
+      {
+        "path": "docs/audits/2026-09-30/bedrock.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/dice.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/engines.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/audits/2026-09-30/golden-rule.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/audit-verified-2026-10-01.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/audit-verified-2026-10-01.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-9/a10-composer-proof.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/codex/effect-batches/team-9/michigan-cpl-source.json",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/release/changes/plain-american-wording.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "docs/release/changes/team2-governing-reports-require-recorded-actions.md",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/presentation/mayor-executive-decision.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/presentation/president-player-desk.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/governing/recorded-governing-action.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/governing/state-governing.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/justice/clemency-request-activities.test.ts",
+        "identicalToMain": true
+      },
+      {
+        "path": "src/simulation/justice/prosecution-composer.test.ts",
+        "identicalToMain": true
+      }
+    ]
+  },
+  "releaseFailure": "unchanged main ci-changed-tests-only.md prose",
+  "dice": {
+    "new": 0,
+    "stale": 5
+  },
+  "notRun": [
+    "whole suite",
+    "browser",
+    "game years",
+    "nationwide law audit",
+    "performance"
+  ]
+}

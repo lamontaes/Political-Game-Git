@@ -1,0 +1,37 @@
+{
+  "checks": {
+    "92_research_rows": true,
+    "14_research_domains": true,
+    "127_unique_shipped_keys": true,
+    "13_shipped_domains": true,
+    "every_research_id_exactly_once": true,
+    "all_links_resolve": true,
+    "127_inverse_rows": true,
+    "all_current_keys_preserved": true,
+    "no_migration_or_automatic_rename": true,
+    "general_is_not_catchall": true,
+    "all_inverse_links_consistent": true,
+    "every_domain_covered": true
+  },
+  "passed": 12,
+  "failed": 0,
+  "scope": "Research-data consistency only. No production/source/loader/playtest execution.",
+  "unmatchedResearch": [
+    "traffic-safety",
+    "immigration-related",
+    "general"
+  ],
+  "unmatchedShipped": [
+    "fiscal.reserves",
+    "government-operations.legislative-procedure",
+    "education.school-safety",
+    "education.special-education",
+    "justice-public-safety.victim-services",
+    "environment-energy.energy-efficiency",
+    "environment-energy.climate-mitigation",
+    "environment-energy.environmental-permitting",
+    "civil-family-community.children-and-youth",
+    "technology-privacy.platforms-and-social-media",
+    "technology-privacy.telecommunications"
+  ]
+}

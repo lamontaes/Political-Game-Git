@@ -1,0 +1,11 @@
+Seed w5-0b94d2; place: Mutual, Ohio
+Office: County board of elections, Mutual
+Greeting: Timothy Jacobs / Timothy Jacobs / Hello. You've found the county board of elections for Mutual. How can I help? / I want to run for the Mutual Village Council. November 4, 2025 · Held by Melanie McKay / I want to run for mayor. November 4, 2025 · Held by David Sparks / Leave
+Told: Timothy Jacobs / Timothy Jacobs / PAT CANDIDATE / I want to run for the Mutual Village Council. / Sure thing. Another one for the council. You'd serve 4 years. There's no primary for this one, so it all comes down to November 4. You'd have a seat on the Mutual Village Council, voting on the budget and every ordinance that comes before it. The papers are due back August 6. / I'm in. Give me the papers for the council. / How many people in Mutual have filed so far? / And after August 6, how long until the election? / I'll sleep on it, Timothy. / Leave
+Replies: I'm in. Give me the papers for the council. | How many people in Mutual have filed so far? | And after August 6, how long until the election? | I'll sleep on it, Timothy.
+Answer: Timothy Jacobs / Timothy Jacobs / PAT CANDIDATE / How many people in Mutual have filed so far? / Let's see. You won't have it to yourself. Melanie McKay filed, and that makes one other candidate so far. That could change. / Where do I sign for the council? / What happens after August 6? / I need a few days before I file with the county board of elections. / Leave
+Replies: Where do I sign for the council? | What happens after August 6? | I need a few days before I file with the county board of elections.
+Answer: Timothy Jacobs / Timothy Jacobs / PAT CANDIDATE / What happens after August 6? / Got a pen? Just the one election, November 4. Papers back to me by August 6. / Count me in for the council. / I need a few days before I file with the county board of elections. / Leave
+Replies: Count me in for the council. | I need a few days before I file with the county board of elections.
+File: Count me in for the council.
+Filed: Timothy Jacobs / PAT CANDIDATE / Count me in for the council. / Done. You and Melanie McKay for the council, then. You've got until November 4 to make your case. Take care now. / SIGNATURES THE CLERK WILL COUNT: 12, HANDED IN BY AUGUST 6, 2025 / COLLECTING SIGNATURES / Continue

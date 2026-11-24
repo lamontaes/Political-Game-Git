@@ -1,0 +1,29 @@
+{
+  "numTotalTests": 3,
+  "numPassedTests": 3,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "success": true,
+  "tests": [
+    {
+      "file": "src/simulation/tax-kind-contract.test.ts",
+      "assertions": [
+        {
+          "name": "declared final federal tax terms reads the rate fraction and annual threshold from the enacted provision with exact source IDs",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "declared final federal tax terms refuses different units or undeclared aliases instead of inferring a tax amount",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "existing tax occurrence and immutable assessment sequence requires an actual saved occurrence, assesses once, and preserves a completed assessment through later policy and reload",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "filedAt": "2026-09-22T23:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "When a reporter asks a person in the story for comment, what decides whether they answer, decline or stay silent, and what does an answer actually say? Which personality traits (from the game's trait catalog) make someone seek out the press or avoid it, how does their office, party role or legal exposure change that, and for each kind of story (an election win or loss, a disaster response, an allegation, a policy decision) what are the realistic shapes of an on-the-record answer that a game can compose from recorded facts without inventing a quote?",
+  "questionId": "who-talks-to-reporters-and-what-they-say",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-22 23:44Z ruling: 'Decline to comment is just fine. If they really didn't decline to comment, you could have one person who's all about the media and one person who hates it.'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts produceNonPlayerResponses",
+      "whatItDidNotSettle": "A non-player chooses between disputing an allegation, declining and not responding, weighed only by whether they are named in the matter. Personality is not consulted, and there is no 'answer' option except a flat denial, because nothing says what an answer would contain."
+    },
+    {
+      "source": "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "whatItDidNotSettle": "Aggregate source-response/trait evidence and record-grounded statement categories remain open; response strength was not invented."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "whatItDidNotSettle": "Aggregate source-response/trait evidence and record-grounded statement categories remain open; response strength was not invented."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/",
+      "whatItDidNotSettle": "Aggregate source-response/trait evidence and record-grounded statement categories remain open; response strength was not invented."
+    }
+  ],
+  "title": "Who talks to reporters, and what an on-the-record answer says",
+  "usableAnswer": "A table mapping traits (and office or exposure) to a tendency to comment, decline or ignore, with the strength of each; and for each story kind, two to four answer shapes built only from facts the game records (for example 'thanked voters in [district]', 'said the response was under way'), marking which need something the game does not record.",
+  "whyItMatters": "Every non-player in a story now either declines or says nothing, so every story ends the same way. The owner wants people to differ by personality. Until this is answered the choice stays as it is and is marked as a placeholder in the code, rather than inventing quotes.",
+  "answer": {
+    "summary": "The checked local-news audience studies do not estimate which personality traits cause officials to answer, decline or ignore reporters. A published statement, an invitation to comment and absence of a reply are different observations; none demonstrates an official’s private motive.",
+    "sources": [
+      "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:03:31.652405+00:00",
+    "stillOpen": "Aggregate source-response/trait evidence and record-grounded statement categories remain open; response strength was not invented."
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "worlds": [
+    {
+      "place": "Mountain City, Tennessee",
+      "key": "4750400",
+      "replay": "3ad3b635bcb0e07e",
+      "worldSeed": "c44c937611f6a2b8eb2113d900c00b09c18e21eea138c48ef78b3b094cfb5310",
+      "checkedPaidMonths": 3136,
+      "monthsWithOtherGroupsShort": 0,
+      "rawSha256": "9c42bb23a95ac2326bca2111b5d454efb8e932d83b0efbcf456a0ab8147e1e6b",
+      "targetLoanId": "mortgage:household_29e1308dac16e812",
+      "monthly": [
+        {
+          "date": "2025-02-06",
+          "asked": 1929621,
+          "paid": 1929621,
+          "before": 10042520,
+          "after": 10021076,
+          "journalIds": [
+            "journal:2025-02-01:2552"
+          ]
+        },
+        {
+          "date": "2026-01-06",
+          "asked": 1666858,
+          "paid": 1666858,
+          "before": 9803713,
+          "after": 9781682,
+          "journalIds": [
+            "journal:2026-01-01:95797"
+          ]
+        }
+      ],
+      "reader": {
+        "personId": "person_9dfbcda284f212a5",
+        "name": "Isaac Vaughan",
+        "householdId": "household_29e1308dac16e812",
+        "loanId": "mortgage:household_29e1308dac16e812",
+        "balanceMinor": 9781682,
+        "debt": {
+          "kind": "mortgage",
+          "id": "mortgage:household_29e1308dac16e812",
+          "owedMinor": 9781682,
+          "pastDueMinor": 0
+        },
+        "carried": {
+          "month": "2026-02",
+          "asked": 46132,
+          "paid": 46132
+        },
+        "followup": [
+          {
+            "date": "2026-02-06",
+            "flowId": "mortgage:residents:jurisdiction_405c04af0411fa11:outside-market:jurisdiction_405c04af0411fa11:household_29e1308dac16e812",
+            "asked": 46132,
+            "paid": 46132,
+            "before": 9781682,
+            "after": 9759597
+          },
+          {
+            "date": "2026-03-06",
+            "flowId": "mortgage:residents:jurisdiction_405c04af0411fa11:outside-market:jurisdiction_405c04af0411fa11:household_29e1308dac16e812",
+            "asked": 46132,
+            "paid": 7435,
+            "before": 9759597,
+            "after": 9776154
+          }
+        ]
+      },
+      "firstJournal": {
+        "id": "journal:2025-02-01:2552",
+        "date": "2025-02-01",
+        "sourceRef": {
+          "kind": "accounts.transfer",
+          "id": "mortgage:residents:jurisdiction_405c04af0411fa11:outside-market:jurisdiction_405c04af0411fa11@2025-02-01"
+        },
+        "balanced": true,
+        "postingCount": 27
+      }
+    },
+    {
+      "place": "Echo, Utah",
+      "key": "4921880",
+      "replay": "2d3cadf85fab3908af3e4cdbe95e98d5a45108549587024e8f762e4ba336c335",
+      "worldSeed": "2d3cadf85fab3908af3e4cdbe95e98d5a45108549587024e8f762e4ba336c335",
+      "checkedPaidMonths": 35,
+      "monthsWithOtherGroupsShort": 27,
+      "rawSha256": "8e393dccaa00c1e043c3dca11051c8bbc1ab145acf65b10ffa054bd4b4429ee3",
+      "targetLoanId": "mortgage:household_1a9aa8aaf58cac35",
+      "monthly": [
+        {
+          "date": "2025-02-06",
+          "asked": 372650,
+          "paid": 372650,
+          "before": 81122864,
+          "after": 80949641,
+          "journalIds": [
+            "journal:2025-02-01:2554"
+          ]
+        },
+        {
+          "date": "2026-01-06",
+          "asked": 372650,
+          "paid": 372650,
+          "before": 79193815,
+          "after": 79015850,
+          "journalIds": [
+            "journal:2026-01-01:59462"
+          ]
+        }
+      ],
+      "reader": {
+        "personId": "person_861afec130e152dc",
+        "name": "Mark McCarty",
+        "householdId": "household_1a9aacaaf58cb301",
+        "loanId": "mortgage:household_1a9aacaaf58cb301",
+        "balanceMinor": 29699815,
+        "debt": {
+          "kind": "mortgage",
+          "id": "mortgage:household_1a9aacaaf58cb301",
+          "owedMinor": 29699815,
+          "pastDueMinor": 0
+        },
+        "carried": {
+          "month": "2026-02",
+          "asked": 186800,
+          "paid": 186800
+        },
+        "followup": [
+          {
+            "date": "2026-02-06",
+            "flowId": "mortgage:residents:jurisdiction_141d1d4ec5f129a7:outside-market:jurisdiction_141d1d4ec5f129a7:household_1a9aacaaf58cb301",
+            "asked": 186800,
+            "paid": 186800,
+            "before": 29699815,
+            "after": 29613004
+          },
+          {
+            "date": "2026-03-06",
+            "flowId": "mortgage:residents:jurisdiction_141d1d4ec5f129a7:outside-market:jurisdiction_141d1d4ec5f129a7:household_1a9aacaaf58cb301",
+            "asked": 186800,
+            "paid": 186800,
+            "before": 29613004,
+            "after": 29525901
+          }
+        ]
+      },
+      "firstJournal": {
+        "id": "journal:2025-02-01:2554",
+        "date": "2025-02-01",
+        "sourceRef": {
+          "kind": "accounts.transfer",
+          "id": "mortgage:residents:jurisdiction_141d1d4ec5f129a7:outside-market:jurisdiction_141d1d4ec5f129a7@2025-02-01"
+        },
+        "balanced": true,
+        "postingCount": 5
+      }
+    }
+  ],
+  "originalFailure": {
+    "place": "Echo, Utah",
+    "date": "2025-02-06",
+    "loanId": "mortgage:household_1a9aacaaf58cb301",
+    "paidMinor": 186800,
+    "expectedBalanceMinor": 30635721,
+    "actualBalanceMinor": 30637072,
+    "commandSeconds": 15.83,
+    "testSeconds": 5.89
+  },
+  "tests": {
+    "strictExisting": {
+      "passed": 8,
+      "seconds": 11.87,
+      "testSeconds": 1.21
+    },
+    "pairedGenerated": {
+      "passed": 2,
+      "seconds": 89.79,
+      "testSeconds": 80.11
+    }
+  },
+  "sourceSha256": {
+    "src/core2/modules/housing.ts": "422f106d1f05944fc51465b3a753063b47c771172a6ef23b2782c878dbb5fecb",
+    "src/core2/modules/residents.ts": "b40bbfe77f9a2bd5912352134b81c15651745a2c2bdb388fd92b001af8632624"
+  }
+}

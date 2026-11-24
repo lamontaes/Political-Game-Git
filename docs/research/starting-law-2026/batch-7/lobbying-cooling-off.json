@@ -1,0 +1,424 @@
+{
+  "question": "us-policy-positions:government-operations.ban-lobbying-after-office",
+  "definition": "yes = state law in force on 1/1/2026 bars former state legislators from lobbying the legislature (or from registering or acting as paid lobbyists, or representing others for pay before the legislature) for a set period after leaving office; the period is stated in plain words in the note. no = no such cooling-off period for former legislators (a rule limited to executive officials, to matters handled through administrative discretion, or to a legislator who resigns early does not count).",
+  "summarySource": "State code and constitution pages on legislature sites (current versions fetched 9/28/2026, checked for changes after 1/1/2026) plus state ethics or lobbying commission publications for AR (2020 rules), GA (2022 Campaign Finance Act compilation), HI (Ethics Commission guide), IN (Lobby Registration Commission Q&A), LA (2025 Ethics Board summary), NY (Legislative Ethics Commission guidance), OK (2025 annotated ethics rules) and TN (January 2024 ethics laws compilation). NCSL and Ballotpedia were not used (refused).",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Alaska Stat. § 24.45.121(c)",
+      "dateBasis": "not-found",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=24.45.121&secEnd=24.45.121",
+      "note": "One year: a former legislator may not lobby the legislature for one year after leaving."
+    },
+    "US-AL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ala. Code § 36-25-13(a)-(b)",
+      "dateBasis": "not-found",
+      "source": "https://alison.legislature.state.al.us/code-of-alabama?section=36-25-13",
+      "note": "Two years after the elected term: a former legislator may not lobby for a fee before the legislative body he or she served for two years after the term of office ends, even if he or she left early."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ark. Ethics Comm'n Rules on Lobbyist Registration and Reporting § 517(b) (Ark. Code Ann. § 21-8-601 et seq.)",
+      "dateBasis": "not-found",
+      "source": "https://www.arkansasethics.com/wp-content/uploads/2020/01/05-FINAL-RULE-Rules-on-Lobbyist-Registration-and-Reporting.pdf",
+      "note": "Two years after the term ends: a former member of the General Assembly elected on or after 11/4/2014 may not register as a lobbyist until two years after the end of the term (source is the Ethics Commission rule text revised 1/31/2020)."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ariz. Rev. Stat. § 38-504(A); §§ 41-1231 to 41-1239",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/38/00504.htm",
+      "note": "No cooling-off period on lobbying the Legislature: the 12-month post-service bar covers only matters decided through administrative discretion, and the lobbying article (§§ 41-1231 to 41-1239) has no section on former legislators."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Cal. Gov. Code § 87406(b)",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=87406",
+      "note": "One year: a former Member of the Legislature may not lobby the Legislature for pay for one year after leaving office (a member who resigns is barred until one year after that session adjourns)."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Colo. Const. art. XXIX, § 4",
+      "operativeAt": "2006-12-31",
+      "dateBasis": "enacted-effective",
+      "source": "https://olls.info/crs/crs2025-title-00.htm",
+      "note": "Two years: a former member of the General Assembly may not represent others for pay before any member of the General Assembly or statewide elected officeholder for two years after leaving office."
+    },
+    "US-CT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Conn. Gen. Stat. § 1-84b",
+      "dateBasis": "not-found",
+      "source": "https://www.cga.ct.gov/current/pub/chap_010.htm",
+      "note": "No cooling-off period for legislators: the one-year post-service bar covers former executive branch and quasi-public officials; a former legislator is barred from lobbying only after a corruption-related felony conviction."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Del. Code tit. 29, § 5837",
+      "dateBasis": "not-found",
+      "source": "https://delcode.delaware.gov/title29/c058/sc04/index.html",
+      "note": "One year: a former member of the General Assembly may not lobby for pay for one year after leaving office (79 Del. Laws c. 427)."
+    },
+    "US-FL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Fla. Const. art. II, § 8(e), (f)(3)",
+      "operativeAt": "2022-12-31",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "note": "Six years: a former legislator may not lobby the Legislature or any state agency for pay for six years after leaving office (the older two-year bar on representing others before one's former body also remains)."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ga. Code Ann. § 21-5-75(a); § 21-5-3(22)(D)",
+      "operativeAt": "2007-01-08",
+      "dateBasis": "enacted-effective",
+      "source": "https://ethics.ga.gov/wp-content/uploads/2022/06/Campaign-Finance-Act.pdf",
+      "note": "One year: a former member of the General Assembly may not register as a lobbyist or lobby for one year after leaving office, unless he or she stays employed in state government."
+    },
+    "US-HI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Haw. Rev. Stat. § 84-18(b)-(c)",
+      "dateBasis": "not-found",
+      "source": "https://ethics.hawaii.gov/wp-content/uploads/2013/09/postEmpRestrict.pdf",
+      "note": "One year: for 12 months after leaving, a former legislator may not represent anyone for pay on matters involving official action by the Legislature (State Ethics Commission guide)."
+    },
+    "US-IA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Iowa Code § 68B.5A(4)",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/68B.5A.pdf",
+      "note": "Two years: a former member of the General Assembly may not become a lobbyist within two years after leaving service."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Idaho Code tit. 74, ch. 7 (Lobbying Disclosure); ch. 4 (Ethics in Government)",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title74/T74CH7/",
+      "note": "No cooling-off period: Idaho's lobbying and ethics chapters contain no waiting period before a former legislator may register as a lobbyist."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "5 ILCS 430/5-45(b-7)",
+      "operativeAt": "2023-01-11",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ilga.gov/legislation/ILCS/details?ActID=2529&ChapterID=2&SeqStart=&&ChapAct=FullText",
+      "note": "Six months: a former member of the General Assembly may not do state-level lobbying in a General Assembly in which he or she served until six months after leaving office."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ind. Code § 2-7-5-7",
+      "dateBasis": "not-found",
+      "source": "https://www.in.gov/ilrc/files/Q_and_A_Document.pdf",
+      "note": "One year: a former member of the General Assembly may not register as a legislative lobbyist or work as a legislative liaison for 365 days after leaving (Lobby Registration Commission guidance)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Kan. Stat. ch. 46, art. 2",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.gov/statutes/ksa_ch46.html",
+      "note": "No cooling-off period found: the state governmental ethics and lobbying article has no section restricting former legislators from lobbying; its post-service rule (§ 46-233) covers only contract-related employment."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ky. Rev. Stat. § 6.757(1)",
+      "dateBasis": "pre-2000",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=376",
+      "note": "Two years: a former legislator may not be a legislative agent (lobbyist), other than for a public agency, until two years after leaving office."
+    },
+    "US-LA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "La. Rev. Stat. § 42:1121(A)(1)",
+      "dateBasis": "not-found",
+      "source": "https://ethics.la.gov/Pub/Laws/ethsum.pdf?2025",
+      "note": "Two years: a former elected official, which includes a legislator, may not assist another person for pay in any transaction or appearance involving his or her former agency (for a legislator, the Legislature) for two years after leaving (Board of Ethics summary)."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mass. Gen. Laws ch. 268A, § 5(e)",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter268A/Section5",
+      "note": "One year: a former member of the General Court may not act as a legislative agent before the body he or she served for one year after leaving."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Md. Code, Gen. Prov. § 5-504(d)(2)",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ggp&section=5-504&enactments=false",
+      "note": "One year: a former member of the General Assembly may not assist or represent another party for pay in a matter that is the subject of legislative action for one year after leaving office."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Me. Rev. Stat. tit. 1, § 1024(1-A)",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/1/title1sec1024.html",
+      "note": "One year: a former Legislator may not engage in compensated lobbying until one year after his or her term ends (in this form since the 130th Legislature convened in December 2020)."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mich. Comp. Laws § 4.416a",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-4-416a",
+      "note": "No cooling-off period on 1/1/2026: only a legislator who resigned early was barred from paid lobbying for the rest of the term. 2026 Public Act 74 (effective 7/27/2026) adds a two-year ban for members whose terms begin on or after 1/1/2027."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Minn. Stat. ch. 10A",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A/full",
+      "note": "No cooling-off period found: Minnesota's lobbying and ethics chapter lets former legislators register as lobbyists without a waiting period."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mo. Const. art. III, § 2(a)",
+      "operativeAt": "2018-12-06",
+      "dateBasis": "enacted-effective",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=III++++++2&constit=y",
+      "note": "Two years after the last session served: a former member of the General Assembly may not serve or register as a paid lobbyist until two calendar years after the end of the last session in which he or she served."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mont. Code Ann. § 5-7-310",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0050/chapter_0070/part_0030/section_0100/0050-0070-0030-0100.html",
+      "note": "Two years: a person who served as a state legislator in the previous 24 months may not be licensed as a lobbyist (voter-approved I-153, 2006)."
+    },
+    "US-NC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. § 120C-304(a)",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120C/GS_120C-304.html",
+      "note": "Six months or the end of the session, whichever is later: a former legislator may not register as a lobbyist before the later of the close of the session in which he or she served or six months after leaving office."
+    },
+    "US-ND": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.D. Const. art. XIV, § 2(2)",
+      "dateBasis": "not-found",
+      "source": "https://www.ndlegis.gov/constit/a14.pdf",
+      "note": "Two years: an elected public official, including a legislator, may not be a lobbyist for two years after leaving office (voter-approved Measure 1, 2018)."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Neb. Rev. Stat. ch. 49, art. 14 (Nebraska Political Accountability and Disclosure Act)",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=49",
+      "note": "No cooling-off period found: none of the lobbying or conflict-of-interest sections of the Political Accountability and Disclosure Act restricts former legislators from lobbying."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.H. Rev. Stat. § 21-G:26; ch. 15; ch. 14-B",
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/I/21-G/21-G-26.htm",
+      "note": "No cooling-off period for legislators: the six-month post-service lobbying bar covers only executive branch officials and classified employees, and the lobbying and legislative ethics chapters set none for former legislators."
+    },
+    "US-NV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Nev. Rev. Stat. § 218H.950",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-218H.html",
+      "note": "Until the end of the next session: a former Legislator may not be paid to lobby until the final adjournment of the next regular session after leaving office (enacted 2015; narrow exception for an in-house employee whose job is mostly not lobbying)."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.Y. Pub. Off. Law § 73(8)(a)(iii)",
+      "dateBasis": "not-found",
+      "source": "https://legethics.ny.gov/advice-guidance/post-employment-restrictions-members-legislature",
+      "note": "Two years: a former member of the Senate or Assembly may not be paid to promote or oppose legislation before either house for two years after leaving."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ohio Rev. Code § 102.03(A)(4)",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
+      "note": "One year: a former member of the General Assembly may not represent anyone on any matter before the General Assembly or its committees for one year after leaving."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Okla. Const. art. XXIX; Okla. Admin. Code tit. 257 (Ethics Rules)",
+      "dateBasis": "not-found",
+      "source": "https://oklahoma.gov/content/dam/ok/en/ethics/documents/resources/laws/2025%20Annotated%20Ethics%20Rules.pdf",
+      "note": "Weak: not in the Ethics Commission's 2025 annotated rules (which govern lobbying) or its 2021 compilation of ethics statutes and constitutional provisions; neither sets a waiting period before a former legislator may lobby."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Or. Rev. Stat. § 244.045(6)",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
+      "note": "One year: a former member of the Legislative Assembly may not be paid for lobbying within one year after leaving the Legislative Assembly."
+    },
+    "US-PA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "65 Pa. C.S. § 1103(g); § 1102",
+      "dateBasis": "not-found",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=65&div=0&chpt=11&sctn=3&subsctn=0",
+      "note": "One year: a former public official, which includes an elected legislator, may not represent anyone for pay before the governmental body he or she served for one year after leaving."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "R.I. Gen. Laws § 36-14-5(e)(4); § 36-14-2(8)(i)",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-14/36-14-5.htm",
+      "note": "One year: a former official may not represent others before the agency he or she served for one year after leaving, and 'state agency' includes either chamber of the General Assembly."
+    },
+    "US-SC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.C. Code § 2-17-15",
+      "dateBasis": "pre-2000",
+      "source": "https://www.scstatehouse.gov/code/t02c017.php",
+      "note": "One year: a member of the General Assembly may not serve as a lobbyist while in office or for one year after leaving (applies to members elected after 12/31/1991)."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "S.D. Codified Laws § 2-12-8.2",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/2-12-8.2.html?all=true",
+      "note": "Two years: no elected state officer, which includes a legislator, may be paid, act or register as a lobbyist for two years after leaving state government (current text from 2017 session laws)."
+    },
+    "US-TN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Tenn. Code Ann. § 3-6-304(l)",
+      "dateBasis": "not-found",
+      "source": "https://www.tn.gov/content/dam/tn/ethicscommission/documents/Ethics%20Laws.1.24.pdf",
+      "note": "One year: a former member of the General Assembly may not be a lobbyist during the 12 months after leaving office (Ethics Commission compilation of ethics laws, January 2024)."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tex. Gov't Code ch. 305",
+      "dateBasis": "not-found",
+      "source": "https://www.ethics.state.tx.us/statutes/ch305.php",
+      "note": "No cooling-off period: the lobbying chapter lets former legislators register at once; it only bars a lobbyist from spending leftover campaign money on lobbying (§ 305.029)."
+    },
+    "US-UT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Utah Code § 67-24-103",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title67/Chapter24/C67-24-S103_2026050620260506.html",
+      "note": "One year: a former member of the Legislature may not register or lobby for one calendar year after leaving office (Lobbying Restrictions Act of 2009; the section was amended again in 2026, effective 5/6/2026, keeping the one-year period)."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Va. Code § 2.2-3104; Va. Code tit. 30, ch. 13",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title2.2/chapter31/section2.2-3104/",
+      "note": "No cooling-off period for legislators: the one-year post-service bar covers executive officials and designated legislative staff, not members, and the General Assembly Conflicts of Interests Act has no post-service provision."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Vt. Stat. Ann. tit. 2, § 266(b)",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/02/011/00266",
+      "note": "One year: a former legislator may not be a lobbyist in Vermont for one year after leaving office."
+    },
+    "US-WA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Rev. Code Wash. § 42.52.080",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=42.52.080",
+      "note": "No cooling-off period on lobbying: the post-service rules bar contract-related jobs and help on specific matters the official worked on, but set no period during which a former legislator may not lobby."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wis. Stat. § 19.45(8)",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/19/III/45",
+      "note": "No cooling-off period for legislators: the 12-month post-service bar expressly excludes former legislators."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "W. Va. Code § 6B-2-5(f)(3)-(4)",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/6B-2-5/",
+      "note": "No cooling-off period: the ethics act says a present or former official may appear at any time in a representative capacity before the Legislature on a statute or budget."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wyo. Stat. §§ 28-7-101 to -104; §§ 9-13-101 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title28.pdf",
+      "note": "No cooling-off period: neither the lobbyist registration chapter nor the Ethics and Disclosure Act restricts former legislators from lobbying."
+    }
+  },
+  "unknown": {
+    "US-MS": "Not confirmed. The Ethics Commission page lists the post-government employment rule (Miss. Code § 25-4-105(3)(e)) without its text, the Mississippi Code is not hosted on a state site reachable here, and sos.ms.gov refused (403).",
+    "US-NJ": "Not confirmed. The Conflicts of Interest Law on nj.gov/ethics has only matter-specific post-service rules; the lobbying statute (Legislative and Governmental Process Activities Disclosure Act, N.J.S.A. 52:13C-18 et seq.) could not be read because elec.nj.gov serves a bot challenge and the Legislature's statute pages did not resolve.",
+    "US-NM": "Not confirmed. The only copies reached were a 2015 Lobbyist Regulation Act PDF and an image-only Governmental Conduct Act PDF from the Secretary of State; nmonesource.com renders by script, so the current text could not be checked.",
+    "US-DC": "Not confirmed. The D.C. Code Ethics Act lobbying part (§§ 1-1162.27 to 1-1162.32) was reached, but no fetched page confirmed or ruled out a post-service lobbying bar for former Councilmembers.",
+    "US-PR": "Not researched to confirmation; no primary source fetched.",
+    "US-GU": "Not researched to confirmation; no primary source fetched.",
+    "US-VI": "Not researched to confirmation; no primary source fetched.",
+    "US-AS": "Not researched to confirmation; no primary source fetched.",
+    "US-MP": "Not researched to confirmation; no primary source fetched."
+  },
+  "conflicts": [],
+  "refusedHosts": [
+    "ncsl.org (known refusal, per brief; not attempted)",
+    "ballotpedia.org (known refusal, per brief; not attempted)",
+    "codes.findlaw.com (403)",
+    "alabama.public.law (proxy 502)",
+    "www.capitol.hawaii.gov (Cloudflare challenge, 403)",
+    "www.nysenate.gov (403)",
+    "www.azleg.gov (intermittent Sucuri JavaScript challenge; one page fetched successfully)",
+    "www.elec.nj.gov (Incapsula bot challenge)",
+    "iec.colorado.gov (403)",
+    "www.leg.state.fl.us (403)",
+    "ethics.la.gov/Pub/Laws/ethics.pdf (403; the summary PDF on the same host worked)",
+    "www.sos.ms.gov (403)",
+    "www.nh.gov/ethics (403)",
+    "www.arkleg.state.ar.us (500)",
+    "www.jonesboro.org (403)",
+    "sec.state.nm.us and www.ilsos.gov (connection failed)",
+    "crt.sectigo.com (egress not allowlisted)"
+  ],
+  "counts": {
+    "yes": 32,
+    "no": 15,
+    "unknown": 9
+  }
+}

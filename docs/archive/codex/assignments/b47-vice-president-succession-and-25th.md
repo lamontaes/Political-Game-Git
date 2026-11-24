@@ -1,0 +1,71 @@
+# Vice President, succession and the 25th Amendment as played moments (bank id b47, phase P4/P5 (G137), unlocks a vacancy that starts from a dark event or a death playing out as scenes: the oath, the nominee, the confirmation, the acting president, the governor's successor)
+
+Verified against origin/main a88744a25 (Oct 6).
+
+## What the player experiences
+
+You are the Vice President. Your phone shows a note from the President's chief of staff: the President has collapsed at an event and is at a hospital. You are not President; illness alone transfers nothing. You go to the Situation Room. The Cabinet is there, each member answering from what they own and owe. If the President can speak, the President declares an inability in writing and you become acting President until a second letter returns the powers. If not, someone has to raise the second route (Vice President plus a majority of the Cabinet) and you see who will sign and who will not, from their own records. If the President dies, you are sworn in, the vice presidency falls vacant, and the news and the funeral follow.
+
+Now you are President and must name a Vice President. People bring you names; each has a record. You pick one, they are nominated, hearings and votes play in both houses (the confirmation scene itself is b37's), and for weeks the office stays empty, the Senate's tied votes have no tiebreaker, and the Speaker is next in line. If you are a governor, the same morning shows the lieutenant governor, or whoever your state names, taking the oath when you die, and a special election where the state holds one. If you are the lieutenant governor, you are the one standing there, with the former governor's staff watching.
+
+## Owner decisions it rests on
+
+- Register (dark events, Sept 28): "Wars, recessions, disasters, scandals, assassinations, terminal illness, deaths, migrations, elections and political shifts may occur when canonical conditions support them. The game grants no plot armor to preserve a preferred officeholder. Succession, grief, institutional response and downstream consequences follow what actually happened."
+- Register (DEPTH1 item 9): "incompatible authority/succession claims, defiance and emergency-powers conflicts" are in scope, and "Record a modeled refusal or overreach as such rather than silently granting lawful authority."
+- Register (continuation after death): "Legal office succession is separate from player selection; selecting a vice president does not itself appoint them." Continuing as a vice president is offered "prominently".
+- Register (first moment): "Seeing the President and Vice President, clicking them and reading their records."
+- Owner (Opus, Sept 29): "The president and vice president should show at the start."
+- Fixed rules: zero dice; nothing blank or placeholder; one rule for all 50 states, D.C. and territories; emergent not authored; one writer per record kind; delete what you replace.
+- No owner quote exists on how the acting presidency or the Cabinet vote should be shown. Switches below.
+
+## Existing code to extend (VERIFIED on a88744a25)
+
+- `src/simulation/crisis/continuity.ts:35 recordOfficialContinuity` writes death and `incapacity-began` / `incapacity-ended` notices and schedules the funeral (`scheduleOfficialFuneral`). `src/simulation/governing/office-continuity.ts:1814 applyOfficeContinuityNotices` reads them; `officeContinuityHandlers` at :1962.
+- Presidential death: `office-continuity.ts:962-1021` writes a `kind:"succession"` national record and opens the vice presidential vacancy (`openVicePresidentialVacancy :1479`, `tenureSuccession :1204`); with no VP, `statutorySuccession :1124` has the Speaker or President pro tempore resign and act.
+- Incapacity: `office-continuity.ts:940-946` only writes the ruling "Illness alone transfers nothing ... neither declaration is recorded". No acting-president record exists (grep "acting:true" finds only the :1179 statutory-successor tag). INTERFACES.md section 7 lists PR #2275 (6290aa50a, open, edits `crisis/offices.ts`, `office-continuity.ts`) as the acting presidency: stub if not landed.
+- VP vacancy: `vicePresidentNominationHandler :1538` (President chooses through `chooseAppointee`; blocked with reason `government:vice-president-no-nominee` when none is picked; pool excludes the player's character, governors, the dead, anyone under 35) and `vicePresidentConfirmationHandler :1718`; timing is `VICE_PRESIDENTIAL_VACANCY_PROFILE :1419` (10 and 75 days), a marked PLACEHOLDER (:1397-1410), and both houses always confirm (blanket rule).
+- Reader contradiction: `src/simulation/national-election-consumer.ts:221 nationalOfficeHolder` still says the filled vice presidency "is not modeled" (:216-217) while :962-968 reads a tenure-confirmed VP. Session 25 part 1 resolves it; do not duplicate.
+- Governor: `src/simulation/nationwide-world/governor-succession.ts:53 seatGovernorSuccessor` (called at `office-continuity.ts:1351`) seats "a person the game draws", does not name the former title, no special election; marked PLACEHOLDER `gubernatorial-succession-in-every-state` (:30). Grep finds no lieutenant governor office or line-of-succession record anywhere in `src/simulation` except office-qualification family `LIEUTENANT_GOVERNOR` (`office-qualification-rules.ts:54`) and term-rule text; `data/source/state-office-qualifications/corpus.json` mentions lieutenant governor 15 times. `data/source/constitutional-process/corpus.json` has no "succession" text.
+- Senate tie: `src/simulation/congressional-procedural-claims.ts:145` says "no automatic tie-breaking decision is supplied". Nothing seats a VP at the Senate.
+- Player side: `src/player/WorldOrientationPanel.tsx:136,356,499` shows the President and Vice President at the start. `src/player/LifeContinuationPanel.tsx:18` and `simulation/people-continuation.ts:273 successorCandidates` offer continuation (b19). No scene exists for any succession (grep "twenty-fifth" finds only simulation files and `presidential-terms-counted.test.ts`).
+- Dark events: Session 25 (`docs/codex/brief-session25-dark-events-parties-2026-10-05.md`) starts the vacancy from the health record or a recorded attack; this doc owns the scene and the rule after the notice.
+- Random place helper: `tests/support/random-place.ts` (`drawRandomPlace`, exists).
+
+## Build steps (one PR each, in this order)
+
+1. **One succession rule per office, as data.** New rule row kind `successionRule` per office and jurisdiction (federal president and VP, 56 governors' offices: who acts or becomes, in what order, whether a special election follows, who may declare inability) read by one function `whoSucceeds(world, officeKey, cause)` beside `office-continuity.ts`. Data from `data/source/state-office-qualifications` and a per-state constitutional lookup (see Research). `Replaces:` `seatGovernorSuccessor`'s drawn person and `GOVERNOR_SUCCESSION_PROFILE`; the "no automatic" voice of `statutorySuccession` reads the same rows. Must not: a state-by-state branch.
+2. **Lieutenant governor and VP as real officeholders.** Seat a lieutenant governor (or the state's equivalent) in every state world from the rule row; the Vice President presides over the Senate and breaks ties through the existing vote, so a tie resolves instead of printing "no automatic tie-breaking". Files: `congressional-procedural-claims.ts:145`, the Senate sitting path (b32). `Replaces:` that sentence.
+3. **Inability and the 25th as records.** Add one record `inabilityDeclaration` (who declared, §3 by the President or §4 by the VP and a majority of the Cabinet, date, ended when) written next to `recordOfficialContinuity`; the acting president is read from it (absorb #2275 if it landed; else write it here and tell its owner). `Replaces:` the "neither declaration is recorded" ruling at `office-continuity.ts:940-946`. A §4 declaration is a decision by each Cabinet member from their own records (loyalty, what they owe, what they believe), through `evaluateDecision`; a contested one returns to Congress, a two-thirds vote through the existing vote engine. Must not: any chance of a declaration.
+4. **The vacancy scenes.** One played moment per cause: sworn in after a death, acting after a letter, resigning, a governor's successor. Composed from the records of step 3 with `composeGroundedLine` and Session 4 scene rows (stubbed through INTERFACES.md section 1 if not landed); the swearing-in itself is b45's. Quiet causes (a death three years ago) are only a news line.
+5. **Naming a Vice President, played.** When the player is the President, the nomination step shows a short list built from `chooseAppointee`'s circle (people with records and reasons, not scripted names), the player picks, or declines to pick and the office stays vacant, with the cost visible. When the player is the nominee, they are asked first (today the pool excludes the player: `office-continuity.ts:1555`). `Replaces:` the placeholder pace constants with research rows and the "both houses always confirm" rule with the b37 confirmation procedure (stub: call `vicePresidentConfirmationHandler` unchanged). Must not: a second confirmation engine (b37).
+6. **Line of succession all the way down.** If the VP and the next officers cannot serve, the same function reads the next row; when nobody is eligible the office is vacant and says so (never a blank). Same for a governor with no lieutenant governor: the next officer by that state's row, and the special election where the row says so, scheduled through the existing special-election writer path.
+7. **Player in the chain.** When the player is the VP, lieutenant governor or next in line, the vacancy puts them in the scene and the job is theirs; when the player dies, continuation (b19) offers the successor prominently and selecting someone never appoints them.
+
+## Must NOT build
+
+Confirmation hearings and votes (b37); elder or movement succession in parties and organizations (b20); the swearing-in, transition and inauguration (b45); impeachment and removal (b46); what a VP does day to day beyond presiding and acting (Session 23 executive track); starting the vacancy: assassination, illness, death (Session 25, using the health record, never a dice or a calendar); a second vote or appointment engine; authored swearing-in speeches or Cabinet lines; a per-state script; a "loyalty meter"; a dice roll or percent for a declaration or a confirmation; replacing a dead officeholder because the player prefers it.
+
+## Research tables
+
+Repo first: `data/source/state-office-qualifications/corpus.json` (lieutenant governor rows), `data/source/book-of-the-states/raw/table-2023-4-3.html` and `table-2023-5-4.html` (statewide officials and succession tables, read before searching), `data/source/constitutional-process/corpus.json`, `data/source/state-legislatures`, `data/research/lawmaking-throughput`. One search per missing number, 10 minutes max, never invent: per state, who succeeds the governor, whether the lieutenant governor is elected with the governor, whether a special election follows and when, who may declare gubernatorial inability, federal: Presidential Succession Act (3 U.S.C. 19), 25th Amendment text, days from nomination to confirmation in 1973 and 1974 (already cited at `office-continuity.ts:1399`), age and residency for VP. Estimate wording in data: "ESTIMATED FROM AVERAGE: <states with the same succession pattern>".
+
+## Done when (played-game proof)
+
+- New game in a random place via `tests/support/random-place.ts` `drawRandomPlace`: the governor of that state dies from a recorded health event; the printed row names who succeeds; the successor is sworn in, the old title is named, the special election appears only where that state's row says so; same save, same answers. Also run it with the player as the lieutenant governor.
+- Same flow in a random territory place and D.C. (no lieutenant governor or a different line): one code path, a different rule row, nothing blank.
+- Federal run: a recorded incapacity produces a declaration (President §3, or Cabinet §4 from each member's own record), an acting president who exits when the powers return; a recorded death moves the presidency to the VP, opens the vacancy, the President names a nominee with a printed reason, and both houses confirm through b37's procedure or are shown refusing.
+- Tests: `succession-rule-all-places.test.ts` (56 rows, nothing unknown, estimates flagged), `inability-declaration.test.ts`, `vp-vacancy-nomination.test.ts`, `governor-succession-lieutenant.test.ts`, `player-in-line-of-succession.test.ts`, and a grep test that `GOVERNOR_SUCCESSION_PROFILE`, the "neither declaration is recorded" ruling and the "no automatic tie-breaking" sentence are gone.
+
+## Proof to post
+
+PR comment per step: random place and seed, the printed succession row, the vacancy record ids and the cause chain in plain words, the delete list per "Replaces:", `npm run typecheck` and changed tests passing.
+
+## Standing rules
+
+NEVER STOP WORK WAITING ON THE OWNER. When a decision is open, build everything that does not depend on the answer, plus the switch for it: a data row, a setting, or one function with the options stubbed. Log the question in the docket and keep building.
+
+Others may touch this file; work anyway; whoever merges second rebases; message the owning session directly with specific questions and keep building.
+
+Before every pause, push your branch and leave a resume marker: docs/codex/progress/session-<N>.md (what is done, what is next, the exact next command), plus a PROGRESS: note in the PR body.
+
+Open owner questions (none blocking): (1) whether the player must be present at an acting-president or Cabinet scene when they are only a Cabinet member; (2) how long the vice presidency may stay empty before the game shows it as a crisis. Switches kept: Cabinet scene attendance = one setting row in the succession data; the empty-office wait = one constant `VICE_PRESIDENCY_EMPTY_NOTE_DAYS` beside `VICE_PRESIDENTIAL_VACANCY_PROFILE`. If #2275 (acting presidency) has not landed, build step 3 with its own record and reconcile at merge; if b37 or Session 4 has not landed, stub through the existing handler and INTERFACES.md sections 1 and 4.

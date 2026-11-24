@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T22:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's words, 2026-09-22: \"What if there was a second you know, white flight or great awakening or anything like that, that's cool.\" When asked which piece comes first he chose people visibly moving between towns and states, and said the first informs the second.",
+    "Racial selection in white flight is the most sensitive part of this. The game's people carry an identity record but the scaffold selects nobody by group. The answer should say what a faithful and careful model of who moved would need to read, and whether the game should model it at all or represent the causes and consequences without selecting movers by race."
+  ],
+  "priority": "P1",
+  "question": "The game now has a place for large movements that begin from causes, cover a place for a while, and change who lives there and what people believe. We need the historical pattern for each of these, so a wave in the game begins for the right reasons and runs at a believable pace: white flight from American cities (about 1950 to 1980), the Great Migration of Black Southerners (1910 to 1970), deindustrialization and the Rust Belt exodus (1970s and 1980s), the move to the Sun Belt, and the First, Second and Third Great Awakenings plus the late twentieth-century religious revival. For each: (1) the causes, named as concrete events a simulation could record, such as a court order, a highway, a plant closing, lending rules or a war; (2) how long it took from first signs to peak to end; (3) how many people it moved or changed, as a share of the affected places; (4) how it spread from place to place and person to person; (5) who took part and who did not, stated carefully and without a group being assumed to act as one; (6) what it did to politics: party realignment, new movements, changed issues. Then, generally: what share of a region's political change over a generation comes from people moving and dying versus people changing their minds?",
+  "questionId": "society-wide-waves-causes-pace-scale",
+  "relatedQuestionIds": [
+    "migration-rates-and-reasons",
+    "should-partisan-geography-move",
+    "where-a-persons-politics-comes-from"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/migration/waves.ts on claude/project-thread-ltkqvu",
+      "whatItDidNotSettle": "Establishes the wave definition shape and that every duration and multiplier in it is a placeholder. Contains no historical figures."
+    },
+    {
+      "source": "docs/research/requests/should-partisan-geography-move.json, answered by ChatGPT C05 on 2026-09-22",
+      "whatItDidNotSettle": "Settles that a region's lean may move and should be built up from the same underlying quantities, with no fixed drift per year. It gives no pace, and it does not say what share of the movement comes from migration."
+    }
+  ],
+  "title": "What starts a society-wide wave like white flight or a Great Awakening, how fast it spreads, and how big it gets",
+  "usableAnswer": "One short entry per movement listed, each giving causes as recordable events, the time from start to peak to end in years, the scale as a rough share of the affected population, how it spread, and its political effects, each with a source. Then one paragraph on the moving-versus-changing-minds split, with a source or a plain statement that no defensible figure exists.",
+  "whyItMatters": "The scaffold on branch claude/project-thread-ltkqvu adds three starting wave shapes in src/simulation/migration/waves.ts: an exodus from the city, an exodus after the jobs left, and a religious revival. Only two causes are modeled: a scenario that starts a wave on purpose, and recorded unemployment at or above 9%. Every other historical cause is written on the definition as not yet modeled and never fires. Durations of two, five and eight years and departure multipliers of 2 and 3 are placeholders. Belief and party effects are recorded and applied to nobody, because ChatGPT's standing answer forbids overwriting a person's views directly. Who moves in a wave is nobody in particular, which is exactly the part that made white flight what it was. Without the historical pattern, any wave the game produces is invented, and the owner wants these to be able to happen in a long life."
+}

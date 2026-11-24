@@ -1,0 +1,48 @@
+{
+  "head": "54a951efc4f4dd4f3bf11d7fb2b3fd7cbbd4cb78",
+  "replay": "57dbaa763ac82302",
+  "place": "Goshen, Arkansas",
+  "failure": null,
+  "steps": [
+    {
+      "route": "POST /api/newlife?seed=57dbaa763ac82302",
+      "status": 200,
+      "seconds": 9.277894575
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.01768239999999969
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 2.306378944
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 2.3721499669999995
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.0013645880000003672
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_29380ce705382fda%3A16",
+      "status": 200,
+      "seconds": 1.1155409440000004
+    },
+    {
+      "route": "GET /api/scene?id=person_29380ce705382fda",
+      "status": 200,
+      "seconds": 0.0040923939999993305
+    },
+    {
+      "route": "GET /api/journal",
+      "status": 200,
+      "seconds": 0.0011536819999964792
+    }
+  ]
+}

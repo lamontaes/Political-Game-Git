@@ -1,0 +1,52 @@
+{
+  "control": {
+    "detail": "Nothing a player does moves either series directly.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "duplication": {
+    "kind": "data",
+    "playerVisible": true,
+    "producers": [
+      {
+        "at": "main at 7e011a42",
+        "path": "src/presentation/economic-context.ts",
+        "reachDetail": "Not walked by this lane.",
+        "reachedByPlay": "not-walked"
+      },
+      {
+        "at": "main at 7e011a42",
+        "path": "src/presentation/macro-conditions.ts",
+        "reachDetail": "Not walked by this lane.",
+        "reachedByPlay": "not-walked"
+      }
+    ],
+    "visibilityDetail": "Carried: the world-divergence lane reports the two panels show different numbers for the same economy."
+  },
+  "entryId": "the-economy-a-player-reads",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "dual-systems count",
+  "measurements": [
+    {
+      "at": "main at 7e011a42",
+      "found": "economic-context.ts: 'The generated economic contexts this build carries, by place key. One entry today.' macro-conditions.ts: 'this World's own economic conditions', recorded by the canonical monthly step.",
+      "what": "The two modules' own headers"
+    }
+  ],
+  "notes": [
+    "Carried from the world-divergence lane; the paths are anchored here, the disagreement is theirs."
+  ],
+  "playerReach": "unknown",
+  "playerReachDetail": "Whether a player ever sees both for one place and notices they disagree has not been walked.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T20:40:00.000Z",
+  "surface": {
+    "detail": "Different panels: the sourced context on the normal player surface, the simulated series under Politics > Budget & economy.",
+    "present": true
+  },
+  "system": {
+    "detail": "Two. src/presentation/economic-context.ts projects sourced BLS/BEA series (one place carried today: Lexington). src/presentation/macro-conditions.ts projects the world's own simulated monthly series.",
+    "present": true
+  },
+  "title": "The economy a player reads"
+}

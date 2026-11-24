@@ -1,0 +1,76 @@
+{
+  "seed": "Owner opening officials figure review",
+  "home": "US-OR",
+  "unchanged": true,
+  "namedPeople": [],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "cast": [
+    {
+      "personId": "person_691af74d8b648131",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_84a1fba8af3b42f2",
+      "status": "ready",
+      "image": true
+    }
+  ],
+  "roster": [
+    {
+      "personId": "person_691af74d8b648131",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_84a1fba8af3b42f2",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_e00935fb8f34a42a",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_8d70866e1de702a9",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_06ef50ccc2dcd34c",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_83f9d12386908d8b",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_2c883001700569fe",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_178e15e3676f24cd",
+      "status": "ready",
+      "image": true
+    }
+  ],
+  "represented": [
+    {
+      "personId": "person_691af74d8b648131",
+      "status": "ready",
+      "image": true
+    },
+    {
+      "personId": "person_84a1fba8af3b42f2",
+      "status": "ready",
+      "image": true
+    }
+  ],
+  "representedUnchanged": true
+}

@@ -1,0 +1,89 @@
+{
+  "team": 4,
+  "sourceBase": "39de6d0d53aeb616f4a95668d9becad382531993",
+  "contractHead": "15f70129854ba05b6f0b966a1b1ca0b1846ec071",
+  "contractPath": "src/simulation/law-consequence-types.ts",
+  "contractBlob": "bce4307f15a8da7cda20f64cc6ac73a407ad90bc",
+  "designRef": "1137 1e44b588 docs/codex/one-law-consequence-contract.md",
+  "runnableInput": "docs/codex/effect-batches/team-4/consequence-rows.json",
+  "missingInput": "docs/codex/effect-batches/team-4/missing-capabilities.json",
+  "runnableDirectRows": 0,
+  "runnableOnwardRows": 0,
+  "assignedLawKeys": 10,
+  "preservedScopedSavedWriters": 3,
+  "scopeMeaning": "Zero admitted rows is a capability/term-admission limit, not zero world effects. This payload does not replace or duplicate the existing writers.",
+  "preservedStampBatch": {
+    "pr": 1293,
+    "head": "39de6d0d53aeb616f4a95668d9becad382531993",
+    "edited": false,
+    "mergeHead": "d6b8727623d4af6cc87b5edfe5cc46ce7eb2c3b8",
+    "mergeVerified": "GitHub PR metadata: merged true, exact merge_commit_sha"
+  },
+  "onwardMissingCapabilities": [
+    {
+      "linkId": "school-move-to-scores",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "new-apartments-to-nearby-rent",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "rent-burden-to-homelessness",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "eviction-to-homelessness",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "eviction-to-hospital-visits",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "home-prices-to-owner-births",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    },
+    {
+      "linkId": "home-prices-to-renter-births",
+      "status": "UNSUPPORTED; excluded from runnable rows",
+      "requires": "Actual recorded parent exposure, named subject selector, receiving handler/action, calibrated applicable effect/terms and exact units/lag. No fixed study-average multiplier, guessed coefficient or universal lag.",
+      "sameShapeOnAdmission": "LawConsequenceRow; no separate onward engine"
+    }
+  ],
+  "capacityExposurePolicy": "Capacity and exposure operations are permitted only once a registered key resolves an actual saved capacity/exposure record. No default capacity, permit-to-completion conversion or survey-use-to-purchase conversion.",
+  "notRun": [
+    "shared engine runtime",
+    "nationwide",
+    "browser",
+    "speed owner-paused",
+    "independent helper"
+  ],
+  "sharedEngineOrCatalogEdited": false,
+  "validatorPath": "src/simulation/law-consequence-validation.ts",
+  "validatorBlob": "ceca50db7b98de5f6ec018db69a1dd856e11138a",
+  "capabilityAdmission": "Published validator consumes caller-supplied capability sets. Its test registry supports pay only; no Team4 production selector/action registry is published in these exact contract files. No bindings are invented.",
+  "checks": [
+    "JSON parse and exact ten-key canonical coverage",
+    "Published validator on empty admitted array: zero errors, no world-effect claim",
+    "Published TypeScript row assignment check",
+    "Prettier and whitespace",
+    "Owner report mechanical check"
+  ],
+  "inheritedChecks": {
+    "release": "exit1: unchanged wave1-playtest-copy.md missing header",
+    "zeroDice": "exit1: 0 new / 5 gone stale baseline"
+  }
+}

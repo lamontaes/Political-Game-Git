@@ -1,0 +1,189 @@
+[
+  {
+    "payer": "organization_9de2deafc6f0a456",
+    "recipient": "organization_b06d95cc7534f809",
+    "sourceRecordIds": [],
+    "receipt": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 100,
+      "debt": 5235726215,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_b06d95cc7534f809",
+        "positionId": "resource-position_7fd7a6559cb90697",
+        "accountBalanceMinorUnits": 10000,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": []
+      }
+    },
+    "outlay": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 100,
+      "debt": 42028806560,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_9de2deafc6f0a456",
+        "positionId": "resource-position_badb748ed0e003f4",
+        "accountBalanceMinorUnits": 10000,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": []
+      }
+    },
+    "localAidProgramBinding": null
+  },
+  {
+    "payer": "organization_9de2deafc6f0a456",
+    "recipient": "organization_b06d95cc7534f809",
+    "sourceRecordIds": [
+      "resource-flow_6517d24c7f8b3086",
+      "resource-transfer-outcome_02ea900b0fd03f6e"
+    ],
+    "receipt": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 5.5, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 105.5,
+      "debt": 5235726215,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_b06d95cc7534f809",
+        "positionId": "resource-position_7fd7a6559cb90697",
+        "accountBalanceMinorUnits": 10550,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "outlay": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.5, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 94.5,
+      "debt": 42028806560,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_9de2deafc6f0a456",
+        "positionId": "resource-position_badb748ed0e003f4",
+        "accountBalanceMinorUnits": 9450,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "localAidProgramBinding": null
+  },
+  {
+    "payer": "organization_9de2deafc6f0a456",
+    "recipient": "organization_b06d95cc7534f809",
+    "sourceRecordIds": [
+      "resource-flow_6517d24c7f8b3086",
+      "resource-transfer-outcome_02ea900b0fd03f6e"
+    ],
+    "receipt": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 5.5, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 105.5,
+      "debt": 5235726215,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_b06d95cc7534f809",
+        "positionId": "resource-position_7fd7a6559cb90697",
+        "accountBalanceMinorUnits": 10550,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "outlay": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.5, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 94.5,
+      "debt": 42028806560,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_9de2deafc6f0a456",
+        "positionId": "resource-position_badb748ed0e003f4",
+        "accountBalanceMinorUnits": 9450,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "localAidProgramBinding": null
+  },
+  {
+    "payer": "organization_9de2deafc6f0a456",
+    "recipient": "organization_b06d95cc7534f809",
+    "sourceRecordIds": [
+      "resource-flow_6517d24c7f8b3086",
+      "resource-transfer-outcome_02ea900b0fd03f6e"
+    ],
+    "receipt": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 4.95, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 104.95,
+      "debt": 5235726215,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_b06d95cc7534f809",
+        "positionId": "resource-position_7fd7a6559cb90697",
+        "accountBalanceMinorUnits": 10495,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "outlay": {
+      "month": "2026-01-01",
+      "revenue": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "spending": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.95, 0, 0, 0, 0],
+      "balance": 0,
+      "reserve": 95.05,
+      "debt": 42028806560,
+      "economy": 1,
+      "represented": 0,
+      "cashSettlement": {
+        "organizationId": "organization_9de2deafc6f0a456",
+        "positionId": "resource-position_badb748ed0e003f4",
+        "accountBalanceMinorUnits": 9505,
+        "heldCashBailMinorUnits": 0,
+        "sourceRecordIds": [
+          "resource-flow_6517d24c7f8b3086",
+          "resource-transfer-outcome_02ea900b0fd03f6e"
+        ]
+      }
+    },
+    "localAidProgramBinding": null
+  }
+]

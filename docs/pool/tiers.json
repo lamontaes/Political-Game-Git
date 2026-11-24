@@ -1,0 +1,72 @@
+{
+  "about": "Who may build what (owner, Nov 10, 2026: \"they're not all going to be Opus, Sonnet, or Haiku. And I'm not choosing the name\"). An agent says what it is once (`npm run pool -- check-in --as \"<its model and tool>\"`); the tool finds its tier here and gives it a name. The rows are the crew's judgment of each model on this repository, not a benchmark: the CTO moves a row when a model's merged work shows it is stronger or weaker.",
+  "tiers": [
+    { "name": "light", "level": "haiku" },
+    { "name": "mid", "level": "sonnet" },
+    { "name": "top", "level": "opus" },
+    { "name": "lead", "level": "fable" }
+  ],
+  "unknown": "mid",
+  "models": [
+    {
+      "label": "fable",
+      "tier": "lead",
+      "any": ["fable", "mythos"],
+      "why": "The lead builder's model: designs and the few items marked for it."
+    },
+    {
+      "label": "opus",
+      "tier": "top",
+      "any": ["opus"],
+      "why": "Builds across engines from an item alone."
+    },
+    {
+      "label": "haiku",
+      "tier": "light",
+      "any": ["haiku"],
+      "why": "Finds files, reads logs, one-file changes against a spec."
+    },
+    {
+      "label": "sonnet",
+      "tier": "mid",
+      "any": ["sonnet"],
+      "why": "Scoped building against a spec with its test."
+    },
+    {
+      "label": "muse",
+      "tier": "mid",
+      "any": ["muse"],
+      "why": "Meta's Muse Code and its Muse Spark models. Not yet measured here, so mid until the CTO moves it. It sits above the light row, whose \"spark\" would otherwise take Muse Spark for a small model."
+    },
+    {
+      "label": "light",
+      "tier": "light",
+      "any": ["mini", "nano", "flash", "lite", "small", "spark"],
+      "why": "The small model of any family."
+    },
+    {
+      "label": "codex",
+      "tier": "mid",
+      "any": ["codex"],
+      "why": "Not yet measured on top items here; mid until the CTO moves it."
+    },
+    {
+      "label": "gpt",
+      "tier": "mid",
+      "any": ["gpt", "openai", "o3", "o4"],
+      "why": "Not yet measured on top items here; mid until the CTO moves it."
+    },
+    {
+      "label": "gemini",
+      "tier": "mid",
+      "any": ["gemini", "antigravity"],
+      "why": "Not yet measured on top items here; mid until the CTO moves it."
+    },
+    {
+      "label": "cursor",
+      "tier": "mid",
+      "any": ["cursor", "composer"],
+      "why": "The tool names no model; mid unless the agent names a model above."
+    }
+  ]
+}

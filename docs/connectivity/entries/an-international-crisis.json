@@ -1,0 +1,33 @@
+{
+  "control": {
+    "detail": "No producer. declareInternationalCrisis at international.ts:221 and recordViolenceAttempt at :876 are referenced only by test files, so nothing in a running game can start one.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "entryId": "an-international-crisis",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "research queue lane, from lamontae's playtest report",
+  "measurements": [
+    {
+      "at": "claude/project-thread-k8w14s at 2349466f, measured 2026-09-22",
+      "found": "The first three are referenced only by src/presentation/crisis-international.test.ts, src/simulation/crisis/international-persistence.test.ts and international-endings.test.ts. The fourth has two non-test readers. Producer absent, consumer present.",
+      "what": "Every reference to declareInternationalCrisis, recordViolenceAttempt, decideInternationalCrisis and pendingInternationalDecisions across src"
+    }
+  ],
+  "notes": [
+    "An assassination or an attempt on anyone is the same shape, through the same recordViolenceAttempt."
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "The player's side is the part that works: the decision panel is fully wired. What is missing is anything that gives them a crisis to decide.",
+  "reMeasuredByPublisher": true,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "Connected and working. pendingInternationalDecisions is read by src/presentation/crisis-shell.ts:304 and by src/simulation/crisis/notices.ts:642, so a player can be shown a crisis and decide it.",
+    "present": true
+  },
+  "system": {
+    "detail": "A complete chain in src/simulation/crisis/international.ts: declaring a crisis, deciding it, a response, war-powers certification and its extension, and persistence across saves.",
+    "present": true
+  },
+  "title": "An international crisis, and therefore any war"
+}

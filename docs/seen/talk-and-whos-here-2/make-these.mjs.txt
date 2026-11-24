@@ -1,0 +1,339 @@
+/* global process, console, document, window */
+// Mock-ups for the owner's answers to calls 8 and 9 (Nov 10, 11:08 p.m. ET):
+// the busts on the talk box "a little too big", shown "in multiple different
+// scenes", and the who's-here row needing "some way to delineate them. Also
+// similar with a chat box." Smaller busts, standing in a soft glass band, in
+// five scenes with one, two and four people. The running game at 1440x900
+// with a state forced in the page; nothing is built.
+// Usage: node talk-mocks-2.mjs <out-dir>
+import { createRequire } from "node:module";
+import { mkdirSync } from "node:fs";
+const { chromium } = createRequire(import.meta.url)("playwright");
+const out = process.argv[2];
+const repo = "/home/user/Political-Game-Git";
+const { startLife } = await import(`${repo}/src/bench/start-life.mjs`);
+mkdirSync(out, { recursive: true });
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+page.setDefaultTimeout(120000);
+const W = (tone, top, hair, color) => [
+  `/art/busts/women/front/head-${tone}.png`,
+  `/art/busts/women/front/top-${top}.png`,
+  `/art/busts/women/front/hair-${hair}-${color}.png`,
+];
+const M = (tone, top, hair, color, face) => [
+  `/art/busts/men/front/head-${tone}.png`,
+  `/art/busts/men/front/top-${top}.png`,
+  ...(face ? [`/art/busts/men/front/face-${face}-${color}.png`] : []),
+  `/art/busts/men/front/hair-${hair}-${color}.png`,
+];
+// The people of each scene: who speaks first, then who else is there.
+const SCENES = [
+  {
+    key: "council-chamber",
+    backdrop: "council-chamber__midday.jpg",
+    name: "Council chamber",
+    cast: [
+      { name: "Ruth Alvarez", layers: W("medium-adult", "blazer", "bob", "black") },
+      { name: "Tom Becker", layers: M("light-older", "suit", "receding", "gray", "mustache") },
+      { name: "Dana Whitfield", layers: W("dark-adult", "pantsuit", "curls", "darkbrown") },
+      { name: "Marcus Lee", layers: M("dark-adult", "charcoal", "crop", "black", "beard") },
+    ],
+    more: 0,
+    talk: 4,
+    line: "The water rate comes up Tuesday. Before it does, I want to know where you stand.",
+    replies: ["I'm for it.", "I want to read it first.", "I'm against it."],
+  },
+  {
+    key: "office",
+    backdrop: "mayor-office__midday.jpg",
+    name: "The mayor's office",
+    cast: [
+      { name: "Helen Ortiz", layers: W("light-older", "blazer", "updo", "gray") },
+    ],
+    more: 0,
+    talk: 1,
+    line: "Sit down. The budget came back from the council short by forty thousand, and I'd like your read on it before I answer them.",
+    replies: ["Cut the paving line.", "Ask them to find it.", "Give me a day."],
+  },
+  {
+    key: "campaign-outdoors",
+    backdrop: "county-fairgrounds__midday.jpg",
+    name: "County fair",
+    cast: [
+      { name: "Luis Navarro", layers: M("medium-adult", "chambray", "textured", "black") },
+      { name: "Carol Hughes", layers: W("light-adult", "denim", "shoulder", "blond") },
+    ],
+    more: 38,
+    talk: 2,
+    line: "You're the one running for the council seat. What are you going to do about the fairgrounds road?",
+    replies: ["Pave it next year.", "What would you do?"],
+  },
+  {
+    key: "home",
+    backdrop: "house-suburban-living__night.jpg",
+    name: "Home",
+    cast: [
+      { name: "Maria Reyes", layers: W("medium-adult", "henley", "waves", "darkbrown") },
+      { name: "David Reyes", layers: M("medium-older", "sweater", "sidepart", "gray") },
+      { name: "Ana Reyes", layers: W("medium-adult", "cardigan", "pixie", "black") },
+    ],
+    more: 0,
+    talk: 2,
+    line: "You filed today? You could have told us first.",
+    replies: ["I wanted to be sure.", "I'm telling you now.", "Say nothing"],
+  },
+  {
+    key: "crowd",
+    backdrop: "convention-hall__night.jpg",
+    name: "Convention hall",
+    cast: [
+      { name: "Gov. Nicole Conway", layers: W("dark-adult", "blazer", "updo", "black") },
+      { name: "Sean Clark", layers: M("light-adult", "suit", "swept", "darkbrown") },
+      { name: "Sharon Mercado", layers: W("light-adult", "pantsuit", "bob", "blond") },
+      { name: "John Dominguez", layers: M("medium-adult", "charcoal", "curls", "black", "beard") },
+    ],
+    more: 412,
+    talk: 1,
+    line: "Thank you for coming. I won't keep you long: we have one seat to win this fall, and it is the one in your district.",
+    replies: [],
+  },
+];
+try {
+  // A life whose first room has someone to talk to, so a real talk box is on screen.
+  let life;
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    life = await startLife(page, { url: "http://localhost:3000/play", fresh: true });
+    await page.waitForTimeout(1200);
+    if (await page.locator("#people .figure.talkable").count()) break;
+  }
+  console.log("life", JSON.stringify(life));
+  await page.evaluate(() => {
+    window.mockStack = (layers, size) => {
+      const box = document.createElement("div");
+      Object.assign(box.style, { position: "relative", width: `${size}px`, height: `${size}px`, flex: "none" });
+      for (const src of layers) {
+        const img = document.createElement("img");
+        img.src = src;
+        Object.assign(img.style, { position: "absolute", inset: "0", width: "100%", height: "100%" });
+        box.append(img);
+      }
+      return box;
+    };
+    // The band: soft glass that holds the busts and carries their names (the
+    // Nov 5 menu look: no hard box, light that fades before the corners).
+    window.mockBand = ({ left, width, bottom, people, more, size, speaking, label }) => {
+      const wrap = document.createElement("div");
+      wrap.className = "mock";
+      Object.assign(wrap.style, {
+        position: "absolute",
+        left: `${left}px`,
+        width: `${width}px`,
+        bottom: `${bottom}px`,
+        zIndex: "5",
+        pointerEvents: "none",
+      });
+      // The strip: soft glass with a light along its top that fades before the
+      // ends, and ends that fade into the room. The names are set on it.
+      const strip = document.createElement("div");
+      const stripHeight = Math.round(size * 0.24) + 34;
+      Object.assign(strip.style, {
+        position: "absolute",
+        left: "0",
+        right: "0",
+        bottom: "0",
+        height: `${stripHeight}px`,
+        background:
+          "linear-gradient(180deg, rgba(40,37,33,.80), rgba(24,22,20,.88))",
+        boxShadow: "0 -10px 22px rgba(0,0,0,.28)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent)",
+        maskImage:
+          "linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent)",
+      });
+      const light = document.createElement("div");
+      Object.assign(light.style, {
+        position: "absolute",
+        left: "0",
+        right: "0",
+        top: "0",
+        height: "1px",
+        background:
+          "linear-gradient(90deg, transparent 12%, rgba(236,200,128,.5) 38%, rgba(236,200,128,.5) 62%, transparent 88%)",
+      });
+      strip.append(light);
+      wrap.append(strip);
+      if (label) {
+        const tag = document.createElement("span");
+        tag.textContent = label;
+        Object.assign(tag.style, {
+          position: "absolute",
+          left: "11%",
+          bottom: "9px",
+          font: "600 14px 'Fira Sans', sans-serif",
+          letterSpacing: ".1em",
+          textTransform: "uppercase",
+          color: "#d6bd84",
+        });
+        wrap.append(tag);
+      }
+      const row = document.createElement("div");
+      Object.assign(row.style, {
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        gap: `${Math.round(size * 0.16)}px`,
+        padding: "0 24px",
+      });
+      people.forEach((p, i) => {
+        const lit = speaking === undefined || i === speaking;
+        const s = Math.round(size * (speaking !== undefined && i === speaking ? 1.16 : 1));
+        const cell = document.createElement("div");
+        Object.assign(cell.style, {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          flex: "none",
+        });
+        const holder = document.createElement("div");
+        Object.assign(holder.style, {
+          position: "relative",
+          width: `${Math.round(s * 0.72)}px`,
+          height: `${Math.round(s * 0.74)}px`,
+          WebkitMaskImage: "linear-gradient(180deg, #000 72%, transparent 100%)",
+          maskImage: "linear-gradient(180deg, #000 72%, transparent 100%)",
+          filter: lit
+            ? "drop-shadow(0 0 10px rgba(236,200,128,.4))"
+            : "brightness(.72) saturate(.85)",
+        });
+        const stack = window.mockStack(p.layers, s);
+        stack.style.position = "absolute";
+        stack.style.left = `${-Math.round(s * 0.14)}px`;
+        stack.style.top = "0";
+        holder.append(stack);
+        const name = document.createElement("span");
+        name.textContent = p.name;
+        Object.assign(name.style, {
+          font: `600 ${lit ? 15 : 14}px 'Fira Sans', sans-serif`,
+          color: lit ? "#f3dba7" : "#c4bbab",
+          padding: "0 0 8px",
+          marginTop: "-4px",
+          whiteSpace: "nowrap",
+        });
+        cell.append(holder, name);
+        row.append(cell);
+      });
+      if (more) {
+        const rest = document.createElement("span");
+        rest.textContent = `and ${more} more`;
+        Object.assign(rest.style, {
+          font: "400 15px 'Fira Sans', sans-serif",
+          color: "#c4bbab",
+          padding: "0 0 9px 8px",
+          whiteSpace: "nowrap",
+        });
+        row.append(rest);
+      }
+      wrap.append(row);
+      document.getElementById("game").append(wrap);
+      return wrap;
+    };
+  });
+  // Open a real talk once, so the box on screen is the game's own.
+  await page.evaluate(() => {
+    for (const b of document.querySelectorAll(".toast .glyph.close")) b.click();
+  });
+  await page.locator("#people .figure.talkable").first().evaluate((e) => e.click());
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.waitForTimeout(1200);
+  const clean = () =>
+    page.evaluate(() => {
+      for (const b of document.querySelectorAll(".toast .glyph.close")) b.click();
+      document.querySelectorAll(".mock").forEach((n) => n.remove());
+      document.getElementById("people").style.visibility = "hidden";
+    });
+  const setRoom = async (scene) => {
+    await page.evaluate(async (file) => {
+      const img = document.getElementById("backdrop");
+      await new Promise((done) => {
+        img.onload = img.onerror = () => done(true);
+        img.src = `/art/backdrops/${file}`;
+      });
+      const next = document.getElementById("backdrop-next");
+      if (next) next.style.visibility = "hidden";
+    }, scene.backdrop);
+  };
+  for (const scene of SCENES) {
+    await clean();
+    await setRoom(scene);
+    // Who's here: the talk box closed, the room and its band at the foot.
+    await page.evaluate(
+      ({ scene }) => {
+        document.getElementById("talk").style.visibility = "hidden";
+        const game = document.getElementById("game").getBoundingClientRect();
+        window.mockBand({
+          left: 300,
+          width: game.width - 300 - 40,
+          bottom: 26,
+          people: scene.cast,
+          more: scene.more,
+          size: 140,
+          label: "Here",
+        });
+      },
+      { scene },
+    );
+    await page.waitForTimeout(900);
+    await page.screenshot({ path: `${out}/${scene.key}-here.png` });
+    // A talk: the same people in the same band, standing on the talk box, the speaker lit and a little larger.
+    await clean();
+    await page.evaluate(
+      ({ scene }) => {
+        const talk = document.getElementById("talk");
+        talk.style.visibility = "visible";
+        // The small round face in the header goes: the bust above says who speaks.
+        document.getElementById("talk-bust").style.display = "none";
+        document.getElementById("talk-name").textContent = scene.cast[0].name;
+        const lines = document.getElementById("talk-lines");
+        const first = lines.querySelector("li");
+        lines.replaceChildren(first ?? document.createElement("li"));
+        (lines.querySelector("li p") ?? lines.querySelector("li")).textContent = scene.line;
+        const choices = document.getElementById("talk-choices");
+        const model = choices.querySelector(".reply");
+        const made = scene.replies
+          .filter((text) => text !== "Say nothing")
+          .map((text, i) => {
+            const b = model ? model.cloneNode(true) : document.createElement("button");
+            const words = [...b.querySelectorAll('*')].filter((n) => !n.children.length).at(-1) ?? b;
+            words.textContent = text;
+            return b;
+          });
+        choices.replaceChildren(...made);
+        document.getElementById("talk-next").hidden = made.length > 0;
+        document.getElementById("talk-silent").hidden = !scene.replies.includes("Say nothing");
+        document.getElementById("talk-leave").hidden = true;
+        const r = talk.getBoundingClientRect();
+        const count = scene.talk;
+        window.mockBand({
+          left: r.left,
+          width: r.width,
+          bottom: document.getElementById("game").getBoundingClientRect().height - r.top,
+          people: scene.cast.slice(0, count),
+          more: 0,
+          size: count === 1 ? 200 : count === 2 ? 180 : 150,
+          speaking: 0,
+        });
+      },
+      { scene },
+    );
+    await page.waitForTimeout(900);
+    await page.screenshot({ path: `${out}/${scene.key}-talk-${scene.talk}.png` });
+    console.log("scene", scene.key);
+  }
+} catch (e) {
+  console.log("STOPPED:", String(e).slice(0, 500));
+  await page.screenshot({ path: `${out}/zz-stopped.png` });
+} finally {
+  await browser.close();
+}

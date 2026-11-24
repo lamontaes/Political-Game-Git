@@ -1,0 +1,57 @@
+[
+  {
+    "artifactId": "sd-article-xi-1",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-1.html",
+    "retrievedAt": "2026-10-02T12:00:29.137742+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-1.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 3347,
+    "sha256": "7f1bcb11826b183d42680378578202f335508962b30304df84ddde3fb105a549",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-1.html"
+  },
+  {
+    "artifactId": "sd-article-xi-2",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-2.html",
+    "retrievedAt": "2026-10-02T12:00:29.138370+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-2.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2785,
+    "sha256": "78ab19e5e733fb959a6330e382d79474c134e3767bfb0992437447db949d02ef",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-2.html"
+  },
+  {
+    "artifactId": "sd-article-xi-3",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-3.html",
+    "retrievedAt": "2026-10-02T12:00:29.138891+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-3.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 1565,
+    "sha256": "7ac65cb0eb823e02caf5e3922e42b2ab196adad56076a82f4cd85d7101ad14d0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-3.html"
+  },
+  {
+    "artifactId": "sd-article-xi-8",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-8.html",
+    "retrievedAt": "2026-10-02T12:00:29.471364+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-8.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2400,
+    "sha256": "4e2813c69ff469babda4bcd39fa2c3d5c8f2e3141897d1efd0d3d51d9fbee830",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-8.html"
+  },
+  {
+    "artifactId": "wa-constitution-index",
+    "requestedUrl": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution/",
+    "retrievedAt": "2026-10-02T12:00:29.472093+00:00",
+    "url": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 146399,
+    "sha256": "34cb06cbcef3b06f1bd30b035bebc5d050ad0251d08d236dbd0b2260c93856e7",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wa-constitution-index.html"
+  }
+]

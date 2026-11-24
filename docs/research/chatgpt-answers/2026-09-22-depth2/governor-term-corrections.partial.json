@@ -1,0 +1,34 @@
+{
+  "schema": "ocd-scoped-term-evidence/1",
+  "status": "Partial factual answer; no claim of 49 complete verified state profiles.",
+  "rows": [
+    {
+      "jurisdiction": "US-NH",
+      "role": "governor",
+      "term_years": 2,
+      "source": "https://www.gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+      "authority": "RSA653:1.I",
+      "commencement": null,
+      "limit": "This provision establishes term duration, not complete commencement, vacancy, qualification or filing rules."
+    },
+    {
+      "jurisdiction": "US-VT",
+      "role": "governor",
+      "term_years": 2,
+      "source": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont",
+      "authority": "Constitution chapterII§49",
+      "commencement": "When chosen and qualified",
+      "end_conditions": "Two years, or until successor chosen/qualified, subject to the specified adjournment outer limit.",
+      "limit": "Do not apply the legislature's §46January weekday as the governor's §49commencement. Full operational choice/qualification procedure remains to bind."
+    }
+  ],
+  "not_verified": [
+    "Full remaining-state commencement/cycle matrix",
+    "Illinois governor commencement text: official page retrieval failed; do not use a proposed amendment as current law."
+  ],
+  "receiving": [
+    "Preserve existing researched baseline51 term-duration data and verifiedWashington record. Do not leave NH/VT at4years while the full matrix is unfinished.",
+    "Do not encode selection/evidence-observation date as the effective beginning of the real constitutional rule.",
+    "A source whose term depends on an event needs an event-bound supported rule, not a fake nearest weekday."
+  ]
+}

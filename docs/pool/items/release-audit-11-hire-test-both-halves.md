@@ -1,0 +1,30 @@
+---
+id: release-audit-11-hire-test-both-halves
+title: "Make the hire test assert both halves and explain the threefold timeouts (#4928)"
+area: world
+kind: bug
+priority: 3
+size: S
+status: dropped
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+claimed-at:
+---
+
+**What.** Assert both halves of the hire, explain or revert the threefold timeouts, and run the full residents.test.ts.
+
+**Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
+
+**Done when.** The fix is merged, the audit report line for it is marked fixed with the PR number, and the changed test fails when the subject it needs is absent, shown by a test run with a drawn place and seed.
+
+**Files.** src/core2/modules/residents.test.ts
+
+**Notes.** Item 11 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The hire test it names belongs to PR 4928, which merged as the done item world-counted-payroll-two-halves, and src/core2/modules/residents.test.ts does not exist on main (only src/core2/modules/residents.ts), so no test is left to fix. Not replayed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

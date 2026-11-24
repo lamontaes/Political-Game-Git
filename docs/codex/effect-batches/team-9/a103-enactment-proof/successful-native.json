@@ -1,0 +1,31 @@
+[
+  {
+    "seed": "team9-g10-floor:US-IA",
+    "place": "US-IA",
+    "personId": "person_bebcebd5382b5e0f",
+    "name": "Robin Jenkins",
+    "sentenceId": "event_45cf2694ca05fd67",
+    "months": 120,
+    "measureId": "legislative-measure_bed6d7e81a5aca8b",
+    "summary": "Robin Jenkins was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_af61eeaab00dd156",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_bed6d7e81a5aca8b",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-01-19",
+        "sourceRecordIds": [
+          "event_45cf2694ca05fd67",
+          "legislative-measure_bed6d7e81a5aca8b",
+          "legislative-enactment_d63229ba03aa4406",
+          "legislative-provision_7267fac2c6691e5f"
+        ]
+      }
+    ]
+  }
+]

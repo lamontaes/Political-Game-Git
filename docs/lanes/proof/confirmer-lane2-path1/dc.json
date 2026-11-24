@@ -1,0 +1,48 @@
+{
+ "town": "dc",
+ "replay": "dc-closures-a",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=dc-closures-a&date=&placeKey=1150000&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22forest+green%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22gray%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D",
+ "place": "Washington, District of Columbia",
+ "player": "person_b66407ffd2fb15fc",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/rowhouse__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$766\nHOME\nOWNED\nRowhouse",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "River Carter\nfather",
+   "text": "River Carter\n\nFather \u00b7 Age 54\n\nLives with you\n\nHe keeps to himself. He'll take a chance most people wouldn't.\n\nHOME\nWashington, District of Columbia\nHISTORY\n1970\n\nBorn in Washington, District of Columbia.\n\n2003\n\nAnna Wilder was born.\n\n2006\n\nStarted work at Wilkins's Kitchen.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Kaitlyn Carter\nmother",
+   "text": "Kaitlyn Carter\n\nMother \u00b7 Age 42\n\nLives with you\n\nShe doesn't back down from a fight. When she says she'll do something, she does it. She plays it safe.\n\nHOME\nWashington, District of Columbia\nHISTORY\n1982\n\nBorn in Washington, District of Columbia.\n\n2003\n\nAnna Wilder was born.\n\n2006\n\nStarted work at Noble's Kitchen.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Anna Wilder\nsister",
+   "text": "Anna Wilder\n\nSister \u00b7 Age 21\n\nShe acts on impulse. She lets things slip.\n\nHISTORY\n2003\n\nBorn."
+  },
+  {
+   "label": "Lisa Sellers\ngrandmother",
+   "text": "Lisa Sellers\n\nGrandmother \u00b7 Age 62\n\nShe thinks things through before acting. When she says she'll do something, she does it. She would rather find common ground than fight.\n\nHOME\nDistrict of Columbia, District of Columbia\nHISTORY\n1963\n\nBorn.\n\n1979\n\nMegan Sellers was born.\n\n1982\n\nKaitlyn Carter was born."
+  },
+  {
+   "label": "Kenneth Sellers\ngrandfather",
+   "text": "Kenneth Sellers\n\nGrandfather \u00b7 Age 64\n\nHe thinks things through before acting. He doesn't back down from a fight. He plays it safe.\n\nHOME\nDistrict of Columbia, District of Columbia\nHISTORY\n1960\n\nBorn.\n\n1979\n\nMegan Sellers was born.\n\n1982\n\nKaitlyn Carter was born."
+  },
+  {
+   "label": "Megan Sellers\naunt",
+   "text": "Megan Sellers\n\nAunt \u00b7 Age 45\n\nShe doesn't back down from a fight. When she says she'll do something, she does it. She plays it safe.\n\nHISTORY\n1979\n\nBorn."
+  },
+  {
+   "label": "Sharon Wilder\ngrandmother",
+   "text": "Sharon Wilder\n\nGrandmother \u00b7 Age 75\n\nShe thinks things through before acting. She keeps to herself. She would rather find common ground than fight.\n\nHISTORY\n1949\n\nBorn.\n\n1970\n\nRiver Carter was born.\n\n1973\n\nGregory Wilder was born."
+  },
+  {
+   "label": "Gregory Wilder\nuncle",
+   "text": "Gregory Wilder\n\nUncle \u00b7 Age 51\n\nHe lets things slip. He plays it safe. He would rather find common ground than fight.\n\nHISTORY\n1973\n\nBorn."
+  }
+ ]
+}

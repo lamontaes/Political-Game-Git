@@ -1,0 +1,105 @@
+{
+  "gap": "A79",
+  "scope": "Actual-body filing guard only; scaled preflight verdict remains",
+  "sourceCommitAfterTypeOnlyAnnotation": "975ca7421ce26bc1ca37cfb80277964955f6e6ab",
+  "additiveMainComposition": "1b6805862413d040698247c3cb7305bde6132a1a",
+  "main": "b9abe032c4904f6fb1ef17e2b56f65fa13387641",
+  "native": {
+    "workingTreeParent": "43b13a49a8685c747b57faa6ace579f4259ae872",
+    "ownedGuardAndTestPatchPresent": true,
+    "passed": 16,
+    "failed": 0,
+    "seconds": 46.12,
+    "afterRunChange": "Type-only non-null assertion in fixture; no production behavior change"
+  },
+  "strict": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "fixture": {
+    "seed": "A79-saved-state-constitutional-body",
+    "place": "Adair Village, Oregon",
+    "jurisdiction": "US-OR",
+    "identityPool": 56,
+    "admittedModeledStatePool": 49,
+    "actualLegislators": 90,
+    "house": 60,
+    "senate": 30,
+    "events": "Supplied canonical closure and tenure-ending records, not naturally emerged"
+  },
+  "observations": [
+    "Closed-body direct handler adds no principles/proposal/actions while retained legacy formation step adds principles",
+    "Vacant chambers one-day core-clock callback adds no proposal/actions/review-created principles; canonical Continue preserves records"
+  ],
+  "pendingContract": "Save genuine proposal before state filing vote and retain rejection, or separately admitted filing-intent context; question posted to Audit/coordinator in00d",
+  "unchangedPublishedCandidates": {
+    "1529": "efd8b60eb1f5ee116dbe0a5fc87017a666dca100",
+    "1538": "6da7e1f69cab5fe380f3a4680269790656ef1e89"
+  },
+  "notRun": [
+    "Full suite",
+    "Year-speed",
+    "Natural filing",
+    "All56 populated worlds",
+    "Complete filing-preflight migration"
+  ],
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5,
+    "exitCode": 1
+  },
+  "logs": [
+    {
+      "path": "/tmp/team2-a79-preflight-roster-final.log",
+      "sha256": "846857270328726cfaf13cc6420a814e368a886701454bfed45293a119249961"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-ready-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-ready-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-ready-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-ready-release.log",
+      "sha256": "7dbdcc72ed6f818b35abe9009880491536c70fb90c15f7e40af17b2218b5a557"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-ready-zero.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-roster.log",
+      "sha256": "5de1fd426509d2228007ae90a78b4de098cf8b4b196a0b6219c96cb850ea80dd"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-roster-refusal.log",
+      "sha256": "97a3ef4a0d8725373dc4be85849aa58328959a166f67bfbc82203a3b02c385f3"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-roster-refusal-valid.log",
+      "sha256": "dae43417c77d79d07f8fc9ce86f47c59333598cb78ccf7bdc6a93478d39d6f46"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-roster-refusal-final.log",
+      "sha256": "f04c434034181be346ef88606d1d1079f4c8ac7955bc8aaf181736ef2743c73d"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-vacant.log",
+      "sha256": "6d6c9dbe224410d8fa672cd61ef65fb8860d979956532a13890855cb85d43c4a"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-vacant-types.log",
+      "sha256": "a0b947df722340b489e987b5183eb002dea8c5c4c597acb2273ff88368b55639"
+    },
+    {
+      "path": "/tmp/team2-a79-preflight-final-types.log",
+      "sha256": "37ad3bea9394042b7765dc8ebfb9d777c9b27c2c24081406ebc55902a9cd8b90"
+    }
+  ]
+}

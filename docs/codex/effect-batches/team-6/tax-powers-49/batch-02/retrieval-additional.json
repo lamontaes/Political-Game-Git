@@ -1,0 +1,69 @@
+[
+  {
+    "artifactId": "il-article-ix",
+    "requestedUrl": "https://www.ilga.gov/commission/lrb/con9.htm",
+    "retrievedAt": "2026-10-02T10:55:03.476899+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "id-article-vii",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtVII/",
+    "retrievedAt": "2026-10-02T10:55:03.477583+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/ArtVII/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 92393,
+    "sha256": "736d736423ef7863063ab8c1f8aa5a5c694bb29eb4e6dd67ea7b834c3f4e7c1c",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii.html"
+  },
+  {
+    "artifactId": "id-article-iii-14",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect14/",
+    "retrievedAt": "2026-10-02T10:55:03.477969+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect14/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 90178,
+    "sha256": "f78cd5d12fc787af9038434233aeb0f0a031a60553827eaafc6d619591b69f6f",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-iii-14.html"
+  },
+  {
+    "artifactId": "ks-article-xi",
+    "requestedUrl": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-11.html",
+    "retrievedAt": "2026-10-02T10:55:03.580719+00:00",
+    "url": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-11.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 47741,
+    "sha256": "65baa30263dad02e63af131ada4a0be7f052b185d0c02fbf4f37386b0a4d5947",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ks-article-xi.html"
+  },
+  {
+    "artifactId": "ga-index",
+    "requestedUrl": "https://sos.ga.gov/georgia-constitution-revised-2025",
+    "retrievedAt": "2026-10-02T10:55:03.916438+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "artifactId": "in-constitution",
+    "requestedUrl": "https://iga.in.gov/publications/indiana_constitution/Constitution%20(as%20amended%202024).pdf",
+    "retrievedAt": "2026-10-02T10:55:04.097687+00:00",
+    "url": "https://iga.in.gov/publications/indiana_constitution/Constitution%20(as%20amended%202024).pdf",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 691,
+    "sha256": "61d9d1265c828684df265d5139ee43f21d5325cb19aa861c7da7816dd28ac732",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/in-constitution.html"
+  },
+  {
+    "artifactId": "ia-index",
+    "requestedUrl": "https://www.legis.iowa.gov/law/statutory/constitution",
+    "retrievedAt": "2026-10-02T10:55:04.248748+00:00",
+    "url": "https://www.legis.iowa.gov/law/statutory/constitution",
+    "httpStatus": 200,
+    "mediaType": "text/html;charset=utf-8",
+    "responseBytes": 25249,
+    "sha256": "85a7e11ae15c4f55e1bc5621bd34d0ef98817c79b650e510fcbd14924b710348",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ia-index.html"
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "artifactId": "az-article-ix-14",
+    "requestedUrl": "https://www.azleg.gov/const/9/14.htm",
+    "retrievedAt": "2026-10-02T10:56:32.337509+00:00",
+    "url": "https://www.azleg.gov/const/9/14.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2552,
+    "sha256": "1da3641695581c9d8894b1cb5cb5dbce075e738aa359f5dbbc88db9ac0a51722",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-14.html"
+  },
+  {
+    "artifactId": "az-article-ix-25",
+    "requestedUrl": "https://www.azleg.gov/const/9/25.htm",
+    "retrievedAt": "2026-10-02T10:56:32.338352+00:00",
+    "url": "https://www.azleg.gov/const/9/25.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 1094,
+    "sha256": "1f40e8a993d289ae00b1e9545a3d5e1df78b9daa1b1d9725e00d40447b694db6",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-25.html"
+  },
+  {
+    "artifactId": "id-article-vii-2",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect2/",
+    "retrievedAt": "2026-10-02T10:56:32.338813+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect2/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 90531,
+    "sha256": "bbbb94debdebefa56a109e6408710532f10dceb5c608263eb56f47a1472d2df9",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-2.html"
+  },
+  {
+    "artifactId": "id-article-vii-13",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect13/",
+    "retrievedAt": "2026-10-02T10:56:32.797580+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect13/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 90105,
+    "sha256": "c068b4d0d3ecc5821f27a5c98215246bd43b0084cf5064b951ca5e690b3ea12b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-13.html"
+  },
+  {
+    "artifactId": "id-article-vii-17",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect17/",
+    "retrievedAt": "2026-10-02T10:56:32.798733+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect17/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 90745,
+    "sha256": "06a0709a5e02c81a1304bcc46f1b203e358fc49e7256545240b1a45cb41af35a",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-17.html"
+  },
+  {
+    "artifactId": "ks-article-ii",
+    "requestedUrl": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-2.html",
+    "retrievedAt": "2026-10-02T10:56:33.243032+00:00",
+    "url": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-2.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 49574,
+    "sha256": "03b03b9e255a71cba911f0c6654d60e39443e5ebb80268be9f37c83e89878845",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ks-article-ii.html"
+  },
+  {
+    "artifactId": "ia-constitution",
+    "requestedUrl": "https://www.legis.iowa.gov/docs/publications/ICP/1518288.pdf",
+    "retrievedAt": "2026-10-02T10:56:33.571305+00:00",
+    "url": "https://www.legis.iowa.gov/docs/publications/ICP/1518288.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 191407,
+    "sha256": "7042ffe80a5abd56d68ad23ef21735de0900777134928553df1d379d0ef7d12a",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ia-constitution.pdf"
+  }
+]

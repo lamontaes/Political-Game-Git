@@ -1,0 +1,72 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/legal-outcome.test.ts [ src/simulation/law-consequences/legal-outcome.test.ts ]
+Error: Future transition key must be a namespaced semantic key: undefined
+ ❯ assertSemanticTransitionKey src/simulation/semantic-transition-key.ts:8:11
+      6| ): void {
+      7|   if (!SEMANTIC_KEY.test(value)) {
+      8|     throw new Error(`${label} must be a namespaced semantic key: ${val…
+       |           ^
+      9|   }
+     10| }
+ ❯ createFutureTransitionHandlerRegistry src/simulation/future-transition-registry.ts:18:5
+ ❯ src/simulation/life-paths2.ts:1129:3
+ ❯ src/simulation/public-budgets/staffing.ts:1:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  20:30:02
+   Duration  14.11s (transform 11.24s, setup 28ms, import 0ms, tests 0ms, environment 0ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

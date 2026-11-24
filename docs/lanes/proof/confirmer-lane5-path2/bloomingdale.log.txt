@@ -1,0 +1,9 @@
+
+> political-life-rpg@0.78.0 speed:year
+> node --max-old-space-size=8192 --max-semi-space-size=64 --expose-gc --import tsx scripts/speed-years/run.ts --seed confirmer-bloomingdale-1 --place 4706640 --years 3 --max-seconds 100000 --out /tmp/claude-0/-home-user-Political-Game-Git/39df252c-0e86-5c04-a0d3-e3e72f11d951/scratchpad/l5p2/bloomingdale.json
+
+Bloomingdale, Tennessee (key 4706640, seed confirmer-bloomingdale-1): built in 30.1 s
+year 1: 105.4 s, through 2026-01-20; heap 902 MB, process 3462 MB; 269597 records, the most in core2-coverage-v1.medicalBills 32633, core2-offices-v1.terms 20990, core2-law-effects-v1.applied 17672
+year 2: 165 s, through 2027-01-20; heap 1263 MB, process 4317 MB; 494326 records, the most in core.durableLog 57929, core2-coverage-v1.medicalBills 34710, core2-offices-v1.terms 27475
+year 3: 141.5 s, through 2028-01-20; heap 1493 MB, process 5055 MB; 676785 records, the most in core.durableLog 93905, core2-coverage-v1.medicalBills 36730, news.heard 30349
+exit and seconds: 0 489

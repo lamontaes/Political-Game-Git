@@ -1,0 +1,652 @@
+/* ---------- Play menus (Nov 8): Journal, News, Calendar, Money, People, Travel, Guide, the Politics tabs, the campaign, election day ---------- */
+/* The owner, Nov 8: "I'm going to conditionally approve all the UI stuff you made earlier... just go ahead and do that for everything else that's needed."
+   Everything here reads the prototype world (Latimer, Mississippi; John Spencer). Only pack v4 people have faces; everyone else is a name you can click. */
+Object.assign(GP, {
+  denise: { n: "Denise Spencer", t: "My mother", who: "She raised me on Cherry Street and ran the cafeteria at Latimer Elementary for nineteen years. She manages a school cafeteria in Jackson now.", us: "She calls every Sunday after church and asks if I'm eating." },
+  earl: { n: "Earl Dunn", t: "My coworker", who: "Forklift lead at Gulf South for twenty-two years. He trained me my first week on the floor.", us: "He signed my petition before I asked him to." },
+  raj: { n: "Raj Patel", t: "My shift manager", who: "He runs the night shift at Gulf South. He came down from the Memphis warehouse in 2021.", us: "He moved my shifts so I can make the Tuesday board meetings." },
+  ellis: { n: "Ruth Ellis", t: "Candidate for alderman, District 2", p: "D", who: "She taught fourth grade at Latimer Elementary for thirty-one years and retired in 2023. She chairs the Friends of the Library.", us: "We shook hands at the clerk's counter on January 14. She said, \"May the best one win,\" and I think she meant it." },
+  tullos: { n: "Ben Tullos", t: "Candidate for mayor", p: "R", who: "He owns Tullos Tire and Auto on Highway 51 and sat on the school board from 2014 to 2022.", us: "We've never talked." },
+  rhymes: { n: "Gail Rhymes", t: "Ran for District 2 in 2021", p: "D", who: "A nurse at Copiah General who ran for District 2 in 2021 and lost to Daniel Cole by 92 votes.", us: "She told me to knock every door twice." },
+  ortega: { n: "Luis Ortega", t: "Elm Street", who: "He details cars at the Highway 51 car wash and has rented on Elm Street since 2023.", us: "He came to my office hours on July 19." },
+  givens: { n: "Tyrone Givens", t: "Chair, Mississippi Democratic Party", p: "D", who: "A lawyer from Greenville who has chaired the state party since 2022.", us: "We've never met." },
+  moak: { n: "Curtis Moak", t: "Chair, Copiah County Republicans", p: "R", who: "He farms soybeans outside Wesson and has chaired the county Republicans since 2017.", us: "We've never talked." },
+  bryce: { n: "Frank Bryce", t: "Chair, Mississippi Republican Party", p: "R", who: "A former state senator from Tupelo. He has chaired the state party since 2019.", us: "We've never met." },
+});
+for (const s of ["denise", "ellis", "rhymes"]) SHE.add(s);
+
+/* the screens' own state; every click is data-pl="key=value" (or key.sub=value for a choice inside a group) */
+const PL = { j: 4, paper: "ledger", story: null, pcM: 0, pcS: "2025-01-20", pcP: 0, put: 0, moved: 0, who: "hale", place: "cityhall", term: "mill",
+  race: "d2p", party: "D", subj: "Taxes & Public Finance", issue: "groceries", pos: {}, cases: {}, stop: "doors", eday: null, marks: {}, cast: false, spoke: false };
+const plSet = (k, raw) => {
+  const v = /^-?\d+$/.test(raw) ? +raw : raw === "true" ? true : raw === "false" ? false : raw === "null" ? null : raw;
+  const [k1, k2] = k.split(".");
+  if (k2) PL[k1][k2] = PL[k1][k2] === v ? null : v; else PL[k1] = v;
+};
+const pcOff = new Set();
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-card]") || e.target.closest("[data-bill]") || e.target.closest("[data-llaw]")) return;
+  const k = e.target.closest("[data-pk]");
+  if (k) { const v = k.dataset.pk; pcOff.has(v) ? pcOff.delete(v) : pcOff.add(v); render(); return; }
+  const b = e.target.closest("[data-pl]"); if (!b || b.disabled) return;
+  for (const part of b.dataset.pl.split(";")) { const [key, raw] = part.split("="); plSet(key, raw); }
+  closeCard(); hideTip(); render();
+});
+/* #key~gl.aldermen shows that word's glossary card, for renders */
+for (const p of location.hash.slice(1).split("~").slice(1)) if (p.startsWith("gl.")) setTimeout(() => { const el = document.querySelector(`#menuhost .plgl[data-glt="${p.slice(3)}"]`); if (el) glShow(el); }, 400);
+/* #key~p.story=water~p.marks.d2=spencer opens a screen with its state set, for renders */
+for (const p of location.hash.slice(1).split("~").slice(1)) if (p.startsWith("p.")) { const [key, raw] = p.slice(2).split("="); plSet(key, decodeURIComponent(raw)); }
+
+/* the glossary's inline help (Sept 29 promise; audit row 15): a civic word is underlined until it's learned */
+const GLOSS = {
+  aldermen: ["Board of Aldermen", "The town's lawmakers: five elected by district and one by the whole town, for four years."],
+  primary: ["Primary", "The election where a party picks its candidate. In Mississippi you can vote in either party's primary, but only one."],
+  qualify: ["Qualifying", "Filing to run: a $10 fee to the city clerk and an oath that you live in the district."],
+  mill: ["Mill", "A tenth of a cent of tax on each dollar of assessed value. On a $100,000 home in Mississippi, one mill is $10 a year."],
+  bond: ["Bond", "Money a government borrows and pays back with interest over years, from its taxes or fees."],
+  comment: ["Public comment", "The part of a meeting when anyone can stand up and speak to the board, usually for three minutes."],
+  writein: ["Write-in", "A vote for someone whose name isn't printed on the ballot."],
+  absentee: ["Absentee ballot", "A ballot mailed in or cast early by someone who can't come on election day."],
+  certify: ["Certify", "Make the count official. Until then the result can still be challenged."],
+  zoning: ["Zoning", "The town's rules for what can be built where: one house to a lot, shops, factories."],
+  salestax: ["Sales tax", "Tax added to what you buy. Mississippi's is 7 percent, groceries included."],
+};
+const plLearned = new Set();
+const g = (k, text) => `<span class="plgl" data-glt="${k}" tabindex="0">${text}</span>`;
+let glTimer = null;
+function glShow(el) {
+  const k = el.dataset.glt, st = document.getElementById("stage"); if (!GLOSS[k] || plLearned.has(k) || !st) return;
+  let tip = document.getElementById("plgltip");
+  if (!tip) { tip = document.createElement("div"); tip.id = "plgltip"; tip.className = "plgltip"; st.appendChild(tip); }
+  tip.innerHTML = `<b>${GLOSS[k][0]}</b><p>${GLOSS[k][1]}</p><button type="button" class="kbtn" data-gllearn="${k}">Mark as learned</button>`;
+  const r = el.getBoundingClientRect(), sr = st.getBoundingClientRect(), z = sr.width / 1440;
+  let x = (r.left - sr.left) / z, y = (r.bottom - sr.top) / z + 8;
+  if (x + 350 > 1420) x = 1420 - 350; if (y + 170 > 880) y = (r.top - sr.top) / z - 170;
+  tip.style.left = x + "px"; tip.style.top = y + "px"; tip.hidden = false;
+}
+function glHide() { const tip = document.getElementById("plgltip"); if (tip) tip.hidden = true; }
+document.addEventListener("mouseover", (e) => {
+  clearTimeout(glTimer);
+  if (e.target.closest("#plgltip")) return;
+  const t = e.target.closest(".plgl:not(.learned)");
+  glTimer = t ? setTimeout(() => glShow(t), 250) : setTimeout(glHide, 200);
+});
+document.addEventListener("focusin", (e) => { const t = e.target.closest(".plgl:not(.learned)"); if (t) glShow(t); });
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-gllearn]"); if (!b) return; plLearned.add(b.dataset.gllearn); glHide(); render(); }, true);
+
+const psec = (depth, title, body, cls = "", right = "") => `<section class="sec strips dp${depth} ${cls}"><h3 class="sechead">${title}${right}</h3><div class="secbody">${body}</div></section>`;
+const pin = (text) => `<p class="intro">${text}</p>`;
+const pq = (who, rel, tag, quote) => `<figure><div class="saidtag">${tag}</div><blockquote>“${quote}”</blockquote><figcaption>${gnm(who)}, ${rel}</figcaption></figure>`;
+const pbtn = (state, text, on = false, extra = "") => `<button type="button" class="kbtn${on ? " on" : ""}" data-pl="${state}"${extra}>${text}</button>`;
+const ptog = (state, text, on) => `<button type="button" class="ktog3" data-pl="${state}" aria-pressed="${on}">${text}</button>`;
+const prow = (state, on, name, right, sub = "") => `<div class="plsel pick${on ? " sel" : ""}" data-pl="${state}" tabindex="0" role="button"><b>${name}</b>${right ? `<em>${right}</em>` : ""}${sub ? `<span>${sub}</span>` : ""}</div>`;
+const pgroup = (label) => `<div class="plgroup">${label}</div>`;
+const plBust = (key, w, end, k) => govBust(key, w, end, k);
+const plPic = (pic, name, line) => `<div class="govpic lpic" style="background-image:url(img/${pic})"><div><b>${esc(name)}</b>${line ? `<span>${esc(line)}</span>` : ""}</div></div>`;
+
+/* ---------- 1. Journal: a story told in chapters (Nov 5: "this rail on the left kind of acting as chapters for your story... just fill up the page") ---------- */
+const JCH = [
+  { t: "Cherry Street", pic: "house-suburban-living__midday.jpg", when: "2000 to 2010",
+    p: [`I was born at Hardy Wilson Memorial in Hazlehurst on March 3, 2000, the year the county finally paved Cherry Street. My mother, ${gnm("denise")}, had me at twenty-two and raised me in the green house by the creek with her mother's furniture and her own rules: homework at the kitchen table, church on Sunday, and nobody leaves food on a plate.`,
+      `She ran the cafeteria at Latimer Elementary, so half the town knew me before I could tie my shoes. I learned early that a woman with a serving spoon hears everything. She heard about the mill closing before the paper did, and she heard which aldermen ate free.`,
+      `I didn't think about politics. I thought about the creek, which came up to the back steps every spring, and about the day it didn't stop at the steps.`] },
+  { t: "The creek", pic: "house-gulf-coast-raised__midday.jpg", when: "April 2010",
+    p: [`I was ten when the water stood in our yard for three days. It came in under the back door on a Tuesday night and my mother and I carried the photo albums up to the attic by flashlight. By Thursday the carpet was ruined and the smell never left the hall closet.`,
+      `The man from the town came out on Friday in rubber boots, looked at the culvert under Cherry Street, and said it was the county's. The man from the county said it was the town's. Nobody came back.`,
+      `My mother put a brick under every table leg and kept them there for twelve years. I still can't walk past a storm drain without looking down it.`] },
+  { t: "Latimer High", pic: "school-board-room__midday.jpg", when: "2014 to 2018",
+    p: [`I met ${gnm("kayla")} in ninth grade, in the back row of Mr. Pruitt's civics class, where we argued about everything and agreed about him. She talked me into running for student council president junior year. I lost by eleven votes to a boy who promised a vending machine.`,
+      `She says I still bring it up every time we drive past the school. She's right. I had the better plan and he had the better poster, and I've never forgotten which one won.`,
+      `I graduated in May 2018 with a B average and no money for Ole Miss. I took the job at Gulf South the week after.`] },
+  { t: "Gulf South", pic: "factory-floor__midday.jpg", when: "2018 to now",
+    p: [`The warehouse runs all night. ${gnm("earl")} trained me my first week, and he told me two things: never ride the forks, and never trust a schedule a manager writes on a Friday. Both have kept me alive.`,
+      `I met ${gnm("marisol")} at a friend's crawfish boil in 2021. She's a nurse in the emergency room at Copiah General and works nights too, so we see each other at breakfast. We moved into the duplex on Pecan Street in 2022. ${gnm("hal")} lives downstairs.`,
+      `Hal sat on the board from 2001 to 2009. He has opinions about every culvert in town, and for the first time in my life somebody wanted to hear mine.`] },
+  { t: "Running", pic: "public-meeting-room__midday.jpg", when: "January 2025",
+    p: [`On January 6 the ${g("aldermen", "Board of Aldermen")} raised everybody's water bill by six dollars a month, four votes to two. I stood up during ${g("comment", "public comment")} and told them renters pay that bill. Not one of them rents. ${gnm("cole")}, who holds my district's seat, voted yes and said he'd do it again.`,
+      `Kayla said, "So run." Hal said the same thing more slowly. On January 14 I put five hundred dollars into an account called Spencer for Alderman and handed my papers to ${gnm("hale")}, who caught that the voter rolls still had me on Cherry Street. I have until February 7 to fix it.`,
+      `Today a new president took the oath in Washington, and I watched it at Bean There with Kayla and eleven people who'd come to meet me. Nobody there asked about Washington. They asked about the ditch on Cypress Street.`] },
+];
+function plJournal() {
+  const c = JCH[PL.j];
+  return `<div class="ex pl ol-g">
+    <div class="plj">
+      ${psec(1, "My story", `<div class="plsels">${JCH.map((x, i) => prow(`j=${i}`, i === PL.j, esc(x.t), x.when)).join("")}</div>`)}
+      <div class="pljpage">
+        ${plPic(c.pic, c.t, c.when)}
+        <div class="pljtext">${c.p.map((t) => `<p>${t}</p>`).join("")}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- 2. News: the stories as stories (Nov 1: "none of this is a story"; Nov 7: paper "sticks out like a sore thumb") ---------- */
+const PAPERS = {
+  ledger: { mast: "The Latimer Ledger", line: "Latimer, Mississippi · Thursday, January 16, 2025",
+    lead: "water",
+    stories: {
+      water: { h: "Water bills go up $6 in February", deck: "Board splits 4 to 2; renters say they'll pay a landlord's bill", by: "By Annie Corley, Ledger staff",
+        body: [`Every household on Latimer water will pay $6 more a month starting February 1, after the ${g("aldermen", "Board of Aldermen")} voted 4 to 2 on January 6 to raise the rate for the treatment plant's repairs and the town's water ${g("bond", "bonds")}.`,
+          `Aldermen ${gnm("hill")}, ${gnm("cole")}, ${gnm("greer")} and ${gnm("freeman")} voted yes. ${gnm("price")} and ${gnm("nair")} voted no.`,
+          `"Renters pay that bill," John Spencer, 24, of Pecan Street, told the board during ${g("comment", "public comment")}. "Not one of you rents." The room applauded, and the chair asked it to stop.`,
+          `Cole, who represents District 2, said the plant can't wait. "I'd vote for it again tomorrow," he said. "Clean water isn't optional, and neither is paying for it."`,
+          `Mayor ${gnm("whitfield")} signed the increase the next morning. It is the town's first water rate change since 2016.`],
+        people: ["cole", "hill", "price", "nair", "whitfield"] },
+      qualify: { h: "Spencer files for District 2", deck: "Warehouse worker, 24, will face Ruth Ellis in the April 1 primary", by: "By Annie Corley, Ledger staff",
+        body: [`John Spencer, the Pecan Street renter who spoke against the water rate increase, ${g("qualify", "qualified")} January 14 as a Democrat for alderman in District 2. He paid the $10 fee at City Hall a few minutes before five.`,
+          `He joins ${gnm("ellis")}, who taught fourth grade at Latimer Elementary for thirty-one years. The winner of the April 1 ${g("primary", "primary")} meets Alderman ${gnm("cole")}, a Republican, on June 3.`,
+          `"Drainage first," Spencer said. Ellis said she'd keep the library open evenings.`],
+        people: ["ellis", "cole", "hale"] },
+      bond: { h: "Drainage bond comes up Tuesday", deck: "$1.2 million for the west side ditches, and nobody's said how they'll vote", by: "By Will Hendry, Ledger staff",
+        body: [`The board takes a final vote Tuesday at 6 PM on a $1.2 million ${g("bond", "bond")} to rebuild the ditches and culverts on the west side, where water stood on Cypress Street for four days last April.`,
+          `Public works director ${gnm("rhodes")} says eleven culverts have collapsed since 2020. City clerk ${gnm("hale")} puts the cost at about 2.8 ${g("mill", "mills")}.`],
+        people: ["rhodes", "hale"] },
+      grocery: { h: "House votes to cut grocery tax", deck: "Hollins votes yes; the Senate has until March 13", by: "By the Ledger's Jackson bureau",
+        body: [`The Mississippi House voted 109 to 10 on January 16 to cut the ${g("salestax", "sales tax")} on groceries from 7 percent to 5. Rep. ${gnm("hollins")}, who represents Latimer, voted yes.`,
+          `The cut would save a family that spends $600 a month on groceries about $12. It would cost Latimer about $90,000 a year of its sales tax share.`],
+        people: ["hollins"] },
+    },
+    order: ["water", "qualify", "bond", "grocery"],
+    briefs: [["Police log", "A pickup was reported stolen from the Gulf South lot on January 9 and found two days later in Crystal Springs."], ["Spelling bee", "Latimer Elementary's Josie Harper, 11, won the county bee on \"accommodate.\""], ["Bean There turns five", "The coffee shop on Main Street marks five years Saturday with a dollar off every cup."], ["Died", "Harold Pace, 88, who ran Pace's Feed and Seed for forty years. Services Saturday at First Baptist."]] },
+  courier: { mast: "The Jackson Courier", line: "Jackson, Mississippi · Monday, January 20, 2025",
+    lead: "oath",
+    stories: {
+      oath: { h: "Garrity sworn in, promises a tax cut by summer", deck: "Mississippi carried him by 21 points; his first order freezes federal hiring", by: "By Dana Whitlock, Courier Washington bureau",
+        body: [`${gnm("garrity")} took the oath of office at noon Eastern on the Capitol's west front and promised \"the biggest tax cut for working families in forty years\" by the Fourth of July.`,
+          `Vice President ${gnm("marsh")}, a former senator from Arizona, will break ties in a Senate split 53 to 47.`,
+          `Gov. ${gnm("holcomb")} watched from the stands. \"Mississippi did its part,\" he said afterward.`],
+        people: ["garrity", "marsh", "holcomb"] },
+      bridges: { h: "Holcomb asks for $300 million for closed bridges", deck: "1,100 rural bridges are closed or posted; lawmakers want the money from the surplus", by: "By Kim Duong, Courier staff",
+        body: [`Gov. ${gnm("holcomb")} asked the Legislature to spend $300 million of the state's surplus on rural bridges, fourteen of them in Copiah County.`],
+        people: ["holcomb"] },
+      grocery: { h: "Grocery tax cut heads to the Senate", deck: "House passes it 109 to 10", by: "By Kim Duong, Courier staff",
+        body: [`The House sent the Senate a cut in the grocery tax from 7 percent to 5. Senate Finance has until March 13.`], people: ["hollins", "lofton"] },
+    },
+    order: ["oath", "bridges", "grocery"],
+    briefs: [["Weather", "A hard freeze is expected Wednesday night across central Mississippi."], ["Courts", "The state Supreme Court hears the Hinds County jail case February 4."]] },
+};
+function plNews() {
+  const P = PAPERS[PL.paper], open = PL.story && P.stories[PL.story] ? P.stories[PL.story] : null;
+  const tabsN = `<div class="tabrail small">${Object.entries(PAPERS).map(([k, x]) => `<button type="button" data-pl="paper=${k};story=null" class="${k === PL.paper ? "on" : ""}">${x.mast}</button>`).join("")}</div>`;
+  const head = `<div class="plmast"><b>${P.mast}</b><span>${P.line}</span></div>`;
+  if (open) {
+    const others = P.order.filter((k) => k !== PL.story);
+    return `<div class="ex pl ol-g">${tabsN}${head}
+      <div class="plnews1">
+        <article class="plstory"><h2 class="plh">${open.h}</h2><p class="plby">${open.by}</p><div class="plcols">${open.body.map((t) => `<p>${t}</p>`).join("")}</div></article>
+        <div class="lcol">
+          ${psec(2, "In this story", pin(open.people.map((i) => gnm(i)).join(", ").replace(/, ([^,]*)$/, " and $1") + "."))}
+          ${psec(3, "Also in this paper", `<div class="plheads">${others.map((k) => `<div class="plhead pick" data-pl="story=${k}" tabindex="0" role="button">${P.stories[k].h}</div>`).join("")}</div>`)}
+        </div>
+      </div></div>`;
+  }
+  const L = P.stories[P.lead], rest = P.order.filter((k) => k !== P.lead);
+  return `<div class="ex pl ol-g">${tabsN}${head}
+    <div class="plnews">
+      <article class="pllead"><h2 class="plh pick" data-pl="story=${P.lead}" tabindex="0" role="button">${L.h}</h2><p class="plby">${L.by}</p><div class="plcols">${L.body.slice(0, 3).map((t) => `<p>${t}</p>`).join("")}</div></article>
+      <div class="plother">${rest.map((k) => { const s = P.stories[k]; return `<div class="plsmall"><h3 class="plh2 pick" data-pl="story=${k}" tabindex="0" role="button">${s.h}</h3><p>${s.body[0]}</p></div>`; }).join("")}</div>
+      ${psec(4, "Briefs", `<div class="plbriefs">${P.briefs.map(([h, t]) => `<p><b>${h}.</b> ${t}</p>`).join("")}</div>`)}
+    </div></div>`;
+}
+
+/* ---------- 3. Calendar: Strips, refined with his Nov 7 notes ("thje today on calendar sticks out and isnt lined up... the events look too much like an iphone... the coming up runs out the frame... needs to have a difference between coming up and today") ---------- */
+const PCAL = [...CAL2, ["2025-01-20", "press", "11 AM", "The President's address, on TV at Bean There", "Bean There, Main Street", ["kayla"], "Address 11 AM"], ["2025-01-20", "campaign", "6 PM", "Call donors from home", "Pecan Street", [], "Donor calls 6 PM"]].sort((a, b) => (a[0] + (a[2] || "")).localeCompare(b[0] + (b[2] || "")));
+const DOW3 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+function plCalendar() {
+  const y = 2025, m = PL.pcM, first = new Date(Date.UTC(y, m, 1)).getUTCDay(), days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  const ev = PCAL.filter((e) => !pcOff.has(e[1]));
+  const cells = [];
+  for (let i = 0; i < first; i++) cells.push(`<div class="plday off"></div>`);
+  for (let d = 1; d <= days; d++) {
+    const s = iso(y, m, d), here = ev.filter((e) => e[0] === s);
+    cells.push(`<div class="plday pick${s < CALTODAY ? " past" : ""}${s === CALTODAY ? " today" : ""}${s === PL.pcS && s !== CALTODAY ? " sel" : ""}" data-pl="pcS=${s}" tabindex="0" role="button"><span class="plnum">${d}</span>${here.slice(0, 2).map((e) => `<span class="plev k-${e[1]}">${nb(esc(e[6]))}</span>`).join("")}${here.length > 2 ? `<span class="plev more">and ${here.length - 2} more</span>` : ""}</div>`);
+  }
+  while (cells.length % 7) cells.push(`<div class="plday off"></div>`);
+  const lines = (s) => { const l = ev.filter((e) => e[0] === s); return l.length ? l.map((e) => { const [t, rest] = titleWho(e); return `<div class="dayline"><b class="k-${e[1]}">${nb(esc(e[2] || "All day"))}</b><div><strong>${t}</strong>${e[4] || rest.length ? `<p class="where">${esc(e[4])}${e[4] ? "." : ""}${whoLine(rest)}</p>` : ""}</div></div>`; }).join("") : `<p class="intro">Nothing planned.</p>`; };
+  const isToday = PL.pcS === CALTODAY;
+  const tomorrow = addDays(CALTODAY, 1);
+  const todayBody = `<div class="bigdate">${longDate(CALTODAY)}</div>${lines(CALTODAY)}<div class="pltomorrow"><span>Tomorrow</span>${ev.filter((e) => e[0] === tomorrow).map((e) => `<p>${esc(e[3])}, ${nb(esc(e[2]))}</p>`).join("") || "<p>Nothing planned.</p>"}</div>`;
+  const per = 4, up = ev.filter((e) => e[0] > tomorrow), pages = Math.max(1, Math.ceil(up.length / per));
+  PL.pcP = Math.min(PL.pcP, pages - 1);
+  const upRows = up.slice(PL.pcP * per, PL.pcP * per + per).map((e) => { const dw = DOW3[dowOf(e[0])]; return `<div class="plup pick${e[0] === PL.pcS ? " sel" : ""}" data-pl="pcS=${e[0]};pcM=${Number(e[0].slice(5, 7)) - 1}" tabindex="0" role="button"><b>${dw} ${shortDate(e[0])}</b><span>${esc(e[3])}</span><em>${nb(esc(e[2] || ""))}</em></div>`; }).join("");
+  const arrows = (key, cur0, a, b) => `<span class="secarrows"><button type="button" class="arrow" data-pl="${key}=${cur0 - 1}"${a ? "" : " disabled"} aria-label="Earlier">‹</button><button type="button" class="arrow" data-pl="${key}=${cur0 + 1}"${b ? "" : " disabled"} aria-label="Later">›</button></span>`;
+  const filters = `<span class="kfilters">${Object.entries(KIND2).map(([k, t]) => `<button type="button" class="tog ktog2 k-${k}" data-pk="${k}" aria-pressed="${!pcOff.has(k)}">${t}</button>`).join("")}</span>`;
+  const chosen = isToday ? "" : psec(5, longDate(PL.pcS), lines(PL.pcS));
+  return `<div class="ex pl ol-g"><div class="cal3 plcal">
+    ${psec(1, `<span class="monthname">${MONTHS[m]} ${y}</span>`, `<div class="plgrid"><div class="pldow">${DOW.map((d) => `<span>${d}</span>`).join("")}</div><div class="plcells">${cells.join("")}</div></div>`, "", `${arrows("pcM", m, m > 0, m < 5)}${filters}`)}
+    <div class="calside">
+      ${isToday ? psec(2, "Today", todayBody, "pltoday") : chosen}
+      ${psec(3, "Coming up", `<div class="pluplist">${upRows || pin("Nothing else on the calendar.")}</div>`, "plcoming", pages > 1 ? arrows("pcP", PL.pcP, PL.pcP > 0, PL.pcP < pages - 1) : "")}
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 4. Money (Nov 5: "I don't like anything on this screen other than the X amount of money in your account... have that money be transferable into your campaign") ---------- */
+function plMoney() {
+  const moved = PL.moved, mine = 1940 - moved, camp = 940 + moved;
+  const stmt = [["Jan 1", "Balance", "$982"], ["Jan 3", "Paycheck, Gulf South", "+$1,048"], ["Jan 5", "Rent, Pecan Street", "−$425"], ["Jan 8", "Copiah Electric Power", "−$78"], ["Jan 10", "Piggly Wiggly", "−$64"], ["Jan 14", "Spencer for Alderman", "−$500"], ["Jan 17", "Paycheck, Gulf South", "+$1,048"], ["Jan 18", "Piggly Wiggly", "−$71"]];
+  if (moved) stmt.push(["Jan 20", "Spencer for Alderman", `−$${moved}`]);
+  return `<div class="ex pl ol-g"><div class="plmoney">
+    ${psec(1, "My money", `<div class="plbig">${usd2(mine)}</div>
+      <div class="ink plstmt">${stmt.map(([d, t, a]) => lead3(`${d}  ${t}`, a)).join("")}</div>`)}
+    <div class="lcol">
+      ${psec(2, "My campaign's money", `<div class="plbig">${usd2(camp)}</div>
+        ${pin(`I've put in ${usd2(500 + moved)}. ${gnm("hal")} gave $250 and ${gnm("kayla")} $200, and eleven people at Bean There gave $300 between them. I've spent $310: the $10 ${g("qualify", "qualifying")} fee, $210 on seventy yard signs and $90 on flyers.`)}`)}
+      ${psec(3, "Put money into my campaign", `<div class="lptogs">${[100, 250, 500].map((n) => ptog(`put=${n}`, `$${n}`, PL.put === n)).join("")}</div>
+        <div class="plputrow">${pbtn(`moved=${moved + PL.put};put=0`, "Put it in", false, PL.put ? "" : " disabled")}</div>`)}
+    </div>
+    <div class="lcol">
+      ${psec(4, "What I owe and own", pin(`I rent the upstairs of the duplex on Pecan Street for $425 a month. I owe $6,200 on my 2014 Silverado, $289 a month to Copiah Bank until 2027. I don't own a house.`))}
+      ${psec(5, "This month", pin(`Two paychecks of $1,048 came in from Gulf South. Rent, the power bill and groceries went out, and ${usd2(500 + moved)} went to the campaign.`))}
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 5. People: the people I know, each opening as the approved person card (Nov 7: "perfect" about per-hale) ---------- */
+const PLP = {
+  marisol: { g: "Home", tie: "my partner", she: true, who: "She's a nurse in the emergency room at Copiah General, nights. We met at a crawfish boil in 2021 and moved into the duplex on Pecan Street in 2022.",
+    seen: [["Follows through", "She has never once been late to a twelve-hour shift."], ["Cautious", "She read the whole campaign finance law before she'd open the account."]],
+    us: "She keeps the campaign's books, and she makes me eat breakfast before I knock doors.",
+    said: [["kayla", "my friend", "Steadier than he is", "She's the reason he shows up to things on time. She'd never say so."], ["denise", "my mother", "Too good for him", "I told him the day I met her: don't you dare mess this up."]],
+    hers: `Her mother and two sisters live in Natchez. At work she's closest to the night charge nurse.` },
+  denise: { g: "Family", tie: "my mother", she: true, who: "She raised me on Cherry Street and ran the cafeteria at Latimer Elementary for nineteen years. She manages a school cafeteria in Jackson now and drives home every Sunday.",
+    seen: [["Confrontational", "She told the county man in 2010 exactly what she thought of his culvert, in front of the neighbors."], ["Follows through", "She kept a brick under every table leg for twelve years in case the creek came back."]],
+    us: "She calls every Sunday after church and asks if I'm eating. She thinks running is a good idea and that I'm too young for it.",
+    said: [["hal", "my neighbor", "Feeds the whole town", "Half of Latimer ate her red beans every Friday for nineteen years."], ["marisol", "my partner", "Doesn't let things go", "She still calls the town about Cherry Street. It's been fifteen years."]],
+    hers: `She's at First Baptist in Jackson now. Her sister Lorraine still lives in Hazlehurst.` },
+  kayla: { g: "Friends", tie: "my friend", she: true, who: "My friend since ninth grade. She runs the counter at Bean There and talked me into running.",
+    seen: [["Outgoing", "She knows every regular's order and every regular's business."], ["Takes chances", "She quit a state job with benefits to pour coffee because she liked the people better."]],
+    us: "She runs my volunteers: six so far, all of them Bean There regulars.",
+    said: [["marisol", "my partner", "Talks anyone into anything", "She got eleven people to give him money on a Saturday morning."], ["hal", "my neighbor", "Knows everybody", "Ask her who lives in a house and she'll tell you who used to."]],
+    hers: `Her mother runs the beauty shop on Third Street. She turns 25 on January 25.` },
+  hal: { g: "Neighbors", tie: "my neighbor", she: false, who: "He lives downstairs and chairs the town's Democratic committee. He sat on the board for District 2 from 2001 to 2009.",
+    seen: [["Thinks it through", "He walks every street before he says a word about it."], ["Conciliatory", "He's on a first-name basis with every Republican on the board."]],
+    us: "He's knocking doors with me on the west side. He gave the campaign $250.",
+    said: [["kayla", "my friend", "Remembers every vote", "He can tell you how the board voted on the 1999 sewer bond."], ["hale", "city clerk", "Never missed a meeting", "Eight years on the board and he never missed a Tuesday."]],
+    hers: `His wife Bernice died in 2019. His son is a pharmacist in Hattiesburg.` },
+  earl: { g: "Work", tie: "my coworker", she: false, who: "Forklift lead at Gulf South for twenty-two years. He trained me my first week on the floor.",
+    seen: [["Follows through", "Twenty-two years and he's never missed a shift that wasn't a funeral."], ["Reserved", "He says about ten words a night, and eight of them are about forklifts."]],
+    us: "He signed my petition before I asked him to.",
+    said: [["raj", "my shift manager", "Holds the floor together", "If Earl's out, nobody knows where anything is."]],
+    hers: `He's married to Wanda, a teacher's aide at Latimer Elementary. Three grown kids.` },
+  raj: { g: "Work", tie: "my shift manager", she: false, who: "He runs the night shift at Gulf South. He came down from the Memphis warehouse in 2021.",
+    seen: [["Cautious", "He writes the schedule three weeks out and doesn't change it."]],
+    us: "He moved my shifts so I can make the Tuesday board meetings.",
+    said: [["earl", "my coworker", "Fair to a fault", "He gives the good shifts by seniority, even to people he doesn't like."]],
+    hers: `His family is in Memphis. He drives up every other weekend.` },
+  hale: { g: "Town", tie: "city clerk", she: true, face: "hale", who: "She's run the clerk's office at City Hall since 1998, after twelve years in the tax office, and every Latimer election since. She remembers every name.",
+    seen: HALE_SEEN.slice(0, 2),
+    us: "She took my qualifying papers on January 14 and told me the voter rolls still had me on Cherry Street. I have until February 7 to fix it.",
+    said: [["hal", "my neighbor", "Won't take sides", "She's run every election since '98, and neither party has ever gotten her to lean."], ["earl", "my coworker", "Never forgets a name", "I paid a water bill at that counter once, eleven years ago. She still says hello to me by name."]],
+    hers: `At City Hall she answers to the Board of Aldermen and Mayor ${"whitfield"}.` },
+  whitfield: { g: "Town", tie: "mayor", she: true, face: "whitfield", who: "She ran the Chamber of Commerce for ten years, then won the open mayor's race in 2021 with 61 percent. She's up again on June 3.",
+    seen: [["Cautious", "She signs almost everything the board sends her and almost never says why."]],
+    us: "We've shaken hands at the Christmas parade. She doesn't know I'm running yet.",
+    said: [["hal", "my neighbor", "Wants the jobs", "Every conversation with Carol ends at the Highway 8 store."], ["hill", "alderman for District 1", "Keeps her promises", "She said 38 mills and she's held it there four years."]],
+    hers: `Her husband Dale coaches at Latimer High. She's a deacon at First Baptist.` },
+  cole: { g: "Town", tie: "my opponent in June", she: false, who: "He owns the insurance office on Highway 51 and won District 2 by 92 votes in 2021. He holds the seat I'm running for.",
+    seen: [["Confrontational", "He told me at the January 6 meeting that I'd learn what things cost."]],
+    us: "We've shaken hands once, at the Christmas parade. He voted for the water rate increase and says he'd do it again.",
+    said: [["hal", "my neighbor", "Knows his numbers", "Daniel can read a budget faster than anyone on that board."], ["rhymes", "ran against him in 2021", "Outworked me", "He knocked every door in District 2 twice. I knocked them once."]],
+    hers: `He's a member at Latimer Methodist and coaches Little League in the spring.` },
+};
+function plPeople() {
+  const P = PLP[PL.who], g = GP[PL.who], pr = P.she ? "her" : "him", Pr = P.she ? "Her" : "His";
+  let lastG = "";
+  const list = Object.entries(PLP).map(([id, x]) => { const head = x.g !== lastG ? pgroup(x.g) : ""; lastG = x.g; return head + prow(`who=${id}`, id === PL.who, esc(GP[id].n), x.tie); }).join("");
+  const hers = P.hers.replace("whitfield", gnm("whitfield"));
+  return `<div class="ex pl ol-g"><div class="plpeople">
+    ${psec(1, "My people", `<div class="plsels">${list}</div>`)}
+    <div class="plperson${P.face ? " hasface" : ""}">
+      ${P.face ? `<div class="plpface">${cardBust(P.face, 2.2, 160, g.n)}</div>` : ""}
+      <div class="plpmain">
+        <div class="ck"><div class="banner mxbanner plname"><h2>${esc(g.n)}</h2><p>${esc(P.tie[0].toUpperCase() + P.tie.slice(1))}</p></div></div>
+        <div class="plpcols">
+          <div class="lcol">
+            ${psec(2, P.she ? "Who she is" : "Who he is", pin(P.who))}
+            ${psec(3, `How I see ${pr}`, `<div class="perks">${P.seen.map(([n, l]) => `<div class="perk"><div class="perkname"><b>${n}</b></div><p>${l}</p></div>`).join("")}</div>`)}
+            ${psec(5, "Between us", pin(P.us))}
+          </div>
+          <div class="lcol">
+            ${psec(4, `What people say about ${pr}`, `<div class="said">${P.said.map(([k, rel, tag, q]) => pq(k, rel, tag, q)).join("")}</div>`)}
+            ${psec(5, `${Pr} people`, pin(hers))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 6. Travel: places as pictures (Nov 1: "It says what you do here. And then it's just a list of people's names"; Nov 7: "NONE OF THESE SUBTITLES ON MENUS") ---------- */
+const PLACES = {
+  home: { n: "Home", where: "Pecan Street", pic: "house-suburban-living__midday.jpg", g: "Latimer", far: "Here", who: ["marisol", "hal"], open: "Always", acts: ["Call donors", "Write my stump speech", "Sleep"] },
+  cityhall: { n: "City Hall", where: "Main Street", pic: "public-meeting-room__midday.jpg", g: "Latimer", far: "6 minutes", who: ["hale", "whitfield", "rhodes"], open: "8 AM to 5 PM, and the board on 1st and 3rd Tuesdays at 6", acts: ["Fix my voter registration", "Sit in on the board", "Pay the water bill"] },
+  bean: { n: "Bean There", where: "Main Street", pic: "home-kitchen__midday.jpg", g: "Latimer", far: "5 minutes", who: ["kayla"], open: "6 AM to 2 PM", acts: ["Talk with voters", "Get a coffee with Kayla"] },
+  church: { n: "First Baptist", where: "Second Street", pic: "church-sanctuary__midday.jpg", g: "Latimer", far: "7 minutes", who: ["whitfield"], open: "Sunday 10:30, and the men's breakfast first Saturdays", acts: ["Go to church", "Speak at the men's breakfast"] },
+  work: { n: "Gulf South", where: "Highway 51", pic: "factory-floor__midday.jpg", g: "Latimer", far: "11 minutes", who: ["earl", "raj"], open: "My shift: 10 PM to 6 AM", acts: ["Work my shift", "Hand out flyers at shift change"] },
+  center: { n: "Latimer Community Center", where: "Elm Street", pic: "school-board-room__midday.jpg", g: "Latimer", far: "8 minutes", who: [], open: "Polling place for District 2", acts: ["Vote on April 1"] },
+  court: { n: "Copiah County Courthouse", where: "Hazlehurst", pic: "county-courtroom__midday.jpg", g: "Copiah County", far: "22 minutes", who: ["banks"], open: "8 AM to 5 PM; the county Democrats meet at the annex", acts: ["Speak to the county Democrats on February 13"] },
+  capitol: { n: "The State Capitol", where: "Jackson", pic: "state-house-chamber__midday.jpg", g: "Jackson and Washington", far: "52 minutes", who: ["hollins", "lofton", "holcomb"], open: "The Legislature sits until April 6", acts: ["Watch the House from the gallery", "Ask to see Tamika Hollins"] },
+  dc: { n: "Washington", where: "District of Columbia", pic: "white-house-exterior__midday.jpg", g: "Jackson and Washington", far: "A day by plane from Jackson", who: ["ashby", "sloan", "wicks"], open: "Congress is in session", acts: ["Visit Glenn Ashby's office"] },
+};
+function plTravel() {
+  const p = PLACES[PL.place];
+  let lastG = "";
+  const tiles = Object.entries(PLACES).map(([k, x]) => { const head = x.g !== lastG ? `<div class="plgroup plgspan">${x.g}</div>` : ""; lastG = x.g; return `${head}<div class="pltile pick${k === PL.place ? " sel" : ""}" data-pl="place=${k}" tabindex="0" role="button" style="background-image:url(img/${x.pic})"><b>${esc(x.n)}</b><span>${esc(x.where)}</span></div>`; }).join("");
+  const who = p.who.length ? psec(2, "Who's there", pin(p.who.map((i) => gnm(i)).join(", ").replace(/, ([^,]*)$/, " and $1") + ".")) : "";
+  return `<div class="ex pl ol-g"><div class="pltravel">
+    <div class="pltiles">${tiles}</div>
+    <div class="lcol">
+      <div class="plbigpic" style="background-image:url(img/${p.pic})"><div><b>${esc(p.n)}</b><span>${esc(p.where)}</span></div></div>
+      <div class="plfacts"><div><span>From home</span><b>${esc(p.far)}</b></div><div><span>Open</span><b>${esc(p.open)}</b></div></div>
+      ${who}
+      ${psec(3, "What I can do there", `<div class="placts">${p.acts.map((a) => `<button type="button" class="kbtn">${esc(a)}</button>`).join("")}</div>`)}
+      ${PL.place === "home" ? "" : `<button type="button" class="kbtn big plgo">Go to ${esc(p.n)}</button>`}
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 7. Guide: the civic words, explained with the town's own numbers (Oct 28: "the Guide itself is a separate entry in the menu") ---------- */
+const TERMS = {
+  "Your town": { aldermen: ["Board of Aldermen", `Latimer's lawmaking body: five aldermen elected by district and one by the whole town, for four years. It meets the first and third Tuesday of the month at 6 PM at City Hall.`, `It passes the town's ordinances, sets the water rates and the property tax, and adopts the budget the mayor proposes. Four votes of six pass most things. It takes four to override the mayor's veto.`, [["Government", "gov-local"]]],
+    mill: ["Mill", `A mill is a tenth of a cent of tax on each dollar of a property's assessed value. Mississippi assesses a home at 10 percent of what it's worth, so on a $100,000 home one mill is $10 a year.`, `Latimer levies 38 mills, which raises about $1,180,000. Copiah County levies 52. The drainage bond would add about 2.8 mills, about $28 a year on a $100,000 home.`, [["Budgets", "bud-strips"], ["Writing the bill", "leg-draft"]]],
+    bond: ["General obligation bond", `Money a town borrows and promises to pay back from its taxes. The board declares its intent, the clerk publishes it, and if twenty percent of the voters protest in writing, it goes to an election.`, `Latimer owes $410,000 a year on its water bonds until 2039. The west side drainage bond would borrow $1.2 million over twenty years.`, [["Writing the bill", "leg-draft"]]],
+    homestead: ["Homestead exemption", `The part of a home's value that isn't taxed when its owner lives in it.`, `Latimer raised its exemption to $9,000 in November, five votes to one. Renters don't get it.`, [["Government", "gov-local"]]] },
+  "Running for office": { qualify: ["Qualifying", `Filing to run. In Latimer you pay a $10 fee to the city clerk and swear that you live in the district and are a registered voter. The window closes February 7 at 5 PM.`, `I qualified on January 14. The rolls still have me on Cherry Street, in District 4, so I have until February 7 to fix it.`, [["Calendar", "pl-calendar"]]],
+    primary: ["Primary", `The election in which a party picks its candidate. Mississippi doesn't register voters by party, so anyone can vote in either primary, but only one.`, `The Democratic primary for District 2 is April 1: me and Ruth Ellis. The winner faces Daniel Cole on June 3.`, [["Elections", "pl-elections"]]],
+    finance: ["Campaign finance report", `What a campaign took in and spent, filed with the city clerk. Anyone can read it.`, `Mine is due March 25: $1,250 in and $310 out so far.`, [["Money", "pl-money"]]] },
+  "Making laws": { veto: ["Veto and override", `The mayor, the governor or the president can refuse to sign a bill and send it back. The lawmakers can pass it anyway with more votes: four of six on the Board of Aldermen, two-thirds in the Legislature and in Congress.`, `Carol Whitfield hasn't vetoed anything since she took office in 2021.`, [["Override", "leg-override"]]],
+    committee: ["Committee", `A few members who hear a bill before the whole body votes on it. Witnesses testify and members question them.`, `Latimer's finance committee is Marcus Hill, who chairs it, Walter Greer and whoever holds District 2.`, [["Committee", "leg-committee"]]],
+    fy: ["Fiscal year", `The twelve months a budget covers. Latimer's and the county's run October 1 to September 30. The state's runs July 1 to June 30.`, `The board adopted this year's budget on September 9, 2024.`, [["Budgets", "bud-strips"]]] },
+};
+function plGuide() {
+  let found;
+  for (const g of Object.values(TERMS)) if (g[PL.term]) found = g[PL.term];
+  const [title, what, here, links] = found;
+  const list = Object.entries(TERMS).map(([g, items]) => pgroup(g) + Object.entries(items).map(([k, x]) => prow(`term=${k}`, k === PL.term, esc(x[0]), "")).join("")).join("");
+  return `<div class="ex pl ol-g"><div class="plguide">
+    ${psec(1, "Words", `<div class="plsels">${list}</div>`)}
+    <div class="lcol">
+      <h2 class="plterm">${esc(title)}</h2>
+      ${psec(2, "What it is", pin(what))}
+      ${psec(3, "Here", pin(here))}
+      ${psec(4, "Where I'll see it", `<div class="placts">${links.map(([t, k]) => `<button type="button" class="kbtn" data-ex="${k}">${esc(t)}</button>`).join("")}</div>`)}
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 8. Politics: Elections (Nov 5: "an Elections tab that's always there"), Parties, Issues, Your office ---------- */
+const RACES = {
+  d2p: { g: "April 1, 2025", n: "Alderman, District 2", k: "Democratic primary", who: ["spencer", "ellis"], at: "Latimer Community Center, 7 AM to 7 PM",
+    last: `In 2021 ${gnm("rhymes")} won the Democratic ${g("primary", "primary")} unopposed, then lost to ${gnm("cole")} on June 8, 612 to 520.`, mine: true },
+  mayp: { g: "April 1, 2025", n: "Mayor", k: "Democratic primary", who: ["whitfield"], at: "Latimer Community Center, 7 AM to 7 PM",
+    last: `In 2021 ${gnm("whitfield")} won an open primary with 58 percent and the general with 61.` },
+  d2g: { g: "June 3, 2025", n: "Alderman, District 2", k: "General election", who: ["cole"], at: "Latimer Community Center, 7 AM to 7 PM",
+    last: `${gnm("cole")} won the seat in 2021 by 92 votes, 612 to 520. He faces whoever wins the April 1 primary.` },
+  mayg: { g: "June 3, 2025", n: "Mayor", k: "General election", who: ["whitfield", "tullos"], at: "Latimer Community Center, 7 AM to 7 PM",
+    last: `${gnm("whitfield")} beat a Republican by 1,180 votes in 2021, 61 percent to 39.` },
+  sen: { g: "November 3, 2026", n: "U.S. Senate", k: "General election", who: ["sloan"], at: "Latimer Community Center",
+    last: `${gnm("sloan")} won in 2020 with 58 percent and carried Copiah County by 9 points. Nobody has filed against her yet.` },
+  house: { g: "November 3, 2026", n: "U.S. House, 3rd District", k: "General election", who: ["ashby"], at: "Latimer Community Center",
+    last: `${gnm("ashby")} won in 2024 with 64 percent.` },
+  gov: { g: "November 2, 2027", n: "Governor of Mississippi", k: "General election", who: [], at: "Latimer Community Center",
+    last: `${gnm("holcomb")} can't run again. Nobody has said they're running.` },
+};
+const RACEFACE = { whitfield: "whitfield", spencer: "mefig" };
+const plWho = (i) => { const g = GP[i]; return `<div class="plcand">${RACEFACE[i] ? plBust(RACEFACE[i], 150, 150, 1.0) : ""}<div><h4>${gnm(i)}</h4><p class="lead2sub">${g.p ? pty(g.p) + " · " : ""}${esc(i === "spencer" ? "Warehouse worker, Pecan Street" : g.t)}</p><p class="intro">${esc(i === "spencer" ? "Qualified January 14. Lives on Pecan Street and works nights at Gulf South." : g.who)}</p></div></div>`; };
+function plElections() {
+  const r = RACES[PL.race];
+  let lastG = "";
+  const list = Object.entries(RACES).map(([k, x]) => { const head = x.g !== lastG ? pgroup(x.g) : ""; lastG = x.g; return head + prow(`race=${k}`, k === PL.race, esc(x.n), x.k === "General election" ? "General" : "Primary"); }).join("");
+  return `<div class="ex pl ol-g"><div class="plelect">
+    ${psec(1, "On my ballot", `<div class="plsels">${list}</div>`)}
+    <div class="lcol">
+      <div class="plracehead"><h2 class="plterm">${esc(r.n)}</h2><span>${esc(r.k)} · ${esc(r.g)}</span></div>
+      <div class="plelcols">
+        ${psec(2, r.who.length ? "Who's running" : "Who's running", r.who.length ? r.who.map(plWho).join("") : pin("Nobody yet."))}
+        <div class="lcol">
+          ${psec(3, "Last time", pin(r.last))}
+          ${psec(4, "Where I vote", pin(esc(r.at) + "."))}
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+const PARTIES = {
+  D: { n: "Democratic Party", lead: `${gnm("hal")} chairs the Latimer committee, ${gnm("banks")} the Copiah County committee, and ${gnm("givens")} the state party.`,
+    hold: `In Latimer: Mayor ${gnm("whitfield")}, and ${gnm("hill")}, ${gnm("price")} and ${gnm("freeman")} on the board. In Jackson: my representative, ${gnm("hollins")}, one of 41 House Democrats.`,
+    wants: ["Fix the west side drainage", "Keep the library open evenings", "Expand Medicaid"], meets: `The county committee meets the second Thursday of the month at the courthouse annex in Hazlehurst, 7 PM.`,
+    me: `I vote in the Democratic primary. Mississippi doesn't register voters by party. ${gnm("banks")} asked me to speak at the February 13 meeting.`, act: "Ask Leroy Banks for a seat on the county committee" },
+  R: { n: "Republican Party", lead: `Latimer has no town committee. ${gnm("moak")} chairs the Copiah County Republicans, and ${gnm("bryce")} the state party.`,
+    hold: `In Latimer: ${gnm("cole")} and ${gnm("greer")} on the board. In Jackson: Governor ${gnm("holcomb")}, my senator ${gnm("lofton")}, and 79 of 122 House seats. In Washington: President ${gnm("garrity")} and both of my senators.`,
+    wants: ["No new taxes", "Roads before anything else", "Phase out the state income tax"], meets: `The county Republicans meet the first Monday of the month at Tullos Tire and Auto, 6:30 PM.`,
+    me: `I've never voted in a Republican primary.`, act: "" },
+  I: { n: "Independents", lead: `Nobody leads them. Independents run on their own, with a petition of signatures instead of a primary.`,
+    hold: `${gnm("nair")} won District 5 as an independent in 2021, in a three-way race.`, wants: [], meets: "", me: `I'm running as a Democrat.`, act: "" },
+};
+function plParties() {
+  const p = PARTIES[PL.party];
+  return `<div class="ex pl ol-g"><div class="plparties">
+    ${psec(1, "Parties", `<div class="plsels">${Object.entries(PARTIES).map(([k, x]) => prow(`party=${k}`, k === PL.party, esc(x.n), k === "D" ? "Mine" : "")).join("")}</div>`)}
+    <div class="lcol">
+      <h2 class="plterm">${esc(p.n)}</h2>
+      <div class="plpcols">
+        <div class="lcol">
+          ${psec(2, "Who leads it", pin(p.lead))}
+          ${psec(3, "Who holds office", pin(p.hold))}
+        </div>
+        <div class="lcol">
+          ${p.wants.length ? psec(4, "What it wants here", `<div class="wants2 plwants">${p.wants.map((w) => `<p>${esc(w)}</p>`).join("")}</div>`) : ""}
+          ${p.meets ? psec(5, "When it meets", pin(p.meets)) : ""}
+          ${psec(5, "Me", pin(p.me) + (p.act ? `<div class="placts">${pbtn("party=D", p.act)}</div>` : ""))}
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+/* Issues: every question, by subject, with where it stands at each level (Nov 5: "It's supposed to be all the 86 things"; Nov 1 OD:71: click it and get the bill, recent legislation, choose your position) */
+const ISSUE_SUBJ = [["Infrastructure", 5], ["Healthcare", 6], ["Education", 5], ["Taxes & Public Finance", 14], ["Assistance & Social Insurance", 10], ["Housing & Land Use", 5], ["Labor & Employment", 7], ["Business & Economic Development", 2], ["Energy & Environment", 6], ["Justice & Public Safety", 12], ["Government & Democracy", 10], ["Rights, Family & Consumer Protection", 3], ["Science, Technology & Communications", 3], ["Agriculture & Food", 2], ["Parks, Culture & Community Life", 1]];
+const ISSUES = {
+  "Taxes & Public Finance": {
+    groceries: { n: "Sales tax on groceries", now: "7 percent in Mississippi", lv: [["Mississippi", `Groceries carry the 7 percent ${g("salestax", "sales tax")}, under ${cite("27-65-17", "Section 27-65-17")}. The House voted in January to cut it to 5; the bill died in Senate Finance in March.`], ["Latimer", "The town can't change it. It gets back a share of what's collected here."], ["United States", "There's no federal sales tax."]],
+      think: "In the Ledger's spring poll, about 7 in 10 people in Latimer wanted it cut, renters more than owners.", moves: "A family spending $600 a month on groceries pays about $12 more than it would at 5 percent. Latimer's share of the tax is about $1,320,000 a year.", who: "state" },
+    income: { n: "State income tax", now: "4.7 percent above $10,000", lv: [["Mississippi", "4.7 percent on income above $10,000, cut from 5 percent in 2022 by Governor Holcomb."], ["Latimer", "Towns in Mississippi can't tax income."], ["United States", "Federal income tax runs from 10 to 37 percent."]], think: "About half of Latimer wants it phased out, the other half wants the schools paid for first.", moves: "On my $27,000 from Gulf South I pay about $800 a year.", who: "state" },
+    cap: { n: "Limit on property tax growth", now: "10 percent a year", lv: [["Mississippi", "A town's property tax can't raise more than 10 percent more than the year before without an election."], ["Latimer", "Latimer raised 4 percent more this year than last."]], think: "Most people I've asked didn't know it existed.", moves: "It caps how fast the town's $1,180,000 in property tax can grow.", who: "state" },
+    millrate: { n: "The town's property tax", now: "38 mills", lv: [["Latimer", `38 ${g("mill", "mills")}, the same since 2021. Mayor Whitfield promised to keep it there.`], ["Copiah County", "52 mills."]], think: "Owners on the east side want it held. Renters don't feel it directly, though their landlords pass it on.", moves: "The town's biggest single source of money: about $1,180,000 a year.", who: "town" },
+    balanced: { n: "Balanced budget", now: "Required", lv: [["Mississippi", "The state can't spend more than it takes in during the year."], ["Latimer", "State law requires the town to adopt a balanced budget. This year's is $70,000 short and covered from savings."]], think: "Nobody argues about it.", moves: "Why the board has to find the money for anything it adds.", who: "town" },
+  },
+  "Housing & Land Use": {
+    multifamily: { n: "Duplexes on single-family lots", now: "Not allowed on most lots in Latimer", lv: [["Latimer", `The town's 1987 ${g("zoning", "zoning code")} allows one house to a lot on most residential streets. The board can change it.`], ["Mississippi", "The state leaves zoning to towns and counties."]], think: "Owners on the east side are against it. Most renters I've knocked on have never heard of it.", moves: "How many places there are to rent in Latimer, and what they cost.", who: "town" },
+    rent: { n: "Limits on rent increases", now: "Barred by the state", lv: [["Mississippi", "State law bars towns and counties from limiting what landlords charge."], ["Latimer", "The town can't do it unless the Legislature changes the law."]], think: "Every renter I've talked to wants it. Hal says it'll never get through Jackson.", moves: "Rent: the median in Latimer is $640 a month.", who: "state" },
+    counsel: { n: "A lawyer for tenants facing eviction", now: "No", lv: [["Mississippi", "Tenants have no right to a lawyer in an eviction case."], ["Latimer", "The town could pay for one. It doesn't."]], think: "Judge Mangold's court heard 61 evictions from Latimer last year.", moves: "How many evictions end with the family moving out.", who: "town" },
+  },
+  "Infrastructure": {
+    transit: { n: "Free buses", now: "Latimer has no buses", lv: [["Latimer", "The town runs no buses. Copiah County's senior van runs Tuesdays and Thursdays."], ["Mississippi", "The state passes federal transit money to the counties."]], think: "Nobody's asked me about buses.", moves: "Whether people without a car can get to work in Hazlehurst.", who: "town" },
+    broadband: { n: "Public internet service", now: "No", lv: [["Mississippi", "Since 2019, electric cooperatives may offer internet service."], ["Latimer", "The town doesn't. The electric co-op started laying fiber outside town in 2023."]], think: "Half the west side still has DSL.", moves: "Which houses can get fast internet, and what it costs.", who: "town" },
+  },
+};
+function plIssues() {
+  const SA = { housing: "Housing & Land Use", infra: "Infrastructure", taxes: "Taxes & Public Finance" }, subj0 = SA[PL.subj] || PL.subj, subj = ISSUES[subj0] ? subj0 : "Taxes & Public Finance", list = ISSUES[subj], it = list[PL.issue] || Object.values(list)[0], id = list[PL.issue] ? PL.issue : Object.keys(list)[0];
+  const pos = PL.pos[id] || null;
+  const subjects = ISSUE_SUBJ.map(([s, n]) => ISSUES[s] ? `<button type="button" class="lidxrow${s === subj ? " on" : ""}" data-pl="subj=${s};issue=${Object.keys(ISSUES[s])[0]}">${esc(s)}<em>${n}</em></button>` : `<div class="lidxrow dim">${esc(s)}<em>${n}</em></div>`).join("");
+  const act = it.who === "town" ? `<button type="button" class="kbtn" data-ex="leg-draft">Start a bill on it</button>` : `<button type="button" class="kbtn" data-card="hollins">Ask Tamika Hollins about it</button>`;
+  return `<div class="ex pl ol-g"><div class="plissues">
+    ${psec(1, "Subjects", `<div class="lidx plsubj">${subjects}</div>`, "lidxsec")}
+    ${psec(2, esc(subj), `<div class="plsels">${Object.entries(list).map(([k, x]) => prow(`issue=${k}`, k === id, esc(x.n), "", x.now)).join("")}</div>`)}
+    <div class="lcol">
+      <h2 class="plterm">${esc(it.n)}</h2>
+      ${psec(3, "Where it stands", it.lv.map(([l, t]) => `<p class="intro pllv"><b>${l}.</b> ${t}</p>`).join(""))}
+      <div class="plpcols">
+        <div class="lcol">${psec(4, "What people here think", pin(it.think))}${psec(5, "What it moves", pin(it.moves))}</div>
+        <div class="lcol">${psec(5, "Where I stand", `<div class="lptogs">${["For it", "Against it", "Not sure"].map((t) => ptog(`pos.${id}=${t}`, t, pos === t)).join("")}</div>`)}<div class="placts">${act}</div></div>
+      </div>
+    </div>
+  </div></div>`;
+}
+/* Your office, while I hold a seat (Oct 14: "the engine offers, the player decides"; Oct 29: "So they're not blocks of text anymore with random buttons") */
+const CASES = [
+  { id: "wells", who: "wells", says: "I've bailed out my den three springs out of the last five. Is that bond going to get to Cypress Street or not?", opts: [["Tell her it reaches Cypress", "All the way to Cypress? Then I'll hold you to it, young man."], ["Ask her to testify", "Thursday at 5:30? I'll bring the pictures."], ["Send it to Tommy Rhodes", "Tommy Rhodes has been out to that ditch four times. Tell him to bring a shovel this time."]] },
+  { id: "ortega", who: "ortega", says: "The car wash pays me six dollars an hour. My cousin says that's not legal.", opts: [["Send it to the Labor Department", "I'll bring my pay stubs Monday. Thank you."], ["Call the owner myself", "Don't tell him it was me. Please."], ["Not now", "Okay. I'll come back next month."]] },
+];
+function plOffice() {
+  const cases = CASES.map((c) => { const done = PL.cases[c.id]; const pick = c.opts.find(([t]) => t === done);
+    return `<div class="plcase"><div class="told">${gnm(c.who)}<p>${esc(c.says)}</p></div>${pick ? `<div class="told">${gnm(c.who)}<p>${esc(pick[1])}</p></div>` : `<div class="placts">${c.opts.map(([t]) => pbtn(`cases.${c.id}=${t}`, t)).join("")}</div>`}</div>`; }).join("");
+  return `<div class="ex pl leg ol-g"><div class="ploffice">
+    <div class="lcol">
+      ${psec(1, "My seat", `<p class="lbig lbigs">Alderman, District 2</p>${pin(`Town of Latimer, since July 1, 2025. My term runs to June 30, 2029. The seat pays $9,600 a year.`)}`)}
+      ${psec(2, "Coming up", `<div class="pluplist">${[["Thu Jul 24", "Finance committee hears the drainage bond", "5:30 PM"], ["Tue Aug 5", "Board of Aldermen", "6 PM"], ["Sat Aug 9", "Office hours, City Hall", "10 AM"]].map(([d, t, h]) => `<div class="plup"><b>${d}</b><span>${t}</span><em>${h}</em></div>`).join("")}</div>`)}
+    </div>
+    <div class="lcol">
+      ${psec(3, "On my desk", `<div class="pldesk"><div class="pldraft"><b>Resolution 25-31 · The drainage bond</b><p class="intro">$1,200,000. ${gnm("price")} signed on.</p><div class="placts"><button type="button" class="kbtn" data-ex="leg-draft">Work on it</button></div></div>
+        <div class="pldraft"><b>Water rate rollback</b><p class="intro">Nobody has signed on.</p><div class="placts"><button type="button" class="kbtn" data-ex="leg-draft">Work on it</button></div></div></div>`)}
+      ${psec(5, "What I've promised", `${said("price", "I told her I'd back library hours in the budget. She signed on to the bond.")}${said("greer", "He'll vote for half the bond. I haven't promised him anything.")}`)}
+    </div>
+    ${psec(4, "Office hours, Saturday", cases)}
+  </div></div>`;
+}
+
+/* ---------- 9. The campaign: the board once you've filed (Nov 5), and the trail as places you go (Oct 20: "Campaign acts are scenes you go to") ---------- */
+function plCampaign() {
+  return `<div class="ex pl ol-g"><div class="plcamp">
+    <div class="lcol">
+      ${psec(1, "Where the race stands", `<p class="lbig lbigs">The primary is April 1, in 71 days</p>${pin(`${gnm("ellis")} is the only other Democrat in the District 2 ${g("primary", "primary")}. Of the 96 doors I've knocked, 41 people said they'd vote for me and 12 said Ruth. The rest weren't home or wouldn't say. The winner runs against ${gnm("cole")} on June 3.`)}`)}
+      ${psec(2, "Ruth Ellis", `<p class="intro">She taught fourth grade here for thirty-one years, and half the people I knock on were in her class. She wants the library open evenings and the water rate left alone. She's raised about $2,000 that I know of.</p>`)}
+    </div>
+    <div class="lcol">
+      ${psec(3, "The money", `<p class="lbig">${usd2(940)}</p>${pin(`Raised $1,250. Spent $310.`)}`)}
+      ${psec(4, "My people", pin(`${gnm("kayla")} runs my six volunteers. ${gnm("hal")} knocks doors with me on the west side. ${gnm("marisol")} keeps the books.`))}
+      ${psec(5, "What people are telling me", `<div class="said">${pq("wells", "Cypress Street", "Votes on one thing", "I'll vote for whoever gets that ditch dug. I don't care if it's you or her.")}</div>`)}
+    </div>
+    <div class="lcol">
+      ${psec(2, "Coming up", `<div class="pluplist">${PCAL.filter((e) => e[1] === "campaign" || e[1] === "press").filter((e) => e[0] > CALTODAY).slice(0, 6).map((e) => `<div class="plup"><b>${DOW3[dowOf(e[0])]} ${shortDate(e[0])}</b><span>${esc(e[3])}</span><em>${nb(esc(e[2] || ""))}</em></div>`).join("")}</div>`)}
+      <button type="button" class="kbtn big plgo" data-ex="pl-trail">Go out on the trail</button>
+    </div>
+  </div></div>`;
+}
+const STOPS = {
+  doors: { n: "Doors on Cypress and Elm", pic: "house-gulf-coast-raised__midday.jpg", when: "Saturday, 9 AM", long: "About 3 hours", who: ["hal"], note: "The west side, where the water stood last April. 140 houses, about half of them rented." },
+  bean: { n: "Bean There", pic: "home-kitchen__midday.jpg", when: "Thursday, 4 PM", long: "About an hour", who: ["kayla"], note: "Kayla's regulars, and whoever they bring." },
+  church: { n: "First Baptist men's breakfast", pic: "church-sanctuary__midday.jpg", when: "February 1, 8 AM", long: "About 2 hours", who: [], note: "Forty men, most of them over sixty. They've asked me to speak for ten minutes." },
+  work: { n: "Shift change at Gulf South", pic: "factory-floor__midday.jpg", when: "Any night, 10 PM", long: "About an hour", who: ["earl", "raj"], note: "Two hundred people come through the gate between 9:45 and 10:15." },
+  court: { n: "The county Democrats", pic: "county-courtroom__midday.jpg", when: "February 13, 7 PM", long: "About 2 hours, with the drive", who: ["banks"], note: "Five minutes to speak, at the courthouse annex in Hazlehurst." },
+  forum: { n: "Candidate forum", pic: "school-board-room__midday.jpg", when: "March 22, 2 PM", long: "About 2 hours", who: ["ellis"], note: "At the Latimer Library, with Ruth Ellis." },
+  phone: { n: "Donor calls from home", pic: "house-suburban-living__midday.jpg", when: "Any evening", long: "As long as I want", who: ["marisol"], note: "Everyone who gave in 2021 to Gail Rhymes, and everyone who's given to me." },
+};
+function plTrail() {
+  const s = STOPS[PL.stop];
+  return `<div class="ex pl ol-g"><div class="pltravel pltrail">
+    <div class="pltiles">${Object.entries(STOPS).map(([k, x]) => `<div class="pltile pick${k === PL.stop ? " sel" : ""}" data-pl="stop=${k}" tabindex="0" role="button" style="background-image:url(img/${x.pic})"><b>${esc(x.n)}</b><span>${esc(x.when)}</span></div>`).join("")}</div>
+    <div class="lcol">
+      <div class="plbigpic" style="background-image:url(img/${s.pic})"><div><b>${esc(s.n)}</b><span>${esc(s.when)}</span></div></div>
+      <div class="plfacts"><div><span>How long</span><b>${esc(s.long)}</b></div><div><span>Who's coming</span><b>${s.who.length ? s.who.map((i) => gnm(i)).join(" and ") : "Just me"}</b></div></div>
+      ${psec(2, "Who'll be there", pin(esc(s.note)))}
+      <button type="button" class="kbtn big plgo">Go</button>
+    </div>
+  </div></div>`;
+}
+
+/* ---------- 10. Election day as scenes (Oct 26: "going to vote, this should be a scene, you know, maybe with a narrator"), the ballot ("Why can't you click these people"), and election night as its own pop-up ---------- */
+function plEday() {
+  const lines = {
+    null: [`The line at the Latimer Community Center runs out the door at 7:10. ${gnm("hale")} is at the sign-in table with two poll workers. ${gnm("ellis")} is shaking hands in the parking lot, exactly thirty feet from the door, which is as close as the law lets her get.`, [["Get in line and vote", "eday=vote"], ["Stand thirty feet out and shake hands", "eday=hands"], ["Go pick up Dorothy Wells", "eday=wells"]]],
+    hands: [`For an hour I shake hands next to Ruth. She knows everybody's grandchildren by name. Mr. Pace's widow tells me she voted for me because I came to the funeral. Ruth tells me I'm doing fine, and I can't tell if she means it.`, [["Get in line and vote", "eday=vote"]]],
+    wells: [`${gnm("wells")} is waiting at her front door on Cypress Street in her church hat. "I've voted in every election since 1968," she says, "and I've never once had a ride from the candidate." She doesn't say who she's voting for.`, [["Drive her to the community center", "eday=vote"]]],
+    vote: [`${gnm("hale")} finds my name on the rolls, Pecan Street now, and hands me a ballot without looking up. "Booth three," she says.`, [["Go to booth three", "ballot"]]],
+  }[String(PL.eday)];
+  const where = { null: "Latimer Community Center · 7:10 AM", hands: "Outside the Latimer Community Center · 7:15 AM", wells: "Cypress Street · 7:20 AM", vote: "Latimer Community Center · 8:20 AM" }[String(PL.eday)];
+  return `<div class="pl"><div class="plscenebox"><div class="plsname">Primary day · ${where}</div>
+    <div class="plnarr">${lines[0]}</div>
+    <div class="plreplies">${lines[1].map(([t, st], i) => st === "ballot" ? `<button type="button" class="reply" data-ex="pl-ballot"><b>${i + 1}.</b> ${esc(t)}</button>` : `<button type="button" class="reply" data-pl="${st}"><b>${i + 1}.</b> ${esc(t)}</button>`).join("")}</div></div></div>`;
+}
+const BALLOT = [
+  { k: "mayor", h: "FOR MAYOR", n: "Vote for one", c: [["whitfield", "CAROL WHITFIELD"]] },
+  { k: "d2", h: "FOR ALDERMAN, DISTRICT 2", n: "Vote for one", c: [["ellis", "RUTH ELLIS"], ["spencer", "JOHN SPENCER"]] },
+];
+const KNOW = {
+  whitfield: `Mayor since 2021. She promised to hold the tax at 38 ${g("mill", "mills")} and has. Nobody's running against her in the primary.`,
+  ellis: "Taught fourth grade here for thirty-one years. Wants the library open evenings and the water rate left alone.",
+  spencer: "Me.",
+};
+function plBallot() {
+  const mark = (race, id) => `<span class="ploval pick${PL.marks[race] === id ? " on" : ""}" data-pl="marks.${race}=${id}" tabindex="0" role="button" aria-label="Mark ${esc(GP[id].n)}"></span>`;
+  if (PL.cast) return `<div class="plballotwrap"><div class="ink plballot plcastdone"><p class="lnum">BALLOT CAST</p><p class="typedI">${esc(BALLOT.map((r) => PL.marks[r.k] ? `${r.h.replace("FOR ", "").toLowerCase()}: ${GP[PL.marks[r.k]].n}` : null).filter(Boolean).join("; ") || "Left blank")}.</p></div></div>`;
+  return `<div class="plballotwrap">
+    <div class="ink plballot">
+      <p class="lnum">OFFICIAL BALLOT · DEMOCRATIC PRIMARY ELECTION</p>
+      <p class="typedI small">TOWN OF LATIMER, MISSISSIPPI · DISTRICT 2 · TUESDAY, APRIL 1, 2025</p>
+            ${BALLOT.map((r) => `<div class="plbrace"><p class="plbh">${r.h}</p><p class="typedI small">${r.n}</p>${r.c.map(([id, nm]) => `<div class="plbcand">${mark(r.k, id)}<span class="typedI">${nm}</span></div>`).join("")}<div class="plbcand">${mark(r.k, "write")}<span class="typedI small">${g("writein", "WRITE-IN")} ____________________</span></div></div>`).join("")}
+      <div class="plbfoot"><button type="button" class="kbtn" data-pl="cast=true">Cast my ballot</button></div>
+    </div>
+    ${psec(2, "What I know about them", `${BALLOT.flatMap((r) => r.c).filter(([id]) => id !== "spencer").map(([id]) => `<div class="plknow">${RACEFACE[id] ? plBust(RACEFACE[id], 96, 120, 0.72) : ""}<div><h4>${gnm(id)}</h4><p class="intro">${KNOW[id]}</p></div></div>`).join("")}`, "plknowsec")}
+  </div>`;
+}
+GP.write = GP.write || { n: "a write-in", t: "Write-in", who: "", us: "" };
+function plNight() {
+  const boxes = [["Community center", 412, 388], [g("absentee", "Absentee"), 61, 74], ["Fire station", 388, 312]];
+  const S = boxes.reduce((a, b) => a + b[1], 0), E = boxes.reduce((a, b) => a + b[2], 0);
+  return `<div class="ex pl ol-g plnight">
+    <div class="plnighthead"><b>Primary night</b><span>Bean There, Main Street · 9:40 PM</span></div>
+    <div class="plnightcols">
+      ${psec(1, "The count", `${boxes.map(([b, s, e]) => `<div class="plbox"><span>${b}</span><b>Spencer ${s}</b><b>Ellis ${e}</b></div>`).join("")}<p class="lbig plwon">I won, ${S.toLocaleString("en-US")} to ${E.toLocaleString("en-US")}.</p>${pin(`${S - E} votes, with every box in. ${gnm("hale")} will ${g("certify", "certify")} it Thursday.`)}`)}
+      <div class="lcol">
+        ${psec(2, "The call", `<div class="said">${pq("ellis", "on the phone at 9:31", "Gracious", "You ran a clean race, John. Now go beat Daniel Cole, or I'll never hear the end of it from my library ladies.")}</div>`)}
+        ${psec(3, "Who's here", pin(`${gnm("kayla")}, ${gnm("hal")}, ${gnm("marisol")} and about thirty people, most of them from the west side. ${gnm("wells")} came in her church hat.`))}
+      </div>
+      <div class="lcol">
+        ${psec(4, "What's next", pin(`The general election is June 3, against ${gnm("cole")}. He won the seat by 92 votes in 2021.`))}
+        ${PL.spoke ? said("kayla", "Get up on a chair, John. Nobody in the back can see you.") : `<div class="placts">${pbtn("spoke=true", "Thank the room")}</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- which tab is lit on the Politics screens, and which screens are scenes or pop-ups ---------- */
+const PLTAB = { "pl-elections": "Elections", "pl-parties": "Parties", "pl-issues": "Issues", "pl-office": "Your office", "pl-campaign": "Campaign", "pl-trail": "Campaign" };
+const PLSCENE = { "pl-eday": () => PL.eday === "wells" ? "house-gulf-coast-raised__midday.jpg" : "school-board-room__midday.jpg", "pl-ballot": "school-board-room__midday.jpg", "pl-night": "home-kitchen__midday.jpg" };
+let plBg = null;
+function plAfter() {
+  const st = document.getElementById("stage"); if (!st) return;
+  const sc0 = PLSCENE[cur], sc = typeof sc0 === "function" ? sc0() : sc0, scene = document.getElementById("scene");
+  if (sc && scene) { if (plBg === null) plBg = scene.style.backgroundImage; scene.style.backgroundImage = `url(img/${sc})`; }
+  else if (plBg !== null && scene) { scene.style.backgroundImage = plBg; plBg = null; }
+  glHide();
+  for (const el of document.querySelectorAll(".plgl")) el.classList.toggle("learned", plLearned.has(el.dataset.glt));
+  st.classList.toggle("plscene", !!sc);
+  st.classList.toggle("plpop", cur === "pl-ballot" || cur === "pl-night");
+  st.classList.toggle("plnightst", cur === "pl-night");
+  const rail = document.querySelector("#menuhost .phead .tabrail");
+  if (rail && PLTAB[cur]) {
+    const list = ["Government", "Elections", "Parties", "Issues", "Budgets", "Metrics", cur === "pl-office" || cur === "pl-issues" ? "Your office" : "Campaign"];
+    rail.outerHTML = tabs(list, PLTAB[cur]);
+  }
+}
+/* runs right after every render, so the tab, the scene and the HUD are right before anything reads them */
+const plRender0 = render;
+render = function () { plRender0(); plAfter(); };
+
+/* the player card on each screen: the town screens of July 2025 have John on the board; election day is April 1 */
+const PLAYHUD = {
+  "pl-office": ["me", "John Spencer", "Monday, July 21, 2025", "9:15 AM"],
+  "pl-issues": ["me", "John Spencer", "Monday, July 21, 2025", "9:40 AM"],
+  "pl-eday": ["me", "John Spencer", "Tuesday, April 1, 2025", "7:10 AM"],
+  "pl-ballot": ["me", "John Spencer", "Tuesday, April 1, 2025", "7:25 AM"],
+  "pl-night": ["me", "John Spencer", "Tuesday, April 1, 2025", "9:40 PM"],
+};
+const PLAYEX = {
+  "pl-journal": ["Journal", "Journal", "the Journal as my story in chapters: the rail on the left as chapters, the page filled, no page numbers, no paper (Nov 5: \"I don't mind this rail on the left kind of acting as chapters for your story... just fill up the page\"; the journal reads as a story)", plJournal],
+  "pl-news": ["News", "News", "the paper's front page set on the panel, no cream sheet, every headline a story you can open (Nov 1: \"none of this is a story\"; Nov 7: paper \"sticks out like a sore thumb\")", plNews],
+  "pl-calendar": ["Calendar", "Calendar", "Strips, refined: Today is its own lit section with the date large and tomorrow under it, Coming up is a quieter list with the day of the week, and nothing runs out of the frame (Nov 7: \"thje today on calendar sticks out and isnt lined up... needs to have a difference between coming up and today\")", plCalendar],
+  "pl-money": ["Money", "Money", "the money in my account first, then my campaign's, and a way to move money into the campaign (Nov 5: \"I don't like anything on this screen other than the X amount of money in your account... have that money be transferable into your campaign\")", plMoney],
+  "pl-people": ["People", "People", "the people I know, each opening as the approved person card, with a fading bust only for people who have a figure (Nov 7: \"perfect\" about the Margaret Hale card)", plPeople],
+  "pl-travel": ["Travel", "Travel", "places as pictures that fade into the panel, the chosen one large, who's there and what I can do there as buttons, no subtitles (Nov 1: \"It says what you do here. And then it's just a list of people's names\"; Nov 7: \"NONE OF THESE SUBTITLES ON MENUS\")", plTravel],
+  "pl-guide": ["Guide", "Guide", "the civic words in their own menu, each explained with the town's own numbers and a way to the screen where it shows up, no boxed cards and no page counter (Oct 28: the Guide is a separate entry in the menu)", plGuide],
+  "pl-elections": ["Politics", "Elections", "the Elections tab that's always there: every race on my ballot, who's running, last time and where I vote (Nov 5: \"an Elections tab that's always there\")", plElections],
+  "pl-parties": ["Politics", "Parties", "a party you can open to see who leads it, who holds office, what it wants here and when it meets, with no district map (Nov 5: \"You should be able to click on the party and see their structure and who's involved with them\")", plParties],
+  "pl-issues": ["Politics", "Issues", "every question by subject, where it stands at each level, what people think, my position, and a bill to start from it (Nov 5: \"It's supposed to be all the 86 things\"; Nov 1: \"I imagine clicking on it and the quote-unquote bill interface\")", plIssues],
+  "pl-office": ["Politics", "Your office", "my seat, the bills on my desk, what I've promised, and office hours where people bring real problems and I decide (Oct 14: \"the engine offers, the player decides\")", plOffice],
+  "pl-campaign": ["Politics", "Campaign board", "the campaign board once I've filed: where the race stands in words and numbers, my opponent, the money, my people (Nov 5: \"The campaign board appears once you've filed\")", plCampaign],
+  "pl-trail": ["Politics", "Campaign trail", "the trail as places I go, each a picture with when, how long and who's coming (Oct 20: \"Campaign acts are scenes you go to\")", plTrail],
+  "pl-eday": ["Election day", "Election day", "primary morning as a scene with a narrator and real choices, the HUD gone (Oct 26: \"going to vote, this should be a scene, you know, maybe with a narrator\")", plEday],
+  "pl-ballot": ["Election day", "The ballot", "the ballot as a typed ballot, with what I know about each name beside it and every name clickable (Oct 26: \"Why can't you click these people and be able to figure out who they actual[ly are]\")", plBallot],
+  "pl-night": ["Election day", "Election night", "election night as its own pop-up over the room: the count by box, the call, who's here, what's next (Oct 26: \"This needs to be its own pop-up menu kind of thing\")", plNight],
+};

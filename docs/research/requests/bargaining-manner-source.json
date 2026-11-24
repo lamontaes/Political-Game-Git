@@ -1,0 +1,46 @@
+{
+  "answer": {
+    "summary": "It comes from the person already recorded, not from a new store. Commitment firmness is evidence of how explicitly somebody states a position and nothing more — not reliability, not policy preference, not a bargaining personality. Real proposal, authority, means, duties, goals and knowledge decide which choices are open; existing temperament and context shape engagement; fulfillment, breach, conditional and renegotiation history inform how far a counterpart should be relied on. ChatGPT's words: no new meters, fixed multipliers or disconnected legislative personality store. It also read our code and found a defect: legislature-manner.ts counts commitment ROWS against ENOUGH_TO_READ = 3 and only deduplicates eventIds afterwards, so three explicit clauses at one event read as strong observed manner from a single cited occasion, while two explicit commitments at two events stay unknown. Clause count must not stand in for independent experience, and the inferred trait must not dictate the next answer and be strengthened by it. Directness and reliability are separate: a clear conditional is not hedging, rejecting a measure whose condition was never met is not a broken promise, and honest renegotiation is not deception.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'LIVING PLAY — BARGAINING MANNER FROM THE SAME PERSON AND DISTINCT EVIDENCE', read 2026-09-22",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, and the entry 'BARGAINING MANNER — CURRENT RECORD IS EVIDENCE, NOT THE WHOLE PERSON'"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:23:07.677Z",
+    "stillOpen": "ChatGPT attaches three gates. Its five transcription checks confirmed the algorithm's output, not a failure in an installed game. A narrow observed summary must not become an enduring trait change, which would contradict the approved sustained-experience contract. And the helper it inspected takes no observer argument, but its caller must be checked before anyone claims a privacy leak. Playtester cases and the detail sit in research/policy/BARGAINING-MANNER-RECEIVING.md inside the delivered package, which has not been unpacked here."
+  },
+  "filedAt": "2026-09-22T05:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "modular legislation",
+  "notes": [
+    "The mechanism is built and shipped inert-safe, so this question is not blocking anything. A member with fewer than three recorded commitments reads as unknown and contributes nothing, which means an answer that replaces the source changes a derivation rather than unpicking saved data.",
+    "The build currently derives manner from LegislativeCommitmentFirmness alone: explicit counts as showing their hand, noncommittal and provisional as keeping it open, qualified on neither side. That choice is defensible because it is the game's own record of what the member said, but it is one reading of a member's behavior and not obviously the most telling one.",
+    "Deliberately not used, and worth challenging: whether the member kept the commitments they made. The world records that too, and a member who promises plainly and then does not deliver is a different person from one who promises plainly and delivers, while the current reading cannot tell them apart."
+  ],
+  "priority": "P2",
+  "question": "What should decide how a legislator behaves at a bargaining table? The build derives it from how firmly they have stated past commitments. Is a record of past commitments the right source at all, or should a bargaining manner come from something else — who they owe, what they have survived, how safe their seat is, who is watching — and if past behavior is right, is the firmness of what they said the most telling part of it?",
+  "questionId": "bargaining-manner-source",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislature-manner.ts, the derivation as built",
+      "whatItDidNotSettle": "Establishes that a manner can be derived from records alone, explain itself in the player's own terms, and leave an unobserved member genuinely unknown rather than middling. It has nothing to say about whether commitment firmness is the behavior that most decides how somebody bargains."
+    },
+    {
+      "source": "src/simulation/types.ts, LegislativeCommitmentRecord and LegislativeNegotiationRecord",
+      "whatItDidNotSettle": "Shows what the world already records about a member's dealings: the firmness and stance of every commitment, and the disposition of every approach including refused, deferred, countered and withdrawn. It establishes that other sources are available; it cannot say which of them a legislator's manner actually rests on."
+    },
+    {
+      "source": "The owner's instruction of 2026-09-22: 'i want the trait system itself. not those 5 hardwired. built the connectors for later traits and effects etc. that goes with all systems.'",
+      "whatItDidNotSettle": "Settles that a legislative trait belongs in a pack rather than hardwired, which is how it is built. It says nothing about what the trait should be, or what in a member's life should confer it."
+    },
+    {
+      "source": "The coordinator's decision of 2026-09-22, taken as technical lead rather than by the owner",
+      "whatItDidNotSettle": "Chose the member's own negotiating record as the source, on the same principle the resistance work rests on: the game does not assert something about a person it never observed. That principle rules out inventing a value; it does not choose between the several observed things that could be read instead."
+    }
+  ],
+  "title": "What a legislator's bargaining manner should actually come from",
+  "usableAnswer": "A position on whether past behavior is the right source, and if so which behavior: firmness of stated commitments, whether those commitments were kept, the pattern of refusals and deferrals, or something outside the record entirely such as seat safety or who the member owes. If more than one, a rough sense of which dominates. A worked sketch of two contrasting members and how each should read would be ideal, since the distinction that matters is between members the current reading cannot tell apart.",
+  "whyItMatters": "Bargaining is the deepest negotiation surface in the game and it is live in the played client. Read from the wrong source, every member in the chamber acquires a manner that is internally consistent and wrong, and it will not look wrong in any test — the seam works either way. It is also the first legislative trait, so whatever it reads from sets the pattern for every one after it."
+}

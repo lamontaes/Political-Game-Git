@@ -1,0 +1,451 @@
+{
+  "register": "news",
+  "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
+    "briefing": 1499,
+    "crec": 445,
+    "dcpd": 4730,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
+    "hearings": 1617,
+    "house": 115,
+    "hud": 996,
+    "nasa": 317,
+    "nasa2": 349,
+    "ncua": 683,
+    "nih": 52,
+    "nps": 515,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "organization-closed",
+      "text": "{subject} closed its doors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} closed its doors in {year}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} has closed.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} closed on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} will close.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} announced it would close.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} is closing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} shut down in {year}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} closed in {year}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} went out of business.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} laid off {number} workers.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} laid off {number} employees.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} died {date}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "life-death",
+      "text": "{name} of {place} died on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} died at the age of {age}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "life-death",
+      "text": "{name} passed away at the age of {age}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "life-death",
+      "text": "{name} died at age {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} is survived by {pronoun} children.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} filed to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} is running for {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} announced {pronoun} candidacy for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} announced that {pronoun_sub} would run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} is a candidate for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} filed for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "candidate-filed",
+      "text": "{name} will run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The new law took effect on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The law took effect on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The law took effect in {year}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The law went into effect on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The law goes into effect on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The new law took effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The law took effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The minimum wage rose to {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The minimum wage went up to {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The minimum wage is now {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "The minimum wage increased to {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} was elected {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "election-result",
+      "text": "{name} was elected to {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "election-result",
+      "text": "{name} defeated {opponent}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} won with {percent} percent of the vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} won reelection.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} was reelected.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "election-result",
+      "text": "{name} lost to {opponent}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} conceded.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election-result",
+      "text": "{name} conceded the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The city council voted {count} to approve {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The council voted {count} to approve {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The council approved {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The city council approved {measure}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "council-vote",
+      "text": "The council voted to {action}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The city council voted to {action}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The board voted unanimously to {action}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The council voted unanimously to {action}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The board approved {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The board voted {count} to {action}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The council rejected {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The measure passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The measure failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The ordinance passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council-vote",
+      "text": "The motion passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "The city's budget is {money}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "The budget was approved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "The council approved the budget.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "Property taxes will go up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "Taxes will go up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "budget",
+      "text": "Taxes went up.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

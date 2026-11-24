@@ -1,0 +1,308 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 10,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 22,
+  "numPassedTests": 22,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790848044593,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution keeps a read-only cost stable across repeated reads and reloading",
+          "status": "passed",
+          "title": "keeps a read-only cost stable across repeated reads and reloading",
+          "duration": 49.83927700000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not change a recorded law's compliance cost when only the seed changes",
+          "status": "passed",
+          "title": "does not change a recorded law's compliance cost when only the seed changes",
+          "duration": 10.33509100000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution retains the controlling measure without inventing a recurring expense or stamp",
+          "status": "passed",
+          "title": "retains the controlling measure without inventing a recurring expense or stamp",
+          "duration": 6.781419999999343,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not stamp an absent, future or repealed compliance duty",
+          "status": "passed",
+          "title": "does not stamp an absent, future or repealed compliance duty",
+          "duration": 21.28552099999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790848064254,
+      "endTime": 1790848064342.2854,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/federal-data-privacy-law.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate reads unambiguous SRIA bands, including 500 employees",
+          "status": "passed",
+          "title": "reads unambiguous SRIA bands, including 500 employees",
+          "duration": 6.663251999998465,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "status": "passed",
+          "title": "uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "duration": 0.3746449999998731,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate does not turn an absent, zero or invalid count into a cost",
+          "status": "passed",
+          "title": "does not turn an absent, zero or invalid count into a cost",
+          "duration": 0.23454399999900488,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790848064200,
+      "endTime": 1790848064207.3748,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-estimate.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 0"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 0 uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 5.98785300000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 0"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 0 subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 87.60374099999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 0"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 0 a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 17.26725599999918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 1"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 1 uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 0.7214180000009947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 1"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 1 subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 59.374142999997275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 1"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 1 a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 19.268731000000116,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 2"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 2 uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 0.528217000002769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 2"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 2 subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 48.756005999999616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 2"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 2 a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 17.86817399999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 3"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 3 uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 1.4322009999996226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 3"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 3 subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 63.949524999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 3"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 3 a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 17.772368000001734,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 4"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 4 uses only above-threshold saved private firms with actual paid employees",
+          "status": "passed",
+          "title": "uses only above-threshold saved private firms with actual paid employees",
+          "duration": 0.6573609999977634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 4"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 4 subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "status": "passed",
+          "title": "subtracts the source-band expense from actual books, preserves its stamp, and never charges it twice",
+          "duration": 51.749040999999124,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "one initial privacy expense through saved business writer, place draw 4"
+          ],
+          "fullName": "one initial privacy expense through saved business writer, place draw 4 a prospective repeal stops new expense and preserves the completed occurrence",
+          "status": "passed",
+          "title": "a prospective repeal stops new expense and preserves the completed occurrence",
+          "duration": 17.505857000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790848076244,
+      "endTime": 1790848076656.5059,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-writer.test.ts"
+    }
+  ]
+}

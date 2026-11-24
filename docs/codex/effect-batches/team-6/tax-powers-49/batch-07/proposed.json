@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "9a9e9e6587e847898e7e8c73748a65eb44714bfd",
+  "powers": [
+    {
+      "key": "US-KY:STATE:selective-excise",
+      "jurisdictionKey": "US-KY",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ky-181",
+      "sourceSha256": "7ee7918d799da759c058ebba2d833f31edb6b8239e15471e0fe2ea07d740e1d9",
+      "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=210",
+      "citations": [
+        "Ky. Const. §181",
+        "Ky. Const. §171",
+        "Ky. Const. §174",
+        "Ky. Const. §180",
+        "Ky. Const. §47",
+        "Ky. Const. §230"
+      ],
+      "constraints": [
+        "Section181 expressly permits specified license fees and special/excise taxes by GENERAL LAWS; state imposition for local-government purposes is prohibited and delegation still needs its separate law.",
+        "Section171 retains public-purpose/general-law requirements, property-class uniformity and its specific property-classification referendum mechanism; not every state excise receives that property-only referendum. Section174 property valuation is distinct from income/license/franchise power.",
+        "Section47 requires House revenue-bill origination and prohibits new matter unrelated to raising revenue under color of Senate amendment. Section180 requires distinct tax purpose and prohibits switching collected proceeds to another purpose. Section230 requires appropriations and preserves enumerated vehicle/fuel highway receipt uses.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-SD:STATE:selective-excise",
+      "jurisdictionKey": "US-SD",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "sd-article-xi-2",
+      "sourceSha256": "78ab19e5e733fb959a6330e382d79474c134e3767bfb0992437447db949d02ef",
+      "sourceUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-2.html",
+      "citations": [
+        "S.D. Const. art. XI, §2",
+        "S.D. Const. art. XI, §1",
+        "S.D. Const. art. XI, §3",
+        "S.D. Const. art. XI, §8",
+        "S.D. Const. art. XI, §14"
+      ],
+      "constraints": [
+        "Article XI§2 expressly recognizes business privileges/franchises/licenses and occupation taxing power; property classifications/uniformity and income progression clauses do not supply an excise rate.",
+        "Article XI§14 requires initiative consent or two-thirds of ALL MEMBERS ELECT of each legislative branch for new taxes or increased tax rates; this is not a present-and-voting denominator.",
+        "Article XI§1 assessed-property annual-tax ceiling is distinct from excise permissions; §3 preserves corporate taxation. Section8 requires lawful levy with specified use and covered vehicle/fuel highway dedication with its administration/nonhighway-fuel exceptions.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-WY:STATE:selective-excise",
+      "jurisdictionKey": "US-WY",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "wy-constitution-title97",
+      "sourceSha256": "63de540304eb0e4c216bf74958835184e8b1e36c6bb9da70c77edd6c3dd1eda2",
+      "sourceUrl": "https://wyoleg.gov/statutes/compress/title97.pdf",
+      "citations": [
+        "Wyo. Const. art. III, §§1,33–35; art. XV, §§3,4,11–14,16,18,19"
+      ],
+      "constraints": [
+        "ArticleIII§33 requires House revenue-bill origination; §§34–35 restrict appropriation subjects and treasury withdrawals to legislative appropriations/proper warrants, with the public-debt-interest exception.",
+        "ArticleXV§§3,4,11–12 retain mineral/property class/assessment/levy/exemption conditions; their mills are not an excise rate. Sections13–14 require stated legal tax purpose and prohibit contracting away taxing power.",
+        "ArticleXV§16 dedicates covered state vehicle/fuel fees/excises/licenses to enumerated highways/traffic-law uses with stated scope exceptions. Section19 mineral privilege tax and permanent trust-fund routing are specific, not permission to use all excise receipts for unrestricted services.",
+        "ArticleXV§18 requires full specified sales/use/ad-valorem credit against any income-tax liability; this distinct income condition is not a new excise base.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-WA:STATE:selective-excise",
+      "jurisdictionKey": "US-WA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "wa-constitution-full",
+      "sourceSha256": "5f46f377eee219c6bbf8bae1761f97f5a6f2a196ed2a847ddc78ee322a76e8ff",
+      "sourceUrl": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+      "citations": [
+        "Wash. Const. art. II, §§1,40; art. VII, §§1,4–6; art. VIII, §4"
+      ],
+      "constraints": [
+        "ArticleII§1 legislative power remains subject to the people’s initiative/referendum reservations. ArticleVII§5 requires legal levy/stated object/use and §6 cash payment into state treasury. This foundation supplies no arbitrary commodity or income-tax permission.",
+        "ArticleVII§1 property-class/public-purpose rules and §4 corporate-power retention retain their actual property/tax scope; the row does not resolve judicial property-versus-excise classification or invent an income rate.",
+        "ArticleII§40 retains covered vehicle-license/motor-fuel/highway receipt fund and enumerated highway purposes, plus express general/special-excise and operator-license exceptions. ArticleVIII§4 requires specific appropriation sum/object and payment within one calendar month after the next fiscal biennium.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    }
+  ],
+  "evidenceScopes": [
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-181",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-181.pdf",
+      "parentSha256": "7ee7918d799da759c058ebba2d833f31edb6b8239e15471e0fe2ea07d740e1d9",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 5853,
+        "retrievedAt": "2026-10-02T12:01:28.593696+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=210"
+      },
+      "citations": [
+        "Ky. Const. §181"
+      ],
+      "legalTextQuotes": [
+        "The General Assembly may, by general laws only, provide for the payment of license fees on franchises, stock used for breeding purposes, the various trades, occupations and professions, or a special or excise tax;"
+      ],
+      "excerptSha256": "ed4c9eb431a888cf6312f04013eb21aa3576c31aed2c12b55a6ca4b0822063d3",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-171",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-171.pdf",
+      "parentSha256": "f4802a74b089d1b4278bf5f14d41490334277daa8bc4bc83b3d4e994181246c7",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 7333,
+        "retrievedAt": "2026-10-02T12:01:27.875187+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=198"
+      },
+      "citations": [
+        "Ky. Const. §171"
+      ],
+      "legalTextQuotes": [
+        "The General Assembly shall provide by law an annual tax, which, with other resources, shall be sufficient to defray the estimated expenses of the Commonwealth for each fiscal year."
+      ],
+      "excerptSha256": "092bbad15def645bc6fe713f56e417d80a0ae596867441c5bf768b7827090270",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-174",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-174.pdf",
+      "parentSha256": "148fa5f93c8716d7d5abfef9154217ea01dc154add9d7c9bd4e1764e41d05406",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 4866,
+        "retrievedAt": "2026-10-02T12:01:27.876099+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=203"
+      },
+      "citations": [
+        "Ky. Const. §174"
+      ],
+      "legalTextQuotes": [
+        "Nothing in this Constitution shall be construed to prevent the General Assembly from providing for taxation based on income, licenses or franchises."
+      ],
+      "excerptSha256": "6293d0343f56436471e31a08e463296c64858a7d361629a0f098527b40c3fa99",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-180",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-180.pdf",
+      "parentSha256": "c47ba5d5bb89894f8c0dee73f48afa16cef4f92cb81155bd4797a8e2704958b4",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 4874,
+        "retrievedAt": "2026-10-02T12:01:27.876786+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=209"
+      },
+      "citations": [
+        "Ky. Const. §180"
+      ],
+      "legalTextQuotes": [
+        "Every act enacted by the General Assembly, and every ordinance and resolution passed by any county, city, town or municipal board or local legislative body, levying a tax, shall specify distinctly the purpose for which said tax is levied, and no tax levied and collected for one purpose shall ever be devoted to another purpose."
+      ],
+      "excerptSha256": "2ec0ed37a6c5b76e590ea8b64d204afe368732cc0917e96bbe1a353de091acf9",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-47",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-47.pdf",
+      "parentSha256": "abadf597b95d8c9b89e48b523419098590dc1b60ae63ea79b5f48e0fcab25c50",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 4359,
+        "retrievedAt": "2026-10-02T12:01:28.942127+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=51"
+      },
+      "citations": [
+        "Ky. Const. §47"
+      ],
+      "legalTextQuotes": [
+        "All bills for raising revenue shall originate in the House of Representatives, but the Senate may propose amendments thereto: Provided, No new matter shall be introduced, under color of amendment, which does not relate to raising revenue."
+      ],
+      "excerptSha256": "29857e1e340163637773ff28aab7c18d05449875908da930d29ec937cc4370fe",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "sourceArtifactId": "ky-230",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-230.pdf",
+      "parentSha256": "d0427fc3c76817c6279f8bc7d8ff65d732cd960142c98c5398d7fc12028aecd3",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 5475,
+        "retrievedAt": "2026-10-02T12:01:29.034492+00:00",
+        "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=265"
+      },
+      "citations": [
+        "Ky. Const. §230"
+      ],
+      "legalTextQuotes": [
+        "No money shall be drawn from the State Treasury, except in pursuance of appropriations made by law; and a regular statement and account of the receipts and expenditures of all public money shall be published annually."
+      ],
+      "excerptSha256": "f13e2c753d26969fdd14f7741c13e2beb7636263448c96e127a52a982af4a144",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "sourceArtifactId": "sd-article-xi-2",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-2.html",
+      "parentSha256": "78ab19e5e733fb959a6330e382d79474c134e3767bfb0992437447db949d02ef",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 2785,
+        "retrievedAt": "2026-10-02T12:00:29.138370+00:00",
+        "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-2.html"
+      },
+      "citations": [
+        "S.D. Const. art. XI, §2"
+      ],
+      "legalTextQuotes": [
+        "Taxes may be imposed upon any and all property including privileges, franchises and licenses to do business in the state.",
+        "The Legislature is empowered to impose taxes upon incomes and occupations, and taxes upon incomes may be graduated and progressive and reasonable exemptions may be provided."
+      ],
+      "excerptSha256": "61d50069b94a395c40b1c5475187eaf3092f328288e73713d1eb2cba7af40ef6",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "sourceArtifactId": "sd-article-xi-1",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-1.html",
+      "parentSha256": "7f1bcb11826b183d42680378578202f335508962b30304df84ddde3fb105a549",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 3347,
+        "retrievedAt": "2026-10-02T12:00:29.137742+00:00",
+        "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-1.html"
+      },
+      "citations": [
+        "S.D. Const. art. XI, §1"
+      ],
+      "legalTextQuotes": [
+        "The Legislature shall provide for an annual tax, sufficient to defray the estimated ordinary expenses of the state for each year,"
+      ],
+      "excerptSha256": "bac33fdf8976bc7ef8a7484f80de896e1be66742a5d028e1a3eeb3bc636d4549",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "sourceArtifactId": "sd-article-xi-3",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-3.html",
+      "parentSha256": "7ac65cb0eb823e02caf5e3922e42b2ab196adad56076a82f4cd85d7101ad14d0",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 1565,
+        "retrievedAt": "2026-10-02T12:00:29.138891+00:00",
+        "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-3.html"
+      },
+      "citations": [
+        "S.D. Const. art. XI, §3"
+      ],
+      "legalTextQuotes": [
+        "The power to tax corporations and corporate property shall not be surrendered or suspended by any contract or grant to which the state shall be a party."
+      ],
+      "excerptSha256": "bac46a2009a9c21cdf5ba0432ef7c1315e0cb3fd3217279e729c8a32b13c598e",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "sourceArtifactId": "sd-article-xi-8",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-article-xi-8.html",
+      "parentSha256": "4e2813c69ff469babda4bcd39fa2c3d5c8f2e3141897d1efd0d3d51d9fbee830",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 2400,
+        "retrievedAt": "2026-10-02T12:00:29.471364+00:00",
+        "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-8.html"
+      },
+      "citations": [
+        "S.D. Const. art. XI, §8"
+      ],
+      "legalTextQuotes": [
+        "No tax shall be levied except in pursuance of a law, which shall distinctly state the object of the same, to which the tax only shall be applied,"
+      ],
+      "excerptSha256": "fa5c9dd65c1377f17853a5757a99ebe37e9e36234c28ed960624d7886807ddee",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "sourceArtifactId": "sd-tax-clause-api",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-tax-clause-api.html",
+      "parentSha256": "183691a118654bf6b03fb2a62f55e9e7dfdf0eeab55dc21a62c11226bf075e41",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 1966,
+        "retrievedAt": "2026-10-02T11:59:04.380819+00:00",
+        "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-14.html"
+      },
+      "citations": [
+        "S.D. Const. art. XI, §14"
+      ],
+      "legalTextQuotes": [
+        "The rate of taxation imposed by the State of South Dakota in regard to any tax may not be increased and no new tax may be imposed by the State of South Dakota unless by consent of the people by exercise of their right of initiative or by two-thirds vote of all the members elect of each branch of the Legislature."
+      ],
+      "excerptSha256": "5e4dc123ed90915bc034a004f3097a5909019af00b51d819ceab6b9a440c524d",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "sourceArtifactId": "wy-constitution-title97",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wy-constitution-title97.pdf",
+      "parentSha256": "63de540304eb0e4c216bf74958835184e8b1e36c6bb9da70c77edd6c3dd1eda2",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 313619,
+        "retrievedAt": "2026-10-02T11:59:04.543390+00:00",
+        "url": "https://wyoleg.gov/statutes/compress/title97.pdf"
+      },
+      "citations": [
+        "Wyo. Const. art. III, §§1,33–35; art. XV, §§3,4,11–14,16,18,19"
+      ],
+      "legalTextQuotes": [
+        "The legislative power shall be vested in a senate and house of representatives, which shall be designated \"the legislature of the State of Wyoming.\"",
+        "No tax shall be levied, except in pursuance of law, and every law imposing a tax shall state distinctly the object of the same, to which only it shall be applied.",
+        "The power of taxation shall never be surrendered or suspended by any grant or contract to which the state or any county or other municipal corporation shall be a party."
+      ],
+      "excerptSha256": "3bd000478d39340d87ee0409b7ab7f1979e6f24e7fcbc2b16e20e5a17a959ef7",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "sourceArtifactId": "wa-constitution-full",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wa-constitution-full.pdf",
+      "parentSha256": "5f46f377eee219c6bbf8bae1761f97f5a6f2a196ed2a847ddc78ee322a76e8ff",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 1939842,
+        "retrievedAt": "2026-10-02T12:02:03.243878+00:00",
+        "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf"
+      },
+      "citations": [
+        "Wash. Const. art. II, §§1,40; art. VII, §§1,4–6; art. VIII, §4"
+      ],
+      "legalTextQuotes": [
+        "No tax shall be levied except in pursuance of law; and every law imposing a tax shall state distinctly the object of the same to which only it shall be applied.",
+        "All taxes levied and collected for state purposes shall be paid in money only into the state treasury.",
+        "No moneys shall ever be paid out of the treasury of this state, or any of its funds, or any of the funds under its management, except in pursuance of an appropriation by law;"
+      ],
+      "excerptSha256": "b4d5a6732de13e6873e0dcec3782faac3b4a8ebfeda644ee1bf9bd43838ee3bc",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    }
+  ],
+  "limits": [
+    "Four additional conditional foundations pending CTO source approval and full applicable-condition enforcement.",
+    "WA official fullPDF printed12/11/2025; current operative text is distinct from original clauses and amendment-history appendices.",
+    "KY actual§181 grant is captured from the observed index link, not the misidentified borrowing§178 endpoint. SD API supplies operative constitutional clauses rather than the earlier loading shell.",
+    "Other failed URLs/application shells/publication indices remain unadmitted. Louisiana2019PDF is historical; current article navigation remains a source dependency."
+  ]
+}

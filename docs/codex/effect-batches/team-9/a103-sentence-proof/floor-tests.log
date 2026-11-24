@@ -1,0 +1,19 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/law-consequences/legal-outcome.test.ts (71 tests | 15 skipped) 198ms
+ ✓ src/simulation/justice/sentencing-term.test.ts (8 tests | 7 skipped) 3348ms
+     ✓ reads all 56 base robbery rows without turning missing facts into a grade  3345ms
+
+ Test Files  2 passed (2)
+      Tests  57 passed | 22 skipped (79)
+   Start at  18:48:42
+   Duration  61.49s (transform 37.82s, setup 47ms, import 57.05s, tests 3.55s, environment 1ms)
+
+JSON report written to /tmp/team9-a103-floor-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

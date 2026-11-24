@@ -1,0 +1,57 @@
+{
+  "baseHead": "1bcc9a6cbb8024cae4135a55f01aa069942994b5",
+  "testedFile": "src/simulation/public-budgets/public-budgets.test.ts",
+  "testedBlob": "73ab9a878220cf855608ca71c5394294ddc4322e",
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-budget-canonical-final.json",
+  "exitCode": 1,
+  "passed": 27,
+  "failed": 2,
+  "dispatchedCasesPassed": 10,
+  "dispatchedCasesTotal": 12,
+  "durationSeconds": 12.21,
+  "scope": "Changed test file only. Isolated controlled budget inputs; no natural enactment/payment or final-game proof.",
+  "remaining": [
+    "carry-forward numeric assertion: 225749912 versus tolerance 131100615.513",
+    "state aid to city: no saved local account/cash, no settled city month"
+  ],
+  "notRun": [
+    "whole suite",
+    "year benchmark",
+    "populated nationwide behavior",
+    "browser",
+    "save/continue for these inherited fixtures"
+  ],
+  "rawSha256": {
+    "team6-budget-withholding-before.log": "345f6a32738ebf9617cf16fb8f4542bc9dbdf176428273758eea6e31d2e065df",
+    "team6-budget-withholding-before.json": "1f8f66975cc0f2e2d1d9fec0820d048b4e71f53ec601722377e4fa63382f5462",
+    "team6-budget-monthly-reproduction-receipt.json": "a3f3e641b29bca516d5377cb105c0ee89370a5a41f93408541e0423aa0c37160",
+    "team6-budget-canonical-first.log": "b80afde906af2e5a623f626dac7b88e8e2213a0e6e8b02c6970407d2c1bd5653",
+    "team6-budget-canonical-first.json": "883ffc812cc9f235f912b4e96eab0b60547ea01f24cb0ef9fba0cee19cbd1db3",
+    "team6-budget-canonical-second.log": "ffe0102e34ac8c49b8c81d6a9259d4eb5965e7f36f7c8c4622c830f1efa24f70",
+    "team6-budget-canonical-second.json": "a9d7c391617aca711eb01c4a07ed1ddad031c2dc2afaf6ea24d824f62188b776",
+    "team6-budget-canonical-final.log": "469ec97e3530ad8ec857b9f4fd8897ebafc70b9645be419811ac0eb1ab8129ad",
+    "team6-budget-canonical-final.json": "29e7cc2f384e40e667e3a666e5320f2fc9f7a48ccf18765488d456189209c861"
+  },
+  "publishedEvidenceSha256": {
+    "team6-budget-withholding-before.log": "345f6a32738ebf9617cf16fb8f4542bc9dbdf176428273758eea6e31d2e065df",
+    "team6-budget-withholding-before.json": "4923fe1581c642252894d740b14bad8333bd017c01772654cebcd76cbcad3eb1",
+    "team6-budget-monthly-reproduction-receipt.json": "a3f3e641b29bca516d5377cb105c0ee89370a5a41f93408541e0423aa0c37160",
+    "team6-budget-canonical-first.log": "b80afde906af2e5a623f626dac7b88e8e2213a0e6e8b02c6970407d2c1bd5653",
+    "team6-budget-canonical-first.json": "a4a6bafd6e333bcee6f3a04a2dc317f65fe2ec636c2da51f305f786afa4e1b90",
+    "team6-budget-canonical-second.log": "ffe0102e34ac8c49b8c81d6a9259d4eb5965e7f36f7c8c4622c830f1efa24f70",
+    "team6-budget-canonical-second.json": "cd1191ca5b0c343e3faaf346403adccf78349ff4035bb7557c90055c937ad8e0",
+    "team6-budget-canonical-final.log": "469ec97e3530ad8ec857b9f4fd8897ebafc70b9645be419811ac0eb1ab8129ad",
+    "team6-budget-canonical-final.json": "5d980754357f0267b8d89027f7caf5e9816e37e3fd24c829535bc9c861f24347"
+  },
+  "evidenceFormatting": "Published JSON whitespace formatted only; original /tmp raw byte hashes retained separately.",
+  "scopedTypes": {
+    "roots": 1,
+    "traversedFiles": 737,
+    "ownedDiagnostics": 0
+  },
+  "staticChecks": {
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "diffWhitespace": "PASS"
+  }
+}

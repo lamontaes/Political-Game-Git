@@ -1,0 +1,1912 @@
+{
+  "opening": {
+    "key": "US-IL",
+    "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+    "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+    "level": "state",
+    "name": "Illinois",
+    "stateKey": "US-IL",
+    "population": 12710158,
+    "fiscalYearStart": "07-01",
+    "fiscalYearStartBasis": "nasbo",
+    "budgetCycle": "annual",
+    "openingNotes": [
+      "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+      "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+      "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+      "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+      "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+      "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+      "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+      "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+      "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+      "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+      "Adoption is automatic each year; a budget passed as a bill comes later."
+    ],
+    "balance": 4676000000,
+    "reserve": 12689248636,
+    "debt": 42028806560,
+    "interestRate": 0.0610969815919751,
+    "cut": 0,
+    "pension": {
+      "liability": 332344111020,
+      "assets": 182257510483,
+      "paidShare": 0.7327
+    },
+    "years": [
+      {
+        "fiscalYear": 2026,
+        "startsOn": "2025-07-01",
+        "endsOn": "2026-06-30",
+        "adoptedOn": "2026-01-05",
+        "basis": "opening",
+        "expectedRevenue": [
+          26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+          4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+        ],
+        "appropriations": [
+          8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+          629024045, 0, 1724525385, 96890611, 824590093, 299595968, 2786879938,
+          9877615310, 37369639951, 11102240541, 2954548904, 0
+        ],
+        "reserveDeposit": 0,
+        "pensionRequired": 15152505174,
+        "pensionShare": 0.7327,
+        "economyAtAdoption": null,
+        "laws": {
+          "balanced": {
+            "answer": "yes",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+            "level": "state-statute"
+          },
+          "reserve": {
+            "answer": "no",
+            "measureId": "measure_0",
+            "level": "state-statute"
+          },
+          "pensions": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "level": "state-statute"
+          }
+        }
+      }
+    ],
+    "months": []
+  },
+  "adoptions": [
+    {
+      "month": "2026-06-01",
+      "beforeSettlement": {
+        "key": "US-IL",
+        "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "level": "state",
+        "name": "Illinois",
+        "stateKey": "US-IL",
+        "population": 12710158,
+        "fiscalYearStart": "07-01",
+        "fiscalYearStartBasis": "nasbo",
+        "budgetCycle": "annual",
+        "openingNotes": [
+          "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+          "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+          "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+          "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+          "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+          "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+          "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+          "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+          "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+          "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+          "Adoption is automatic each year; a budget passed as a bill comes later."
+        ],
+        "balance": 8480768657,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "interestRate": 0.0610969815919751,
+        "cut": 0,
+        "pension": {
+          "liability": 332344111020,
+          "assets": 182257510483,
+          "paidShare": 0.7327
+        },
+        "years": [
+          {
+            "fiscalYear": 2026,
+            "startsOn": "2025-07-01",
+            "endsOn": "2026-06-30",
+            "adoptedOn": "2026-01-05",
+            "basis": "opening",
+            "expectedRevenue": [
+              26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+              4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+            ],
+            "appropriations": [
+              8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+              629024045, 0, 1724525385, 96890611, 824590093, 299595968,
+              2786879938, 9877615310, 37369639951, 11102240541, 2954548904, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15152505174,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            }
+          }
+        ],
+        "months": [
+          {
+            "month": "2026-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019545805, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 5437272424,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019394210, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6198393253,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019237099, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6959356971,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019063274, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 7720146864,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018895174, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 8480768657,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          }
+        ]
+      },
+      "afterSettlement": {
+        "key": "US-IL",
+        "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "level": "state",
+        "name": "Illinois",
+        "stateKey": "US-IL",
+        "population": 12710158,
+        "fiscalYearStart": "07-01",
+        "fiscalYearStartBasis": "nasbo",
+        "budgetCycle": "annual",
+        "openingNotes": [
+          "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+          "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+          "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+          "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+          "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+          "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+          "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+          "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+          "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+          "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+          "Adoption is automatic each year; a budget passed as a bill comes later."
+        ],
+        "balance": 9241216869,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "interestRate": 0.0610969815919751,
+        "cut": 0,
+        "pension": {
+          "paidShare": 0.7327,
+          "liability": 336348857558,
+          "assets": 185031563363
+        },
+        "years": [
+          {
+            "fiscalYear": 2026,
+            "startsOn": "2025-07-01",
+            "endsOn": "2026-06-30",
+            "adoptedOn": "2026-01-05",
+            "basis": "opening",
+            "expectedRevenue": [
+              26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+              4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+            ],
+            "appropriations": [
+              8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+              629024045, 0, 1724525385, 96890611, 824590093, 299595968,
+              2786879938, 9877615310, 37369639951, 11102240541, 2954548904, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15152505174,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            }
+          },
+          {
+            "fiscalYear": 2027,
+            "startsOn": "2026-07-01",
+            "endsOn": "2027-06-30",
+            "adoptedOn": "2026-07-01",
+            "basis": "automatic",
+            "expectedRevenue": [
+              26255897244, 11139481488, 17686052880, 12222644752, 79556232,
+              4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+            ],
+            "appropriations": [
+              9371232085, 9708511121, 39750785785, 4244205622, 5739372326, 0,
+              730845306, 0, 2003677432, 112574470, 958067985, 348092110,
+              3237997240, 11476522788, 43418731243, 11201903013, 2567833221, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15288526018,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            },
+            "carriedBalance": 9241216869,
+            "stateLocalAidAtAdoption": null
+          }
+        ],
+        "months": [
+          {
+            "month": "2026-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019545805, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 5437272424,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019394210, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6198393253,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019237099, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6959356971,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019063274, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 7720146864,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018895174, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 8480768657,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-06-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018721593, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 9241216869,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          }
+        ]
+      }
+    },
+    {
+      "month": "2027-06-01",
+      "beforeSettlement": {
+        "key": "US-IL",
+        "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "level": "state",
+        "name": "Illinois",
+        "stateKey": "US-IL",
+        "population": 12710158,
+        "fiscalYearStart": "07-01",
+        "fiscalYearStartBasis": "nasbo",
+        "budgetCycle": "annual",
+        "openingNotes": [
+          "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+          "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+          "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+          "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+          "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+          "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+          "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+          "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+          "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+          "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+          "Adoption is automatic each year; a budget passed as a bill comes later."
+        ],
+        "balance": 770945403,
+        "reserve": 12679024982,
+        "debt": 42028806560,
+        "interestRate": 0.0610969815919751,
+        "cut": 0,
+        "pension": {
+          "paidShare": 0.7327,
+          "liability": 336348857558,
+          "assets": 185031563363
+        },
+        "years": [
+          {
+            "fiscalYear": 2026,
+            "startsOn": "2025-07-01",
+            "endsOn": "2026-06-30",
+            "adoptedOn": "2026-01-05",
+            "basis": "opening",
+            "expectedRevenue": [
+              26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+              4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+            ],
+            "appropriations": [
+              8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+              629024045, 0, 1724525385, 96890611, 824590093, 299595968,
+              2786879938, 9877615310, 37369639951, 11102240541, 2954548904, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15152505174,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            }
+          },
+          {
+            "fiscalYear": 2027,
+            "startsOn": "2026-07-01",
+            "endsOn": "2027-06-30",
+            "adoptedOn": "2026-07-01",
+            "basis": "automatic",
+            "expectedRevenue": [
+              26255897244, 11139481488, 17686052880, 12222644752, 79556232,
+              4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+            ],
+            "appropriations": [
+              9371232085, 9708511121, 39750785785, 4244205622, 5739372326, 0,
+              730845306, 0, 2003677432, 112574470, 958067985, 348092110,
+              3237997240, 11476522788, 43418731243, 11201903013, 2567833221, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15288526018,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            },
+            "carriedBalance": 9241216869,
+            "stateLocalAidAtAdoption": null
+          }
+        ],
+        "months": [
+          {
+            "month": "2026-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019545805, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 5437272424,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019394210, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6198393253,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019237099, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6959356971,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019063274, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 7720146864,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018895174, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 8480768657,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-06-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018721593, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 9241216869,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-07-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018553729, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 8471115462,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-08-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018380392, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 7700840718,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-09-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018207179, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 6934031613,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-10-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018039671, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 6163416148,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-11-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017866700, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 5392627712,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-12-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017699428, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 4625734248,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017526701, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 3854605813,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017354097, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 3083304774,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017198303, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 2314370499,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017025934, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 1542741297,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1016859242, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 770945403,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          }
+        ]
+      },
+      "afterSettlement": {
+        "key": "US-IL",
+        "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "level": "state",
+        "name": "Illinois",
+        "stateKey": "US-IL",
+        "population": 12710158,
+        "fiscalYearStart": "07-01",
+        "fiscalYearStartBasis": "nasbo",
+        "budgetCycle": "annual",
+        "openingNotes": [
+          "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+          "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+          "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+          "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+          "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+          "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+          "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+          "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+          "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+          "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+          "Adoption is automatic each year; a budget passed as a bill comes later."
+        ],
+        "balance": 0,
+        "reserve": 12678002364,
+        "debt": 42028806560,
+        "interestRate": 0.0610969815919751,
+        "cut": 0,
+        "pension": {
+          "paidShare": 0.7327,
+          "liability": 344454865025,
+          "assets": 190652853763
+        },
+        "years": [
+          {
+            "fiscalYear": 2026,
+            "startsOn": "2025-07-01",
+            "endsOn": "2026-06-30",
+            "adoptedOn": "2026-01-05",
+            "basis": "opening",
+            "expectedRevenue": [
+              26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+              4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+            ],
+            "appropriations": [
+              8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+              629024045, 0, 1724525385, 96890611, 824590093, 299595968,
+              2786879938, 9877615310, 37369639951, 11102240541, 2954548904, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15152505174,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            }
+          },
+          {
+            "fiscalYear": 2027,
+            "startsOn": "2026-07-01",
+            "endsOn": "2027-06-30",
+            "adoptedOn": "2026-07-01",
+            "basis": "automatic",
+            "expectedRevenue": [
+              26255897244, 11139481488, 17686052880, 12222644752, 79556232,
+              4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+            ],
+            "appropriations": [
+              9371232085, 9708511121, 39750785785, 4244205622, 5739372326, 0,
+              730845306, 0, 2003677432, 112574470, 958067985, 348092110,
+              3237997240, 11476522788, 43418731243, 11201903013, 2567833221, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15288526018,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            },
+            "carriedBalance": 9241216869,
+            "stateLocalAidAtAdoption": null
+          },
+          {
+            "fiscalYear": 2028,
+            "startsOn": "2027-07-01",
+            "endsOn": "2028-06-30",
+            "adoptedOn": "2027-07-01",
+            "basis": "automatic",
+            "expectedRevenue": [
+              26255897244, 11139481488, 17686052880, 12198247895, 79556232,
+              4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+            ],
+            "appropriations": [
+              8694521739, 9007445364, 36880323529, 3937725340, 5324923874, 0,
+              678069900, 0, 1858988960, 104445303, 888884498, 322955871,
+              3004176734, 10647786328, 40283401292, 11403256067, 2567833221, 0
+            ],
+            "reserveDeposit": 0,
+            "pensionRequired": 15563335699,
+            "pensionShare": 0.7327,
+            "economyAtAdoption": null,
+            "laws": {
+              "balanced": {
+                "answer": "yes",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+                "level": "state-statute"
+              },
+              "reserve": {
+                "answer": "no",
+                "measureId": "measure_0",
+                "level": "state-statute"
+              },
+              "pensions": {
+                "answer": "no",
+                "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+                "level": "state-statute"
+              }
+            },
+            "carriedBalance": 0,
+            "stateLocalAidAtAdoption": null
+          }
+        ],
+        "months": [
+          {
+            "month": "2026-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019545805, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 5437272424,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019394210, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6198393253,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019237099, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 6959356971,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1019063274, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 7720146864,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018895174, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 8480768657,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-06-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018721593, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              672136117, 696326898, 2851059343, 304408626, 411646984, 0,
+              52418670, 0, 143710449, 8074218, 68715841, 24966331, 232239995,
+              823134609, 3114136663, 925186712, 213986102, 0
+            ],
+            "balance": 9241216869,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-07-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018553729, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 8471115462,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-08-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018380392, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 7700840718,
+            "reserve": 12689248636,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-09-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018207179, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 6934031613,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-10-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1018039671, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 6163416148,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-11-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017866700, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 5392627712,
+            "reserve": 12685609784,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2026-12-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017699428, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 4625734248,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-01-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017526701, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 3854605813,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-02-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017354097, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 3083304774,
+            "reserve": 12681547540,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-03-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017198303, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 2314370499,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-04-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1017025934, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 1542741297,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-05-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1016859242, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": 770945403,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          },
+          {
+            "month": "2027-06-01",
+            "revenue": [
+              2187991437, 928290124, 1473837740, 1016687115, 6629686, 415464398,
+              557539548, 559123848, 4103385776, 51611620, 0
+            ],
+            "spending": [
+              780936007, 809042593, 3312565482, 353683802, 478281027, 0,
+              60903776, 0, 166973119, 9381206, 79838999, 29007676, 269833103,
+              956376899, 3618227604, 933491918, 213986102, 0
+            ],
+            "balance": -1022618,
+            "reserve": 12679024982,
+            "debt": 42028806560,
+            "economy": 1,
+            "represented": 0
+          }
+        ]
+      }
+    }
+  ],
+  "adjustments": [
+    {
+      "governmentKey": "US-IL",
+      "on": "2026-07-01",
+      "fiscalYear": 2026,
+      "kind": "pension-underpaid",
+      "amount": 2025132315,
+      "law": {
+        "name": "pensions",
+        "reading": {
+          "answer": "no",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "level": "state-statute"
+        }
+      },
+      "note": "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2026-07-01",
+      "fiscalYear": 2027,
+      "kind": "balance-carried",
+      "amount": 9241216869,
+      "law": null,
+      "note": "The balance above what the reserve still lacks of its target (0.1 of a year's spending; Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021)) was carried into the new year and is spent across it, once."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2026-10-01",
+      "fiscalYear": 2027,
+      "kind": "reserve-draw",
+      "amount": 3638852,
+      "law": {
+        "name": "balanced",
+        "reading": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        }
+      },
+      "note": "Drawn from the reserve to keep the year balanced. Reserves are kept to protect services through a temporary revenue shortfall, so the reserve went first."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2027-01-01",
+      "fiscalYear": 2027,
+      "kind": "reserve-draw",
+      "amount": 4062244,
+      "law": {
+        "name": "balanced",
+        "reading": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        }
+      },
+      "note": "Drawn from the reserve to keep the year balanced. Reserves are kept to protect services through a temporary revenue shortfall, so the reserve went first."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2027-04-01",
+      "fiscalYear": 2027,
+      "kind": "reserve-draw",
+      "amount": 2522558,
+      "law": {
+        "name": "balanced",
+        "reading": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        }
+      },
+      "note": "Drawn from the reserve to keep the year balanced. Reserves are kept to protect services through a temporary revenue shortfall, so the reserve went first."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2027-07-01",
+      "fiscalYear": 2027,
+      "kind": "reserve-draw",
+      "amount": 1022618,
+      "law": {
+        "name": "balanced",
+        "reading": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        }
+      },
+      "note": "Drawn from the reserve to close the year's deficit."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2027-07-01",
+      "fiscalYear": 2027,
+      "kind": "pension-underpaid",
+      "amount": 4086623002,
+      "law": {
+        "name": "pensions",
+        "reading": {
+          "answer": "no",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "level": "state-statute"
+        }
+      },
+      "note": "No law requires the full actuarial contribution; the unpaid part grows the unfunded liability."
+    },
+    {
+      "governmentKey": "US-IL",
+      "on": "2027-07-01",
+      "fiscalYear": 2028,
+      "kind": "balanced-at-adoption",
+      "amount": 225749913,
+      "law": {
+        "name": "balanced",
+        "reading": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        }
+      },
+      "note": "Expected revenue and the carried balance fell short of last year's programs, so the adopted budget cut them to balance."
+    }
+  ],
+  "final": {
+    "key": "US-IL",
+    "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+    "lawJurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+    "level": "state",
+    "name": "Illinois",
+    "stateKey": "US-IL",
+    "population": 12710158,
+    "fiscalYearStart": "07-01",
+    "fiscalYearStartBasis": "nasbo",
+    "budgetCycle": "annual",
+    "openingNotes": [
+      "Census 2022 state-government figures per resident times BEA 2024 population, times the calibration factor.",
+      "Interest rate: 6.11%, its own Census 2022 interest on debt over its debt outstanding.",
+      "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
+      "Opening reserve: NASBO's fiscal 2026 rainy-day fund balance.",
+      "Calibration factor 1.1506: NASBO fiscal 2025 all-funds state spending divided by Census 2022 state expenditure, summed across the 50 states. It carries 2022 amounts to the game's opening year and is a calibration, not a price index.",
+      "Pension liability: 2.6191 times a year's spending, its state's public plans in the Public Plans Database against the state's combined state and local spending (Census 2022); the contribution is carved out of salary-paying programs.",
+      "Pension funded ratio: 0.5484, as its own plans filed with the Public Plans Database.",
+      "Pension normal cost: 0.0092 of the liability a year, as its own plans filed with the Public Plans Database. Benefits paid: 0.0551 of the liability a year, as its own plans filed.",
+      "Reserve target under a minimum-reserve law: 0.1 of a year's spending, at most 0.01 a year: Budget Stabilization Fund: no size set; ESTIMATED FROM AVERAGE: the median of the 36 state rainy-day laws that set a size (NASBO 2021).",
+      "Pension share paid: 0.7327, as its own plans filed with the Public Plans Database.",
+      "Adoption is automatic each year; a budget passed as a bill comes later."
+    ],
+    "balance": 0,
+    "reserve": 12678002364,
+    "debt": 42028806560,
+    "interestRate": 0.0610969815919751,
+    "cut": 0,
+    "pension": {
+      "paidShare": 0.7327,
+      "liability": 344454865025,
+      "assets": 190652853763
+    },
+    "years": [
+      {
+        "fiscalYear": 2026,
+        "startsOn": "2025-07-01",
+        "endsOn": "2026-06-30",
+        "adoptedOn": "2026-01-05",
+        "basis": "opening",
+        "expectedRevenue": [
+          26255897242, 11139481490, 17686052875, 12234549658, 79556234,
+          4985572770, 6690474573, 6709486173, 49240629317, 619339435, 0
+        ],
+        "appropriations": [
+          8065633400, 8355922770, 34212712118, 3652903515, 4939763812, 0,
+          629024045, 0, 1724525385, 96890611, 824590093, 299595968, 2786879938,
+          9877615310, 37369639951, 11102240541, 2954548904, 0
+        ],
+        "reserveDeposit": 0,
+        "pensionRequired": 15152505174,
+        "pensionShare": 0.7327,
+        "economyAtAdoption": null,
+        "laws": {
+          "balanced": {
+            "answer": "yes",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+            "level": "state-statute"
+          },
+          "reserve": {
+            "answer": "no",
+            "measureId": "measure_0",
+            "level": "state-statute"
+          },
+          "pensions": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "level": "state-statute"
+          }
+        }
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "adoptedOn": "2026-07-01",
+        "basis": "automatic",
+        "expectedRevenue": [
+          26255897244, 11139481488, 17686052880, 12222644752, 79556232,
+          4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+        ],
+        "appropriations": [
+          9371232085, 9708511121, 39750785785, 4244205622, 5739372326, 0,
+          730845306, 0, 2003677432, 112574470, 958067985, 348092110, 3237997240,
+          11476522788, 43418731243, 11201903013, 2567833221, 0
+        ],
+        "reserveDeposit": 0,
+        "pensionRequired": 15288526018,
+        "pensionShare": 0.7327,
+        "economyAtAdoption": null,
+        "laws": {
+          "balanced": {
+            "answer": "yes",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+            "level": "state-statute"
+          },
+          "reserve": {
+            "answer": "no",
+            "measureId": "measure_0",
+            "level": "state-statute"
+          },
+          "pensions": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "level": "state-statute"
+          }
+        },
+        "carriedBalance": 9241216869,
+        "stateLocalAidAtAdoption": null
+      },
+      {
+        "fiscalYear": 2028,
+        "startsOn": "2027-07-01",
+        "endsOn": "2028-06-30",
+        "adoptedOn": "2027-07-01",
+        "basis": "automatic",
+        "expectedRevenue": [
+          26255897244, 11139481488, 17686052880, 12198247895, 79556232,
+          4985572776, 6690474576, 6709486176, 49240629312, 619339440, 0
+        ],
+        "appropriations": [
+          8694521739, 9007445364, 36880323529, 3937725340, 5324923874, 0,
+          678069900, 0, 1858988960, 104445303, 888884498, 322955871, 3004176734,
+          10647786328, 40283401292, 11403256067, 2567833221, 0
+        ],
+        "reserveDeposit": 0,
+        "pensionRequired": 15563335699,
+        "pensionShare": 0.7327,
+        "economyAtAdoption": null,
+        "laws": {
+          "balanced": {
+            "answer": "yes",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.balanced-operating-budget",
+            "level": "state-statute"
+          },
+          "reserve": {
+            "answer": "no",
+            "measureId": "measure_0",
+            "level": "state-statute"
+          },
+          "pensions": {
+            "answer": "no",
+            "measureId": "starting-law:US-IL:us-policy-positions:fiscal.fund-pensions-to-schedule",
+            "level": "state-statute"
+          }
+        },
+        "carriedBalance": 0,
+        "stateLocalAidAtAdoption": null
+      }
+    ],
+    "months": [
+      {
+        "month": "2026-01-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1019545805, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 5437272424,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-02-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1019394210, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 6198393253,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-03-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1019237099, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 6959356971,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-04-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1019063274, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 7720146864,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-05-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018895174, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 8480768657,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-06-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018721593, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          672136117, 696326898, 2851059343, 304408626, 411646984, 0, 52418670,
+          0, 143710449, 8074218, 68715841, 24966331, 232239995, 823134609,
+          3114136663, 925186712, 213986102, 0
+        ],
+        "balance": 9241216869,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-07-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018553729, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 8471115462,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-08-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018380392, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 7700840718,
+        "reserve": 12689248636,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-09-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018207179, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 6934031613,
+        "reserve": 12685609784,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-10-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1018039671, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 6163416148,
+        "reserve": 12685609784,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-11-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017866700, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 5392627712,
+        "reserve": 12685609784,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2026-12-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017699428, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 4625734248,
+        "reserve": 12681547540,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-01-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017526701, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 3854605813,
+        "reserve": 12681547540,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-02-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017354097, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 3083304774,
+        "reserve": 12681547540,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-03-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017198303, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 2314370499,
+        "reserve": 12679024982,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-04-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1017025934, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 1542741297,
+        "reserve": 12679024982,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-05-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1016859242, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": 770945403,
+        "reserve": 12679024982,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      },
+      {
+        "month": "2027-06-01",
+        "revenue": [
+          2187991437, 928290124, 1473837740, 1016687115, 6629686, 415464398,
+          557539548, 559123848, 4103385776, 51611620, 0
+        ],
+        "spending": [
+          780936007, 809042593, 3312565482, 353683802, 478281027, 0, 60903776,
+          0, 166973119, 9381206, 79838999, 29007676, 269833103, 956376899,
+          3618227604, 933491918, 213986102, 0
+        ],
+        "balance": -1022618,
+        "reserve": 12679024982,
+        "debt": 42028806560,
+        "economy": 1,
+        "represented": 0
+      }
+    ]
+  },
+  "recordedCashSupplied": false,
+  "recordedPaymentMapSupplied": false
+}

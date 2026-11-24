@@ -1,0 +1,37 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "an-international-crisis",
+  "title": "An international crisis",
+  "producer": {
+    "at": "src/simulation/crisis/international.ts#declareInternationalCrisis",
+    "owner": "How the world changes",
+    "writes": "A crisis record, a pending decision for the acting office, response stages, war-powers clocks and a conflict-spillover envelope the economy reads.",
+    "runsInPlay": false,
+    "runsDetail": "No caller outside tests. The decision handlers are registered (crisis/index.ts:61-63) and the screen is mounted (CrisisNoticesPanel.tsx at PlayerGame.tsx:4582); only the start is missing."
+  },
+  "readers": [
+    {
+      "at": "src/presentation/crisis-shell.ts:304",
+      "owner": "How the world changes",
+      "reads": "Shows the pending decision to the player."
+    },
+    {
+      "at": "src/simulation/macro-economy/sources.ts:172",
+      "owner": "How the world changes",
+      "reads": "Spillover envelope as an economic shock."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "A world development escalating into a crisis the acting office must decide",
+      "readerOwner": "How the world changes",
+      "state": "handed-off",
+      "detail": "living-world/developments.ts already writes international.development-reported and only trade disruption moves anything. ChatGPT answered: a supported development with actors, interests, commitments and escalation state feeds the existing declaration route.",
+      "researchQuestionId": "when-should-an-international-crisis-begin",
+      "readerAt": "src/simulation/living-world/developments.ts",
+      "handedOff": "2026-09-23, brief sent to How the world changes"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

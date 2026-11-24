@@ -1,0 +1,1026 @@
+{
+  "version": "depth1-content-specification-v1",
+  "status": "design-specification-for-existing-engine-adapters-not-a-loadable-game-pack",
+  "notALimit": "This finite receiving batch is not a permanent content ceiling or scripted event deck. Expand through the same meaningful operations.",
+  "recipes": [
+    {
+      "key": "encounter-through-shared-work",
+      "group": "friendship",
+      "trigger": "Compatible people actually participate in the same work or project",
+      "participantRoles": [
+        "participants",
+        "optional introducer"
+      ],
+      "variationAxes": [
+        "task purpose",
+        "voluntary approach",
+        "knowledge",
+        "temperament",
+        "stakes"
+      ],
+      "connects": [
+        "work",
+        "availability",
+        "contact",
+        "knowledge",
+        "relationship"
+      ],
+      "requiredResult": "A remembered introduction or conversation and any freely chosen next contact.",
+      "forbiddenShortcut": "Same employer/proximity automatically means friends.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "reconnect-with-shared-past",
+      "group": "friendship",
+      "trigger": "A real old connection gains a present reason or opportunity to reconnect",
+      "participantRoles": [
+        "initiator",
+        "known contact"
+      ],
+      "variationAxes": [
+        "time since contact",
+        "shared event",
+        "present goal",
+        "message tone",
+        "availability"
+      ],
+      "connects": [
+        "history",
+        "memory",
+        "private goals",
+        "communications"
+      ],
+      "requiredResult": "A specific response, alternative or nonresponse with preserved identity and context.",
+      "forbiddenShortcut": "Teacher/colleague must contact every player on a fixed date.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "trusted-introduction",
+      "group": "friendship",
+      "trigger": "Someone knows two people and sees a relevant mutual opportunity",
+      "participantRoles": [
+        "introducer",
+        "two contacts"
+      ],
+      "variationAxes": [
+        "reason",
+        "privacy consent",
+        "prior trust",
+        "recipient interest"
+      ],
+      "connects": [
+        "relationship",
+        "knowledge",
+        "work",
+        "organizations"
+      ],
+      "requiredResult": "Recipients actually learn permitted contact/context; acceptance is separate.",
+      "forbiddenShortcut": "Friendship transfers automatically along a network edge.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "shared-success",
+      "group": "friendship",
+      "trigger": "Actual cooperative work achieves a supported result",
+      "participantRoles": [
+        "collaborators"
+      ],
+      "variationAxes": [
+        "credit",
+        "effort",
+        "risk",
+        "division of work",
+        "recognition"
+      ],
+      "connects": [
+        "work/project",
+        "memory",
+        "respect",
+        "reputation"
+      ],
+      "requiredResult": "Participants appraise who contributed and whether to cooperate again.",
+      "forbiddenShortcut": "A success popup gives all bystanders trust.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "conflicting-priorities",
+      "group": "friendship",
+      "trigger": "Two genuine commitments compete for finite time/resources",
+      "participantRoles": [
+        "person",
+        "affected people"
+      ],
+      "variationAxes": [
+        "stakes",
+        "alternatives",
+        "notice",
+        "duty",
+        "prior promises"
+      ],
+      "connects": [
+        "calendar",
+        "commitments",
+        "relationship",
+        "career"
+      ],
+      "requiredResult": "A choice, explanation or renegotiation changes the specific commitments.",
+      "forbiddenShortcut": "Create conflict by silently booking mutually impossible routine obligations.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "privacy-and-confidence",
+      "group": "friendship",
+      "trigger": "A person chooses whether to disclose or protect a specific known matter",
+      "participantRoles": [
+        "speaker",
+        "recipient",
+        "affected person"
+      ],
+      "variationAxes": [
+        "public/private status",
+        "intent",
+        "permission",
+        "stakes",
+        "later evidence"
+      ],
+      "connects": [
+        "knowledge",
+        "deception",
+        "relationship",
+        "memory",
+        "news"
+      ],
+      "requiredResult": "Actual disclosure/access and observer-specific appraisal.",
+      "forbiddenShortcut": "Everyone automatically learns a secret or every disclosure is malicious.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "disagreement-and-repair",
+      "group": "friendship",
+      "trigger": "A recorded disagreement or breach leaves unresolved tension",
+      "participantRoles": [
+        "participants"
+      ],
+      "variationAxes": [
+        "severity",
+        "accountability",
+        "remedy",
+        "belief difference",
+        "boundaries"
+      ],
+      "connects": [
+        "relationship",
+        "dialogue",
+        "commitments",
+        "memory"
+      ],
+      "requiredResult": "Possible repair/revised terms/separation with trust and warmth allowed to differ.",
+      "forbiddenShortcut": "Apology resets every relationship dimension or conflict namespace always means harm.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "friend-moves-or-changes-role",
+      "group": "friendship",
+      "trigger": "An actual move/job/office change alters proximity or availability",
+      "participantRoles": [
+        "mover",
+        "existing contacts"
+      ],
+      "variationAxes": [
+        "distance",
+        "worktime",
+        "reason",
+        "contact preference"
+      ],
+      "connects": [
+        "population",
+        "housing",
+        "work",
+        "travel",
+        "relationships"
+      ],
+      "requiredResult": "The person and history persist; feasible meetings and routes change.",
+      "forbiddenShortcut": "Moving deletes friendships or forces emotional decay.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "referral-to-real-vacancy",
+      "group": "career",
+      "trigger": "An employer has real available work and a contact knows it",
+      "participantRoles": [
+        "employer",
+        "referrer",
+        "candidate"
+      ],
+      "variationAxes": [
+        "requirements",
+        "pay",
+        "schedule",
+        "location",
+        "referrer knowledge"
+      ],
+      "connects": [
+        "work",
+        "employer budget",
+        "relationships",
+        "information"
+      ],
+      "requiredResult": "A reachable recruitment opportunity with appropriate terms; referral is not automatic hiring.",
+      "forbiddenShortcut": "Invent vacancy merely to reward friendship.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "competing-job-offers",
+      "group": "career",
+      "trigger": "Candidate has multiple genuine offers or staying is viable",
+      "participantRoles": [
+        "candidate",
+        "employers",
+        "household if relevant"
+      ],
+      "variationAxes": [
+        "compensation",
+        "hours",
+        "commute",
+        "security",
+        "goals",
+        "trust"
+      ],
+      "connects": [
+        "offers",
+        "schedules",
+        "money",
+        "housing",
+        "goals"
+      ],
+      "requiredResult": "Explicit chosen terms, declines/lapses and feasible transition.",
+      "forbiddenShortcut": "All offers stay forever or choosing one automatically fills every other vacancy.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "internal-promotion",
+      "group": "career",
+      "trigger": "Organization has responsibility/capacity need and a candidate is considered",
+      "participantRoles": [
+        "employee",
+        "manager",
+        "other candidates"
+      ],
+      "variationAxes": [
+        "experience",
+        "performance evidence",
+        "trust",
+        "role need",
+        "pay authority"
+      ],
+      "connects": [
+        "career",
+        "skills",
+        "relationships",
+        "organization authority",
+        "pay"
+      ],
+      "requiredResult": "Role/terms change with evidence; other applicants respond if they learn.",
+      "forbiddenShortcut": "N shifts automatically promotes or internal promotion counts as a new resident.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "training-for-opportunity",
+      "group": "career",
+      "trigger": "A chosen career opportunity needs a supported skill/credential",
+      "participantRoles": [
+        "learner",
+        "provider",
+        "employer"
+      ],
+      "variationAxes": [
+        "prior skill",
+        "cost",
+        "available time",
+        "aid",
+        "job demand"
+      ],
+      "connects": [
+        "compact education",
+        "work",
+        "finance",
+        "contacts"
+      ],
+      "requiredResult": "Background meaningful training progress and later eligibility under actual terms.",
+      "forbiddenShortcut": "Restore rejected certificates, literal homework grind or instant knowledge.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "hours-or-pay-negotiation",
+      "group": "career",
+      "trigger": "Either worker or employer has a real reason to revisit terms",
+      "participantRoles": [
+        "worker",
+        "authorized manager"
+      ],
+      "variationAxes": [
+        "capacity",
+        "financing",
+        "outside options",
+        "performance",
+        "household needs"
+      ],
+      "connects": [
+        "terms",
+        "schedule",
+        "output/service",
+        "payroll",
+        "relationship"
+      ],
+      "requiredResult": "Agreed/rejected/countered terms have downstream budget and availability consequences.",
+      "forbiddenShortcut": "Charisma creates money or fewer days necessarily means fewer paid hours.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "position-ended-or-layoff",
+      "group": "career",
+      "trigger": "An employer decision or contract condition actually ends work",
+      "participantRoles": [
+        "employer",
+        "worker",
+        "affected household"
+      ],
+      "variationAxes": [
+        "cause",
+        "notice",
+        "support",
+        "vacancies elsewhere",
+        "financial cushion"
+      ],
+      "connects": [
+        "employer finance",
+        "employment",
+        "household income",
+        "goals",
+        "relationships"
+      ],
+      "requiredResult": "Correct cessation, remaining obligations and possible job search/support opportunities.",
+      "forbiddenShortcut": "Every missed shift fires someone or hardship forces a political conversion.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "employee-exit-and-replacement",
+      "group": "career",
+      "trigger": "Worker leaves through a real decision/retirement/move",
+      "participantRoles": [
+        "worker",
+        "employer",
+        "colleagues",
+        "potential replacement"
+      ],
+      "variationAxes": [
+        "continuity need",
+        "knowledge transfer",
+        "recruitment urgency",
+        "budget"
+      ],
+      "connects": [
+        "career",
+        "vacancy",
+        "scheduling",
+        "services",
+        "social network"
+      ],
+      "requiredResult": "Organization adjusts its staffing/delivery; replacement is an independently assessed person.",
+      "forbiddenShortcut": "Vacancy always fills immediately with a newly born adult.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "small-enterprise-change",
+      "group": "career",
+      "trigger": "Represented employer opens/expands/contracts or transfers ownership",
+      "participantRoles": [
+        "owner/manager",
+        "workers",
+        "customers"
+      ],
+      "variationAxes": [
+        "demand",
+        "resources",
+        "credit",
+        "permits",
+        "competition"
+      ],
+      "connects": [
+        "business",
+        "population work cohorts",
+        "tax base",
+        "local services"
+      ],
+      "requiredResult": "Capacity and payroll change through real resources and actors.",
+      "forbiddenShortcut": "Every new business grants a fixed universal growth bonus.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "change-tax-base-rate",
+      "group": "legislation",
+      "trigger": "A proposal changes a specified taxable activity or rate",
+      "participantRoles": [
+        "proposer",
+        "tax authority",
+        "affected groups"
+      ],
+      "variationAxes": [
+        "base",
+        "rate",
+        "exemption",
+        "phase-in",
+        "collection cost"
+      ],
+      "connects": [
+        "propositions",
+        "legislation",
+        "accounts",
+        "household/business",
+        "macro"
+      ],
+      "requiredResult": "Effective rule changes actual collections; behavioral response is separately labelled.",
+      "forbiddenShortcut": "Tax increase automatically triggers positive national revenue-windfall growth.",
+      "existingIssueKey": "fiscal.income-tax",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "fund-service-capacity",
+      "group": "legislation",
+      "trigger": "Government considers funding for an actual service",
+      "participantRoles": [
+        "proposer",
+        "appropriator",
+        "delivery agency",
+        "workers",
+        "users"
+      ],
+      "variationAxes": [
+        "amount",
+        "source",
+        "staffing",
+        "capital vs operating",
+        "target",
+        "start"
+      ],
+      "connects": [
+        "budget",
+        "procurement",
+        "work",
+        "service",
+        "population",
+        "beliefs"
+      ],
+      "requiredResult": "Authority then actual obligation/payment/staffing yields capacity and delivery.",
+      "forbiddenShortcut": "Passage alone delivers the service or spends every authorized dollar.",
+      "existingIssueKey": "fiscal.appropriations",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "eligibility-and-benefit-change",
+      "group": "legislation",
+      "trigger": "A proposal changes who may receive a defined supported benefit",
+      "participantRoles": [
+        "proposer",
+        "administrator",
+        "eligible/ineligible groups"
+      ],
+      "variationAxes": [
+        "eligibility",
+        "amount",
+        "duration",
+        "funding",
+        "application friction"
+      ],
+      "connects": [
+        "law",
+        "eligibility",
+        "service",
+        "accounts",
+        "household",
+        "knowledge"
+      ],
+      "requiredResult": "Affected people can qualify/apply/receive under implemented terms.",
+      "forbiddenShortcut": "A vocabulary label is a completed entitlement model.",
+      "existingIssueKey": "health-human-services.food-and-income-assistance",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "health-capacity-access",
+      "group": "legislation",
+      "trigger": "A health service or coverage rule has a represented need or reform proposal",
+      "participantRoles": [
+        "agency",
+        "providers",
+        "workers",
+        "users",
+        "legislators"
+      ],
+      "variationAxes": [
+        "coverage",
+        "affordability",
+        "capacity",
+        "geography",
+        "funding"
+      ],
+      "connects": [
+        "health",
+        "public/private spending",
+        "jobs",
+        "service access",
+        "beliefs"
+      ],
+      "requiredResult": "Compact coverage/cost/capacity/access states change before any uncertain health-outcome response.",
+      "forbiddenShortcut": "Build a detailed medical simulator first or equate insurance enrollment to treatment.",
+      "existingIssueKey": "health-human-services.hospitals-and-providers",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "housing-permission-construction",
+      "group": "legislation",
+      "trigger": "A land-use or building proposal concerns actual sites/households",
+      "participantRoles": [
+        "authority",
+        "applicants",
+        "builders",
+        "residents"
+      ],
+      "variationAxes": [
+        "permitted use",
+        "density",
+        "cost",
+        "finance",
+        "construction time"
+      ],
+      "connects": [
+        "zoning",
+        "permits",
+        "housing",
+        "work",
+        "infrastructure",
+        "population"
+      ],
+      "requiredResult": "Permissions change feasible projects; resources and construction determine eventual supply.",
+      "forbiddenShortcut": "A zoning vote immediately creates homes.",
+      "existingIssueKey": "housing-land-use.zoning",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "maintenance-and-resilience",
+      "group": "legislation",
+      "trigger": "A service asset needs planned maintenance or a proposed resilience upgrade",
+      "participantRoles": [
+        "asset operator",
+        "budget authority",
+        "workers",
+        "users"
+      ],
+      "variationAxes": [
+        "asset condition",
+        "priority",
+        "outage tradeoff",
+        "funding",
+        "hazard context"
+      ],
+      "connects": [
+        "budget",
+        "procurement",
+        "maintenance",
+        "crisis exposure",
+        "work"
+      ],
+      "requiredResult": "Actual completed work changes condition/vulnerability and service continuity.",
+      "forbiddenShortcut": "A preventive appropriation automatically prevents every future hazard.",
+      "existingIssueKey": "transportation-infrastructure.roads-and-bridges",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "report-inspect-and-enforce",
+      "group": "legislation",
+      "trigger": "An operative rule creates a specific reporting, inspection or enforcement duty",
+      "participantRoles": [
+        "regulated actor",
+        "agency",
+        "reviewer"
+      ],
+      "variationAxes": [
+        "scope",
+        "evidence",
+        "deadline",
+        "staffing",
+        "remedy",
+        "appeal"
+      ],
+      "connects": [
+        "law",
+        "work queues",
+        "evidence",
+        "oversight",
+        "accounts",
+        "news"
+      ],
+      "requiredResult": "Assigned duties can be fulfilled/overdue/examined and produce supported remedies.",
+      "forbiddenShortcut": "Duty exists only as bill text or allegation equals guilt.",
+      "existingIssueKey": "government-operations.public-contracting",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "amend-repeal-and-transition",
+      "group": "legislation",
+      "trigger": "A real operative provision is amended, expires or is repealed",
+      "participantRoles": [
+        "proposer",
+        "body",
+        "implementer",
+        "affected parties"
+      ],
+      "variationAxes": [
+        "revision",
+        "effective date",
+        "grandfathering",
+        "outstanding commitments"
+      ],
+      "connects": [
+        "versioned law",
+        "programs",
+        "accounts",
+        "rights",
+        "memory"
+      ],
+      "requiredResult": "Future application changes coherently, preserving completed acts and surviving obligations.",
+      "forbiddenShortcut": "Repeal erases money already paid or roads already built.",
+      "existingIssueKey": "government-operations.legislative-procedure",
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "flood-and-displacement",
+      "group": "crisis",
+      "trigger": "A geographically supported hazard episode affects exposed assets",
+      "participantRoles": [
+        "residents",
+        "operators",
+        "responders",
+        "officials"
+      ],
+      "variationAxes": [
+        "footprint",
+        "duration",
+        "water intensity",
+        "vulnerability",
+        "warning",
+        "capacity"
+      ],
+      "connects": [
+        "hazards",
+        "housing",
+        "work",
+        "transport",
+        "response",
+        "finance"
+      ],
+      "requiredResult": "Actual damage/service loss/displacement then response and recovery.",
+      "forbiddenShortcut": "One independent flood per household or damage proportional to number of visible characters.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "wind-and-grid-loss",
+      "group": "crisis",
+      "trigger": "Supported wind episode or equipment damage affects connected infrastructure",
+      "participantRoles": [
+        "operator",
+        "residents",
+        "employers",
+        "responders"
+      ],
+      "variationAxes": [
+        "footprint",
+        "network redundancy",
+        "repair resources",
+        "timing"
+      ],
+      "connects": [
+        "hazards",
+        "energy",
+        "water",
+        "work",
+        "health access",
+        "recovery"
+      ],
+      "requiredResult": "Service dependency changes with mitigation and restoration; cascading harm is conditional.",
+      "forbiddenShortcut": "Every severe storm causes the same chain or duplicate damage per article.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "heat-and-service-pressure",
+      "group": "crisis",
+      "trigger": "A supported heat episode meets exposed people and capacity constraints",
+      "participantRoles": [
+        "residents",
+        "employers",
+        "service operators",
+        "officials"
+      ],
+      "variationAxes": [
+        "duration",
+        "exposure",
+        "cooling access",
+        "work conditions",
+        "resources"
+      ],
+      "connects": [
+        "hazards",
+        "health capacity",
+        "energy",
+        "work",
+        "public service"
+      ],
+      "requiredResult": "Exposure/availability and supported relief measures change; label uncalibrated outcome responses.",
+      "forbiddenShortcut": "Borrow flood-destruction formula for heat or turn temperature into a fixed death quota.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "winter-transport-disruption",
+      "group": "crisis",
+      "trigger": "Supported cold/snow/ice episode obstructs actual transport/services",
+      "participantRoles": [
+        "travellers",
+        "operators",
+        "employers",
+        "responders"
+      ],
+      "variationAxes": [
+        "routes",
+        "conditions",
+        "maintenance",
+        "duration",
+        "prior preparation"
+      ],
+      "connects": [
+        "hazards",
+        "travel",
+        "calendar",
+        "work",
+        "service delivery"
+      ],
+      "requiredResult": "Cancellations/delays/repair are attributed to shared conditions with valid rescheduling.",
+      "forbiddenShortcut": "Advance a traveller past a meeting and leave the meeting pending forever.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "wildfire-smoke-and-access",
+      "group": "crisis",
+      "trigger": "Supported fire/smoke footprint reaches relevant terrain and assets",
+      "participantRoles": [
+        "residents",
+        "land managers",
+        "responders",
+        "employers"
+      ],
+      "variationAxes": [
+        "fuel/terrain",
+        "wind",
+        "exposure",
+        "evacuation capacity",
+        "duration"
+      ],
+      "connects": [
+        "hazards",
+        "housing",
+        "health exposure",
+        "travel",
+        "response",
+        "finance"
+      ],
+      "requiredResult": "Distinct direct damage, smoke exposure and access effects through their appropriate models.",
+      "forbiddenShortcut": "Treat all state residents as equally exposed or reuse a storm label with no fire mechanism.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "drought-and-supply-stress",
+      "group": "crisis",
+      "trigger": "Persistent supported water deficit pressures actual users",
+      "participantRoles": [
+        "utilities",
+        "farms/businesses",
+        "residents",
+        "authorities"
+      ],
+      "variationAxes": [
+        "storage",
+        "season",
+        "demand",
+        "alternatives",
+        "allocation rule"
+      ],
+      "connects": [
+        "water",
+        "agriculture",
+        "jobs",
+        "prices",
+        "regulation",
+        "migration"
+      ],
+      "requiredResult": "Resource balance changes service/production with rule-bound responses.",
+      "forbiddenShortcut": "One dry month universally destroys crops or directly adds the same GDP shock everywhere.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "service-failure-and-repair",
+      "group": "crisis",
+      "trigger": "A represented water/power/communications/transport component actually fails",
+      "participantRoles": [
+        "operator",
+        "users",
+        "repair staff",
+        "public officials"
+      ],
+      "variationAxes": [
+        "cause",
+        "redundancy",
+        "repair dependencies",
+        "funding",
+        "disclosure"
+      ],
+      "connects": [
+        "infrastructure",
+        "work",
+        "health/services",
+        "procurement",
+        "oversight"
+      ],
+      "requiredResult": "Loss/stabilization/restoration followed by identified causes and possible reform.",
+      "forbiddenShortcut": "A generic crisis card bypasses the condition of the actual service.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "public-health-capacity-pressure",
+      "group": "crisis",
+      "trigger": "A supported health episode or demand rise exceeds represented service capacity",
+      "participantRoles": [
+        "providers",
+        "workers",
+        "users",
+        "health authority"
+      ],
+      "variationAxes": [
+        "need",
+        "staffing",
+        "access",
+        "cost",
+        "communication",
+        "response"
+      ],
+      "connects": [
+        "health",
+        "jobs",
+        "public budget",
+        "household",
+        "beliefs"
+      ],
+      "requiredResult": "Care availability and costs respond before separately modelled outcomes.",
+      "forbiddenShortcut": "Invent named disease clinical rates or automatically force civil restrictions.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "fiscal-pressure-and-service-tradeoff",
+      "group": "crisis",
+      "trigger": "Real revenue/expenditure commitments create projected or actual fiscal pressure",
+      "participantRoles": [
+        "finance staff",
+        "executive",
+        "legislature",
+        "service users"
+      ],
+      "variationAxes": [
+        "reserves",
+        "borrowing power",
+        "timing",
+        "obligations",
+        "revenue base"
+      ],
+      "connects": [
+        "accounts",
+        "budgets",
+        "services",
+        "work",
+        "legislation",
+        "news"
+      ],
+      "requiredResult": "Feasible adjustment, borrowing or delivery consequences under the government\u2019s powers.",
+      "forbiddenShortcut": "A deficit headline causes arbitrary default while cash/obligations are ignored.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "institutional-dispute",
+      "group": "crisis",
+      "trigger": "Actual actors disagree over authority, obligations or a consequential decision",
+      "participantRoles": [
+        "officeholders",
+        "bodies",
+        "review institution",
+        "affected groups"
+      ],
+      "variationAxes": [
+        "power",
+        "evidence",
+        "procedure",
+        "deadline",
+        "coalitions"
+      ],
+      "connects": [
+        "government",
+        "courts/oversight",
+        "law",
+        "service continuity",
+        "news"
+      ],
+      "requiredResult": "Supported negotiation/review/decision changes authority or action; work elsewhere continues.",
+      "forbiddenShortcut": "Disagreement automatically means violent unrest or whole-game deadlock.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "international-pressure-and-response",
+      "group": "crisis",
+      "trigger": "A supported cross-border dispute or incident has actors, interests and information",
+      "participantRoles": [
+        "governments",
+        "affected organizations",
+        "authorized officials"
+      ],
+      "variationAxes": [
+        "interests",
+        "commitments",
+        "resources",
+        "signals",
+        "exposure",
+        "response"
+      ],
+      "connects": [
+        "international records",
+        "diplomacy",
+        "trade",
+        "macro",
+        "authority",
+        "news"
+      ],
+      "requiredResult": "Plausible proposals, de-escalation, escalation or unresolved continuation with actual effects.",
+      "forbiddenShortcut": "Guaranteed war by year N or same fishing-rights sentence in every save.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    },
+    {
+      "key": "ordinary-improvement-and-new-opportunity",
+      "group": "world-change",
+      "trigger": "A real service/project/employer/relationship improvement opens possibilities",
+      "participantRoles": [
+        "participants",
+        "beneficiaries",
+        "new entrants"
+      ],
+      "variationAxes": [
+        "capacity",
+        "access",
+        "local needs",
+        "knowledge",
+        "resources"
+      ],
+      "connects": [
+        "services",
+        "work",
+        "housing",
+        "private goals",
+        "relationships"
+      ],
+      "requiredResult": "People can pursue new feasible choices in good conditions too.",
+      "forbiddenShortcut": "Only crisis or deprivation can generate content.",
+      "existingIssueKey": null,
+      "status": "design-ready-receiving-input-not-executable-schema"
+    }
+  ]
+}

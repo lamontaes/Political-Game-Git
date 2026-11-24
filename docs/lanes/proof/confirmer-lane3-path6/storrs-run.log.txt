@@ -1,0 +1,234 @@
+NEWLIFE http://localhost:3000/api/newlife?seed=storrs-1&date=&placeKey=0973980&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A1985%2C%22birthMonth%22%3A4%2C%22birthDay%22%3A10%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%3Alow+ponytail%22%2C%22colors%22%3A%7B%22top%22%3A%22brown%22%2C%22trousers%22%3A%22denim%22%2C%22shoes%22%3A%22tan%22%2C%22hair%22%3A%22brown%22%7D%7D%7D
+PLACE Storrs, Connecticut PERSON person_b83e0bf262b37c19
+TALK 1 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"My fellow Americans, we have come together to do something ordinary and remarkable. I come to this office from South Carolina, after my time as Governor, and I begin knowing how much I have yet to learn. I accept this trust humbly, knowing the office is larger than any one person who holds it.","replies":[]}
+TALK 2 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"I believe that free people, left to build and to look after one another, will do more good than any government can do for them. To those who voted for someone else: I know this is not the day you hoped for. I will work as hard for you as for anyone.","replies":[]}
+TALK 3 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"The country I take charge of today is in better shape than it was a year ago. Paychecks have grown faster than prices this year, and that is real progress for working people. But work has grown harder to find this year, and there are men and women in every part of the country still looking for it. Every American who wants to work should be able to find it, and until that is true, it is the first thing I will answer for.","replies":[]}
+TALK 4 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"To the members of Congress: the people sent us here together, and they will judge us together. I mean to work with you, and I will come to you often.\nVICE PRESIDENT SHANNON PETERSON · STATE REPRESENTATIVE JEREMY MEYERS · STATE SENATOR ANDREW SNIDER · U.S. REPRESENTATIVE MARY MERCADO","replies":[]}
+TALK 5 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"I am grateful to Vice President Shannon Peterson, who will stand beside me in this work and tell me when I am wrong.\nVICE PRESIDENT SHANNON PETERSON · STATE REPRESENTATIVE JEREMY MEYERS · STATE SENATOR ANDREW SNIDER · U.S. REPRESENTATIVE MARY MERCADO","replies":[]}
+TALK 6 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"This nation is its states before it is any one capital. To the governors and the lawmakers who serve them, I offer a partnership, and an open door.\nVICE PRESIDENT SHANNON PETERSON · STATE REPRESENTATIVE JEREMY MEYERS · STATE SENATOR ANDREW SNIDER · U.S. REPRESENTATIVE MARY MERCADO","replies":[]}
+TALK 7 Monday, January 20, 2025 8:30 PM {"who":"Jennifer Reed","lines":"Whether you work a shift, run a shop or raise a family, this work is for you. Thank you. God bless you all, and God bless this country.","replies":[]}
+TALK 8 Wednesday, January 22, 2025 8:00 AM {"who":"","lines":"Heather Nolan waves you over again.","replies":[]}
+TALK 9 Wednesday, January 22, 2025 8:00 AM {"who":"Heather Nolan","lines":"I thought the President made a lot of sense.","replies":["I'm with you on that.","I saw it differently.","We'll see what the President actually does.","Washington's a long way from here, though."]}
+PICK 9 I'm with you on that.
+TALK 10 Wednesday, January 22, 2025 8:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nI thought the President made a lot of sense.\nEMILY CARTER\nI'm with you on that.\nThen we agree on something for once.\nWe'll talk.","replies":[]}
+WEEK 1 Tuesday, January 28, 2025 7:00 AM
+WEEK 2 Tuesday, February 4, 2025 7:00 AM
+TALK 11 Tuesday, February 4, 2025 8:00 AM {"who":"","lines":"Heather Nolan has news for you.","replies":[]}
+TALK 12 Tuesday, February 4, 2025 8:00 AM {"who":"Heather Nolan","lines":"What do you think?","replies":["It's about time."]}
+PICK 12 It's about time.
+TALK 13 Tuesday, February 4, 2025 8:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nWhat do you think?\nEMILY CARTER\nIt's about time.\nUh-huh.","replies":[]}
+WEEK 3 Tuesday, February 11, 2025 7:00 AM
+TALK 14 Wednesday, February 12, 2025 8:00 AM {"who":"","lines":"Charlotte Weber has news for you.","replies":[]}
+TALK 15 Wednesday, February 12, 2025 8:00 AM {"who":"Charlotte Weber","lines":"Good to see you, Emily.\nDid you read about Meridian News Network?","replies":["We'll manage. We always do.","I haven't heard.","Good. That's been a long time coming."]}
+PICK 15 We'll manage. We always do.
+TALK 16 Wednesday, February 12, 2025 8:00 AM {"who":"Charlotte Weber","lines":"CHARLOTTE WEBER\nGood to see you, Emily.\nCHARLOTTE WEBER\nDid you read about Meridian News Network?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 4 Tuesday, February 18, 2025 7:00 AM
+WEEK 5 Tuesday, February 25, 2025 7:00 AM
+WEEK 6 Tuesday, March 4, 2025 7:00 AM
+TALK 17 Thursday, March 6, 2025 7:00 AM {"who":"","lines":"Heather Nolan has news for you.","replies":[]}
+TALK 18 Thursday, March 6, 2025 7:00 AM {"who":"Heather Nolan","lines":"Have you heard about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 18 We'll manage. We always do.
+TALK 19 Thursday, March 6, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nHave you heard about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 7 Tuesday, March 11, 2025 7:00 AM
+WEEK 8 Tuesday, March 18, 2025 7:00 AM
+TALK 20 Wednesday, March 19, 2025 10:00 AM {"who":"","lines":"Your brother has come to say goodbye.","replies":[]}
+TALK 21 Wednesday, March 19, 2025 10:00 AM {"who":"Phillip Jimenez","lines":"","replies":[]}
+WEEK 9 Tuesday, March 25, 2025 7:00 AM
+WEEK 10 Tuesday, April 1, 2025 7:00 AM
+TALK 22 Wednesday, April 2, 2025 8:00 AM {"who":"","lines":"Charlotte Weber has news for you.","replies":[]}
+TALK 23 Wednesday, April 2, 2025 8:00 AM {"who":"Charlotte Weber","lines":"Hello there.\nDid you read about Meridian News Network?","replies":["We'll manage. We always do.","I haven't heard.","Good. That's been a long time coming."]}
+PICK 23 We'll manage. We always do.
+TALK 24 Wednesday, April 2, 2025 8:00 AM {"who":"Charlotte Weber","lines":"CHARLOTTE WEBER\nHello there.\nCHARLOTTE WEBER\nDid you read about Meridian News Network?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 11 Tuesday, April 8, 2025 7:00 AM
+TALK 25 Thursday, April 10, 2025 7:00 AM {"who":"","lines":"Heather Nolan has been waiting for you to get home.","replies":[]}
+TALK 26 Thursday, April 10, 2025 7:00 AM {"who":"Heather Nolan","lines":"Have you heard about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 26 We'll manage. We always do.
+TALK 27 Thursday, April 10, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nHave you heard about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 12 Tuesday, April 15, 2025 7:00 AM
+WEEK 13 Tuesday, April 22, 2025 7:00 AM
+WEEK 14 Tuesday, April 29, 2025 7:00 AM
+WEEK 15 Tuesday, May 6, 2025 7:00 AM
+WEEK 16 Tuesday, May 13, 2025 7:00 AM
+TALK 28 Thursday, May 15, 2025 7:00 AM {"who":"","lines":"Heather Nolan has something to tell you as soon as you're in the door.","replies":[]}
+TALK 29 Thursday, May 15, 2025 7:00 AM {"who":"Heather Nolan","lines":"Have you heard about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 29 We'll manage. We always do.
+TALK 30 Thursday, May 15, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nHave you heard about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 17 Tuesday, May 20, 2025 7:00 AM
+WEEK 18 Tuesday, May 27, 2025 7:00 AM
+WEEK 19 Tuesday, June 3, 2025 7:00 AM
+WEEK 20 Tuesday, June 10, 2025 7:00 AM
+FILING-OPEN 21 Tuesday, June 10, 2025 7:00 AM Selectman (Avery Cooper) closes 2025-08-06 election 2025-11-04 via Town clerk (party endorsements by town committee/caucus; petitions certified by registrars of voters)
+CAMPAIGNS Politics | Government | Campaigns | Parties | Issues | Budgets | ON THE BALLOT | Selectman (Andrew Cooper) | 1 running | November 4, 2025 | Filing closes August 6, 2025 | Selectman (Avery Cooper) | 1 running | November 4, 2025 | Filing closes August 6, 2025 | Selectman (Chris Moran) | 1 running | November 4, 2025 | Filing closes August 6, 2025
+RACEPAGE Politics | Government | Campaigns | Parties | Issues | Budgets | Selectman (Avery Cooper) | 1 RUNNING | Avery Cooper | PUBLIC WELFARE | For | NATURAL RESOURCES | For | POLICE PROTECTION | Against | File for it | DATES | Aug 6 | Filing closes | Nov 4 | Election day
+CLERK 31 Tuesday, June 10, 2025 8:00 AM {"who":"Nancy Rosales","lines":"NANCY ROSALES\nWhat can I do for you?\nEMILY CARTER\nI want to run for Selectman.\nSo you're running for Selectman. There's no primary for this one, so you'd go straight onto the ballot November 4. You'd have a seat on the Mansfield Town Board of Selectmen, voting on the budget and every ordinance that comes before it. You've got until August 6 to get it all back to me.","replies":["I'm in. Give me the papers."]}
+PICK-CLERK I'm in. Give me the papers.
+CLERK 32 Tuesday, June 10, 2025 8:00 AM {"who":"","lines":"EMILY CARTER\nI want to run for Selectman.\nSo you're running for Selectman. There's no primary for this one, so you'd go straight onto the ballot November 4. You'd have a seat on the Mansfield Town Board of Selectmen, voting on the budget and every ordinance that comes before it. You've got until August 6 to get it all back to me.\nEMILY CARTER\nI'm in. Give me the papers.\nCOLLECTING SIGNATURES","replies":[]}
+FILINGS []
+TRAIL Tuesday, June 10, 20258:00 AM Knock on doors · 3 hours | Hold an event · 3 hours · Hall $215.73 · campaign $0.00 (off) | Host a forum · 3 hours · Hall $215.73 · campaign $0.00 (off) | Ask for an interview · 1 hours | Call donors · 3 hours | Meet donors at a supporter's home · 2 hours | Volunteers | Endorsements | Ad | Poll | Mail | Put in your own money | Give a speech
+ACT /volunteer/i {"answers":[{"personId":"person_0f92df319b47332e","yes":false,"name":"Jose Valencia","line":"Jose Valencia cannot give the campaign any time right now."},{"personId":"person_2f843e1147aa1008","yes":false,"name":"Charlotte Weber","line":"Charlotte Weber cannot give the campaign any time right now."},{"personId":"person_3e4a6cb26692f00a","yes":false,"name":"Raymond Jimenez","line":"Raymond Jimenez cannot give the campaign any time right now."},{"personId":"person_6e3c3250ea81462f","yes":false,"name":"Phillip Jimenez","line":"Phillip Jimenez cannot give the campaign any time right now."},{"personId":"person_b83e0af262b37a66","yes":false,"name":"Heather Nolan","line":"Heather Nolan cannot give the campaign any time right now."},{"personId":"person_fe8a3790cbf1bed7","yes":false,"name":"Denise Jimenez","line":"Denise Jimenez cannot help just now."}],"volunteers":0,"scene":{"place":"campaign-office-storefront","backdrop":{"file":"campaign-office-storefront__midday.jpg","variant":"midday","url":"/art/backdrops/campaign-office-storefront__midday.jpg"},"people":[],"unplaced":[{"personId":"person_b83e0bf262b37c19","reason":"no-plate"}]}}
+TALK 33 Tuesday, June 10, 2025 8:00 AM {"who":"Jose Valencia","lines":"Jose Valencia cannot give the campaign any time right now.","replies":[]}
+TALK 34 Tuesday, June 10, 2025 8:00 AM {"who":"Charlotte Weber","lines":"Charlotte Weber cannot give the campaign any time right now.","replies":[]}
+TALK 35 Tuesday, June 10, 2025 8:00 AM {"who":"Raymond Jimenez","lines":"Raymond Jimenez cannot give the campaign any time right now.","replies":[]}
+TALK 36 Tuesday, June 10, 2025 8:00 AM {"who":"Phillip Jimenez","lines":"Phillip Jimenez cannot give the campaign any time right now.","replies":[]}
+TALK 37 Tuesday, June 10, 2025 8:00 AM {"who":"Heather Nolan","lines":"Heather Nolan cannot give the campaign any time right now.","replies":[]}
+TALK 38 Tuesday, June 10, 2025 8:00 AM {"who":"Denise Jimenez","lines":"Denise Jimenez cannot help just now.","replies":[]}
+TALK 39 Tuesday, June 10, 2025 8:00 AM {"who":"","lines":"Asked 6, 0 said yes: 0 volunteers now","replies":[]}
+ACT /Call donors/i {"calls":[{"personId":"person_00698e020cbef034","name":"Lauren Wiggins","givenMinor":59100,"why":"gave","line":"Lauren Wiggins put in $591 for your campaign."},{"personId":"person_0071fedbf7a36c87","name":"Angela Ramirez","givenMinor":0,"why":"no-spare","line":"Angela Ramirez cannot spare anything right now."},{"personId":"person_0f92df319b47332e","name":"Jose Valencia","givenMinor":0,"why":"not-warm","line":"Jose Valencia has no reason yet to give to your campaign."},{"personId":"person_1736188850c8f287","name":"Scott Morgan","givenMinor":100000,"why":"gave","line":"Scott Morgan put in $1,000 for your campaign."},{"personId":"person_29958b35f7084cb6","name":"Tristan Tucker","givenMinor":0,"why":"no-spare","line":"Tristan Tucker has nothing to spare after the month's bills."},{"personId":"person_2f843e1147aa1008","name":"Charlotte Weber","givenMinor":0,"why":"not-warm","line":"Charlotte Weber has no reason yet to give to your campaign."},{"personId":"person_2f843f1147aa11bb","name":"Aditi Smith","givenMinor":0,"why":"no-spare","line":"Aditi Smith cannot spare anything right now."},{"personId":"person_683a7151218ca817","name":"Andrew Cooper","givenMinor":0,"why":"no-spare","line":"Andrew Cooper has nothing to spare after the month's bills."},{"personId":"person_6fc8c6e6b1032314","name":"John Sanders","givenMinor":0,"why":"no-spare","line":"John Sanders has nothing to spare after the month's bills."},{"personId":"person_ae21e7e748c9aa5e","name":"Richard Massey","givenMinor":0,"
+TALK 40 Tuesday, June 10, 2025 2:00 PM {"who":"Lauren Wiggins","lines":"Lauren Wiggins put in $591 for your campaign.","replies":[]}
+TALK 41 Tuesday, June 10, 2025 2:00 PM {"who":"Angela Ramirez","lines":"Angela Ramirez cannot spare anything right now.","replies":[]}
+TALK 42 Tuesday, June 10, 2025 2:00 PM {"who":"Jose Valencia","lines":"Jose Valencia has no reason yet to give to your campaign.","replies":[]}
+TALK 43 Tuesday, June 10, 2025 2:00 PM {"who":"Scott Morgan","lines":"Scott Morgan put in $1,000 for your campaign.","replies":[]}
+TALK 44 Tuesday, June 10, 2025 2:00 PM {"who":"Tristan Tucker","lines":"Tristan Tucker has nothing to spare after the month's bills.","replies":[]}
+TALK 45 Tuesday, June 10, 2025 2:00 PM {"who":"Charlotte Weber","lines":"Charlotte Weber has no reason yet to give to your campaign.","replies":[]}
+TALK 46 Tuesday, June 10, 2025 2:00 PM {"who":"Aditi Smith","lines":"Aditi Smith cannot spare anything right now.","replies":[]}
+TALK 47 Tuesday, June 10, 2025 2:00 PM {"who":"Andrew Cooper","lines":"Andrew Cooper has nothing to spare after the month's bills.","replies":[]}
+TALK 48 Tuesday, June 10, 2025 2:00 PM {"who":"John Sanders","lines":"John Sanders has nothing to spare after the month's bills.","replies":[]}
+TALK 49 Tuesday, June 10, 2025 2:00 PM {"who":"Richard Massey","lines":"Richard Massey has nothing to spare after the month's bills.","replies":[]}
+TALK 50 Tuesday, June 10, 2025 2:00 PM {"who":"Kaitlyn Massey","lines":"Kaitlyn Massey cannot spare anything right now.","replies":[]}
+TALK 51 Tuesday, June 10, 2025 2:00 PM {"who":"Heather Nolan","lines":"Heather Nolan cannot spare anything right now.","replies":[]}
+TALK 52 Tuesday, June 10, 2025 2:00 PM {"who":"Margaret Akhtar","lines":"Margaret Akhtar has nothing to spare after the month's bills.","replies":[]}
+TALK 53 Tuesday, June 10, 2025 2:00 PM {"who":"","lines":"2 of 13 asked gave, $1,591 in all.","replies":[]}
+WEEK 21 Tuesday, June 17, 2025 7:00 AM
+STATUS 22 Tuesday, June 17, 2025 7:00 AM none {}
+TALK 54 Thursday, June 19, 2025 7:00 AM {"who":"","lines":"Heather Nolan has something to tell you as soon as you're in the door.","replies":[]}
+TALK 55 Thursday, June 19, 2025 7:00 AM {"who":"Heather Nolan","lines":"Did you hear about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 55 We'll manage. We always do.
+TALK 56 Thursday, June 19, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nDid you hear about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 22 Tuesday, June 24, 2025 7:00 AM
+STATUS 23 Tuesday, June 24, 2025 7:00 AM none {}
+WEEK 23 Tuesday, July 1, 2025 7:00 AM
+STATUS 24 Tuesday, July 1, 2025 7:00 AM none {}
+WEEK 24 Tuesday, July 8, 2025 7:00 AM
+STATUS 25 Tuesday, July 8, 2025 7:00 AM none {}
+TALK 57 Wednesday, July 9, 2025 8:00 AM {"who":"","lines":"Charlotte Weber has news for you.","replies":[]}
+TALK 58 Wednesday, July 9, 2025 8:00 AM {"who":"Charlotte Weber","lines":"Hey, Emily.\nHave you heard about Meridian News Network?","replies":["We'll manage. We always do.","I haven't heard.","Good. That's been a long time coming."]}
+PICK 58 We'll manage. We always do.
+TALK 59 Wednesday, July 9, 2025 8:00 AM {"who":"Charlotte Weber","lines":"CHARLOTTE WEBER\nHey, Emily.\nCHARLOTTE WEBER\nHave you heard about Meridian News Network?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 25 Tuesday, July 15, 2025 7:00 AM
+STATUS 26 Tuesday, July 15, 2025 7:00 AM none {}
+WEEK 26 Tuesday, July 22, 2025 7:00 AM
+STATUS 27 Tuesday, July 22, 2025 7:00 AM none {}
+TALK 60 Thursday, July 24, 2025 7:00 AM {"who":"","lines":"Heather Nolan has news for you.","replies":[]}
+TALK 61 Thursday, July 24, 2025 7:00 AM {"who":"Heather Nolan","lines":"Did you hear about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 61 We'll manage. We always do.
+TALK 62 Thursday, July 24, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nDid you hear about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 27 Tuesday, July 29, 2025 7:00 AM
+STATUS 28 Tuesday, July 29, 2025 7:00 AM none {}
+WEEK 28 Tuesday, August 5, 2025 7:00 AM
+STATUS 29 Tuesday, August 5, 2025 7:00 AM none {}
+WEEK 29 Tuesday, August 12, 2025 7:00 AM
+STATUS 30 Tuesday, August 12, 2025 7:00 AM none {}
+WEEK 30 Tuesday, August 19, 2025 7:00 AM
+STATUS 31 Tuesday, August 19, 2025 7:00 AM none {}
+WEEK 31 Tuesday, August 26, 2025 7:00 AM
+STATUS 32 Tuesday, August 26, 2025 7:00 AM none {}
+WEEK 32 Tuesday, September 2, 2025 7:00 AM
+STATUS 33 Tuesday, September 2, 2025 7:00 AM none {}
+WEEK 33 Tuesday, September 9, 2025 7:00 AM
+STATUS 34 Tuesday, September 9, 2025 7:00 AM none {}
+WEEK 34 Tuesday, September 16, 2025 7:00 AM
+STATUS 35 Tuesday, September 16, 2025 7:00 AM none {}
+TALK 63 Thursday, September 18, 2025 7:00 AM {"who":"","lines":"Heather Nolan has something to tell you as soon as you're in the door.","replies":[]}
+TALK 64 Thursday, September 18, 2025 7:00 AM {"who":"Heather Nolan","lines":"Have you heard about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+PICK 64 We'll manage. We always do.
+TALK 65 Thursday, September 18, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nHave you heard about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+WEEK 35 Tuesday, September 23, 2025 7:00 AM
+STATUS 36 Tuesday, September 23, 2025 7:00 AM none {}
+WEEK 36 Tuesday, September 30, 2025 7:00 AM
+STATUS 37 Tuesday, September 30, 2025 7:00 AM none {}
+TALK 66 Wednesday, October 1, 2025 8:00 AM {"who":"","lines":"Charlotte Weber has news for you.","replies":[]}
+TALK 67 Wednesday, October 1, 2025 8:00 AM {"who":"Charlotte Weber","lines":"","replies":[]}
+WEEK 37 Tuesday, October 7, 2025 7:00 AM
+STATUS 38 Tuesday, October 7, 2025 7:00 AM none {}
+WEEK 38 Tuesday, October 14, 2025 7:00 AM
+STATUS 39 Tuesday, October 14, 2025 7:00 AM none {}
+TALK 68 Wednesday, October 15, 2025 8:00 AM {"who":"","lines":"Nicole Kennedy crosses the street to catch you.","replies":[]}
+TALK 69 Wednesday, October 15, 2025 8:00 AM {"who":"Nicole Kennedy","lines":"You're Emily, aren't you? I want a word about the maximum monthly food assistance benefit.\nThe maximum monthly food assistance benefit took effect, and I'm the one living with it.","replies":["I voted the way I thought was right for Storrs. Here's why.","Give me your number. I'll look into what it means for you.","This isn't the place."]}
+PICK 69 I voted the way I thought was right for Storrs. Here's why.
+TALK 70 Wednesday, October 15, 2025 8:00 AM {"who":"Nicole Kennedy","lines":"NICOLE KENNEDY\nYou're Emily, aren't you? I want a word about the maximum monthly food assistance benefit.\nNICOLE KENNEDY\nThe maximum monthly food assistance benefit took effect, and I'm the one living with it.\nEMILY CARTER\nI voted the way I thought was right for Storrs. Here's why.\nThat doesn't help us.","replies":["You're right. Let me see what I can do.","I'll call you this week.","I'm sorry. I have to go."]}
+PICK 70 You're right. Let me see what I can do.
+TALK 71 Wednesday, October 15, 2025 8:00 AM {"who":"Nicole Kennedy","lines":"EMILY CARTER\nI voted the way I thought was right for Storrs. Here's why.\nNICOLE KENNEDY\nThat doesn't help us.\nEMILY CARTER\nYou're right. Let me see what I can do.\nAt least you said it to my face.","replies":[]}
+WEEK 39 Tuesday, October 21, 2025 7:00 AM
+STATUS 40 Tuesday, October 21, 2025 7:00 AM none {}
+TALK 72 Tuesday, October 28, 2025 7:00 AM {"who":"","lines":"Kai Massey is hosting the Selectman debate.","replies":[]}
+TALK 73 Tuesday, October 28, 2025 7:00 AM {"who":"Kai Massey","lines":"Hello, Emily. This is Kai Massey with WPUP-TV.\nThe other candidates for Selectman have been asked to debate on WPUP-TV. I need your answer.","replies":["Who's asking the questions?","Count me in.","I'll sit this one out.","Let me think it over and call you back."]}
+PICK 73 Who's asking the questions?
+TALK 74 Tuesday, October 28, 2025 7:00 AM {"who":"Kai Massey","lines":"KAI MASSEY\nHello, Emily. This is Kai Massey with WPUP-TV.\nKAI MASSEY\nThe other candidates for Selectman have been asked to debate on WPUP-TV. I need your answer.\nEMILY CARTER\nWho's asking the questions?\nI ask the questions. They come from what people in Storrs send in.","replies":["I'll be there.","I'm not going to debate.","I can't talk right now."]}
+PICK 74 I'll be there.
+TALK 75 Tuesday, October 28, 2025 7:00 AM {"who":"Kai Massey","lines":"EMILY CARTER\nWho's asking the questions?\nKAI MASSEY\nI ask the questions. They come from what people in Storrs send in.\nEMILY CARTER\nI'll be there.\nThank you. It makes for a better debate with everyone there.","replies":[]}
+WEEK 40 Tuesday, October 28, 2025 7:00 AM
+STATUS 41 Tuesday, October 28, 2025 7:00 AM none {}
+TALK 76 Tuesday, October 28, 2025 8:00 AM {"who":"","lines":"The moderator is ready to open the debate.","replies":[]}
+TALK 77 Tuesday, October 28, 2025 8:00 AM {"who":"Kai Massey","lines":"I'm your moderator. Thanks for coming.\nTell us: would you vote to restrict abortion?","replies":["I haven't taken a position on restricting abortion.","No position yet."]}
+PICK 77 I haven't taken a position on restricting abortion.
+TALK 78 Tuesday, October 28, 2025 8:00 AM {"who":"Kai Massey","lines":"KAI MASSEY\nI'm your moderator. Thanks for coming.\nKAI MASSEY\nTell us: would you vote to restrict abortion?\nEMILY CARTER\nI haven't taken a position on restricting abortion.\nThank you. That's a clear answer.\nAvery Cooper is against stand-your-ground rules. Where do you stand?","replies":["Avery Cooper is against stand-your-ground rules. Ask them why.","I haven't said where I stand on stand-your-ground rules.","No position yet."]}
+PICK 78 Avery Cooper is against stand-your-ground rules. Ask them why.
+TALK 79 Tuesday, October 28, 2025 8:00 AM {"who":"Kai Massey","lines":"KAI MASSEY\nThank you. That's a clear answer.\nKAI MASSEY\nAvery Cooper is against stand-your-ground rules. Where do you stand?\nEMILY CARTER\nAvery Cooper is against stand-your-ground rules. Ask them why.\nWe'll hear from Avery Cooper on that.\nOur final question is rent stabilization. Your position?","replies":["I haven't taken a position on rent stabilization.","No position yet."]}
+PICK 79 I haven't taken a position on rent stabilization.
+TALK 80 Tuesday, October 28, 2025 8:00 AM {"who":"Kai Massey","lines":"KAI MASSEY\nWe'll hear from Avery Cooper on that.\nKAI MASSEY\nOur final question is rent stabilization. Your position?\nEMILY CARTER\nI haven't taken a position on rent stabilization.\nThank you. That's a clear answer.\nThat ends the debate. Thank you for coming.","replies":[]}
+TALK 81 Sunday, November 2, 2025 8:00 AM {"who":"","lines":"Avery Cooper is working the same crowd. Now Avery Cooper is walking straight toward you.","replies":[]}
+TALK 82 Sunday, November 2, 2025 8:00 AM {"who":"Avery Cooper","lines":"I didn't expect to see you here.\nPeople here know your record.","replies":["Tell that to the people who just clapped.","People say a lot of things.","Say that on the debate stage.","Look at this crowd. People know where I stand.","I'm up six points. Check the paper."]}
+PICK 82 Tell that to the people who just clapped.
+TALK 83 Sunday, November 2, 2025 8:00 AM {"who":"Avery Cooper","lines":"AVERY COOPER\nI didn't expect to see you here.\nAVERY COOPER\nPeople here know your record.\nEMILY CARTER\nTell that to the people who just clapped.\nI'll bring the transcript.","replies":["That's not true, and you know it.","I've won tougher races than this one.","You came all the way over here to tell me that?","I've got hands to shake."]}
+PICK 83 That's not true, and you know it.
+TALK 84 Sunday, November 2, 2025 8:00 AM {"who":"Avery Cooper","lines":"EMILY CARTER\nTell that to the people who just clapped.\nAVERY COOPER\nI'll bring the transcript.\nEMILY CARTER\nThat's not true, and you know it.\nYou'd better hope they don't look too closely.\nSee you on election day.","replies":[]}
+WEEK 41 Tuesday, November 4, 20257:00 AM
+STATUS 42 Tuesday, November 4, 20257:00 AM none {}
+FAILURE locator.click: Timeout 60000ms exceeded.
+Call log:
+[2m  - waiting for locator('#week')[22m
+[2m    - locator resolved to <button id="week" type="button" class="action primary">Week</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    116 × waiting for element to be visible, enabled and stable[22m
+[2m        - element is not visible[22m
+[2m      - retrying click action[22m
+[2m        - waiting 500ms[22m
+
+    at /tmp/claude-0/-home-user-Political-Game-Git/39df252c-0e86-5c04-a0d3-e3e72f11d951/scratchpad/replay-loss.mjs:219:33
+ERRORS []
+RESUMED Tuesday, November 4, 2025 12:00 AM
+FAILURE locator.waitFor: Timeout 300000ms exceeded.
+Call log:
+[2m  - waiting for locator('#returns:not([hidden])') to be visible[22m
+
+    at /tmp/claude-0/-home-user-Political-Game-Git/39df252c-0e86-5c04-a0d3-e3e72f11d951/scratchpad/eday.mjs:51:48
+ERRORS []
+RESUMED Tuesday, November 4, 2025 12:00 AM
+FAILURE locator.waitFor: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('#returns:not([hidden])') to be visible[22m
+
+    at /tmp/claude-0/-home-user-Political-Game-Git/39df252c-0e86-5c04-a0d3-e3e72f11d951/scratchpad/eday.mjs:56:48
+ERRORS []
+RESUMED Tuesday, November 4, 2025 12:00 AM
+MORNING The polls opened this morning. | Today the town chooses between you and Avery Cooper for Selectman. | There's still time to knock on doors before the polls close. | Go canvassing | Not today
+MORNING2 The polls opened this morning. | Today the town chooses between you and Avery Cooper for Selectman. | There's still time to knock on doors before the polls close. | Whether you vote today is your call. | Go vote | Stay home
+BALLOT Selectman | Avery Cooper | Emily Carter · Republican | Leave blank | Selectman | Chris Moran | Leave blank | Selectman | Andrew Cooper | Leave blank | Leave
+MARKED Avery Cooper
+MARKED Chris Moran
+MARKED Andrew Cooper
+TALK Heather Nolan has the look of someone who just heard something. | Continue
+TALK Heather Nolan | Avery Cooper's campaign reached me this week. Thought you should know. | Did it change your mind? | I'll answer that. Thanks for telling me. | I'm not going to chase every flyer. | Good to know. Thank you.
+TALK Heather Nolan | HEATHER NOLAN | Avery Cooper's campaign reached me this week. Thought you should know. | EMILY CARTER | Did it change your mind? | Mostly their side of it. You should see it yourself. | Then I'd better say where I stand on it. | Let them talk. I'm running my own race. | I need to go. Thanks, though.
+TALK Heather Nolan | EMILY CARTER | Did it change your mind? | HEATHER NOLAN | Mostly their side of it. You should see it yourself. | EMILY CARTER | Then I'd better say where I stand on it. | That's what I hoped you'd say. | Continue
+RETURNS Wednesday, November 5, 20257:00 AM Selectman | The polls closed. Everyone is watching the numbers for Selectman. | AVERY COOPER | 0 votes | EMILY CARTER | 0 votes | Next returns
+CALL Selectman | Avery Cooper has won the race for Selectman. | It wasn't enough. Avery Cooper won. | AVERY COOPER | 552 votes | EMILY CARTER | 223 votes | Elsewhere tonight, 2 states chose a governor. | NEW JERSEY | Democratic · by 30.4 points | VIRGINIA | Republican · by 24.6 points | Close
+NTALK 1 Thursday, November 6, 2025 7:00 AM {"who":"","lines":"The race for Selectman is over. Raymond Jimenez comes by anyway.","replies":[]}
+NTALK 2 Thursday, November 6, 2025 7:00 AM {"who":"Raymond Jimenez","lines":"Morning. I didn't know if you'd be up.\nI keep going over it. Was it worth it? Tell me straight.","replies":["You gave this more than anyone. Thank you for that.","This isn't the last race. I'll run again.","Can we not plan anything today?","Avery Cooper ran the better race. I can say that now."]}
+NPICK 2 You gave this more than anyone. Thank you for that.
+NTALK 3 Thursday, November 6, 2025 7:00 AM {"who":"Raymond Jimenez","lines":"RAYMOND JIMENEZ\nMorning. I didn't know if you'd be up.\nRAYMOND JIMENEZ\nI keep going over it. Was it worth it? Tell me straight.\nEMILY CARTER\nYou gave this more than anyone. Thank you for that.\nI'd do it again.","replies":[]}
+NTALK 4 Thursday, November 13, 2025 7:00 AM {"who":"","lines":"Heather Nolan has news for you.","replies":[]}
+NTALK 5 Thursday, November 13, 2025 7:00 AM {"who":"Heather Nolan","lines":"Have you heard about WPUP-TV?","replies":["We'll manage. We always do.","I didn't hear.","It's about time."]}
+NPICK 5 We'll manage. We always do.
+NTALK 6 Thursday, November 13, 2025 7:00 AM {"who":"Heather Nolan","lines":"HEATHER NOLAN\nHave you heard about WPUP-TV?\nEMILY CARTER\nWe'll manage. We always do.\nThat's what they're saying.","replies":[]}
+END Tuesday, November 25, 2025 7:00 AM
+TITLE {"place":"lincoln-memorial","backdrop":{"file":"lincoln-memorial__night.jpg","variant":"night","url":"/art/backdrops/lincoln-memorial__night.jpg"},"scenes":[{"place":"lincoln-memorial","backdrop":{"file":"lincoln-memorial__night.jpg","variant":"night","url":"/art/backdrops/lincoln-memorial__night.jpg"}},{"place":"national-convention-floor","backdrop":{"file":"national-convention-floor__midday.jpg"
+ERRORS []

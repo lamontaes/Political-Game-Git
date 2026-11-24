@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-23T01:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "personality and relationships",
+  "notes": [
+    "Measured 2026-09-23 on main at 4956bb95: no partnership forms in 180 days for a 24-year-old in Houma or Reno, and the People and life lane is building a couple's conversation about having a child that needs a couple to exist first. The morning audit counted twelve systems that ask whether someone has a partner; the answer is always no for anyone not generated with one.",
+    "ChatGPT's answer to how-a-life-begins-and-grows-up keeps partnership, household, parenthood and care as separate relationships and says broader casual-dating content needs its scope taken back to the owner. The owner is being asked that scope in the same hour this is filed.",
+    "Romantic infidelity is already answered (cheating-covers-all-three) as a breach of the relationship's own agreement, which presumes the agreement exists and is recorded."
+  ],
+  "priority": "P1",
+  "question": "How do two people become a couple in this game: what has to exist between them first (which of the five relationship lines, and how strongly), who proposes and how the other answers, what stages a relationship passes through (dating, exclusive, living together, married or partnered), what agreement it records about exclusivity, and how it ends?",
+  "questionId": "how-two-people-become-a-couple",
+  "relatedQuestionIds": [
+    "how-people-meet-new-people",
+    "how-a-life-begins-and-grows-up",
+    "cheating-covers-all-three"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "The dropped-work audit, 2026-09-22 evening, item 7 ('Couples forming at all'), under lamontae's rule 'i dont want depth to be invented'",
+  "sourcesChecked": [
+    {
+      "source": "how-a-life-begins-and-grows-up (answered)",
+      "whatItDidNotSettle": "Separates partnership from household and parenthood and says births need not require a partnership, but does not say how a partnership forms."
+    },
+    {
+      "source": "src/simulation/people-family-plan.ts",
+      "whatItDidNotSettle": "Asks one partner and lets the other answer about a child. It assumes a partnership that nothing in play creates."
+    }
+  ],
+  "title": "How two people become a couple",
+  "usableAnswer": "The stages, what moves a pair from one to the next (in terms of the five lines and recorded interactions), who acts and how consent and refusal are recorded, what each stage records about exclusivity and living arrangements, and how a couple ends. Pace as labeled calibration where evidence is thin.",
+  "whyItMatters": "Partners are asked about by twelve systems and never exist. Dating, living together, marriage, children and infidelity all depend on a partnership being able to form."
+}

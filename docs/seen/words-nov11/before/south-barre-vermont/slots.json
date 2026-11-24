@@ -1,0 +1,72 @@
+{
+  "place": "South Barre, Vermont",
+  "seed": "9ebada2a-d666-46f2-b509-0c5917da2c83",
+  "slots": {
+    "10": {
+      "talk": 27,
+      "typeKey": "interview-invite",
+      "clock": "Tuesday, January 27, 20267:00 AM",
+      "pictures": ["before/south-barre-vermont/10-campaign-scene.jpg"],
+      "words": "First thing on January 27th, you pick up the phone and it's Edward Park.\nEdward Park gets straight to it. // Edward Park: We're putting together our coverage of the selectboard member race. Can I get you on the record? [Replies: Who else are you talking to? | Sure. Set it up. | I'll pass on this one. | Let me look at my week and call you back.] // Edward Park: FIONA CABRERA\nWho else are you talking to?\nWhere you stand on the questions people in South Barre care about, and why you're running. [Replies: I'll do it. Tell me when. | I'd rather let the campaign speak for itself. | I have to go. Call me later.] // Edward Park: FIONA CABRERA\nI'll do it. Tell me when.\nGood. I'll send the questions over."
+    },
+    "01": {
+      "talk": 0,
+      "typeKey": "address",
+      "clock": "Monday, January 20, 20258:30 PM",
+      "pictures": [
+        "before/south-barre-vermont/01-address-1.jpg",
+        "before/south-barre-vermont/01-address-2.jpg"
+      ],
+      "words": "Folks, thank you very much. I'm hopeful today, and I think you've got reason to be too. Everybody who's had this job walked into problems they didn't make. The job is fixing them anyway. // It's a new day, and I think we could all use a little more hope than we've had lately. I took that oath feeling good about it, because I think this country can do a lot more than we've been asking of it."
+    },
+    "02": null,
+    "03": {
+      "pictures": ["before/south-barre-vermont/03-night-news.jpg"],
+      "words": "News\nMonday, January 20, 2025\nNew law keeps Social Security payroll tax rate at 6.2%\n\nCongress passed a law on January 1, 2025 keeping the Social Security payroll tax rate at 6.2%.\n\nIt covers everyone in the country.\n\nIt takes effect on January 1, 2026.\n\nChild care income limit (family of three) took effect on January 1, 2025.\n\nEstate tax rate took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nNew minimum wage of $14.01 takes effect\n\nSales tax rate took effect on January 1, 2025.\n\nState campaign contribution limit: governor took effect on January 1, 2025.\n\nState campaign contribution limit: local took effect on January 1, 2025.\n\nState campaign contribution limit: stateHouse took effect on January 1, 2025.\n\nState campaign contribution limit: stateSenate took effect on January 1, 2025.\n\nState unemployment tax rate took effect on January 1, 2025.\n\nUnemployment weekly maximum took effect on January 1, 2025.\n\nEstate tax rate took effect on January 1, 2025.\n\nFederal campaign contribution limit took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nSocial Security tax rate took effect on January 1, 2025.\n\nCongress cuts federal share of Medicaid costs to 57.8%\n\nWashington County Board of Commissioners passes a rising share of electricity from clean sources\n\nVermont Senate rejects registering eligible citizens to vote automatically"
+    },
+    "04": {
+      "talk": 2,
+      "typeKey": null,
+      "clock": "Tuesday, February 4, 20258:00 AM",
+      "pictures": ["before/south-barre-vermont/04-greeting-away.jpg"],
+      "words": "First thing on February 4th, you run into Amy Cabrera on the street. Your mother has news for you. // Amy Cabrera: Most things, I come down on the liberal side. [Replies: I see it the same way. | I see it differently. | I'm glad you told me. | I keep mine to myself, mostly.] // Amy Cabrera: FIONA CABRERA\nI see it the same way.\nGlad I'm not the only one.\nLet's leave it there for now."
+    },
+    "05": {
+      "talk": 2,
+      "typeKey": null,
+      "clock": "Tuesday, February 4, 20258:00 AM",
+      "pictures": ["before/south-barre-vermont/05-goodbye-away.jpg"],
+      "words": "Amy Cabrera: FIONA CABRERA\nI see it the same way.\nGlad I'm not the only one.\nLet's leave it there for now."
+    },
+    "06": {
+      "talk": 5,
+      "typeKey": null,
+      "clock": "Wednesday, April 2, 20258:00 AM",
+      "pictures": ["before/south-barre-vermont/06-talk-about-work.jpg"],
+      "words": "First thing on April 2nd, at school, you talk with Eden Cabrera. // Eden Cabrera: "
+    },
+    "07": {
+      "talk": 1,
+      "typeKey": "hallway",
+      "clock": "Thursday, January 23, 20258:00 AM",
+      "pictures": ["before/south-barre-vermont/07-talk-about-the-news.jpg"],
+      "words": "First thing on January 23rd, Kevin Farmer is waiting for you downtown.\nKevin Farmer spoke against the governor's asks in front of everyone. In the hallway they are quieter, and watching your face. // Kevin Farmer: Fiona, a word. I answered the governor today, and I wanted you to hear why from me.\nThe governor asked for a lot today. Are you with the governor, or with us? [Replies: Some of it I liked and some of it I didn't. I'm not going to pretend it was all one thing. | How much of that was for the cameras? | If your side brings me something real, I'll read it with an open mind. | No. Not on the day of the speech.] // Kevin Farmer: FIONA CABRERA\nSome of it I liked and some of it I didn't. I'm not going to pretend it was all one thing.\nI'll keep making the case, with you or without you. [Replies: The governor has a point on a few things. I'm not ready to say which. | I'm not picking a side in a hallway. | Let's pick this up another time, when it's quieter.] // Kevin Farmer: FIONA CABRERA\nThe governor has a point on a few things. I'm not ready to say which.\nThe governor's asks will come back to us as bills, and we'll have to vote on every one. [Replies: I heard the same speech you did. I'll judge each ask when it comes up as a bill. | I'll vote the way my district needs, not the way either of you asks. | I have to get to my next meeting.] // Kevin Farmer: FIONA CABRERA\nI heard the same speech you did. I'll judge each ask when it comes up as a bill.\nThink about who sent you here. They heard that speech too.\nThank you for the minute. I know the day was long."
+    },
+    "08": {
+      "talk": 16,
+      "typeKey": null,
+      "clock": "Thursday, November 27, 20258:00 AM",
+      "pictures": ["before/south-barre-vermont/08-filing-counter.jpg"],
+      "words": "Ivan Maldonado: First thing on November 27th, you head to the City Clerk's office to pick up the papers for Selectboard member. Ivan Maldonado pulls them from a drawer. // Ivan Maldonado: What can I do for you? [Replies: I want to run for Selectboard member. March 3, 2026 · Held by Tammy Wooten] // Ivan Maldonado: FIONA CABRERA\nI want to run for Selectboard member.\nRunning for Selectboard member? Good. Let me pull the papers. There's no primary for this one, so you'd go straight onto the ballot March 3, 2026. You'd have a seat on the Barre Town Selectboard, voting on the budget and every ordinance that comes before it. It all has to be back to me by January 26, 2026. [Replies: I'm in. Give me the papers.] // FIONA CABRERA\nI'm in. Give me the papers.\nCOLLECTING SIGNATURES"
+    },
+    "09": {
+      "talk": 18,
+      "typeKey": "rival-filed",
+      "clock": "Friday, November 28, 20257:00 AM",
+      "pictures": [
+        "before/south-barre-vermont/09-talk-at-home-about-filing.jpg"
+      ],
+      "words": "First thing on November 28th, you sit down at home with Amy Cabrera.\nAmy Cabrera sits down across from you. // Amy Cabrera: Fiona, sit down a second.\nTammy Wooten is running for selectboard member too. I wanted you to hear it from me. [Replies: Do you know much about Tammy Wooten? | Then I'd better get to work. | Let them run. | Thanks for telling me.] // Amy Cabrera: FIONA CABRERA\nDo you know much about Tammy Wooten?\nNot much. Only what was filed. [Replies: Good. Now it's a real race. | Doesn't change anything for me. | I need a minute.] // Amy Cabrera: FIONA CABRERA\nGood. Now it's a real race.\nGood. We're behind you."
+    }
+  }
+}

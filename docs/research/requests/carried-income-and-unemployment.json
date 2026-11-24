@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-23T11:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "macro economy (unemployment that never recovers)",
+  "notes": [
+    "Current rule, read at src/presentation/local-economy-carried.ts:150-156: a place's last published income per person is carried forward by the change in the simulated price index times the change in that place's simulated real output. Rent is carried forward by the price index alone. The published unemployment rate is carried forward by adding the change in the simulated rate. Unemployment reaches income only through local output.",
+    "Wyoming life, 2047, main 3d4c74f: state unemployment 11.7% against 3.0% published in July 2026; Natrona County income per person $201,061 against $79,903 published for 2024 (2.5 times in 23 years, 4.1% a year); Casper two-bedroom rent $2,002 against $1,062 for 2025.",
+    "Oregon life, main at the time of the report: unemployment 10.3% while income per person was up 81%.",
+    "Both unemployment figures come from the drift fixed in PR #596 (filed as unemployment-return-to-normal). Most of the income rise is price inflation, not a separate bug. The question here is whether the carried income should also move with employment directly."
+  ],
+  "priority": "P2",
+  "question": "When the game carries a county's income per person forward from its last published figure, should that figure respond directly to the county's unemployment rate (fewer people earning), or only to prices and real output as it does now, and if directly, by how much per point of unemployment?",
+  "questionId": "carried-income-and-unemployment",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Unemployment that never recovers thread, at the coordinator's request",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/local-economy-carried.ts at main 22b4f13e",
+      "whatItDidNotSettle": "The carry rule is authored; no source says whether personal income per person should track employment separately from output."
+    },
+    {
+      "source": "docs/research/requests/local-economic-figures-after-the-last-real-edition.json",
+      "whatItDidNotSettle": "Asks how to carry real figures forward in general, not how unemployment should enter income."
+    }
+  ],
+  "title": "Should a place's income move with its unemployment, not only with prices and output",
+  "usableAnswer": "Yes or no with the reason. If yes, a relationship between a county's or state's unemployment change and its income per person (BEA personal income per capita), such as an elasticity or a range from published studies, and whether transfers such as unemployment insurance offset part of it. Say where no estimate exists.",
+  "whyItMatters": "A player reads both figures on the same screen. Unemployment near Depression levels next to income that has nearly doubled reads as a broken economy, and players compare them when judging how a place and its officeholders are doing."
+}

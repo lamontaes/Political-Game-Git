@@ -1,0 +1,1199 @@
+{
+  "about": "Which screens each law shows on, read through the bench's own screen views after a stretch of play in each drawn place (scripts/law-wiring/screens.ts).",
+  "places": [
+    {
+      "place": {
+        "key": "1150000",
+        "name": "Washington, District of Columbia",
+        "seed": "2c7a964877e4c47860d40f2ff52c36248f0703e7de0923c7610eeadafccd8def"
+      },
+      "runSeed": "9246f46a75bc0b4f",
+      "from": "2025-01-20",
+      "through": "2025-07-19",
+      "player": "person_4d28231cab024a9c",
+      "members": {
+        "state": "official:term:seat:US-DC:unicameral:005:0:2025-01-20"
+      },
+      "shown": 86
+    },
+    {
+      "place": {
+        "key": "1628810",
+        "name": "Franklin, Idaho",
+        "seed": "f6fd1f07afc0778a4bf3900021521c8395050f71ed5bd57364952b4a30d64393"
+      },
+      "runSeed": "8e4f04d8a07a95e4",
+      "from": "2025-01-20",
+      "through": "2025-07-19",
+      "player": "person_955f3e7e2fd605d0",
+      "members": {
+        "federal": "official:term:seat:US-ID:us-senate:0:2025-01-20",
+        "state": "official:term:seat:US-ID:upper:028:0:2025-01-20",
+        "local": "person_23cc6604bb00e435"
+      },
+      "shown": 87
+    }
+  ],
+  "laws": {
+    "budget-line:highways": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: highways"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:highways:adopted"
+      }
+    ],
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+      }
+    ],
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+      }
+    ],
+    "us-policy-positions:transportation-infrastructure.public-broadband": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-07-01:H 3"
+      }
+    ],
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-08-04:HB 29"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 29:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "medicare-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US:federal:medicare-tax:general:2013-01-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu healthcare"
+      }
+    ],
+    "medicaid-match": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:federal:medicaid-match:general:2024-10-01"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:federal:medicaid-match:general:2025-10-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu healthcare"
+      }
+    ],
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-21:official:term:seat:US-ID:lower:027:0:2025-01-20:5:office:US-ID:legislature-upper"
+      }
+    ],
+    "us-policy-positions:health-human-services.medicaid-work-requirement": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:federal:us-house:2025-01-21:official:seat:US-ID:us-house:01:0:federal:us-house"
+      }
+    ],
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+      }
+    ],
+    "budget-line:healthAndHospitals": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: healthAndHospitals"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:healthAndHospitals:adopted"
+      }
+    ],
+    "us-policy-positions:education.universal-preschool": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.universal-preschool:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.universal-preschool:general:2025-08-04:HB 18"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 18:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "budget-line:schools": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: schools"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:schools:adopted"
+      }
+    ],
+    "us-policy-positions:education.public-funds-for-private-schooling": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-08-04:HB 1"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-01-21:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:1:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:education.raise-teacher-minimum-salary": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+      }
+    ],
+    "budget-line:higherEducation": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: higherEducation"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:higherEducation:adopted"
+      }
+    ],
+    "income-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US:federal:income-tax:general:2025-01-01"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US:federal:income-tax:general:2026-01-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: local member person_23cc6604bb00e435, office:gus2025:124658:council, menu taxes-finance"
+      }
+    ],
+    "sales-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:sales-tax:general:2025-01-01"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:sales-tax:general:2026-01-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: local member person_23cc6604bb00e435, office:gus2025:124658:council, menu taxes-finance"
+      }
+    ],
+    "property-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:county:11001:county:property-tax:general:2026-01-01:from-start"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:county:11001:county:property-tax:general:2026-01-01"
+      }
+    ],
+    "corporate-income-tax": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      }
+    ],
+    "estate-tax": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      }
+    ],
+    "inheritance-tax": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      }
+    ],
+    "us-policy-positions:fiscal.adopt-income-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.adopt-income-tax:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-24:official:term:seat:US-ID:lower:027:0:2025-01-20:9:office:US-ID:legislature-upper"
+      }
+    ],
+    "us-policy-positions:fiscal.cap-property-tax-growth": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-07-01:H 35"
+      }
+    ],
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-07-01:H 14"
+      }
+    ],
+    "us-policy-positions:fiscal.graduated-income-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.graduated-income-tax:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      }
+    ],
+    "us-policy-positions:fiscal.balanced-operating-budget": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      }
+    ],
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-08-04:HB 13"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 13:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "us-policy-positions:fiscal.minimum-reserve-balance": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-08-04:HB 14"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 14:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "snap-maximum": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:federal:snap-maximum:general:2024-10-01"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:federal:snap-maximum:general:2025-10-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+      }
+    ],
+    "budget-line:welfareAndMedicaid": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: welfareAndMedicaid"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:welfareAndMedicaid:adopted"
+      }
+    ],
+    "federal-unemployment-tax": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+      }
+    ],
+    "state-unemployment-tax": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+      }
+    ],
+    "unemployment-weekly-maximum": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-weekly-maximum:general:2025-01-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-weekly-maximum:general:2026-01-01"
+      }
+    ],
+    "social-security-tax": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US:federal:social-security-tax:general:2025-01-01"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US:federal:social-security-tax:general:2026-01-01"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+      }
+    ],
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:county:16041:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-2"
+      }
+    ],
+    "budget-line:housing": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: housing"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: committee:bill:office:US-DC:legislature-unicameral:2025-03-04:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:12:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:housing-land-use.inclusionary-requirement": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-01-25:official:term:seat:US-DC:unicameral:003:0:2025-01-20:2:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:housing-land-use.rent-stabilization": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-04-14:official:term:seat:US-DC:unicameral:005:0:2025-01-20:23:office:US-DC:legislature-unicameral:committee:1"
+      }
+    ],
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: vote-recorded:vote:2025-2:person_ed98df3ad3c47dc0"
+      }
+    ],
+    "minimum-wage": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US:federal:minimum-wage:general:2009-07-24"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:minimum-wage:general:2026-07-01"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: law-took-effect:law:US-DC:state:minimum-wage:general:2025-07-01"
+      }
+    ],
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu labor"
+      }
+    ],
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      }
+    ],
+    "us-policy-positions:labor-workforce.raise-minimum-wage": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      }
+    ],
+    "us-policy-positions:labor-workforce.paid-family-leave": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: printed:outlet:cable:0:national:law-took-effect:law:US-ID:state:us-policy-positions:labor-workforce.paid-family-leave:general:2025-07-01:H 15"
+      }
+    ],
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-08-04:HB 14"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-04-07:official:term:seat:US-DC:unicameral:003:0:2025-01-20:21:office:US-DC:legislature-unicameral:committee:1"
+      }
+    ],
+    "us-policy-positions:labor-workforce.right-to-work": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.right-to-work:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+      }
+    ],
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu business"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-08-04:HB 5"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-05:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:5:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu business"
+      }
+    ],
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      }
+    ],
+    "us-policy-positions:environment-energy.clean-electricity-standard": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-08-04:HB 18"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: printed:outlet:newspaper:2:jurisdiction_7691c6e3ae48f824:bill-amendment:bill:office:US-DC:legislature-unicameral:2025-05-07:official:term:seat:US-DC:unicameral:003:0:2025-01-20:29:office:US-DC:legislature-unicameral:committee:1"
+      }
+    ],
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-08-04:HB 16"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 16:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "budget-line:naturalResources": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: naturalResources"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:naturalResources:adopted"
+      }
+    ],
+    "us-policy-positions:environment-energy.bottle-deposit": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.bottle-deposit:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-08-04:HB 10"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-24:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:10:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:environment-energy.price-carbon": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.price-carbon:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.price-carbon:general:2025-08-04:HB 8"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-16:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:8:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "budget-line:police": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: police"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:police:adopted"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-amendment:bill:office:gus2025:124658:council:2025-05-06:person_ed98df3ad3c47dc0:57:office:gus2025:124658:council:floor:1"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-amendment:bill:office:gus2025:162022:board:2025-03-18:person_1f213c99c17407f4:56:office:gus2025:162022:board:floor:1"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.end-cash-bail": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-13:official:term:seat:US-DC:unicameral:004:0:2025-01-20:7:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "budget-line:corrections": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: corrections"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:corrections:adopted"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-24:official:term:seat:US-ID:lower:027:0:2025-01-20:10:office:US-ID:legislature-upper"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-07-01:H 19"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.child-access-prevention": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-08-04:HB 13"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-03-23:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:17:office:US-DC:legislature-unicameral:committee:1"
+      }
+    ],
+    "us-policy-positions:justice-public-safety.stand-your-ground": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      }
+    ],
+    "budget-line:fire": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: fire"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+      }
+    ],
+    "us-policy-positions:government-operations.all-mail-voting": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.all-mail-voting:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.all-mail-voting:general:2025-08-04:HB 20"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 20:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "us-policy-positions:government-operations.automatic-voter-registration": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      }
+    ],
+    "us-policy-positions:government-operations.independent-redistricting": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.independent-redistricting:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 17"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 17:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "us-policy-positions:government-operations.require-photo-id-to-vote": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      }
+    ],
+    "us-policy-positions:government-operations.same-day-voter-registration": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-07-01:H 2"
+      }
+    ],
+    "us-policy-positions:government-operations.ban-lobbying-after-office": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-08-04:HB 15"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-03-15:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:15:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "public-pay-floor": [
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      }
+    ],
+    "budget-line:administration": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: administration"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:administration:adopted"
+      }
+    ],
+    "us-policy-positions:government-operations.broaden-local-authority": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.broaden-local-authority:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 23:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "us-policy-positions:government-operations.legislative-term-limits": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.legislative-term-limits:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-07-01:H 4"
+      }
+    ],
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+      }
+    ],
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+      }
+    ],
+    "us-policy-positions:civil-family-community.restrict-abortion": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-08-04:HB 21"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 21:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+      }
+    ],
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-27:official:term:seat:US-ID:lower:027:0:2025-01-20:15:office:US-ID:legislature-upper"
+      }
+    ],
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-08-04:HB 6"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-09:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:6:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 9"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-20:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:9:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu agriculture"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-25:official:term:seat:US-ID:lower:027:0:2025-01-20:11:office:US-ID:legislature-upper"
+      }
+    ],
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu agriculture"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-08-04:HB 4"
+      },
+      {
+        "screen": "News",
+        "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-01:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:4:office:US-DC:legislature-unicameral"
+      }
+    ],
+    "budget-line:parks": [
+      {
+        "screen": "Politics → Budgets",
+        "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: parks"
+      },
+      {
+        "screen": "Politics → Your office",
+        "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu parks-culture"
+      },
+      {
+        "screen": "News",
+        "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:parks:adopted"
+      }
+    ],
+    "local-income-tax-authority": [],
+    "local-minimum-wage-authority": [],
+    "unemployment-insurance": [
+      {
+        "screen": "Politics → Issues",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-insurance:general:2026-01-01:from-start"
+      },
+      {
+        "screen": "Calendar",
+        "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-insurance:general:2026-01-01"
+      }
+    ]
+  }
+}

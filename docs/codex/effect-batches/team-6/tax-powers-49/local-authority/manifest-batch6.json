@@ -1,0 +1,46 @@
+{
+  "batch": 6,
+  "checkedAt": "2026-10-07T02:30:00Z",
+  "sourced": [
+    {
+      "state": "LA",
+      "instrument": "occupational-license",
+      "file": "raw/la-rs-47-341.html",
+      "sha256": "d4448f4846671471e3083ba27f022e9867f13f9072198f651758379d6168cba2",
+      "bytes": 24762,
+      "url": "https://legis.la.gov/Legis/Law.aspx?d=102066",
+      "citation": "La. R.S. 47:341",
+      "coverage": "single section (full page, site menu included)",
+      "status": "SOURCED",
+      "note": "Any municipality or parish may impose a license tax on the businesses the chapter lists, at no more than the chapter's maximum rates, with two-thirds approval of its governing authority and three public hearings.",
+      "retrievedAt": "2026-10-07T02:30:00Z"
+    }
+  ],
+  "notAcquired": [
+    {
+      "state": "OK",
+      "instrument": "occupational-license",
+      "citation": "Okla. Stat. title 68 art. 27 (municipal sales tax) and title 11",
+      "reason": "oscn.net answers every request with a human-verification turnstile; not bypassed. Next route: a browser save by a person."
+    },
+    {
+      "state": "GA",
+      "instrument": "occupational-tax",
+      "citation": "O.C.G.A. \u00a7 48-13-5 et seq.",
+      "reason": "The Georgia Code is on a script-rendered host; Justia is refused from the build host. Next route: a browser save."
+    },
+    {
+      "state": "AR",
+      "instrument": "local-tax",
+      "citation": "Ark. Code Ann. title 26 (taxation) and title 14",
+      "reason": "arkleg.state.ar.us serves bills, not the code; the Arkansas Code is on a script-rendered host. Next route: a browser save."
+    },
+    {
+      "state": "MS",
+      "instrument": "local-tax",
+      "citation": "Miss. Code Ann. title 27 and title 21",
+      "reason": "The legislature's code PDF path does not connect and Justia is refused. Next route: a browser save."
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T00:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's words, 2026-09-22: \"when Martin Luther King got shot and uh, RFK gave that speech in Indianapolis. And it affected people in kept Indianapolis from getting the way some other cities would. Now that shouldn't be coded as an event, but those steps should be able to happen sequentially... assassinations... shouldn't just happen to people in office, but prominent political people. And it should affect people. It should affect a generation if needed.\""
+  ],
+  "priority": "P1",
+  "question": "The game will let anger, fear and hope build in a place over time and fade when nothing feeds them, and let unrest begin when they run high. It must never be a scripted event. The owner's example is the assassination of Martin Luther King Jr. and Robert F. Kennedy's speech that night in Indianapolis, which he credits with keeping Indianapolis calmer than other cities. (1) For the major waves of American urban unrest (1964 to 1968, 1980 Miami, 1992 Los Angeles, 2014 Ferguson, 2020), what conditions had built up beforehand, what set each episode off, how long it lasted, and how far it spread to other cities? (2) Which conditions made one city erupt and a similar city stay calm? (3) What is known about a respected figure's presence or words lowering unrest, including the Indianapolis case, and how strong is that evidence? (4) How does the killing of a prominent political figure, in office or not, change public anger and fear, and for how long? (5) How long do such events shape the politics of people who lived through them young?",
+  "questionId": "unrest-what-builds-it-and-what-calms-it",
+  "relatedQuestionIds": [
+    "state-to-state-moves-what-pushes-and-pulls",
+    "civil-war-and-revolution-preconditions",
+    "where-a-persons-politics-comes-from"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/ on main, September 22, 2026",
+      "whatItDidNotSettle": "The simulation has no riot, protest, public anger or violent death; only illness and crisis deaths and a vacancy rule for legislators."
+    }
+  ],
+  "title": "What builds up to unrest in an American city, what sets it off, and what calms it",
+  "usableAnswer": "One short entry per episode listed, with conditions, trigger, duration in days, spread and sources. Then short answers to questions 2 to 5, each with a source or a plain statement that the evidence is weak.",
+  "whyItMatters": "The pressure layer on branch claude/project-thread-ltkqvu records anger, fear and hope per state and nothing reads them yet. The owner wants unrest, assassinations of prominent people, a speech calming one city, and effects on a generation to be able to happen in sequence on their own. Without the historical pattern any threshold, spread or duration would be invented."
+}

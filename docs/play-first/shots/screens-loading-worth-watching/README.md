@@ -1,0 +1,3 @@
+# Loading worth watching
+
+New Game through the creator in Storrs, Connecticut (the fixed town for path 3), a random woman of a random age, `loading.browser.mjs` with LOAD_SHOTS. While the first scene is drawn, the panel plays the built world's story: the year counter runs from the player's birth year (1988 here) to 2025, the journal writes the player's life lines ("You were born in Storrs, Connecticut.", "You went on to middle school."), the headlines they heard appear in their year, and Connecticut's counties fill in, the player's districts last. Taken mid-play at 1440x900, 1280x800 and 1024x768 (loading-1440.png, -1280.png, -1024.png): inside the window, nothing past the panel, nothing scrolls.

@@ -1,0 +1,119 @@
+[
+  {
+    "artifactId": "ca-article-xiiia",
+    "requestedUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=XIII%20A",
+    "retrievedAt": "2026-10-02T11:10:23.262433+00:00",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=XIII%20A",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 189145,
+    "sha256": "2671c3229e073205ab2393cf8ce7790266d2f9616a9815c9448ece91515ceac0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/ca-article-xiiia.html"
+  },
+  {
+    "artifactId": "ca-article-iv",
+    "requestedUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV",
+    "retrievedAt": "2026-10-02T11:10:23.263370+00:00",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 184537,
+    "sha256": "f494a0704dfe875ed2da417977ebc48ae9238e5249bb4b6ecc1ce7fc7511f276",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/ca-article-iv.html"
+  },
+  {
+    "artifactId": "la-article-vii",
+    "requestedUrl": "https://senate.la.gov/Documents/Constitution/Article7.htm",
+    "retrievedAt": "2026-10-02T11:10:23.263885+00:00",
+    "error": "<urlopen error Tunnel connection failed: 403 Forbidden>"
+  },
+  {
+    "artifactId": "me-constitution",
+    "requestedUrl": "https://legislature.maine.gov/constitution-of-maine/",
+    "retrievedAt": "2026-10-02T11:10:23.431747+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "md-declaration",
+    "requestedUrl": "https://msa.maryland.gov/msa/mdmanual/43const/html/00dec.html",
+    "retrievedAt": "2026-10-02T11:10:23.748776+00:00",
+    "url": "https://msa.maryland.gov/msa/mdmanual/43const/html/00dec.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 22611,
+    "sha256": "81d62aa2c6ce390e4b34734d0093bb942e3ae88edd03e950daae15a0d8bafb42",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/md-declaration.html"
+  },
+  {
+    "artifactId": "nc-article-v",
+    "requestedUrl": "https://www.ncleg.gov/Laws/Constitution/Article5",
+    "retrievedAt": "2026-10-02T11:10:23.767174+00:00",
+    "url": "https://www.ncleg.gov/Laws/Constitution/Article5",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 69179,
+    "sha256": "ade01da39482278aef7f0d0d4665924815267360f3e6ef26a5a2e0b0a9e26c4b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/nc-article-v.html"
+  },
+  {
+    "artifactId": "tx-article-viii",
+    "requestedUrl": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.8.htm",
+    "retrievedAt": "2026-10-02T11:10:23.768654+00:00",
+    "url": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.8.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 250874,
+    "sha256": "dbfba8a96dc3cd584157ca66aaafdf67e0ed15dd5a0c8a58f3d4bd0f109fc646",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/tx-article-viii.html"
+  },
+  {
+    "artifactId": "va-article-x",
+    "requestedUrl": "https://law.lis.virginia.gov/constitution/article10/",
+    "retrievedAt": "2026-10-02T11:10:23.913217+00:00",
+    "url": "https://law.lis.virginia.gov/constitution/article10/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 27631,
+    "sha256": "ac7e99ddc3fcc7cc1e3fc42f4326b15c3eb56c2ed926a96f96c5c3e68ef9f797",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/va-article-x.html"
+  },
+  {
+    "artifactId": "wa-constitution",
+    "requestedUrl": "https://leg.wa.gov/CodeReviser/Documents/WAConstitution.pdf",
+    "retrievedAt": "2026-10-02T11:10:24.014474+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "wi-constitution",
+    "requestedUrl": "https://docs.legis.wisconsin.gov/constitution/wi_unannotated",
+    "retrievedAt": "2026-10-02T11:10:24.227613+00:00",
+    "url": "https://docs.legis.wisconsin.gov/constitution/wi_unannotated",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 219927,
+    "sha256": "6b9a16b27cf6d3f8bc07d3eae6d43dfec3c86241e5221a87823394a2a18f8d07",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/wi-constitution.pdf"
+  },
+  {
+    "artifactId": "wv-constitution",
+    "requestedUrl": "https://www.wvlegislature.gov/wvcode/WV_CON.cfm",
+    "retrievedAt": "2026-10-02T11:10:24.372375+00:00",
+    "url": "https://www.wvlegislature.gov/wvcode/WV_CON.cfm",
+    "httpStatus": 200,
+    "mediaType": "text/html;charset=UTF-8",
+    "responseBytes": 240744,
+    "sha256": "9e5d60f9b87c2f0daea0b58e6c0ffcaeb5e6eefe44c87c39d729d7164f793627",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/wv-constitution.html"
+  },
+  {
+    "artifactId": "wy-constitution",
+    "requestedUrl": "https://wyoleg.gov/statutes/constitution.pdf",
+    "retrievedAt": "2026-10-02T11:10:24.424822+00:00",
+    "url": "https://wyoleg.gov/statutes/constitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 11430,
+    "sha256": "45eae1d94db908e010552f6499e32845356b6ff405ed71ce619e51267222e409",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-03/raw/wy-constitution.html"
+  }
+]

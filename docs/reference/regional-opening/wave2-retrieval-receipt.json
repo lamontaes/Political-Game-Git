@@ -1,0 +1,97 @@
+{
+  "purpose": "Bounded authored regional illustration context; textual references only, not production ecology or image license",
+  "maxBytes": 6000000,
+  "totalBytes": 962741,
+  "artifacts": [
+    {
+      "id": "tx-region-descriptions",
+      "requestedUrl": "https://tpwd.texas.gov/education/hunter-education/online-course/wildlife-conservation/texas-ecoregions",
+      "finalUrl": "https://tpwd.texas.gov/education/hunter-education/online-course/wildlife-conservation/texas-ecoregions",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:06.955053+00:00",
+      "bytes": 95085,
+      "sha256": "d17d45029d30cbcd525f02a1ca068863d958c6a795c078e4337882ed127c9454",
+      "path": "raw/tx-region-descriptions.html"
+    },
+    {
+      "id": "tx-appraisal-regions",
+      "requestedUrl": "https://tpwd.texas.gov/landwater/land/private/agricultural_land/newrules/counties/",
+      "finalUrl": "https://tpwd.texas.gov/landwater/land/private/agricultural_land/newrules/counties/",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:07.476666+00:00",
+      "bytes": 56443,
+      "sha256": "c33ecd435a0e0733b0798bc3de40c373a98fd5d649f00c2bfbf99b12aada066d",
+      "path": "raw/tx-appraisal-regions.html"
+    },
+    {
+      "id": "tx-cross-timbers",
+      "requestedUrl": "https://tpwd.texas.gov/landwater/land/habitats/cross_timbers/ecoregions/cross_timbers.phtml",
+      "finalUrl": "https://tpwd.texas.gov/landwater/land/habitats/cross_timbers/ecoregions/cross_timbers.phtml",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:07.989899+00:00",
+      "bytes": 65613,
+      "sha256": "f52c1d20433c428e2a28b69dfc63acff561dfdea52b99c9b34c2128333e6a634",
+      "path": "raw/tx-cross-timbers.html"
+    },
+    {
+      "id": "ok-region-descriptions",
+      "requestedUrl": "https://www.travelok.com/gb/articles/oklahomasdiverseecoregions",
+      "finalUrl": "https://www.travelok.com/gb/articles/oklahomasdiverseecoregions",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:09.136479+00:00",
+      "bytes": 208551,
+      "sha256": "eef4c2c0a6c8f09573bd2e5682d60de83b5c4286c925a22688056d0a82513575",
+      "path": "raw/ok-region-descriptions.html"
+    },
+    {
+      "id": "mn-ely-boreal",
+      "requestedUrl": "https://www.earthdata.nasa.gov/data/projects/snf",
+      "finalUrl": "https://www.earthdata.nasa.gov/data/projects/snf",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:13.236948+00:00",
+      "bytes": 145411,
+      "sha256": "6db26d920094180624dc4549e3805994cba818d199b8c92024af1e2f86c56862",
+      "path": "raw/mn-ely-boreal.html"
+    },
+    {
+      "id": "mn-northwoods",
+      "requestedUrl": "https://www.dnr.state.mn.us/ecs/212/index.html",
+      "finalUrl": "https://www.dnr.state.mn.us/ecs/212/index.html",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:13.871862+00:00",
+      "bytes": 116296,
+      "sha256": "d72002bf6241119553e330d28f0d41847895a674518a8dc850017b7e4904a46f",
+      "path": "raw/mn-northwoods.html"
+    },
+    {
+      "id": "mn-luverne-prairie",
+      "requestedUrl": "https://www.dnr.state.mn.us/state_parks/virtual_tour/blue_mounds/dialup.html",
+      "finalUrl": "https://www.dnr.state.mn.us/state_parks/virtual_tour/blue_mounds/dialup.html",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:14.188931+00:00",
+      "bytes": 89221,
+      "sha256": "51ff33392e0caf4256ba7acada2dff41fd6735ad28fa2e36ae5ff4dd6a480d31",
+      "path": "raw/mn-luverne-prairie.html"
+    },
+    {
+      "id": "vt-stowe-mountains",
+      "requestedUrl": "https://www.vtstateparks.com/parks/smugglers-notch",
+      "finalUrl": "https://www.vtstateparks.com/parks/smugglers-notch",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:17.477147+00:00",
+      "bytes": 81929,
+      "sha256": "c1b103d095b8923c54915510a211c197259f6f611bddf20013938cc82f73a975",
+      "path": "raw/vt-stowe-mountains.html"
+    },
+    {
+      "id": "vt-burlington-lake",
+      "requestedUrl": "https://www.burlingtonvt.gov/738/Waterfront",
+      "finalUrl": "https://www.burlingtonvt.gov/738/Waterfront",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:34:18.434623+00:00",
+      "bytes": 104192,
+      "sha256": "882593d01519992a9b8bd3dc3f9c347486921957e7128d0f3c62e46c30604e8d",
+      "path": "raw/vt-burlington-lake.html"
+    }
+  ]
+}

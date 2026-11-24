@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "240b539bccaf9da465bd256fb8227ed3803dec4f",
+  "powers": [
+    {
+      "key": "US-RI:STATE:selective-excise",
+      "jurisdictionKey": "US-RI",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ri-constitution",
+      "sourceSha256": "19b5883dd5bfcb874d596591d5bf4948166627125ea88128be58b2fc91ee2203",
+      "sourceUrl": "https://www.rilegislature.gov/riconstitution/Constitution/ConstFull.aspx",
+      "citations": [
+        "R.I. Const. art. I, §2; art. VI, §§1,2,11; art. IX, §§15–17; art. XIII, §5"
+      ],
+      "constraints": [
+        "The legislative foundation requires concurrence of both houses and laws consistent with the supreme Constitution; public burdens must be fairly distributed with due-process/equal-protection constraints. It supplies no arbitrary commodity excise base.",
+        "Article VI§11 local/private appropriations require two-thirds elected membership in each house. Article IX§§15–17 retain actual budget/revenue/reserve requirements, including the97%general-revenue appropriation limit and its specified calculations/emergency rules.",
+        "Article XIII§5 expressly leaves local taxing/borrowing power dependent on general-assembly authorization; this state foundation grants no city/town tax power.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-SC:STATE:selective-excise",
+      "jurisdictionKey": "US-SC",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "sc-constitution",
+      "sourceSha256": "45eb1157cc86e916c0e5c2f0bca016e54b393aeba7c926f9be78f4cd95fbe8b2",
+      "sourceUrl": "https://www.scstatehouse.gov/scconstitution/SCConstitution.pdf",
+      "citations": [
+        "S.C. Const. art. III, §§1,15; art. X, §§1–3,5,7,8"
+      ],
+      "constraints": [
+        "Revenue bills originate in the House with Senate amendment/rejection under art.III§15. Tax consent and distinctly stated public purpose are required by art.X§5.",
+        "Article X§§1–3 contain property/ad-valorem classification and exemption limits; those property ratios/two-thirds changes are not excise rates or a blanket excise passage threshold.",
+        "Article X§7 retains annual expenditure/revenue limits and the growth-linked appropriations limitation required by law. Its special suspension/change vote combines two-thirds present-and-voting with at least three-fifths total membership; no invented current fiscal base. Article X§8 public money remains subject to a lawful appropriation.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-VT:STATE:selective-excise",
+      "jurisdictionKey": "US-VT",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "vt-constitution",
+      "sourceSha256": "8a2d3d15bd447093e7519f1cd6856580fb1cdda793cf42e1b1b759c71c8890c2",
+      "sourceUrl": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+      "citations": [
+        "Vt. Const. ch. I, art.9; ch. II, §§6,11,27,71"
+      ],
+      "constraints": [
+        "Chapter I art.9 requires representative consent/public benefit; the evident community service from raising a tax must exceed keeping the money uncollected. No arbitrary taxable commodity permission or research rate is supplied.",
+        "Chapter II§6 requires concurrence of both houses and House origination for revenue bills; Senate may amend. Section11 retains governor presentment/veto rules and its actual present-membership override denominator.",
+        "Chapter II§27 requires legislative appropriation before treasury withdrawal; §71 keeps the Declaration of Rights binding on the legislative foundation.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    }
+  ],
+  "evidenceScopes": [
+    {
+      "jurisdictionKey": "US-RI",
+      "sourceArtifactId": "ri-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/ri-constitution.html",
+      "parentSha256": "19b5883dd5bfcb874d596591d5bf4948166627125ea88128be58b2fc91ee2203",
+      "mediaType": "text/html; charset=utf-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 536585,
+        "retrievedAt": "2026-10-02T11:42:53.684623+00:00",
+        "url": "https://www.rilegislature.gov/riconstitution/Constitution/ConstFull.aspx"
+      },
+      "citations": [
+        "R.I. Const. art. I, §2; art. VI, §§1,2,11; art. IX, §§15–17; art. XIII, §5"
+      ],
+      "legalTextQuotes": [
+        "The legislative power, under this Constitution, shall be vested in two houses, the one to be called the senate, the other the house of representatives; and both together the general assembly.",
+        "The concurrence of the two houses shall be necessary to the enactment of laws.",
+        "All laws, therefore, should be made for the good of the whole; and the burdens of the state ought to be fairly distributed among its citizens.",
+        "Nothing contained in this article shall be deemed to grant to any city or town the power to levy, assess and collect taxes or to borrow money, except as authorized by the general assembly."
+      ],
+      "excerptSha256": "d92b07da3e036f3fdba04b91bd50a481c21c98c837f38dc091e3a8550efa6e67",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "sourceArtifactId": "sc-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/sc-constitution.pdf",
+      "parentSha256": "45eb1157cc86e916c0e5c2f0bca016e54b393aeba7c926f9be78f4cd95fbe8b2",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 456950,
+        "retrievedAt": "2026-10-02T11:42:54.020839+00:00",
+        "url": "https://www.scstatehouse.gov/scconstitution/SCConstitution.pdf"
+      },
+      "citations": [
+        "S.C. Const. art. III, §§1,15; art. X, §§1–3,5,7,8"
+      ],
+      "legalTextQuotes": [
+        "The legislative power of this State shall be vested in two distinct branches, the one to be styled the \"Senate\" and the other the \"House of Representatives,\" and both together the \"General Assembly of the State of South Carolina.\"",
+        "Bills for raising revenue shall originate in the House of Representatives, but may be altered, amended or rejected by the Senate; all other Bills may originate in either house, and may be amended, altered or rejected by the other.",
+        "No tax, subsidy or charge shall be established, fixed, laid or levied, under any pretext whatsoever, without the consent of the people or their representatives lawfully assembled.",
+        "Any tax which shall be levied shall distinctly state the public purpose to which the proceeds of the tax shall be applied.",
+        "The General Assembly shall provide by law for a budget process to insure that annual expenditures of state government may not exceed annual state revenue."
+      ],
+      "excerptSha256": "6c9141c4eef56deacd66e6afc2eb2a66d2eaf653b8e3b495845df490d9cb6017",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "sourceArtifactId": "vt-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/vt-constitution.html",
+      "parentSha256": "8a2d3d15bd447093e7519f1cd6856580fb1cdda793cf42e1b1b759c71c8890c2",
+      "mediaType": "text/html; charset=utf-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 103341,
+        "retrievedAt": "2026-10-02T11:42:54.491173+00:00",
+        "url": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/"
+      },
+      "citations": [
+        "Vt. Const. ch. I, art.9; ch. II, §§6,11,27,71"
+      ],
+      "legalTextQuotes": [
+        "and previous to any law being made to raise a tax, the purpose for which it is to be raised ought to appear evident to the Legislature to be of more service to community than the money would be if not collected.",
+        "Provided, That all Revenue bills shall originate in the House of Representatives; but the Senate may propose or concur in amendments, as on other bills.",
+        "No money shall be drawn out of the Treasury, unless first appropriated by act of legislation."
+      ],
+      "excerptSha256": "d87758a5e9d555e34d25a4c3a93dff04bcc7ee97bc45a88a5646504e22313b5b",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    }
+  ],
+  "limits": [
+    "Three supported conditional state foundations pending CTO approval and complete applicable-condition enforcement.",
+    "SC quotations use the existing PDF.js decoded-item convention. Editor notes and property ratios do not supply an excise base/rate.",
+    "NM404/NY403 and SD/UT application shells/TN HTTP200 not-found page are unadmitted source gaps, not sourced-none."
+  ]
+}

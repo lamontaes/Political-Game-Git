@@ -1,0 +1,13 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index 90511d69..ce902e23 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -192 +192 @@ import {
+-import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
++import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
+@@ -3161 +3161 @@ function renderWorkspace({
+-          <BudgetEconomyWorkspace
++          <PoliticsWorkspace
+@@ -3163,0 +3164,2 @@ function renderWorkspace({
++            personId={session.personId}
++            onWorldChange={onWorldChange}

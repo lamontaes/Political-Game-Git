@@ -1,0 +1,48 @@
+{
+  "head": "6572bd523cf26586ab07c385cbbebc474e57e682",
+  "replay": "690cf4772107126f",
+  "place": "Oxbow, North Dakota",
+  "failure": null,
+  "steps": [
+    {
+      "route": "POST /api/newlife?seed=690cf4772107126f",
+      "status": 200,
+      "seconds": 8.664523099
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.6194331200000015
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.3993924740000002
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.9684357319999999
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_bb0dc3182f7aba22%3A16",
+      "status": 200,
+      "seconds": 0.24670514600000024
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 1.152319163
+    },
+    {
+      "route": "GET /api/scene?id=person_bb0dc3182f7aba22",
+      "status": 200,
+      "seconds": 0.0034068430000006628
+    },
+    {
+      "route": "GET /api/journal",
+      "status": 200,
+      "seconds": 0.0013116289999998117
+    }
+  ]
+}

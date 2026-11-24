@@ -1,0 +1,10 @@
+{
+  "head": "d219552e9ccc987ac176408b44ca49cf19340d3d",
+  "parent": "5dca8651dc1068a0f18e5e42787b99969f24e624",
+  "main": "b84750d91daacef78fb1452b0b9dcb262306f793",
+  "change": "new fixture unused binding only",
+  "lint": "PASS exit0",
+  "format": "PASS exit0",
+  "runtime": "NOT RUN; CTO checker active",
+  "sharedPreserved": true
+}

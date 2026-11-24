@@ -1,0 +1,32 @@
+{
+  "status": "READY_FOR_CLAUDE_CHANGED_FILE_GATE_AND_CORE_REVIEW",
+  "prior_core_head": "ce33d47966cd0c1122af4f9498d92cdd2458d6b1",
+  "types_grant_main": "06000a9e738fcdfa9d01dba02356496c6c17d74c",
+  "types_grant_blob": "eaaefd7feb61034fd0dfb3cd324d3807ef6af12c",
+  "query_donor": "e3e7ff15492298d4f63ab39327b8b335b031a24c",
+  "spread_dependency": "b37f7ddefed5874a936c8131f325d8602ea56d68",
+  "source_sha256": {
+    "src/simulation/types.ts": "57cb44dc225494ef00be0ac5ee566666e9bde0b8d20fcb1d82c941f6ff728d24",
+    "src/simulation/decisions.ts": "e897126ba775cd4cac1220ff20c73d6f56267543a8c24e0d4862cbec648dffe9",
+    "src/simulation/mind-integrity.ts": "54059009032ebee0a962eed4acd8097c87f9cb8a4ad1b4eec8425d81043b2722",
+    "src/simulation/decisions.test.ts": "fee6804d41beec277a8611eb8edd38d73c82b70dd0ee2f59bdfadea1c1f922a6",
+    "src/simulation/decision-scores.ts": "b21c9647da059500134e20ef4ebbebd916c1a748b38457a7bd934cb0245e4d18",
+    "src/simulation/decision-peer-estimates.ts": "0a4c5e50a5a9394d0c80adfabde98d598620709fe697ece27f69ae37cf7e4393",
+    "src/simulation/decision-peer-estimates.test.ts": "062bbf80850ed5b859603b749979eb59d9bbd5e113e7f570721edf365592cb83"
+  },
+  "executed": {
+    "query_changed_vitest": "14/14 PASS; final 356ms (tests13ms); pure authored query/comparison fixtures",
+    "changed_eslint": "7 changed source/test files PASS",
+    "changed_format": "7 changed source/test files and release note PASS",
+    "audit": "npm run -s audit:scan -- --only A124,A126; exact pinned main input 2/5,0/2; candidate5/5,2/2; source static only",
+    "initial_writer_vitest": "decisions.test.ts reached actual writer:137 PASS,3 FAIL/140;17.16s. Failures preserved in diagnostic log:duplicate authored perception keys(2),peer estimate replaced equal actor reasons(1).",
+    "changed_vitest": "4 changed files177/177 PASS;21.00s,tests3.92s; stock30s test/60s hook limits; includes all56 actual small-world peer-cohort writer/full integrity/SaveContinue cases plus existing all56 actor-reason cases.",
+    "scoped_types": "11 PR-changed roots,939 files,0 diagnostics; existing strict app compiler options; no whole-app invocation"
+  },
+  "runtime_limit": "Existing comparison partial checkout hydrated through hash-verified exact16c5 Git objects; shared checkout/index unchanged. Stock Vite/config support graph790 nodes0 missing. Node spawnSync EPERM measured in sandbox; authorized outside-sandbox execution succeeded. No full suite,unchanged LOAD,month speed or ordinary national simulation run.",
+  "strict_types": "11 changed roots939 files0 diagnostics",
+  "official_gate": "NOT RUN; parent verification only,Claude receiving gate/core review required",
+  "cohort_semantics": "Only absent actor considerations may use comparable current-game donor means. Actor recorded reasons,including exact ties,and eligible prior choice take precedence. Equal/no comparable means do not select. Donor IDs remain model provenance,not actor-owned private mind sources.",
+  "runtime_parent": "16c5da41e89a0c9f61b94b8421b8fadb9097c73a",
+  "runtime_source": "Owned five-file successor repairs on exact published16c5; all original assertions preserved"
+}

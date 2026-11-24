@@ -1,0 +1,366 @@
+# Old-engine files the new game imports directly, grouped by importer (non-test code).
+# [tangle] = the target is one of the 44 entry points into the 886-file block of src/simulation and src/presentation
+# that only leaves once every [tangle] import is moved. Unmarked targets are small leaves or re-export shims.
+# Audit of October 14, 2026. Built from scripts/dead-code/reachable.mjs with extra entry points.
+
+scripts/dev-lab/artbench-bridge.ts
+  -> src/authoring/art-desk-cards.ts  [tangle]
+  -> src/authoring/art-desk-request-code.ts  [tangle]
+  -> src/authoring/artbench.ts  [tangle]
+scripts/dev-lab/artbench-store.ts
+  -> src/authoring/art-desk-cards.ts  [tangle]
+  -> src/authoring/art-desk-notifications.ts  [tangle]
+  -> src/authoring/art-desk-request-code.ts  [tangle]
+  -> src/authoring/artbench.ts  [tangle]
+  -> src/authoring/asset-request.ts  [tangle]
+  -> src/authoring/asset-review.ts
+src/bench/calendar.ts
+  -> src/simulation/dates.ts
+src/bench/card.ts
+  -> src/simulation/dates.ts
+src/bench/family.ts
+  -> src/presentation/backdrop-people.ts  [tangle]
+  -> src/simulation/dates.ts
+src/bench/m0-check.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/bench/opening.ts
+  -> src/presentation/place-backdrops.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+src/bench/places.ts
+  -> src/presentation/backdrop-people.ts  [tangle]
+src/bench/player.ts
+  -> src/simulation/dates.ts
+src/bench/progress.ts
+  -> src/simulation/dates.ts
+src/bench/scene.ts
+  -> src/presentation/appearance-engine/pack.ts
+  -> src/presentation/appearance-engine/raster.ts
+  -> src/presentation/appearance-engine/recipe.ts  [tangle]
+  -> src/presentation/appearance-engine/runtime.ts
+  -> src/presentation/backdrop-people.ts  [tangle]
+  -> src/presentation/dress-code.ts
+  -> src/presentation/place-backdrops.ts  [tangle]
+src/bench/server.ts
+  -> src/presentation/guide-terms.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/bench/whole-figures.ts
+  -> src/presentation/backdrop-people.ts  [tangle]
+  -> src/simulation/dates.ts
+src/bench/world.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/history-index.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/world.ts  [tangle]
+src/core2/births-bench.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/nationwide-world/place-population.ts
+src/core2/births-check.ts
+  -> src/simulation/dates.ts
+src/core2/births-counted.ts
+  -> src/simulation/birth-rates.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/living-world/town-rent.ts  [tangle]
+  -> src/simulation/people.ts  [tangle]
+  -> src/simulation/person-identity.ts  [tangle]
+  -> src/simulation/rng.ts
+  -> src/simulation/state-reference.ts
+  -> src/simulation/types.ts  [tangle]
+src/core2/births-people.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/people.ts  [tangle]
+  -> src/simulation/person-identity.ts  [tangle]
+  -> src/simulation/rng.ts
+src/core2/births-plan.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/living-world/town-rent.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/business-books.ts
+  -> src/simulation/dates.ts
+src/core2/campaign-views.ts
+  -> src/simulation/ids.ts
+src/core2/central-bank-board.ts
+  -> src/simulation/names-data.ts
+  -> src/simulation/rng.ts
+src/core2/closeness.ts
+  -> src/simulation/dates.ts
+src/core2/deep-past.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/nationwide-world/place-population.ts
+  -> src/simulation/rng.ts
+  -> src/simulation/school-calendar.ts  [tangle]
+  -> src/simulation/school-names.ts
+  -> src/simulation/types.ts  [tangle]
+src/core2/elections-calendar.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/government-units.ts
+src/core2/electorate.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/gov-rules/county-election-calendar.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/county-governing-body-rules.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/county-row-offices.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/given-name-cohorts.ts
+  -> src/simulation/given-names-by-decade.json
+  -> src/simulation/rng.ts
+src/core2/gov-rules/invented-person-age.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/rng.ts
+src/core2/gov-rules/local-chief-executive-rules.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/local-governing-body-rules.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/local-governments.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/gov-rules/municipal-government.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/names-data.ts
+  -> src/simulation/place-name-corpora.json
+src/core2/gov-rules/person-identity.ts
+  -> src/simulation/rng.ts
+src/core2/gov-rules/town-election-calendar.ts
+  -> src/simulation/dates.ts
+src/core2/gov-rules/township-governing-body-rules.ts
+  -> src/simulation/government-units.ts
+src/core2/gov-rules/types.ts
+  -> src/simulation/dates.ts
+src/core2/grief.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/world-setup/deterministic-math.ts
+src/core2/housing-shelter.ts
+  -> src/simulation/living-world/town-rent.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/job-lifecycle.ts
+  -> src/simulation/dates.ts
+src/core2/law-reach/group-b-money.ts
+  -> src/simulation/dates.ts
+src/core2/law-reach/group-b-people.ts
+  -> src/simulation/dates.ts
+src/core2/law-test-start.ts
+  -> src/simulation/dates.ts
+src/core2/laws-starting.ts
+  -> src/simulation/government-units.ts
+src/core2/membership-dues.ts
+  -> src/simulation/dates.ts
+src/core2/modules/budgets.ts
+  -> src/simulation/government-units.ts
+src/core2/modules/business.ts
+  -> src/simulation/dates.ts
+src/core2/modules/candidacy.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+src/core2/modules/credit.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/drives.ts
+  -> src/simulation/dates.ts
+src/core2/modules/elections.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/executive.ts
+  -> src/simulation/dates.ts
+src/core2/modules/health.ts
+  -> src/simulation/crisis/condition-pack.ts  [tangle]
+  -> src/simulation/crisis/death-causes.ts  [tangle]
+  -> src/simulation/crisis/fixed-point.ts
+  -> src/simulation/crisis/hazard.ts  [tangle]
+  -> src/simulation/crisis/mortality-table.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/types.ts  [tangle]
+src/core2/modules/housing.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/jobs.ts
+  -> src/simulation/dates.ts
+src/core2/modules/legislature.ts
+  -> src/simulation/government-units.ts
+src/core2/modules/macro.ts
+  -> src/simulation/dates.ts
+src/core2/modules/meetings.ts
+  -> src/simulation/dates.ts
+src/core2/modules/moves.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/modules/news.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/offices.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/modules/parties.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/people.ts
+  -> src/simulation/dates.ts
+src/core2/modules/press.ts
+  -> src/simulation/dates.ts
+src/core2/modules/regional.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/modules/renewal.ts
+  -> src/simulation/dates.ts
+src/core2/modules/staff.ts
+  -> src/simulation/dates.ts
+src/core2/modules/views.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/modules/world-metrics.ts
+  -> src/simulation/dates.ts
+src/core2/offices-state.ts
+  -> src/districts/catalog.ts
+  -> src/districts/place-membership.ts
+  -> src/districts/place-population-share.ts
+  -> src/districts/types.ts
+src/core2/officials-identity.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/rng.ts
+src/core2/officials-names.ts
+  -> src/simulation/sha256.ts
+src/core2/officials-roster.ts
+  -> src/simulation/ids.ts
+src/core2/opening-employment.ts
+  -> src/simulation/justice/jail-terms.ts  [tangle]
+  -> src/simulation/life-queries.ts  [tangle]
+  -> src/simulation/living-world/town-employment.generated.ts
+  -> src/simulation/living-world/town-employment.ts  [tangle]
+  -> src/simulation/living-world/town-pay.generated.ts
+  -> src/simulation/living-world/town-pay.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/opening-falling-outs.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+src/core2/opening-favors.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+src/core2/opening-kin.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/person-identity.ts  [tangle]
+  -> src/simulation/rng.ts
+src/core2/opening-partnership.ts
+  -> src/simulation/crisis/mortality-table.ts
+  -> src/simulation/rng.ts
+src/core2/opening-peer-network.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+src/core2/opening-personality.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/people-trait-definitions.ts  [tangle]
+  -> src/simulation/rng.ts
+src/core2/opening-profile.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/core2/opening-public-owner.ts
+  -> src/simulation/government-units.ts
+src/core2/opening-voter-groups.ts
+  -> src/simulation/world-setup/political-start.ts  [tangle]
+src/core2/opening-work.ts
+  -> src/simulation/living-world/work-schedules.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/population.ts
+  -> src/simulation/character-history.ts  [tangle]
+  -> src/simulation/dates.ts
+  -> src/simulation/given-name-cohorts.ts  [tangle]
+  -> src/simulation/government-units.ts
+  -> src/simulation/household-mix.ts  [tangle]
+  -> src/simulation/ids.ts
+  -> src/simulation/invented-person-age.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/life-queries.ts  [tangle]
+  -> src/simulation/living-costs-data.ts
+  -> src/simulation/living-world/town-employment.generated.ts
+  -> src/simulation/living-world/town-employment.ts  [tangle]
+  -> src/simulation/living-world/town-pay.generated.ts
+  -> src/simulation/living-world/town-pay.ts  [tangle]
+  -> src/simulation/living-world/town-rent.generated.ts
+  -> src/simulation/living-world/town-rent.ts  [tangle]
+  -> src/simulation/living-world/town-residents.ts  [tangle]
+  -> src/simulation/names-data.ts
+  -> src/simulation/nationwide-world/local-governments.ts  [tangle]
+  -> src/simulation/nationwide-world/place-population.ts
+  -> src/simulation/people-trait-definitions.ts  [tangle]
+  -> src/simulation/people-traits.ts  [tangle]
+  -> src/simulation/people-upbringing.ts  [tangle]
+  -> src/simulation/people.ts  [tangle]
+  -> src/simulation/person-identity.ts  [tangle]
+  -> src/simulation/personality-catalogue.ts  [tangle]
+  -> src/simulation/place-name-corpus.ts  [tangle]
+  -> src/simulation/rng.ts
+  -> src/simulation/starting-money.ts  [tangle]
+  -> src/simulation/trait-packs.ts  [tangle]
+  -> src/simulation/trait-registry.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+  -> src/simulation/world.ts  [tangle]
+src/core2/public-payroll.ts
+  -> src/simulation/dates.ts
+src/core2/tooling/build-opening-schools.ts
+  -> src/simulation/government-units.ts
+  -> src/simulation/local-institutions-data.ts
+src/core2/tooling/build-place-lookup-data.ts
+  -> src/simulation/demo-jurisdiction-context.ts  [tangle]
+  -> src/simulation/legislation-scenarios.ts  [tangle]
+  -> src/simulation/legislative-work-key.ts  [tangle]
+  -> src/simulation/legislature-rule-packs.ts  [tangle]
+  -> src/simulation/national-counties.generated.ts
+  -> src/simulation/seats-of-government.generated.ts
+  -> src/simulation/state-reference.ts
+src/core2/tooling/drives-proof.ts
+  -> src/simulation/dates.ts
+src/core2/tooling/external-flow-observables.ts
+  -> src/simulation/dates.ts
+src/core2/tooling/finance-measure.ts
+  -> src/simulation/dates.ts
+src/core2/tooling/generated-world.ts
+  -> src/simulation/history-index.ts  [tangle]
+  -> src/simulation/world.ts  [tangle]
+src/core2/tooling/measure.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/ids.ts
+src/core2/tooling/p15-closeness-receipt.ts
+  -> src/simulation/dates.ts
+src/core2/tooling/p15-people-receipt.ts
+  -> src/simulation/dates.ts
+  -> src/simulation/household-mix.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+  -> src/simulation/people-trait-definitions.ts  [tangle]
+  -> src/simulation/types.ts  [tangle]
+src/core2/tooling/world-prepare.ts
+  -> src/simulation/dates.ts
+src/director/conversation.ts
+  -> src/simulation/ids.ts
+  -> src/simulation/life-places.ts  [tangle]
+src/director/journal.ts
+  -> src/presentation/grounded-english.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+src/director/ledger.ts
+  -> src/simulation/dates.ts
+src/director/render.ts
+  -> src/presentation/grounded-english.ts  [tangle]
+src/director/scene.ts
+  -> src/presentation/grounded-english.ts  [tangle]
+  -> src/simulation/life-places.ts  [tangle]
+src/director/scheduling.ts
+  -> src/simulation/dates.ts
+src/director/tooling/director-year.ts
+  -> src/simulation/dates.ts
+src/director/tooling/grading-batch.ts
+  -> src/presentation/runtime-text-origin.ts
+  -> src/simulation/dates.ts

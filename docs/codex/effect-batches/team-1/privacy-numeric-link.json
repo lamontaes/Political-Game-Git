@@ -1,0 +1,55 @@
+{
+  "team": 1,
+  "operation": "add-link",
+  "link": {
+    "key": "national-data-privacy-to-business-compliance-costs",
+    "from": "law:us-federal-positions:science-communications.national-data-privacy",
+    "to": "business.privacy-compliance-cost-share",
+    "size": 0.0035,
+    "range": [0.001, 0.006],
+    "per": "law in force, share of covered firms production costs",
+    "lagMonths": 0,
+    "group": "covered firms; current producer applies to represented town businesses as a provisional adaptation",
+    "owner": "F",
+    "evidence": "provisional",
+    "strength": "weak",
+    "shape": {
+      "kind": "linear"
+    },
+    "source": "Demirer, Jimenez Hernandez, Li and Peng 2024, NBER Working Paper 32146; existing federal-data-privacy-law.ts CTO-approved European cost adaptation",
+    "sourceUrl": "https://www.nber.org/papers/w32146",
+    "rangeBasis": "Existing cited adaptation 0.1%\u20130.6%; this is not claimed as a confidence interval. Center is within that existing interval. Team9 must verify reported quantity, units and US applicability.",
+    "why": [
+      "An operative privacy law requires covered firms to change data handling and demonstrate compliance.",
+      "Firms allocate staff, systems and legal resources to those obligations.",
+      "Those resources add production costs; current stepTownFinances prices a share of payroll plus other costs.",
+      "Quarterly net earnings and cash subtract that actual recorded dollar cost.",
+      "Bedrock: the legal compliance duty consumes paid work and services; the firms cash books record those resources."
+    ],
+    "conditions": {
+      "stronger": "Compliance burden can depend on processing intensity, prior safeguards, scale and implementation; no interaction coefficient is supplied.",
+      "weaker": "Prior compliant systems can reduce incremental burden; the cited EU range does not establish a US coefficient for each industry.",
+      "absent": "No operative controlling yes law yields zero new compliance cost. Legal exemptions and US firm-specific coverage remain unmodeled, not permission to assume everyone covered."
+    },
+    "reverseOnRepeal": "The current producer stops future quarterly cost after operative repeal. Past expenditures and installed systems remain on the books; research has not established that every recurring compliance cost immediately disappears.",
+    "who": "Firm organizations whose books incur covered production costs; owners can feel cash/debt effects. Employees are not presumed hired or laid off.",
+    "lagWhy": "The legal duty is read at the quarterly finance review. Actual cost is saved on that quarter; immediate legal operation does not imply immediate hiring effects.",
+    "aboutZero": false,
+    "consumer": "federal-data-privacy-law.ts dataPrivacyCostOn \u2192 town-finances.ts stepTownFinances privacyCost/net/cash",
+    "oneStep": "Cash/credit affordability reaches bankruptcy/closure and recorded work status; generic hire affordability currently omits privacyCost, so no hiring elasticity is claimed.",
+    "blend": "This cost is a distinct additive expense on actual production costs. Do not also multiply the same business cash or cost by this map factor. Other compliance duties need separate incremental cost evidence.",
+    "readiness": "PROPOSED numeric addition for coordinator review; not yet integrated or activated. Direct reader must share its draw key; canonical saved amount+stamp pending exact caller ownership.",
+    "primarySourceRead": {
+      "url": "https://www.nber.org/papers/w32146",
+      "artifactSha256": "c83933ba2fab3b9433ff41fa6e8a02db33e47e3aa2873d04ec35ddf15768aac6",
+      "quote": "This increase translates into only a 0.1\u20130.6% rise in overall production costs because data plays a relatively small role in firm production compared to computation.",
+      "quantity": "Overall production cost rise, not a confidence interval, US legal rate or person job-loss probability.",
+      "observedContext": "European firms responding to GDPR compared with comparable US firms; data/computation complementarity.",
+      "readAt": "2026-09-30T15:27:14Z"
+    }
+  },
+  "coordinatorOnlyWritesLinksJson": true,
+  "newLinksAddedToMain": 0,
+  "newLinksActivatedOnMain": 0,
+  "sourceHead": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1"
+}

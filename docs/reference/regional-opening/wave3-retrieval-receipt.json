@@ -1,0 +1,132 @@
+{
+  "purpose": "Bounded authored regional illustration context; textual references only, not production ecology or image license",
+  "maxBytes": 6000000,
+  "totalBytes": 1320291,
+  "artifacts": [
+    {
+      "id": "wa-hoh-rainforest",
+      "requestedUrl": "https://www.nps.gov/olym/planyourvisit/visiting-the-hoh.htm",
+      "finalUrl": "https://www.nps.gov/olym/planyourvisit/visiting-the-hoh.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:49.609792+00:00",
+      "bytes": 297911,
+      "sha256": "28777ad51f25a633e0ee7322a1bdd89f36170c7af32ddda60bb11874b7d8fbdb",
+      "path": "raw/wa-hoh-rainforest.html"
+    },
+    {
+      "id": "az-tucson-sonoran",
+      "requestedUrl": "https://www.nps.gov/sagu/planyourvisit/index.htm",
+      "finalUrl": "https://www.nps.gov/sagu/planyourvisit/index.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:49.750191+00:00",
+      "bytes": 41965,
+      "sha256": "8c09f14cc048e8fe94c448c1f7475204c3b2de58ef43ed0a798af5586216e267",
+      "path": "raw/az-tucson-sonoran.html"
+    },
+    {
+      "id": "ut-moab-redrock",
+      "requestedUrl": "https://www.nps.gov/arch/index.htm",
+      "finalUrl": "https://www.nps.gov/arch/index.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:49.975534+00:00",
+      "bytes": 77380,
+      "sha256": "7cf1f193a0b5d643ed91c873bfe1a71f78919a5edd0add035bb5f4e60f4ddd5e",
+      "path": "raw/ut-moab-redrock.html"
+    },
+    {
+      "id": "ut-moab-directions",
+      "requestedUrl": "https://www.nps.gov/arch/planyourvisit/directions.htm",
+      "finalUrl": "https://www.nps.gov/arch/planyourvisit/directions.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:50.117636+00:00",
+      "bytes": 45396,
+      "sha256": "e1894dc73877b2130d1cd625636ae65c56d52e9a9aa795e9113d7863e1c155c1",
+      "path": "raw/ut-moab-directions.html"
+    },
+    {
+      "id": "co-montane-forest",
+      "requestedUrl": "https://www.nps.gov/romo/learn/nature/montane_ecosystem.htm",
+      "finalUrl": "https://www.nps.gov/romo/learn/nature/montane_ecosystem.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:50.266458+00:00",
+      "bytes": 60688,
+      "sha256": "bd78a68adfa99b11e33bedf5c985926593771c3d4ff53d710fcdaef960f28603",
+      "path": "raw/co-montane-forest.html"
+    },
+    {
+      "id": "fl-everglades-mangroves",
+      "requestedUrl": "https://www.nps.gov/ever/learn/nature/evergeology.htm",
+      "finalUrl": "https://www.nps.gov/ever/learn/nature/evergeology.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:50.521255+00:00",
+      "bytes": 78841,
+      "sha256": "a446a39b9492fc41803cad85d6241b02d3cf7b7a797e1b39db33b5f6c89b458f",
+      "path": "raw/fl-everglades-mangroves.html"
+    },
+    {
+      "id": "me-acadia-coast",
+      "requestedUrl": "https://www.nps.gov/acad/planyourvisit/park-brochure.htm",
+      "finalUrl": "https://www.nps.gov/acad/planyourvisit/park-brochure.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:50.724567+00:00",
+      "bytes": 299518,
+      "sha256": "bd142a7505d22c57fc13f8112f6e0ddb1833275c2e2fe68b90698f08af7d3378",
+      "path": "raw/me-acadia-coast.html"
+    },
+    {
+      "id": "la-barataria-wetlands",
+      "requestedUrl": "https://www.nps.gov/jela/planyourvisit/barataria-preserve.htm",
+      "finalUrl": "https://www.nps.gov/jela/planyourvisit/barataria-preserve.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:50.980231+00:00",
+      "bytes": 107999,
+      "sha256": "d349bce47387e787d5cf25dceb89939f0d526eed4f0464822aceb1f8580a3ac0",
+      "path": "raw/la-barataria-wetlands.html"
+    },
+    {
+      "id": "wa-coulee-basalt",
+      "requestedUrl": "https://parks.wa.gov/dry-falls-visitor-center",
+      "finalUrl": "https://parks.wa.gov/dry-falls-visitor-center",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:51.150928+00:00",
+      "bytes": 58645,
+      "sha256": "fe256cdb097e3184b1fc420abe3e0a1c51fb0b4204f35f1a6b54d7f2c66f430b",
+      "path": "raw/wa-coulee-basalt.html"
+    },
+    {
+      "id": "or-astoria-fishing",
+      "requestedUrl": "https://www.portofastoria.com/pier-2",
+      "finalUrl": "https://www.portofastoria.com/pier-2",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:52.826700+00:00",
+      "bytes": 103496,
+      "sha256": "05e683442566cff12fd97d6e84c3e9ba0d598e968dec7fb0123632055fc74bb3",
+      "path": "raw/or-astoria-fishing.html"
+    },
+    {
+      "id": "al-gulf-shores-beach",
+      "requestedUrl": "https://www.alapark.com/parks/gulf-state-park/beaches",
+      "finalUrl": "https://www.alapark.com/parks/gulf-state-park/beaches",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:43:54.410485+00:00",
+      "bytes": 97056,
+      "sha256": "2a6a33d24c215bc40cbc69d8c98139ec5b67a3948a332350059b117ad15182e9",
+      "path": "raw/al-gulf-shores-beach.html"
+    },
+    {
+      "id": "wa-coulee-steppe-history",
+      "requestedUrl": "https://parks.wa.gov/about/news-center/field-guide-blog/sun-lakes-dry-falls-state-park-history",
+      "finalUrl": "https://parks.wa.gov/about/news-center/field-guide-blog/sun-lakes-dry-falls-state-park-history",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T05:44:23.335400+00:00",
+      "bytes": 51396,
+      "sha256": "8358a8d24fab2d7c51f0bb2f6aa34a26a158ce7afb57a07f40af23e358fca70a",
+      "path": "raw/wa-coulee-steppe-history.html"
+    }
+  ],
+  "interruptedAttempt": {
+    "failedUrl": "https://parks.wa.gov/find-activity/event-calendar/2025/jan/sun-lakes-dry-falls-first-day-hike",
+    "status": 403,
+    "disposition": "Omitted without bypass. First nine successful files were re-requested to recover complete response metadata; original bytes preserved. Verified response bytes matched originals."
+  }
+}
