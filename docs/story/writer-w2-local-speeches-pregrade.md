@@ -1,41 +1,14 @@
 # Pre-grade: Writer W2, local and campaign speeches (opening-speech.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `2151b523`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (164 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `c4f5a3f0`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (162 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 158 of 164 pass (96%); 6 fail.
-- **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, NC 8/8, ND 8/8, NE 8/8, PA 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 162 of 162 pass (100%); 0 fail.
+- **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, NC 8/8, ND 8/8, NE 8/8, NF 8/8, PA 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** at `2151b523` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 31 of these lines played.
+- **Played:** at `2151b523` (the previous head; the 4 new send-offs show only as read) through `scripts/words/speech-sheets.ts` in Rainelle, Midway and Washington County: 32 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
-## Play findings (whole speeches, not one line)
-
-- No grammar or fact faults in the six speeches at this head; the lowercase "the" after a sentence break is fixed in the planner.
-- All three campaign speeches close on the same line, "Thank you for listening. I hope to see you at the polls, {realm-bare}." That is a draw across three places, not a fault in one speech, but it shows the campaign send-off pool is thin where it counts.
-
-## A correction to this file's earlier reads
-
-The Pre-grader's sheets V1, W1, NB, NC, PA and ND described {realm-name} as "the state"; in outline-local it is the town or county. ND-026 was overruled to pass (it failed on that alone); PA-080 keeps its fail on another reason. Sheet NE has the right description.
-
 ## Failing lines by rule
-
-### vary-the-shape (2)
-
-- `outline-local.send-off.i-d-like-to-hear-from-you-on-and-so-would`: "I'd like to hear from you on {theme-short}, and so would {body-name}." — The mayor speaks for the council in an 'and so would X' tag that repeats the 'and so did' shape of NE-026 and NE-043.
-- `outline-local.report.i-spent-a-lot-of-the-year-on-and-so-did`: "I spent a lot of the year on {theme-name}, and so did {body-name}." — Third 'and so did X' line, and saying the council spent the year on it too reads unnatural.
-
-### awkward (2)
-
-- `outline-local.report.as-is-what-people-in-brought-to-me-most`: "As {office-title}, {theme-name} is what people in {realm-name} brought to me most." — Dangling 'As mayor,' modifies the theme instead of the speaker, and the office is said for its own sake.
-- `outline-local.send-off.say-hello-on-your-way-out`: "Say hello on your way out, {realm-bare}." — Asking the whole town to say hello on the way out is an odd, stagey send-off for an address.
-
-### address-argues-not-announces (1)
-
-- `outline-local.send-off.thank-you-all-i-have-work-to-do-on-with`: "Thank you all. I have work to do on {theme-short}, with {body-name}." — A 'now I have work to go do' close with a stray comma before 'with', which he has ruled out of addresses.
-
-### line-fits-the-roles-in-its-situation (1)
-
-- `outline-local.greeting.good-to-be-home-in`: "Good to be home in {realm-name}." — A sitting mayor speaking in the town does not say 'good to be home'; it implies a return the record does not hold.
 
 ## As played
 
@@ -70,6 +43,7 @@ The Pre-grader's sheets V1, W1, NB, NC, PA and ND described {realm-name} as "the
 - pass: `outline-local.greeting.hello-neighbors` → **a town member's campaign speech, 4949820, seed af873500, part 1** Hello, neighbors. I'm running because the cost of a place to live needs somebody's full attention.
 - pass: `outline-local.greeting.residents-of-thank-you-for-coming` → **the local head's address, 4949820, seed af873500, part 1** Residents of Midway, thank you for coming. The thing Midway kept coming back to this year was how we help people through hard times.
 - pass: `outline-local.greeting.good-evening-neighbors` → **the local head's address, 2409400, seed eb7bf596, part 1** Good evening, neighbors. The budget held up this year, and how we keep people safe and treat them fairly is where Washington County should look next.
+- pass: `outline-local.send-off.thank-you-everyone` → **the President's inaugural, 2409400, seed eb7bf596, part 1** Thank you, everyone. In November the votes came in, and now the work is mine for four years. Nothing I say today matters more than our place in the world.
 
 ## Passing lines
 
@@ -231,3 +205,7 @@ The Pre-grader's sheets V1, W1, NB, NC, PA and ND described {realm-name} as "the
 - `outline-local.report.talked-about-all-year-and-so-did-i`: "{realm-name} talked about {theme-name} all year, and so did I."
 - `outline-local.send-off.thank-you-i-m-always-glad-to-hear-from-you-on`: "Thank you, {realm-bare}. I'm always glad to hear from you on {theme-short}."
 - `outline-local.send-off.any-questions-on-i-ll-stay-as-long-as-you-like`: "Any questions on {theme-short}? I'll stay as long as you like."
+- `outline-local.send-off.thanks-for-coming`: "Thanks for coming."
+- `outline-local.send-off.thanks-for-listening`: "Thanks for listening."
+- `outline-local.send-off.thank-you-everyone`: "Thank you, everyone."
+- `outline-local.send-off.i-d-be-glad-to-talk-more-about`: "I'd be glad to talk more about {theme-short}."
