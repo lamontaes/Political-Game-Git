@@ -1668,5 +1668,317 @@
     "elements": [
       "pattern-b7-07-the-witness-in-the-hall"
     ]
+  },
+  {
+    "key": "scene-talk.state-tell.the-older-i-get-the-more-i-pay-attention-to-what-this-committee-does-i-came-to-ask-you-to-vote-for-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "The older I get, the more I pay attention to what this committee does. I came to ask you to vote for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health",
+          "witness-for"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-wanted-somebody-my-age-on-the-record-against-bill-that-s-why-i-took-the-witness-chair",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I wanted somebody my age on the record against {bill}. That's why I took the witness chair.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health",
+          "witness-against"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-thank.thanks-for-coming-in-on-bill-it-makes-a-difference-to-hear-you-say-it-yourself",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "Thanks for coming in on {bill}. It makes a difference to hear you say it yourself.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-i-describe-your-testimony-on-bill-do-you-want-me-to-mention-your-age",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If I describe your testimony on {bill}, do you want me to mention your age?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.who-else-would-you-want-sitting-in-that-witness-chair-before-we-vote-on-bill",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Who else would you want sitting in that witness chair before we vote on {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-say-getting-older-is-what-got-me-interested-in-bill-that-s-as-personal-as-i-d-make-it",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "You can say getting older is what got me interested in {bill}. That's as personal as I'd make it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ],
+        "after": "scene-talk.reply-ask.if-i-describe-your-testimony-on-bill-do-you-want-me-to-mention-your-age"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.just-tell-them-where-i-stand-on-bill-my-birthday-isn-t-the-point-i-came-here-to-make",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Just tell them where I stand on {bill}. My birthday isn't the point I came here to make.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ],
+        "after": "scene-talk.reply-ask.if-i-describe-your-testimony-on-bill-do-you-want-me-to-mention-your-age"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.somebody-who-disagrees-with-me-about-bill-i-d-be-interested-to-hear-what-they-see-in-it",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Somebody who disagrees with me about {bill}. I'd be interested to hear what they see in it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ],
+        "after": "scene-talk.reply-ask.who-else-would-you-want-sitting-in-that-witness-chair-before-we-vote-on-bill"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-somebody-my-age-who-couldn-t-make-it-here-today-what-you-ve-heard-on-bill-is-my-answer",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd ask somebody my age who couldn't make it here today. What you've heard on {bill} is my answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": [
+          "bill"
+        ],
+        "onlyWhen": [
+          "life-own-age-health",
+          "bill-health"
+        ],
+        "after": "scene-talk.reply-ask.who-else-would-you-want-sitting-in-that-witness-chair-before-we-vote-on-bill"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
   }
 ]
