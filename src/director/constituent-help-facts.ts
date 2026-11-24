@@ -90,6 +90,8 @@ export function caseFacts(
     row.problem
   ];
   if (agency) facts.agency = said(agency);
+  if (row.status === "open" && row.respondBy >= core.date)
+    facts["case-response-date"] = said(spokenDate(row.respondBy, core.date));
   facts["respond-in"] = said(
     daysSaid(Math.max(P.one, daysBetweenText(cause.date, row.respondBy))),
   );
