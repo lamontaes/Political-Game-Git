@@ -200,6 +200,17 @@
       }
     },
     "MO": {
+      "town": {
+        "seats": 5,
+        "termYears": 2,
+        "staggered": true,
+        "chief": {
+          "title": "Chairman of the Board of Trustees",
+          "directlyElected": false
+        },
+        "citation": "RSMo 80.020: chapter 80 applies to \"any town or village within this state\", incorporated by the name and style of \"The town of ______\"; RSMo 80.040: the board of trustees is \"to consist of five members, unless such town shall contain more than twenty-five hundred inhabitants\" and its voters choose nine; the first board serves terms of two and one years, and \"Thereafter all members shall serve for terms of two years\", so the terms take turns; RSMo 80.060: the board shall \"choose a chairman of their number\". Whether trustees are elected at large is not stated: not read. A town whose voters chose nine trustees is not read.",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=80.020"
+      },
       "village": {
         "seats": 5,
         "termYears": 2,
