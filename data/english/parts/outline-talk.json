@@ -3314,34 +3314,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-right-about-and-it-s-overdue",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{president-object} is right about {said}, and it's overdue.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-with",
-            "president-for"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict-cold.talk-address-point-and-i-m-glad-somebody-finally-said-it-out-loud",
       "move": "verdict-cold",
       "kind": "spoken",
@@ -3359,196 +3331,6 @@
         "personality-v1:facet-sincere",
         "personality-v1:facet-tender-hearted"
       ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-i-ll-give-this-one-needed-saying-and-i-ll-say-so",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "I'll give {president-object} this one: {said} needed saying, and I'll say so.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-with",
-            "president-for"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-right-to-push-back-on-because",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{president} is right to push back on {said}, because {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "reason-against",
-            "stand-with",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-leave-alone-i-say-and-is-the-one-who-finally-said-so",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "Leave {said} alone, I say, and {president} is the one who finally said so.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-with",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-get-behind-on-because",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "I can't get behind {president-object} on {said}, because {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "reason-against",
-            "stand-against",
-            "president-for"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-every-time-comes-up-i-end-up-in-the-same-place-and-it-isn-t-with",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "Every time {said} comes up I end up in the same place, and it isn't with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-against",
-            "president-for"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-has-backwards-because",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{president} has {said} backwards, because {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "reason-for",
-            "stand-against",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-we-shouldn-t-be-fighting-over-at-all-and-shouldn-t-be-the-one-starting-it",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "We shouldn't be fighting over {said} at all, and {president} shouldn't be the one starting it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-against",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-cocky", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the before-and-around writer",
       "date": "2026-11-24",
@@ -3578,17 +3360,235 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-i-keep-going-back-and-forth-on-and-didn-t-settle-it-for-me",
+      "key": "outline-talk.verdict-cold.talk-address-point-is-right-about-the-way-needs-to-and-it-s-overdue",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "I keep going back and forth on {said}, and {president} didn't settle it for me.",
+      "text": "{president-object} is right about the way {place} needs to {to}, and it's overdue.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-cold",
           "tie": "stand",
-          "requiresFacts": ["said", "president", "stand-unsure"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "to",
+            "place",
+            "president-object",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-ll-give-this-one-because-somebody-had-to",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I'll give {president-object} this one, because somebody had to {to}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president-object",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-is-right-to-push-back-on-the-push-to-because",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} is right to push back on the push to {to}, because {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president",
+            "reason-against",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-wouldn-t-either-and-is-the-one-who-finally-said-it",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I wouldn't {to} either, and {president} is the one who finally said it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-get-behind-on-this-one-and",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I can't get behind {president-object} on this one, and {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-object",
+            "reason-against",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-ask-me-whether-we-should-and-i-end-up-in-the-same-place-every-time-and-it-i",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "Ask me whether we should {to} and I end up in the same place every time, and it isn't with {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president-object",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-has-this-backwards-because",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} has this backwards, because {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president",
+            "reason-for",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-people-in-would-tomorrow-and-shouldn-t-be-the-one-standing-in-the-way",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "People in {place} would {to} tomorrow, and {president} shouldn't be the one standing in the way.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-cocky", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-keep-going-back-and-forth-on-whether-to-and-didn-t-settle-it-for-me",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I keep going back and forth on whether to {to}, and {president} didn't settle it for me.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": ["to", "president", "stand-unsure", "president-for"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-curious"],
@@ -3598,110 +3598,53 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-keep-i-d-say-and-i-m-glad-stood-up-for-it",
+      "key": "outline-talk.verdict-cold.talk-address-point-i-keep-going-back-and-forth-on-whether-to-and-didn-t-talk-me-out-of-it-eith",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "Keep {said}, I'd say, and I'm glad {president} stood up for it.",
+      "text": "I keep going back and forth on whether to {to}, and {president} didn't talk me out of it either.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-cold",
           "tie": "stand",
           "requiresFacts": [
-            "said",
+            "to",
             "president",
-            "stand-with",
-            "president-for",
-            "law-in-force"
+            "stand-unsure",
+            "president-against"
           ],
-          "excludesFacts": []
+          "excludesFacts": ["law-in-force"]
         }
       ],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-sincere"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-curious"],
       "origin": "authored",
       "author": "the before-and-around writer",
       "date": "2026-11-24",
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-good-that-someone-wants-gone-and-it-took-to-say-it",
+      "key": "outline-talk.verdict-cold.talk-address-point-i-can-see-why-wants-to-and-i-can-see-why-people-in-wouldn-t",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "Good that someone wants {said} gone, and it took {president-object} to say it.",
+      "text": "I can see why {president} wants to {to}, and I can see why people in {place} wouldn't.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-cold",
           "tie": "stand",
           "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-with",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-defending-is-the-wrong-fight-for",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "Defending {said} is the wrong fight for {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-against",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-take-away-and-would-feel-it-whatever-thinks",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "Take {said} away and {place} would feel it, whatever {president} thinks.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
+            "to",
             "place",
             "president",
-            "stand-against",
-            "president-against",
-            "law-in-force"
+            "stand-unsure",
+            "president-for"
           ],
-          "excludesFacts": []
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-tender-hearted"
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-analytical"
       ],
       "origin": "authored",
       "author": "the before-and-around writer",
@@ -3709,21 +3652,45 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-put-that-together-and-has-right",
+      "key": "outline-talk.verdict-cold.talk-address-point-i-can-see-why-says-no-to-that-and-i-can-see-why-people-in-would-want-to",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I can see why {president} says no to that, and I can see why people in {place} would want to {to}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "place",
+            "president",
+            "stand-unsure",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-put-that-together-and-has-this-right",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "Put that together and {president-object} has {said} right.",
+      "text": "Put that together and {president-object} has this right.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president-object",
-            "stand-with",
-            "president-for"
-          ],
+          "requiresFacts": ["president-object", "stand-with", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3738,50 +3705,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-that-s-the-whole-reason-keeping-matters-to-me",
+      "key": "outline-talk.verdict-after.talk-address-point-which-is-why-is-right-to-stop-short-of-that",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "That's the whole reason keeping {said} matters to me.",
+      "text": "Which is why {president} is right to stop short of that.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "stand-with",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-devoted",
-        "personality-v1:facet-tender-hearted"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"],
-      "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-which-is-why-is-right-to-stop-short-of",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Which is why {president} is right to stop short of {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-with",
-            "president-against"
-          ],
+          "requiresFacts": ["president", "stand-with", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3793,43 +3726,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-i-m-glad-someone-finally-wants-undone",
+      "key": "outline-talk.verdict-after.talk-address-point-so-no-i-m-not-with-on-this-one-and-i-won-t-pretend",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "I'm glad someone finally wants {said} undone.",
+      "text": "So no, I'm not with {president-object} on this one, and I won't pretend.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
           "requiresFacts": [
-            "said",
-            "stand-with",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"],
-      "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-so-no-i-m-not-with-on-and-i-won-t-pretend",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "So no, I'm not with {president-object} on {said}, and I won't pretend.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
             "president-object",
             "stand-against",
             "president-for"
@@ -3848,51 +3754,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-i-d-change-and-is-the-one-protecting-it",
+      "key": "outline-talk.verdict-after.talk-address-point-and-still-has-it-backwards",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "I'd change {said}, and {president} is the one protecting it.",
+      "text": "And {president} still has it backwards.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-against",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"],
-      "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-and-still-has-backwards",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "And {president} still has {said} backwards.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-against",
-            "president-against"
-          ],
+          "requiresFacts": ["president", "stand-against", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3907,46 +3778,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-i-d-keep-and-i-wish-would-too",
+      "key": "outline-talk.verdict-after.talk-address-point-i-could-go-either-way-on-whether-to-honestly",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "I'd keep {said}, and I wish {president} would too.",
+      "text": "I could go either way on whether to {to}, honestly.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": [
-            "said",
-            "president",
-            "stand-against",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"],
-      "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-i-could-go-either-way-on-honestly",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "I could go either way on {said}, honestly.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["said", "stand-unsure"],
+          "requiresFacts": ["to", "stand-unsure"],
           "excludesFacts": []
         }
       ],
@@ -3958,16 +3799,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-i-d-have-to-hear-how-would-run-before-i-picked-a-side",
+      "key": "outline-talk.verdict-after.talk-address-point-i-d-have-to-hear-how-would-do-it-before-i-picked-a-side",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "I'd have to hear how {president} would run {said} before I picked a side.",
+      "text": "I'd have to hear how {president} would do it before I picked a side.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["said", "president", "stand-unsure"],
+          "requiresFacts": ["president", "stand-unsure", "president-for"],
           "excludesFacts": []
         }
       ],
@@ -3982,16 +3823,40 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-ask-me-again-once-explains",
+      "key": "outline-talk.verdict-after.talk-address-point-i-d-have-to-hear-why-says-no-before-i-picked-a-side",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "Ask me again once {president-object} explains {said}.",
+      "text": "I'd have to hear why {president} says no before I picked a side.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["said", "president-object", "stand-unsure"],
+          "requiresFacts": ["president", "stand-unsure", "president-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["why-first"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-ask-me-again-once-explains-how-would",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "Ask me again once {president-object} explains how {place} would {to}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["to", "place", "president-object", "stand-unsure"],
           "excludesFacts": []
         }
       ],
@@ -4006,10 +3871,10 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-you-might-see-the-other-way-and-we-d-still-sit-down-to-supper",
+      "key": "outline-talk.verdict-after.talk-address-point-you-might-feel-differently-about-and-we-d-still-sit-down-to-supper",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "You might see {said} the other way, and we'd still sit down to supper.",
+      "text": "You might feel differently about {said}, and we'd still sit down to supper.",
       "uses": [
         {
           "subject": "talk-address-point",
