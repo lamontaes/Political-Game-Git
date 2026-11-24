@@ -199,3 +199,13 @@ Places: Bloomsbury, New Jersey 95660b10-4573-4b08-b8bb-83074bd9c415; Monserrate,
 | P51 | #10388 | Bloomsbury NJ 95660b10 | **pass** | replay-m8week-news.png | After a Week (Jan 28 to Feb 4, 8.8 s with a letter scene) News on the followed paper lists stories dated Jan 24 and Jan 31 ("Alexis Kent files for Governor", "Benjamin Shepherd joins race for Governor"). |
 | C10 | #10338 | Monserrate PR 5b7a3d13; Walpole NH 187cdef6 | **fail** (both places) | replay-m9a-mayor.png, replay-mayor-last.png | Monserrate: mayor Leslie Henry, born 1973: "At the age of 18, she came to Benton Supply Company after time at Daniels Family Clinic, Monserrate Register, Snyder Care Home, Boyd's Kitchen, and Monserrate Busi..." Walpole: sheriff Sarah Chang, born 1993, 2015: "moved through Dominguez Family Clinic, Chapman Construction, and Lowe and Associates on the way to Walpole Campaign Works." The career still starts with a stack of jobs in one year. |
 | N8-P31, C23 to C25 (Bills) | #10386, #10314 | Eastshore KS 90a8995c (seven bills, banner "Ordinance 2025-4 · Marion County Board of Commissioners", section text not underlined); Monserrate PR 5b7a3d13 (three bills) | **pass** (every bill shown; no Back, no cents, no system text) / **fail** (Monserrate: the federal bill H.R. 2 has no banner; the word "Sponsor" is underlined as a glossary term) | replay-m7-bills.png, replay-m9a-bills.png | Eastshore shows the full banner; Monserrate's three drafted bills show no banner and "Sponsor" stays underlined. |
+
+## Re-played on main 7fcae4d8 (#10309 and #10391 landed, with #10373 and #10396)
+
+Draws: Laurel, Delaware 360d9fcc-3f4f-43eb-8668-be5bde7377c9; Sumner, Mississippi 3f097833-7000-4a60-84f5-80c2acbca7a8; Wetumpka, Alabama b31d9aed-d1d5-4a07-8e9d-442a19c0b7d5; Boyd, Wisconsin dba6ba04-7990-4741-8fed-f760f865109c.
+
+| Row | PR | Place and seed | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- | --- |
+| P8 (Capitol beat, Oval cutaway alone, America cutaway) | #10344, #10391 | all four draws | **pass** (4 of 4) | replay-m10a-sheet.png, replay-m10b-sheet.png, replay-m10c-sheet.png, replay-m10d-sheet.png | Left to right in each: the speech in front of the Capitol at night (President large, Speaker and Vice President small); the President alone at the Resolute desk with flags (Oval cutaway); the train-station America shot with the LIVE corner. |
+| C18 | #10309 | Boyd WI dba6ba04 | **not reached** (the Governor's address was played in a trailer home with no painted TV; the painted-TV case needs a living room with a TV, which none of the two Week draws gave) | replay-m10wa-2.png | LIVE box shows the Governor; no TV in this room. |
+| N16-27 | #10316 (wanted-picture line only) | same | **open, art** | replay-m10wa-2.png | Same. |
