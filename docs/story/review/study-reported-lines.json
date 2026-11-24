@@ -714,5 +714,194 @@
       "key": "colleague-word"
     },
     "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.reply-agree.when-i-voted-against-bill-i-thought-that-settled-it-for-me-hearing-you-give-the-report-changed-my-mind-i-ll-back-it",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "When I voted against {bill}, I thought that settled it for me. Hearing you give the report changed my mind. I'll back it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for", "moved-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-see-more-in-bill-than-i-did-before-you-spoke-you-haven-t-got-my-vote-though",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I see more in {bill} than I did before you spoke. You haven't got my vote, though.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for", "moved-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-went-in-ready-to-say-no-to-bill-again-let-me-think-about-what-you-said-before-i-answer",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "I went in ready to say no to {bill} again. Let me think about what you said before I answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for", "moved-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-had-doubts-about-bill-going-in-hearing-the-finding-made-them-harder-to-dismiss-i-think-we-should-turn-it-down",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "I had doubts about {bill} going in. Hearing the finding made them harder to dismiss. I think we should turn it down.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "finding-against",
+          "moved-against"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.that-gave-me-pause-even-so-i-d-take-my-chances-on-bill-before-i-d-ask-the-body-to-drop-it",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "That gave me pause. Even so, I'd take my chances on {bill} before I'd ask the body to drop it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "finding-against",
+          "moved-against"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-m-less-sure-of-bill-after-hearing-you-can-you-give-me-until-i-ve-read-the-report-for-myself",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "I'm less sure of {bill} after hearing you. Can you give me until I've read the report for myself?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "finding-against",
+          "moved-against"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
   }
 ]
