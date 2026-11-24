@@ -1,0 +1,29 @@
+{
+  "id": "many-children-and-no-parents-at-school",
+  "kind": "move",
+  "summary": "A first day at school is told by what the child noticed, only where a record carries it.",
+  "realLife": "The same narrator said she was frightened by so many children without their parents. A record must hold the feeling before the line can say it.",
+  "sources": [
+    "The Mountain Laurel, Ozark Dreams and Mountain Memories, part 22: https://mtnlaurel.com/life-stories/61-ozark-dreams-and-mountain-memories/1627-ozark-dreams-and-mountain-memories-part-22-of-24.html"
+  ],
+  "fits": ["journal"],
+  "slots": ["school"],
+  "gates": [],
+  "inGame": "`household:school-started:elementary`, feelings only through the person's mood record (rule: no feeling words without a record).",
+  "turns": [
+    {
+      "turn": "The child was glad to go.",
+      "pulledBy": "a mood record that day",
+      "writesBack": "the line says the child went gladly"
+    },
+    {
+      "turn": "The child cried.",
+      "pulledBy": "a mood record that day",
+      "writesBack": "the line says who comforted them"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

@@ -1,0 +1,29 @@
+{
+  "id": "appointed-to-a-seat-when-its-holder-moves-away",
+  "kind": "move",
+  "summary": "A person who lost a race is appointed to the seat when the winner moves away.",
+  "realLife": "A woman who filed in 1975 and lost by seventeen votes to a write-in candidate was later appointed, eight to one, to his seat when he moved.",
+  "sources": [
+    "Sturgis Historical Society, Bumpy Road to Victory, a recollection of the 1975 city commission race: https://www.sturgismuseum.org/?p=1170"
+  ],
+  "fits": ["journal"],
+  "slots": ["office", "other"],
+  "gates": [],
+  "inGame": "`event:took-office` after `event:election-result` as the loser. `needs:` appointment to a vacancy as a path to office.",
+  "turns": [
+    {
+      "turn": "Someone else is appointed.",
+      "pulledBy": "the council picks another candidate",
+      "writesBack": "the line names who and the vote"
+    },
+    {
+      "turn": "The seat is filled by a special election.",
+      "pulledBy": "a special election row",
+      "writesBack": "the line gives the date"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}
