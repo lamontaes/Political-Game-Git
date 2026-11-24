@@ -89,12 +89,12 @@ try {
     assert.ok(beats.length >= 2, `the address has only ${beats.length} parts`);
     assert.match(
       beats[0].backdrop,
-      /^us-(house|senate)-floor/,
-      "the address does not start in the chamber",
+      /^oval-/,
+      "the inaugural does not start at the Oval Office window",
     );
     assert.ok(
       beats[0].people >= 1,
-      "the President is not on the strip in the chamber",
+      "the President is not on the strip at the Oval Office window",
     );
     // Each part its own picture, up to three: the chamber, a cutaway, home.
     assert.ok(

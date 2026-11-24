@@ -305,6 +305,7 @@ export function storyScene(
               scene.speech.parts?.length || 1,
               scene.speech.speakerId,
             ),
+            director.ledger.opening?.speechKind,
           ),
         }
       : {}),

@@ -90,6 +90,7 @@ it.each(["a", "b", "c"])(
       levels,
       20 * 60 + 30,
       named,
+      story.speechKind,
     );
     // Each beat shows the people its part names (owner, Nov 12: "random
     // busts of people ... unless it's people that he's introducing"): an
@@ -110,7 +111,7 @@ it.each(["a", "b", "c"])(
     expect(
       beats.map((beat) => beat.kind),
       where,
-    ).toEqual(beatKinds(levels));
+    ).toEqual(beatKinds(levels, story.speechKind));
     expect(beats.length, where).toBe(parts);
     for (const beat of beats) {
       if (beat.kind === "state") {
@@ -205,5 +206,116 @@ it.each(["a", "b"])(
       kinds.slice(1, -1),
       `${where}: middle beats ${kinds.join(", ")}`,
     ).toContain("america");
+  },
+);
+
+it("an inaugural is staged with its Oct 28 cutaways, never on the House floor (owner, Nov 23)", () => {
+  const kinds = beatKinds(
+    [
+      "salutation",
+      "occasion",
+      "country",
+      "people",
+      "congress",
+      "vice-president",
+      "states",
+      "close",
+    ],
+    "inaugural",
+  );
+  // The Oval Office window first, the Resolute desk, America along a route,
+  // the key people named at the colonnade, the states, and home.
+  expect(kinds).toEqual([
+    "window",
+    "desk",
+    "america",
+    "america",
+    "colonnade",
+    "colonnade",
+    "state",
+    "home",
+  ]);
+  expect(kinds).not.toContain("chamber");
+  // A State of the Union is still given in the chamber.
+  expect(beatKinds(["salutation", "occasion", "country", "close"])[0]).toBe(
+    "chamber",
+  );
+});
+
+it.each(["a", "b"])(
+  "the world's inaugural address plays its cutaways with fallbacks for pictures not yet painted (draw %s)",
+  { timeout: 900_000 },
+  (draw) => {
+    setBookkeeping(false);
+    const place = drawPlace(`${runSeed}:inaugural:${draw}`, "montage");
+    const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const story = world.director.ledger.opening!;
+    // The game starts on Jan 20: its address is the inaugural.
+    expect(story.speechKind, where).toBe("inaugural");
+    const parts = story.address.parts.length;
+    const levels = partLevels(story.address.sentences, parts);
+    const named = namedInParts(
+      world.core,
+      story.address.sentences,
+      parts,
+      story.president.id,
+    );
+    const beats = addressMontage(
+      world.core,
+      world.playerId!,
+      story.president.id,
+      levels,
+      20 * 60 + 30,
+      named,
+      story.speechKind,
+    );
+    // Beat 1 is the President at the Oval Office window (its fallback is the
+    // Oval Office until the South Lawn view is painted); no beat is the House.
+    expect(beats[0]!.kind, where).toBe("window");
+    expect(beats[0]!.backdrop.file, where).toMatch(/^oval-office/);
+    for (const beat of beats)
+      expect(beat.backdrop.file, `${where}: ${beat.kind}`).not.toMatch(
+        /^us-(house|senate)-floor/,
+      );
+    // Every part is the cutaway its level calls for: the desk for the
+    // occasion, America along a route for the country, the colonnade for the
+    // key people, in the order of the address.
+    const expected = beatKinds(levels, "inaugural");
+    expect(
+      beats.map((beat) => beat.kind),
+      where,
+    ).toEqual(expected);
+    levels.forEach((level, at) => {
+      if (at === 0 || at === levels.length - 1) return;
+      if (level === "country" || level === "people")
+        expect(beats[at]!.kind, `${where}: part ${at}`).toBe("america");
+      if (level === "congress" || level === "vice-president")
+        expect(beats[at]!.kind, `${where}: part ${at}`).toBe("colonnade");
+    });
+    for (const beat of beats.filter((row) => row.kind === "colonnade"))
+      expect(beat.backdrop.file, where).toMatch(/^white-house-colonnade/);
+    for (const beat of beats.filter((row) => row.kind === "desk"))
+      expect(beat.backdrop.file, where).toMatch(/^oval-/);
+    // The key people a part names are on its beat as it is spoken.
+    beats.forEach((beat, at) => {
+      if (beat.kind === "home") return;
+      for (const id of named[at]!)
+        expect(
+          beat.sourceRecordIds,
+          `${where}: part ${at} names ${id}`,
+        ).toContain(id);
+    });
+    // The President is the large bust on the beats that show him working.
+    for (const beat of beats.filter((row) =>
+      ["chamber", "window", "desk"].includes(row.kind),
+    ))
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: ${beat.kind}`,
+      ).toContain(story.president.id);
   },
 );

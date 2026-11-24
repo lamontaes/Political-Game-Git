@@ -2620,10 +2620,7 @@ async function showStory(momentId) {
       drawTv(
         story.speech,
         story.names[story.speech.speakerId],
-        on ??
-          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
-            ? { medium: "television" }
-            : undefined),
+        on ?? (beat && !beat.inRoom ? { medium: "television" } : undefined),
       );
       fillTalk({
         lines: [

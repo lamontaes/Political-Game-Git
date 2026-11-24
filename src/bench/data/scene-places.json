@@ -533,6 +533,8 @@
   },
   "wantedPictures": {
     "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
+    "oval-office-south-lawn": "The Oval Office seen through its lit windows from the South Lawn at dusk, the President a figure at the window, for the inaugural address's first part (WANTED cto-28).",
+    "oval-office-resolute": "The Resolute desk as a television address: the President seated facing the camera, flags and the window behind (WANTED cto-33).",
     "white-house-residence-living": "The President's living room in the White House residence, by day and at night.",
     "white-house-residence-dining": "The residence's family dining room and kitchen.",
     "white-house-residence-bedroom": "The residence's bedroom.",

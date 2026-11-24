@@ -15,15 +15,36 @@ const DATA = montage as unknown as {
   last: BeatKind;
   levels: Record<string, BeatKind>;
   places: Record<string, string[]>;
+  /** Parts of a kind of speech that stage differently (the inaugural): its first part and the beats its levels key to. */
+  speeches: Record<
+    string,
+    { first?: BeatKind; levels?: Record<string, BeatKind> }
+  >;
+  /** The kinds of beat the speaker is in the room for (the rest are heard on a set). */
+  inRoom: BeatKind[];
   mostOfficials: number;
   mostAmerica: number;
 };
 
-export type BeatKind = "chamber" | "officials" | "state" | "america" | "home";
+export type BeatKind =
+  | "chamber"
+  | "window"
+  | "desk"
+  | "officials"
+  | "colonnade"
+  | "state"
+  | "america"
+  | "home";
+
+/** Beats that show the speaker large, and beats that name the key people by office. */
+const SPEAKER_KINDS: readonly BeatKind[] = ["chamber", "window", "desk"];
+const OFFICIAL_KINDS: readonly BeatKind[] = ["officials", "colonnade"];
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
   readonly kind: BeatKind;
+  /** The speaker is in the room (else heard on a set over the beat). */
+  readonly inRoom: boolean;
   readonly place: string;
   readonly backdrop: ReturnType<typeof backdropFor>;
   readonly people: ReturnType<typeof peopleHere>["people"];
@@ -39,14 +60,19 @@ export interface MontageBeat {
  * home). A varied
  * address still finds its beats, since they follow the role, not the position.
  */
-export function beatKinds(levels: readonly string[]): BeatKind[] {
+export function beatKinds(
+  levels: readonly string[],
+  /** The kind of speech: an inaugural stages its first and middle parts in the Oval Office (owner, Nov 23). */
+  speechKind?: string,
+): BeatKind[] {
   if (levels.length <= 1) return [DATA.last];
+  const staged = speechKind ? DATA.speeches[speechKind] : undefined;
   return levels.map((level, at) =>
     at === 0
-      ? DATA.first
+      ? (staged?.first ?? DATA.first)
       : at === levels.length - 1
         ? DATA.last
-        : (DATA.levels[level] ?? "america"),
+        : (staged?.levels?.[level] ?? DATA.levels[level] ?? "america"),
   );
 }
 
@@ -114,6 +140,8 @@ export function addressMontage(
   minuteOfDay: number,
   /** The people each part names (`namedInParts`): an "america" beat shows them, and any beat adds them. */
   namedByPart: readonly (readonly string[])[] = [],
+  /** The address's kind of speech (`speechKind` of the opening story). */
+  speechKind?: string,
 ): MontageBeat[] {
   const named = (id: string) => {
     const row = core.people.get(id as PersonId);
@@ -187,7 +215,7 @@ export function addressMontage(
     )
     .sort();
   let americaTurn = 0;
-  return beatKinds(levels).map((kind, at) => {
+  return beatKinds(levels, speechKind).map((kind, at) => {
     const namedHere = namedByPart[at] ?? [];
     const place =
       kind === "home"
@@ -202,10 +230,10 @@ export function addressMontage(
       role?: string;
     }[] = [];
     const records: string[] = [];
-    if (kind === "chamber" && speaker) {
+    if (SPEAKER_KINDS.includes(kind) && speaker) {
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
       records.push(speakerId);
-    } else if (kind === "officials") {
+    } else if (OFFICIAL_KINDS.includes(kind)) {
       const officials = key.slice(0, DATA.mostOfficials);
       for (const person of officials) {
         cast.push({
@@ -263,13 +291,14 @@ export function addressMontage(
         }
     return {
       kind,
+      inRoom: DATA.inRoom.includes(kind),
       place: place ?? "",
       backdrop,
       people: peopleHere(
         core,
         backdrop.file,
         cast,
-        kind === "chamber" ? speakerId : undefined,
+        SPEAKER_KINDS.includes(kind) ? speakerId : undefined,
       ).people,
       sourceRecordIds: records,
     };
