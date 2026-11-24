@@ -1,0 +1,30 @@
+{
+  "id": "trash-room-door-cuts-off-an-ordinary-errand",
+  "kind": "detail",
+  "summary": "A trash room that a resident cannot enter in a wheelchair turns a household errand into a request for help.",
+  "realLife": "Shaheed told the committee that she could not get in and out of her apartment building’s trash room in her wheelchair.",
+  "sources": [
+    "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{building}", "{entrance}"],
+  "gates": ["The resident has identified a specific access barrier at home."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the resident’s access report for a particular entrance.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident takes the trash out independently.",
+      "pulledBy": "The building fixes the entrance and the resident can use it.",
+      "writesBack": "The access complaint can close after the resident tries the door."
+    },
+    {
+      "turn": "partial",
+      "what": "Someone collects the bag at the apartment.",
+      "pulledBy": "The entrance is still inaccessible and a helper is present.",
+      "writesBack": "One errand is finished while the repair remains open."
+    }
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
+}

@@ -1114,28 +1114,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "I swore to protect the Constitution, and for {term-left}, that comes before everything else on my list.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "term-left"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.hired.inaugural-in-november-you-made-a-choice-and-i-m-the-result-for-the-next",
       "move": "hired",
       "kind": "spoken",
