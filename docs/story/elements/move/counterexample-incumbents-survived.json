@@ -1,0 +1,30 @@
+{
+  "id": "counterexample-incumbents-survived",
+  "kind": "move",
+  "summary": "A counterexample keeps the pattern from being overstated: incumbents with the same complaints survived.",
+  "realLife": "A city where both incumbents won despite similar complaints followed the cases where they lost.",
+  "sources": [
+    "The Atlanta Journal-Constitution, 'Controversies cost small city mayoral candidates in municipal election', Nov. 2025: https://www.ajc.com/news/2025/11/controversies-cost-small-city-mayoral-candidates-in-municipal-election",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "name"],
+  "gates": [],
+  "weights": {
+    "election": 0.7
+  },
+  "inGame": "`election-result` for other places in the same year",
+  "turns": [
+    {
+      "name": "no counterexample",
+      "pulledBy": "a clean pattern",
+      "writes": "the story states the pattern plainly"
+    },
+    {
+      "name": "the pattern reversed",
+      "pulledBy": "incumbents mostly surviving",
+      "writes": "the story leads with survival"
+    }
+  ],
+  "usedBy": []
+}
