@@ -29,5 +29,6 @@
       "pulledBy": "A first election.",
       "writesBack": "Adds the memory to the child's view."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
