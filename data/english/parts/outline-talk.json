@@ -899,26 +899,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-notice-how-fast-got-to-said",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "Notice how fast {president} got to {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["said", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-curious"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do-said",
       "move": "verdict",
       "kind": "spoken",
@@ -4077,6 +4057,89 @@
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-sincere"
       ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-for-it-was-clear-president-believes-reason-for",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "It was clear {president} believes {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president", "president-for", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-against-it-was-clear-president-believes-reason-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "It was clear {president} believes {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president", "president-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-for-there-was-one-idea-under-the-whole-speech-that-reason-for",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "There was one idea under the whole speech, that {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-against-there-was-one-idea-under-the-whole-speech-that-reason-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "There was one idea under the whole speech, that {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
