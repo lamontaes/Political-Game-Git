@@ -11,7 +11,13 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addressMontage, namedInParts, beatKinds, partLevels } from "./montage";
+import {
+  addressMontage,
+  namedInParts,
+  beatKinds,
+  partLevels,
+  stagedAddress,
+} from "./montage";
 import { buildBenchWorld } from "./world";
 
 const runSeed =
@@ -75,11 +81,14 @@ it.each(["a", "b", "c"])(
     });
     const story = world.director.ledger.opening!;
     // The real address of the world: one beat per part, keyed to its level.
-    const parts = story.address.parts.length;
-    const levels = partLevels(story.address.sentences, parts);
+    // The montage splits a part on a sentence when the address has too few
+    // parts for both cutaways (no word changes).
+    const staged = stagedAddress(story.address.sentences, story.speechKind);
+    const parts = staged.parts?.length || story.address.parts.length;
+    const levels = partLevels(staged.sentences, parts);
     const named = namedInParts(
       world.core,
-      story.address.sentences,
+      staged.sentences,
       parts,
       story.president.id,
     );
@@ -270,6 +279,34 @@ it("an inaugural is given at the Capitol with the Oval Office as a cutaway, neve
   );
 });
 
+it("a three-part inaugural splits a part on a sentence to show both cutaways", () => {
+  const row = (part: number, level: string) =>
+    ({
+      part,
+      level,
+      pieces: [] as string[],
+      values: {},
+      bare: {},
+    }) as never;
+  const rows = [
+    row(0, "salutation"),
+    row(0, "occasion"),
+    row(2, "country"),
+    row(2, "country"),
+    row(3, "close"),
+  ] as Parameters<typeof stagedAddress>[0];
+  const staged = stagedAddress(rows, "inaugural");
+  const levels = partLevels(staged.sentences, 4);
+  expect(beatKinds(levels, "inaugural")).toEqual([
+    "stand",
+    "desk",
+    "america",
+    "home",
+  ]);
+  // Not staged: nothing splits.
+  expect(stagedAddress(rows).parts).toBeNull();
+});
+
 it.each(["a", "b"])(
   "the world's inaugural address plays its cutaways with fallbacks for pictures not yet painted (draw %s)",
   { timeout: 900_000 },
@@ -284,11 +321,14 @@ it.each(["a", "b"])(
     const story = world.director.ledger.opening!;
     // The game starts on Jan 20: its address is the inaugural.
     expect(story.speechKind, where).toBe("inaugural");
-    const parts = story.address.parts.length;
-    const levels = partLevels(story.address.sentences, parts);
+    // The montage splits a part on a sentence when the address has too few
+    // parts for both cutaways (no word changes).
+    const staged = stagedAddress(story.address.sentences, story.speechKind);
+    const parts = staged.parts?.length || story.address.parts.length;
+    const levels = partLevels(staged.sentences, parts);
     const named = namedInParts(
       world.core,
-      story.address.sentences,
+      staged.sentences,
       parts,
       story.president.id,
     );
@@ -319,14 +359,20 @@ it.each(["a", "b"])(
       beats.map((beat) => beat.kind),
       where,
     ).toEqual(expected);
-    // Every inaugural has its Oval Office cutaway (the President alone at the
-    // desk), and America along a route follows it when the address has a
-    // second country part.
+    // Both cutaways, every time (owner, Nov 23): the Oval Office first, then
+    // America, even in a three-part address.
     const middle = beats.slice(1, -1).map((beat) => beat.kind);
     expect(middle, `${where}: middle beats ${middle.join(", ")}`).toContain(
       "desk",
     );
-    if (middle.length > 1) expect(middle, where).toContain("america");
+    expect(middle, where).toContain("america");
+    expect(middle.indexOf("desk"), where).toBeLessThan(
+      middle.indexOf("america"),
+    );
+    // A split changes where the same words divide, never the words.
+    expect((staged.parts ?? story.address.parts).join(" "), where).toBe(
+      story.address.parts.join(" "),
+    );
     levels.forEach((level, at) => {
       if (at === 0 || at === levels.length - 1) return;
       if (level === "congress" || level === "vice-president")

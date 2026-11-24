@@ -1,4 +1,5 @@
 import { keyPeopleOf } from "../core2/modules/people";
+import { partsOf, type SaidSentence } from "../director/address-render";
 import type { CoreState, PersonId } from "../core2/types";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
@@ -107,6 +108,65 @@ export function partLevels(
       "occasion"
     );
   });
+}
+
+/**
+ * The address as the montage stages it. A staged speech (the inaugural) shows
+ * every cutaway in its alternation, the Oval Office and then America, however
+ * few parts the address has: when its country parts are fewer than the
+ * cutaways, a part of two sentences or more is split after its first sentence
+ * into two parts, so the picture changes on a sentence and a part of the
+ * address stays one paragraph (CTO, Nov 24: "change the cutaway on a sentence
+ * inside a part, not on a part"). No word is added or changed. `parts` is the
+ * speech's text per Continue after the split, or null when nothing split.
+ */
+export function stagedAddress<
+  Row extends Pick<
+    SaidSentence,
+    "part" | "level" | "pieces" | "values" | "bare"
+  >,
+>(
+  sentences: readonly Row[],
+  speechKind?: string,
+): { sentences: Row[]; parts: string[] | null } {
+  const alternate = speechKind
+    ? DATA.speeches[speechKind]?.alternate
+    : undefined;
+  const rows = sentences.map((row) => ({ ...row })) as {
+    -readonly [K in keyof Row]: Row[K];
+  }[] as (Row & { part: number })[];
+  if (!alternate) return { sentences: rows, parts: null };
+  let split = false;
+  for (let guard = 0; guard < alternate.kinds.length; guard += 1) {
+    const numbers = [...new Set(rows.map((row) => row.part))];
+    const levels = partLevels(rows, numbers.length);
+    const taking = numbers.filter(
+      (_, at) =>
+        at > 0 &&
+        at < numbers.length - 1 &&
+        alternate.levels.includes(levels[at]!),
+    );
+    if (taking.length >= alternate.kinds.length) break;
+    const long = taking.find(
+      (number) =>
+        rows.filter((row) => row.part === number && row.level !== "salutation")
+          .length >= 2,
+    );
+    if (long === undefined) break;
+    const first = rows.findIndex(
+      (row) => row.part === long && row.level !== "salutation",
+    );
+    const next = Math.max(...rows.map((row) => row.part)) + 1;
+    let later = false;
+    for (let at = first + 1; at < rows.length; at += 1)
+      if (rows[at]!.part === long) {
+        later = true;
+        rows[at]!.part = next;
+      }
+    if (!later) break;
+    split = true;
+  }
+  return { sentences: rows, parts: split ? partsOf(rows, true) : null };
 }
 
 /**

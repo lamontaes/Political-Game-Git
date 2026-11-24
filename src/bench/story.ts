@@ -11,7 +11,12 @@ import { shipped, wordPiece, type Fact } from "../english/scene-talk-words";
 import { bodyPicture } from "./legislature";
 import { officeWords } from "../english/said-as";
 import { scenePicture } from "./scene-picture";
-import { addressMontage, namedInParts, partLevels } from "./montage";
+import {
+  addressMontage,
+  namedInParts,
+  partLevels,
+  stagedAddress,
+} from "./montage";
 import { backdropFor, peopleHere, type StageReason } from "./scene";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -249,6 +254,15 @@ export function storyScene(
         }
       : null;
   const backdrop = backdropFor(core, pictured, minuteOfDay, personId);
+  // The address as the montage stages it (cutaways on a sentence when the
+  // address has too few parts for every cutaway).
+  const staged = scene.speech?.montage
+    ? stagedAddress(
+        director.ledger.opening?.address.sentences ?? [],
+        director.ledger.opening?.speechKind,
+      )
+    : undefined;
+  const stagedCount = staged?.parts?.length || scene.speech?.parts?.length || 1;
   return {
     momentId,
     place: pictured,
@@ -293,25 +307,31 @@ export function storyScene(
           ]
         : scene.narration,
     talkToId: scene.talkToId,
-    // A speech heard plays in its speaker's own words, from its record.
-    ...(scene.speech ? { speech: scene.speech } : {}),
+    // A speech heard plays in its speaker's own words, from its record. The
+    // montage may split a part on a sentence to show every cutaway (the
+    // inaugural), which changes only how the same words divide per Continue.
+    ...(scene.speech
+      ? {
+          speech:
+            staged?.parts && scene.speech.montage
+              ? { ...scene.speech, parts: staged.parts }
+              : scene.speech,
+        }
+      : {}),
     // The address plays as a montage: one picture and cast per part (owner,
     // Oct 29 02:35).
-    ...(scene.speech?.montage
+    ...(scene.speech?.montage && staged
       ? {
           beats: addressMontage(
             core,
             personId,
             scene.speech.speakerId,
-            partLevels(
-              director.ledger.opening?.address.sentences ?? [],
-              scene.speech.parts?.length || 1,
-            ),
+            partLevels(staged.sentences, stagedCount),
             minuteOfDay,
             namedInParts(
               core,
-              director.ledger.opening?.address.sentences ?? [],
-              scene.speech.parts?.length || 1,
+              staged.sentences,
+              stagedCount,
               scene.speech.speakerId,
             ),
             director.ledger.opening?.speechKind,
