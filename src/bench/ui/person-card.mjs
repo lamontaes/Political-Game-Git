@@ -108,7 +108,7 @@ function leaderCard(person, note) {
                 className: "leader-party",
                 textContent: person.party,
               }),
-              " · ",
+              ...(person.line ? [" · "] : []),
             ]
           : []),
         person.line ?? "",

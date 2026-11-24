@@ -4841,7 +4841,6 @@ const sheets = {
                         face: gov.executive.face,
                         name: gov.executive.name,
                         party: gov.executive.party,
-                        line: gov.executive.title,
                         onOpen: () =>
                           showPerson({ personId: gov.executive.cardId }),
                       },
@@ -6001,7 +6000,6 @@ const sheets = {
           when: short(item.date),
           text: comingWords(item),
         })),
-        labels.nothingComing,
       );
     const voteList = (votes) =>
       votes.length
@@ -6098,8 +6096,11 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
           ]
         : body.members.map((m) => card(body, m, seatWords(body, m.district)));
-      // The level's chief executive beside its lawmakers, where it has one.
-      const chief = executive.find((e) => e.chief);
+      // The body's own government's chief executive beside its lawmakers,
+      // where it has one: a county board beside no town's mayor.
+      const chief = executive.find(
+        (e) => e.chief && e.government === body.government,
+      );
       return {
         main: [
           header,
@@ -6127,7 +6128,9 @@ const sheets = {
                 labels.recentVotes,
                 ...voteList(body.recentVotes),
               ),
-              stripSection(4, labels.comingUp, comingList(body.comingUp)),
+              ...(body.comingUp.length
+                ? [stripSection(4, labels.comingUp, comingList(body.comingUp))]
+                : []),
               ...(chief?.members[0]
                 ? [
                     stripSection(
@@ -6138,7 +6141,6 @@ const sheets = {
                           face: chief.members[0].face,
                           name: chief.members[0].name,
                           party: chief.members[0].party,
-                          line: chief.title,
                           onOpen: open(chief.members[0].cardId),
                         },
                         { layout: "leader", note: sinceLine(chief.members[0]) },
@@ -6151,12 +6153,15 @@ const sheets = {
         ],
       };
     };
-    // The executive branch: the chief executive's office on the left, the
-    // level's other elected officers and what is coming up on the right.
+    // The executive branch of one government (a town, a county, a state):
+    // its chief executive's office on the left, its other elected officers
+    // and what is coming up on the right. Each name and title is said once:
+    // the government over its room, the office over the person (CTO, Nov 24).
     const executiveView = (executive) => {
-      const chief = executive.find((e) => e.chief) ?? executive[0];
+      const chief = executive.find((e) => e.chief) ?? null;
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
+      const government = executive[0]?.government ?? "";
       const runs = peopleSentence(
         officers.flatMap((o) =>
           o.members.map((m) => ({
@@ -6166,12 +6171,16 @@ const sheets = {
           })),
         ),
       );
+      const coming = executive
+        .flatMap((o) => o.comingUp)
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(0, 4);
       return {
-        main: chief
+        main: executive.length
           ? [
               chamberHeader({
-                picture: chief.picture,
-                name: chief.title,
+                picture: (chief ?? executive[0]).picture,
+                name: government,
               }),
               ...(head
                 ? [
@@ -6183,7 +6192,6 @@ const sheets = {
                           face: head.face,
                           name: head.name,
                           party: head.party,
-                          line: chief.title,
                           onOpen: open(head.cardId),
                         },
                         { layout: "leader", note: sinceLine(head) },
@@ -6191,16 +6199,10 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              // Coming up only when something is (CTO, Nov 24: no filler line).
+              ...(coming.length
+                ? [stripSection(3, labels.comingUp, comingList(coming))]
+                : []),
             ]
           : [],
         side: runs
@@ -6210,9 +6212,7 @@ const sheets = {
                 nodes: [
                   stripSection(
                     2,
-                    fill(labels.whoRuns, {
-                      name: chief?.government ?? chief?.title ?? "",
-                    }),
+                    fill(labels.whoRuns, { name: government }),
                     runs,
                   ),
                 ],
@@ -6223,6 +6223,8 @@ const sheets = {
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
     let bodyChoice = null;
+    // The government whose executive branch is shown (a town or its county).
+    let executiveChoice = null;
     const devBills = devModeOn()
       ? await devBillsPanel({
           labels: controls.devBills,
@@ -6285,6 +6287,7 @@ const sheets = {
           onSelect: () => {
             governmentLevel = key;
             bodyChoice = null;
+            executiveChoice = null;
             void redraw();
           },
         })),
@@ -6319,6 +6322,7 @@ const sheets = {
               onChange: (state) => {
                 governmentState = state;
                 bodyChoice = null;
+                executiveChoice = null;
                 void redraw();
               },
             })
@@ -6346,6 +6350,32 @@ const sheets = {
               }),
             ]
           : [];
+      // A level's executive offices by government, in the server's order (a
+      // town's before its county's): one tab each, so a town's page lists
+      // only the town's officers and the county's go on the county's page
+      // (CTO, Nov 24).
+      const governments = [...new Set(v.executive.map((o) => o.government))];
+      const government = governments.includes(executiveChoice)
+        ? executiveChoice
+        : (governments[0] ?? null);
+      const governmentTabs =
+        branch === "executive" && governments.length > 1
+          ? [
+              tabBar({
+                attr: "government",
+                className: "government-bodies",
+                active: government,
+                tabs: governments.map((g) => ({
+                  key: g,
+                  label: g,
+                  onSelect: () => {
+                    executiveChoice = g;
+                    void redraw();
+                  },
+                })),
+              }),
+            ]
+          : [];
       const view = empty
         ? {
             main: [
@@ -6362,7 +6392,9 @@ const sheets = {
             side: [],
           }
         : branch === "executive" || !body
-          ? executiveView(v.executive)
+          ? executiveView(
+              v.executive.filter((o) => o.government === government),
+            )
           : lawmakingView(body, v.executive);
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
@@ -6372,7 +6404,12 @@ const sheets = {
           offered.length > 1 ? branches : null,
         ].filter(Boolean),
         // Dev mode's Bills and Bribe panels sit in the main column under what they act on.
-        main: [...bodyTabs, ...view.main, ...(devPanels ? [devPanels] : [])],
+        main: [
+          ...bodyTabs,
+          ...governmentTabs,
+          ...view.main,
+          ...(devPanels ? [devPanels] : []),
+        ],
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
