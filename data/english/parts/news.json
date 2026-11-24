@@ -6436,27 +6436,6 @@
       }
     },
     {
-      "key": "news.law-bill.the-bill-number-was-designation",
-      "move": "law-bill",
-      "kind": "written",
-      "text": "The bill number was {designation}.",
-      "uses": [
-        {
-          "move": "law-bill",
-          "subject": "news",
-          "role": "law-bill",
-          "choice": "context"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount-bill.the-change-was-made-through-designation",
       "move": "law-amount-bill",
       "kind": "written",
