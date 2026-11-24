@@ -110,13 +110,13 @@ export function eveningChapter(
     facts.about = fact(point.about, [story.id, ...point.sourceRecordIds]);
     if (point.stance)
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
-    // Where the player answered a housemate on it at the table, the entry
-    // keeps what they said there (the talk's record of the reply); else
-    // their own recorded view (pre-grade, Nov 24: the diary said the
-    // opposite of the reply the player chose).
+    // The entry says where the player stands only where they said it at
+    // the table (the talk's record of the reply; pre-grade, Nov 24: the
+    // diary said the opposite of the reply the player chose). A side
+    // nobody talked about is not written down (the CTO, Nov 24, send-back
+    // 2 on #10390: "A diary that takes a side nobody talked about").
     const told = saidAtTable(core, personId, others, point);
-    const mine = told ?? addressPointFor(core, personId, [point])?.stand;
-    if (mine) facts[`stand-${mine}`] = fact("yes", [personId]);
+    if (told) facts[`stand-${told}`] = fact("yes", [personId]);
   }
   const home = corePlaceByJurisdictionId(me.placeId as never);
   if (home) facts.place = fact(spoken(home), [me.householdId]);
