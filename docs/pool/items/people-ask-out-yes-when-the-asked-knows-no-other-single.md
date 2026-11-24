@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9256
 after:
 blocked-on:
 lead: people
@@ -33,3 +33,7 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/partnerships.ts, src/core2/partnerships-courtship.test.ts, src/director/ask-answer-scene.test.ts
+
+## Notes
+
+2026-11-24, family life thread: built on #9256 (branch claude/project-thread-x53b5q, 56de67f3 and 66d64ff4). With no other single known, the asker is now weighed against the wider population, where the monthly review finds a partner for such a single (meetPartner): the best age fit for the asked person's age, and their typical tie to people outside their family they know in town. At Pulaski OH, seed family-a, Vanessa (born 1982) asked cold by a player born 2006 now says no for the age gap (weight 0.006; it was a yes at weight 1). The courtship test's cold no and its yes after evenings together hold, and so does Westwood KY, seed family-n. The scene that says why waits on Story's lines, like the rest of #9256. Bridgeville DE with the same creator settings is not yet replayed.
