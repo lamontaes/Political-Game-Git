@@ -19,6 +19,7 @@ import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
+import { openingsView } from "./openings";
 import { isForgetDay } from "../core2/knowledge-retention";
 import {
   advanceCore,
@@ -112,7 +113,7 @@ import {
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
-import { layOffWorker } from "../core2/modules/jobs";
+import { applyForOpening, layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
   COVERAGE_MODULE_ID,
@@ -151,6 +152,9 @@ const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "life.death": "death",
   "work.job-lost": "layoff",
   "health.serious-illness": "illness",
+  // An offer comes only to a player who applied (owner, Nov 16): apply for the
+  // town's openings each day, the Openings screen's own call, until one calls.
+  "job-offered": "apply",
 };
 
 export const DEV_MODE = "dev-mode";
@@ -1508,7 +1512,7 @@ export class DevMode {
       // until its cause record comes, or nothing (no engine writes its cause yet).
       const state = !recipe
         ? ("none" as const)
-        : recipe === "wait" || recipe === "moment"
+        : recipe === "wait" || recipe === "moment" || recipe === "apply"
           ? ("waits" as const)
           : ("plays" as const);
       return { key: type.key, causeRecords, recipe, state };
@@ -1647,6 +1651,38 @@ export class DevMode {
         personId: player.id,
         causeRecords: scene.causeRecords,
         ran,
+      };
+    }
+    if (scene.recipe === "apply") {
+      // The player applies for every opening in town they have not applied
+      // for, each day, and the world runs until an employer calls them.
+      if (!player) throw new Error("There is no player to run the world for.");
+      if (player.jobId)
+        throw new Error("They have a job: an offer comes to someone looking.");
+      const cap = input.cap ?? 366;
+      const from = this.core.date;
+      let applied = 0;
+      let days = 0;
+      let ran: ReturnType<DevMode["runUntil"]> | undefined;
+      while (days < cap) {
+        for (const row of openingsView(this.core, player.id).openings)
+          if (!row.applied && applyForOpening(this.api, row.recordId))
+            applied += 1;
+        ran = this.runUntil({
+          kind: scene.causeRecords[0],
+          person: player.id,
+          scene: scene.key,
+          days: 1,
+        });
+        days += ran.days;
+        if (ran.reason === "event") break;
+      }
+      return {
+        recipe: scene.recipe,
+        personId: player.id,
+        causeRecords: scene.causeRecords,
+        applied,
+        ran: { ...ran!, from, days },
       };
     }
     if (scene.recipe === "wait") {
