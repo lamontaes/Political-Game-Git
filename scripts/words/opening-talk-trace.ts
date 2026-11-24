@@ -11,7 +11,7 @@ import {
   buildBenchWorldInStages,
   OPENING_WARMUP_DAYS,
 } from "../../src/bench/world";
-import { openingArrivalMinute, openingFrames } from "../../src/bench/opening";
+import { openingArrivalMinute } from "../../src/bench/opening";
 import { roomIds } from "../../src/bench/scene";
 import {
   meetOverTalk,
@@ -52,9 +52,6 @@ for (const seed of (process.env.SEEDS ?? "21,22,23").split(",")) {
       `Opening address: kind=${story.addressKind} theme=${story.theme} asks=${story.asks.join("|")} president=${story.president.id}`,
     );
     for (const part of story.address.parts) console.log(`> ${part}`);
-    console.log(
-      `Landing: ${openingFrames(core, playerId, story).home.landing}\n`,
-    );
   }
   const me = core.people.get(playerId)!;
   const household = core.households.get(me.householdId ?? "");

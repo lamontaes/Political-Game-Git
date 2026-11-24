@@ -16,7 +16,13 @@
     "belief-sentence": "the same reason as its own sentence",
     "today": "how the question stands today, said from the speaker's side, as a sentence",
     "today-clause": "the same, as a clause that ends the sentence",
-    "the-vice-president": "the Vice President by office and name, from the officials engine's seat"
+    "the-vice-president": "the Vice President by office and name, from the officials engine's seat",
+    "president": "the President, said by the said-as reader (role first, then pronoun)",
+    "president-object": "the President in the object case",
+    "said": "what the President's point was about, as people say it",
+    "decider": "who decides it (Congress), from said-as",
+    "place": "the speaker's town",
+    "employer": "the speaker's employer, through the said-as reader"
   },
   "maxWords": 30,
   "parts": [
@@ -1858,6 +1864,1151 @@
       "lean": [
         "personality-v1:facet-sincere",
         "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-so-wants",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "So {president} wants {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline.lead.talk-address-point-sounds-like-is-going-to-push",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "Sounds like {president} is going to push {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-so-is-dead-set-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "So {president} is dead set against {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline.lead.talk-address-point-wants-nothing-to-do-with",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} wants nothing to do with {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-spent-a-good-while-on",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} spent a good while on {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["said", "president"],
+          "excludesFacts": ["president-for", "president-against"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.heard.talk-address-point-you-heard-what-said-about",
+      "move": "heard",
+      "kind": "spoken",
+      "text": "You heard what {president} said about {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "heard",
+          "tie": "stand",
+          "requiresFacts": ["said", "president", "point-heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-good-i-m-with-on-that-one",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Good. I'm with {president-object} on that one.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-with"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-has-that-one-right",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} has that one right.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-good-it-s-about-time-somebody-tried-to",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Good. It's about time somebody tried to {to}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["to", "stand-with", "president-for"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-excitable",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-good-i-don-t-think-we-should-either",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Good. I don't think we should {to} either.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["to", "stand-with", "president-against"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-that-s-where-lost-me",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "That's where {president} lost me.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-can-keep-that-one-i-don-t-want-it",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} can keep that one. I don't want it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against", "president-for"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-cocky"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-i-think-we-should-and-is-wrong-to-fight-it",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I think we should {to}, and {president} is wrong to fight it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-i-go-back-and-forth-on-that-one-whatever-says",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I go back and forth on that one, whatever {president} says.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-unsure"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-i-don-t-know-yet-let-s-see-what-does-with-it",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I don't know yet. Let's see what {decider} does with it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["decider", "stand-unsure"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-i-m-with-on",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I'm with {president-object} on {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "said", "stand-with"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-if-can-really-good-for",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "If {president} can really {to}, good for {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president",
+            "president-object",
+            "to",
+            "stand-with",
+            "president-for"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-has-wrong",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} has {said} wrong.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": ["president", "said", "stand-against"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-can-keep-nobody-i-know-asked-for-it",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} can keep {about}. Nobody I know asked for it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president",
+            "about",
+            "stand-against",
+            "president-for"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-cocky", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "We ought to {to}, whatever {president} says.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I can't tell yet where I am on {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": ["said", "stand-unsure"]
+        }
+      ],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-i-work-at-i-hear-that-part-differently",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I work at {employer}. I hear that part differently.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-work", "employer"],
+          "excludesFacts": ["why-seeking"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-work-centered"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-at-we-live-with-that-every-day",
+      "move": "why",
+      "kind": "spoken",
+      "text": "At {employer} we live with that every day.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-work", "employer"],
+          "excludesFacts": ["why-seeking"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-since-let-me-go-i-listen-to-that-part",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Since {employer} let me go, I listen to that part.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-work", "why-seeking", "employer"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-sensitive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-with-what-everything-costs-in-i-notice-that-part",
+      "move": "why",
+      "kind": "spoken",
+      "text": "With what everything costs in {place}, I notice that part.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-too-many-people-in-need-work-to-let-that-go",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Too many people in {place} need work to let that go.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-town-jobs", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-supportive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-rent-in-is-what-everybody-talks-about",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Rent in {place} is what everybody talks about.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-town-rent", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-it-s-not-about-us-it-s-what-s-right-for",
+      "move": "why",
+      "kind": "spoken",
+      "text": "It's not about us. It's what's right for {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why-first.talk-address-point-i-work-at-so-i-listened-when-got-to",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "I work at {employer}, so I listened when {president} got to {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-work", "employer", "president", "said"],
+          "excludesFacts": ["why-seeking"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why-first.talk-address-point-since-let-me-go-i-listened-hard-when-got-to",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "Since {employer} let me go, I listened hard when {president} got to {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-work",
+            "why-seeking",
+            "employer",
+            "president",
+            "said"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sensitive",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why-first.talk-address-point-money-s-tight-here-so-i-listened-when-got-to",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "Money's tight here, so I listened when {president} got to {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-money", "president", "said"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-after.talk-address-point-and-i-think-has-it-right",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "And I think {president} has it right.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"]
+        }
+      ],
+      "after": ["why-first"],
+      "lean": ["personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-after.talk-address-point-and-i-don-t-buy-it-not-from",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "And I don't buy it, not from {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-against"]
+        }
+      ],
+      "after": ["why-first"],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-after.talk-address-point-i-still-can-t-tell-if-means-it",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I still can't tell if {president} means it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-unsure"]
+        }
+      ],
+      "after": ["why-first"],
+      "lean": ["personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ask.talk-address-point-what-d-you-think",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "What'd you think?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand"
+        }
+      ],
+      "after": ["verdict", "why", "verdict-after"],
+      "lean": ["personality-v1:facet-curious", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ask.talk-address-point-am-i-wrong",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Am I wrong?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand"
+        }
+      ],
+      "after": ["verdict", "why", "verdict-after"],
+      "lean": [
+        "personality-v1:facet-approval-seeking",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ask.talk-address-point-where-are-you-on",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Where are you on {said}?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"]
+        }
+      ],
+      "after": ["verdict", "why", "verdict-after"],
+      "lean": [
+        "personality-v1:facet-curious",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-is-all-in-on",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} is all in on {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"]
+        }
+      ],
+      "after": ["start"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-excitable"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-came-right-out-for",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} came right out for {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-for"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-came-out-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} came out against {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-so-much-for-if-gets-a-say",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "So much for {about}, if {president} gets a say.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["about", "president", "president-against"]
+        }
+      ],
+      "after": ["start"],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lead.talk-address-point-went-on-about-for-a-while",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "{president} went on about {said} for a while.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["said", "president"],
+          "excludesFacts": ["president-for", "president-against"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-i-m-glad-said-it-out-loud",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I'm glad {president} said it out loud.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-finally-said-what-i-ve-been-thinking",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} finally said what I've been thinking.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-and-i-don-t-see-that-one-the-same",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} and I don't see that one the same.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-that-s-the-wrong-call-and-ought-to-know-better",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "That's the wrong call, and {president} ought to know better.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-could-go-either-way-gets-the-last-word-anyway",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Could go either way. {decider} gets the last word anyway.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["decider", "stand-unsure"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict.talk-address-point-i-d-want-to-hear-more-from-first",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I'd want to hear more from {president-object} first.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-unsure"]
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-good-on-for-saying-no-to",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "Good on {president-object} for saying no to {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-object",
+            "about",
+            "stand-with",
+            "president-against"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-is-wrong-to-fight",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} is wrong to fight {about}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "president",
+            "about",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.verdict-cold.talk-address-point-ask-me-about-again-in-a-month",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "Ask me about {said} again in a month.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": ["said", "stand-unsure"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-i-just-think-it-s-the-right-thing-for",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I just think it's the right thing for {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.why.talk-address-point-prices-in-being-what-they-are-that-part-hit-home",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Prices in {place} being what they are, that part hit home.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-sensitive",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ask.talk-address-point-you",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "You?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand"
+        }
+      ],
+      "after": ["verdict", "why", "verdict-after"],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-curious"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ask.talk-address-point-think-goes-along-with-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Think {decider} goes along with it?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["decider"]
+        }
+      ],
+      "after": ["verdict", "why", "verdict-after"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-curious"
       ],
       "origin": "authored",
       "author": "the Story lead",

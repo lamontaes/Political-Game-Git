@@ -60,6 +60,27 @@
           "shapes": ["send-off-then-blessing", "blessing-alone"]
         }
       ]
+    },
+    "talk-address-point": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 2,
+        "said": 1,
+        "about": 1
+      },
+      "sections": [
+        {
+          "name": "point",
+          "required": true,
+          "shapes": [
+            "lead-then-verdict",
+            "lead-verdict-ask",
+            "verdict-then-why",
+            "why-then-verdict",
+            "heard-then-verdict"
+          ]
+        }
+      ]
     }
   },
   "shapes": {
@@ -206,6 +227,43 @@
         "personality-v1:facet-mediating",
         "personality-v1:facet-comforting"
       ]
+    },
+    "lead-then-verdict": {
+      "moves": ["lead", "verdict"],
+      "pull": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ]
+    },
+    "lead-verdict-ask": {
+      "moves": ["lead", "verdict", "ask"],
+      "pull": [
+        "personality-v1:facet-curious",
+        "personality-v1:facet-approval-seeking",
+        "personality-v1:facet-friendly"
+      ]
+    },
+    "verdict-then-why": {
+      "moves": ["verdict-cold", "why?"],
+      "pull": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-argumentative"
+      ]
+    },
+    "why-then-verdict": {
+      "moves": ["why-first", "verdict-after"],
+      "pull": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-sensitive",
+        "personality-v1:facet-tender-hearted"
+      ]
+    },
+    "heard-then-verdict": {
+      "moves": ["heard", "verdict", "why?"],
+      "needs": ["point-heard"],
+      "pull": ["personality-v1:facet-calm"]
     }
   },
   "weights": {

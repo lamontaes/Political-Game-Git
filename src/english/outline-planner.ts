@@ -24,6 +24,7 @@
 import outlineData from "../../data/english/outlines.json" with { type: "json" };
 import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
+import { stableHash } from "../core2/kernel/ids";
 import { admittedParts, directorSlots } from "./bank-parts";
 import {
   renderGroundedEnglish,
@@ -157,6 +158,11 @@ export interface Told {
 const BANK_KEY = "outline";
 const BANK_VERSION = "outline-v1";
 
+/** Whether a kind of text has an outline row (a talk's subject is told through the planner once it has one). */
+export function hasOutline(kind: string): boolean {
+  return !!OUTLINES.kinds[kind];
+}
+
 /** The outline row of a kind of text. */
 export function outlineRow(kind: string): OutlineRow {
   const row = OUTLINES.kinds[kind];
@@ -197,17 +203,21 @@ const leanOf = (
 ) => (keys ?? []).reduce((sum, key) => sum + (traits?.[key] ?? 0), 0);
 
 /**
- * The shapes a section may take here, in the order the speaker's traits
- * pull hardest; a shape the text already used goes last, so two sections
- * share a shape only when nothing else fits. Ties go by name.
+ * The shapes a section may take here. The first is drawn the way a wording
+ * is (the engine's stable hash, never a roll), weighted toward the shapes the
+ * speaker's traits pull hardest, so one person does not say every point in
+ * one skeleton (owner, Nov 23: "the same grammatical pattern"); the rest
+ * follow in the order of their pull, to fall back on. A shape the text
+ * already used goes last while another fits. Ties go by name.
  */
 function shapeOrder(
   section: SectionRow,
   facts: TellingFacts,
   traits: TellingInput["traits"],
   used: ReadonlySet<string>,
+  drawKey: string,
 ): string[] {
-  return section.shapes
+  const rows = section.shapes
     .filter((name) => {
       const shape = OUTLINES.shapes[name];
       if (!shape) throw new Error(`No shape ${name}`);
@@ -221,8 +231,23 @@ function shapeOrder(
     .sort(
       (a, b) =>
         a.used - b.used || b.pull - a.pull || a.name.localeCompare(b.name),
-    )
-    .map((row) => row.name);
+    );
+  const fresh = rows.filter((row) => !row.used);
+  if (fresh.length > 1) {
+    const base = OUTLINES.weights.pieceBase.value;
+    const per = OUTLINES.weights.pieceLean.value;
+    const weights = fresh.map((row) =>
+      Math.max(1, Math.round(base + per * row.pull)),
+    );
+    let draw = Number(
+      BigInt(`0x${stableHash(drawKey)}`) %
+        BigInt(weights.reduce((sum, w) => sum + w, 0)),
+    );
+    const at = weights.findIndex((weight) => (draw -= weight) < 0);
+    const [first] = rows.splice(rows.indexOf(fresh[at]!), 1);
+    rows.unshift(first!);
+  }
+  return rows.map((row) => row.name);
 }
 
 /**
@@ -342,6 +367,7 @@ export function tell(input: TellingInput): Told | null {
       input.facts,
       input.traits,
       shapesUsed,
+      `${input.worldSeed}:${input.momentKey}/${section.name}`,
     )) {
       const shape = OUTLINES.shapes[name]!;
       const here: ToldSentence[] = [];
