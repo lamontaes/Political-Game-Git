@@ -3,18 +3,9 @@
   "kind": "consequence",
   "summary": "While {person} and allies are out of the chamber, the members who stayed choose the committee chairs.",
   "realLife": "Chicago aldermen opposed to Harold Washington filled the chairmanships after the mayor and his allies walked out in 1983.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Harold_Washington"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Harold_Washington"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

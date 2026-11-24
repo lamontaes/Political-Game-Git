@@ -3,18 +3,9 @@
   "kind": "detail",
   "summary": "The rail repair bill stays with {place} after the grant money goes elsewhere.",
   "realLife": "Wisconsin paid for rail repairs after Walker rejected federal passenger rail funding.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Scott_Walker_(politician)"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [],
   "weights": [],
   "usedBy": []

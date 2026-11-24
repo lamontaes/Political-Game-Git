@@ -3,18 +3,9 @@
   "kind": "move",
   "summary": "{person} declines a presidential offer to transfer command of the state guard during a disaster.",
   "realLife": "Blanco kept Louisiana’s National Guard under state authority during the Katrina response.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Kathleen_Blanco"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Kathleen_Blanco"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

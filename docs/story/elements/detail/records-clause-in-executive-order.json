@@ -6,15 +6,8 @@
   "sources": [
     "https://www.archives.gov/milestone-documents/executive-order-9981"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{office}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{office}"],
   "gates": [],
   "weights": [],
   "usedBy": []

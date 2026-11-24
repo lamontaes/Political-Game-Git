@@ -3,18 +3,9 @@
   "kind": "consequence",
   "summary": "After {person} turns down rail funding, other states receive the money.",
   "realLife": "Federal rail funds Wisconsin governor Scott Walker opposed went to other states.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Scott_Walker_(politician)"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

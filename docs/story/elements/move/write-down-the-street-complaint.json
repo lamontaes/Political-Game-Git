@@ -6,16 +6,8 @@
   "sources": [
     "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}",
-    "{issue}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}", "{issue}"],
   "gates": [],
   "weights": [],
   "usedBy": []

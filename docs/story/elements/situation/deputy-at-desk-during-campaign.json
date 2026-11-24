@@ -3,18 +3,9 @@
   "kind": "situation",
   "summary": "While the governor campaigns out of state, {person} handles the daily business back home.",
   "realLife": "Gray Davis recalled running California’s government as chief of staff during Jerry Brown’s presidential bid.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Gray_Davis"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Gray_Davis"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

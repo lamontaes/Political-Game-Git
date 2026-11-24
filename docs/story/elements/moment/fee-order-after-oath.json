@@ -6,15 +6,8 @@
   "sources": [
     "https://consumerwatchdog.org/energy/governors-first-act-rescind-car-fee-hike/"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

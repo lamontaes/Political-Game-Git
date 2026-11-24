@@ -3,18 +3,9 @@
   "kind": "detail",
   "summary": "{person} pays rent on an apartment while an official residence stands available.",
   "realLife": "Jerry Brown chose a rented apartment over the residence California had prepared for its governor.",
-  "sources": [
-    "https://en.wikipedia.org/wiki/Jerry_Brown"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://en.wikipedia.org/wiki/Jerry_Brown"],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

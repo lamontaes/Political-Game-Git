@@ -6,15 +6,8 @@
   "sources": [
     "https://en.wikipedia.org/wiki/1966_New_York_City_transit_strike"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

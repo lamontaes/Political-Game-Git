@@ -7,15 +7,8 @@
     "https://ajc.com/news/atlanta-black-history/how-maynard-jackson-jr-broke-the-good-old-boys-grip-on-city-funds/XGXLGKHP2VAUND7QRRBES5LKDM",
     "https://en.wikipedia.org/wiki/Maynard_Jackson"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []
