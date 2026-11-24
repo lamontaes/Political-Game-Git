@@ -1,5 +1,6 @@
 // The words the bench shows for records, all from the English engine's data.
 import { admittedParts } from "../english/bank-parts";
+import { questionAbout } from "../english/question-names";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import { schoolNameWords } from "../english/school-names";
@@ -8,7 +9,6 @@ import { schoolsAttended } from "../core2/past";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import choiceBank from "../../data/english/parts/choice-names.json" with { type: "json" };
-import questionNames from "../../data/english/question-names.json" with { type: "json" };
 
 /** "aunt", "brother": the English engine's relation word for a kin key and the other person's look. */
 export function relationWord(
@@ -154,7 +154,6 @@ export function budgetLineNames(): Record<string, string> {
  * Story needs.
  */
 export function standWords(question: string): string | null {
-  const text = (questionNames as { names: Record<string, { about?: string }> })
-    .names[question]?.about;
+  const text = questionAbout(question);
   return text ? text[0]!.toUpperCase() + text.slice(1) : null;
 }
