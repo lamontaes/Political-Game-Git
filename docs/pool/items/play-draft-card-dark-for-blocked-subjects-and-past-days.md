@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: laws thread
-pr: #9599
+pr: 10284
 after: play-draft-phase-in-percent-a-year
 blocked-on:
 lead: laws
