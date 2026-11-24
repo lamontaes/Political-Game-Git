@@ -23,6 +23,13 @@ const input = generatedOpening(
   { economy: false, settings: { population: 700 } },
 );
 const core = createLifeCore(input, { modules: [partnershipsModule] });
+// What each person held on the opening day. The partnership writer moves no
+// money, so a partner holds what they opened with (a person who did not exist
+// yet opens with nothing). A person living in a household the opening gave a
+// wallet keeps it; the check is that the union neither adds nor takes any.
+const openingCash = new Map(
+  [...core.people.values()].map((person) => [person.id, person.liquidMinor]),
+);
 const events: CoreEventInput[] = [];
 registerModule(core, {
   id: "partnerships:watch",
@@ -99,7 +106,9 @@ describe(`partnerships of people living elsewhere over a year in ${input.placeMe
       expect(a!.familyIds.has(b!.id)).toBe(true);
       for (const person of [a!, b!]) {
         expect(person.tier).toBe("husk");
-        expect(person.liquidMinor).toBe(0);
+        expect(person.liquidMinor, person.id).toBe(
+          openingCash.get(person.id) ?? 0,
+        );
       }
     }
   });
