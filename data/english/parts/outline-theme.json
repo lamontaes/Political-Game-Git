@@ -4796,27 +4796,27 @@
       "key": "outline-theme.send-off.spoken-i-ll-start-on-tomorrow-morning-before-anything-else-is-on-my",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll start on {about} tomorrow morning, before anything else is on my desk.",
+      "text": "I'll start on whether to {to} tomorrow morning, before anything else is on my desk.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -4833,53 +4833,54 @@
       "key": "outline-theme.send-off.spoken-the-first-meeting-on-my-schedule-is-about",
       "move": "send-off",
       "kind": "spoken",
-      "text": "The first meeting on my schedule is about {about}.",
+      "text": "The first meeting on my schedule is about whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-people-in-congress-who-can-move-and-i",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Tomorrow I'll call the people in Congress who can move {about}, and I'll start with the ones who disagree.",
+      "text": "Tomorrow I'll call the people in Congress who can decide whether to {to}, and I'll start with the ones who disagree.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -4889,33 +4890,34 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-if-you-want-to-know-where-i-ll-be-tomorrow-i-ll-be-working-o",
       "move": "send-off",
       "kind": "spoken",
-      "text": "If you want to know where I'll be tomorrow, I'll be working on {about}.",
+      "text": "If you want to know where I'll be tomorrow, I'll be working on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -4932,20 +4934,20 @@
       "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-congress-will-work-with-me-on",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll find out this week who in Congress will work with me on {about}.",
+      "text": "I'll find out this week who in Congress will work with me on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -4962,27 +4964,27 @@
       "key": "outline-theme.send-off.spoken-my-staff-will-have-a-plan-for-on-my-desk-by-the-end-of-the-w",
       "move": "send-off",
       "kind": "spoken",
-      "text": "My staff will have a plan for {about} on my desk by the end of the week.",
+      "text": "My staff will have a briefing on whether to {to} on my desk by the end of the week.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -4999,27 +5001,27 @@
       "key": "outline-theme.send-off.spoken-over-the-next-few-weeks-i-ll-be-meeting-people-on-both-sides",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Over the next few weeks I'll be meeting people on both sides of {about}.",
+      "text": "Over the next few weeks I'll be meeting people on both sides of whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5036,60 +5038,61 @@
       "key": "outline-theme.send-off.spoken-tomorrow-starts-with-and-i-m-glad-it-does",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Tomorrow starts with {about}, and I'm glad it does.",
+      "text": "Tomorrow starts with whether to {to}, and I'm glad it does.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-meet-with-people-on-both-sides-of-this-week-starting-wi",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll meet with people on both sides of {about} this week, starting with the ones who disagree with me.",
+      "text": "I'll meet with people on both sides of whether to {to} this week, starting with the ones who disagree with me.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5106,27 +5109,27 @@
       "key": "outline-theme.send-off.spoken-i-ll-keep-the-people-who-disagree-with-me-about-in-the-room",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll keep the people who disagree with me about {about} in the room for every meeting.",
+      "text": "I'll keep the people who disagree with me on whether to {to} in the room for every meeting.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5136,19 +5139,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-members-of-the-who-can-move-and-i-ll",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Tomorrow I'll call the members of the {body-word} who can move {about}, and I'll start with the ones who disagree.",
+      "text": "Tomorrow I'll call the members of the {body-word} who can decide whether to {to}, and I'll start with the ones who disagree.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
+          "requiresFacts": ["to", "told-theme", "body-word"],
           "excludesFacts": []
         }
       ],
@@ -5158,19 +5162,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-the-will-work-with-me-on",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll find out this week who in the {body-word} will work with me on {about}.",
+      "text": "I'll find out this week who in the {body-word} will work with me on whether to {to}.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
+          "requiresFacts": ["to", "told-theme", "body-word"],
           "excludesFacts": []
         }
       ],
@@ -5627,27 +5632,27 @@
       "key": "outline-theme.send-off.spoken-the-people-who-disagree-with-me-on-will-hear-from-my-office",
       "move": "send-off",
       "kind": "spoken",
-      "text": "The people who disagree with me on {about} will hear from my office this week.",
+      "text": "The people who disagree with me on whether to {to} will hear from my office this week.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5664,60 +5669,61 @@
       "key": "outline-theme.send-off.spoken-i-ll-ask-the-people-who-know-best-to-come-see-me-before-the",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll ask the people who know {about} best to come see me before the month is out.",
+      "text": "I'll ask the people who know the most about whether to {to} to come see me before the month is out.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
       "move": "send-off",
       "kind": "spoken",
-      "text": "On {about}, my first step is a meeting, not a speech, and it's tomorrow.",
+      "text": "On whether to {to}, my first step is a meeting, not a speech, and it's tomorrow.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5731,27 +5737,27 @@
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Tomorrow I'll read what the experts have written on {about}, and then I'll ask them questions.",
+      "text": "Tomorrow I'll read what the experts have written on whether to {to}, and then I'll ask them questions.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5761,33 +5767,34 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-spend-part-of-tomorrow-with-people-who-ve-been-affected",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll spend part of tomorrow with people who've been affected by {about}.",
+      "text": "I'll spend part of tomorrow with people who'd be affected if we {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5804,27 +5811,27 @@
       "key": "outline-theme.send-off.spoken-somebody-in-my-office-will-be-reading-every-letter-about-sta",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Somebody in my office will be reading every letter about {about} starting tomorrow.",
+      "text": "Somebody in my office will be reading every letter on whether to {to} starting tomorrow.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5841,20 +5848,20 @@
       "key": "outline-theme.send-off.spoken-i-ll-call-the-leaders-of-both-parties-about-before-the-end-o",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll call the leaders of both parties about {about} before the end of the week.",
+      "text": "I'll call the leaders of both parties about whether to {to} before the end of the week.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5871,27 +5878,27 @@
       "key": "outline-theme.send-off.spoken-by-the-end-of-the-month-i-ll-have-a-list-of-what-can-move-on",
       "move": "send-off",
       "kind": "spoken",
-      "text": "By the end of the month I'll have a list of what can move on {about}, and what can't.",
+      "text": "By the end of the month I'll have a list of what can move if we {to}, and what can't.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5908,27 +5915,27 @@
       "key": "outline-theme.send-off.spoken-the-first-memo-i-read-tomorrow-will-be-about",
       "move": "send-off",
       "kind": "spoken",
-      "text": "The first memo I read tomorrow will be about {about}.",
+      "text": "The first memo I read tomorrow will be about whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5945,27 +5952,27 @@
       "key": "outline-theme.send-off.spoken-before-i-do-anything-on-i-ll-ask-the-people-it-affects-what",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Before I do anything on {about}, I'll ask the people it affects what they need.",
+      "text": "Before I decide whether to {to}, I'll ask the people it affects what they need.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5975,33 +5982,34 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-go-over-again-tomorrow-with-fresh-eyes-and-a-long-list",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll go over {about} again tomorrow with fresh eyes and a long list of questions.",
+      "text": "I'll go over whether to {to} again tomorrow with fresh eyes and a long list of questions.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -6018,27 +6026,27 @@
       "key": "outline-theme.send-off.spoken-next-week-i-ll-hold-a-meeting-on-and-anyone-with-a-stake-can",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Next week I'll hold a meeting on {about}, and anyone with a stake can come.",
+      "text": "Next week I'll hold a meeting on whether to {to}, and anyone with a stake can come.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -6048,7 +6056,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-theme.send-off.spoken-has-a-full-schedule-tomorrow-and-so-do-i",

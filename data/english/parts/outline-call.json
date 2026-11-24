@@ -200,25 +200,25 @@
       "key": "outline-call.call.inaugural-if-you-think-i-m-wrong-about-tell-me-i-d-rather-hear-it-from",
       "move": "call",
       "kind": "spoken",
-      "text": "If you think I'm wrong about {about}, tell me. Better to hear it from you than from a poll.",
+      "text": "If you think I'm wrong about whether to {to}, tell me. Better to hear it from you than from a poll.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         }
       ],
       "lean": [
@@ -235,19 +235,19 @@
       "key": "outline-call.call.inaugural-write-to-congress-about-they-read-the-mail-more-than-they-let-on",
       "move": "call",
       "kind": "spoken",
-      "text": "Write to Congress about {about}. They read the mail more than they let on.",
+      "text": "Write to Congress and say whether we should {to}. They read the mail more than they let on.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         }
       ],
       "lean": [
@@ -291,19 +291,19 @@
       "key": "outline-call.call.inaugural-vote-in-the-next-election-too-congress-decides-what-happens-to-as-much-as-i-do",
       "move": "call",
       "kind": "spoken",
-      "text": "Vote in the next election too. Congress decides what happens to {about} as much as I do.",
+      "text": "Vote in the next election too. Congress decides whether to {to} as much as I do.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "law",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         }
       ],
       "lean": [
@@ -608,19 +608,19 @@
       "key": "outline-call.call.inaugural-find-out-who-represents-you-in-congress-before-the-week-is-out-and-tell-them-where-you-stand-on",
       "move": "call",
       "kind": "spoken",
-      "text": "Find out who represents you in Congress before the week is out, and tell them where you stand on {about}.",
+      "text": "Find out who represents you in Congress before the week is out, and tell them where you stand on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         }
       ],
       "lean": [
@@ -1266,25 +1266,25 @@
       "key": "outline-call.call.inaugural-be-fair-to-the-people-you-disagree-with-on-i-ll-try-to-be-fair-to-you",
       "move": "call",
       "kind": "spoken",
-      "text": "Be fair to the people you disagree with on {about}. I'll try to be fair to you.",
+      "text": "Be fair to the people you disagree with on whether to {to}. I'll try to be fair to you.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
+          "requiresFacts": ["to", "told-theme"]
         }
       ],
       "lean": [
@@ -1373,27 +1373,27 @@
       "key": "outline-call.call.spoken-whatever-you-think-of-take-a-minute-to-learn-what-the-other-side-is-af",
       "move": "call",
       "kind": "spoken",
-      "text": "Whatever you think of {about}, take a minute to learn what the other side is afraid of.",
+      "text": "Whatever you think about whether to {to}, take a minute to learn what the other side is afraid of.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -1447,27 +1447,27 @@
       "key": "outline-call.call.spoken-tell-the-people-who-disagree-with-you-about-one-thing-they-got-right",
       "move": "call",
       "kind": "spoken",
-      "text": "Tell the people who disagree with you about {about} one thing they got right.",
+      "text": "Tell the people who disagree with you on whether to {to} one thing they got right.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -1754,27 +1754,27 @@
       "key": "outline-call.call.spoken-i-won-t-pretend-everyone-backs-meet-the-doubters-halfway-and-listen-to",
       "move": "call",
       "kind": "spoken",
-      "text": "I won't pretend everyone backs {about}. Meet the doubters halfway and listen to them.",
+      "text": "I won't pretend everyone agrees on whether to {to}. Meet the doubters halfway and listen to them.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -1791,27 +1791,27 @@
       "key": "outline-call.call.spoken-if-would-cost-you-something-say-so-early-while-it-can-still-change",
       "move": "call",
       "kind": "spoken",
-      "text": "If {about} would cost you something, say so early, while it can still change.",
+      "text": "If it would cost you something when we {to}, say so early, while it can still change.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -1828,27 +1828,27 @@
       "key": "outline-call.call.spoken-ask-the-next-candidate-who-comes-by-where-they-stand-on",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask the next candidate who comes by where they stand on {about}.",
+      "text": "Ask the next candidate who comes by whether they'd {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -3806,27 +3806,27 @@
       "key": "outline-call.call.spoken-read-the-text-of-a-bill-on-before-you-pass-along-anyone-s-opinion-of-i",
       "move": "call",
       "kind": "spoken",
-      "text": "Read the text of a bill on {about} before you pass along anyone's opinion of it.",
+      "text": "Read the text of a bill to {to} before you pass along anyone's opinion of it.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -3843,27 +3843,27 @@
       "key": "outline-call.call.spoken-look-up-how-your-own-representatives-voted-on",
       "move": "call",
       "kind": "spoken",
-      "text": "Look up how your own representatives voted on {about}.",
+      "text": "Look up how your own representatives voted on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5790,13 +5790,13 @@
       "key": "outline-call.call.state-of-the-union-ask-your-state-s-senators-where-they-stand-on-and-listen-to",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask your state's senators where they stand on {about}, and listen to the whole answer.",
+      "text": "Ask your state's senators whether they'd {to}, and listen to the whole answer.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -5806,7 +5806,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.greeting.state-of-the-state-to-the-and-to-everyone-in",
@@ -5937,13 +5938,13 @@
       "key": "outline-call.call.state-of-the-state-ask-your-member-of-the-where-they-stand-on-and-listen-to-the",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask your member of the {body-word} where they stand on {about}, and listen to the whole answer.",
+      "text": "Ask your member of the {body-word} whether they'd {to}, and listen to the whole answer.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
+          "requiresFacts": ["to", "told-theme", "body-word"],
           "excludesFacts": []
         }
       ],
@@ -5953,7 +5954,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.oath.spoken-i-swore-to-defend-the-constitution-a-few-minutes-ago-and-so-did",
@@ -6543,13 +6545,13 @@
       "key": "outline-call.call.spoken-ask-a-coach-a-pastor-or-a-shop-steward-what-they-hear-from-p",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask a coach, a pastor or a shop steward what they hear from people about {about}.",
+      "text": "Ask a coach, a pastor or a shop steward what they hear from people on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -6566,13 +6568,13 @@
       "key": "outline-call.call.spoken-ask-the-person-who-cuts-your-hair-or-fixes-your-car-what-the",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask the person who cuts your hair or fixes your car what they think about {about}.",
+      "text": "Ask the person who cuts your hair or fixes your car whether we should {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -6589,13 +6591,13 @@
       "key": "outline-call.call.spoken-before-you-argue-about-online-call-or-visit-someone-who-sees",
       "move": "call",
       "kind": "spoken",
-      "text": "Before you argue about {about} online, call or visit someone who sees it differently.",
+      "text": "Before you argue online about whether to {to}, call or visit someone who sees it differently.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -6635,13 +6637,13 @@
       "key": "outline-call.call.spoken-tell-the-people-in-your-life-where-you-stand-on-and-ask-wher",
       "move": "call",
       "kind": "spoken",
-      "text": "Tell the people in your life where you stand on {about}, and ask where they stand.",
+      "text": "Tell the people in your life whether you'd {to}, and ask where they stand.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -7304,32 +7306,33 @@
       "key": "outline-call.call.state-of-the-state-read-the-bill-on-before-the-votes-on-it-and-tell-your-member",
       "move": "call",
       "kind": "spoken",
-      "text": "Read the bill on {about} before the {body-word} votes on it, and tell your member what you think.",
+      "text": "Read the bill to {to} before the {body-word} votes on it, and tell your member what you think.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
+          "requiresFacts": ["to", "told-theme", "body-word"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-watch-a-committee-hearing-on-online-this-month",
       "move": "call",
       "kind": "spoken",
-      "text": "Watch a {body-word} committee hearing on {about} online this month.",
+      "text": "Watch a {body-word} committee hearing on whether to {to} online this month.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
+          "requiresFacts": ["to", "told-theme", "body-word"],
           "excludesFacts": []
         }
       ],
@@ -7339,19 +7342,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-ask-a-neighbor-in-whether-would-help-or-hurt-them",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask a neighbor in {realm-name} whether {about} would help or hurt them.",
+      "text": "Ask a neighbor in {realm-name} whether it would help or hurt them if we {to}.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "realm-name"],
+          "requiresFacts": ["to", "told-theme", "realm-name"],
           "excludesFacts": []
         }
       ],
@@ -7361,19 +7365,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-check-how-works-in-the-next-state-over-and-compare",
       "move": "call",
       "kind": "spoken",
-      "text": "Check how {about} works in the next state over, and compare.",
+      "text": "Check whether the next state over has chosen to {to}, and compare.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "about-one"],
+          "requiresFacts": ["to", "told-theme", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -7383,7 +7388,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-write-to-the-local-paper-in-about-even-if-it-s-short",
@@ -8663,13 +8669,13 @@
       "key": "outline-call.call.state-of-the-state-ask-somebody-who-works-for-the-state-of-what-would-change-fo",
       "move": "call",
       "kind": "spoken",
-      "text": "Ask somebody who works for the state of {realm-name} what {about} would change for them.",
+      "text": "Ask somebody who works for the state of {realm-name} what it would change for them if we {to}.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "realm-name", "told-theme"],
+          "requiresFacts": ["to", "realm-name", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -8679,19 +8685,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-tell-a-friend-in-another-part-of-what-you-think-about-and-as",
       "move": "call",
       "kind": "spoken",
-      "text": "Tell a friend in another part of {realm-name} what you think about {about}, and ask what they think.",
+      "text": "Tell a friend in another part of {realm-name} whether you'd {to}, and ask what they think.",
       "uses": [
         {
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "realm-name", "told-theme"],
+          "requiresFacts": ["to", "realm-name", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -8701,7 +8708,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-state-visit-the-website-of-the-and-find-the-page-for-the-committee",
@@ -8846,20 +8854,21 @@
       "key": "outline-call.call.state-of-the-union-read-the-summary-of-a-bill-on-on-congress-s-own-website-befo",
       "move": "call",
       "kind": "spoken",
-      "text": "Read the summary of a bill on {about} on Congress's own website before you decide.",
+      "text": "Read the summary of a bill to {to} on Congress's own website before you decide.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-union-pick-a-federal-agency-that-deals-with-and-read-what-it-says",
@@ -8884,13 +8893,13 @@
       "key": "outline-call.call.state-of-the-union-watch-a-floor-debate-on-even-a-short-one",
       "move": "call",
       "kind": "spoken",
-      "text": "Watch a floor debate on {about}, even a short one.",
+      "text": "Watch a floor debate on whether to {to}, even a short one.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -8900,19 +8909,20 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-union-compare-what-your-own-members-of-congress-said-about-last-ye",
       "move": "call",
       "kind": "spoken",
-      "text": "Compare what your own members of Congress said about {about} last year with how they voted.",
+      "text": "Compare what your own members of Congress said last year about whether to {to} with how they voted.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -8922,7 +8932,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-union-talk-to-a-veteran-a-teacher-or-a-farmer-about-and-write-down",
@@ -8972,13 +8983,13 @@
       "key": "outline-call.send-off.state-of-the-union-i-ll-write-to-the-chairs-of-the-committees-that-handle-this",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll write to the chairs of the committees that handle {about} this week.",
+      "text": "I'll write to the chairs of the committees that would take up a bill to {to} this week.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -8995,32 +9006,33 @@
       "key": "outline-call.send-off.state-of-the-union-tomorrow-i-ll-ask-the-leaders-of-both-parties-in-congress-fo",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Tomorrow I'll ask the leaders of both parties in Congress for time on {about}.",
+      "text": "Tomorrow I'll ask the leaders of both parties in Congress for time to talk about whether to {to}.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.send-off.state-of-the-union-my-first-call-tomorrow-is-to-the-committee-chairs-on",
       "move": "send-off",
       "kind": "spoken",
-      "text": "My first call tomorrow is to the committee chairs on {about}.",
+      "text": "My first call tomorrow is to the committee chairs, about whether to {to}.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -9037,13 +9049,13 @@
       "key": "outline-call.send-off.state-of-the-union-this-week-i-ll-sit-down-with-the-members-of-congress-who-car",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'll sit down this week with the members of Congress who care most about {about}, on both sides.",
+      "text": "I'll sit down this week with the members of Congress who care most about whether to {to}, on both sides.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
@@ -9053,46 +9065,25 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": []
     },
     {
       "key": "outline-call.send-off.state-of-the-union-by-friday-i-ll-have-asked-every-committee-chair-who-touches",
       "move": "send-off",
       "kind": "spoken",
-      "text": "By Friday I'll have asked every committee chair who touches {about} for a date.",
+      "text": "By Friday I'll have asked each committee chair for a date to talk about whether to {to}.",
       "uses": [
         {
           "subject": "state-of-the-union",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["to", "told-theme"],
           "excludesFacts": []
         }
       ],
       "elements": ["victory-ends-on-a-call-to-work"],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-check-how-work-in-the-next-state-over-and-compare-plural",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Check how {about} work in the next state over, and compare.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "about-many"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
