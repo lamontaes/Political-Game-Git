@@ -21,9 +21,9 @@
       "writes": "it ends on the last item"
     },
     {
-      "name": "a cancelled event",
+      "name": "a canceled event",
       "pulledBy": "an event called off",
-      "writes": "the digest says what was cancelled"
+      "writes": "the digest says what was canceled"
     }
   ],
   "usedBy": []
