@@ -1407,5 +1407,313 @@
       "key": "favor-asked"
     },
     "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-stall.i-still-have-trouble-with-bill-i-m-willing-to-hear-you-out-before-i-decide-on-a-hearing",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "I still have trouble with {bill}. I'm willing to hear you out before I decide on a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-own-view"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.i-d-vote-against-bill-as-it-stands-giving-you-time-to-present-it-is-a-different-question",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "I'd vote against {bill} as it stands. Giving you time to present it is a different question.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-own-view"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.if-i-call-up-bill-i-ll-have-to-explain-that-back-home-give-me-a-minute",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "If I call up {bill}, I'll have to explain that back home. Give me a minute.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-district"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.my-district-wants-bill-left-alone-you-re-asking-me-to-take-some-heat-just-to-give-it-a-hearing",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "My district wants {bill} left alone. You're asking me to take some heat just to give it a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-district"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.my-party-wants-bill-held-here-before-you-go-telling-people-you-ve-got-a-hearing-let-me-think",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "My party wants {bill} held here. Before you go telling people you've got a hearing, let me think.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-party"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.a-date-for-bill-i-d-have-to-break-with-my-party-just-to-put-it-on-the-agenda",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "A date for {bill}? I'd have to break with my party just to put it on the agenda.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-party"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.i-voted-against-bill-give-me-a-minute-to-think-about-hearing-it-again",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "I voted against {bill}. Give me a minute to think about hearing it again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-last-vote"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.my-vote-on-bill-is-public-i-can-already-hear-people-asking-why-i-d-put-it-back-on-the-calendar",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "My vote on {bill} is public. I can already hear people asking why I'd put it back on the calendar.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-last-vote"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.i-haven-t-set-a-day-for-bill-you-can-make-your-pitch-while-you-re-here",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "I haven't set a day for {bill}. You can make your pitch while you're here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.hold-on-i-heard-you-ask-for-a-hearing-on-bill-i-haven-t-given-you-my-answer-yet",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "Hold on. I heard you ask for a hearing on {bill}. I haven't given you my answer yet.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
   }
 ]
