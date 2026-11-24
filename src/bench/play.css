@@ -278,9 +278,8 @@ ol {
   }
 }
 /* ---- The strip of busts (ui/bust-strip.mjs; owner, Nov 11, 2026) ----
-   A room is its painting alone. The people in it stand as busts in a band of
-   soft glass with their names on it: its ends fade into the room and a light
-   runs along its top. --bust is one bust's side; the talk box sets it larger. */
+   A room is its painting alone. The people in it stand as busts with their names under
+   them, straight on the room. --bust is one bust's side; the talk box sets it larger. */
 .bust-strip {
   --bust: 140px;
   position: relative;
@@ -291,44 +290,29 @@ ol {
   max-width: 100%;
   margin: 0 auto;
 }
-.bust-strip .busts-glass {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: calc(var(--bust) * 0.24 + 34px);
-  background: linear-gradient(rgba(40, 37, 33, 0.8), rgba(24, 22, 20, 0.88));
-  box-shadow: 0 -10px 22px rgba(0, 0, 0, 0.28);
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 9%,
-    black 91%,
-    transparent
-  );
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 9%,
-    black 91%,
-    transparent
-  );
+/* No plate and no band behind the busts (CTO, Nov 24: boxes, against the owner's
+   Nov 5 and Nov 23 rules): each bust stands straight on the room in a soft pool
+   of light that fades out. */
+.bust-strip .busts-person {
+  position: relative;
+  isolation: isolate;
 }
-/* The light along the top, gone before the ends. */
-.bust-strip .busts-glass::before {
+.bust-strip .busts-person::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 12%,
-    rgba(236, 200, 128, 0.5) 38%,
-    rgba(236, 200, 128, 0.5) 62%,
-    transparent 88%
+  z-index: -1;
+  left: 50%;
+  top: 38%;
+  width: calc(var(--mine) * 1.9);
+  height: calc(var(--mine) * 1.6);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    rgba(24, 20, 16, 0.62),
+    rgba(24, 20, 16, 0.3) 55%,
+    transparent
   );
+  pointer-events: none;
 }
 /* The label stands above the people, at the strip's left end, so it never lies over a name. */
 .bust-strip .busts-label {
@@ -358,7 +342,7 @@ ol {
   flex: none;
   pointer-events: auto;
 }
-/* The bust, cut soft at the shoulders where it meets the glass. */
+/* The bust, cut soft at the shoulders into the room. */
 .bust-strip .busts-face {
   position: relative;
   width: calc(var(--mine) * 0.72);
@@ -380,7 +364,7 @@ ol {
   white-space: nowrap;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
-/* The office a scene names someone by, under their name; the glass is a line taller for it. */
+/* The office a scene names someone by, under their name; . */
 .bust-strip .busts-role {
   font: 500 var(--t-label) var(--ui);
   color: var(--muted);
@@ -390,9 +374,6 @@ ol {
 }
 .bust-strip .busts-person:has(.busts-role) .busts-name {
   padding-bottom: 0;
-}
-.bust-strip:has(.busts-role) .busts-glass {
-  height: calc(var(--bust) * 0.24 + 52px);
 }
 .bust-strip .busts-more {
   font: 400 var(--t-ui) var(--ui);
@@ -456,10 +437,28 @@ ol {
   border-radius: var(--control-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
+/* The broadcast on a set the room paints: the speaker's bust over its glass, in the picture's own percent. */
+#tv-screen {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
+  border-radius: var(--control-radius);
+}
+#tv-screen {
+  container-type: size;
+}
+#tv-screen .bust-strip {
+  --bust: min(100cqw, 100cqh);
+  height: 100%;
+}
+#tv-screen .busts-glass,
+#tv-screen .busts-name {
+  display: none;
+}
 #tv .bust-strip {
   --bust: 120px;
 }
-#tv .busts-glass {
+#tv .busts-person::before {
   display: none;
 }
 #tv .tv-live {
@@ -1472,6 +1471,14 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-figure .strip-name {
   text-align: center;
+  /* The name stands on the portrait's faded lower chest, not under it, so a tall look
+     (a man's extra rows) with a name filled in still fits the window (owner, Nov 17:
+     no empty space in the creator; the CTO's catch, Nov 24: the panel's top ran off screen). */
+  position: relative;
+  margin-top: -44px;
+}
+#cr-figure .strip-name:empty {
+  display: none;
 }
 /* One row of buttons under both columns: Random draws the whole character, Begin starts the life. */
 #cr-foot {
@@ -1483,8 +1490,33 @@ input[type="range"]::-moz-range-thumb {
 #cr-screen .secbody {
   padding-bottom: 8px;
 }
+/* The place list takes the rest of its column, so the creator has no dead space under
+   it; it scrolls only when it holds more than the column's height (owner, Nov 17:
+   no empty space in the creator). */
+#cr-screen.strip-screen {
+  align-items: stretch;
+}
+#cr-who-col,
+#cr-place-sec,
+#cr-place-sec .secbody,
+#cr-place,
+#cr-state-pick:not([hidden]),
+#cr-town-pick:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#cr-place-sec,
+#cr-place-sec .secbody,
+#cr-place,
+#cr-state-pick,
+#cr-town-pick {
+  flex: 1 1 auto;
+}
 #cr-screen .choice-list {
-  max-height: 150px;
+  flex: 1 1 150px;
+  min-height: 150px;
+  max-height: none;
 }
 #cr-screen .acts {
   justify-content: flex-end;
@@ -2467,24 +2499,11 @@ body:not(.dev) .dev-only {
   text-align: left;
   cursor: pointer;
 }
-/* A toast leaves by itself: it holds, then fades out over its last second. Its close
-   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+/* A toast stays until the player opens or closes it (ui/toast.mjs). */
 .toast {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-}
-.toast.fading {
-  animation: toast-fade var(--toast-seconds) linear forwards;
-}
-@keyframes toast-fade {
-  0%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 #news-reader {
   inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
@@ -3359,9 +3378,10 @@ details.entry[open] {
 .bill-clause s {
   color: var(--muted);
 }
+/* What the bill adds reads brighter, never underlined: an underline looks like a link (CTO, Nov 24, on #10386). */
 .bill-clause u {
-  text-decoration-color: var(--gold);
-  text-underline-offset: 3px;
+  text-decoration: none;
+  color: var(--brass-hi);
 }
 
 /* The bill on paper: the document and its estimate side by side. */
@@ -3379,9 +3399,8 @@ details.entry[open] {
   background: none;
   border: 0;
   padding: 2px 0;
-  text-decoration: underline;
-  text-decoration-color: var(--brass);
-  text-underline-offset: 3px;
+  text-decoration: none;
+  color: var(--brass-hi);
 }
 .bill-estimate {
   display: grid;
@@ -4204,8 +4223,10 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
-.roster-screen.patch-notes > .pick-list.roster {
+/* The patch notes and bills lists are the pager's own box and scroll there; the list around it is no second
+   scroll and no cap at 46% of the window (owner, Nov 23: "none of these scrollers ... when there's ample dead
+   space"; the Bills list stopped at its fourth bill with the sheet's room below it empty). */
+.roster-screen:is(.patch-notes, .bills) > .pick-list.roster {
   max-height: none;
   overflow: visible;
 }
@@ -5957,7 +5978,7 @@ body.color-blind .meeting-member.vote-abstain {
   box-sizing: border-box;
   width: 100%;
   grid-column: 1 / -1;
-  height: 92px;
+  height: 168px;
   margin-bottom: 14px;
   overflow: hidden;
   mask-image: linear-gradient(
@@ -5972,7 +5993,7 @@ body.color-blind .meeting-member.vote-abstain {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 55%;
 }
 .bill-band h2 {
   position: absolute;
@@ -5987,6 +6008,9 @@ body.color-blind .meeting-member.vote-abstain {
     serif;
   color: var(--gold);
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+}
+.bill-board .sec[hidden] {
+  display: none;
 }
 .strip-screen.bill-figures {
   display: block;
