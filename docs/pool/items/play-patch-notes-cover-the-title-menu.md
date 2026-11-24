@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10389
 blocked-on:
 source: the CTO's review of Nov 24, send-back 3 (comment 7125269509 on #10377)
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: none
+merged-at: 2026-11-24T11:52:52.277Z
 ---
 
 **What.** Patch notes opened from the title menu centered itself on the screen and covered the right part of the title menu, so the line "Continue as ..." was cut off at the panel's edge. The CTO's review of Nov 24 sent it back: "The patch notes panel overlaps the title menu and cuts 'Continue as ...'." The panel has to sit beside the menu, not over it. Seen: Patch notes from the title at 1440x900, 1280x720 and 1920x1080 sits to the right of the title menu with the whole "Continue as" line showing.
