@@ -3180,7 +3180,10 @@ function cutFacts(
   causeId: string,
   headId: PersonId,
 ): void {
-  const cut = Math.abs(Number(said.deltaMinor));
+  const before = Number(said.lineBeforeMinor);
+  const after = Number(said.lineAfterMinor);
+  const recorded = Number.isFinite(before) && Number.isFinite(after);
+  const cut = recorded ? before - after : Math.abs(Number(said.deltaMinor));
   if (!(cut > P.zero)) return;
   facts.cut = { text: roundedDollars(cut), sourceRecordIds: [causeId] };
   const api = coreAPI(core as CoreState);
@@ -3192,12 +3195,22 @@ function cutFacts(
           .get(said.measureId) as unknown as BudgetRow | undefined)
       : undefined;
   const left = budget?.spendingMinor[said.line ?? ""];
-  if (budget && left !== undefined) {
-    const percent = Math.round((P.percent * cut) / (left + cut));
+  if (recorded)
+    facts["remaining-funds"] = {
+      text: roundedDollars(after),
+      sourceRecordIds: [causeId],
+    };
+  const original = recorded
+    ? before
+    : left === undefined
+      ? undefined
+      : left + cut;
+  if (original !== undefined) {
+    const percent = Math.round((P.percent * cut) / original);
     if (percent >= P.one)
       facts.percent = {
         text: String(percent),
-        sourceRecordIds: [causeId, budget.id],
+        sourceRecordIds: !recorded && budget ? [causeId, budget.id] : [causeId],
       };
   }
   // What the line pays for, as the budget screen names it ("police

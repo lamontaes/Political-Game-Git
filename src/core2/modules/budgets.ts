@@ -2684,14 +2684,12 @@ export function amendBudget(
   const measure = lawMeasureOf(api, input.measureId);
   const revenue = input.side === "revenue";
   const sideKey = revenue ? "revenueMinor" : "spendingMinor";
+  const before = budget[sideKey][input.line] ?? 0;
   const amended: BudgetRow = {
     ...budget,
     [sideKey]: {
       ...budget[sideKey],
-      [input.line]: Math.max(
-        0,
-        (budget[sideKey][input.line] ?? 0) + input.deltaMinor,
-      ),
+      [input.line]: Math.max(0, before + input.deltaMinor),
     },
     adoptedBy: {
       ...budget.adoptedBy,
@@ -2725,6 +2723,8 @@ export function amendBudget(
       level: gov.level,
       line: input.line,
       deltaMinor: String(input.deltaMinor),
+      lineBeforeMinor: String(before),
+      lineAfterMinor: String(amended[sideKey][input.line]),
       ...(revenue ? {} : executiveFact(api, gov, input.deltaMinor)),
       measureId: input.measureId,
       carried: input.carry ? "yes" : "no",
