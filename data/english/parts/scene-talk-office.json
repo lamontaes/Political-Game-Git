@@ -1721,20 +1721,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.understood-i-ll-tell-people-the-state-hasn-t-declared-an-emergency-for-the-disaster",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.understood-i-ll-tell-people-the-state-hasn-t-declared-an-emergency-for-the-disaster",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "Understood. I'll tell people the state hasn't declared an emergency for the {disaster}.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "calm",
@@ -1748,20 +1748,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.i-ll-pass-your-decision-on-the-disaster-to-the-county-offices",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.i-ll-pass-your-decision-on-the-disaster-to-the-county-offices",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll pass your decision on the {disaster} to the county offices.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "steady",
@@ -1775,20 +1775,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.we-ll-keep-checking-the-reports-on-the-disaster-without-a-declaration",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.we-ll-keep-checking-the-reports-on-the-disaster-without-a-declaration",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "We'll keep checking the reports on the {disaster} without a declaration.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "guarded",
@@ -1802,20 +1802,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.the-health-director-should-know-you-ve-declined-to-declare-i-ll-call-about-the-disaster",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.the-health-director-should-know-you-ve-declined-to-declare-i-ll-call-about-the-disaster",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "The health director should know you've declined to declare. I'll call about the {disaster}.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "solemn",
@@ -1829,20 +1829,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.i-ll-leave-the-declaration-out-of-our-notice-on-the-disaster",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.i-ll-leave-the-declaration-out-of-our-notice-on-the-disaster",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll leave the declaration out of our notice on the {disaster}.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "firm",
@@ -1856,20 +1856,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.if-anyone-asks-why-you-didn-t-declare-an-emergency-for-the-disaster-i-ll-refer-them-to-you",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.if-anyone-asks-why-you-didn-t-declare-an-emergency-for-the-disaster-i-ll-refer-them-to-you",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "If anyone asks why you didn't declare an emergency for the {disaster}, I'll refer them to you.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "calm",
@@ -1883,20 +1883,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.i-ll-tell-the-local-directors-myself-they-shouldn-t-have-to-follow-the-news-for-a-decision-on-the-disaster",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.i-ll-tell-the-local-directors-myself-they-shouldn-t-have-to-follow-the-news-for-a-decision-on-the-disaster",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll tell the local directors myself. They shouldn't have to follow the news for a decision on the {disaster}.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "steady",
@@ -1910,20 +1910,20 @@
       }
     },
     {
-      "key": "scene-talk-office.close-accept.i-ll-report-your-decision-on-the-disaster-and-leave-the-explanation-to-you",
-      "move": "close-accept",
+      "key": "scene-talk-office.follow-accept.i-ll-report-your-decision-on-the-disaster-and-leave-the-explanation-to-you",
+      "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll report your decision on the {disaster} and leave the explanation to you.",
       "uses": [
         {
           "subject": "scene",
-          "step": "close",
+          "step": "follow",
           "move": "accept",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "requiresFacts": ["disaster"],
-          "outcome": "refused"
+          "after": "decline"
         }
       ],
       "bearing": "solemn",
