@@ -6,6 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { economyRun, STORIES } from "./address-story";
+import OUTLINES from "../../data/english/outlines.json" with { type: "json" };
 
 /**
  * The world's story an address opens on (Story thread #9750, part 4; owner,
@@ -88,15 +89,50 @@ describe("the economy's run", () => {
 
 /**
  * Played: the President's address in drawn worlds tells the world's story
- * where the record holds one, as its own section right after the greeting and
- * the occasion (the outline planner's order, from real inaugurals: the oath
- * and the charge, then the state of the country), with the story's own fact.
+ * where the record holds one, as its own section, told from the story's own
+ * fact.
  * Checked on the plan's sections, not on bank keys (CTO, Nov 24, 21:40Z on
  * #9750: "#10390 approved (address-story.test.ts checks the plan's story
- * section and order, not old keys)"). Replay with ADDRESS_STORY_SEED. A world
+ * section and order, not old keys)"): the sections in one of the orders
+ * the row allows, the story where that order puts it. Replay with
+ * ADDRESS_STORY_SEED. A world
  * whose story is steady is passed over and named.
  */
 const base = process.env.ADDRESS_STORY_SEED || randomBytes(8).toString("hex");
+
+/**
+ * The section orders an address kind's outline row allows, as the planner
+ * builds them (outlines.json `orders`: the movable sections take an order's
+ * places in turn; the rest keep theirs).
+ */
+const ALLOWED_ORDERS = (kind: string): string[][] => {
+  const row = (
+    OUTLINES as unknown as {
+      kinds: Record<
+        string,
+        {
+          sections: { name: string }[];
+          orders?: { sections: string[] }[];
+        }
+      >;
+    }
+  ).kinds[kind]!;
+  const names = row.sections.map((section) => section.name);
+  const orders = row.orders?.length ? row.orders : [{ sections: [] }];
+  return orders.map((order) => {
+    const movable = new Set(order.sections);
+    let next = 0;
+    return names.map((name) =>
+      movable.has(name) ? order.sections[next++]! : name,
+    );
+  });
+};
+
+/** Whether the sections told follow this order (sections the record could not say are skipped). */
+const sameOrder = (order: readonly string[], told: readonly string[]) => {
+  const kept = order.filter((name) => told.includes(name));
+  return kept.join(",") === told.join(",");
+};
 
 /** The fact each story's section is told from (opening-address.json `stories.rows`, `gate`). */
 const STORY_FACT: Readonly<Record<string, string>> = {
@@ -128,15 +164,20 @@ it(`the President's address tells the world's story in drawn worlds (seed ${base
       const sentences = story!.address.sentences;
       const first = sentences.findIndex((row) => row.section === "story");
       expect(first, `${where}: no story section`).toBeGreaterThan(-1);
-      // Only the greeting and the occasion come before it.
-      for (const row of sentences.slice(0, first))
-        expect(["greeting", "occasion"], `${where}: ${row.text}`).toContain(
-          row.section,
-        );
-      // The story section is told from the world's own story.
-      const told = sentences.filter((row) => row.section === "story");
+      // The sections come in one of the orders the row allows (the speaker's
+      // traits pick which; an assertive speaker puts the theme first), with
+      // the story where that order puts it.
+      const told = [...new Set(sentences.map((row) => row.section ?? ""))];
       expect(
-        told.some((row) => row.facts.includes(STORY_FACT[story!.story]!)),
+        ALLOWED_ORDERS(story!.speechKind).some((order) =>
+          sameOrder(order, told),
+        ),
+        `${where}: sections told as ${told.join(", ")}`,
+      ).toBe(true);
+      // The story section is told from the world's own story.
+      const storyTold = sentences.filter((row) => row.section === "story");
+      expect(
+        storyTold.some((row) => row.facts.includes(STORY_FACT[story!.story]!)),
         `${where}: story ${story!.story} not told from ${STORY_FACT[story!.story]}`,
       ).toBe(true);
     }

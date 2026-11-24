@@ -4001,10 +4001,26 @@ const address: Builder = (read, f) => {
   // address's own record of what was said (the Story lead, Nov 24: a news
   // story has a lede and a body).
   const said = saidOf(f);
-  const stood = said.find((row) => row.values.about);
+  // The sentence that takes the stand, where one does; else the first on the subject.
+  const stood =
+    said.find(
+      (row) =>
+        row.values.about &&
+        (row.values["stance-for"] || row.values["stance-against"]),
+    ) ?? said.find((row) => row.values.about);
   const quote = rememberedOf(f);
   const named = read.who(id, "name", false);
   const surname = named.name?.text.split(" ").at(-1);
+  // The President's party, and whom the stance's policy applies to by its
+  // data (law-reach/scope.ts), so a lede can lead with either (W5, Nov 24).
+  const party = id ? partyOf(read.api, id as PersonId) : null;
+  const question = stood?.sources
+    ?.find((ref) => ref.startsWith("question:"))
+    ?.slice("question:".length);
+  const scope = reachScopeOf(question ?? null);
+  const reaches = Array.isArray(scope?.people)
+    ? (scope.people as { id?: string; target?: string }[])
+    : [];
   return story(
     "address",
     {
@@ -4019,6 +4035,12 @@ const address: Builder = (read, f) => {
           ? { "president-for": read.yes() }
           : {}),
       ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
+      ...(party && id ? { "president-party": read.fact(party, id) } : {}),
+      ...Object.fromEntries(
+        reaches
+          .filter((group) => group.target === "people" && group.id)
+          .map((group) => [`reaches-${group.id}`, read.yes()]),
+      ),
       // An inaugural is told as the taking of office, citing the offices
       // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
