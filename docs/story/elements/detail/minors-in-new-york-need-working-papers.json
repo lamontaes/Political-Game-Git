@@ -1,0 +1,31 @@
+{
+  "id": "minors-in-new-york-need-working-papers",
+  "kind": "detail",
+  "summary": "In New York, a person aged 14 to 17 generally needs an employment certificate, called working papers, to work.",
+  "realLife": "In New York, 14- to 17-year-olds generally need an employment certificate, issued by school officials, with proof of age and a doctor's exam.",
+  "sources": [
+    "New York State Department of Labor, Working Papers: https://dol.ny.gov/working-papers"
+  ],
+  "fits": ["loading"],
+  "slots": ["first-job-year", "state", "age"],
+  "gates": [],
+  "weights": {
+    "first-job-year": 0.5
+  },
+  "inGame": "the person's age at the hire row and the state's child labor rules. needs: a work permit on a minor's hire.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A job in an exempt kind of work, such as babysitting or farm work, with no papers.",
+      "pulledBy": "the kind of work",
+      "writesBack": "a hire with no permit"
+    },
+    {
+      "turn": "late",
+      "what": "A first job after 18, when no papers are needed.",
+      "pulledBy": "the age at hire",
+      "writesBack": "no permit step"
+    }
+  ],
+  "usedBy": []
+}

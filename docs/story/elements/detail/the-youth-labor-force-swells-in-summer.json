@@ -1,0 +1,31 @@
+{
+  "id": "the-youth-labor-force-swells-in-summer",
+  "kind": "detail",
+  "summary": "The number of young people in the labor force grows by about two million from April to July.",
+  "realLife": "The youth labor force grew by 2.1 million from April (21.4 million) to July (23.5 million) as students looked for summer jobs and graduates entered the workforce.",
+  "sources": [
+    "Bureau of Labor Statistics, Employment and Unemployment Among Youth, Summer 2026: https://www.bls.gov/news.release/youth.nr0.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["first-job-year"],
+  "gates": [],
+  "weights": {
+    "first-job-year": 0.5
+  },
+  "inGame": "the hire rows by month of the year; needs: a seasonal hire pattern in the jobs engine.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A hire in the middle of winter, outside the summer wave.",
+      "pulledBy": "the date of the hire row",
+      "writesBack": "a job told in a winter month"
+    },
+    {
+      "turn": "neutral",
+      "what": "A hire the same month as every other, no remark.",
+      "pulledBy": "the hire row",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}
