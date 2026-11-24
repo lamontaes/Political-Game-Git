@@ -26,5 +26,6 @@
       "pulledBy": "It has storage at one site and nowhere else.",
       "writesBack": "The delivery reaches only the households served there."
     }
-  ]
+  ],
+  "issues": ["budget:federal:agriculture", "budget:federal:incomeSecurity"]
 }

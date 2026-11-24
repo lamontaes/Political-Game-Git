@@ -23,5 +23,6 @@
       "pulledBy": "Its available beds cover only part of the expected demand.",
       "writesBack": "The remaining referrals need another destination."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }
