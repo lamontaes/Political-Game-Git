@@ -315,3 +315,7 @@ Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-
 | Since / In office since | **pass**: both 2021 at Alexis NC (85a230de12f5) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91) | replay-pfA-grid.png |
 | P17, C17 on the sheriff (Micah Webb) and a commissioner (Alina Page) | **pass**: the sheriff's card is 481 px and fits its text; the commissioner's fills its story; no scroller, nothing below the panel | replay-pfA-grid.png |
 | P17, C17 on the President | **open, one gap**: the card is 520 px with larger text; the right column under the short story is still empty (about a third of the column's height) | replay-pfA-grid.png |
+
+## #10337 at 0e51bf49 (main merged in; includes e7c44f11), played from pull/10337/head
+
+Same result as e7c44f11: Since and In office since agree (2021) at Alexis NC 85a230de12f5 and Loudon NH 03475ffc-637d-433f-8ee8-a6e75f6e0f91; the sheriff (481 px) and the commissioner fit their text with no scroller; the President's card (520 px) still leaves the right column under the short story empty. Picture: replay-pgA-grid.png.
