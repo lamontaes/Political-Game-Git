@@ -34,7 +34,7 @@ it("the fire chief explains the original vote after a second amendment changes t
   const amended = amend(-cut, "fixture-city-cut")!;
   const causeId =
     "budget-line-changed:" + amended.id + ":fire:fixture-city-cut";
-  const revised = amend(Math.floor(cut / 2), "fixture-restore")!;
+  const revised = amend(Math.floor(cut / 3), "fixture-restore")!;
   expect(revised.spendingMinor.fire).toBeGreaterThan(
     amended.spendingMinor.fire,
   );
@@ -51,11 +51,32 @@ it("the fire chief explains the original vote after a second amendment changes t
     typeKey: "budget-cut",
   });
   expect(result?.kind).toBe("composed");
-  if (result?.kind === "composed")
+  if (result?.kind === "composed") {
+    expect(result.scene.talk.state.text).not.toContain("$180,000");
+    expect(
+      result.scene.talk.tree.replies.map((reply) => reply.line.move),
+    ).toEqual(expect.arrayContaining(["ask", "agree", "refuse", "bargain"]));
     expect(result.scene.facts).toEqual(
       expect.arrayContaining([
-        { key: "percent", text: "5", recordIds: [causeId] },
+        { key: "original-percent", text: "5", recordIds: [causeId] },
+        { key: "original-cut", text: "$180,000", recordIds: [causeId] },
+        {
+          key: "still-needed",
+          text: "$120,000",
+          recordIds: [causeId, amended.id],
+        },
+        {
+          key: "restored-amount",
+          text: "$60,000",
+          recordIds: [causeId, amended.id],
+        },
         { key: "remaining-funds", text: "$3,400,000", recordIds: [causeId] },
       ]),
     );
+  }
+  amend(cut - Math.floor(cut / 3), "fixture-restore-rest");
+  expect(
+    purposeScene(core, director, mayor, visit!, { typeKey: "budget-cut" })
+      ?.kind,
+  ).toBe("skipped");
 }, 120_000);

@@ -11,7 +11,13 @@ import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import { placeChain, placeStateKey } from "../core2/place-map";
-import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  fiscalYearOf,
+  governmentOfJurisdiction,
+  type BudgetRow,
+} from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
@@ -2126,8 +2132,16 @@ function composeBinding(
     }
   }
 
-  if (record?.kind === "budget-line-changed")
-    cutFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === "budget-line-changed") {
+    if (
+      !cutFacts(core, facts, said, moment.causeId, askerId) &&
+      type.purpose === "cut-argument"
+    )
+      return {
+        kind: "skipped",
+        reason: "the appropriation no longer needs restoration",
+      };
+  }
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === EMERGENCY_OFFERED)
@@ -3172,6 +3186,7 @@ function roundedDollars(minor: number): string {
  * post draws on (budgets.ts `budget-line-changed`): how much was cut, how much
  * of the line that was where the adopted budget is on record, their post and
  * how many whole years they have held it, each with the records it came from.
+ * Returns false when the vote left no cut that still needs restoration.
  */
 function cutFacts(
   core: Readonly<CoreState>,
@@ -3179,13 +3194,12 @@ function cutFacts(
   said: Readonly<Record<string, string>>,
   causeId: string,
   headId: PersonId,
-): void {
+): boolean {
   const before = Number(said.lineBeforeMinor);
   const after = Number(said.lineAfterMinor);
   const recorded = Number.isFinite(before) && Number.isFinite(after);
   const cut = recorded ? before - after : Math.abs(Number(said.deltaMinor));
-  if (!(cut > P.zero)) return;
-  facts.cut = { text: roundedDollars(cut), sourceRecordIds: [causeId] };
+  if (!(cut > P.zero)) return false;
   const api = coreAPI(core as CoreState);
   const budget =
     said.measureId && core.modules.has(BUDGETS_MODULE_ID)
@@ -3194,6 +3208,41 @@ function cutFacts(
           .table("budgets")
           .get(said.measureId) as unknown as BudgetRow | undefined)
       : undefined;
+  // Compare the vote with the same fiscal year's appropriation at the visit.
+  // A later amendment can restore the line before its head gets to the mayor.
+  const government =
+    recorded && said.governmentId
+      ? governmentOfJurisdiction(api, said.governmentId)
+      : undefined;
+  const dateOfVote = core.durableLog.get(causeId)?.date;
+  const fiscalYear =
+    government && dateOfVote
+      ? fiscalYearOf(dateOfVote, government.fiscalYearStart)
+      : undefined;
+  const votedBudget =
+    government && fiscalYear !== undefined
+      ? budgetsOf(api, government.id).find(
+          (row) => row.fiscalYear === fiscalYear,
+        )
+      : undefined;
+  const current = votedBudget?.spendingMinor[said.line ?? ""];
+  const recovered = current !== undefined && current > after;
+  if (recovered && votedBudget) {
+    if (current >= before) return false;
+    const sourceRecordIds = [causeId, votedBudget.id];
+    facts["restored-amount"] = {
+      text: roundedDollars(current - after),
+      sourceRecordIds,
+    };
+    facts["still-needed"] = {
+      text: roundedDollars(before - current),
+      sourceRecordIds,
+    };
+  }
+  facts[recovered ? "original-cut" : "cut"] = {
+    text: roundedDollars(cut),
+    sourceRecordIds: [causeId],
+  };
   const left = budget?.spendingMinor[said.line ?? ""];
   if (recorded)
     facts["remaining-funds"] = {
@@ -3208,7 +3257,7 @@ function cutFacts(
   if (original !== undefined) {
     const percent = Math.round((P.percent * cut) / original);
     if (percent >= P.one)
-      facts.percent = {
+      facts[recovered ? "original-percent" : "percent"] = {
         text: String(percent),
         sourceRecordIds: !recorded && budget ? [causeId, budget.id] : [causeId],
       };
@@ -3226,7 +3275,7 @@ function cutFacts(
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );
-  if (!post) return;
+  if (!post) return true;
   facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
   const date = core.date;
   const years =
@@ -3240,6 +3289,7 @@ function cutFacts(
       text: String(years),
       sourceRecordIds: [post.id],
     };
+  return true;
 }
 
 /**
