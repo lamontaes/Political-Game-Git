@@ -49,7 +49,7 @@ import { leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
-import { contestPositions } from "../contest-positions";
+import { contestPositions, standReasons } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
@@ -2187,13 +2187,15 @@ function weighClosedContest(
         partiesHere(api).find((p) => p.id === tie?.partyId)?.name ?? party;
     }
     const rules = filingRulesFor(api, contest, party ? "party" : "independent");
+    const platform = platformFromViews(api, personId, party, positions);
     const filing: FilingRow = {
       id: `filing:${contest.id}:${personId}`,
       contestId: contest.id,
       personId,
       filedOn: contest.filingDeadline,
       filedWith: rules.filedWith,
-      platform: platformFromViews(api, personId, party, positions),
+      platform,
+      platformWhy: standReasons(api, contest, platform),
       party,
       status: "on-ballot",
     };

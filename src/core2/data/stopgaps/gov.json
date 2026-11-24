@@ -2100,5 +2100,17 @@
     "addedAt": "2026-11-17",
     "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-office-areas-estimated",
+    "kind": "assumed-data",
+    "file": "src/core2/contest-positions.ts",
+    "line": 124,
+    "whatItFakes": "The policy areas and budget lines each county row office (sheriff, prosecutor, clerk, treasurer, assessor, coroner) can run on are estimated from what every state's county code gives the office, in src/core2/data/campaigns/office-areas.json, not read office by office and state by state.",
+    "why": "The Nov 23 sitting (P28, C11): a coroner ran on immigration enforcement and every county seat ran on budget lines. The county codes' duties are not yet compiled per state.",
+    "addedBy": "Stands lane",
+    "addedAt": "2026-11-24",
+    "replacement": "A per-state read of each row office's duties (the county row-office rules' duties, CO-4), through the researcher.",
+    "status": "open"
   }
 ]

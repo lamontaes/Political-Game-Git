@@ -1,0 +1,30 @@
+{
+  "version": "office-areas-v1",
+  "about": "What each kind of office does that a candidate for it can run on (contest-positions.ts `contestPositions`). A seat on a body that votes the budget and makes the ordinances, and a level's chief executive, are not here: they run on what their government may decide (`levelMayDecide`) and its budget lines. A row office is one elected for a single job, so its seat runs only on the policy areas and budget lines of that job. `areas` are the policy question families (the part of a question's key before the dot, such as `justice-public-safety`); `budgetLines` are lines of the government's budget the office spends or oversees. An office with neither runs on nothing it can act on and files no stands. ESTIMATED: from the duties a county's elected row offices carry in state county codes (a sheriff keeps the peace and the jail, a clerk keeps the records and runs elections, a treasurer collects and holds the county's money, an assessor values property for the tax, a prosecutor charges crimes, a coroner certifies deaths); spread: which areas a county's code reaches varies by state, so each row names only what every state's version of the office does. Registered as SG-GOV-office-areas-estimated.",
+  "kinds": {
+    "county-sheriff": {
+      "areas": ["justice-public-safety"],
+      "budgetLines": ["police", "corrections"]
+    },
+    "county-prosecutor": {
+      "areas": ["justice-public-safety"],
+      "budgetLines": ["corrections"]
+    },
+    "county-clerk": {
+      "areas": ["government-operations"],
+      "budgetLines": ["administration"]
+    },
+    "county-treasurer": {
+      "areas": ["fiscal"],
+      "budgetLines": ["administration"]
+    },
+    "county-assessor": {
+      "areas": ["fiscal", "housing-land-use"],
+      "budgetLines": ["administration"]
+    },
+    "county-coroner": {
+      "areas": [],
+      "budgetLines": []
+    }
+  }
+}

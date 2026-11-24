@@ -25,6 +25,7 @@ import {
   termLimitReached,
 } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-data";
+import { standReasons } from "../contest-positions";
 import { shareValue } from "../shares";
 import { describesByRule, ruleOfficeBody } from "../filing-rule-office";
 import {
@@ -281,6 +282,8 @@ export interface FilingRow {
   readonly filedOn: string;
   readonly filedWith: string;
   readonly platform: readonly string[];
+  /** Why each stand was open to this seat, "question=reason" (`standReasons`, src/core2/contest-positions.ts): the office's own work, or what its government may decide. */
+  readonly platformWhy?: readonly string[];
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
   /**
@@ -1834,6 +1837,7 @@ export function fileCandidacy(
     filedOn: today,
     filedWith: rules.filedWith,
     platform: [...input.platform],
+    platformWhy: standReasons(api, contest, input.platform),
     party: input.party ?? null,
     status: "petitioning",
     ...(announced?.status === "announced"
@@ -1916,6 +1920,7 @@ export function announceCandidacy(
     announcedOn: today,
     filedWith: rules.filedWith,
     platform: [...input.platform],
+    platformWhy: standReasons(api, contest, input.platform),
     party: input.party ?? null,
     status: "announced",
   };

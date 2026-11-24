@@ -169,12 +169,22 @@ export function composeCampaignSpeech(
   const office = officeOf(core, officeId);
   const person = core.people.get(candidateId);
   if (!office || !person) return null;
-  const platform = candidatePlatform(
-    api,
-    candidateId,
-    party,
-    contestPositions(api, { officeId }),
-  ).map((row) => row.question);
+  // What they run on is what their filing for this office says: the stands
+  // were chosen once, when they filed (`platformFromViews`), and every reader
+  // takes them from there. Only a candidate with no filing for the seat (an
+  // official speaking on the stump) has them chosen from their views.
+  const filed = standingFiling(core, candidateId);
+  const platform =
+    filed && filed.contest.officeId === officeId && filed.filing.platform.length
+      ? filed.filing.platform.map((entry) =>
+          entry.slice(0, entry.lastIndexOf("=")),
+        )
+      : candidatePlatform(
+          api,
+          candidateId,
+          party,
+          contestPositions(api, { officeId }),
+        ).map((row) => row.question);
   const plan = planSpeech(core, "campaign", {
     person,
     jurisdiction: office.jurisdiction,
