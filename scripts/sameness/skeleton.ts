@@ -30,11 +30,6 @@ const FUNCTION_WORDS = new Set(
   ).split(" "),
 );
 
-/** Words that stay in a frame because they are the speaker's move, not their subject. */
-const MOVE_WORDS = new Set(
-  "hold know ask asking asked said say tell told let make made".split(" "),
-);
-
 const CONTRACTIONS: ReadonlyArray<readonly [RegExp, string]> = [
   [/\bi['’]m\b/g, "i am"],
   [/\bwe['’]re\b/g, "we are"],
@@ -52,7 +47,7 @@ const CONTRACTIONS: ReadonlyArray<readonly [RegExp, string]> = [
 export function sentencesOf(text: string): string[] {
   return text
     .replace(/\s+/g, " ")
-    .split(/(?<=[.!?…])["”')\]]*\s+(?=[A-Z"“'(\[])/)
+    .split(/(?<=[.!?…])["”')\]]*\s+(?=[A-Z"“'([])/)
     .map((sentence) => sentence.trim())
     .filter((sentence) => /[a-z]/i.test(sentence));
 }
