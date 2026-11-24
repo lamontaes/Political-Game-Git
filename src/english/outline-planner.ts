@@ -23,6 +23,11 @@
  */
 import outlineData from "../../data/english/outlines.json" with { type: "json" };
 import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
+import outlineCallBank from "../../data/english/parts/outline-call.json" with { type: "json" };
+import outlineThemeBank from "../../data/english/parts/outline-theme.json" with { type: "json" };
+import outlineDiaryBank from "../../data/english/parts/outline-diary.json" with { type: "json" };
+import outlineTalkBank from "../../data/english/parts/outline-talk.json" with { type: "json" };
+import outlineNewsBank from "../../data/english/parts/outline-news.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import { stableHash } from "../core2/kernel/ids";
 import { admittedParts, directorSlots } from "./bank-parts";
@@ -149,13 +154,18 @@ interface TellingPart {
 }
 
 /** Every piece of the planner's bank, as written (the address record re-says its pieces from these). */
-export const OUTLINE_BANK_PARTS: readonly TellingPart[] = (
-  outlineBank as unknown as { parts: TellingPart[] }
-).parts;
+export const OUTLINE_BANK_PARTS: readonly TellingPart[] = [
+  outlineBank,
+  // Each Story writer's own bank (owner, Nov 24: more Story writers), so
+  // their branches never meet in one file; the planner reads them as one.
+  outlineCallBank,
+  outlineThemeBank,
+  outlineDiaryBank,
+  outlineTalkBank,
+  outlineNewsBank,
+].flatMap((bank) => (bank as unknown as { parts: TellingPart[] }).parts);
 
-const PARTS: readonly TellingPart[] = admittedParts(
-  (outlineBank as unknown as { parts: TellingPart[] }).parts,
-);
+const PARTS: readonly TellingPart[] = admittedParts(OUTLINE_BANK_PARTS);
 
 export type TellingFacts = Readonly<
   Record<string, GroundedEnglishFact | undefined>

@@ -1,0 +1,538 @@
+{
+  "schema": "english-parts/1",
+  "register": "outline-diary",
+  "description": "The Journal's first evening (watched, stance, said, mine, ahead), written by the diary writer under the Story lead's spec (docs/story/writer-spec.md).",
+  "slots": {
+    "term-left": "the time left in the speaker's term, in words (\"four years\"), from the term's record",
+    "theme-name": "the speech's theme said as people say it (speech-outlines.json themeNames), from the planner's theme",
+    "theme-short": "the theme said short (speech-outlines.json themeShort)",
+    "run-span": "how long the economy's run lasted, in words, from the macro months (address-story.ts)",
+    "the-disaster": "the year's worst declared disaster as people say it after 'the' (outlines.json disasterWords), from the national events engine's row",
+    "about": "the policy question's spoken noun phrase (question-names.json)",
+    "to": "the policy question's spoken verb phrase",
+    "law-name": "the law in force or proposed, named (question-names.json law)",
+    "other-side": "what the other side of the speaker's stand wants done, as a verb phrase",
+    "belief": "the speaker's reason on the question, as a clause (question-names.json reasons)",
+    "belief-sentence": "the same reason as its own sentence",
+    "today": "how the question stands today, said from the speaker's side, as a sentence",
+    "today-clause": "the same, as a clause that ends the sentence",
+    "the-vice-president": "the Vice President by office and name, from the officials engine's seat",
+    "president": "the President, said by the said-as reader (role first, then pronoun)",
+    "president-object": "the President in the object case",
+    "said": "what the President's point was about, as people say it",
+    "decider": "who decides it (Congress), from said-as",
+    "place": "the speaker's town",
+    "employer": "the speaker's employer, through the said-as reader",
+    "born-year": "the year the player was born, from the birth record",
+    "school-year": "the year the player first started school",
+    "school-place": "the town the player first went to school in",
+    "moved-year": "the year the player's household moved",
+    "moved-from": "the town they moved from",
+    "moved-to": "the town they moved to",
+    "finished-year": "the year the player finished high school",
+    "college-year": "the year the player started college",
+    "lost-office": "the office the player ran for and lost, as people say it",
+    "lost-year": "the year of that race",
+    "lost-votes": "the player's votes in it, as a number",
+    "winner-votes": "the winner's votes in it",
+    "start-month": "the month the game opens",
+    "start-year": "the year the game opens",
+    "state": "the player's state, as a sentence says it",
+    "president-name": "the President's full name, from the officials engine",
+    "we": "the household members who watched and the player, as the subject of a sentence (\"Joe, Ann and I\")",
+    "us": "the same, as its object (\"Joe, Ann and me\")",
+    "name": "the person's full name, from the record",
+    "surname": "the person's family name, from the record",
+    "date": "the day as a news story says it",
+    "quote": "the line of the address a reader can quote, from the address's record",
+    "body": "the body that voted, as its record names it",
+    "law": "the bill or law by its name, never its number",
+    "purpose": "what the bill does, as a noun phrase from the bill catalog",
+    "count": "the vote count in words and figures (\"3 to 2\")"
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "outline-diary.said.journal-evening-most-of-it-was-about",
+      "move": "said",
+      "kind": "written",
+      "text": "Most of it was about {theme-name}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-on-i-think-the-president-has-it-right",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, I think the President has it right.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-on-i-think-the-president-has-it-wrong",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, I think the President has it wrong.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-can-t-tell-yet-what-i-think-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I can't tell yet what I think about {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-unsure"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-agreed-with-more-of-it-than-i-expected-to-mostly-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I agreed with more of it than I expected to, mostly on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tomorrow-i-start-working-out-where-i-fit-in",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow I start working out where I fit in {place}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-will-still-be-here-in-the-morning-and-so-will-i",
+      "move": "ahead",
+      "kind": "written",
+      "text": "{place} will still be here in the morning, and so will I.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-calm"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-caught-s-speech-on-the-news-tonight",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} caught {president-name}'s speech on the news tonight.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-had-the-news-on-after-supper-for-s-first-speech-as-presid",
+      "move": "watched",
+      "kind": "written",
+      "text": "We had the news on after supper, {us}, for {president-name}'s first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["us", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-affectionate",
+        "personality-v1:facet-nostalgic"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-the-whole-house-sat-down-for-s-speech-on-the-news-tonight",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house sat down for {president-name}'s speech on the news tonight.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-affectionate",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-i-watched-s-speech-on-the-news-tonight-by-myself",
+      "move": "watched",
+      "kind": "written",
+      "text": "I watched {president-name}'s speech on the news tonight, by myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-came-out-against",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President came out against {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-came-out-for",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President came out for {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-everybody-was-home-for-s-first-speech-tonight-so-we-watched-it-together",
+      "move": "watched",
+      "kind": "written",
+      "text": "Everybody was home for {president-name}'s first speech tonight, so we watched it together.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-the-news-ran-s-speech-after-supper-and-nobody-in-the-house-changed-the-channel",
+      "move": "watched",
+      "kind": "written",
+      "text": "The news ran {president-name}'s speech after supper, and nobody in the house changed the channel.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-i-ll-find-out-tomorrow-what-makes-of-it",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I'll find out tomorrow what {place} makes of it.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-wants",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President wants {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-is-against",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President is against {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-means-to-keep",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President means to keep {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-wants-to-get-rid-of",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President wants to get rid of {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-the-speech-stayed-on-most-of-the-time",
+      "move": "said",
+      "kind": "written",
+      "text": "The speech stayed on {theme-name} most of the time.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-m-with-the-president-on-for-what-that-s-worth",
+      "move": "mine",
+      "kind": "written",
+      "text": "I'm with the President on {theme-short}, for what that's worth.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-on-the-president-lost-me",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, the President lost me.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-didn-t-buy-it-not-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I didn't buy it, not on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    }
+  ]
+}

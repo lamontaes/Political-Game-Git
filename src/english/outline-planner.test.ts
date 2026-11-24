@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
-import { partsOf, tell, tellFully, type TellingFacts } from "./outline-planner";
+import {
+  OUTLINE_BANK_PARTS,
+  partsOf,
+  tell,
+  tellFully,
+  type TellingFacts,
+} from "./outline-planner";
 
 /**
  * The one outline planner (the Story lead, Nov 24, 2026; owner, Nov 23:
@@ -57,11 +62,7 @@ const told = (traits: Record<string, number>, key = "moment") =>
 
 describe("the outline planner", () => {
   it("lets a piece that leans on the sentence before it play only after the moves it names", () => {
-    const parts = (
-      outlineBank as unknown as {
-        parts: { key: string; text: string; after?: string[] }[];
-      }
-    ).parts;
+    const parts = OUTLINE_BANK_PARTS;
     const leaning = /^(?:That|That's|It|It's|This|These|Those|So|And|Not me)\b/;
     for (const part of parts)
       if (leaning.test(part.text))
