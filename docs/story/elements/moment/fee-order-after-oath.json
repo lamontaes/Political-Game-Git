@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An incoming executive has made a fee pledge and the fee is in force."
+  ],
+  "weights": [
+    "An approaching collection date increases pressure for an early decision."
+  ],
   "usedBy": [],
   "inGame": "needs: a signed fee order and its effective date.",
   "turns": [

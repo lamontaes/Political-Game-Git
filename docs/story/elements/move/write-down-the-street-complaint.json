@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}", "{issue}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A resident raises a specific service problem with an official away from the office."
+  ],
+  "weights": ["An exact location makes a direct referral more likely."],
   "usedBy": [],
   "inGame": "needs: a complaint's intake and assigned office.",
   "turns": [

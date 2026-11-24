@@ -9,8 +9,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Residents have experienced a snow response and an incumbent faces an election."
+  ],
+  "weights": [
+    "Longer recorded clearance times on a resident's block give the complaint more weight."
+  ],
   "usedBy": [],
   "inGame": "needs: voter accounts of street clearance by neighborhood.",
   "turns": [

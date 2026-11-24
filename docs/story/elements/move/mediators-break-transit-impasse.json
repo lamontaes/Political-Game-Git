@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Transit service is disrupted and both sides have received a mediated proposal."
+  ],
+  "weights": [
+    "More days without service add pressure to consider an interim agreement."
+  ],
   "usedBy": [],
   "inGame": "needs: ratification and resumption of transit service.",
   "turns": [

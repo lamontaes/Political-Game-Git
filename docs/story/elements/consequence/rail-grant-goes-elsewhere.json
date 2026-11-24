@@ -6,8 +6,10 @@
   "sources": ["https://en.wikipedia.org/wiki/Scott_Walker_(politician)"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A rail grant has been offered and may be reassigned if declined."],
+  "weights": [
+    "An approaching acceptance deadline gives a revised offer less time to succeed."
+  ],
   "usedBy": [],
   "inGame": "needs: the disposition of a declined grant.",
   "turns": [

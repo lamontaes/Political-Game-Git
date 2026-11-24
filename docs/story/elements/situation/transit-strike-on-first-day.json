@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A transit agreement is expiring as an incoming executive takes office."
+  ],
+  "weights": [
+    "An unresolved ratification vote increases uncertainty about first-day service."
+  ],
   "usedBy": [],
   "inGame": "needs: service interruptions across a change of administration.",
   "turns": [

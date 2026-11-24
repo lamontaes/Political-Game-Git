@@ -6,8 +6,12 @@
   "sources": ["https://www.pressherald.com/?p=6372281"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A seat is vacant and the first appointment ballot produced no winner."
+  ],
+  "weights": [
+    "A single vote separating finalists increases the effect of a switch."
+  ],
   "usedBy": [],
   "inGame": "needs: successive votes on filling a council vacancy.",
   "turns": [

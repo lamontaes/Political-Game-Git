@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{office}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An executive order assigns an inquiry that needs records held by other offices."
+  ],
+  "weights": [
+    "More agencies holding relevant documents favor explicit access provisions."
+  ],
   "usedBy": [],
   "inGame": "needs: the records an executive inquiry may obtain.",
   "turns": [

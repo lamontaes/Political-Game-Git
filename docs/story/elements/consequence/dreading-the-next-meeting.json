@@ -6,8 +6,12 @@
   "sources": ["https://www.eastvillagemagazine.org/?p=38277"],
   "fits": ["office", "journal", "news", "home"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A member has described distress about returning to a scheduled meeting."
+  ],
+  "weights": [
+    "A contentious matter returning to the agenda can increase the member's reluctance."
+  ],
   "usedBy": [],
   "inGame": "needs: a member's reported reason for requesting leave.",
   "turns": [

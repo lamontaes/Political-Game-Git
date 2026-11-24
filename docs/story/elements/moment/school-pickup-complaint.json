@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "home"],
   "slots": ["{issue}", "{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A resident and the official are at school pickup and a local issue concerns the resident."
+  ],
+  "weights": ["A personal or confidential concern favors a private follow-up."],
   "usedBy": [],
   "inGame": "needs: where and when a constituent raised an issue.",
   "turns": [

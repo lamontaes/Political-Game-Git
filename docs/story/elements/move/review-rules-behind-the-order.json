@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An executive policy change requires agencies to examine their existing rules."
+  ],
+  "weights": [
+    "More agencies working under different rules favor a joint review."
+  ],
   "usedBy": [],
   "inGame": "needs: recommendations for changing agency regulations.",
   "turns": [

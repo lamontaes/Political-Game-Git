@@ -9,8 +9,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A contract payment is due and the city has authority to review its conditions."
+  ],
+  "weights": [
+    "A larger discrepancy in subcontracting records favors closer review."
+  ],
   "usedBy": [],
   "inGame": "needs: the conditions for releasing a contract payment.",
   "turns": [

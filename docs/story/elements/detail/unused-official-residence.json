@@ -6,8 +6,10 @@
   "sources": ["https://en.wikipedia.org/wiki/Jerry_Brown"],
   "fits": ["office", "journal", "news", "home"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["An official residence is available to the incoming executive."],
+  "weights": [
+    "An established family home nearby favors keeping the private residence."
+  ],
   "usedBy": [],
   "inGame": "needs: occupancy and costs of an official residence.",
   "turns": [

@@ -6,8 +6,12 @@
   "sources": ["https://en.wikipedia.org/wiki/Kathleen_Blanco"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "State and federal officials have proposed a change in command during a storm."
+  ],
+  "weights": [
+    "A history of joint operations favors coordinating through officers both sides know."
+  ],
   "usedBy": [],
   "inGame": "needs: who holds command during a joint response.",
   "turns": [

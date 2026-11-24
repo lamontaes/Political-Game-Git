@@ -6,8 +6,8 @@
   "sources": ["https://en.wikipedia.org/wiki/Scott_Walker_(politician)"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A declined rail grant leaves identified work outstanding."],
+  "weights": ["More urgent defects give immediate repairs higher priority."],
   "usedBy": [],
   "inGame": "needs: who pays for outstanding rail repairs.",
   "turns": [

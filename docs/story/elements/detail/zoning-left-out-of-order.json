@@ -9,8 +9,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A proposed change affects local permit authority while zoning follows a separate process."
+  ],
+  "weights": [
+    "A pending zoning dispute increases attention to the boundary between the two powers."
+  ],
   "usedBy": [],
   "inGame": "needs: the scope of local permitting authority.",
   "turns": [

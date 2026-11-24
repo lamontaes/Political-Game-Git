@@ -9,8 +9,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A public project with participation commitments has reached closeout."
+  ],
+  "weights": [
+    "Disputed invoices increase the likelihood that staff reopen the accounting."
+  ],
   "usedBy": [],
   "inGame": "needs: participation by firm in completed contracts.",
   "turns": [

@@ -6,8 +6,12 @@
   "sources": ["https://en.wikipedia.org/wiki/Chris_Christie"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Governments led by different parties took part in the same storm response."
+  ],
+  "weights": [
+    "A recent delivery that residents can see favors public acknowledgment."
+  ],
   "usedBy": [],
   "inGame": "needs: who received credit for disaster assistance.",
   "turns": [

@@ -6,8 +6,12 @@
   "sources": ["https://en.wikipedia.org/wiki/Gray_Davis"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A serving executive is away campaigning while office business is due."
+  ],
+  "weights": [
+    "More days away give greater weight to delegating routine decisions."
+  ],
   "usedBy": [],
   "inGame": "needs: delegated duties during executive travel.",
   "turns": [

@@ -6,8 +6,12 @@
   "sources": ["https://en.wikipedia.org/wiki/Kathleen_Blanco"],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The governor is considering outside help for a recorded disaster."
+  ],
+  "weights": [
+    "A larger gap between state resources and assessed needs favors a formal request."
+  ],
   "usedBy": [],
   "inGame": "needs: receipt of a formal aid request.",
   "turns": [
