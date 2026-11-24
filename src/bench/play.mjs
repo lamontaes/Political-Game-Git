@@ -3067,6 +3067,26 @@ async function fitCard(root) {
     panel.getBoundingClientRect().bottom -
     parseFloat(getComputedStyle(panel).paddingBottom) -
     8;
+  // A short middle column beside a long story leaves an empty block under it
+  // (Replay on #10337, Nov 24, the sheriff's card): the story then stands
+  // under the sections in one wide column, whole, in the order it was told.
+  const split = root.querySelector(".mx3cols:not(.one)");
+  const [front, back] = split ? split.querySelectorAll(".mx3col") : [];
+  // Each column's text, not the section stretched to the panel's foot.
+  const filled = (column) =>
+    Math.max(
+      0,
+      ...[...column.querySelectorAll("p, .dotrow, h3, .perk")].map(
+        (mark) =>
+          mark.getBoundingClientRect().bottom -
+          column.getBoundingClientRect().top,
+      ),
+    );
+  if (back && filled(front) * 2 < filled(back)) {
+    front.append(...back.children);
+    back.remove();
+    split.classList.add("one");
+  }
   const runsPast = () =>
     [...root.querySelectorAll(".mx3left, .mx3col")].some((column) =>
       [...column.querySelectorAll(".mxbust, p, .dotrow, h3, .perk")].some(
