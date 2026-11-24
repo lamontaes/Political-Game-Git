@@ -2,8 +2,9 @@
   "id": "job-seeker-explains-their-savings-are-running-out",
   "kind": "voice",
   "summary": "A constituent explains how long they have been out of work and what that has done to their savings.",
-  "realLife": "owner, Nov 15: A job seeker’s account can bring the household cost into office hours.",
+  "realLife": "In December 2013 Carol Shea-Porter read the House a letter from a constituent who had used up her savings after a layoff. The writer had applied for hundreds of jobs and feared losing her home when unemployment payments stopped.",
   "sources": [
+    "https://www.govinfo.gov/content/pkg/CRECB-2013-pt13/pdf/CRECB-2013-pt13.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L163"
   ],
   "inGame": "needs: recorded jobless duration and savings change together in office-hours facts.",
@@ -18,6 +19,12 @@
       "what": "The job seeker gives the date their rent is due and keeps their balance private.",
       "pulledBy": "The office asks what makes the case urgent and the constituent sets a boundary.",
       "writesBack": "The file records the deadline without a savings figure."
+    },
+    {
+      "turn": "late",
+      "what": "Between the first visit and the promised callback, the applicant gets a start date but still faces rent before the first paycheck.",
+      "pulledBy": "The employer’s offer gives the first pay date, and the rent notice falls earlier.",
+      "writesBack": "The caseworker closes the job-search request and asks whether the resident wants help with the gap in income."
     }
   ]
 }

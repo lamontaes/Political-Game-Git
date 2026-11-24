@@ -2,8 +2,9 @@
   "id": "explain-vote-by-district-opinion",
   "kind": "voice",
   "summary": "A member tells a reporter how constituents stand on the question behind the vote.",
-  "realLife": "owner, Nov 14: The player may explain a vote by referring to the electorate’s position.",
+  "realLife": "After voting against the first House bank rescue bill in 2008, Henry Cuellar reported that most constituents who contacted him opposed it. He also described separate conversations with local business and finance leaders who still had questions.",
   "sources": [
+    "https://cuellar.house.gov/news/email/show.aspx?ID=NANS7AU3BBUNFTIQFJIOX5SE3Y",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L30"
   ],
   "inGame": "electorateSides supplies shares on the question for the press-comment variant.",
@@ -18,6 +19,12 @@
       "what": "The member describes the disagreement they heard at two district meetings.",
       "pulledBy": "The meetings produced conflicting views and there is no districtwide count.",
       "writesBack": "The interview attributes each view to a meeting."
+    },
+    {
+      "turn": "opposite",
+      "what": "A caller who backed the measure asks why the member counted her among its opponents.",
+      "pulledBy": "Her message supported the bill, and the office’s summary described only the majority of messages received.",
+      "writesBack": "The member acknowledges her position and asks staff to give both counts in the next district letter."
     }
   ]
 }
