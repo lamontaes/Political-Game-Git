@@ -27,5 +27,6 @@
       "pulledBy": "Available staff can cover urgent care only.",
       "writesBack": "The hospital schedule records which appointments were postponed."
     }
-  ]
+  ],
+  "issues": ["budget:healthAndHospitals"]
 }

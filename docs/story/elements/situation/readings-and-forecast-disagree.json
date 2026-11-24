@@ -29,5 +29,6 @@
       "pulledBy": "A second observation resolves the disputed trend.",
       "writesBack": "The updated briefing retains the earlier disagreement and its resolution."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
