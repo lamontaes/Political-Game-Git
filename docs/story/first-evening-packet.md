@@ -13,25 +13,25 @@ This is the first evening as a new player meets it, in six drawn places: the thr
 - **P5 and P6, "a little sarcastic ... still not written as a story":** the loading card tells your life as a short, dry story, one sentence at each year your records hold, with no headline rows.
 - **P7 and P19, two arrival lines:** one is left. It names the day and that the news is replaying the President's noon speech.
 - **The talk at home:** a housemate who watched says what the President came out for or against and where they stand. Their reason follows their side.
-- **P43, "The journal is still a list of facts":** the Journal's first page ends on that evening as one diary entry. It says your side only where you said it at the table.
+- **P43, "The journal is still a list of facts":** the Journal's first page ends on that evening as one diary entry, in one of two shapes by your traits. It says your side only where you said it at the table. Your town titles one chapter, never two.
 - **P45, "These aren't stories":** a law that changed nothing no longer prints. The address's story has a lede, what comes next and a quote, and a vote story names the law and what it does.
 
 ## Not fixed yet
 
 - **The news:** other states' law notices, the same story from several outlets, and profiles with no body. These come from the press desk, which Account lead Labor is tracing.
-- **The talk in two of six houses** isn't about the address (Whitmore Village; Chipley's father), and two reply sets offer one reply. The Coordinator has those traced.
+- **The talk in two of six houses** isn't about the address (Whitmore Village; Chipley's father): the game opens a housemate's talk with no occasion, and this packet now opens it the same way, so it shows what you'd see. The fix is with Stuck fixes. Two reply sets offer one reply; Fixer A has those.
 - **The older Journal lines** ("I could vote.") and the housemate's second turn are the old bank.
 - **The State of the State on January 22** keeps the old shapes until you pass this evening.
 
 The pre-grades are on branch story/first-evening-pregrade (round 3: 132 of 331 at 2846615, calibration 16 of 16).
 
-How it was made: branch `story/first-evening` at head 4001877, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
+How it was made: branch `story/first-evening` at head d5edd47, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
 
 # First evening packet
 
 Answer by number: 2.3 means place 2, line 3.
 
-## Place 1: Meadow, Utah, seed aecea4, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+## Place 1: Meadow, Utah, seed aecea4, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -81,53 +81,69 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.20** answer: Now if Congress sees it that way, we're fine.
 
+**1.21** With Sean Garner ()
+
+**1.22** says: Did Rosales Family Clinic keep you late today?
+
+**1.23** reply 1: It was a smooth one at work today.
+
+**1.24** reply 2: Don't ask how work went today.
+
+**1.25** reply 3: Just a day at work, that's all.
+
+**1.26** reply 4: Work took everything I had today.
+
+**1.27** after reply 1 ("It was a smooth one at work today."):
+
+**1.28** answer: Glad work went easy on you today.
+
 ### The Journal
 
-**1.21** Chapter: Meadow, Utah
+**1.29** Chapter: Meadow, Utah
 
-**1.22** Meadow, Utah is where I was born. My mother Cora and my father Sean raised me.
+**1.30** Meadow, Utah is where I was born. My mother Cora and my father Sean raised me.
 
-**1.23** At 5 years old, I began school at Meadow Public Schools.
+**1.31** At 5 years old, I began school at Meadow Public Schools.
 
-**1.24** My father is a fire chief at the Town of Meadow. My mother works as an aide at Millard County.
+**1.32** My father is a fire chief at the Town of Meadow. My mother works as an aide at Millard County.
 
-**1.25** Chapter: Monday, January 20
+**1.33** Chapter: Monday, January 20
 
-**1.26** We had the news on after supper, Cora, Sean and me, for Christine Simon's first speech as President. Most of it was about what families pay in taxes. The President came out for a higher top income tax rate. I agreed with more of it than I expected to, mostly on taxes. Tomorrow I start working out where I fit in Meadow.
+**1.34** The President wants a higher top income tax rate. The speech stayed on what families pay in taxes most of the time.
 
 ### The news
 
-**1.27** Story: Kristen Watkins meets residents (KTCS-TV)
+**1.35** Story: Kristen Watkins meets residents (KTCS-TV)
 
-**1.28** paragraph: Kristen Watkins met residents at a town hall on January 10, 2025.
+**1.36** paragraph: Kristen Watkins met residents at a town hall on January 10, 2025.
 
-**1.29** Story: Dawn Spears voted for Vance Construction contract (KTCS-TV)
+**1.37** Story: Dawn Spears voted for Vance Construction contract (KTCS-TV)
 
-**1.30** paragraph: The records say Dawn Spears voted on a public contract for a firm with personal ties.
+**1.38** paragraph: The records say Dawn Spears voted on a public contract for a firm with personal ties.
 
-**1.31** Story: Second time Dawn Spears votes on Vance Construction contract (KTCS-TV)
+**1.39** Story: Second time Dawn Spears votes on Vance Construction contract (KTCS-TV)
 
-**1.32** paragraph: Records show Dawn Spears voted on a contract for Vance Construction for the second time.
+**1.40** paragraph: Records show Dawn Spears voted on a contract for Vance Construction for the second time.
 
-**1.33** Story: Walker Manufacturing now open (KTCS-TV)
+**1.41** Story: Walker Manufacturing now open (KTCS-TV)
 
-**1.34** paragraph: Kendall Walker has opened Walker Manufacturing in Meadow.
+**1.42** paragraph: Kendall Walker has opened Walker Manufacturing in Meadow.
 
-**1.35** paragraph: It employs five.
+**1.43** paragraph: It employs five.
 
-**1.36** Story: Adams Stone and Gravel welcomes first customers (KTCS-TV)
+**1.44** Story: Adams Stone and Gravel welcomes first customers (KTCS-TV)
 
-**1.37** paragraph: Adams Stone and Gravel began business with three on staff.
+**1.45** paragraph: Adams Stone and Gravel began business with three on staff.
 
-**1.38** paragraph: The business is Tammy Adams's.
+**1.46** paragraph: The business is Tammy Adams's.
 
-**1.39** Story: More break-ins in Meadow (KTCS-TV)
+**1.47** Story: More break-ins in Meadow (KTCS-TV)
 
-**1.40** paragraph: Meadow had more break-ins this month than last.
+**1.48** paragraph: Meadow had more break-ins this month than last.
 
-**1.41** paragraph: The number for robberies was up as well.
+**1.49** paragraph: The number for robberies was up as well.
 
-## Place 2: Chipley, Florida, seed 66265b, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+## Place 2: Chipley, Florida, seed 66265b, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -165,81 +181,93 @@ Answer by number: 2.3 means place 2, line 3.
 
 **2.14** With Logan Gallegos ()
 
-**2.15** says: So the President is dead set against a cap on consumer loan interest. She has that one right. You?
+**2.15** says: Since you ask, I'm for paid family leave.
 
-**2.16** reply 1: I'm with you on that, Dad.
+**2.16** reply 1: Why say that?
 
-**2.17** reply 2: I'd push back on her there.
+**2.17** reply 2: Exactly right.
 
-**2.18** after reply 1 ("I'm with you on that, Dad."):
+**2.18** after reply 1 ("Why say that?"):
 
-**2.19** answer: I've said it before: I don't want it.
+**2.19** answer: Pay's thin.
 
 **2.20** With Maria Gallegos ()
 
-**2.21** says: Here's my side: I'm for a higher federal minimum wage.
+**2.21** says: I've said it before: I want a higher federal minimum wage.
 
-**2.22** reply 1: What's behind that?
+**2.22** reply 1: Why that way?
 
 **2.23** reply 2: Couldn't agree more.
 
-**2.24** after reply 1 ("What's behind that?"):
+**2.24** after reply 1 ("Why that way?"):
 
-**2.25** answer: Do the math.
+**2.25** answer: Money's tight.
+
+**2.26** With Luke Gallegos ()
+
+**2.27** says: The President wants nothing to do with a cap on consumer loan interest. Good. I don't think we should pass it either. Where are you on interest rates on loans?
+
+**2.28** reply 1: You're right about that, Luke.
+
+**2.29** reply 2: I think she has that wrong.
+
+**2.30** after reply 1 ("You're right about that, Luke."):
+
+**2.31** answer: I've said it before: I don't want a cap on consumer loan interest.
 
 ### The Journal
 
-**2.26** Chapter: Chipley, Florida
+**2.32** Chapter: Chipley, Florida
 
-**2.27** Chipley, Florida is where I was born. My father Logan and my mother Maria brought me up. My brothers Connor and Cody are older than I am. My brothers Noah and Luke came after me.
+**2.33** Chipley, Florida is where I was born. My father Logan and my mother Maria brought me up. My brothers Connor and Cody are older than I am. My brothers Noah and Luke came after me.
 
-**2.28** When I was 5, my first school was Chipley Public Schools.
+**2.34** When I was 5, my first school was Chipley Public Schools.
 
-**2.29** My father left Barnes and Associates for Snow's Kitchen when I was 12. My mother has a job at Gonzales Manufacturing as a production worker.
+**2.35** My father left Barnes and Associates for Snow's Kitchen when I was 12. My mother has a job at Gonzales Manufacturing as a production worker.
 
-**2.30** I could vote.
+**2.36** I could vote.
 
-**2.31** Chapter: Monday, January 20
+**2.37** Chapter: Monday, January 20
 
-**2.32** The whole house sat down for Barbara Newton's speech on the news tonight. Most of it was about how families are treated when they buy and borrow. The President came out against a cap on consumer loan interest. On fair lending, I think the President has it right. Tomorrow I start working out where I fit in Chipley.
+**2.38** The President is against a cap on consumer loan interest. Most of it was about how families are treated when they buy and borrow. I agreed with more of it than I expected to, mostly on fair lending. I'll find out tomorrow what Chipley makes of it.
 
 ### The news
 
-**2.33** Story: Anti-Discrimination Repeal Act starts (Keystone News Network)
+**2.39** Story: Anti-Discrimination Repeal Act starts (Keystone News Network)
 
-**2.34** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.40** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.35** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.41** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.36** Story: Anti-Discrimination Repeal Act starts (The Crossroads)
+**2.42** Story: Anti-Discrimination Repeal Act starts (The Crossroads)
 
-**2.37** paragraph: The Anti-Discrimination Repeal Act went into force on January 12, 2025.
+**2.43** paragraph: The Anti-Discrimination Repeal Act went into force on January 12, 2025.
 
-**2.38** paragraph: The law concerns an end to the ban on discrimination in housing and work.
+**2.44** paragraph: The law concerns an end to the ban on discrimination in housing and work.
 
-**2.39** Story: Joe McCoy up close (The Crossroads)
+**2.45** Story: Joe McCoy up close (The Crossroads)
 
-**2.40** Story: Anti-Discrimination Repeal Act now applies in New York (The Continental Dispatch)
+**2.46** Story: Anti-Discrimination Repeal Act now applies in New York (The Continental Dispatch)
 
-**2.41** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.47** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.42** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.48** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.43** Story: Anti-Discrimination Repeal Act now applies in New York (Plain Speaking Show)
+**2.49** Story: Anti-Discrimination Repeal Act now applies in New York (Plain Speaking Show)
 
-**2.44** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.50** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.45** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.51** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.46** Story: Tara Fisher gets speaker (WZEC-TV)
+**2.52** Story: Tara Fisher gets speaker (WZEC-TV)
 
-**2.47** paragraph: The Florida House of Representatives picked Tara Fisher for speaker.
+**2.53** paragraph: The Florida House of Representatives picked Tara Fisher for speaker.
 
-**2.48** paragraph: James Drake will lead the majority.
+**2.54** paragraph: James Drake will lead the majority.
 
-**2.49** paragraph: Judy Marshall will lead the minority.
+**2.55** paragraph: Judy Marshall will lead the minority.
 
-## Place 3: Bethel, Maine, seed bd3806, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+## Place 3: Bethel, Maine, seed bd3806, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -301,7 +329,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.25** Chapter: Monday, January 20
 
-**3.26** The whole house sat down for Jennifer Willis's speech on the news tonight. The President came out for a higher federal minimum wage. Most of it was about what work pays. On pay, I think the President has it wrong. Bethel will still be here in the morning, and so will I.
+**3.26** The whole house sat down for Jennifer Willis's speech on the news tonight. The President means to keep a higher federal minimum wage. Most of it was about what work pays.
 
 ### The news
 
@@ -337,7 +365,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.42** paragraph: Campaign contribution limit for governor races was signed into law on November 28, 2024.
 
-## Place 4: Whitmore Village, Hawaii, seed 2d2283, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+## Place 4: Whitmore Village, Hawaii, seed 2d2283, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -375,65 +403,79 @@ Answer by number: 2.3 means place 2, line 3.
 
 **4.14** With Michael Hutchinson ()
 
-**4.15** says: So the President means to keep limits on power plant carbon. He finally said what I've been thinking. What'd you think?
+**4.15** says: Here's my side: I'm for collective bargaining for public workers.
 
-**4.16** reply 1: Same here, Dad.
+**4.16** reply 1: What's behind that?
 
-**4.17** reply 2: I'd push back on him there.
+**4.17** reply 2: Exactly right.
 
-**4.18** after reply 1 ("Same here, Dad."):
+**4.18** after reply 1 ("What's behind that?"):
 
-**4.19** answer: I stand with it, plain and simple.
+**4.19** answer: Pay's thin.
+
+**4.20** With Jaden Hutchinson ()
+
+**4.21** says: Did you read about civilian oversight of the police?
+
+**4.22** reply 1: Yes, I read about it.
+
+**4.23** reply 2: I'd vote for it myself.
+
+**4.24** after reply 1 ("Yes, I read about it."):
+
+**4.25** answer: I'd back it myself.
 
 ### The Journal
 
-**4.20** Chapter: Before Whitmore Village, Hawaii
+**4.26** Chapter: Whitmore Village, Hawaii
 
-**4.21** My father Michael and my parent Jaden brought me up. My sister Stella is younger than I am.
+**4.27** My father Michael and my parent Jaden brought me up. My sister Stella is younger than I am.
 
-**4.22** Chapter: Whitmore Village, Hawaii
+**4.28** At 9 years old, I moved to Whitmore Village, Hawaii.
 
-**4.23** At 9 years old, I moved to Whitmore Village, Hawaii.
+**4.29** At 10 years old, I started at Whitmore Village Public Schools.
 
-**4.24** At 10 years old, I started at Whitmore Village Public Schools.
+**4.30** My father works as a bus driver at the Whitmore Village Public Works Department.
 
-**4.25** My father works as a bus driver at the Whitmore Village Public Works Department.
+**4.31** I could vote.
 
-**4.26** I could vote.
+**4.32** Chapter: Monday, January 20
 
-**4.27** Chapter: Monday, January 20
-
-**4.28** The whole house sat down for Robert Fletcher's speech on the news tonight. The President came out for limits on power plant carbon. On energy, I think the President has it right. Tomorrow I start working out where I fit in Whitmore Village.
+**4.33** Everybody was home for Robert Fletcher's first speech tonight, so we watched it together. The President means to keep limits on power plant carbon. Most of it was about the power we use and what it costs. Whitmore Village will still be here in the morning, and so will I.
 
 ### The news
 
-**4.29** Story: Clean Electricity Standard Repeal Act starts (Beacon News Network)
+**4.34** Story: Clean Electricity Standard Repeal Act starts (Beacon News Network)
 
-**4.30** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
+**4.35** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
 
-**4.31** paragraph: It is about an end to the clean electricity requirement.
+**4.36** paragraph: It is about an end to the clean electricity requirement.
 
-**4.32** Story: Clean Electricity Standard Repeal Act starts (The Lantern)
+**4.37** Story: Clean Electricity Standard Repeal Act starts (The Lantern)
 
-**4.33** paragraph: The Clean Electricity Standard Repeal Act applies in New York from January 17, 2025.
+**4.38** paragraph: The Clean Electricity Standard Repeal Act applies in New York from January 17, 2025.
 
-**4.34** paragraph: The law concerns an end to the clean electricity requirement.
+**4.39** paragraph: The law concerns an end to the clean electricity requirement.
 
-**4.35** Story: About Anthony Choi (The Lantern)
+**4.40** Story: About Anthony Choi (The Lantern)
 
-**4.36** Story: Public speaks on the Immigration Enforcement Partnership Ordinance (Whitmore Village Tribune)
+**4.41** Story: Clean Electricity Standard Repeal Act now applies in New York (The Federal Courier)
 
-**4.37** paragraph: Six people spoke on the Immigration Enforcement Partnership Ordinance, six in favor and zero opposed.
+**4.42** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
 
-**4.38** paragraph: Ordinance 2025-1 has to do with local police working with federal immigration enforcement.
+**4.43** paragraph: It is about an end to the clean electricity requirement.
 
-**4.39** Story: Patricia Tran meets residents (Whitmore Village Tribune)
+**4.44** Story: Public speaks on the Immigration Enforcement Partnership Ordinance (Whitmore Village Tribune)
 
-**4.40** paragraph: Council member Patricia Tran answered questions from the public on January 3, 2025.
+**4.45** paragraph: Six people spoke on the Immigration Enforcement Partnership Ordinance, six in favor and zero opposed.
 
-**4.41** Story: Meet Carolyn Bridges (The Lantern)
+**4.46** paragraph: Ordinance 2025-1 has to do with local police working with federal immigration enforcement.
 
-## Place 5: Roberts, Idaho, seed 3c42e6, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+**4.47** Story: Patricia Tran meets residents (Whitmore Village Tribune)
+
+**4.48** paragraph: Council member Patricia Tran answered questions from the public on January 3, 2025.
+
+## Place 5: Roberts, Idaho, seed 3c42e6, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -483,53 +525,51 @@ Answer by number: 2.3 means place 2, line 3.
 
 ### The Journal
 
-**5.20** Chapter: Before Roberts, Idaho
+**5.20** Chapter: Roberts, Idaho
 
 **5.21** My father Corey brought me up. My mother Angela lived in another home. My brother Christian is older than I am. My sister Amy and my brother Asher came after me.
 
-**5.22** Chapter: Roberts, Idaho
+**5.22** At the age of 10, I moved to Roberts, Idaho.
 
-**5.23** At the age of 10, I moved to Roberts, Idaho.
+**5.23** Back when I was 10, I began school at Roberts Public Schools.
 
-**5.24** Back when I was 10, I began school at Roberts Public Schools.
+**5.24** My father works as a truck driver at Rios Trucking.
 
-**5.25** My father works as a truck driver at Rios Trucking.
+**5.25** Voting age came.
 
-**5.26** Voting age came.
+**5.26** Chapter: Monday, January 20
 
-**5.27** Chapter: Monday, January 20
-
-**5.28** The whole house sat down for Daniel Rush's speech on the news tonight. The President came out against a higher federal minimum wage. Most of it was about what work pays. On pay, I think the President has it right. Tomorrow I start working out where I fit in Roberts.
+**5.27** Everybody was home for Daniel Rush's first speech tonight, so we watched it together. The President is against a higher federal minimum wage. I'll find out tomorrow what Roberts makes of it.
 
 ### The news
 
-**5.29** Story: Jerry Nash gets council president (Roberts Herald)
+**5.28** Story: Jerry Nash gets council president (Roberts Herald)
 
-**5.30** paragraph: Jerry Nash is council president of the Jefferson County Board of Commissioners from here on.
+**5.29** paragraph: Jerry Nash is council president of the Jefferson County Board of Commissioners from here on.
 
-**5.31** Story: Daniel Walton gets mayor pro tem (Roberts Herald)
+**5.30** Story: Daniel Walton gets mayor pro tem (Roberts Herald)
 
-**5.32** paragraph: Daniel Walton is mayor pro tem of the Roberts City Council from here on.
+**5.31** paragraph: Daniel Walton is mayor pro tem of the Roberts City Council from here on.
 
-**5.33** Story: Jerry Nash gets council president (KKGK-TV)
+**5.32** Story: Jerry Nash gets council president (KKGK-TV)
 
-**5.34** paragraph: The Jefferson County Board of Commissioners picked Jerry Nash for council president.
+**5.33** paragraph: The Jefferson County Board of Commissioners picked Jerry Nash for council president.
 
-**5.35** Story: Thomas Mann gives state address (KKGK-TV)
+**5.34** Story: Thomas Mann gives state address (KKGK-TV)
 
-**5.36** paragraph: Governor Thomas Mann gave the State of the State speech.
+**5.35** paragraph: Governor Thomas Mann gave the State of the State speech.
 
-**5.37** Story: Public meetings for the week of January 7, 2025 (Roberts Herald)
+**5.36** Story: Public meetings for the week of January 7, 2025 (Roberts Herald)
 
-**5.38** paragraph: The Jefferson County Board of Commissioners and the Roberts City Council met the week of January 7, 2025 with nothing on the agenda.
+**5.37** paragraph: The Jefferson County Board of Commissioners and the Roberts City Council met the week of January 7, 2025 with nothing on the agenda.
 
-**5.39** Story: Davidson Manufacturing welcomes first customers (Roberts Herald)
+**5.38** Story: Davidson Manufacturing welcomes first customers (Roberts Herald)
 
-**5.40** paragraph: Davidson Manufacturing began business with two on staff.
+**5.39** paragraph: Davidson Manufacturing began business with two on staff.
 
-**5.41** paragraph: Ayanna Davidson started the business.
+**5.40** paragraph: Ayanna Davidson started the business.
 
-## Place 6: Oakton, Virginia, seed d8e52e, head 40018775b3ce89089854d5147d5ca655e7eb46d4
+## Place 6: Oakton, Virginia, seed d8e52e, head d5edd4787ae6e1399493613702933155cb34be19
 
 ### Loading
 
@@ -589,7 +629,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **6.24** Chapter: Monday, January 20
 
-**6.25** The whole house sat down for Robert Sinclair's speech on the news tonight. Most of it was about what work pays. The President came out for a higher federal minimum wage. I agreed with more of it than I expected to, mostly on pay. Tomorrow I start working out where I fit in Oakton.
+**6.25** The news ran Robert Sinclair's speech after supper, and nobody in the house changed the channel. The President came out for a higher federal minimum wage. Most of it was about what work pays.
 
 ### The news
 
