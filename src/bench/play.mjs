@@ -7362,6 +7362,7 @@ function listStates() {
         b.dataset.testid = `state-${s.key}`;
         b.addEventListener("click", () => {
           setup.state = s;
+          holdCapitol(s);
           $("cr-state-name").textContent = s.name;
           $("cr-town-search").value = "";
           void showStates();
@@ -7410,6 +7411,7 @@ $("cr-place-random").addEventListener("click", async () => {
     `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
   );
   setup.state = state;
+  holdCapitol(state);
   setup.town = town;
   $("cr-state-name").textContent = state.name;
   showPlaceName();
@@ -7507,6 +7509,40 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
+/**
+ * Starts loading the chosen state's capitol the moment the state is chosen, so
+ * it is already painted when Begin shows it behind the loading card, with the
+ * place's name and not a moment after it (the Player on #9995).
+ */
+let heldCapitol = null;
+function holdCapitol(state) {
+  if (!state?.capitol || heldCapitol?.url === state.capitol) return;
+  const held = { url: state.capitol, blob: null };
+  heldCapitol = held;
+  fetch(state.capitol)
+    .then((response) => response.blob())
+    .then((blob) => {
+      held.blob = window.URL.createObjectURL(blob);
+    })
+    .catch(() => {});
+}
+/**
+ * Puts a picture behind the room and waits until the room itself can paint it,
+ * no longer than a moment, so a card that appears after it never shows an older one.
+ */
+async function showBackdrop(url) {
+  const backdrop = $("backdrop");
+  backdrop.src = url;
+  await Promise.race([
+    backdrop.decode().catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, CAPITOL_WAIT_MS)),
+  ]);
+}
+/** The longest the loading card waits for a capitol picture, in milliseconds. Engineering value. */
+const CAPITOL_WAIT_MS = 800;
+/** The picture to show for a state's capitol: the one already in hand, else its address. */
+const capitolSrc = (url) =>
+  heldCapitol?.url === url && heldCapitol.blob ? heldCapitol.blob : url;
 // One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
 // entire character"): gender, name, birthday, place and look, on the creator's seed.
 $("cr-random").addEventListener("click", async () => {
@@ -7519,6 +7555,7 @@ $("cr-random").addEventListener("click", async () => {
     `/api/creator/character?${new URLSearchParams({ seed: setup.seed, draw })}`,
   );
   setup.state = who.place.state;
+  holdCapitol(setup.state);
   setup.town = who.place.town;
   $("cr-state-name").textContent = who.place.state.name;
   showPlaceName();
@@ -7774,6 +7811,11 @@ function followBuild(bar, onStory) {
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
+  // Loading shows the player's state (owner, Nov 16): its capitol behind the
+  // card, from the state chosen in the creator, or the drawn one once known.
+  // The picture is in place before the card names the town, never after it.
+  if (placeKey && setup.state?.capitol)
+    await showBackdrop(capitolSrc(setup.state.capitol));
   frontPanel(null);
   // The creator already names the town: the card carries that name from the first step.
   const chosenName = placeKey
@@ -7782,9 +7824,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // Before the world names a place the card wears the game's name, never the last panel's.
   document.querySelector("#front > .title").textContent =
     chosenName || GAME_TITLE;
-  // Loading shows the player's state (owner, Nov 16): its capitol behind the
-  // card, from the state chosen in the creator, or the drawn one once known.
-  if (placeKey && setup.state?.capitol) $("backdrop").src = setup.state.capitol;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
@@ -7811,7 +7850,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     const loadingTitle = document.querySelector("#front > .title");
     if (loadingTitle && life.placeName)
       loadingTitle.textContent = life.placeName;
-    if (life.capitol) $("backdrop").src = life.capitol;
+    if (life.capitol) $("backdrop").src = capitolSrc(life.capitol);
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
