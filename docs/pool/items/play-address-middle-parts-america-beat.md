@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10304
 after:
 blocked-on:
 lead: play
@@ -17,6 +17,7 @@ effort: medium
 root: design-director-on-core2
 source: playtest Nov 23 row P8; the Player's post on #9995 (comment 7115790148)
 checked: sonnet 2026-11-23
+merged-at: 2026-11-24T05:16:05.249Z
 ---
 
 **What.** The address's middle beats are the House floor twice and home; the depot platform cutaway to America is gone. The owner's Oct 29 ruling has the cutaways alternate the President working with America, so a middle part should show the town. Since #10273 the beat is wrong in every life. Seen: on the address's second Continue in a new life.
