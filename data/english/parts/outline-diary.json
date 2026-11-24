@@ -1057,37 +1057,6 @@
       ]
     },
     {
-      "key": "outline-diary.watched.journal-evening-alone-was-still-at-when-spoke-so-i-watched-alone",
-      "move": "watched",
-      "kind": "written",
-      "text": "{housemate-worker} was still at {housemate-employer} when {president-name} spoke, so I watched alone.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": [
-            "housemate-worker",
-            "housemate-employer",
-            "alone",
-            "president-name"
-          ]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "names-who-else-was-listening"
-      ]
-    },
-    {
       "key": "outline-diary.ahead.journal-evening-housemate-back-at-work-tomorrow",
       "move": "ahead",
       "kind": "written",
