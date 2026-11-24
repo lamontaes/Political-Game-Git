@@ -5266,6 +5266,11 @@ select.release-pick {
   text-decoration: underline;
 }
 
+/* The journal's page takes the whole panel, so the page is never half empty (owner,
+   Nov 8 and Nov 23; N8-C32). */
+.roster-screen.journal {
+  width: 100%;
+}
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5280,7 +5285,7 @@ select.release-pick {
 }
 .journal-text .intro.lead::first-letter {
   float: left;
-  margin: 2px 8px 0 0;
+  margin: 2px 3px 0 0;
   font:
     600 var(--t-display)/0.85 "Playfair Display",
     Georgia,
