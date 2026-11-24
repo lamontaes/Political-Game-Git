@@ -1,0 +1,34 @@
+{
+  "id": "vacancy-rules-stated-flat",
+  "kind": "detail",
+  "summary": "The rules are stated flat: eligibility, how long the appointee serves, who does not vote.",
+  "realLife": "A vacancy story gave the voter, residency and age rules, the term end and that the resigning member does not vote.",
+  "sources": [
+    "Community Impact (Richardson, Texas), 'Richardson opens applications for vacant City Council seat', July 23, 2026: https://communityimpact.com/richardson/government/richardson-opens-applications-for-vacant-city-council-seat/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["number", "date"],
+  "gates": [],
+  "weights": {
+    "vacancy": 1.0
+  },
+  "inGame": "the offices table (term length, residency) and the charter rules; needs: eligibility rules on a seat",
+  "turns": [
+    {
+      "name": "a special election instead",
+      "pulledBy": "a charter that requires a vote",
+      "writes": "the story says voters decide",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a different rule by body",
+      "pulledBy": "a county board with its own rule",
+      "writes": "the story gives that body's rule",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

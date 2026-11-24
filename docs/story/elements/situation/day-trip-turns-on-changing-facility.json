@@ -1,0 +1,30 @@
+{
+  "id": "day-trip-turns-on-changing-facility",
+  "kind": "situation",
+  "summary": "A family planning a visit to {place} needs to know whether the destination has a changing station an adult can use.",
+  "realLife": "New York sponsors connected the absence of adult changing facilities with people missing trips and community events.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2026/pete-harckham/harckham-burdick-advance-accessibility-new-york"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": ["A venue, a stated access need and a dated facilities record."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a venue, a stated access need and a dated facilities record.",
+  "turns": [
+    {
+      "turn": "available",
+      "pulledBy": "The venue confirms suitable facilities.",
+      "what": "Pass along the venue's access information.",
+      "writesBack": "Record who confirmed it."
+    },
+    {
+      "turn": "unknown",
+      "pulledBy": "The facility list gives no usable answer.",
+      "what": "Ask the venue directly before the visit.",
+      "writesBack": "Keep accessibility unconfirmed."
+    }
+  ]
+}

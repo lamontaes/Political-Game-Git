@@ -1,0 +1,32 @@
+{
+  "id": "redeemed-points-change-the-price-people-actually-pay",
+  "kind": "situation",
+  "summary": "{analyst} explains why the average collected per round differs from the rate the council posted.",
+  "realLife": "Portland's operator attributed a fall in the average daily rate to players redeeming loyalty points.",
+  "sources": [
+    "https://www.portland.gov/parks/sports/documents/golf-advisory-committee-meeting-minutes-december-2025/download#page=2"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{analyst}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: posted prices, redeemed points and cash collected per round.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A higher posted fee coincides with more redemptions.",
+      "what": "The analyst separates the discount from the price increase.",
+      "writesBack": "The monthly statement shows the amount paid in cash."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A lower posted fee coincides with fewer redemptions.",
+      "what": "The analyst checks the actual receipts before estimating household savings.",
+      "writesBack": "The comparison lists both effective prices."
+    }
+  ]
+}

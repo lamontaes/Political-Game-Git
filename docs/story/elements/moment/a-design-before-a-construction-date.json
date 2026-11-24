@@ -1,0 +1,30 @@
+{
+  "id": "a-design-before-a-construction-date",
+  "kind": "moment",
+  "summary": "{resident} learns the repair already has a design but no construction date.",
+  "realLife": "Under the audited procedure, a qualifying rating led to design and a work order before a funded contract could take the site.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{resident}"],
+  "gates": ["Qualifying rating, design status and contract assignment."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: qualifying rating, design status and contract assignment.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A design is ready but no contract covers the site.",
+      "what": "Show the design and explain the wait.",
+      "writesBack": "Record the outstanding assignment.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A contractor has accepted the site.",
+      "what": "Check its routing sheet.",
+      "writesBack": "Attach the assignment to the work order.."
+    }
+  ]
+}

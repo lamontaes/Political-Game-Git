@@ -1,0 +1,31 @@
+{
+  "id": "cart-grant-precedes-first-pickup",
+  "kind": "situation",
+  "summary": "A hauler asks a public board for the carts it needs before it can promise a route.",
+  "realLife": "Delaware’s first recycling grant cycle prioritized start-up equipment and supported purchases of carts and trucks.",
+  "sources": [
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=17",
+    "https://legis.delaware.gov/BillDetail?legislationId=19844"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{hauler}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: grant authority and equipment application.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Where deposits remain, the application identifies the material expected in curbside carts alongside store returns.",
+      "pulledBy": "The application documents material remaining after dealer returns.",
+      "writesBack": "The application lists the expected curbside load."
+    },
+    {
+      "turn": "opposite",
+      "what": "When a deposit is replaced by a fee funding carts, the board checks the appropriation before making the award.",
+      "pulledBy": "A fee-funded grant has been authorized and money is available.",
+      "writesBack": "The equipment award records its funding source."
+    }
+  ]
+}

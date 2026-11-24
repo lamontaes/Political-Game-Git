@@ -30,5 +30,6 @@
       "pulledBy": "a hard budget year",
       "writes": "a tour of the shortfalls"
     }
-  ]
+  ],
+  "issues": ["budget:police", "budget:fire", "budget:highways"]
 }

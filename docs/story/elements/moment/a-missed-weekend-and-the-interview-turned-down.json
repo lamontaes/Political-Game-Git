@@ -1,0 +1,44 @@
+{
+  "id": "a-missed-weekend-and-the-interview-turned-down",
+  "kind": "moment",
+  "summary": "After missing a weekend trip home, a congressman turned down a national TV interview to be home the next week.",
+  "realLife": "A congressman with ten children, who campaigned for him and gave money unprompted, said that after missing a weekend trip home he turned down a network interview so he could go home the next week. His older daughters helped raise the younger siblings as second mothers.",
+  "sources": [
+    "https://rollcall.com/2011/08/02/lawmakers-learn-to-juggle-family-office-duty/"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the invitation}", "{the weekend}"],
+  "gates": [
+    "A seat is held at a capital away from home.",
+    "A weekend at home was missed."
+  ],
+  "weights": [
+    "Number of children",
+    "Older siblings at home",
+    "Value of the invitation to the career",
+    "Trait: family first"
+  ],
+  "inGame": "A seat held, a household with children and a legislature away from home, with a press invitation as a news hook, can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The official takes the interview and misses a second weekend.",
+      "pulledBy": "Ambition.",
+      "writesBack": "Press standing rises; a strain note at home."
+    },
+    {
+      "turn": "neutral",
+      "what": "The official goes home but takes the call from the car.",
+      "pulledBy": "A mixed pull.",
+      "writesBack": "A half-present home note."
+    },
+    {
+      "turn": "late",
+      "what": "The official regrets the choice when the interview leads to a big story.",
+      "pulledBy": "A rival who took the slot.",
+      "writesBack": "A doubt line; the rival's news standing rises."
+    }
+  ],
+  "issues": ["none"]
+}

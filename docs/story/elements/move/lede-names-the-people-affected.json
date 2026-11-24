@@ -19,12 +19,17 @@
     {
       "name": "opens on the body instead",
       "pulledBy": "a vote count that is the news (one vote, no dissent)",
-      "writes": "the lede names the body and its act first"
+      "writes": "the lede names the body and its act first",
+      "requiresFacts": ["by-one", "no-dissent"],
+      "excludesFacts": []
     },
     {
       "name": "opens on a missing group",
       "pulledBy": "a measure that hits a group that did not show up",
-      "writes": "the lede says who was not heard"
+      "writes": "the lede says who was not heard",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`conditions` and `law-amount` rows (who a change reaches); needs: a count of households a measure reaches"
 }

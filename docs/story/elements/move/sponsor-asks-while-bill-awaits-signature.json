@@ -1,0 +1,32 @@
+{
+  "id": "sponsor-asks-while-bill-awaits-signature",
+  "kind": "move",
+  "summary": "A bill has cleared the legislature, and {person} asks the executive to sign while the decision is still theirs.",
+  "realLife": "California Senator Bob Archuleta sought the governor's signature on his hospital leasing bill after passage, and his office identified the time the governor had to act.",
+  "sources": [
+    "https://sd30.senate.ca.gov/news/press-release/ca-legislature-approves-archuleta-bill-convert-unused-property-metropolitan"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A passed bill, its sponsor, a pending executive decision and its decision deadline."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a passed bill, its sponsor, a pending executive decision and its decision deadline.",
+  "turns": [
+    {
+      "turn": "pending",
+      "pulledBy": "Presentment is still open.",
+      "what": "Put the sponsor's request to the executive.",
+      "writesBack": "Keep the request separate from the executive's answer."
+    },
+    {
+      "turn": "decided",
+      "pulledBy": "An executive action is already on file.",
+      "what": "Tell the sponsor what action was recorded.",
+      "writesBack": "Link the reply to the decision date."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "residents-question-a-rezoning-for-a-rental-community",
+  "kind": "situation",
+  "summary": "Residents ask the council what a rezoning for rentals will do to their street.",
+  "realLife": "Fayetteville residents questioned a rezoning for a rental community.",
+  "sources": [
+    "Razorback Reporter, Fayetteville residents question rezoning for a rental community: https://razorbackreporter.uark.edu/2025/10/01/fayetteville-residents-question-rezoning-for-rental-community"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["issue", "place"],
+  "gates": [],
+  "weights": {
+    "town-hall-question": 0.8
+  },
+  "inGame": "town-hall-question; the housing and rent records; needs: rezoning as a bill form",
+  "turns": [
+    {
+      "turn": "The rezoning is denied",
+      "pull": "a majority",
+      "writes": "writes a thank-you scene"
+    },
+    {
+      "turn": "The rezoning passes",
+      "pull": "a different majority",
+      "writes": "writes an angry follow-up"
+    }
+  ],
+  "usedBy": ["town-hall-question"]
+}

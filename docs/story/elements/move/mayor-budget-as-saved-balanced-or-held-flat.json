@@ -29,5 +29,6 @@
       "pulledBy": "a surplus",
       "writes": "the speech asks the council what to do with it"
     }
-  ]
+  ],
+  "issues": ["law:property-tax", "law:sales-tax"]
 }

@@ -1,0 +1,39 @@
+{
+  "id": "parents-who-value-passing-on-politics-talk-weekly",
+  "kind": "detail",
+  "summary": "Households that care about handing down political beliefs talk politics weekly more than others.",
+  "realLife": "A survey of over two thousand Americans found 41 percent of those who value passing on beliefs discussed political or social issues with family weekly, against 29 percent of those who do not. Talk with a spouse was more common for both groups.",
+  "sources": [
+    "https://www.deseret.com/special-series/2026/11/01/the-partisan-gap-in-passing-down-politics-to-children/"
+  ],
+  "fits": ["home"],
+  "slots": ["{the household}", "{the parent}"],
+  "gates": ["The household has a parent and a child."],
+  "weights": [
+    "How much the parent values passing on beliefs.",
+    "Party and faith."
+  ],
+  "inGame": "Household members with traits for belief and kin ties could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The parent avoids talk to keep peace.",
+      "pulledBy": "A trait for avoiding fights.",
+      "writesBack": "Nothing written."
+    },
+    {
+      "turn": "neutral",
+      "what": "The topic comes up only at holidays.",
+      "pulledBy": "Busy week.",
+      "writesBack": "Nothing written."
+    },
+    {
+      "turn": "partial",
+      "what": "Only the spouse hears the view.",
+      "pulledBy": "Closeness.",
+      "writesBack": "Writes view to the spouse."
+    }
+  ],
+  "issues": ["none"]
+}

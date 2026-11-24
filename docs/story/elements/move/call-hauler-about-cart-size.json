@@ -1,0 +1,31 @@
+{
+  "id": "call-hauler-about-cart-size",
+  "kind": "move",
+  "summary": "A resident who cannot use the cart they received asks for one that fits.",
+  "realLife": "Delaware officials reported that residents who discussed problems with haulers were sometimes able to obtain a different container size.",
+  "sources": [
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=21",
+    "https://legis.delaware.gov/BillDetail?legislationId=19844"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{resident}", "{hauler}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: resident service request and hauler response.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "With store refunds available, the resident sets redeemable bottles aside while waiting for the cart exchange.",
+      "pulledBy": "The hauler has yet to deliver the requested cart and nearby dealers accept returns.",
+      "writesBack": "The resident can still recover eligible deposits."
+    },
+    {
+      "turn": "opposite",
+      "what": "Where refunds ended and a hauler agrees to a swap, the resident uses the replacement cart on the next route.",
+      "pulledBy": "The hauler has confirmed a different cart after repeal.",
+      "writesBack": "The service record shows the replacement size."
+    }
+  ]
+}

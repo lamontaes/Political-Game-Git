@@ -28,5 +28,6 @@
       "pulledBy": "a candidate who lost a race before",
       "writes": "a lost race is the story"
     }
-  ]
+  ],
+  "issues": ["budget:highways", "budget:police"]
 }

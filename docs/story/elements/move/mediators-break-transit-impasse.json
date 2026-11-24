@@ -29,5 +29,6 @@
       "pulledBy": "Both sides accept an interim schedule while wages remain disputed.",
       "writesBack": "The service notice lists an end date for the temporary agreement."
     }
-  ]
+  ],
+  "issues": ["law:local-power:public-sector-collective-bargaining"]
 }

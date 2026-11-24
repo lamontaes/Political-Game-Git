@@ -1,0 +1,32 @@
+{
+  "id": "treasurer-has-the-balance-but-no-current-price",
+  "kind": "voice",
+  "summary": "{treasurer} can answer how much cash is there while the price of the proposed paving job is still unknown.",
+  "realLife": "Sulphur’s treasurer told members the street fund had money but the city still lacked a current price for the paving project.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{treasurer}"],
+  "gates": [
+    "Known fund balance and no current estimate for the proposed scope."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "needs: known fund balance and no current estimate for the proposed scope.",
+  "turns": [
+    {
+      "turn": "priced",
+      "pulledBy": "An estimate arrives before the vote.",
+      "what": "Compare the scope and cost with available funds.",
+      "writesBack": "Attach the estimate to the proposal.."
+    },
+    {
+      "turn": "unpriced",
+      "pulledBy": "Only the balance is available.",
+      "what": "Tell the council which price is missing.",
+      "writesBack": "Keep the project cost unresolved.."
+    }
+  ]
+}

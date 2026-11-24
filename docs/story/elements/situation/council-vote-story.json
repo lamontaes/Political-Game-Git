@@ -19,12 +19,17 @@
     {
       "name": "a vote that failed",
       "pulledBy": "a measure with too few votes",
-      "writes": "the story says it was voted down and by how many"
+      "writes": "the story says it was voted down and by how many",
+      "requiresFacts": ["failed"],
+      "excludesFacts": []
     },
     {
       "name": "a vote put off",
       "pulledBy": "a body that tabled the item",
-      "writes": "the story says it was delayed and until when"
+      "writes": "the story says it was delayed and until when",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`roll-call`, `council-vote`, `member-vote` and `vote-margin` rows; the legislature module"
 }
