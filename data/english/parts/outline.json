@@ -975,25 +975,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.stand.inaugural-that-s-exactly-why-i-m-against",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "That's exactly why I'm against {about}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.stand.inaugural-and-that-s-why-i-want-to-undo",
       "move": "stand",
       "kind": "spoken",
@@ -1008,25 +989,6 @@
       ],
       "after": ["today"],
       "lean": ["personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.stand.inaugural-that-s-why-i-want-to",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "That's why I want to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -1785,28 +1747,6 @@
         "personality-v1:facet-blunt",
         "personality-v1:facet-assertive",
         "personality-v1:facet-cocky"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.value.inaugural-whatever-we-do-on-the-people-who-pay-for-it-get-to-know-why",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Whatever we do on {theme-short}, the people who pay for it get to know why.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"]
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-fair-minded"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -3726,6 +3666,47 @@
         "personality-v1:facet-light-hearted",
         "personality-v1:facet-assertive"
       ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-i-mean-to-change-that-and-is-where-i-start",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I mean to change that, and {about} is where I start.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand.inaugural-i-d-keep-it-that-way-and-that-means-no-to",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'd keep it that way, and that means no to {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"

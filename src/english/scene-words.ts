@@ -26,6 +26,8 @@ interface Variant {
   settings?: readonly string[];
   /** Marks the scene must carry for the line to be said ("evening"); none, any. */
   requiresFacts?: readonly string[];
+  /** Facts the line is never said with. */
+  excludesFacts?: readonly string[];
 }
 export interface SceneWords {
   version: string;
@@ -137,17 +139,21 @@ export function wordSceneLine(request: {
   const move = request.move;
   const rows = found.variants?.filter(
     (row) =>
-      move.part !== "lead" ||
-      !move.setting ||
-      !row.settings ||
-      row.settings.includes(move.setting),
+      (move.part !== "lead" ||
+        !move.setting ||
+        !row.settings ||
+        row.settings.includes(move.setting)) &&
+      !row.excludesFacts?.some((key) => !!facts[key]),
   );
   if (!rows?.length) return null;
   const bank: AuthoredEnglishBank = {
     key: found.key,
     version: words.version,
     surface: "scene",
-    variants: rows.map((row) => ({ ...row, kind: "template" as const })),
+    variants: rows.map(({ excludesFacts, ...row }) => {
+      void excludesFacts;
+      return { ...row, kind: "template" as const };
+    }),
   };
   const ids = [
     ...new Set(Object.values(facts).flatMap((row) => row.sourceRecordIds)),

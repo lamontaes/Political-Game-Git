@@ -135,7 +135,11 @@ export function inauguralFacts(
 }
 
 /** A told sentence as the address keeps it: one part per paragraph, its camera, its pieces and the stand it speaks on. */
-function asOpening(row: ToldSentence, facts: Facts): OpeningSentence {
+function asOpening(
+  row: ToldSentence,
+  facts: Facts,
+  question: string | null,
+): OpeningSentence {
   const about = facts.about;
   const to = facts.to;
   const onStand =
@@ -147,12 +151,22 @@ function asOpening(row: ToldSentence, facts: Facts): OpeningSentence {
     level: (row.camera ?? "country") as OpeningLevel,
     part: row.paragraph,
     text: row.text,
-    sourceRecordIds: row.sourceRecordIds,
+    // A sentence on the stand cites its question, so every view of the
+    // address (the talk at home, the Journal, the news) finds the point it
+    // argued, whichever slots its words used (pre-grade, Nov 24: the
+    // Journal's evening lost the point when no sentence said {about}).
+    sourceRecordIds:
+      onStand && question
+        ? [...new Set([...row.sourceRecordIds, `question:${question}`])]
+        : row.sourceRecordIds,
     facts: row.facts,
     pieces: [row.piece],
-    values: Object.fromEntries(
-      row.facts.map((key) => [key, facts[key]?.text ?? ""]),
-    ),
+    values: {
+      ...Object.fromEntries(
+        row.facts.map((key) => [key, facts[key]?.text ?? ""]),
+      ),
+      ...(onStand ? { about: about.text, to: to.text } : {}),
+    },
     ...(onStand
       ? {
           stand: {
@@ -195,7 +209,9 @@ export function tellInaugural(
   });
   if (!told) return null;
   return {
-    sentences: told.sentences.map((row) => asOpening(row, facts)),
+    sentences: told.sentences.map((row) =>
+      asOpening(row, facts, plan.points[P.zero]?.question ?? null),
+    ),
     plan,
   };
 }

@@ -9025,10 +9025,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.the-news-is-replaying-s-first-speech-as-president",
+      "key": "scene-words.arrival-home-alone.it-s-the-news-replays-s-first-speech-as-president",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "The news is replaying {speech-giver}'s first speech as President.",
+      "text": "It's {landing}. The news replays {speech-giver}'s first speech as President.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -9043,10 +9043,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "scene-words.arrival-home-alone.supper-s-cleared-and-the-news-runs-s-speech-from-noon",
+      "key": "scene-words.arrival-home-alone.it-s-supper-s-cleared-and-s-speech-is-on",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "Supper's cleared, and the news runs {speech-giver}'s speech from noon.",
+      "text": "It's {landing}. Supper's cleared, and {speech-giver}'s speech is on.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -9061,10 +9061,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "scene-words.arrival-home-alone.somebody-turns-the-tv-up-for-taking-the-oath",
+      "key": "scene-words.arrival-home-alone.it-s-somebody-turns-the-tv-up-for-s-oath",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "Somebody turns the TV up for {speech-giver} taking the oath.",
+      "text": "It's {landing}. Somebody turns the TV up for {speech-giver}'s oath.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -9079,10 +9079,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "scene-words.arrival-home-alone.the-news-is-running-s-speech-to-congress",
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-running-s-speech-to-congress",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "The news is running {speech-giver}'s speech to Congress.",
+      "text": "It's {landing}. The news is running {speech-giver}'s speech to Congress.",
       "uses": [
         {
           "move": "arrival-home-alone",
