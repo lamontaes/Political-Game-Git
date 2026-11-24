@@ -26432,7 +26432,9 @@
       "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-people-in-place-what-you-did-with-bill",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell the people in {place} what you did with {bill}.",
+      "text": "Thanks. If anyone in {place} asks whether it's signed, I'll tell them {bill} is still on your desk.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -26770,7 +26772,9 @@
       "key": "scene-talk.follow-thank.thank-you-for-hearing-me-on-bill-the-people-in-place-will-know-what-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for hearing me on {bill}. The people in {place} will know what you decided.",
+      "text": "I appreciate hearing it from you. I'll be clear about where {bill} stands today.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
