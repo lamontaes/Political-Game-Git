@@ -1006,5 +1006,337 @@
       "key": "favor-asked"
     },
     "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.will-you-come-back-meeting-when-you-and-returning-member-have-both-been-coming-who-else-would-you-like-to-meet",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Will you come back {meeting-when}? You and {returning-member} have both been coming. Who else would you like to meet?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["meeting-when", "returning-member"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.put-me-down-if-there-s-somebody-new-i-d-like-to-be-the-one-to-go-over-and-say-hello",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Put me down. If there's somebody new, I'd like to be the one to go over and say hello.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.will-you-come-back-meeting-when-you-and-returning-member-have-both-been-coming-who-else-would-you-like-to-meet"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-skip-this-one-i-don-t-have-anybody-in-mind-for-an-introduction",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll skip this one. I don't have anybody in mind for an introduction.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.will-you-come-back-meeting-when-you-and-returning-member-have-both-been-coming-who-else-would-you-like-to-meet"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.if-returning-member-comes-again-meeting-when-would-you-like-a-little-time-to-talk-before-we-get-started",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "If {returning-member} comes again {meeting-when}, would you like a little time to talk before we get started?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["meeting-when", "returning-member"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-d-like-to-ask-how-people-decide-what-to-bring-to-the-committee",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. I'd like to ask how people decide what to bring to the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.if-returning-member-comes-again-meeting-when-would-you-like-a-little-time-to-talk-before-we-get-started"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.go-ahead-without-me-i-can-arrange-a-conversation-another-day",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Go ahead without me. I can arrange a conversation another day.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.if-returning-member-comes-again-meeting-when-would-you-like-a-little-time-to-talk-before-we-get-started"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.i-ll-save-you-a-seat-if-you-re-coming-meeting-when-if-returning-member-is-there-again-we-can-all-sit-together-shall-i-count-you-in",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I'll save you a seat if you're coming {meeting-when}. If {returning-member} is there again, we can all sit together. Shall I count you in?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["meeting-when", "returning-member"]
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-it-d-be-good-to-have-somebody-to-sit-down-with",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come. It'd be good to have somebody to sit down with.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.i-ll-save-you-a-seat-if-you-re-coming-meeting-when-if-returning-member-is-there-again-we-can-all-sit-together-shall-i-count-you-in"
+      }
+    ],
+    "bearing": "glad",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.thanks-for-making-room-for-me-leave-me-off-the-list-this-time",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Thanks for making room for me. Leave me off the list this time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.i-ll-save-you-a-seat-if-you-re-coming-meeting-when-if-returning-member-is-there-again-we-can-all-sit-together-shall-i-count-you-in"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.i-ve-seen-you-and-returning-member-there-twice-running-do-you-want-to-keep-coming-when-we-meet-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I've seen you and {returning-member} there twice running. Do you want to keep coming when we meet {meeting-when}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["meeting-when", "returning-member"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-want-to-stick-around-long-enough-to-see-what-comes-of-the-things-people-bring-up",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. I want to stick around long enough to see what comes of the things people bring up.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.i-ve-seen-you-and-returning-member-there-twice-running-do-you-want-to-keep-coming-when-we-meet-meeting-when"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-wanted-to-see-how-it-worked-i-ve-done-that-count-me-out-for-this-meeting",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I wanted to see how it worked. I've done that. Count me out for this meeting.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "attended-two-with-chair"],
+        "requiresFacts": ["returning-member"],
+        "after": "scene-talk.state-request.i-ve-seen-you-and-returning-member-there-twice-running-do-you-want-to-keep-coming-when-we-meet-meeting-when"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
