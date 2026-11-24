@@ -5,7 +5,6 @@
       "term": "Quorum",
       "shortDefinition": "The number of members who must be present before a body can act.",
       "explanation": "A body with fewer members present than its quorum can gather, talk and wait, but it cannot take the decisions that count. Reaching quorum is therefore the first thing a sitting establishes, and losing it stops business until enough members return. The number is set for each body rather than shared across them, so a council and a state chamber can be sitting on the same day under different thresholds.",
-      "contextNote": "The threshold shown for a body in this game is read from that body's own recorded rules; where no quorum rule has been recorded, the game says so instead of assuming a majority.",
       "relatedKeys": ["roll-call", "adjournment", "presiding-officer"],
       "source": {
         "note": "Written from the quorum provisions already captured in the repository's constitutional-process and state-legislature source snapshots; no wording reused.",
