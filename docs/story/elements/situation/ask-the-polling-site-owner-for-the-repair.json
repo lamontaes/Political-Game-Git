@@ -28,5 +28,6 @@
       "pulledBy": "The owner declines to alter the doorway.",
       "writesBack": "The site file records the owner's answer."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -27,5 +27,6 @@
       "pulledBy": "Only one door was adjusted.",
       "writesBack": "One work order stays open."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

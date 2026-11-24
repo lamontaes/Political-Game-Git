@@ -27,5 +27,6 @@
       "pulledBy": "A temporary layout still directs voters over the slope.",
       "writesBack": "The election plan records the revised route."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

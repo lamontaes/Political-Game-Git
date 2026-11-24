@@ -27,5 +27,6 @@
       "pulledBy": "A revised layout separates the two uses.",
       "writesBack": "The inspection records the new clearance."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

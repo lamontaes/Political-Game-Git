@@ -27,5 +27,6 @@
       "pulledBy": "A tester can complete the repaired form.",
       "writesBack": "The retest is attached to the launch decision."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

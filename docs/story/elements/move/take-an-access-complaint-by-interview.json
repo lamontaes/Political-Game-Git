@@ -27,5 +27,6 @@
       "pulledBy": "The resident chooses an interview.",
       "writesBack": "The intake record identifies the site and date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

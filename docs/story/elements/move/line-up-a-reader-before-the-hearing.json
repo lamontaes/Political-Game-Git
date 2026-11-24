@@ -27,5 +27,6 @@
       "pulledBy": "The first provider cannot attend.",
       "writesBack": "The appointment remains open pending the resident's reply."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

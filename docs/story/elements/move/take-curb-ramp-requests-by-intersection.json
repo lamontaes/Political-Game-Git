@@ -27,5 +27,6 @@
       "pulledBy": "A ramp project already covers that corner.",
       "writesBack": "The resident's case points to the existing project."
     }
-  ]
+  ],
+  "issues": ["budget:highways"]
 }

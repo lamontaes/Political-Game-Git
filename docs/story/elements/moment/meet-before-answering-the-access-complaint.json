@@ -25,5 +25,6 @@
       "pulledBy": "The resident agrees to try another service location.",
       "writesBack": "The case lists a trial visit."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

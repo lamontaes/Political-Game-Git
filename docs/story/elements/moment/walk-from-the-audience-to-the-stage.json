@@ -27,5 +27,6 @@
       "pulledBy": "A permanent stage route is proposed.",
       "writesBack": "The capital request includes both ends of the route."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

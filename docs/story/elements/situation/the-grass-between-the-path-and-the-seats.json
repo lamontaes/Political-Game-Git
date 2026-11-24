@@ -27,5 +27,6 @@
       "pulledBy": "The accessible seating is moved.",
       "writesBack": "The event map records the new approach."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

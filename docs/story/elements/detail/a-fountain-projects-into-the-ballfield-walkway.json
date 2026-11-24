@@ -27,5 +27,6 @@
       "pulledBy": "A proposed guard narrows the walkway.",
       "writesBack": "The fixture repair returns for redesign."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

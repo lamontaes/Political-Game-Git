@@ -27,5 +27,6 @@
       "pulledBy": "The tabletop itself sits too low.",
       "writesBack": "The equipment request includes the needed clearance."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -27,5 +27,6 @@
       "pulledBy": "No system is available for that room.",
       "writesBack": "The booking remains provisional."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

@@ -27,5 +27,6 @@
       "pulledBy": "The reply arrives in ordinary print despite the request.",
       "writesBack": "The case records a pending replacement."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

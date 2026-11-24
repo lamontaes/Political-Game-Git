@@ -27,5 +27,6 @@
       "pulledBy": "The table is suitable but the approach is uneven.",
       "writesBack": "A separate grounds request is opened."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

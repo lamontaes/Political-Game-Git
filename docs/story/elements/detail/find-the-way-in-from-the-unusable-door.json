@@ -27,5 +27,6 @@
       "pulledBy": "A volunteer walks the marked route before polls open.",
       "writesBack": "The opening checklist records the route check."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

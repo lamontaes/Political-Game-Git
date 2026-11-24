@@ -27,5 +27,6 @@
       "pulledBy": "The employee completes a call in each direction.",
       "writesBack": "The completion entry names the employee."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

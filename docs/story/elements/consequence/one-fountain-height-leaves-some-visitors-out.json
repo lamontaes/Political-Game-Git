@@ -27,5 +27,6 @@
       "pulledBy": "The design offers drinking points at both heights.",
       "writesBack": "The facility file records both drinking locations."
     }
-  ]
+  ],
+  "issues": ["budget:parks"]
 }

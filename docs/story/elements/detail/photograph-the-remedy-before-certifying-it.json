@@ -27,5 +27,6 @@
       "pulledBy": "The installation differs from the drawing.",
       "writesBack": "The work order returns to the installer."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

@@ -27,5 +27,6 @@
       "pulledBy": "A response is missing from the folder.",
       "writesBack": "The file shows which document is outstanding."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

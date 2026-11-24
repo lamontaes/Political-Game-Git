@@ -28,5 +28,6 @@
       "pulledBy": "The proposed replacement has an inaccessible approach.",
       "writesBack": "The replacement remains unapproved."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

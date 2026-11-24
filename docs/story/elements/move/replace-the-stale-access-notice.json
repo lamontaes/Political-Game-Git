@@ -27,5 +27,6 @@
       "pulledBy": "The lobby copy is current but the county website lists the old number.",
       "writesBack": "The online correction has an assigned owner."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
