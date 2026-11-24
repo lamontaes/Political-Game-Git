@@ -54092,7 +54092,7 @@
       "key": "scene-talk.reply-agree.all-right-if-the-party-in-place-is-behind-me-i-ll-run",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. If the party in {place} is behind me, I'll run.",
+      "text": "Alright. If the party in {place} is behind me, I'll run.",
       "uses": [
         {
           "subject": "scene",
