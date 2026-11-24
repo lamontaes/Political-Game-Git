@@ -3227,11 +3227,21 @@ function cutFacts(
       : undefined;
   const current = votedBudget?.spendingMinor[said.line ?? ""];
   // A later amendment may refill an account the original vote emptied.
-  if (recorded && after === P.zero && current === P.zero && votedBudget)
+  if (recorded && after === P.zero && current === P.zero && votedBudget) {
+    const sourceRecordIds = [causeId, votedBudget.id];
     facts["empty-appropriation"] = {
       text: roundedDollars(current),
-      sourceRecordIds: [causeId, votedBudget.id],
+      sourceRecordIds,
     };
+    facts["budget-year"] = {
+      text: String(votedBudget.fiscalYear),
+      sourceRecordIds,
+    };
+    facts["half-restoration"] = {
+      text: roundedDollars(cut / P.two),
+      sourceRecordIds,
+    };
+  }
   const recovered = current !== undefined && current > after;
   if (recovered && votedBudget) {
     if (current >= before) return false;

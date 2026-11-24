@@ -16,3 +16,5 @@ When a vote empties the road account and it is still empty at the visit, the dir
 After the mayor answers, the director can tell callers what happens before a paving date is set, keep an unfunded job off the bid calendar, or price the work that a smaller amendment could finish.
 
 The mayor can ask the director what can be priced before bids go out, how to distinguish a request from a scheduled job, or whether another fund can pay. The next choice responds to the director’s answer.
+
+On an empty road account, the mayor can ask about the budget year and offer half the recorded cut in dollars. The amount is rounded in conversation. The choice records a promise to seek an amendment.

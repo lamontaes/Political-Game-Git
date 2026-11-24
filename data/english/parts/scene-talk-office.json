@@ -13,7 +13,9 @@
     "original-percent": "The percentage removed by the original cut.",
     "still-needed": "The amount still missing from the original appropriation.",
     "original-cut": "The amount removed by the original amendment.",
-    "restored-amount": "The amount later put back into the account."
+    "restored-amount": "The amount later put back into the account.",
+    "budget-year": "The fiscal year on the adopted budget containing the empty account.",
+    "half-restoration": "Half the cut that emptied the account, rounded for speech."
   },
   "maxWords": 70,
   "parts": [
@@ -10332,7 +10334,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-ask-for-half-of-what-was-there-let-s-see-what-that-would-pay-for-before-we-give-anyone-a-date",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll ask for half of what was there. Let's see what that would pay for before we give anyone a date.",
+      "text": "I'll ask the members for about {half-restoration}. Let's find out how much work that buys before anybody gives out dates.",
       "uses": [
         {
           "subject": "scene",
@@ -10346,7 +10348,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again"
+          "after": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -10472,7 +10475,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-take-half-the-old-amount-back-to-the-members-what-would-you-be-prepared-to-bid-for-that",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll take half the old amount back to the members. What would you be prepared to bid for that?",
+      "text": "Would about {half-restoration} cover a job worth putting out for bids? I'll take that much back to council.",
       "uses": [
         {
           "subject": "scene",
@@ -10486,7 +10489,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty"
+          "after": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -10612,7 +10616,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-ask-the-members-for-half-show-me-which-jobs-would-still-be-waiting-even-if-we-get-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll ask the members for half. Show me which jobs would still be waiting even if we get it.",
+      "text": "Show me which jobs would still be waiting if we put about {half-restoration} back. I'd move for that.",
       "uses": [
         {
           "subject": "scene",
@@ -10626,7 +10630,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back"
+          "after": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -10752,7 +10757,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-support-putting-half-back-here-list-any-work-that-s-paid-for-somewhere-else-separately",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll support putting half back here. List any work that's paid for somewhere else separately.",
+      "text": "I'll back half, about {half-restoration}. List anything another fund already pays for separately.",
       "uses": [
         {
           "subject": "scene",
@@ -10766,7 +10771,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one"
+          "after": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -10892,7 +10898,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-move-to-put-half-of-it-back-give-me-the-first-piece-of-work-you-d-spend-that-on",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll move to put half of it back. Which job would you fund first?",
+      "text": "Give me a job you could finish for about {half-restoration}. I'll ask the members for that much.",
       "uses": [
         {
           "subject": "scene",
@@ -10906,7 +10912,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members"
+          "after": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -11032,7 +11039,7 @@
       "key": "scene-talk-office.reply-bargain.bring-the-estimate-i-ll-ask-for-half-the-old-appropriation-and-explain-what-that-would-leave-uncovered",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Bring the estimate. I'll ask for half the old appropriation and explain what that would leave uncovered.",
+      "text": "Bring the estimate. I'll move for about {half-restoration} and explain what that leaves uncovered.",
       "uses": [
         {
           "subject": "scene",
@@ -11046,7 +11053,8 @@
             "cut",
             "empty-appropriation"
           ],
-          "after": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it"
+          "after": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it",
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -12684,7 +12692,7 @@
       "key": "scene-talk-office.reply-ask.what-happens-to-somebody-s-paving-request-while-we-re-waiting-to-vote",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What happens to somebody's paving request while we're waiting to vote?",
+      "text": "Who gets back to people still waiting for work from the {budget-year} road budget?",
       "uses": [
         {
           "subject": "scene",
@@ -12697,7 +12705,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -12711,7 +12720,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -12725,7 +12735,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -12739,7 +12750,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -12898,7 +12910,7 @@
       "key": "scene-talk-office.reply-bargain.let-s-ask-for-half-before-the-vote-tell-me-how-you-d-pick-which-requests-get-served",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Let's ask for half. Before we give anyone a date, how far would that get us down the list?",
+      "text": "I'll ask for about {half-restoration}. Before we talk dates, how far down the list would that get us?",
       "uses": [
         {
           "subject": "scene",
@@ -12912,7 +12924,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         },
         {
           "subject": "scene",
@@ -12926,7 +12939,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -12948,7 +12962,7 @@
       "key": "scene-talk-office.reply-leave.let-me-read-the-requests-before-i-give-you-an-answer",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me read the requests before I give you an answer.",
+      "text": "Could I read the {budget-year} requests before I decide?",
       "uses": [
         {
           "subject": "scene",
@@ -12962,7 +12976,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["budget-year"]
         },
         {
           "subject": "scene",
@@ -12976,7 +12991,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["budget-year"]
         }
       ],
       "elements": [
@@ -12998,7 +13014,7 @@
       "key": "scene-talk-office.reply-ask.how-much-can-you-find-out-about-the-price-before-we-invite-anybody-to-bid",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How much can you find out about the price before we invite anybody to bid?",
+      "text": "Before I ask for {cut} back, how close can you get to a price without putting a job out for bids?",
       "uses": [
         {
           "subject": "scene",
@@ -13011,7 +13027,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13025,7 +13042,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13039,7 +13057,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -13170,7 +13189,7 @@
       "key": "scene-talk-office.reply-bargain.work-up-a-smaller-job-for-me-i-ll-ask-council-for-half-and-we-can-see-whether-that-covers-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Work up a smaller job for me. I'll ask council for half and we can see whether that covers it.",
+      "text": "Price a shorter stretch. I'd go to council for half, about {half-restoration}. Would that cover it?",
       "uses": [
         {
           "subject": "scene",
@@ -13184,7 +13203,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13206,7 +13226,7 @@
       "key": "scene-talk-office.reply-leave.i-d-like-to-see-your-estimate-before-i-commit-to-a-motion",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'd like to see your estimate before I commit to a motion.",
+      "text": "Estimate first, please.",
       "uses": [
         {
           "subject": "scene",
@@ -13242,7 +13262,7 @@
       "key": "scene-talk-office.reply-ask.where-would-i-look-on-your-list-to-see-which-streets-are-actually-scheduled",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Where would I look on your list to see which streets are actually scheduled?",
+      "text": "Where on the {budget-year} list would somebody look to see if we've actually scheduled their street?",
       "uses": [
         {
           "subject": "scene",
@@ -13255,7 +13275,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -13414,7 +13435,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-move-for-half-we-should-be-able-to-show-people-what-stays-on-the-request-page-even-if-that-passes",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll move for half. We should be able to show people what stays on the request page even if that passes.",
+      "text": "I'd move to put about {half-restoration} back. Which streets would still be waiting even if that passes?",
       "uses": [
         {
           "subject": "scene",
@@ -13428,7 +13449,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         },
         {
           "subject": "scene",
@@ -13442,7 +13464,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13464,7 +13487,7 @@
       "key": "scene-talk-office.reply-leave.bring-me-the-copy-a-resident-would-see-i-d-like-to-read-it-before-we-settle-this",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Bring me the copy a resident would see. I'd like to read it before we settle this.",
+      "text": "Show me both.",
       "uses": [
         {
           "subject": "scene",
@@ -13514,7 +13537,7 @@
       "key": "scene-talk-office.reply-ask.say-another-fund-has-money-in-it-how-would-you-tell-whether-we-can-use-it-on-a-particular-street",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Say another fund has money in it. How would you tell whether we can use it on a particular street?",
+      "text": "If there's money outside the {budget-year} road budget, how would you check which streets it can pay for?",
       "uses": [
         {
           "subject": "scene",
@@ -13527,7 +13550,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13541,7 +13565,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13555,7 +13580,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -13714,7 +13740,7 @@
       "key": "scene-talk-office.reply-bargain.i-ll-carry-half-the-old-amount-keep-anything-already-paid-for-out-of-that-request",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'll carry half the old amount. Keep anything already paid for out of that request.",
+      "text": "About {half-restoration} is as far as I'll go. Keep the jobs another fund can pay for off that request.",
       "uses": [
         {
           "subject": "scene",
@@ -13728,7 +13754,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         },
         {
           "subject": "scene",
@@ -13742,7 +13769,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13764,7 +13792,7 @@
       "key": "scene-talk-office.reply-leave.i-d-like-to-see-what-the-other-money-covers-before-i-give-you-my-answer",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'd like to see what the other money covers before I give you my answer.",
+      "text": "Check that first.",
       "uses": [
         {
           "subject": "scene",
@@ -13814,7 +13842,7 @@
       "key": "scene-talk-office.reply-ask.suppose-the-members-put-the-money-back-tonight-could-you-give-somebody-a-start-date-tomorrow-morning",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Suppose the members put the money back tonight. Could you give somebody a start date tomorrow morning?",
+      "text": "Suppose we put the {cut} back. How soon could you give a resident a start date?",
       "uses": [
         {
           "subject": "scene",
@@ -13827,7 +13855,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13841,7 +13870,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -13855,7 +13885,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -14014,7 +14045,7 @@
       "key": "scene-talk-office.reply-bargain.i-can-get-behind-half-pick-something-that-amount-could-finish-before-anybody-talks-dates",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I can get behind half. Pick something that amount could finish before anybody talks dates.",
+      "text": "Pick a job we could finish for about {half-restoration}. That's the amendment I'd carry.",
       "uses": [
         {
           "subject": "scene",
@@ -14028,7 +14059,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         },
         {
           "subject": "scene",
@@ -14042,7 +14074,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -14064,7 +14097,7 @@
       "key": "scene-talk-office.reply-leave.give-me-a-little-time-with-the-work-list-nobody-should-plan-around-my-vote-yet",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Give me a little time with the work list. Nobody should plan around my vote yet.",
+      "text": "Let me see the {budget-year} work list before I tell you whether I'll move the money.",
       "uses": [
         {
           "subject": "scene",
@@ -14078,7 +14111,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["budget-year"]
         },
         {
           "subject": "scene",
@@ -14092,7 +14126,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["budget-year"]
         }
       ],
       "elements": [
@@ -14114,7 +14149,7 @@
       "key": "scene-talk-office.reply-ask.what-would-you-want-the-members-to-see-when-they-have-the-estimate-in-front-of-them",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "If I take council an estimate, what else should I bring with me?",
+      "text": "Besides the price, what should I bring when I ask council to restore {cut}?",
       "uses": [
         {
           "subject": "scene",
@@ -14127,7 +14162,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -14141,7 +14177,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -14155,7 +14192,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         },
         {
@@ -14169,7 +14207,8 @@
           "requiresFacts": [
             "budget-line-highways",
             "cut",
-            "empty-appropriation"
+            "empty-appropriation",
+            "budget-year"
           ]
         }
       ],
@@ -14328,7 +14367,7 @@
       "key": "scene-talk-office.reply-bargain.show-them-the-request-and-what-half-the-money-would-buy-that-s-the-amount-i-ll-move-for",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Show them the request and what half the money would buy. That's the amount I'll move for.",
+      "text": "Show them what about {half-restoration} would buy for the person who wrote in. I'll move to put that much back.",
       "uses": [
         {
           "subject": "scene",
@@ -14342,7 +14381,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         },
         {
           "subject": "scene",
@@ -14356,7 +14396,8 @@
             "budget-line-highways",
             "cut",
             "empty-appropriation"
-          ]
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -14378,7 +14419,7 @@
       "key": "scene-talk-office.reply-leave.leave-the-request-with-me-i-want-to-read-what-they-asked-for-in-their-own-words",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave the request with me. I want to read what they asked for in their own words.",
+      "text": "Leave me both.",
       "uses": [
         {
           "subject": "scene",

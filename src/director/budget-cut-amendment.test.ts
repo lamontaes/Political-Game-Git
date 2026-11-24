@@ -132,11 +132,34 @@ it("the director stops describing the road account as empty when a later vote re
     text: "$0",
     recordIds: [causeId, cut.id],
   });
+  const half = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumSignificantDigits: 2,
+  }).format(amount / 200);
+  expect(empty.facts).toEqual(
+    expect.arrayContaining([
+      {
+        key: "budget-year",
+        text: String(budget.fiscalYear),
+        recordIds: [causeId, cut.id],
+      },
+      { key: "half-restoration", text: half, recordIds: [causeId, cut.id] },
+    ]),
+  );
+  expect(
+    empty.talk.tree.replies.find((reply) => reply.line.move === "bargain")?.line
+      .text,
+  ).toContain(half);
   expect(empty.talk.state.placed?.needs).toContain("empty-appropriation");
   amendRoads(1, "fixture-restore-one-cent");
   const refilled = scene();
   expect(
-    refilled.facts.some((fact) => fact.key === "empty-appropriation"),
+    refilled.facts.some((fact) =>
+      ["empty-appropriation", "half-restoration", "budget-year"].includes(
+        fact.key,
+      ),
+    ),
   ).toBe(false);
   expect(refilled.talk.state.placed?.needs).not.toContain(
     "empty-appropriation",
