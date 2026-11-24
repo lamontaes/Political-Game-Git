@@ -1,119 +1,34 @@
 # Pre-grade: Writer Home, scenes at home (scene-talk.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `ed5c2dce`, every line authored by this writer at that head (275 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `b50c4160`, every line authored by this writer at that head (231 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 221 of 275 pass (80%); 54 fail.
-- **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 223 of 231 pass (97%); 8 fail.
+- **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8, Y1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### awkward (16)
+### no-literary-phrasing (3)
 
-- `scene-talk.state-ask.could-you-show-me-around-so-i-know-which-doors-are-whose-in-this-house-in-place`: "Could you show me around, so I know which doors are whose in this house in {place}?" — "Which doors are whose in this house in {place}" is clumsy.
-- `scene-talk.state-request.whatever-place-thinks-happened-between-us-i-d-like-to-tell-you-what-i-think`: "Whatever {place} thinks happened between us, I'd like to tell you what I think." — "Whatever {place} thinks happened between us" makes the town a person and reads stiff.
-- `scene-talk.follow-answer.i-just-want-us-to-sit-in-the-same-room-again-without-anyone-in-place-watching`: "I just want us to sit in the same room again without anyone in {place} watching." — "Without anyone in {place} watching" suggests secrecy and reads composed.
-- `scene-talk.open-greet.i-m-not-going-to-pretend-the-whole-of-place-didn-t-see-what-i-did`: "I'm not going to pretend the whole of {place} didn't see what I did." — "The whole of {place}" is stiff and claims the whole town saw it.
-- `scene-talk.follow-answer.i-thought-i-could-fix-it-before-you-heard-about-it-in-place-i-was-wrong`: "I thought I could fix it before you heard about it in {place}. I was wrong." — The tacked-on "in {place}" spoils an otherwise natural line.
-- `scene-talk.open-greet.i-m-name-i-hope-the-house-has-room-for-one-more-from-outside-place`: "I'm {name}. I hope the house has room for one more from outside {place}." — "One more from outside {place}" is clumsy.
-- `scene-talk.state-request.we-have-nobody-filed-for-the-open-seat-and-we-think-it-ought-to-be-you-will-you-run-for-place`: "We have nobody filed for the open seat, and we think it ought to be you. Will you run for {place}?" — "Will you run for {place}?" People run for a seat, not a town.
-- `scene-talk.reply-ask.why-me-and-why-now-here-in-place`: "Why me, and why now, here in {place}?" — "Why me?" is liked, but "here in {place}" is tacked on.
-- `scene-talk.reply-agree.yes-i-ll-run-for-place-and-i-ll-give-it-everything`: "Yes. I'll run for {place}, and I'll give it everything." — "I'll run for {place}" again; people run for a seat.
-- `scene-talk.reply-decline.i-m-honored-name-but-i-won-t-run-for-place`: "I'm honored, {name}, but I won't run for {place}." — People run for a seat, not "for {place}".
-- `scene-talk.reply-decline.thank-you-for-asking-but-running-isn-t-for-me-not-in-place`: "Thank you for asking, but running isn't for me, not in {place}." — The tag "not in {place}" suggests they might run somewhere else.
-- `scene-talk.reply-stall.i-d-like-to-think-about-place-first-and-talk-to-the-people-i-live-with`: "I'd like to think about {place} first, and talk to the people I live with." — "Think about {place} first" has the wrong object; the thing to think about is running.
-- `scene-talk.follow-press.can-i-call-you-in-a-couple-of-days-about-place-we-have-to-move`: "Can I call you in a couple of days about {place}? We have to move." — "About {place}" is vague, and "We have to move" reads as moving house.
-- `scene-talk.reply-leave.let-me-think-it-over-i-ll-call-you-from-place-when-i-know`: "Let me think it over. I'll call you from {place} when I know." — "I'll call you from {place}" is silly when both are in the town.
-- `scene-talk.reply-agree.you-ve-talked-me-into-it-i-ll-run-for-place`: "You've talked me into it. I'll run for {place}." — "I'll run for {place}" is not how people say it; they run for a seat.
-- `scene-talk.reply-decline.i-ve-thought-it-through-and-the-answer-for-place-stays-no`: "I've thought it through, and the answer for {place} stays no." — "The answer for {place} stays no" is stiff and unnatural.
+- `scene-talk.narrate-narrate.name-stood-at-the-edge-of-the-room-as-if-waiting-to-be-told-where-to-stand`: "{name} stood at the edge of the room, as if waiting to be told where to stand." — Composed 'as if waiting to be told where to stand' image, with 'stood... stand' echo.
+- `scene-talk.narrate-narrate.name-took-one-long-breath-before-saying-the-first-word`: "{name} took one long breath before saying the first word." — Visibly composed narration ('one long breath before saying the first word').
+- `scene-talk.state-confront.i-waited-up-and-the-whole-street-in-place-went-quiet-around-me-where-were-you`: "I waited up, and the whole street in {place} went quiet around me. Where were you?" — 'The whole street went quiet around me' is a literary image.
 
-### vary-the-shape (9)
+### vary-the-shape (2)
 
-- `scene-talk.state-request.we-used-to-sit-at-the-same-table-in-place-can-we-get-back-to-that`: "We used to sit at the same table in {place}. Can we get back to that?" — Same shape as row 105 (a shared past, then "Can we...?"), and "same table" leans figurative.
-- `scene-talk.follow-thank.thank-you-for-hearing-me-out-first-it-means-more-than-i-ll-say`: "Thank you for hearing me out, {first}. It means more than I'll say." — Same 'means more than I can say' shape as T1-013.
-- `scene-talk.close-press.think-about-it-i-m-not-going-anywhere-from-place`: "Think about it. I'm not going anywhere from {place}." — The place is tacked onto the end of the line where no one would say it, the same appended-place pattern as many other rows.
-- `scene-talk.follow-plea.please-i-have-nowhere-else-to-go-in-place`: "Please. I have nowhere else to go in {place}." — The place is tacked onto the end of the line where no one would say it, the same appended-place pattern as many other rows.
-- `scene-talk.close-accept.i-understand-i-ll-look-for-somewhere-else-in-place`: "I understand. I'll look for somewhere else in {place}." — The place is tacked onto the end of the line where no one would say it, the same appended-place pattern as many other rows.
-- `scene-talk.follow-plea.please-just-tell-me-what-s-going-on-out-there-in-place`: "Please just tell me what's going on out there in {place}." — The place is tacked onto the end of the line where no one would say it, the same appended-place pattern as many other rows.
-- `scene-talk.open-greet.i-won-t-take-much-of-your-time-i-m-name-and-i-have-a-question-for-you-about-place`: "I won't take much of your time. I'm {name}, and I have a question for you about {place}." — Same shape as row 087, and "a question about {place}" is vague.
-- `scene-talk.reply-leave.give-me-until-the-end-of-the-week-name`: "Give me until the end of the week, {name}." — Same shape as row 067 ("Give me ... , {name}.").
-- `scene-talk.close-thank.thank-you-first-i-ll-tell-the-party-in-place-the-good-news`: "Thank you, {first}. I'll tell the party in {place} the good news." — Same shape and meaning as row 048 ("Thank you, {first}." plus the party in {place}).
+- `scene-talk.state-confess.i-let-you-down-and-i-owe-you-the-reason-before-place-makes-one-up`: "I let you down, and I owe you the reason before {place} makes one up." — Same confess-before-the-town-tells-you shape as 001, and 'before the town makes one up' personifies the town.
+- `scene-talk.state-confess.i-promised-you-something-and-then-broke-it-place-has-been-talking-so-you-ll-hear-it-from-me`: "I promised you something and then broke it. {place} has been talking, so you'll hear it from me." — Third version of the confess-before-the-town shape, and 'so you'll hear it from me' is a clumsy join.
 
-### no-literary-phrasing (7)
+### false for its facts (2)
 
-- `scene-talk.narrate-narrate.name-stood-by-the-door-with-both-hands-in-pockets-and-did-not-look-at-anyone`: "{name} stood by the door with both hands in pockets, and did not look at anyone." — "With both hands in pockets" drops the pronoun, and the comma before "and did not look" is composed, literary texture.
-- `scene-talk.narrate-narrate.name-was-up-before-you-were-and-the-kitchen-was-too-quiet`: "{name} was up before you were, and the kitchen was too quiet." — 'The kitchen was too quiet' is composed texture, and being up before the player clashes with waiting up late.
-- `scene-talk.follow-accept.honesty-i-can-do-place-knows-i-ve-never-been-good-at-hiding-things`: "Honesty I can do. {place} knows I've never been good at hiding things." — "Honesty I can do" is a composed inversion, and "{place} knows" makes the town a person.
-- `scene-talk.follow-accept.then-i-ll-give-you-the-time-place-will-still-be-here-when-you-re-ready`: "Then I'll give you the time. {place} will still be here when you're ready." — "{place} will still be here when you're ready" is composed filler.
-- `scene-talk.state-confess.you-trusted-me-and-place-is-too-small-for-me-to-hide-from-that`: "You trusted me, and {place} is too small for me to hide from that." — "{place} is too small for me to hide from that" is a composed line, and it is false for a big place.
-- `scene-talk.state-ask.is-this-job-worth-it-with-people-shouting-at-you-in-the-streets-of-place`: "Is this job worth it, with people shouting at you in the streets of {place}?" — 'the streets of {place}' is literary.
-- `scene-talk.narrate-narrate.name-waited-in-the-hall-hat-in-hand-until-the-household-came-to-see-who-it-was`: "{name} waited in the hall, hat in hand, until the household came to see who it was." — "Hat in hand" is a literary idiom, and someone already waiting in the hall before the household came to see who it was doesn't add up.
-
-### every line true for its facts (5)
-
-- `scene-talk.state-ask.i-d-like-to-pay-my-way-while-i-look-for-work-in-place-what-does-the-house-expect-from-me`: "I'd like to pay my way while I look for work in {place}. What does the house expect from me?" — It assumes the housemate has no job, and nothing requires that.
-- `scene-talk.state-confront.where-were-you-half-of-place-had-left-that-meeting-hours-before-you-walked-in`: "Where were you? Half of {place} had left that meeting hours before you walked in." — It points at "that meeting" with nothing named and claims half the town and hours with no record.
-- `scene-talk.state-confront.this-is-the-third-time-does-the-meeting-in-place-matter-more-than-home`: "This is the third time. Does the meeting in {place} matter more than home?" — "The third time" claims a count of missed nights nothing requires, and "the meeting in {place}" names the town for no reason.
-- `scene-talk.open-greet.place-is-small-enough-that-we-were-bound-to-meet-so-here-i-am`: "{place} is small enough that we were bound to meet, so here I am." — "Bound to meet" contradicts coming to see someone on purpose, and it is false for a big place.
-- `scene-talk.open-greet.i-stayed-up-for-you-it-s-a-long-way-across-place-and-back`: "I stayed up for you. It's a long way across {place} and back." — "A long way across {place} and back" is false for a small town and pads a plain line.
-
-### narration-assumes-no-reason (3)
-
-- `scene-talk.narrate-narrate.name-did-not-sit-down-even-when-offered-a-chair`: "{name} did not sit down, even when offered a chair." — Narrates a chair offer the player never made.
-- `scene-talk.narrate-narrate.name-came-by-the-house-with-a-folder-and-the-look-of-someone-who-had-already-rehearsed-the-pitch`: "{name} came by the house with a folder and the look of someone who had already rehearsed the pitch." — It invents a rehearsed pitch and a look, and "the look of someone who" is literary.
-- `scene-talk.follow-accept.i-understand-i-ll-tell-the-party-you-weren-t-ready-and-we-ll-look-elsewhere-in-place`: "I understand. I'll tell the party you weren't ready, and we'll look elsewhere in {place}." — It tells the party the player "wasn't ready", a reason the player never gave.
-
-### no-stock-phrases (3)
-
-- `scene-talk.close-thank.thank-you-first-this-means-more-than-i-can-say`: "Thank you, {first}. This means more than I can say." — "This means more than I can say" is a stock phrase that names nothing.
-- `scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-place-is-big-enough-for-both-of-us`: "All right. I'll go, and I won't push. {place} is big enough for both of us." — "Big enough for both of us" is a cliche, and it has the same shape as row 083.
-- `scene-talk.close-promise.we-ll-be-with-you-the-whole-way-in-place-you-have-my-word`: "We'll be with you the whole way in {place}. You have my word." — "The whole way in {place}" is awkward, and "You have my word" is a stock phrase.
-
-### no-quick-resolution (1)
-
-- `scene-talk.follow-thank.thank-you-first-i-didn-t-think-it-would-be-this-easy`: "Thank you, {first}. I didn't think it would be this easy." — "I didn't think it would be this easy" is the instant wrap-up he rejects, on a vague "it".
-
-### stake-is-named (1)
-
-- `scene-talk.follow-plea.please-first-i-can-t-keep-living-this-way`: "Please, {first}. I can't keep living this way." — "I can't keep living this way" is melodrama with no stake named.
+- `scene-talk.state-confront.the-meeting-in-place-ended-hours-ago-where-were-you`: "The meeting in {place} ended hours ago. Where were you?" — Asserts a meeting that the absence scene's facts do not hold, and points at 'the meeting' unnamed.
+- `scene-talk.state-ask.is-the-job-worth-it-half-of-place-was-out-there-against-you`: "Is the job worth it? Half of {place} was out there against you." — Claims 'half of the town' was against the player, a count the record does not give, and repeats 022's 'is it worth it' shape.
 
 ### no-pointing-at-the-unnamed (1)
 
-- `scene-talk.close-press.think-about-it-you-know-where-i-live-in-place`: "Think about it. You know where I live in {place}." — "Think about it" leans on an unnamed it, and "where I live in {place}" is tacked on.
-
-### request-needs-its-ground (1)
-
-- `scene-talk.open-greet.hi-i-m-name-and-i-m-told-i-live-in-this-house-now`: "Hi. I'm {name}, and I'm told I live in this house now." — "I'm told I live in this house now" is an odd joke with nobody on record who told them.
-
-### every-line-gives-its-context (1)
-
-- `scene-talk.open-greet.can-we-talk-about-what-happened-in-place-i-can-t-stop-thinking-about-it`: "Can we talk about what happened in {place}? I can't stop thinking about it." — 'what happened in {place}' names the town they live in instead of the event.
-
-### alright-in-dialogue (1)
-
-- `scene-talk.close-accept.all-right-we-ll-leave-it-for-now-with-place-calmer`: "All right. We'll leave it for now, with {place} calmer." — 'All right', and 'with {place} calmer' is odd.
-
-### no-non-replies (1)
-
-- `scene-talk.close-press.we-ll-talk-again-when-you-ve-had-time-once-place-settles`: "We'll talk again when you've had time, once {place} settles." — Closes on a promise to talk again, and '{place} settles' is odd.
-
-### speech-craft-is-earned (1)
-
-- `scene-talk.state-request.the-seat-is-open-the-party-in-place-wants-you-on-the-ballot-and-i-m-here-to-ask-if-you-ll-say-yes`: "The seat is open, the party in {place} wants you on the ballot, and I'm here to ask if you'll say yes." — A composed list of three in a party ask, the same shape as rows 022 and 088.
-
-### no-insider-words (1)
-
-- `scene-talk.follow-answer.the-party-in-place-would-back-you-with-a-name-on-the-ballot-and-volunteers-at-the-door`: "The party in {place} would back you with a name on the ballot and volunteers at the door." — "Volunteers at the door" is insider talk, and "back you with a name on the ballot" makes no sense when the player is the name.
-
-### promise-only-what-the-speaker-can-do (1)
-
-- `scene-talk.follow-thank.that-s-wonderful-i-ll-start-the-paperwork-for-place-today`: "That's wonderful. I'll start the paperwork for {place} today." — The asker can't do the player's filing, and "paperwork for {place}" reads oddly.
-
-### "The deadline won't wait long" (batch 3) (1)
-
-- `scene-talk.follow-press.are-you-sure-the-seat-in-place-won-t-wait-long-for-somebody-else`: "Are you sure? The seat in {place} won't wait long for somebody else." — "won't wait long for somebody else" is muddled; it is unclear who or what waits.
+- `scene-talk.state-ask.i-m-proud-of-you-but-is-it-worth-what-place-is-doing-to-us`: "I'm proud of you, but is it worth what {place} is doing to us?" — 'What the town is doing to us' points at something the line never names.
 
 ## Passing lines
 
@@ -309,6 +224,8 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `ed5c2dce`, every line authored
 - `scene-talk.close-thank.i-m-glad-you-said-yes-it-made-s-day`: "I'm glad you said yes. It made {honoree}'s day."
 - `scene-talk.close-thank.that-s-all-i-hoped-for-thank-you`: "That's all I hoped for. Thank you, {first}."
 - `scene-talk.close-press.no-rush-just-don-t-let-s-day-end-without-us-talking`: "No rush. Just don't let {honoree}'s day end without us talking."
+- `scene-talk.state-confess.i-broke-my-word-i-d-rather-you-hear-why-from-me-than-from-anyone-in-place`: "I broke my word. I'd rather you hear why from me than from anyone in {place}."
+- `scene-talk.state-ask.i-saw-your-face-when-the-crowd-in-place-turned-out-is-it-getting-to-you`: "I saw your face when the crowd in {place} turned out. Is it getting to you?"
 - `scene-talk.state-ask.i-don-t-know-my-way-around-place-yet-where-should-i-put-my-things-and-who-runs-the-kitchen`: "I don't know my way around {place} yet. Where should I put my things, and who runs the kitchen?"
 - `scene-talk.narrate-narrate.name-sat-at-the-table-with-a-cold-cup-of-coffee-and-waited`: "{name} sat at the table with a cold cup of coffee and waited."
 - `scene-talk.open-greet.everyone-in-place-has-an-opinion-about-us-i-d-rather-hear-yours`: "Everyone in {place} has an opinion about us. I'd rather hear yours."
