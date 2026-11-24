@@ -4232,6 +4232,162 @@
       "date": "2026-11-24",
       "elements": ["mayor-treats-the-council-as-partner-or-opponent"],
       "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.the-next-budget-is-coming-and-will-be-in-it-come-tell-what-you-want",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The next budget is coming, and {theme-short} will be in it. Come tell {body-name} what you want.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.i-have-left-as-and-i-mean-to-spend-it-on",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I have {term-left} left as {office-title}, and I mean to spend it on {theme-short}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left", "office-title", "theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.write-to-me-or-find-me-after-the-meeting-i-read-all-of-it",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Write to me, {realm-bare}, or find me after the meeting. I read all of it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.if-you-remember-one-thing-from-this-evening-make-it",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If you remember one thing from this evening, make it {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.thank-you-for-the-work-you-do-in-whether-it-s-on-the-payroll-or-not",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for the work you do in {realm-name}, whether it's on the payroll or not.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.ask-me-anything-about-the-year-in",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Ask me anything about the year in {realm-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-mediating"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.the-people-who-come-to-the-meetings-of-shape-what-we-do-come-and-shape",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The people who come to the meetings of {body-name} shape what we do. Come and shape it, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-charming"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
     }
   ]
 }
