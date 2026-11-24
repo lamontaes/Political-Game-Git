@@ -97,7 +97,8 @@ it(`dev mode's Force on job-offer applies and waits for an employer's call (seed
     const position = coreAPI(core)
       .moduleState("jobs")
       .table("offers")
-      .get(String(offer?.facts?.offerId)) as { positionId?: string } | undefined;
+      .get(String(offer?.facts?.offerId)) as
+      { positionId?: string } | undefined;
     expect(
       coreAPI(core)
         .moduleState("jobs")
