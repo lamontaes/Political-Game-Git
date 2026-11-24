@@ -59,7 +59,8 @@
       "#sheet-body cuts a line of text": 1
     },
     "politics > Parties [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "#sheet-body cuts a line of text": 1,
+      "div.pager cuts a line of text": 1
     },
     "politics > Issues [sheet]": {
       "nav.pick-list.roster cuts a line of text": 1,
@@ -95,6 +96,9 @@
     "politics > Bills [sheet]": {
       "div.pager.roster-pages cuts a line of text": 1,
       "#sheet-body cuts a line of text": 1
+    },
+    "news [sheet]": {
+      "#sheet-body cuts a line of text": 1
     }
   },
   "repeated": {
@@ -106,6 +110,18 @@
       "record number shown in two or more places": 1
     },
     "calendar [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics > Government [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics > Elections [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "Race screen [sheet]": {
       "date shown in two or more places": 1
     }
   },
