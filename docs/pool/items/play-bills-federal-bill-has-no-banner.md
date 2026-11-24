@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10399
 blocked-on:
 source: the Replay of Nov 24 on main 86f796fc (Monserrate, Puerto Rico; Eastshore, Kansas passed)
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: none
+merged-at: 2026-11-24T12:54:12.146Z
 ---
 
 **What.** A federal bill opened from Politics > Bills shows no banner over its three columns, while a state or local bill shows its body's number and name over the room that body works in. The Replay saw it on a federal bill in Monserrate, Puerto Rico, and Eastshore, Kansas (state and local bills only) passed. Seen: each federal bill in a drawn place shows its number and the chamber's name over a room picture, like every other bill.
