@@ -1097,26 +1097,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-where-loses-me",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{said} is where {president} loses me.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": ["president", "said", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.why-first.talk-address-point-rent-in-was-on-my-mind-when-got-to",
       "move": "why-first",
       "kind": "spoken",
@@ -1133,29 +1113,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-sensitive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why-first.talk-address-point-work-is-thin-in-so-had-my-full-attention",
-      "move": "why-first",
-      "kind": "spoken",
-      "text": "Work is thin in {place}, so {said} had my full attention.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why-first",
-          "tie": "stand",
-          "requiresFacts": ["why-town-jobs", "place", "said"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-practical"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
