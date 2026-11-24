@@ -3601,23 +3601,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-to-approve-law",
-      "move": "lede",
-      "kind": "written",
-      "text": "Members of the {body} voted {count} on {date} to approve {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-against-law",
       "move": "lede",
       "kind": "written",
