@@ -1,0 +1,34 @@
+{
+  "id": "second-election-in-a-row-angle",
+  "kind": "detail",
+  "summary": "The headline angle is that the same side won for the second time in a row.",
+  "realLife": "The story compared this sweep with the one two years before and gave a straw poll beside it.",
+  "sources": [
+    "WHQR (Wilmington, North Carolina), 'For the second election in a row, Democrats sweep Wilmington council and mayoral races', Nov. 5, 2025: https://www.whqr.org/local/2025-11-05/for-the-second-election-in-a-row-democrats-sweep-wilmington-council-and-mayoral-races",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body"],
+  "gates": [],
+  "weights": {
+    "election": 0.9
+  },
+  "inGame": "the election history rows (results back to 1925) for the same body",
+  "turns": [
+    {
+      "name": "the first time in years",
+      "pulledBy": "a side that last won long ago",
+      "writes": "the story says how long it had been",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a streak broken",
+      "pulledBy": "a loss after several wins",
+      "writes": "the story says the streak ended",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
