@@ -2,8 +2,9 @@
   "id": "first-campaign-call-to-a-donor",
   "kind": "moment",
   "summary": "A first-time candidate makes a personal call to someone who might help fund the race.",
-  "realLife": "owner, Nov 8: A first campaign includes the work of talking to potential donors.",
+  "realLife": "Joe Lieberman recalled putting off his first fundraising call for a week or two after his staff asked him to start. Over the course of the campaign, how the calls went began to affect his mood at the end of the day.",
   "sources": [
+    "https://www.pbs.org/wgbh/pages/frontline/shows/scandal/interviews/lieberman.html",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
   ],
   "inGame": "The donor-ask situation supplies the request; first-campaign wording requires candidacy history.",
