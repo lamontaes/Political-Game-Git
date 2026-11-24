@@ -34015,6 +34015,309 @@
       "date": "2026-11-24"
     },
     {
+      "key": "conversation.own-view-answer-agree.you-and-i-both-think",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and I both think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "reason-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-back-it-on-too-i-hope-does",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd back it on {said} too. I hope {decider} does.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "said", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-landed-in-the-same-spot-on",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I landed in the same spot on {said}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-don-t-want-it-either-because",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I don't want it either, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "reason-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-say-no-on-too-should-hear-it",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd say no on {said} too. {decider} should hear it.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "said", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-m-right-where-you-are-on",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm right where you are on {said}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-differently-because",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see {said} differently, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "said", "reason-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-say-no-on-and-tell-so",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd say no on {said}, and tell {decider} so.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "said", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-don-t-agree-on-but-go-on",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We don't agree on {said}, but go on.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-m-for-it-honestly-and-i-think",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'm for it, honestly, and I think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "reason-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-read-the-other-way-and-i-d-tell",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I read {said} the other way, and I'd tell {decider}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "said", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-see-differently-so-let-s-talk-it-through",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We see {said} differently, so let's talk it through.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-got-you-to-that-on",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What got you to that on {said}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-why.did-something-make-you-feel-that-way-about",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Did something make you feel that way about {said}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-why.is-that-about-or-something-closer-to-home",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Is that about {said}, or something closer to home?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
       "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-for",
       "move": "own-view-take-core",
       "kind": "spoken",
