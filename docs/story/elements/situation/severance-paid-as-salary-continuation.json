@@ -34,5 +34,6 @@
       ],
       "writesBack": "Money is tight, the mood turns bitter, and the tie to the employer cools."
     }
-  ]
+  ],
+  "issues": ["law:unemployment-insurance", "law:unemployment-weekly-maximum"]
 }
