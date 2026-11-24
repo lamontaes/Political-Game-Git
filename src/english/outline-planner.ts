@@ -88,6 +88,16 @@ interface TellingUse {
 export const DISASTER_WORDS: Readonly<Record<string, string>> =
   OUTLINES.disasterWords;
 
+/** The Journal's first evening's settings (outlines.json `journalEvening`), read by src/director/journal-evening.ts. */
+export const JOURNAL_EVENING = (
+  outlineData as unknown as {
+    journalEvening: {
+      watchersNamed: { value: number };
+      self: { subject: string; object: string };
+    };
+  }
+).journalEvening;
+
 /** One piece of the planner's bank. */
 interface TellingPart {
   readonly key: string;

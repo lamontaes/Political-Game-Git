@@ -122,6 +122,52 @@
           "required": true
         }
       ]
+    },
+    "journal-evening": {
+      "surface": "journal",
+      "budgets": {
+        "*": 2
+      },
+      "sections": [
+        {
+          "name": "evening",
+          "required": true,
+          "shapes": ["watched-said-mine", "watched-said"]
+        },
+        {
+          "name": "ahead",
+          "joins": true,
+          "shapes": ["looking-ahead"]
+        }
+      ]
+    },
+    "news-address-headline": {
+      "surface": "news",
+      "sections": [
+        {
+          "name": "headline",
+          "required": true,
+          "shapes": ["headline"]
+        }
+      ]
+    },
+    "news-address": {
+      "surface": "news",
+      "budgets": {
+        "*": 2,
+        "name": 1
+      },
+      "sections": [
+        {
+          "name": "lede",
+          "required": true,
+          "shapes": ["lede"]
+        },
+        {
+          "name": "body",
+          "shapes": ["next-then-voice", "voice-alone"]
+        }
+      ]
     }
   },
   "shapes": {
@@ -329,6 +375,29 @@
     },
     "loading-now": {
       "moves": ["now"]
+    },
+    "watched-said-mine": {
+      "moves": ["watched", "said", "said?", "mine"],
+      "needs": ["about"]
+    },
+    "watched-said": {
+      "moves": ["watched", "said?"]
+    },
+    "looking-ahead": {
+      "moves": ["ahead"]
+    },
+    "headline": {
+      "moves": ["headline"]
+    },
+    "lede": {
+      "moves": ["lede"]
+    },
+    "next-then-voice": {
+      "moves": ["next", "voice?"],
+      "needs": ["about"]
+    },
+    "voice-alone": {
+      "moves": ["voice"]
     }
   },
   "weights": {
@@ -363,5 +432,18 @@
     "typhoon": "typhoon",
     "drought": "drought",
     "tropical storm": "tropical storm"
+  },
+  "journalEvening": {
+    "about": "Read by src/director/journal-evening.ts.",
+    "watchersNamed": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "2 to 3",
+      "note": "Past this many housemates, the entry says the whole house watched instead of naming each one."
+    },
+    "self": {
+      "subject": "I",
+      "object": "me"
+    }
   }
 }

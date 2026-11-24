@@ -49,6 +49,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
+import { eveningChapter } from "./journal-evening";
 import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
@@ -2150,6 +2151,9 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
+  // The opening evening, told as one diary entry (journal-evening.ts).
+  const evening = eveningChapter(core, director, personId, through);
+  if (evening) chapters.push(evening);
   const kept = chapters.filter((row) => row.lines.length > zero);
   linkLines(core, book.momentsById, kept);
   // A line its records say came of the one before opens on that ("Because

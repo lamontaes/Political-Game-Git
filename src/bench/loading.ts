@@ -81,9 +81,17 @@ function toldLife(
       put("lost-year", yearOf(event.date), event.id);
       put("lost-office", String(event.facts.office).toLowerCase(), event.id);
       if (event.facts.votes)
-        put("lost-votes", String(event.facts.votes), event.id);
+        put(
+          "lost-votes",
+          Number(event.facts.votes).toLocaleString("en-US"),
+          event.id,
+        );
       if (event.facts.winnerVotes)
-        put("winner-votes", String(event.facts.winnerVotes), event.id);
+        put(
+          "winner-votes",
+          Number(event.facts.winnerVotes).toLocaleString("en-US"),
+          event.id,
+        );
       const before = facts["college-year"] ?? facts["finished-year"];
       if (before?.text === yearOf(event.date))
         put("lost-same-year", "yes", event.id);

@@ -1,4 +1,5 @@
 import type { EntityId } from "../core2/kernel/brands";
+import { hasOutline, tell } from "../english/outline-planner";
 import { spokenDate } from "../core2/kernel/dates";
 import {
   followersOf,
@@ -274,6 +275,38 @@ function worded(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
+  // A kind with an outline row is told through the one outline planner: a
+  // headline, then a lede and a body (the Story lead, Nov 24; owner, Nov 23,
+  // P45: "These aren't stories").
+  if (hasOutline(`news-${kind}`)) {
+    const tellAs = (outline: string) =>
+      tell({
+        kind: outline,
+        facts,
+        momentKey: `archive-news:${storyId}`,
+        worldSeed: core.seed,
+        sourceRecordIds: [storyId as EntityId],
+        knower: speaker as EntityId,
+      });
+    const head = tellAs(`news-${kind}-headline`);
+    const body = tellAs(`news-${kind}`);
+    if (!head || !body) return null;
+    const lede = body.sentences[0]!.text;
+    return {
+      headline: head.paragraphs.join(" "),
+      lede,
+      ...(body.sentences.length > 1
+        ? { paragraphs: [...body.paragraphs] }
+        : {}),
+      sourceRecordIds: [
+        ...new Set(
+          [...head.sentences, ...body.sentences].flatMap(
+            (row) => row.sourceRecordIds,
+          ),
+        ),
+      ],
+    };
+  }
   const composed = composeNewsStory(packet, kind, turn);
   if (!composed.headline && !composed.lede) return null;
   // A headline or sentence opens with a capital, whatever fact starts it.

@@ -7,7 +7,7 @@
  * it came from. A record whose facts can't be said is left unworded here.
  */
 import { governmentProperName } from "../core2/government-proper-name";
-import { rememberedOf } from "../director/address-render";
+import { rememberedOf, saidOf } from "../director/address-render";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -3886,10 +3886,28 @@ const schoolTests: Builder = (read) => {
 /** The president's address. */
 const address: Builder = (read, f) => {
   const id = f["address:president"];
+  // What the address stood on and the line a reader can quote, from the
+  // address's own record of what was said (the Story lead, Nov 24: a news
+  // story has a lede and a body).
+  const said = saidOf(f);
+  const stood = said.find((row) => row.values.about);
+  const quote = rememberedOf(f);
+  const named = read.who(id, "name", false);
+  const surname = named.name?.text.split(" ").at(-1);
   return story(
     "address",
     {
-      ...read.who(id, "name", false),
+      ...named,
+      ...(surname && id ? { surname: read.fact(surname, id) } : {}),
+      ...(stood?.values.about
+        ? { about: read.fact(stood.values.about, id ?? "") }
+        : {}),
+      ...(stood?.values["stance-against"]
+        ? { "president-against": read.yes() }
+        : stood?.values["stance-for"]
+          ? { "president-for": read.yes() }
+          : {}),
+      ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
       // An inaugural is told as the taking of office, citing the offices
       // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"

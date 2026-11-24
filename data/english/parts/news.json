@@ -625,28 +625,6 @@
       }
     },
     {
-      "key": "news.law-amount-passed.a-law-passed-date-leaves-the-measure-in-place-at",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "A law passed {date} leaves the {measure} in {place} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "news",
-          "role": "law-amount-passed",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount-passed.place-set-the-measure-at-to-in-a-law-passed",
       "move": "law-amount-passed",
       "kind": "written",
@@ -656,7 +634,8 @@
           "move": "law-amount-passed",
           "subject": "news",
           "role": "law-amount-passed",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -677,7 +656,8 @@
           "move": "law-amount-passed",
           "subject": "news",
           "role": "law-amount-passed",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -699,7 +679,8 @@
           "subject": "news",
           "role": "law-amount-passed",
           "choice": "lede",
-          "requiresFacts": ["federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -721,29 +702,8 @@
           "subject": "news",
           "role": "law-amount-passed",
           "choice": "lede",
-          "requiresFacts": ["federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount-passed.congress-voted-date-to-leave-the-measure-at-to",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "Congress voted {date} to leave the {measure} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "news",
-          "role": "law-amount-passed",
-          "choice": "lede",
-          "requiresFacts": ["same", "federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1837,50 +1797,6 @@
       }
     },
     {
-      "key": "news.law-amount.a-law-that-began-date-leaves-the-measure-in-place",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "A law that began {date} leaves the {measure} in {place} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-holds-at-to-after-a-law-that-began",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} holds at {to} after a law that began {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
       "move": "law-amount",
       "kind": "written",
@@ -1890,7 +1806,8 @@
           "move": "law-amount",
           "subject": "news",
           "role": "law-amount",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",

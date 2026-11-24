@@ -38,7 +38,14 @@
     "winner-votes": "the winner's votes in it",
     "start-month": "the month the game opens",
     "start-year": "the year the game opens",
-    "state": "the player's state, as a sentence says it"
+    "state": "the player's state, as a sentence says it",
+    "president-name": "the President's full name, from the officials engine",
+    "we": "the household members who watched and the player, as the subject of a sentence (\"Joe, Ann and I\")",
+    "us": "the same, as its object (\"Joe, Ann and me\")",
+    "name": "the person's full name, from the record",
+    "surname": "the person's family name, from the record",
+    "date": "the day as a news story says it",
+    "quote": "the line of the address a reader can quote, from the address's record"
   },
   "maxWords": 30,
   "parts": [
@@ -3334,6 +3341,472 @@
       "author": "the Story lead",
       "date": "2026-11-24",
       "after": ["start"]
+    },
+    {
+      "key": "outline.said.journal-evening-most-of-it-was-about",
+      "move": "said",
+      "kind": "written",
+      "text": "Most of it was about {theme-name}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said"],
+      "lean": ["personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-on-i-think-the-president-has-it-right",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, I think the President has it right.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said"],
+      "lean": ["personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-on-i-think-the-president-has-it-wrong",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, I think the President has it wrong.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said"],
+      "lean": ["personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-i-can-t-tell-yet-what-i-think-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I can't tell yet what I think about {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-unsure"]
+        }
+      ],
+      "after": ["said"],
+      "lean": ["personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-i-agreed-with-more-of-it-than-i-expected-to-mostly-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I agreed with more of it than I expected to, mostly on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ahead.journal-evening-tomorrow-i-start-working-out-where-i-fit-in",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow I start working out where I fit in {place}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ahead.journal-evening-will-still-be-here-in-the-morning-and-so-will-i",
+      "move": "ahead",
+      "kind": "written",
+      "text": "{place} will still be here in the morning, and so will I.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-calm"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-caught-s-speech-on-the-news-tonight",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} caught {president-name}'s speech on the news tonight.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-we-had-the-news-on-after-supper-for-s-first-speech-as-presid",
+      "move": "watched",
+      "kind": "written",
+      "text": "We had the news on after supper, {us}, for {president-name}'s first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["us", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-affectionate",
+        "personality-v1:facet-nostalgic"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-the-whole-house-sat-down-for-s-speech-on-the-news-tonight",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house sat down for {president-name}'s speech on the news tonight.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-affectionate",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-i-watched-s-speech-on-the-news-tonight-by-myself",
+      "move": "watched",
+      "kind": "written",
+      "text": "I watched {president-name}'s speech on the news tonight, by myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-came-out-against",
+      "move": "said",
+      "kind": "written",
+      "text": "The President came out against {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"]
+        }
+      ],
+      "after": ["watched", "said"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-came-out-for",
+      "move": "said",
+      "kind": "written",
+      "text": "The President came out for {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"]
+        }
+      ],
+      "after": ["watched", "said"],
+      "lean": ["personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-address-headline-sworn-in-opposes",
+      "move": "headline",
+      "kind": "written",
+      "text": "{surname} sworn in, opposes {about}",
+      "uses": [
+        {
+          "subject": "news-address-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": [
+            "surname",
+            "about",
+            "inaugural",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-address-headline-sworn-in-backs",
+      "move": "headline",
+      "kind": "written",
+      "text": "{surname} sworn in, backs {about}",
+      "uses": [
+        {
+          "subject": "news-address-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["surname", "about", "inaugural", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-address-headline-sworn-in-as-president",
+      "move": "headline",
+      "kind": "written",
+      "text": "{surname} sworn in as president",
+      "uses": [
+        {
+          "subject": "news-address-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["surname", "inaugural"],
+          "excludesFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-address-headline-speaks-to-congress",
+      "move": "headline",
+      "kind": "written",
+      "text": "{surname} speaks to Congress",
+      "uses": [
+        {
+          "subject": "news-address-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["surname", "joint-session"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-address-was-sworn-in-as-president-on-and-used-the-inaugural-address-to-come-out-against",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} was sworn in as president on {date} and used the inaugural address to come out against {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-address-was-sworn-in-as-president-on-and-used-the-inaugural-address-to-push-for",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} was sworn in as president on {date} and used the inaugural address to push for {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-address-took-the-oath-of-office-as-president-on-at-the-capitol",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} took the oath of office as president on {date} at the Capitol.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["name", "date", "inaugural"],
+          "excludesFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-address-spoke-to-both-houses-of-congress-on",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} spoke to both houses of Congress on {date}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["name", "date", "joint-session"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.next.news-address-the-question-now-goes-to-congress-where-would-need-both-chambers-to-reach-the-president-s-desk",
+      "move": "next",
+      "kind": "written",
+      "text": "The question now goes to Congress, where {about} would need both chambers to reach the president's desk.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "next",
+          "tie": "record",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.voice.news-address-said",
+      "move": "voice",
+      "kind": "written",
+      "text": "“{quote}” {surname} said.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "voice",
+          "tie": "record",
+          "requiresFacts": ["quote", "surname"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede", "next"]
+    },
+    {
+      "key": "outline.voice.news-address-the-new-president-told-the-crowd",
+      "move": "voice",
+      "kind": "written",
+      "text": "“{quote}” the new president told the crowd.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "voice",
+          "tie": "record",
+          "requiresFacts": ["quote", "inaugural"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede", "next"]
     }
   ]
 }
