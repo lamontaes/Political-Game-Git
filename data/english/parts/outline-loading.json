@@ -3851,6 +3851,106 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.someone-speaks-for-place-in-congress-and-in-start-month-start-year-you-can-look",
+      "move": "now",
+      "kind": "written",
+      "text": "Someone speaks for {place} in Congress, and in {start-month} {start-year} you can look up who.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-governor-of-state-is-a-governor-party-and-the-name-is-easy-to-find-in-start",
+      "move": "now",
+      "kind": "written",
+      "text": "The governor of {state} is a {governor-party}, and the name is easy to find in {start-month} {start-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "state",
+            "governor-party"
+          ]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-white-house-is-start-president-party-in-start-month-start-year-and-the-perso",
+      "move": "now",
+      "kind": "written",
+      "text": "The White House is {start-president-party} in {start-month} {start-year}, and the person who holds it was elected by people who live in places like {place}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "start-president-party"
+          ]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-the-state-of-state-has-a-legislature-a-governor-and-co",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year}, the state of {state} has a legislature, a governor and courts, and you can visit all of them.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "state"]
+        }
+      ],
+      "elements": ["governors-are-elected-state-by-state-on-their-own-years"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.what-you-know-about-place-in-start-month-start-year-is-mostly-what-you-have-seen",
+      "move": "now",
+      "kind": "written",
+      "text": "What you know about {place} in {start-month} {start-year} is mostly what you have seen. The rest is on record, and you can look it up.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
