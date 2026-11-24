@@ -1746,7 +1746,7 @@ function officesHeld(
   core: CoreState,
   terms: readonly Pick<
     TermRow,
-    "officeId" | "startDate" | "endDate" | "status"
+    "officeId" | "startDate" | "serviceStart" | "endDate" | "status"
   >[],
 ) {
   const api = coreAPI(core);
@@ -1766,7 +1766,10 @@ function officesHeld(
       | { title?: string; jurisdiction?: string; governmentName?: string }
       | undefined;
     if (!office?.title) continue;
-    const from = Number(term.startDate.slice(0, 4));
+    // The run's first day is the record's own service start, the same day the
+    // public record's "In office since" reads, so the card cannot say 2025 in
+    // one place and 2021 in another (Player's replay of #10337, Nov 24).
+    const from = Number((term.serviceStart ?? term.startDate).slice(0, 4));
     const to = Number((term.endDate ?? term.startDate).slice(0, 4));
     const run = runs.get(term.officeId);
     const serving = term.status === "serving";
