@@ -1904,30 +1904,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-took-the-oath-on-and-said-the-new-administration-will-keep-in-place",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} took the oath on {date} and said the new administration will keep {about} in place.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-sworn-in-on-said-will-stay-the-law-under-the-new-administration",
       "move": "lede",
       "kind": "written",
@@ -1952,82 +1928,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-the-new-president-took-office-on-and-promised-to-defend",
-      "move": "lede",
-      "kind": "written",
-      "text": "The new president, {name}, took office on {date} and promised to defend {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-took-the-oath-on-and-vowed-not-to-undo",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} took the oath on {date} and vowed not to undo {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-stays-said-on-the-day-of-the-oath",
       "move": "lede",
       "kind": "written",
       "text": "{about} stays, {name} said on {date}, the day of the oath.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-with-the-oath-taken-on-said-no-one-should-expect-the-new-administration-to-touch",
-      "move": "lede",
-      "kind": "written",
-      "text": "With the oath taken on {date}, {name} said no one should expect the new administration to touch {about}.",
       "uses": [
         {
           "subject": "news-address",
@@ -2078,79 +1982,6 @@
           "tie": "record",
           "requiresFacts": ["about", "president-for"],
           "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.next.news-address-the-new-president-can-ask-for-but-only-congress-can-pass-it",
-      "move": "next",
-      "kind": "written",
-      "text": "The new president can ask for {about}, but only Congress can pass it.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "next",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.next.news-address-undoing-would-take-an-act-of-congress",
-      "move": "next",
-      "kind": "written",
-      "text": "Undoing {about} would take an act of Congress.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "next",
-          "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.next.news-address-the-president-alone-cannot-repeal-congress-would-have-to-act",
-      "move": "next",
-      "kind": "written",
-      "text": "The president alone cannot repeal {about}; Congress would have to act.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "next",
-          "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.next.news-address-congress-would-have-to-vote-before-could-be-undone",
-      "move": "next",
-      "kind": "written",
-      "text": "Congress would have to vote before {about} could be undone.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "next",
-          "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
         }
       ],
       "after": ["lede"],
@@ -2496,29 +2327,6 @@
           "tie": "record",
           "requiresFacts": ["surname", "about", "inaugural", "president-for"],
           "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.headline.news-address-headline-sworn-in-will-keep",
-      "move": "headline",
-      "kind": "written",
-      "text": "{surname} sworn in, will keep {about}",
-      "uses": [
-        {
-          "subject": "news-address-headline",
-          "role": "headline",
-          "tie": "record",
-          "requiresFacts": [
-            "surname",
-            "about",
-            "inaugural",
-            "president-for",
-            "law-in-force"
-          ]
         }
       ],
       "origin": "authored",
@@ -2986,30 +2794,6 @@
       "move": "lede",
       "kind": "written",
       "text": "Sworn in on {date}, {name} said in the inaugural address that {about} will stay.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-took-the-oath-on-date-and-said-in-the-inaugural-address-that-about-will-not",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} took the oath on {date} and said in the inaugural address that {about} will not be undone.",
       "uses": [
         {
           "subject": "news-address",
@@ -3722,78 +3506,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-asked-congress-to-pass-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} asked Congress to pass {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-urged-congress-not-to-pass-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} urged Congress not to pass {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-urged-congress-to-repeal-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} urged Congress to repeal {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.margin.news-roll-call-the-body-voted-by-the-narrowest-margin-possible",
       "move": "margin",
       "kind": "written",
@@ -3986,52 +3698,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-gave-about-a-plain-endorsement-in-the-inaugural-address-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} gave {about} a plain endorsement in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-rejected-about-in-the-inaugural-address-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} rejected {about} in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-the-inaugural-address-on-date-put-name-on-record-against-about",
       "move": "lede",
       "kind": "written",
@@ -4124,29 +3790,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-criticized-about-in-the-inaugural-address-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} criticized {about} in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-came-out-against-about",
       "move": "lede",
       "kind": "written",
@@ -4216,54 +3859,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-the-new-administration-will-leav",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} said in the inaugural address on {date} that the new administration will leave {about} alone.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-pledged-to-keep-about-as-it-is",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} pledged to keep {about} as it is.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for",
-            "law-in-force"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-name-told-the-country-on-date-that-about-will-not-change-under-the-new-administr",
       "move": "lede",
       "kind": "written",
@@ -4288,10 +3883,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-promised-in-the-inaugural-address-on-date-to-keep-about-in-place",
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-will-remain-the-law",
       "move": "lede",
       "kind": "written",
-      "text": "{name} promised in the inaugural address on {date} to keep {about} in place.",
+      "text": "{name} said in the inaugural address on {date} that {about} will remain the law.",
       "uses": [
         {
           "subject": "news-address",
@@ -4305,6 +3900,222 @@
             "president-for",
             "law-in-force"
           ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-told-the-country-on-date-that-the-new-administration-is-for-about-which-is-",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} told the country on {date} that the new administration is for {about}, which is already law.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-about-is-already-the-law-and-name-said-in-the-inaugural-address-on-date-that-the",
+      "move": "lede",
+      "kind": "written",
+      "text": "{about} is already the law, and {name} said in the inaugural address on {date} that the new administration backs it.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-on-date-that-the-new-administration-wants-to-get-rid-of-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said on {date} that the new administration wants to get rid of {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-said-about-should-end",
+      "move": "lede",
+      "kind": "written",
+      "text": "In the inaugural address on {date}, {name} said {about} should end.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-now-the-law-is-a-mistake",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that {about}, now the law, is a mistake.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-the-new-administration-wants-abo",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that the new administration wants {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-called-for-about-in-the-first-address-of-the-term-on-date",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} called for {about} in the first address of the term, on {date}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-used-the-inaugural-address-on-date-to-call-for-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} used the inaugural address on {date} to call for {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-called-for-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "In the inaugural address on {date}, {name} called for {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "origin": "authored",
