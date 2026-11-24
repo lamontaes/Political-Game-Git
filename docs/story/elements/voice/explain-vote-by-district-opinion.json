@@ -1,0 +1,15 @@
+{
+  "id": "explain-vote-by-district-opinion",
+  "kind": "voice",
+  "summary": "A member tells a reporter how constituents stand on the question behind the vote.",
+  "realLife": "owner, Nov 14: The player may explain a vote by referring to the electorate’s position.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L30"
+  ],
+  "inGame": "electorateSides supplies shares on the question for the press-comment variant.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{bill}", "{district}"],
+  "gates": ["The district’s position is recorded for this question."],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "coffee-with-a-friend-considering-a-run",
+  "kind": "situation",
+  "summary": "A friend asks the player to meet while deciding whether to run for office.",
+  "realLife": "owner, Nov 15: Give the coffee invitation a live decision about a possible candidacy.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L184"
+  ],
+  "inGame": "needs: a prospective candidacy that can cause the meeting before filing.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{friend}", "{office}", "{place}"],
+  "gates": ["The friend is considering an eligible office."],
+  "weights": [],
+  "usedBy": []
+}

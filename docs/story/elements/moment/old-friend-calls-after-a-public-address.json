@@ -1,0 +1,15 @@
+{
+  "id": "old-friend-calls-after-a-public-address",
+  "kind": "moment",
+  "summary": "An old friend arranges coffee after a major speech and brings up what it means locally.",
+  "realLife": "owner, Nov 15: Someone the player knows can connect national news to their life.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L166"
+  ],
+  "inGame": "needs: a director cause linking the existing friendship and the public address.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{friend}", "{address}", "{place}"],
+  "gates": ["The friend relationship and the earlier address are recorded."],
+  "weights": [],
+  "usedBy": []
+}

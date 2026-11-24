@@ -1,0 +1,15 @@
+{
+  "id": "sharp-answer-after-second-press",
+  "kind": "voice",
+  "summary": "A member responds more sharply when the interviewer presses the same point again.",
+  "realLife": "owner, Nov 14: A repeated challenge can justify a sharp reply during an interview.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L36"
+  ],
+  "inGame": "needs: a same-question repeat within the current exchange, distinct from prior meetings.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{reporter}", "{question}"],
+  "gates": ["The interviewer has already pressed this point."],
+  "weights": [],
+  "usedBy": []
+}

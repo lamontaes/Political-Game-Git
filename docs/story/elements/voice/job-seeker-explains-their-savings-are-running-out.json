@@ -1,0 +1,15 @@
+{
+  "id": "job-seeker-explains-their-savings-are-running-out",
+  "kind": "voice",
+  "summary": "A constituent explains how long they have been out of work and what that has done to their savings.",
+  "realLife": "owner, Nov 15: A job seeker’s account can bring the household cost into office hours.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L163"
+  ],
+  "inGame": "needs: recorded jobless duration and savings change together in office-hours facts.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{constituent}", "{official}"],
+  "gates": ["Unemployment duration and diminished savings are supported."],
+  "weights": [],
+  "usedBy": []
+}

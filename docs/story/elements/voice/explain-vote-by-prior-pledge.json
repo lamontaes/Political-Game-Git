@@ -1,0 +1,15 @@
+{
+  "id": "explain-vote-by-prior-pledge",
+  "kind": "voice",
+  "summary": "A member answers a question about a vote by recalling the commitment it fulfills.",
+  "realLife": "owner, Nov 14: A pledge can explain a vote when the record backs the connection.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L30"
+  ],
+  "inGame": "needs: their connection exposed to the press reply. The promise records and the member vote are the two reads.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{bill}", "{promise}"],
+  "gates": ["The vote concerns an outstanding promise."],
+  "weights": [],
+  "usedBy": []
+}

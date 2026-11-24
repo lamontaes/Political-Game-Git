@@ -1,0 +1,15 @@
+{
+  "id": "name-the-favor-before-making-the-offer",
+  "kind": "move",
+  "summary": "A visitor identifies the official act they want before offering something in return.",
+  "realLife": "owner, Nov 15: An offer only makes sense once the player knows what the visitor wants done.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L85"
+  ],
+  "inGame": "bribe-facts.ts supplies the wanted act; bribe-wanted-named.test.ts checks that it is named.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{visitor}", "{member}", "{official_act}"],
+  "gates": ["An official act within the member’s reach is on record."],
+  "weights": [],
+  "usedBy": []
+}

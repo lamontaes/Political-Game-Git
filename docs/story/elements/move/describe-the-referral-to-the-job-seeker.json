@@ -1,0 +1,15 @@
+{
+  "id": "describe-the-referral-to-the-job-seeker",
+  "kind": "move",
+  "summary": "An official tells a job seeker what will happen to their referral and who can use it.",
+  "realLife": "owner, Nov 15: Describe the help an official can give when there is no named local agency for it.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L161"
+  ],
+  "inGame": "recordReferral creates a row employers read when considering applicants.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{official}", "{job_seeker}", "{referral}"],
+  "gates": ["The official can make a job referral."],
+  "weights": [],
+  "usedBy": []
+}

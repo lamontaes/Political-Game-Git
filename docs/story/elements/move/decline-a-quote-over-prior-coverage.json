@@ -1,0 +1,15 @@
+{
+  "id": "decline-a-quote-over-prior-coverage",
+  "kind": "move",
+  "summary": "A member declines to comment to an outlet after a story about the member has damaged their relationship.",
+  "realLife": "owner, Nov 14: An outlet’s earlier coverage can supply a reason for declining its interview.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L37"
+  ],
+  "inGame": "The press-comment variant reads earlier scandal coverage, the outlet, and the reporter’s tie.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{outlet}", "{story}"],
+  "gates": ["A relevant adverse story or strained tie is recorded."],
+  "weights": [],
+  "usedBy": []
+}

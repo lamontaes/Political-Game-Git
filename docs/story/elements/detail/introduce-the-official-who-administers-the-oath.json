@@ -1,0 +1,15 @@
+{
+  "id": "introduce-the-official-who-administers-the-oath",
+  "kind": "detail",
+  "summary": "An incoming member learns who will swear them in and what office that person holds.",
+  "realLife": "owner, Nov 15: A clerk’s name alone leaves a new acquaintance’s role unexplained.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L159"
+  ],
+  "inGame": "needs: confirm the selected role is available in narration. swearing-in.ts selects the counterpart.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{oath_giver}", "{role}", "{member}"],
+  "gates": ["This is the member’s first meeting with the oath giver."],
+  "weights": [],
+  "usedBy": []
+}

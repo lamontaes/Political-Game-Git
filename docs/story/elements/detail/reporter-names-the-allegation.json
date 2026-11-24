@@ -1,0 +1,15 @@
+{
+  "id": "reporter-names-the-allegation",
+  "kind": "detail",
+  "summary": "A reporter tells an official what the published story alleges before asking for a response.",
+  "realLife": "owner, Nov 15: Naming a general policy topic leaves the official without an allegation to answer.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L85"
+  ],
+  "inGame": "scandal-call-printed.test.ts checks the printed story behind the call.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{reporter}", "{official}", "{story}"],
+  "gates": ["The allegation has appeared in a story."],
+  "weights": [],
+  "usedBy": []
+}

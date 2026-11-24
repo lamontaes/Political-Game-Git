@@ -1,0 +1,15 @@
+{
+  "id": "address-the-chamber-on-a-colleagues-bill",
+  "kind": "voice",
+  "summary": "A member speaks to the chamber when taking a position during floor debate.",
+  "realLife": "owner, Nov 15: A floor intervention should sound like something said in front of other members.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L115"
+  ],
+  "inGame": "The floor-debate situation and floor-debate-facts.ts provide the occasion and bill.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{chamber}", "{bill}"],
+  "gates": ["The chamber is debating the bill."],
+  "weights": [],
+  "usedBy": []
+}

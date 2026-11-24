@@ -1,0 +1,15 @@
+{
+  "id": "sponsor-explains-the-bill-unprompted",
+  "kind": "move",
+  "summary": "A sponsor opens the conversation by explaining what the bill would do.",
+  "realLife": "owner, Nov 15: The player should hear the substance directly from the sponsor.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L114"
+  ],
+  "inGame": "floor-debate-facts.ts reads the bill for the debate; only use provisions available in the played record.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{sponsor}", "{bill}", "{provision}"],
+  "gates": ["The bill’s operative provision is known."],
+  "weights": [],
+  "usedBy": []
+}

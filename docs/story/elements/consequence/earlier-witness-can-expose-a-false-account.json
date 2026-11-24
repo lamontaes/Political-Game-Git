@@ -1,0 +1,15 @@
+{
+  "id": "earlier-witness-can-expose-a-false-account",
+  "kind": "consequence",
+  "summary": "Someone who heard the original account can challenge a later denial.",
+  "realLife": "owner, Nov 14: A player choosing a false answer should face a consequence if a witness can contradict it.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L44"
+  ],
+  "inGame": "needs: a witness-linked contradiction and a consequence for this specific statement.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{witness}", "{member}", "{statement}"],
+  "gates": ["The witness could have heard the earlier statement."],
+  "weights": [],
+  "usedBy": []
+}

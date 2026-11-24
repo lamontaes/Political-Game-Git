@@ -1,0 +1,15 @@
+{
+  "id": "ceremony-starts-at-its-scheduled-hour",
+  "kind": "detail",
+  "summary": "The invitation tells the incoming member when the ceremony will actually begin.",
+  "realLife": "owner, Nov 15: A ceremony’s stated time should come from its appointment on the calendar.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L164"
+  ],
+  "inGame": "needs: a ceremony-specific hour rather than a generic day band.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{ceremony}", "{time}"],
+  "gates": ["A start time is recorded."],
+  "weights": [],
+  "usedBy": []
+}

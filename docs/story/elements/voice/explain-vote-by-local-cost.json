@@ -1,0 +1,15 @@
+{
+  "id": "explain-vote-by-local-cost",
+  "kind": "voice",
+  "summary": "A member answers a reporter by explaining what the measure would cost the town.",
+  "realLife": "owner, Nov 14: Give the member a reason grounded in the cost of the actual bill.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L30"
+  ],
+  "inGame": "needs: a bill-specific local cost available to the press-comment reply.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{bill}", "{place}"],
+  "gates": ["The cost to this government has been established."],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "declined-invitation-changes-the-next-approach",
+  "kind": "consequence",
+  "summary": "After the player declines an invitation, someone can approach them later about a different opportunity.",
+  "realLife": "owner, Nov 15: Declining an approach should be remembered when the next opportunity arises.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L186"
+  ],
+  "inGame": "needs: the particular refusal read by the cause of a later, different invitation.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{player}", "{inviter}", "{opportunity}"],
+  "gates": ["The earlier invitation was declined."],
+  "weights": [],
+  "usedBy": []
+}

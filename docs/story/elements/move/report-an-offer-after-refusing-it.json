@@ -1,0 +1,15 @@
+{
+  "id": "report-an-offer-after-refusing-it",
+  "kind": "move",
+  "summary": "A member decides whether to report an improper offer as a separate act from turning it down.",
+  "realLife": "owner, Nov 15: Reporting, refusing and accepting should each be a distinct choice.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L89"
+  ],
+  "inGame": "needs: verify a report outcome before using it. The director has bribe-offer and bribe-pressed scenes.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{visitor}", "{offer}"],
+  "gates": ["An improper offer has been made."],
+  "weights": [],
+  "usedBy": []
+}

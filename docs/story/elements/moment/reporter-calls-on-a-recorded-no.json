@@ -1,0 +1,15 @@
+{
+  "id": "reporter-calls-on-a-recorded-no",
+  "kind": "moment",
+  "summary": "A reporter calls after a defeat and asks about the member’s own vote.",
+  "realLife": "owner, Nov 14: A reporter’s opening should establish the vote that prompted the call.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L21"
+  ],
+  "inGame": "votesOf and the press-comment cause identify the vote and bill.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{reporter}", "{member}", "{bill}"],
+  "gates": ["The vote record identifies the member and the outcome."],
+  "weights": [],
+  "usedBy": []
+}

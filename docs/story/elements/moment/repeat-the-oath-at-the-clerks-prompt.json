@@ -1,0 +1,15 @@
+{
+  "id": "repeat-the-oath-at-the-clerks-prompt",
+  "kind": "moment",
+  "summary": "At a swearing-in the incoming member waits for the person administering the oath to give the words.",
+  "realLife": "owner, Nov 15: Let the actual exchange of an oath shape what the player says.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L87"
+  ],
+  "inGame": "swearing-in.ts and data/swearing-in.json carry the oath giver and ceremony.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{oath_giver}", "{seat}"],
+  "gates": ["The seat has an incoming holder at a swearing-in."],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "check-prior-action-before-promising-casework",
+  "kind": "move",
+  "summary": "An official checks whether anyone has acted on a constituent’s case before describing its status.",
+  "realLife": "owner, Nov 15: A constituent’s first approach does not establish that a referral already exists.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L160"
+  ],
+  "inGame": "needs: a matching earlier referral in the scene facts for a past-tense reply. The jobs engine records referrals.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{official}", "{constituent}", "{case}"],
+  "gates": ["The official can identify the constituent’s case."],
+  "weights": [],
+  "usedBy": []
+}
