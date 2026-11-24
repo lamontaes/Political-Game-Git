@@ -1,0 +1,29 @@
+{
+  "id": "paid-civics-internship",
+  "kind": "detail",
+  "summary": "A student asks {person} whether the civics placement comes with a paycheck.",
+  "realLife": "A Manhattan winner paired paid youth internships with mentoring and career exploration.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["The internship program provides pay and includes civic work."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the internship program provides pay and includes civic work.",
+  "turns": [
+    {
+      "turn": "a-funded-placement-is-posted",
+      "pulledBy": "A funded placement is posted.",
+      "what": "Show the applicant its pay terms.",
+      "writesBack": "Attach the pay terms to the referral."
+    },
+    {
+      "turn": "the-placement-has-yet-to-be-posted",
+      "pulledBy": "The placement has yet to be posted.",
+      "what": "Ask the operator when terms will be available.",
+      "writesBack": "Keep the vacancy off the confirmed list."
+    }
+  ]
+}
