@@ -2323,7 +2323,7 @@ async function campaignParts() {
             {
               group: T.groupMoney,
               title: controls.campaignActs.circulators,
-              picture: pictures?.mail,
+              picture: pictures?.circulators,
               load: async () => {
                 const dollarsOut = numberBox({
                   value: 500,
