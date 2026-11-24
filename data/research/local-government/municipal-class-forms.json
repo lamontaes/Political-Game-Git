@@ -9,7 +9,11 @@
         "termYears": 3,
         "staggered": true,
         "atLarge": true,
-        "chief": { "title": "Mayor", "directlyElected": true, "termYears": 4 },
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
         "citation": "N.J.S.A. 40A:60-2: \"The mayor shall be elected by the voters of the municipality at large and serve for a term of four years\"; \"The council shall consist of six members, elected at large, and shall serve for a term of three years\"; \"Their terms shall be arranged, by lot if necessary, so that the terms of two councilmen shall expire at the end of each year\".",
         "url": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-60-2/"
       }
@@ -20,8 +24,12 @@
         "termYears": 4,
         "staggered": true,
         "atLarge": true,
-        "chief": { "title": "Mayor", "directlyElected": true, "termYears": 4 },
-        "citation": "8 Pa.C.S. § 806(a): \"in boroughs not divided into wards, seven members of council\" and \"A mayor, who shall be elected at municipal elections every four years\"; § 811: \"Biennially, at the municipal election, a sufficient number of members of council shall be elected\", each \"for a term of four years\". A borough of 3,000 or fewer may reduce its council to five or three by petition and court order (§ 818), and a borough divided into wards elects by ward: neither is read.",
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
+        "citation": "8 Pa.C.S. § 806(a)(4): a borough that elects its whole council at large has \"seven members of council\"; § 806(a)(1): \"A mayor, who shall be elected at municipal elections every four years\"; § 811: \"Biennially, at the municipal election, a sufficient number of members of council shall be elected\", each \"for a term of four years\". A borough of 3,000 or fewer may reduce its council to five or three by petition and court order (§ 818), and a borough split into districts elects by district: neither is read.",
         "url": "https://codes.findlaw.com/pa/title-8-pacsa-boroughs-and-incorporated-towns/pa-csa-sect-8-806/"
       }
     },
@@ -31,7 +39,11 @@
         "termYears": 2,
         "staggered": true,
         "atLarge": true,
-        "chief": { "title": "Mayor", "directlyElected": true, "termYears": 2 },
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 2
+        },
         "citation": "N.Y. Village Law § 3-301(1): every village has \"a mayor\" and \"four trustees, except that the board of trustees of a village may change the number of trustees\"; § 3-301(3): \"The mayor, trustees and village justices shall be elective officers\"; § 3-302(3): \"the term of office of mayor, each trustee, treasurer and clerk shall be two official years\". A village may extend terms to four years (§ 3-302(5)): not read. Whether trustees' terms take turns is not stated; they are taken to, half up each year, as the two-year term with annual village elections gives.",
         "url": "https://newyork.public.law/laws/n.y._village_law_section_3-301"
       }
@@ -42,7 +54,10 @@
         "termYears": 4,
         "staggered": true,
         "atLarge": true,
-        "chief": { "title": "Village President", "directlyElected": true },
+        "chief": {
+          "title": "Village President",
+          "directlyElected": true
+        },
         "citation": "65 ILCS 5/3.1-25-5: \"the electors of the village shall elect 6 trustees\"; \"The term of office of the trustees shall be 4 years\"; trustees elected at a village's first election \"shall by lot designate one-half of their number, whose terms shall be 2 years\", so half the board is elected at each general municipal election. A village under 5,000 may reduce its board to 4 by referendum (3.1-25-10): not read. The president's term is not read here.",
         "url": "https://ilga.gov/legislation/ilcs/documents/006500050K3.1-25-5.htm"
       }
