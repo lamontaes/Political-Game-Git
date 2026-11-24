@@ -2,8 +2,9 @@
   "id": "candidate-asks-to-make-the-call",
   "kind": "move",
   "summary": "Having heard the returns, the candidate asks the manager to hand over the phone.",
-  "realLife": "owner, Nov 14: The candidate can decide they are ready to speak to the winner.",
+  "realLife": "Al Gore called George W. Bush to concede after the networks projected Florida for Bush in 2000. As the margin shrank, Gore placed another call before his campaign chairman addressed the crowd in Nashville.",
   "sources": [
+    "https://p2000.us/gore110700.html",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "The race-lost reply tree carries the candidate’s choice after the manager’s account.",
@@ -18,6 +19,12 @@
       "what": "The candidate asks the manager to arrange the connection and waits to speak.",
       "pulledBy": "The campaigns have agreed to route the call through their offices.",
       "writesBack": "The manager places the call and the candidate delivers the message."
+    },
+    {
+      "turn": "late",
+      "what": "The other candidate is already onstage when the call comes in.",
+      "pulledBy": "An aide takes the caller’s name and agrees to arrange a private conversation after the speech.",
+      "writesBack": "The call log records a requested callback and leaves the concession unconfirmed."
     }
   ]
 }

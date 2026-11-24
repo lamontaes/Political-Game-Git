@@ -2,8 +2,9 @@
   "id": "member-accepts-electoral-cost-of-a-vote",
   "kind": "voice",
   "summary": "Asked whether a vote could cost support, a member explains why they will stand by it.",
-  "realLife": "owner, Nov 14: A member can answer a question about electoral risk by naming the principle behind a vote.",
+  "realLife": "Pennsylvania Representative Marjorie Margolies-Mezvinsky backed the 1993 budget after opposing it publicly. She later recalled weighing her seat against the president’s program, and her next opponent campaigned on that vote.",
   "sources": [
+    "https://history.house.gov/people/detail/17488",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "press-comment reads the vote and electorateSides for the underlying question.",
@@ -18,6 +19,12 @@
       "what": "The member explains the vote and leaves its effect on the next election open.",
       "pulledBy": "No election or reliable measure of support has followed the vote.",
       "writesBack": "The interview records the position without assigning an electoral loss."
+    },
+    {
+      "turn": "late",
+      "what": "At a district meeting months later, a voter produces the member’s old pledge and asks when she changed her mind.",
+      "pulledBy": "The office has a dated pledge and a subsequent roll call on the same measure.",
+      "writesBack": "The district staff file the question with the vote so the next town hall can return to it."
     }
   ]
 }

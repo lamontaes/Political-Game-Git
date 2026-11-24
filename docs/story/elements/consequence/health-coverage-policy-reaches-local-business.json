@@ -2,8 +2,9 @@
   "id": "health-coverage-policy-reaches-local-business",
   "kind": "consequence",
   "summary": "A change to Medicaid has a different local story depending on the affected industry.",
-  "realLife": "owner, Nov 15: Connect Medicaid changes to the industries and places where they have an effect.",
+  "realLife": "A study of Louisiana hospitals found that unpaid care took up a smaller share of operating costs after Medicaid expanded. The decline was larger at rural hospitals than at urban ones.",
   "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/33646864/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
   ],
   "inGame": "needs: a played industry outcome traceable to the Medicaid change; the expansion-match law and law-industry comparison exist.",
@@ -18,6 +19,12 @@
       "what": "A clinic changes its hours when the first post-change payments arrive.",
       "pulledBy": "Its operating decision depends on actual reimbursements after the coverage change.",
       "writesBack": "The new schedule starts in the payment period that prompted it."
+    },
+    {
+      "turn": "partial",
+      "what": "At the hospital board meeting, the treasurer reports fewer bills going unpaid and asks to leave the clinic hours alone for now.",
+      "pulledBy": "The quarterly report shows the change in uncompensated care, and the staffing appropriation has yet to come up for a vote.",
+      "writesBack": "The board records the financial result and keeps the existing hours on the patient calendar."
     }
   ]
 }
