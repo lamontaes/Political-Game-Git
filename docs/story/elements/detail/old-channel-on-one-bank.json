@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A river restoration plan identifies an existing side channel."],
+  "weights": [
+    "A higher inlet elevation makes the connection more dependent on high water."
+  ],
   "usedBy": [],
   "inGame": "needs: connections opened by a floodplain project.",
   "turns": [

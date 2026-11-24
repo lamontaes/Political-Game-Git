@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "An occupied county facility lies within the area under flood review."
+  ],
+  "weights": [
+    "A greater number of people needing accessible transport lengthens relocation planning."
+  ],
   "usedBy": [],
   "inGame": "needs: custody placements during a flood advisory.",
   "turns": [

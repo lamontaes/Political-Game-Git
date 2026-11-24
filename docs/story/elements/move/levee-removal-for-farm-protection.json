@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A proposed river project includes a levee next to working farmland."
+  ],
+  "weights": [
+    "A narrow planting window increases the cost of blocking farm access."
+  ],
   "usedBy": [],
   "inGame": "needs: construction stages and nearby farm access.",
   "turns": [

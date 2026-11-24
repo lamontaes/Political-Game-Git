@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["Election operations use a site in the area under flood review."],
+  "weights": [
+    "The closer the election date, the greater the disruption from moving equipment."
+  ],
   "usedBy": [],
   "inGame": "needs: contingency locations for election operations.",
   "turns": [

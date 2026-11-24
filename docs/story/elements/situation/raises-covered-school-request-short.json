@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The school request includes negotiated pay obligations and other spending."
+  ],
+  "weights": [
+    "An earlier contractual pay date gives compensation more urgency."
+  ],
   "usedBy": [],
   "inGame": "needs: the disposition of school budget request items.",
   "turns": [

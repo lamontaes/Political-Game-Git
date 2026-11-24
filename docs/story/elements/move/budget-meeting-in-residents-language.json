@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A public budget forum has residents who use another language."],
+  "weights": [
+    "More requested interpretation places increase the need for a dedicated session."
+  ],
   "usedBy": [],
   "inGame": "needs: language coverage at a public budget forum.",
   "turns": [

@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A restored site has reached construction closeout and has a maintenance plan."
+  ],
+  "weights": [
+    "More invasive growth during inspection increases the priority of a return visit."
+  ],
   "usedBy": [],
   "inGame": "needs: maintenance visits after project completion.",
   "turns": [

@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Parents have a shared budget request and the executive is collecting input."
+  ],
+  "weights": ["An upcoming school board deadline favors an earlier meeting."],
   "usedBy": [],
   "inGame": "needs: participation by parents in budget preparation.",
   "turns": [

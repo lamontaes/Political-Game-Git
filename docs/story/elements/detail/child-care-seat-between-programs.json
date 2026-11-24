@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The county is considering child care support for families outside an existing program."
+  ],
+  "weights": [
+    "Fewer openings for infants give age-specific vacancies more weight."
+  ],
   "usedBy": [],
   "inGame": "needs: a child's placement and subsidy eligibility.",
   "turns": [

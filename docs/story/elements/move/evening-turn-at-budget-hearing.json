@@ -8,8 +8,8 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["The council offers residents more than one hearing time."],
+  "weights": ["A daytime work shift favors an evening slot."],
   "usedBy": [],
   "inGame": "needs: speaking slots and attendance at budget hearings.",
   "turns": [

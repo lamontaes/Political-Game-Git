@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": ["A county road project includes flood protection along its route."],
+  "weights": [
+    "Unverified buried work increases the likelihood of an additional inspection."
+  ],
   "usedBy": [],
   "inGame": "needs: flood works installed alongside a county road.",
   "turns": [

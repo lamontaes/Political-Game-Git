@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A proposed school nursing post can be funded through the county health budget."
+  ],
+  "weights": [
+    "A vacancy shared across several schools favors a split assignment."
+  ],
   "usedBy": [],
   "inGame": "needs: the department responsible for a school health post.",
   "turns": [

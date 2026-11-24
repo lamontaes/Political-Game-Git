@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Reservoir operators have provided a capacity assessment before the wet season."
+  ],
+  "weights": ["A larger reduction in storage increases concern downstream."],
   "usedBy": [],
   "inGame": "needs: reservoir capacity before the wet season.",
   "turns": [

@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A completed restoration connects fish habitat and a field survey has taken place."
+  ],
+  "weights": [
+    "More observation periods improve the chance of detecting returning fish."
+  ],
   "usedBy": [],
   "inGame": "needs: field observations by species and survey date.",
   "turns": [

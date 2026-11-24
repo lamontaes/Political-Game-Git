@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The county pays outside organizations to provide services under contract."
+  ],
+  "weights": [
+    "More contracts approaching renewal increase the effect of an adjustment."
+  ],
   "usedBy": [],
   "inGame": "needs: price adjustments by county contract.",
   "turns": [

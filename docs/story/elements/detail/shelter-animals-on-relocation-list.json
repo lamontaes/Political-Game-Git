@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{place}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A county shelter houses animals inside the area under flood review."
+  ],
+  "weights": [
+    "Fewer available boarding places increase reliance on foster households."
+  ],
   "usedBy": [],
   "inGame": "needs: animal shelter transport and boarding capacity.",
   "turns": [

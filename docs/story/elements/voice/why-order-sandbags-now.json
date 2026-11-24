@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Flood preparation requires a decision about buying supplies before the water rises."
+  ],
+  "weights": [
+    "Less usable stock and longer delivery times favor an immediate order."
+  ],
   "usedBy": [],
   "inGame": "needs: timing of supply orders against forecast lead time.",
   "turns": [

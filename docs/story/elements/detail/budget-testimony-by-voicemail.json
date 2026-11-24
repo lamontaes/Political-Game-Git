@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A hearing accepts recorded submissions and its testimony period is open."
+  ],
+  "weights": [
+    "A conflict with the live hearing time favors recorded testimony."
+  ],
   "usedBy": [],
   "inGame": "needs: receipt and handling of recorded testimony.",
   "turns": [

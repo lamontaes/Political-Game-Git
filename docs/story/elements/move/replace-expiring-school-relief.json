@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "Temporary aid supports a school service and has a scheduled end date."
+  ],
+  "weights": [
+    "More of the school year remaining after expiration favors bridge funding."
+  ],
   "usedBy": [],
   "inGame": "needs: funding continuity after temporary aid expires.",
   "turns": [

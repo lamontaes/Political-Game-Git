@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The council can authorize an emergency measure while flooding is still forecast."
+  ],
+  "weights": [
+    "Long procurement lead times favor granting authority in advance."
+  ],
   "usedBy": [],
   "inGame": "needs: the limits of a county emergency authorization.",
   "turns": [

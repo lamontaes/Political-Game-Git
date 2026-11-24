@@ -8,8 +8,10 @@
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "A river project has costs eligible for more than one funding source."
+  ],
+  "weights": ["Different award dates favor phasing the work."],
   "usedBy": [],
   "inGame": "needs: funding sources and eligible river project costs.",
   "turns": [

@@ -8,8 +8,12 @@
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{person}"],
-  "gates": [],
-  "weights": [],
+  "gates": [
+    "The executive has both service requests and a proposed funding limit."
+  ],
+  "weights": [
+    "A wider gap between requests and revenue favors a public explanation."
+  ],
   "usedBy": [],
   "inGame": "needs: funding decisions linked to submitted requests.",
   "turns": [
