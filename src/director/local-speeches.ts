@@ -177,7 +177,7 @@ export function composeCampaignSpeech(
   const platform =
     filed && filed.contest.officeId === officeId && filed.filing.platform.length
       ? filed.filing.platform.map((entry) =>
-          entry.slice(0, entry.lastIndexOf("=")),
+          entry.slice(P.zero, entry.lastIndexOf("=")),
         )
       : candidatePlatform(
           api,
