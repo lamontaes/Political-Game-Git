@@ -292,3 +292,10 @@ Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-
 | --- | --- | --- |
 | Monserrate, Puerto Rico, seed 5b7a3d13-25d2-4d50-bcc6-b8fc1b873da6 | **pass**: mayor Leslie Henry's five-job career now stands at the last job's day: "At the age of 51, she came to Benton Supply Company after time at Daniels Family Clinic, Monserrate Register, Snyder Care Home, Boyd's Kitchen, and Monserrate Business Services" (was age 18) | replay-c10henry-exec.png |
 | Walpole, New Hampshire, seed 187cdef6-8f52-4bbf-9343-4aad945eb24d | **pass**: sheriff Sarah Chang: "Aged 29, she moved through Dominguez Family Clinic, Chapman Construction, and Lowe and Associates on the way to Walpole Campaign Works" (was 2015, age 22) | replay-c10chang-exec.png |
+
+## #10337 at 660ea636 (played from pull/10337/head)
+
+| Check | Grade | Picture |
+| --- | --- | --- |
+| President's card contradicts itself | **pass**: "President · United States · Since 2021" beside "In office since January 20, 2021", at Alexis NC (85a230de12f5, Jesse Holloway) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91, Michael Montgomery); no scroller, nothing below the panel | replay-pdA-grid.png |
+| P17, C17 empty block | **open, still**: the panels are the same size as at e0f055b0 (President 543 px, sheriff 572 px); the sheriff's card has a large empty area under the middle column and the story, the President's a wide empty strip under the record | replay-pdA-grid.png |
