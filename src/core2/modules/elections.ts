@@ -1947,11 +1947,15 @@ export function announceCandidacy(
 }
 
 /**
- * An announcement whose candidate the counter refused, or who is gone, on the
- * day their window opened leaves the race then, not at the deadline: the race
- * page and the campaign board stop counting them.
+ * A candidacy the race no longer holds leaves it that day, not at the
+ * deadline: an announcement whose candidate the counter refused, or who is
+ * gone, on the day their window opened, and an announcement or a filing still
+ * gathering signatures whose candidate died (`pendingFilingsOf`, read by the
+ * candidacy engine's death). The race page, the campaign board and the
+ * clerk's petition check stop counting them. A filing already on the ballot
+ * stays; `ballot` leaves out a candidate who died.
  */
-export function withdrawAnnouncement(
+export function withdrawFiling(
   api: CoreAPI,
   contestId: string,
   personId: string,
@@ -1959,8 +1963,25 @@ export function withdrawAnnouncement(
   const filings = table(api, "filings");
   const row = filings.get(`filing:${contestId}:${personId}`) as unknown as
     FilingRow | undefined;
-  if (row?.status === "announced")
+  if (row && undecided(row))
     filings.put({ ...row, status: "withdrawn" } as unknown as ModuleRow);
+}
+
+/** A filing not yet decided by the clerk: announced, or gathering signatures. */
+function undecided(filing: Readonly<Pick<FilingRow, "status">>): boolean {
+  return filing.status === "announced" || filing.status === "petitioning";
+}
+
+/** A person's filings the clerk has not yet decided (`withdrawFiling`). */
+export function pendingFilingsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly FilingRow[] {
+  return (
+    table(api, "filings").query("byPerson", [
+      personId,
+    ]) as unknown as FilingRow[]
+  ).filter(undecided);
 }
 
 /**
