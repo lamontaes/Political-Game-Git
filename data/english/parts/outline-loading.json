@@ -94,23 +94,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.loading-story-by-the-state-had-you-in-a-classroom-in-that-s-how-the-state-",
-      "move": "school",
-      "kind": "written",
-      "text": "By {school-year} the state had you in a classroom in {school-place}. That's how the state says hello.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.school.loading-story-in-you-started-school-in-where-the-first-lesson-was-standing",
       "move": "school",
       "kind": "written",
@@ -128,28 +111,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.loading-story-in-the-family-packed-up-for-because-the-economy-said-so",
-      "move": "moved",
-      "kind": "written",
-      "text": "In {moved-year} the family packed up {moved-from} for {moved-to}, because the economy said so.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-for-work"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.moved.loading-story-in-you-landed-in-survived-the-loss",
       "move": "moved",
       "kind": "written",
@@ -160,23 +121,6 @@
           "role": "moved",
           "tie": "record",
           "requiresFacts": ["moved-year", "moved-from", "moved-to"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.finished.loading-story-you-finished-school-in-the-diploma-came-with-no-instructions",
-      "move": "finished",
-      "kind": "written",
-      "text": "You finished school in {finished-year}. The diploma came with no instructions.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "finished",
-          "tie": "record",
-          "requiresFacts": ["finished-year"]
         }
       ],
       "origin": "authored",
@@ -205,24 +149,6 @@
       "move": "college",
       "kind": "written",
       "text": "In {college-year} you started college, which is a lot like school with a bill attached.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year"],
-          "excludesFacts": ["college-same-year"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.college.loading-story-brought-college-because-everyone-said-so-with-great-confiden",
-      "move": "college",
-      "kind": "written",
-      "text": "{college-year} brought college, because everyone said so with great confidence.",
       "uses": [
         {
           "subject": "loading-story",
@@ -277,24 +203,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.loading-story-and-now-it-s-a-new-president-takes-the-oath-has-its-legislat",
-      "move": "now",
-      "kind": "written",
-      "text": "And now it's {start-month} {start-year}. A new President takes the oath, {state} has its legislature back, and {place} has been talking about all of it without you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["start-month", "start-year", "state", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "after": ["start"]
-    },
-    {
       "key": "outline-loading.now.loading-story-it-s-washington-has-a-new-president-has-its-usual-problems-a",
       "move": "now",
       "kind": "written",
@@ -305,24 +213,6 @@
           "role": "now",
           "tie": "record",
           "requiresFacts": ["start-month", "start-year", "state", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "after": ["start"]
-    },
-    {
-      "key": "outline-loading.college.loading-story-that-fall-came-college-a-lot-like-school-with-a-bill",
-      "move": "college",
-      "kind": "written",
-      "text": "That fall came college, which is a lot like school with a bill attached. Welcome to {college-year}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year", "college-same-year"]
         }
       ],
       "origin": "authored",
