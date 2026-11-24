@@ -1,6 +1,26 @@
 # Pre-grade: Writer Home (talk at home)
 
-## story/w-talk at `410f0e22` (newest): the 8 new reason verdicts, 2 of 8 pass
+## story/w-talk at `ee303368` (newest, at the Story lead's ask): the reason leads, 15 of 15 pass
+
+- All 15 reason leads at this head were read earlier on the owner-calibrated reader (P3, at 27042b8c), word for word, and all 15 passed then. No new read was needed.
+
+- PASS `outline-talk.lead.talk-address-point-president-says-reason-for`: "{president} says {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-the-way-president-put-it-reason-for`: "The way {president} put it, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-told-the-country-reason-for`: "{president} told the country {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-here-s-what-president-is-saying-reason-for`: "Here's what {president} is saying: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-wants-people-to-know-reason-against`: "{president} wants people to know {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-as-president-sees-it-reason-against`: "As {president} sees it, {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-president-made-a-point-of-saying-reason-against`: "{president} made a point of saying {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-you-heard-president-reason-for`: "You heard {president}: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-according-to-president-reason-for`: "According to {president}, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-was-clear-that-reason-for`: "{president} was clear that {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-to-hear-president-tell-it-reason-for`: "To hear {president} tell it, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-sounds-sure-that-reason-for`: "{president} sounds sure that {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-spelled-it-out-reason-for`: "{president} spelled it out: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-reminded-everybody-reason-against`: "{president} reminded everybody {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-the-point-president-pushed-was-that-reason-against`: "The point {president} pushed was that {reason-against}."
+
+## story/w-talk at `410f0e22`: the 8 new reason verdicts, 2 of 8 pass
 
 - These are the 8 verdict-after lines that give the speaker's reason from `question-names.json` `reasons`. They were read in chunk P5. The first reader missed one of the owner's bad plants ("What do you do?"), so its verdicts don't count. The second reader caught all 13 bad plants and passed 5 of 6 good, and its verdicts are the ones below.
 - The sheet told the reader that a verdict follows a lead that has just named the President's point and reason, and that for and against are sides of the policy. The requires lists check out: each reason is on the side the speaker takes.

@@ -8,6 +8,50 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `8416afbf`, `data/englis
 - **Played:** at `8416afbf` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 34 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
+## #10390 at `1ca359b2` (newest): W2's 32 budget-line stand lines, 19 of 32 pass
+
+- Read blind in chunk Q1 on the owner-calibrated reader: 13 of his own bad lines planted (all failed) and 6 good (all passed).
+- **Why they fail:**
+  - bare holds and noes with no reason ("I'd hold the road budget… where it is.");
+  - the budget's catalog name said aloud ("corrections", "natural resources spending");
+  - a "last round" or "last increase" the record may not hold;
+  - "other needs" that names nothing.
+- **What passes:** a concrete stake and a plain stand ("Everyone in {realm-name} has hit the same pothole. I'm for putting more into the roads.").
+- Not played.
+
+- FAIL `outline-local.stand.more-money-for-the-police-in-isn-t-the-answer-on-its-own-i-d-say-no-to`: "More money for the police in {realm-name} isn't the answer on its own. I'd say no to the increase." — no-stock-phrases: "Isn't the answer on its own" is a stock phrase and "the increase" points at a proposal the line never names, so it argues nothing.
+- FAIL `outline-local.stand.i-m-not-for-spending-more-on-assistance-in-before-we-fix-who-it-reache`: "I'm not for spending more on assistance in {realm-name} before we fix who it reaches." — every-line-gives-its-context: "Fix who it reaches" is unclear: the listener can't tell whether it reaches too many, too few or the wrong people.
+- FAIL `outline-local.stand.assistance-spending-in-has-grown-enough-i-d-say-no-to-more`: "Assistance spending in {realm-name} has grown enough. I'd say no to more." — address-argues-not-announces: A bare assertion that spending "has grown enough" with no why, and it claims growth the record may not show.
+- FAIL `outline-local.stand.what-we-leave-in-for-our-kids-starts-with-its-water-i-m-for-putting-mo`: "What we leave in {realm-name} for our kids starts with its water. I'm for putting more into it." — no-literary-phrasing: An epigram ("what we leave... starts with its water") and the closing "it" could be the water or the kids.
+- FAIL `outline-local.stand.i-m-not-for-spending-more-on-natural-resources-in-while-the-roads-go-u`: "I'm not for spending more on natural resources in {realm-name} while the roads go unfixed." — bill-called-by-what-people-call-it: Speaks the budget catalog name "natural resources" aloud, and its roads-first reason twins the parks line.
+- FAIL `outline-local.stand.i-d-say-no-to-more-natural-resources-spending-in-this-year`: "I'd say no to more natural resources spending in {realm-name} this year." — bill-called-by-what-people-call-it: Catalog name "natural resources spending" in speech and a bare no with no reason.
+- FAIL `outline-local.stand.i-d-hold-the-parks-budget-in-where-it-is`: "I'd hold the parks budget in {realm-name} where it is." — address-argues-not-announces: A bare hold-the-line with no reason, the same shape as the road-budget line.
+- FAIL `outline-local.stand.i-m-not-for-more-housing-spending-in-until-we-see-what-the-last-round-`: "I'm not for more housing spending in {realm-name} until we see what the last round built." — false for its facts: Asserts a "last round" of housing that built something, which the record may not hold, and repeats the wait-and-see shape of the police and schools lines.
+- FAIL `outline-local.stand.more-money-for-the-schools-in-isn-t-what-i-d-vote-for-this-year`: "More money for the schools in {realm-name} isn't what I'd vote for this year." — address-argues-not-announces: A bare no with no reason; it announces instead of arguing.
+- FAIL `outline-local.stand.i-m-not-for-spending-more-on-roads-in-while-other-needs-go-short`: "I'm not for spending more on roads in {realm-name} while other needs go short." — a stance that points at nothing named: "Other needs" names nothing, so the listener can't tell what the speaker would fund instead.
+- FAIL `outline-local.stand.i-d-hold-the-road-budget-in-where-it-is`: "I'd hold the road budget in {realm-name} where it is." — address-argues-not-announces: A bare hold-the-line with no reason, the same shape as the parks line.
+- FAIL `outline-local.stand.people-leaving-jail-in-need-a-way-back-i-m-for-putting-more-into-corre`: "People leaving jail in {realm-name} need a way back. I'm for putting more into corrections." — bill-called-by-what-people-call-it: Says the catalog name "corrections" aloud, and the reentry reason does not match money for running the jail.
+- FAIL `outline-local.stand.i-d-say-no-to-a-bigger-corrections-budget-in-this-year`: "I'd say no to a bigger corrections budget in {realm-name} this year." — address-argues-not-announces: A bare no with the catalog name "corrections budget" and no reason.
+- PASS `outline-local.stand.officers-in-are-stretched-thin-i-d-put-more-money-into-the-police`: "Officers in {realm-name} are stretched thin. I'd put more money into the police."
+- PASS `outline-local.stand.people-in-want-an-officer-who-gets-there-fast-i-m-for-paying-for-more-`: "People in {realm-name} want an officer who gets there fast. I'm for paying for more of them."
+- PASS `outline-local.stand.i-m-not-for-adding-to-the-police-budget-in-until-we-know-what-the-last`: "I'm not for adding to the police budget in {realm-name} until we know what the last increase bought."
+- PASS `outline-local.stand.neighbors-in-are-one-bad-month-from-asking-for-help-i-d-spend-more-on-`: "Neighbors in {realm-name} are one bad month from asking for help. I'd spend more on assistance."
+- PASS `outline-local.stand.families-in-shouldn-t-lose-their-coverage-over-paperwork-i-m-for-putti`: "Families in {realm-name} shouldn't lose their coverage over paperwork. I'm for putting more into assistance."
+- PASS `outline-local.stand.the-land-and-water-of-are-worth-protecting-i-d-spend-more-to-look-afte`: "The land and water of {realm-name} are worth protecting. I'd spend more to look after them."
+- PASS `outline-local.stand.every-family-in-should-have-a-park-within-walking-distance-i-d-spend-m`: "Every family in {realm-name} should have a park within walking distance. I'd spend more on parks."
+- PASS `outline-local.stand.the-ball-fields-and-trails-in-are-worn-down-i-m-for-putting-money-into`: "The ball fields and trails in {realm-name} are worn down. I'm for putting money into them."
+- PASS `outline-local.stand.i-m-not-for-spending-more-on-parks-in-when-the-roads-need-it-first`: "I'm not for spending more on parks in {realm-name} when the roads need it first."
+- PASS `outline-local.stand.there-aren-t-enough-homes-people-in-can-afford-i-d-spend-more-on-housi`: "There aren't enough homes people in {realm-name} can afford. I'd spend more on housing."
+- PASS `outline-local.stand.a-teacher-or-a-nurse-should-be-able-to-live-in-i-m-for-putting-more-in`: "A teacher or a nurse should be able to live in {realm-name}. I'm for putting more into housing."
+- PASS `outline-local.stand.spending-more-on-housing-in-won-t-build-a-single-home-by-itself-i-d-sa`: "Spending more on housing in {realm-name} won't build a single home by itself. I'd say no."
+- PASS `outline-local.stand.the-classrooms-in-need-more-than-they-re-getting-i-d-put-more-into-the`: "The classrooms in {realm-name} need more than they're getting. I'd put more into the schools."
+- PASS `outline-local.stand.our-teachers-in-pay-for-supplies-out-of-their-own-pockets-i-m-for-fund`: "Our teachers in {realm-name} pay for supplies out of their own pockets. I'm for funding the schools better."
+- PASS `outline-local.stand.i-m-not-for-adding-to-the-schools-budget-in-before-we-see-how-it-s-spe`: "I'm not for adding to the schools' budget in {realm-name} before we see how it's spent."
+- PASS `outline-local.stand.the-roads-in-are-in-worse-shape-every-winter-i-d-spend-more-to-fix-the`: "The roads in {realm-name} are in worse shape every winter. I'd spend more to fix them."
+- PASS `outline-local.stand.everyone-in-has-hit-the-same-pothole-i-m-for-putting-more-into-the-roa`: "Everyone in {realm-name} has hit the same pothole. I'm for putting more into the roads."
+- PASS `outline-local.stand.the-jail-in-is-crowded-and-understaffed-i-d-spend-more-to-run-it-safel`: "The jail in {realm-name} is crowded and understaffed. I'd spend more to run it safely."
+- PASS `outline-local.stand.i-m-not-for-spending-more-on-the-jail-in-i-d-look-at-who-s-in-it-first`: "I'm not for spending more on the jail in {realm-name}. I'd look at who's in it first."
+
 ## story/w-stand-close at `059a6d3e` (newest): the 12 issue-first stand lines, 10 of 12 pass
 
 - The 12 lines new since 7dfd9789 (rent stabilization, property tax growth and the minimum wage, two for and two against each). **Calibration (new, Nov 24):** the reader's chunk planted 19 of the owner's own grades: 13 he graded bad today and on Nov 12 (the born, school and "usual problems" loading lines; "So the President wants a higher top income tax rate. I'm glad she said it out loud."; "I'd push back on her there."; the four work replies offered together; "Good. We'll watch what it does to…"; "Go on and enjoy what's left of tonight."; "What do you do?"; "I'll check on you again this morning.") and 6 he graded fine. This chunk (P1) failed all 13 bad lines and passed 5 of the 6 good ones. It counts only because it caught every bad one. Every line was read fresh, with nothing carried from earlier reads.

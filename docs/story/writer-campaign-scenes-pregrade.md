@@ -8,7 +8,34 @@ Pre-grader, 2026-11-24. Branch `story/w-campaign` at `2231bc5c`, every line auth
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
-## Batch 4 at `story/w-campaign` `8b87efdc` (newest): 4 of 19 pass
+## Batch 5 at `story/w-campaign` `5711adc0` (newest, read at #10390 `1ca359b2`): 9 of 18 pass
+
+- The 18 lines changed or new since 8b87efdc: the rewritten {office} lines and the new rival-at-the-rally scene. Read blind in chunk Q1 on the owner-calibrated reader: 13 of his own bad lines planted (all failed) and 6 good (all passed).
+- **{office} is fixed** where it reads "your run for {office}" or "the race for {office}". Two lines still glue it on ("make calls from home in the race for…", "a turn on {office}").
+- **The rival confrontation never names its question.** "answer me", "You don't get to dodge me" and "We're both on the ballot… Answer me" don't say what is being asked, and two of them are twins. "That isn't an answer… Say what you'd do for {office}" passes because it names the question.
+- **Other fails:** "I'll be back" is a catchphrase, the "folded sheet of paper" is composed texture, and "thank you for telling me where you stand" is stiff.
+- Not played.
+
+- FAIL `scene-talk.narrate-narrate.name-stands-at-the-edge-of-the-rally-with-a-folded-sheet-of-paper`: "{name} stands at the edge of the rally with a folded sheet of paper." — no-literary-phrasing: The folded sheet of paper is composed texture no record holds and nothing in the scene uses.
+- FAIL `scene-talk.state-confront.i-m-running-against-you-for-office-i-d-like-this-crowd-to-hear-you-answer-me`: "I'm running against you for {office}. I'd like this crowd to hear you answer me." — stake-is-named: Demands an answer but never says to what, so the confrontation has no subject.
+- FAIL `scene-talk.state-confront.we-re-both-on-the-ballot-for-office-answer-me-where-people-can-hear`: "We're both on the ballot for {office}. Answer me where people can hear." — twin of a sibling: Says the same thing as its sibling (we're both running, answer me in public) and still never names the question.
+- FAIL `scene-talk.state-confront.you-ve-been-talking-to-this-crowd-all-afternoon-i-d-like-a-turn-on-office`: "You've been talking to this crowd all afternoon. I'd like a turn on {office}." — awkward: "A turn on mayor" or "a turn on selectboard member" reads wrong with ordinary fills, and "all afternoon" may not fit the hour.
+- FAIL `scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening`: "You don't get to dodge me, {opponent}. The crowd is listening." — a stance that points at nothing named: Dodge what? It names no question, and "the crowd is listening" repeats the opener lines.
+- FAIL `scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back`: "We'll see who these people remember, {opponent}. I'll be back." — quips that mean nothing: "I'll be back" is a catchphrase tag with nothing behind it.
+- FAIL `scene-talk.follow-accept.thank-you-for-telling-me-where-you-stand-in-the-race-for-office`: "Thank you for telling me where you stand in the race for {office}." — awkward or AI-sounding: Stiff and record-worded; it thanks the person for "telling where you stand" rather than for the endorsement just given.
+- FAIL `scene-talk.state-request.i-can-make-calls-from-home-in-the-race-for-office-what-day-should-i-start`: "I can make calls from home in the race for {office}. What day should I start?" — awkward: "Make calls from home in the race for mayor" glues the office slot on awkwardly.
+- FAIL `scene-talk.follow-answer.i-d-list-every-event-in-the-race-for-office-until-the-vote-then-i-d-ask-you-which-ones-m`: "I'd list every event in the race for {office} until the vote. Then I'd ask you which ones matter." — awkward or AI-sounding: A campaign manager who lists "every event" and then asks the candidate which matter sounds generated and says nothing.
+- PASS `scene-talk.narrate-narrate.name-walks-up-as-the-crowd-breaks-apart-and-stops-an-arm-s-length-away`: "{name} walks up as the crowd breaks apart and stops an arm's length away."
+- PASS `scene-talk.narrate-narrate.people-are-still-clapping-when-name-reaches-the-front-and-waits-to-be-heard`: "People are still clapping when {name} reaches the front and waits to be heard."
+- PASS `scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office`: "That isn't an answer, {opponent}. Say what you'd do for {office}."
+- PASS `scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent`: "Plenty of people here will remember who answered, {opponent}."
+- PASS `scene-talk.state-request.i-have-saturdays-free-can-i-take-a-list-of-voters-for-your-run-for-office`: "I have Saturdays free. Can I take a list of voters for your run for {office}?"
+- PASS `scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-your-run-for-office-this-week`: "Good. I'll send you a list and a script for your run for {office} this week."
+- PASS `scene-talk.reply-ask.how-many-hours-a-week-can-you-give-to-the-race-for-office`: "How many hours a week can you give to the race for {office}?"
+- PASS `scene-talk.state-request.i-ll-set-the-weekly-schedule-for-your-run-for-office-you-tell-me-what-you-can-t-do`: "I'll set the weekly schedule for your run for {office}. You tell me what you can't do."
+- PASS `scene-talk.reply-ask.what-would-you-do-first-in-the-race-for-office`: "What would you do first in the race for {office}?"
+
+## Batch 4 at `story/w-campaign` `8b87efdc`: 4 of 19 pass
 
 - The 19 lines new since `cbf536cb` (donor-ask narration and asks, offer-help, offer-to-run, ask-endorsement), read blind in chunk NK with W7's loading lines. Calibration 8/8; 17 of 30 earlier-graded lines got the same verdict again, the lowest agreement this evening, so a single verdict here is one reader's call.
 - **The main cause is the {office} fill (8 of 15 fails).** The reader was told {office} fills as "mayor", "the Mutual Village Council", "selectboard member" or "state representative in District 38", the same as in W2's victory night. "a list of voters for {office}", "give {office}", "the first week of {office}" and "the weekly schedule for {office}" read as the office, not the campaign. "the race for {office}" and "my endorsement for {office}" read with every fill.
