@@ -6838,120 +6838,6 @@
       "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
-      "key": "outline-call.report.state-of-the-union-pay-for-working-people-has-gone-up-for-and-congress-should-h",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay for working people has gone up for {run-span}, and Congress should hear that first.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-over-workers-pay-rose-and-this-report-to-congress-begins-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Over {run-span}, workers' pay rose, and this report to Congress begins there.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-workers-across-this-country-have-been-paid-more-each-year-fo",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Workers across this country have been paid more each year for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-congress-is-reading-this-report-in-a-country-where-pay-has-r",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Congress is reading this report in a country where pay has risen for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-country-s-workers-have-taken-home-more-pay-in-each-of-th",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The country's workers have taken home more pay in each of the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-union-wages-in-this-country-have-been-climbing-for",
       "move": "report",
       "kind": "spoken",
@@ -6970,78 +6856,6 @@
       "lean": [
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-for-wages-have-gone-up-across-the-country-and-i-ll-start-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "For {run-span}, wages have gone up across the country, and I'll start the report there.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-report-to-congress-starts-with-workers-their-pay-has-ris",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The report to Congress starts with workers: their pay has risen for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-calm"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-pay-has-gone-up-for-working-americans-over-in-most-states-an",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay has gone up for working Americans over {run-span}, in most states and most trades.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -7069,30 +6883,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-union-more-americans-are-working-than-ago-and-that-is-the-first-th",
-      "move": "report",
-      "kind": "spoken",
-      "text": "More Americans are working than {run-span} ago, and that is the first thing in this report.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-union-employers-across-the-country-have-been-hiring-for",
       "move": "report",
       "kind": "spoken",
@@ -7109,27 +6899,6 @@
       "after": ["greeting"],
       "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-jobs-have-grown-in-this-country-for-and-fewer-people-are-loo",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Jobs have grown in this country for {run-span}, and fewer people are looking for work.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7153,102 +6922,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-hiring-has-gone-up-in-most-states-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Hiring has gone up in most states over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-congress-is-reading-this-report-in-a-country-with-more-peopl",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Congress is reading this report in a country with more people at work than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-people-who-wanted-work-found-more-of-it-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "People who wanted work found more of it over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-country-has-added-jobs-for-in-cities-and-small-towns",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The country has added jobs for {run-span}, in cities and small towns.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-calm"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -7279,117 +6952,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-union-work-has-come-back-to-a-lot-of-towns-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Work has come back to a lot of towns over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-prices-have-gone-up-for-american-families-for-and-this-repor",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Prices have gone up for American families for {run-span}, and this report has to start there.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-families-across-the-country-are-paying-more-for-food-rent-an",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Families across the country are paying more for food, rent and fuel than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-for-the-cost-of-living-has-risen-for-every-household-in-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "For {run-span}, the cost of living has risen for every household in the country.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-country-s-households-have-paid-higher-prices-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The country's households have paid higher prices for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-union-groceries-rent-and-gas-cost-more-across-the-country-than-ago",
       "move": "report",
       "kind": "spoken",
@@ -7409,75 +6971,6 @@
         "personality-v1:facet-friendly",
         "personality-v1:facet-informal"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-american-families-have-been-paying-more-to-live-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "American families have been paying more to live for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-fewer-americans-have-jobs-than-ago-and-this-report-starts-wi",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Fewer Americans have jobs than {run-span} ago, and this report starts with them.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-jobs-have-been-lost-across-the-country-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Jobs have been lost across the country for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7552,54 +7045,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-union-congress-is-reading-this-report-in-a-country-with-fewer-jobs",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Congress is reading this report in a country with fewer jobs than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-is-the-worst-disaster-the-country-declared-this-year-and",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {the-disaster} is the worst disaster the country declared this year, and this report starts with it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-union-this-year-the-worst-disaster-to-hit-the-country-was-the",
       "move": "report",
       "kind": "spoken",
@@ -7616,51 +7061,6 @@
       "after": ["greeting"],
       "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-hit-families-in-this-country-this-year-and-the-report-st",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {the-disaster} hit families in this country this year, and the report starts with them.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-year-s-worst-disaster-was-the-and-families-are-still-liv",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The year's worst disaster was the {the-disaster}, and families are still living with it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7684,192 +7084,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-was-the-worst-disaster-the-country-declared-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {the-disaster} was the worst disaster the country declared this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-for-working-people-in-has-gone-up-and-the-should-hear-th",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay for working people in {realm-name} has gone up, and the {body-word} should hear that first.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-in-is-higher-than-when-my-term-began",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay in {realm-name} is higher than when my term began.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-since-my-term-began-workers-in-have-been-paid-more",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Since my term began, workers in {realm-name} have been paid more.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-people-in-earn-more-than-when-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "People in {realm-name} earn more than when I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-has-risen-for-working-people-in-since-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay has risen for working people in {realm-name} since I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-report-on-starts-with-pay-it-is-up-since-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The report on {realm-name} starts with pay: it is up since I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-working-people-in-have-more-in-their-paychecks-than-when-my",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Working people in {realm-name} have more in their paychecks than when my term began.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -7918,165 +7132,6 @@
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-is-hearing-this-report-in-a-state-where-pay-has-risen-si",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {body-word} is hearing this report in a state where pay has risen since I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-in-is-lower-than-when-my-term-began-and-the-should-hear",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay in {realm-name} is lower than when my term began, and the {body-word} should hear that first.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-since-my-term-began-workers-in-have-been-paid-less",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Since my term began, workers in {realm-name} have been paid less.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-people-in-earn-less-than-when-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "People in {realm-name} earn less than when I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-pay-has-fallen-for-working-people-in-since-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay has fallen for working people in {realm-name} since I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-report-on-starts-with-pay-it-is-down-since-i-took-office",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The report on {realm-name} starts with pay: it is down since I took office.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-working-people-in-have-less-in-their-paychecks-than-when-my",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Working people in {realm-name} have less in their paychecks than when my term began.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -8627,6 +7682,732 @@
         "asks-of-lawmakers-in-state-addresses"
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-pay-has-gone-up-for-working-people-over-the-last",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay has gone up for working people over the last {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-workers-earn-more-now-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Workers earn more now than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-pay-is-higher-across-the-country-than-it-was-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay is higher across the country than it was {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-paychecks-have-grown-for",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Paychecks have grown for {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-people-who-work-for-a-living-have-seen-their-pay-rise-over",
+      "move": "report",
+      "kind": "spoken",
+      "text": "People who work for a living have seen their pay rise over {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-over-the-last-pay-went-up",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, pay went up.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-pay-for-working-people-is-up-from-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay for working people is up from {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-more-people-have-jobs-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More people have jobs than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-hiring-has-picked-up-over",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Hiring has picked up over {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-country-has-added-jobs-over-the-last",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The country has added jobs over the last {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-fewer-people-are-looking-for-work-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Fewer people are looking for work than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-jobs-have-come-back-over",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Jobs have come back over {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-prices-have-gone-up-over-the-last",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Prices have gone up over the last {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-food-rent-and-gas-cost-more-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Food, rent and gas cost more than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-families-pay-more-for-everyday-things-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Families pay more for everyday things than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-cost-of-living-has-risen-for",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The cost of living has risen for {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-jobs-have-been-lost-over-the-last",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Jobs have been lost over the last {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": ["run-prices-ahead"]
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-fewer-people-have-jobs-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Fewer people have jobs than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": ["run-prices-ahead"]
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-unemployment-is-higher-than-ago",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Unemployment is higher than {run-span} ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": ["run-prices-ahead"]
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-layoffs-have-gone-up-over",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Layoffs have gone up over {run-span}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": ["run-prices-ahead"]
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-worst-disaster-this-year-was-the",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The worst disaster this year was the {the-disaster}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-hit-families-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The {the-disaster} hit families this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-this-year-s-worst-disaster-was-the",
+      "move": "report",
+      "kind": "spoken",
+      "text": "This year's worst disaster was the {the-disaster}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-families-are-still-rebuilding-after-the",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Families are still rebuilding after the {the-disaster}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-workers-in-earn-more-than-they-did-when-i-took-office",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Workers in {realm-name} earn more than they did when I took office.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-better", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-pay-has-gone-up-in-over-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay has gone up in {realm-name} over my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-better", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-people-in-are-paid-more-now-than-at-the-start-of-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "People in {realm-name} are paid more now than at the start of my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-better", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-pay-in-has-risen-over-the-last-stretch-of-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay in {realm-name} has risen over the last stretch of my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-better", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-workers-in-earn-less-than-they-did-when-i-took-office",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Workers in {realm-name} earn less than they did when I took office.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-worse", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-pay-has-gone-down-in-over-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay has gone down in {realm-name} over my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-worse", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-people-in-are-paid-less-now-than-at-the-start-of-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "People in {realm-name} are paid less now than at the start of my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-worse", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-pay-in-has-slipped-over-the-last-stretch-of-my-term",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Pay in {realm-name} has slipped over the last stretch of my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["pay-worse", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "elements": ["opens-on-the-occasion", "what-a-year-it-has-been"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
