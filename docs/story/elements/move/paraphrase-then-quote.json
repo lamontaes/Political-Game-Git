@@ -19,5 +19,17 @@
     "address": 0.9,
     "vote": 0.7
   },
-  "usedBy": ["news-address"]
+  "usedBy": ["news-address"],
+  "turns": [
+    {
+      "name": "quote with no paraphrase first",
+      "pulledBy": "an official who speaks in short plain lines",
+      "writes": "the story opens the paragraph on the quote"
+    },
+    {
+      "name": "paraphrase only",
+      "pulledBy": "an official who gave no usable words",
+      "writes": "the story paraphrases and stops"
+    }
+  ]
 }

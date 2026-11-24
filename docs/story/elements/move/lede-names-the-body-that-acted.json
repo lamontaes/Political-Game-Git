@@ -20,5 +20,17 @@
     "vote": 1.0,
     "opens": 0.6
   },
-  "usedBy": ["news-roll-call", "news-address"]
+  "usedBy": ["news-roll-call", "news-address"],
+  "turns": [
+    {
+      "name": "opens on the people affected",
+      "pulledBy": "a measure that reaches many households and a body no one has heard of",
+      "writes": "the first sentence names who pays or gains, and the body follows"
+    },
+    {
+      "name": "opens on the date and place only",
+      "pulledBy": "a meeting that held no vote",
+      "writes": "a meetings-week line instead of a vote story"
+    }
+  ]
 }

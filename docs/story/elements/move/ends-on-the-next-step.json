@@ -15,5 +15,17 @@
     "vote": 0.8,
     "law": 0.8
   },
-  "usedBy": ["news-roll-call", "law"]
+  "usedBy": ["news-roll-call", "law"],
+  "turns": [
+    {
+      "name": "ends on the vote count",
+      "pulledBy": "a close vote with nothing scheduled after",
+      "writes": "the last line is the margin"
+    },
+    {
+      "name": "ends on a reaction",
+      "pulledBy": "an official or resident with a strong word",
+      "writes": "the last line is their quote"
+    }
+  ]
 }

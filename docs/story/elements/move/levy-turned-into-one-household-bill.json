@@ -17,5 +17,17 @@
   "weights": {
     "budget": 1.0
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a business's bill instead",
+      "pulledBy": "a levy on commercial property",
+      "writes": "the example is a shop owner's yearly tax"
+    },
+    {
+      "name": "no example at all",
+      "pulledBy": "a rate that did not change",
+      "writes": "the story says the rate stayed where it was"
+    }
+  ]
 }

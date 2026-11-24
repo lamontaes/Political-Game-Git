@@ -14,5 +14,17 @@
     "conditions": 0.6,
     "vote": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a packed room",
+      "pulledBy": "a hot issue",
+      "writes": "the lede counts the crowd"
+    },
+    {
+      "name": "one voice",
+      "pulledBy": "a lone resident",
+      "writes": "the lede names the one who spoke"
+    }
+  ]
 }

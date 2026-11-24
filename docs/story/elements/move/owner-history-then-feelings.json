@@ -15,5 +15,17 @@
     "closing": 1.0,
     "opening": 0.8
   },
-  "usedBy": ["organization.opened"]
+  "usedBy": ["organization.opened"],
+  "turns": [
+    {
+      "name": "owner's next step only",
+      "pulledBy": "an owner who will not talk about the past",
+      "writes": "the story gives the date and the plan"
+    },
+    {
+      "name": "customers speak",
+      "pulledBy": "a shop with many regulars",
+      "writes": "the story lets a customer speak before the owner does"
+    }
+  ]
 }

@@ -14,5 +14,17 @@
   "weights": {
     "closing": 1.0
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a business that is sold",
+      "pulledBy": "an owner who retires and a buyer who steps in",
+      "writes": "the story says it will reopen under new hands"
+    },
+    {
+      "name": "a closing nobody notices",
+      "pulledBy": "a shop with few customers",
+      "writes": "a short notice instead of a story"
+    }
+  ]
 }

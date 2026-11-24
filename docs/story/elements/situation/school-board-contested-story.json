@@ -13,5 +13,17 @@
   "weights": {
     "vote": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "an uncontested vote",
+      "pulledBy": "a quiet meeting",
+      "writes": "the story is the vote and the next meeting"
+    },
+    {
+      "name": "a vote reversed",
+      "pulledBy": "a board that changed its mind after comment",
+      "writes": "the story says what changed it"
+    }
+  ]
 }

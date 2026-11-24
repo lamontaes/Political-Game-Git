@@ -13,5 +13,17 @@
   "weights": {
     "vote": 0.8
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no next date",
+      "pulledBy": "a body that set none",
+      "writes": "the story says no date was set"
+    },
+    {
+      "name": "a next date that moves",
+      "pulledBy": "a rescheduled meeting",
+      "writes": "a later story says it moved"
+    }
+  ]
 }

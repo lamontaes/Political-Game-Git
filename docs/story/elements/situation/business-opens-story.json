@@ -14,5 +14,17 @@
   "weights": {
     "opening": 1.0
   },
-  "usedBy": ["organization.opened"]
+  "usedBy": ["organization.opened"],
+  "turns": [
+    {
+      "name": "a business that opens late",
+      "pulledBy": "a delayed permit",
+      "writes": "the story says what held it up"
+    },
+    {
+      "name": "a business that opens and closes",
+      "pulledBy": "a poor first season",
+      "writes": "a later closing story names the same owner"
+    }
+  ]
 }

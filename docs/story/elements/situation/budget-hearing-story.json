@@ -17,5 +17,17 @@
   "weights": {
     "budget": 1.0
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a hearing with no change",
+      "pulledBy": "a budget that kept last year's rate",
+      "writes": "the story says nothing changed"
+    },
+    {
+      "name": "a budget cut",
+      "pulledBy": "a falling revenue forecast",
+      "writes": "the story leads with what was cut"
+    }
+  ]
 }

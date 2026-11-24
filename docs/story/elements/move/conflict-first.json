@@ -13,5 +13,17 @@
   "weights": {
     "vote": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "vote first",
+      "pulledBy": "a meeting that went quietly",
+      "writes": "the story leads with the vote and then the comment"
+    },
+    {
+      "name": "the reply first",
+      "pulledBy": "a superintendent or official who answered sharply",
+      "writes": "the story opens on the reply"
+    }
+  ]
 }

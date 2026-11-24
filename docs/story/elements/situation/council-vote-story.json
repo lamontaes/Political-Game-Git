@@ -14,5 +14,17 @@
   "weights": {
     "vote": 1.0
   },
-  "usedBy": ["news-roll-call"]
+  "usedBy": ["news-roll-call"],
+  "turns": [
+    {
+      "name": "a vote that failed",
+      "pulledBy": "a measure with too few votes",
+      "writes": "the story says it was voted down and by how many"
+    },
+    {
+      "name": "a vote put off",
+      "pulledBy": "a body that tabled the item",
+      "writes": "the story says it was delayed and until when"
+    }
+  ]
 }

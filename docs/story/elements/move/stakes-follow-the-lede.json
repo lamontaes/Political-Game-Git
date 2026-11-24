@@ -16,5 +16,17 @@
     "vote": 0.9,
     "law": 0.8
   },
-  "usedBy": ["news-roll-call", "law"]
+  "usedBy": ["news-roll-call", "law"],
+  "turns": [
+    {
+      "name": "stakes arrive in the lede",
+      "pulledBy": "a change that touches every household at once",
+      "writes": "the first sentence says what changes for residents"
+    },
+    {
+      "name": "stakes never arrive",
+      "pulledBy": "an item of procedure with no effect on residents",
+      "writes": "the story ends on the next step instead"
+    }
+  ]
 }

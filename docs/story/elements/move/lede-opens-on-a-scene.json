@@ -14,5 +14,17 @@
     "closing": 1.0,
     "opening": 0.7
   },
-  "usedBy": ["organization.opened"]
+  "usedBy": ["organization.opened"],
+  "turns": [
+    {
+      "name": "opens on the act",
+      "pulledBy": "a vote with a plain tally",
+      "writes": "the lede names the body and the count"
+    },
+    {
+      "name": "opens on the person",
+      "pulledBy": "a business owner closing after many years",
+      "writes": "the lede names the owner and the shop"
+    }
+  ]
 }

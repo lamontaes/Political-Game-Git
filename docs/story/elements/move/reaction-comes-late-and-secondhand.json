@@ -15,5 +15,17 @@
   "weights": {
     "closing": 1.0
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "reaction comes first",
+      "pulledBy": "a loud public meeting",
+      "writes": "the lede is what residents said"
+    },
+    {
+      "name": "no reaction",
+      "pulledBy": "a quiet change nobody commented on",
+      "writes": "the story has officials only"
+    }
+  ]
 }

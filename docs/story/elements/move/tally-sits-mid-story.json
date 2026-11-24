@@ -14,5 +14,17 @@
   "weights": {
     "vote": 1.0
   },
-  "usedBy": ["news-roll-call"]
+  "usedBy": ["news-roll-call"],
+  "turns": [
+    {
+      "name": "tally at the top",
+      "pulledBy": "a one-vote margin or a unanimous vote",
+      "writes": "the lede carries the count"
+    },
+    {
+      "name": "no tally",
+      "pulledBy": "a vote by voice or a consent item",
+      "writes": "the story says the item passed without a count"
+    }
+  ]
 }

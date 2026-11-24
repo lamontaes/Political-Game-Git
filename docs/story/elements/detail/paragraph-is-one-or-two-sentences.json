@@ -23,5 +23,17 @@
   "weights": {
     "shape": 1.0
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a longer paragraph",
+      "pulledBy": "a complicated process",
+      "writes": "one paragraph of three short sentences"
+    },
+    {
+      "name": "a one-line paragraph",
+      "pulledBy": "a single fact",
+      "writes": "a line by itself"
+    }
+  ]
 }

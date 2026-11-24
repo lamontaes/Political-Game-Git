@@ -14,5 +14,17 @@
     "budget": 1.0,
     "rate": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "opens on the body instead",
+      "pulledBy": "a vote count that is the news (one vote, no dissent)",
+      "writes": "the lede names the body and its act first"
+    },
+    {
+      "name": "opens on a missing group",
+      "pulledBy": "a measure that hits a group that did not show up",
+      "writes": "the lede says who was not heard"
+    }
+  ]
 }

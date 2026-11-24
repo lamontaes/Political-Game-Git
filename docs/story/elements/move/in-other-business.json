@@ -16,5 +16,17 @@
     "vote": 0.8,
     "meetings-week": 1.0
   },
-  "usedBy": ["meetings-week"]
+  "usedBy": ["meetings-week"],
+  "turns": [
+    {
+      "name": "side items open the story",
+      "pulledBy": "a meeting whose main act was minor",
+      "writes": "the lede is the biggest of several items"
+    },
+    {
+      "name": "no side items",
+      "pulledBy": "a one-item special meeting",
+      "writes": "the story ends on the main act"
+    }
+  ]
 }

@@ -14,5 +14,17 @@
   "weights": {
     "law": 1.0
   },
-  "usedBy": ["law"]
+  "usedBy": ["law"],
+  "turns": [
+    {
+      "name": "a law delayed",
+      "pulledBy": "a court order or a late rule",
+      "writes": "the story says the date moved"
+    },
+    {
+      "name": "a law undone",
+      "pulledBy": "a repeal passed earlier",
+      "writes": "the story says the old rule no longer applies"
+    }
+  ]
 }

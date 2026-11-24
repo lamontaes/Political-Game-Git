@@ -13,5 +13,17 @@
   "weights": {
     "headline": 1.0
   },
-  "usedBy": ["news-roll-call-headline", "news-address-headline"]
+  "usedBy": ["news-roll-call-headline", "news-address-headline"],
+  "turns": [
+    {
+      "name": "headline names the vote",
+      "pulledBy": "a tight count",
+      "writes": "the headline carries the margin"
+    },
+    {
+      "name": "headline names the person",
+      "pulledBy": "an official at the center",
+      "writes": "the headline is the person and the act"
+    }
+  ]
 }

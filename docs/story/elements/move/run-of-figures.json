@@ -15,5 +15,17 @@
     "budget": 1.0,
     "rate": 0.8
   },
-  "usedBy": ["rate", "law-amount"]
+  "usedBy": ["rate", "law-amount"],
+  "turns": [
+    {
+      "name": "one figure only",
+      "pulledBy": "a change with a single number",
+      "writes": "the story states it once and moves on"
+    },
+    {
+      "name": "figures turned into one household",
+      "pulledBy": "a levy or rate",
+      "writes": "the story gives the household example instead"
+    }
+  ]
 }

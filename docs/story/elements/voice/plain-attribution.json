@@ -15,5 +15,17 @@
   "weights": {
     "address": 1.0
   },
-  "usedBy": ["news-address"]
+  "usedBy": ["news-address"],
+  "turns": [
+    {
+      "name": "a description instead of a name",
+      "pulledBy": "a speaker the paper does not name",
+      "writes": "the attribution says what the speaker is"
+    },
+    {
+      "name": "a quote with no attribution in the line",
+      "pulledBy": "a line carried by the headline",
+      "writes": "the attribution sits in the lede"
+    }
+  ]
 }

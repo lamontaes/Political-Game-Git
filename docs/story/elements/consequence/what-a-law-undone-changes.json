@@ -14,5 +14,17 @@
   "weights": {
     "law": 1.0
   },
-  "usedBy": ["law"]
+  "usedBy": ["law"],
+  "turns": [
+    {
+      "name": "a law kept",
+      "pulledBy": "a repeal that failed",
+      "writes": "the story says the law stays"
+    },
+    {
+      "name": "a law partly undone",
+      "pulledBy": "a repeal of one section",
+      "writes": "the story says which part ended"
+    }
+  ]
 }
