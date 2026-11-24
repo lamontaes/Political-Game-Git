@@ -1,0 +1,29 @@
+{
+  "id": "refer-the-bill-to-summer-study",
+  "kind": "move",
+  "summary": "A chair offers the sponsor a summer study as the session runs short.",
+  "realLife": "Tennessee chair Rusty Crowe proposed studying medical marijuana over the summer, and sponsor Steve Dickerson deferred despite wanting action sooner.",
+  "sources": [
+    "https://www.governing.com/archive/Medical-Marijuana-Bill-Dead-in-Tennessee-Til-2016.html"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{chair}", "{sponsor}", "{bill}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "study-formed records the sponsor, members and charge. study-reported carries the eventual finding.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The sponsor declines the study and asks the chair to put the bill to a vote.",
+      "pulledBy": "The sponsor believes enough members are present to pass it.",
+      "writesBack": "The committee faces the original bill again."
+    },
+    {
+      "turn": "late",
+      "what": "The study reports after the deadline for action in this session.",
+      "pulledBy": "The reporting date falls after adjournment.",
+      "writesBack": "The finding is available when a sponsor files next session."
+    }
+  ]
+}

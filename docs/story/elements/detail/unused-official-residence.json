@@ -1,0 +1,29 @@
+{
+  "id": "unused-official-residence",
+  "kind": "detail",
+  "summary": "{person} pays rent on an apartment while an official residence stands available.",
+  "realLife": "Jerry Brown chose a rented apartment over the residence California had prepared for its governor.",
+  "sources": ["https://en.wikipedia.org/wiki/Jerry_Brown"],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{person}"],
+  "gates": ["An official residence is available to the incoming executive."],
+  "weights": [
+    "An established family home nearby favors keeping the private residence."
+  ],
+  "usedBy": [],
+  "inGame": "needs: occupancy and costs of an official residence.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor moves into the residence.",
+      "pulledBy": "The family accepts the accommodation and the building is ready.",
+      "writesBack": "The occupancy record gives the move date."
+    },
+    {
+      "turn": "partial",
+      "what": "The executive uses the house for official receptions only.",
+      "pulledBy": "The family keeps its existing home.",
+      "writesBack": "The property calendar records public functions without residential occupancy."
+    }
+  ]
+}
