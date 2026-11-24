@@ -1,35 +1,34 @@
+import type { EntityId } from "../core2/kernel/brands";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
-import {
-  followersOf,
-  openHouseholdOutlets,
-  outletsHere,
-} from "../core2/modules/press";
+import { followersOf, outletsHere } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { followChoices, followOutlet } from "./archive-words";
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, OPENING_WARMUP_DAYS } from "./world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 describe("News follow control (P46)", () => {
   it("a household follows a paper and station from day one, and a chosen follow stands over the audiences", () => {
     const place = drawPlace(`${seed}:follow`, "news-follow");
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
+      warmUpDays: OPENING_WARMUP_DAYS,
     });
+    const { core } = world;
     const api = coreAPI(core);
     const local = outletsHere(api).filter((o) => o.tier === "local");
-    const home = [...core.households.values()].find((h) =>
-      h.memberIds.some((id) => core.people.get(id)?.alive),
-    )!;
-    openHouseholdOutlets(api, home.id);
-    const adult = home.memberIds
-      .map((id) => core.people.get(id)!)
-      .find((p) => local.some((o) => followersOf(api, o.id).includes(p.id)));
-    expect(adult, `${place.name} (${place.key}), seed ${seed}`).toBeDefined();
+    // The played person, an adult on the start date, follows a paper on day one
+    // (P46: a player who turned 18 inside the warm-up once followed none).
+    const adult = core.people.get(world.playerId as EntityId)!;
+    const where = `${place.name} (${place.key}), seed ${seed}`;
+    expect(
+      followChoices(core, adult.id).some((c) => c.follows),
+      `${where}: the player follows no outlet on day one`,
+    ).toBe(true);
     // The person drops a paper they follow, then follows it again.
     const outlet = local.find((o) =>
       followersOf(api, o.id).includes(adult!.id),

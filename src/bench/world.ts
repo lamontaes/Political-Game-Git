@@ -861,11 +861,6 @@ function* benchWorldStages(
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
   // The people the player starts out knowing have their whole past at the opening.
   openStartingCircle(core);
-  // The player's household knows its paper and station from day one.
-  if (playerId) {
-    const home = core.people.get(playerId as EntityId)?.householdId;
-    if (home) openHouseholdOutlets(coreAPI(core), home);
-  }
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
   openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
@@ -875,6 +870,13 @@ function* benchWorldStages(
   if (warmUp) {
     yield "warmup";
     director.whileWarming(() => warmUpOpening(core, startDate, playerId));
+  }
+  // The player's household knows its paper and station from day one. After
+  // the warm-up, so the ages are read on the start date: a player who turns
+  // 18 inside the warm-up window is an adult here.
+  if (playerId) {
+    const home = core.people.get(playerId as EntityId)?.householdId;
+    if (home) openHouseholdOutlets(coreAPI(core), home);
   }
   director.start(core);
   options.onWorld?.(core, playerId);
