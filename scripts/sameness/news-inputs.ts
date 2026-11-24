@@ -27,14 +27,22 @@ const bodies = [
   "Roberts City Council",
   "Fairfax County Board",
 ];
+// Most local votes carry with no dissent; a one-vote margin is the rarer
+// case (W5, Nov 24: three by-one worlds in six drew half the texts from the
+// few by-one lines).
 const counts = [
-  ["4 to 1", "passed", "by-one"],
   ["5 to 0", "passed", "no-dissent"],
-  ["2 to 3", "failed", "by-one"],
-  ["4 to 1", "failed", "lone-vote"],
+  ["4 to 1", "passed", "lone-vote"],
   ["3 to 2", "passed", "by-one"],
+  ["6 to 0", "passed", "no-dissent"],
   ["1 to 4", "failed", "lone-vote"],
+  ["2 to 3", "failed", "by-one"],
 ];
+/** A law's name as the game titles it (bill-names.ts: a bare "{name} {form}", never "the"). */
+const titled = (said: string | undefined) => {
+  const bare = (said ?? "budget").replace(/^the\s+/i, "");
+  return `${bare.replace(/\b[a-z]/g, (c) => c.toUpperCase())} Ordinance`;
+};
 const address: string[] = [];
 const vote: string[] = [];
 rows.forEach((row, at) => {
@@ -62,7 +70,7 @@ rows.forEach((row, at) => {
     JSON.stringify({
       facts: {
         body: fact(bodies[at % bodies.length]!),
-        law: f["law-name"] ?? fact("the ordinance"),
+        law: fact(titled(f["law-name"]?.text)),
         purpose: f.about,
         count: fact(count!),
         date: fact("January 14"),
