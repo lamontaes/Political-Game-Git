@@ -5405,6 +5405,1086 @@
         "key": "favor-asked"
       },
       "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-make-pay-an-hour-could-you-get-somebody-to-check-that-against-the-minimum",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I make {pay} an hour. Could you get somebody to check that against the minimum?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-hourly-rate-did-you-want-agency-to-check-yours-against",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What hourly rate did you want {agency} to check yours against?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.i-make-pay-an-hour-could-you-get-somebody-to-check-that-against-the-minimum"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-minimum-here-is-floor-i-d-like-them-to-check-why-i-m-getting-less",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The minimum here is {floor}. I'd like them to check why I'm getting less.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.what-hourly-rate-did-you-want-agency-to-check-yours-against"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-can-tell-you-what-i-make-can-agency-look-into-my-pay-if-i-don-t-know-what-anybody-else-makes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can tell you what I make. Can {agency} look into my pay if I don't know what anybody else makes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-s-the-hourly-rate-you-can-give-agency-for-your-own-work",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's the hourly rate you can give {agency} for your own work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.i-can-tell-you-what-i-make-can-agency-look-into-my-pay-if-i-don-t-know-what-anybody-else-makes"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-get-pay-an-hour-that-s-the-part-i-can-speak-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I get {pay} an hour. That's the part I can speak for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.what-s-the-hourly-rate-you-can-give-agency-for-your-own-work"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-request.before-i-call-agency-can-you-help-me-figure-out-what-to-bring",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Before I call {agency}, can you help me figure out what to bring?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-you-went-to-agency-today-what-could-you-tell-them-about-your-pay",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If you went to {agency} today, what could you tell them about your pay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.before-i-call-agency-can-you-help-me-figure-out-what-to-bring"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-could-give-them-my-hourly-rate-pay-and-ask-what-else-they-d-need-from-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I could give them my hourly rate, {pay}, and ask what else they'd need from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.if-you-went-to-agency-today-what-could-you-tell-them-about-your-pay"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-d-like-to-ask-agency-about-my-wages-who-would-get-to-see-my-name",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like to ask {agency} about my wages. Who would get to see my name?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.would-you-like-me-to-ask-agency-how-they-handle-names-on-a-complaint",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Would you like me to ask {agency} how they handle names on a complaint?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.i-d-like-to-ask-agency-about-my-wages-who-would-get-to-see-my-name"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.yes-i-want-to-file-with-agency-and-i-want-to-know-who-can-see-the-complaint",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Yes. I want to file with {agency}, and I want to know who can see the complaint.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.would-you-like-me-to-ask-agency-how-they-handle-names-on-a-complaint"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-earn-pay-an-hour-who-can-tell-me-which-minimum-applied-when-i-did-the-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I earn {pay} an hour. Who can tell me which minimum applied when I did the work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-do-you-want-agency-to-check-about-the-dates",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want {agency} to check about the dates?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.i-earn-pay-an-hour-who-can-tell-me-which-minimum-applied-when-i-did-the-work"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.whether-floor-was-already-the-minimum-when-i-worked-those-hours",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whether {floor} was already the minimum when I worked those hours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.what-do-you-want-agency-to-check-about-the-dates"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.if-i-leave-this-job-could-i-still-take-a-pay-complaint-to-agency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If I leave this job, could I still take a pay complaint to {agency}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-would-you-like-me-to-ask-agency-about-leaving",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you like me to ask {agency} about leaving?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.state-request.if-i-leave-this-job-could-i-still-take-a-pay-complaint-to-agency"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.whether-i-can-still-report-earning-pay-an-hour-once-i-work-somewhere-else",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whether I can still report earning {pay} an hour once I work somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-ask.what-would-you-like-me-to-ask-agency-about-leaving"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.narrate-narrate.name-comes-to-office-hours-about-an-hourly-wage-below-the-minimum",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes to office hours about an hourly wage below the minimum.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency", "name"]
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk-office.narrate-narrate.name-wants-your-help-taking-a-pay-complaint-to-agency",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants your help taking a pay complaint to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency", "name"]
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-take-your-wage-complaint-to-agency",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take your wage complaint to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.you-ll-have-to-bring-this-to-agency-yourself-i-m-going-to-pass-on-the-case",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You'll have to bring this to {agency} yourself. I'm going to pass on the case.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"]
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thank-you-for-taking-it-up-i-want-someone-at-agency-to-look-at-what-i-m-earning",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for taking it up. I want someone at {agency} to look at what I'm earning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-take-your-wage-complaint-to-agency"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-to-look-at-the-difference-between-your-hourly-pay-and-floor"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-give-agency-your-rate-of-pay-an-hour-and-let-them-check-your-case"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-put-you-in-touch-with-agency-so-you-can-find-out-what-to-bring"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-take-the-case-and-ask-agency-who-can-see-a-worker-s-name"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-to-check-which-rate-covered-the-hours-you-worked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-refer-your-complaint-to-agency-and-ask-what-happens-if-you-change-jobs"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.then-i-ll-contact-agency-myself-about-my-hourly-rate",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll contact {agency} myself about my hourly rate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-bring-this-to-agency-yourself-i-m-going-to-pass-on-the-case"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.i-won-t-take-this-up-for-you-you-can-report-the-pay-difference-to-agency"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.i-can-t-take-your-case-you-can-tell-agency-what-you-earn-on-your-own-shifts"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-need-to-ask-agency-yourself-which-pay-records-they-can-use"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.i-ll-leave-that-call-to-you-you-can-ask-agency-who-sees-your-name-before-you-file"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.i-m-going-to-leave-this-one-with-you-ask-agency-which-minimum-applied-then"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-ask-agency-yourself-about-bringing-the-claim-after-you-leave"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-to-look-at-the-difference-between-your-hourly-pay-and-floor",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} to look at the difference between your hourly pay and {floor}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.the-minimum-here-is-floor-i-d-like-them-to-check-why-i-m-getting-less"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-won-t-take-this-up-for-you-you-can-report-the-pay-difference-to-agency",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't take this up for you. You can report the pay difference to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.the-minimum-here-is-floor-i-d-like-them-to-check-why-i-m-getting-less"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-give-agency-your-rate-of-pay-an-hour-and-let-them-check-your-case",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll give {agency} your rate of {pay} an hour and let them check your case.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.i-get-pay-an-hour-that-s-the-part-i-can-speak-for"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-can-t-take-your-case-you-can-tell-agency-what-you-earn-on-your-own-shifts",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take your case. You can tell {agency} what you earn on your own shifts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.i-get-pay-an-hour-that-s-the-part-i-can-speak-for"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-put-you-in-touch-with-agency-so-you-can-find-out-what-to-bring",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put you in touch with {agency} so you can find out what to bring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.i-could-give-them-my-hourly-rate-pay-and-ask-what-else-they-d-need-from-me"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.you-ll-need-to-ask-agency-yourself-which-pay-records-they-can-use",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You'll need to ask {agency} yourself which pay records they can use.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.i-could-give-them-my-hourly-rate-pay-and-ask-what-else-they-d-need-from-me"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-take-the-case-and-ask-agency-who-can-see-a-worker-s-name",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take the case and ask {agency} who can see a worker's name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.yes-i-want-to-file-with-agency-and-i-want-to-know-who-can-see-the-complaint"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-ll-leave-that-call-to-you-you-can-ask-agency-who-sees-your-name-before-you-file",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll leave that call to you. You can ask {agency} who sees your name before you file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.yes-i-want-to-file-with-agency-and-i-want-to-know-who-can-see-the-complaint"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-to-check-which-rate-covered-the-hours-you-worked",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} to check which rate covered the hours you worked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.whether-floor-was-already-the-minimum-when-i-worked-those-hours"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-m-going-to-leave-this-one-with-you-ask-agency-which-minimum-applied-then",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm going to leave this one with you. Ask {agency} which minimum applied then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.whether-floor-was-already-the-minimum-when-i-worked-those-hours"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-refer-your-complaint-to-agency-and-ask-what-happens-if-you-change-jobs",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll refer your complaint to {agency} and ask what happens if you change jobs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.whether-i-can-still-report-earning-pay-an-hour-once-i-work-somewhere-else"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-decline.you-ll-have-to-ask-agency-yourself-about-bringing-the-claim-after-you-leave",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You'll have to ask {agency} yourself about bringing the claim after you leave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "pay", "floor", "agency"],
+          "after": "scene-talk-office.follow-answer.whether-i-can-still-report-earning-pay-an-hour-once-i-work-somewhere-else"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
     }
   ]
 }
