@@ -36706,24 +36706,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "conversation.own-view-answer-disagree.we-will-never-see-the-same-way",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We will never see {about} the same way.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
@@ -36778,24 +36760,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "conversation.own-view-answer-private.i-d-rather-keep-to-myself",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "I'd rather keep {about} to myself.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "conversation.own-view-answer-private.we-don-t-need-to-get-into",
       "move": "own-view-answer-private",
       "kind": "spoken",
@@ -36818,24 +36782,6 @@
       "move": "own-view-answer-why",
       "kind": "spoken",
       "text": "What got you there on {about}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "conversation.own-view-answer-why.where-does-that-come-from-on",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "Where does that come from, on {about}?",
       "uses": [
         {
           "move": "own-view-answer-why",

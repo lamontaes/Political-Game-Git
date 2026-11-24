@@ -1945,50 +1945,6 @@
       }
     },
     {
-      "key": "news.law.the-law-took-effect-in-place-on-date-ending-the-rule-it-repl",
-      "move": "law",
-      "kind": "written",
-      "text": "The {law} took effect in {place} on {date}, ending the rule it replaced.",
-      "uses": [
-        {
-          "move": "law",
-          "subject": "news",
-          "role": "law",
-          "choice": "lede",
-          "requiresFacts": ["ended"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law.the-law-replaced-the-old-rule-in-place-on-date",
-      "move": "law",
-      "kind": "written",
-      "text": "The {law} replaced the old rule in {place} on {date}.",
-      "uses": [
-        {
-          "move": "law",
-          "subject": "news",
-          "role": "law",
-          "choice": "lede",
-          "requiresFacts": ["ended"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
       "move": "law-amount",
       "kind": "written",
@@ -10920,28 +10876,6 @@
           "role": "crime",
           "choice": "lede",
           "requiresFacts": ["assault", "ordinal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.crime.property-in-place-was-vandalized-on-date",
-      "move": "crime",
-      "kind": "written",
-      "text": "Property in {place} was vandalized on {date}.",
-      "uses": [
-        {
-          "move": "crime",
-          "subject": "news",
-          "role": "crime",
-          "choice": "lede",
-          "requiresFacts": ["vandalism"]
         }
       ],
       "origin": "authored",
