@@ -2743,6 +2743,158 @@
       "author": "the news writer",
       "date": "2026-11-24",
       "elements": ["member-votes-no-on-tax-but-backs-staff-raises"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-workers",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {law} changes things for people who work for a living.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-workers", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-tenants",
+      "move": "effect",
+      "kind": "written",
+      "text": "Renters are who the {law} touches.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-tenants", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-adults",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {law} applies to every adult.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-adults", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-borrowers",
+      "move": "effect",
+      "kind": "written",
+      "text": "Anyone with a loan is covered by the {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-borrowers", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-residents",
+      "move": "effect",
+      "kind": "written",
+      "text": "Everyone the {body} governs falls under the {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-residents", "law", "body"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-women",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {law} applies to women.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-women", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-minors",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {law} applies to minors.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-minors", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-reaches-consumers",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {law} applies to people buying from businesses.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "reaches-consumers", "law"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
     }
   ]
 }
