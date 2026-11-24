@@ -467,7 +467,7 @@ ol {
   container-type: size;
 }
 #tv-screen .bust-strip {
-  --bust: 100cqw;
+  --bust: min(100cqw, 100cqh);
   height: 100%;
 }
 #tv-screen .busts-glass,
