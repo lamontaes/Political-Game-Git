@@ -67,7 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
-import { tvSet } from "./ui/tv-set.mjs";
+import { tvGlass, tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -300,11 +300,18 @@ function drawTalkStrip() {
  * their name and Live over it. Anything else clears it.
  */
 let tvRequest = 0;
+/** The glass of the television the shown picture paints, when it paints one. */
+let backdropScreen;
+function setBackdrop(backdrop) {
+  $("backdrop").src = backdrop.url;
+  backdropScreen = backdrop.screen;
+}
 async function drawTv(speech, name, on) {
   const request = ++tvRequest;
   const set = $("tv");
   set.hidden = true;
   set.replaceChildren();
+  $("tv-screen")?.remove();
   if (!on || on.medium !== "television") return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
@@ -319,6 +326,15 @@ async function drawTv(speech, name, on) {
     }),
   );
   set.hidden = false;
+  // A room that paints its own set shows the broadcast on it, not a blank or
+  // static screen (C18, Nov 23): the glass is the picture's own row.
+  if (backdropScreen)
+    $("stage").append(
+      tvGlass({
+        rect: backdropScreen,
+        speaker: { personId: speech.speakerId, name, face: c.face },
+      }),
+    );
 }
 
 // Each Continue clears the set before the next part draws its own, so the
@@ -332,9 +348,8 @@ $("talk").addEventListener(
 );
 
 /**
- * That night's news at home, as a toast top right: it fades by itself after
- * controls.opening.newsToastSeconds, goes at once on its close, and the story
- * stays in News either way.
+ * That night's news at home, as a toast top right: it stays until the player opens
+ * or closes it, and the story stays in News either way.
  */
 /** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
 const storyHeadline = (story) =>
@@ -374,7 +389,7 @@ function showNewsSurface(news) {
     openNewsReader(news);
   };
   $("news-surface-close").onclick = hideNewsToast;
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
+  showToast($("news-surface"));
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -453,7 +468,7 @@ async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   // The opening's staged story sets the backdrop itself; setting the room's
   // here first would load two pictures in a row (owner, Oct 28, point 2).
-  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
+  if (!keepBackdrop) setBackdrop(scene.backdrop);
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawHere(scene, (p) => talkTo(p.personId));
@@ -718,7 +733,7 @@ async function renderJournalNote() {
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
-    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    showToast($("journal-note"));
     // A new line since the Journal was last open: a dot on its icon until it is read.
     if (shownJournalLine && openTab !== "journal")
       document
@@ -892,7 +907,7 @@ function inMeeting() {
       $("meeting-adjourn").disabled = false;
       $("meeting-adjourn").textContent =
         (scene.seated ? words.adjourn : words.leave) ?? "";
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("card-place").textContent = scene.title;
       $("meeting-title").textContent = scene.title;
@@ -1363,7 +1378,7 @@ function electionMorning(scene) {
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
       setClock(day.at);
       if (scene) {
-        $("backdrop").src = scene.backdrop.url;
+        setBackdrop(scene.backdrop);
         drawHere(scene);
       }
       // The mock's line under the picture: the day, where it is spent, the hour.
@@ -1383,7 +1398,7 @@ function electionMorning(scene) {
             async () => {
               const done = await post("/api/election-day/canvass");
               if (done.scene) {
-                $("backdrop").src = done.scene.backdrop.url;
+                setBackdrop(done.scene.backdrop);
                 drawHere(done.scene);
               }
               if (done.line) say([done.line]);
@@ -1407,7 +1422,7 @@ function electionNight(night) {
   return new Promise((resolve) => {
     const labels = controls.returns ?? {};
     if (night.scene) {
-      $("backdrop").src = night.scene.backdrop.url;
+      setBackdrop(night.scene.backdrop);
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
@@ -1461,7 +1476,7 @@ function atThePolls(scene) {
     };
     const draw = (value) => {
       scene = value;
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("ballot").replaceChildren(
         ballotPaper({
@@ -1747,7 +1762,7 @@ let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
-  $("backdrop").src = value.backdrop.url;
+  setBackdrop(value.backdrop);
   drawHere(value);
   show("talk", true);
   const clerkName = value.visit.clerkId
@@ -1945,7 +1960,7 @@ function playAsks({ asked, summary, scene }) {
   closeSheet();
   renderTalk(undefined);
   if (scene) {
-    $("backdrop").src = scene.backdrop.url;
+    setBackdrop(scene.backdrop);
     // Each person is heard by name and bust as they answer.
     drawHere();
   }
@@ -2141,7 +2156,7 @@ async function campaignParts() {
       // The doors and the calls are seen where they happen, with the people reached.
       if (result.scene || moment) closeSheet();
       if (result.scene) {
-        $("backdrop").src = result.scene.backdrop.url;
+        setBackdrop(result.scene.backdrop);
         drawHere(result.scene, (p) => talkTo(p.personId));
       }
       if (moment) await showStory(moment.recordId);
@@ -2191,7 +2206,7 @@ async function campaignParts() {
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
-        $("backdrop").src = result.scene.backdrop.url;
+        setBackdrop(result.scene.backdrop);
         drawHere(result.scene);
         return;
       }
@@ -2373,7 +2388,7 @@ async function campaignParts() {
                 campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
                 // A speech is seen where it was given, with the people it reached.
                 closeSheet();
-                $("backdrop").src = result.scene.backdrop.url;
+                setBackdrop(result.scene.backdrop);
                 drawHere(result.scene);
               },
             }),
@@ -2579,7 +2594,7 @@ async function showStory(momentId) {
   me.names = { ...me.names, ...story.names };
   // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
   closeCards();
-  $("backdrop").src = story.backdrop.url;
+  setBackdrop(story.backdrop);
   drawHere(story);
   show("talk", true);
   setWho(null, null);
@@ -2611,15 +2626,17 @@ async function showStory(momentId) {
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
-        $("backdrop").src = beat.backdrop.url;
+        setBackdrop(beat.backdrop);
         drawHere(beat);
       }
       // A speaker heard on a broadcast is named, never drawn in the room
       // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip. A beat that cuts home shows only the
-      // household listening, the speaker on the set (CTO, Nov 19).
+      // room stands on the strip. A cutaway (America, the state, home) shows
+      // its own people and the speaker only on the set, never on the strip
+      // as well (CTO, Nov 19 and Nov 24: "in a cutaway she belongs only in
+      // the corner").
       setWho(
-        (beat ? beat.kind !== "home" : story.speech.inRoom)
+        (beat ? beat.inRoom : story.speech.inRoom)
           ? story.speech.speakerId
           : null,
         story.names[story.speech.speakerId],
@@ -2634,10 +2651,7 @@ async function showStory(momentId) {
       drawTv(
         story.speech,
         story.names[story.speech.speakerId],
-        on ??
-          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
-            ? { medium: "television" }
-            : undefined),
+        on ?? (beat && !beat.inRoom ? { medium: "television" } : undefined),
       );
       fillTalk({
         lines: [
@@ -3051,7 +3065,7 @@ async function visit(organizationId) {
     `/api/goto/visit?org=${encodeURIComponent(organizationId)}`,
   );
   me.names = { ...me.names, ...v.names };
-  $("backdrop").src = v.backdrop.url;
+  setBackdrop(v.backdrop);
   drawHere(v, (p) => talkTo(p.personId));
   me.scene = v;
   $("card-place").textContent = v.name;
@@ -6781,11 +6795,17 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   openTab = tab;
   if (tab !== "news") newsShowing = null;
-  if (tab === "news") markNews(true);
-  if (tab === "journal")
+  if (tab === "news") {
+    markNews(true);
+    hideNewsToast();
+  }
+  if (tab === "journal") {
+    // Opening the Journal is reading the pop-up.
+    hideToast($("journal-note"));
     document
       .querySelector('#rings [data-tab="journal"]')
       ?.classList.remove("unread");
+  }
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -6837,6 +6857,20 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
+  // Patch notes opened from the title sit beside the title menu, never over it (CTO, Nov 24: the panel
+  // overlapped the menu and cut off "Continue as ..."): centered in the room to its right.
+  const sheetEl = $("sheet");
+  if (tab === "patchNotes" && !$("front").hidden) {
+    const scale = uiScale();
+    const edge = $("front").getBoundingClientRect().right / scale + 16;
+    const room = viewWidth() - 24 - edge;
+    const width = Math.min(760, room);
+    sheetEl.style.width = `${width}px`;
+    sheetEl.style.left = `${edge + room / 2}px`;
+  } else {
+    sheetEl.style.width = "";
+    sheetEl.style.left = "";
+  }
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen). Jobs and study and
   // Your life are strip screens too: no full-body figure stands beside a menu
@@ -7059,7 +7093,7 @@ function rotateTitle(scenes, seconds) {
   }, seconds * 1000);
 }
 api("/api/title").then((title) => {
-  if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (!$("front").hidden) setBackdrop(title.backdrop);
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   titleSaves = title.saves ?? [];
@@ -7460,6 +7494,7 @@ function listStates() {
         b.dataset.testid = `state-${s.key}`;
         b.addEventListener("click", () => {
           setup.state = s;
+          holdCapitol(s);
           $("cr-state-name").textContent = s.name;
           $("cr-town-search").value = "";
           void showStates();
@@ -7629,6 +7664,40 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
+/**
+ * Starts loading the chosen state's capitol the moment the state is chosen, so
+ * it is already painted when Begin shows it behind the loading card, with the
+ * place's name and not a moment after it (the Player on #9995).
+ */
+let heldCapitol = null;
+function holdCapitol(state) {
+  if (!state?.capitol || heldCapitol?.url === state.capitol) return;
+  const held = { url: state.capitol, blob: null };
+  heldCapitol = held;
+  fetch(state.capitol)
+    .then((response) => response.blob())
+    .then((blob) => {
+      held.blob = window.URL.createObjectURL(blob);
+    })
+    .catch(() => {});
+}
+/**
+ * Puts a picture behind the room and waits until the room itself can paint it,
+ * no longer than a moment, so a card that appears after it never shows an older one.
+ */
+async function showBackdrop(url) {
+  const backdrop = $("backdrop");
+  backdrop.src = url;
+  await Promise.race([
+    backdrop.decode().catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, CAPITOL_WAIT_MS)),
+  ]);
+}
+/** The longest the loading card waits for a capitol picture, in milliseconds. Engineering value. */
+const CAPITOL_WAIT_MS = 800;
+/** The picture to show for a state's capitol: the one already in hand, else its address. */
+const capitolSrc = (url) =>
+  heldCapitol?.url === url && heldCapitol.blob ? heldCapitol.blob : url;
 // One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
 // entire character"): gender, name, birthday, place and look, on the creator's seed.
 $("cr-random").addEventListener("click", async () => {
@@ -7641,6 +7710,7 @@ $("cr-random").addEventListener("click", async () => {
     `/api/creator/character?${new URLSearchParams({ seed: setup.seed, draw })}`,
   );
   setup.state = who.place.state;
+  holdCapitol(setup.state);
   setup.town = who.place.town;
   $("cr-state-name").textContent = who.place.state.name;
   showPlaceName();
@@ -7907,6 +7977,11 @@ function followBuild(bar, onStory) {
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
+  // Loading shows the player's state (owner, Nov 16): its capitol behind the
+  // card, from the state chosen in the creator, or the drawn one once known.
+  // The picture is in place before the card names the town, never after it.
+  if (placeKey && setup.state?.capitol)
+    await showBackdrop(capitolSrc(setup.state.capitol));
   frontPanel(null);
   // The creator already names the town: the card carries that name from the first step.
   const chosenName = placeKey
@@ -7941,6 +8016,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     const loadingTitle = document.querySelector("#front > .title");
     if (loadingTitle && life.placeName)
       loadingTitle.textContent = life.placeName;
+    if (life.capitol) $("backdrop").src = capitolSrc(life.capitol);
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
