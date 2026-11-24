@@ -3473,7 +3473,8 @@ function billEstimate(paper, section) {
   // again; a section that changes a rule and no amount says so.
   const shown = lines.filter(Boolean);
   return {
-    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    // A section with no figure says nothing: no line, and the strip is hidden when it is empty.
+    prose: "",
     lines: shown,
     compare,
     // A phase-in's step: the paper lists every step beside the others, in order.
@@ -5868,6 +5869,9 @@ const sheets = {
     return rosterScreen({
       title: controls.titles.bills,
       className: "bills",
+      // The list takes the sheet's room: the pager gives rows back until the sheet fits.
+      maxRows: 20,
+      reserve: 240,
       groups: stages.map((stage) => ({
         title: status[stage] ?? "",
         entries: list
