@@ -1,0 +1,29 @@
+{
+  "id": "a-council-candidate-is-not-certified",
+  "kind": "consequence",
+  "summary": "The elections office finds a council candidate does not qualify and leaves the name off.",
+  "realLife": "A Youngstown council candidate was not certified for the ballot.",
+  "sources": [
+    "WFMJ, Youngstown council candidate not certified on the ballot: https://www.wfmj.com/story/48333281/youngstown-first-ward-council-candidate-not-certified-on-ballot"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "name"],
+  "gates": ["petition-short"],
+  "weights": {
+    "filing-petition": 0.8
+  },
+  "inGame": "the clerk's check of the petition and eligibility; elections module filings; needs: a certification notice",
+  "turns": [
+    {
+      "turn": "The candidate is certified after a cure",
+      "pull": "days remaining",
+      "writes": "writes a late yes"
+    },
+    {
+      "turn": "The candidate sues",
+      "pull": "stubbornness",
+      "writes": "writes a hearing"
+    }
+  ],
+  "usedBy": ["filing-petition"]
+}

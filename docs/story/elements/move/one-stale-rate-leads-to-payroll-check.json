@@ -1,0 +1,32 @@
+{
+  "id": "one-stale-rate-leads-to-payroll-check",
+  "kind": "move",
+  "summary": "{person} checks who else stayed on the old rate when the city's minimum rose.",
+  "realLife": "One Denver complaint about an unchanged hourly rate led analysts to five more workers with the same shortfall.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Canon%20Business%20Process%20Services"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The worker's recorded rate falls below a newly effective local minimum."
+  ],
+  "weights": ["Use of a common pay scale puts other workers on the same rate."],
+  "usedBy": [],
+  "inGame": "needs: the rate change date and the hourly rates workers received.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Only the caller was missed.",
+      "pulledBy": "Other workers received the increase on time.",
+      "writesBack": "The correction covers one account."
+    },
+    {
+      "turn": "partial",
+      "what": "Some workers received the increase late.",
+      "pulledBy": "The effective dates differ in payroll.",
+      "writesBack": "Each worker's adjustment uses their own dates."
+    }
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "rally-outside-and-comment-inside",
+  "kind": "situation",
+  "summary": "One crowd rallies outside city hall while another waits to speak inside.",
+  "realLife": "Atlantans rallied outside while a seven-hour public comment ran inside.",
+  "sources": [
+    "Atlanta Daily World, hundreds of Atlantans oppose the training center in a seven-hour public comment: https://atlantadailyworld.com/2023/05/17/hundreds-of-atlantans-oppose-cop-city-in-record-breaking-7-hour-public-comment"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["place", "issue"],
+  "gates": [],
+  "weights": {
+    "rally-word": 0.8
+  },
+  "inGame": "civic.rally event and the body's public comment record",
+  "turns": [
+    {
+      "turn": "Both rooms are quiet",
+      "pull": "no strong cause",
+      "writes": "writes a thin meeting"
+    },
+    {
+      "turn": "The meeting runs past midnight",
+      "pull": "a heated cause",
+      "writes": "writes a late vote"
+    }
+  ],
+  "usedBy": ["rally-word", "rally-opponent"]
+}

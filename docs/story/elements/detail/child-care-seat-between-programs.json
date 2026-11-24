@@ -29,5 +29,6 @@
       "pulledBy": "Only a part-week opening matches the child's age.",
       "writesBack": "The placement record keeps the remaining days on the waiting list."
     }
-  ]
+  ],
+  "issues": ["law:child-care-income-limit"]
 }

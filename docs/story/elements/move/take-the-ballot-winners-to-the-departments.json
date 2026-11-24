@@ -1,0 +1,34 @@
+{
+  "id": "take-the-ballot-winners-to-the-departments",
+  "kind": "move",
+  "summary": "{person} seats residents beside the departments that will have to deliver their proposals.",
+  "realLife": "After Seattle residents ranked proposals, the civil rights office brought community representatives and multiple departments together to work out implementation.",
+  "sources": [
+    "https://seattle.legistar.com/LegislationDetail.aspx?FullText=1&GUID=610D894E-9C83-4C16-9312-4F93FE485B0A&ID=6992988"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A completed public vote and projects needing departmental assignments."
+  ],
+  "weights": [
+    "A project spanning two departments makes the joint meeting more valuable."
+  ],
+  "usedBy": [],
+  "inGame": "needs: winning proposal, resident delegates, departments and assigned responsibilities.",
+  "turns": [
+    {
+      "turn": "overlap",
+      "what": "Residents ask for one point of contact.",
+      "pulledBy": "Two departments want the same piece of work.",
+      "writesBack": "Name the lead in the implementation plan."
+    },
+    {
+      "turn": "shared",
+      "what": "The group splits the work into assigned tasks.",
+      "pulledBy": "Neither office can deliver a proposed feature alone.",
+      "writesBack": "Record the handoff between departments."
+    }
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
+}

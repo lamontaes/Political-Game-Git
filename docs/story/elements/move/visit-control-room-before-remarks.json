@@ -27,5 +27,6 @@
       "pulledBy": "The operating staff delays entry until the shift change ends.",
       "writesBack": "The itinerary shows which observations came after the public statement."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

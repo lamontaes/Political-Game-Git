@@ -1,0 +1,30 @@
+{
+  "id": "headquarters-closes-before-the-deposit-comes-back",
+  "kind": "consequence",
+  "summary": "A treasurer can report the campaign office closed while a utility refund is still due.",
+  "realLife": "Garcia reported that the Mercado Mall election headquarters had closed and its bills were paid, with a refund still expected from the electric company (December 3, 2016).",
+  "sources": [
+    "https://mojavedemocrats.org/sample-page/meeting-minutes/#:~:text=December%203%2C%202016"
+  ],
+  "fits": ["campaign", "journal", "news"],
+  "slots": ["{treasurer}", "{utility}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the office closing, final bills and refundable deposit.",
+  "turns": [
+    {
+      "turn": "refund-received",
+      "what": "The treasurer posts the receipt against the deposit.",
+      "pulledBy": "The utility sends the refund after the final bill.",
+      "writesBack": "The closed office has no outstanding utility balance."
+    },
+    {
+      "turn": "refund-delayed",
+      "what": "The treasurer follows up using the closed account number.",
+      "pulledBy": "The next statement arrives without the refund.",
+      "writesBack": "The report lists the deposit as money still due."
+    }
+  ]
+}

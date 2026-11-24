@@ -1,0 +1,31 @@
+{
+  "id": "manager-explains-why-outstanding-votes-fall-short",
+  "kind": "voice",
+  "summary": "A manager explains why even the best possible remaining count would leave their candidate behind.",
+  "realLife": "On election night in 2000, Gore campaign chairman Bill Daley told supporters that the ballots left to count in Florida outnumbered the gap. He explained why the campaign would wait for the recount.",
+  "sources": [
+    "https://p2000.us/gore110700.html",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: an upper bound on uncounted votes compared with the margin.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{manager}", "{contest}"],
+  "gates": ["The outstanding vote cannot cover the deficit."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The manager shows that the remaining ballots could still change the result.",
+      "pulledBy": "The reported gap is smaller than the verified outstanding count.",
+      "writesBack": "The campaign leaves the result open."
+    },
+    {
+      "turn": "late",
+      "what": "The manager stops the draft statement when the county corrects a duplicated batch in its estimate of ballots left.",
+      "pulledBy": "An updated count from the same election office supersedes the number used in the first calculation.",
+      "writesBack": "The tally sheet shows the correction time and a fresh comparison with the lead."
+    }
+  ],
+  "issues": ["none"]
+}

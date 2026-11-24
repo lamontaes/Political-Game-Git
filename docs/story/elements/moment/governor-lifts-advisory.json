@@ -27,5 +27,6 @@
       "pulledBy": "The findings differ across the boundary.",
       "writesBack": "The advisory map shows where restrictions ended."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

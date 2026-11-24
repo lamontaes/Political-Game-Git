@@ -1,0 +1,34 @@
+{
+  "id": "repayment-plan-and-missing-hours",
+  "kind": "detail",
+  "summary": "{person} has agreed to repay an advance but still has a claim for unpaid hours on the final check.",
+  "realLife": "A Denver airline investigation distinguished a leave-related repayment from wages still owed and an erroneous vacation deduction.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=United%20Airlines"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A final check includes an authorized repayment and a disputed balance."
+  ],
+  "weights": [
+    "Several kinds of deductions make a single total hard to interpret."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the repayment agreement, hours and itemized deductions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The repayment accounts for the full difference.",
+      "pulledBy": "The hours and other deductions reconcile.",
+      "writesBack": "The worker receives an itemized explanation."
+    },
+    {
+      "turn": "partial",
+      "what": "The hours reconcile but one deduction does not.",
+      "pulledBy": "The employer verifies the time sheet only.",
+      "writesBack": "The case keeps the deduction open."
+    }
+  ],
+  "issues": ["none"]
+}

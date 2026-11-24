@@ -1,0 +1,30 @@
+{
+  "id": "veteran-for-new-policy-staff",
+  "kind": "move",
+  "summary": "{person} recommends bringing in a veteran who knows how to approach a committee chair.",
+  "realLife": "Schlesinger recalled recommending Bryce Harlow as an experienced hand and saw value in pairing that experience with Stuart Eizenstat's policy work.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A new policy team is preparing for committee negotiations."],
+  "weights": ["Few staff members have dealt with the chair before."],
+  "usedBy": [],
+  "inGame": "needs: negotiating assignments and prior working relationships.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A staff member already knows the chair.",
+      "pulledBy": "The two worked together in a previous office.",
+      "writesBack": "The executive assigns that staff member."
+    },
+    {
+      "turn": "partial",
+      "what": "The veteran can advise only occasionally.",
+      "pulledBy": "An existing commitment prevents a staff appointment.",
+      "writesBack": "The team schedules a consultation."
+    }
+  ],
+  "issues": ["none"]
+}

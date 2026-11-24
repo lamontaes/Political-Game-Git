@@ -1,0 +1,34 @@
+{
+  "id": "ask-the-cost-of-an-unscheduled-ride",
+  "kind": "voice",
+  "summary": "{person} asks the director to price a same-day trip separately from a scheduled van ride.",
+  "realLife": "Milwaukee’s advisory council heard an August per-trip cost for the same-day pilot alongside a substantially lower average for regular van trips.",
+  "sources": [
+    "https://www.ridemcts.com/getattachment/Accessibility/Transit-Plus/TPAC/Transit-Plus-Meeting-Minutes-Agenda-Archive-2025/TPAC-October-2025-Minutes.pdf?lang=en-US"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A pilot faces a funding decision and comparable trip-cost data are available."
+  ],
+  "weights": [
+    "A pilot nearing the end of its appropriation makes the distinction urgent."
+  ],
+  "usedBy": [],
+  "inGame": "needs: pilot expenditures, completed trips and comparable regular-service costs.",
+  "turns": [
+    {
+      "turn": "reconciled",
+      "what": "The analyst reconciles what each includes.",
+      "pulledBy": "The two figures cover different expenses.",
+      "writesBack": "Attach comparable cost definitions."
+    },
+    {
+      "turn": "comparable",
+      "what": "A rider explains when advance booking is impossible.",
+      "pulledBy": "The figures use comparable expenses.",
+      "writesBack": "Keep the service need beside the cost comparison."
+    }
+  ],
+  "issues": ["none"]
+}

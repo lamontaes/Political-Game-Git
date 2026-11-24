@@ -28,5 +28,6 @@
       "pulledBy": "a local issue year",
       "writesBack": "The speech stays on the state."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

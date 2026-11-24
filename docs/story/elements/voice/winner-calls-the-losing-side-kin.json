@@ -1,0 +1,31 @@
+{
+  "id": "winner-calls-the-losing-side-kin",
+  "kind": "voice",
+  "summary": "A winner after a bitter race tells the losers the two sides want the same things, and admits the job is bigger than he is.",
+  "realLife": "Jefferson's first inaugural, March 4, 1801, after a bitter contest, told the Federalists the differences were not differences of principle, said the majority must rule fairly and protect the minority, and asked forgiveness in advance for the mistakes he expected to make.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-19",
+    "Read the full address and noted how it treats the losing party and how the speaker describes his own fitness."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The `greeting` and `stand` sections after an election; margin and race bitterness come from the election record.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The winner says the losing side was wrong and will be watched.",
+      "pulledBy": "low agreeable; a close, bitter race",
+      "writesBack": "The greeting and stand sections name the opposing party as a threat."
+    },
+    {
+      "turn": "neutral",
+      "what": "The winner thanks the losing side for running and moves on to business.",
+      "pulledBy": "a wide margin",
+      "writesBack": "The speech records one line of thanks and no appeal for unity."
+    }
+  ]
+}

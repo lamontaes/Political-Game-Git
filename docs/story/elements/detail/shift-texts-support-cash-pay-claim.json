@@ -1,0 +1,30 @@
+{
+  "id": "shift-texts-support-cash-pay-claim",
+  "kind": "detail",
+  "summary": "{person} brings messages assigning shifts to support a complaint about cash pay.",
+  "realLife": "Denver investigators used a tobacco shop worker's texts about schedules and pay when the employer lacked usable payroll records.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=C.Gars%20on%20Broadway"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A cash-paid worker has saved messages about assigned shifts."],
+  "weights": ["Missing payroll increases the value of dated messages."],
+  "usedBy": [],
+  "inGame": "needs: dated schedule messages, the method of payment and actual pay.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The employer supplies a complete register.",
+      "pulledBy": "Both parties kept records.",
+      "writesBack": "Investigators compare the register with the messages."
+    },
+    {
+      "turn": "partial",
+      "what": "Only some shifts can be dated.",
+      "pulledBy": "Several messages omit the day.",
+      "writesBack": "The claim separates supported weeks from unresolved weeks."
+    }
+  ],
+  "issues": ["none"]
+}
