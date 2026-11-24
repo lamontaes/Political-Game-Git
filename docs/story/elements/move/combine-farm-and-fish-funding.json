@@ -6,15 +6,8 @@
   "sources": [
     "https://kingcounty.gov/en/dept/dnrp/about-king-county/about-dnrp/newsroom/2024-news-releases/04-24-fall-city-floodplain-restoration"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

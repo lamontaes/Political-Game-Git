@@ -6,15 +6,8 @@
   "sources": [
     "https://www2.montgomerycountymd.gov/mcgportalapps/Press_Detail.aspx?Item_ID=44924"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [],
   "weights": [],
   "usedBy": []
