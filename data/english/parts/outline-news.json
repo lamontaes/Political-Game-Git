@@ -4221,6 +4221,168 @@
       "author": "the news writer",
       "date": "2026-11-24",
       "elements": ["tally-sits-mid-story", "vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-the-body-said-yes-to-the-law-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} said yes to the {law} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-a-count-vote-on-date-sent-the-law-through-the-body",
+      "move": "lede",
+      "kind": "written",
+      "text": "A {count} vote on {date} sent the {law} through the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-members-of-the-body-backed-the-law-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "Members of the {body} backed the {law} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-on-date-the-body-took-up-the-law-and-approved-it-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "On {date}, the {body} took up the {law} and approved it, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-the-body-gave-the-law-a-count-approval-on-date",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} gave the {law} a {count} approval on {date}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-the-body-said-no-to-the-law-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} said no to the {law} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-a-count-vote-on-date-sank-the-law-in-the-body",
+      "move": "lede",
+      "kind": "written",
+      "text": "A {count} vote on {date} sank the {law} in the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-members-of-the-body-turned-down-the-law-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "Members of the {body} turned down the {law} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-the-law-did-not-clear-the-body-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {law} did not clear the {body} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "elements": ["council-vote-story", "lede-names-the-body-that-acted"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
     }
   ]
 }
