@@ -8517,6 +8517,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.organization-closed.subject-closes-ending-number-jobs",
+      "move": "organization-closed",
+      "kind": "written",
+      "text": "{subject} closes, ending {number} jobs",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization-closed.place-s-largest-employer-closes",
+      "move": "organization-closed",
+      "kind": "written",
+      "text": "{place}'s largest employer closes",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline",
+          "requiresFacts": ["largest", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

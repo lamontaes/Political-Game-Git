@@ -233,6 +233,21 @@ const STATE_POPULATION = (
   }
 ).places;
 
+/** The people living in the counties a recorded disaster's declaration names (county populations already held), 0 where the record names none. */
+export function disasterPeople(stateKey: string, number: number): number {
+  let people = 0;
+  for (const code of recordedFor(stateKey, number)?.countyCodes ?? [])
+    people += COUNTY_POPULATION[code] ?? 0;
+  return people;
+}
+
+let nationPeople: number | undefined;
+/** The people living in every county on record: the nation, for the share a disaster touched. */
+export function nationalPeople(): number {
+  nationPeople ??= Object.values(COUNTY_POPULATION).reduce((n, v) => n + v, 0);
+  return nationPeople;
+}
+
 /** The federal aid (Public Assistance plus household aid) of a recorded disaster in a state, cents, and the struck counties' population. */
 function aidAndPopulation(rec: Recorded): { aid: number; population: number } {
   const aid = assistance.byCountyDisaster as unknown as Record<
