@@ -314,6 +314,21 @@
       "prosecutor": {
         "title": "District attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/georgia/conart9.html",
+        "note": "Ga. Const. art. IX, sec. I, para. III(a): \"The clerk of the superior court, judge of the probate court, sheriff...\" \"shall be elected by the qualified voters of their respective counties for terms of four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "title": "Clerk of superior court",
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/georgia/conart9.html",
+        "note": "Ga. Const. art. IX, sec. I, para. III(a): \"The clerk of the superior court\" is among the officers who \"shall be elected by the qualified voters of their respective counties for terms of four years\".",
+        "termYears": 4
       }
     },
     "HI": {
@@ -438,6 +453,35 @@
       "prosecutor": {
         "title": "Commonwealth's attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "title": "Property valuation administrator",
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\". The office's title today is from NACo's Kentucky profile (\"Property Valuation Administrator Elected Mandatory\", https://www.naco.org/sites/default/files/event_attachments/DRAFT_Kentucky_012022.pdf); that it is section 99's Assessor is an inference.",
+        "termYears": 4
       }
     },
     "LA": {
@@ -620,6 +664,24 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_153A/GS_153A-103.html",
+        "note": "N.C.G.S. 153A-103: \"Each sheriff and register of deeds elected by the people\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_159/GS_159-24.html",
+        "note": "N.C.G.S. 159-24: each local government shall \"have a finance officer appointed by the local government\"; \"The finance officer may be entitled 'accountant,' 'treasurer,'\"."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-294.html",
+        "note": "N.C.G.S. 105-294: \"the board of county commissioners of each county shall appoint a county assessor to serve a term of not less than two nor more than four years\"."
       }
     },
     "ND": {
