@@ -18,3 +18,5 @@ After the mayor answers, the director can tell callers what happens before a pav
 The mayor can ask the director what can be priced before bids go out, how to distinguish a request from a scheduled job, or whether another fund can pay. The next choice responds to the director’s answer.
 
 On an empty road account, the mayor can ask about the budget year and offer half the recorded cut in dollars. The amount is rounded in conversation. The choice records a promise to seek an amendment.
+
+A public works director appointed after the road budget was adopted can offer to check the inherited list, separate engineering from paving costs, or ask the treasurer about money already set aside.

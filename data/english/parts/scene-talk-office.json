@@ -15,7 +15,8 @@
     "original-cut": "The amount removed by the original amendment.",
     "restored-amount": "The amount later put back into the account.",
     "budget-year": "The fiscal year on the adopted budget containing the empty account.",
-    "half-restoration": "Half the cut that emptied the account, rounded for speech."
+    "half-restoration": "Half the cut that emptied the account, rounded for speech.",
+    "inherited-budget-year": "The fiscal year of the adopted budget already in place when the current department head took this appointment."
   },
   "maxWords": 70,
   "parts": [
@@ -12839,6 +12840,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.give-me-the-street-name-the-inherited-budget-year-requests-were-on-the-books-before-i-took-this-job-i-ll-check-what-the-resident-was-told-and-call-back",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-ll-take-the-call-before-i-give-anybody-a-date-from-the-inherited-budget-year-list-i-want-to-drive-that-block-and-see-what-we-d-be-asking-a-crew-to-do",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -12884,6 +12913,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-d-give-the-caller-a-way-to-reach-me-and-keep-the-request-open-they-shouldn-t-have-to-start-over-just-because-the-council-hasn-t-voted",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.give-me-the-street-name-the-inherited-budget-year-requests-were-on-the-books-before-i-took-this-job-i-ll-check-what-the-resident-was-told-and-call-back",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-ll-take-the-call-before-i-give-anybody-a-date-from-the-inherited-budget-year-list-i-want-to-drive-that-block-and-see-what-we-d-be-asking-a-crew-to-do",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -12941,6 +12998,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.give-me-the-street-name-the-inherited-budget-year-requests-were-on-the-books-before-i-took-this-job-i-ll-check-what-the-resident-was-told-and-call-back",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-ll-take-the-call-before-i-give-anybody-a-date-from-the-inherited-budget-year-list-i-want-to-drive-that-block-and-see-what-we-d-be-asking-a-crew-to-do",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -12987,6 +13074,36 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-d-give-the-caller-a-way-to-reach-me-and-keep-the-request-open-they-shouldn-t-have-to-start-over-just-because-the-council-hasn-t-voted",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["budget-year"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.give-me-the-street-name-the-inherited-budget-year-requests-were-on-the-books-before-i-took-this-job-i-ll-check-what-the-resident-was-told-and-call-back",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["budget-year"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-ll-take-the-call-before-i-give-anybody-a-date-from-the-inherited-budget-year-list-i-want-to-drive-that-block-and-see-what-we-d-be-asking-a-crew-to-do",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13132,6 +13249,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-can-give-you-a-starting-price-i-d-separate-what-an-engineer-would-charge-from-the-cost-of-laying-asphalt-before-you-ask-the-members-for-cut",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.when-i-took-this-job-the-inherited-budget-year-budget-was-already-in-place-let-me-check-whether-staff-priced-the-design-work-or-just-the-paving",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -13163,6 +13308,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-can-put-together-an-estimate-a-contractor-s-price-is-a-different-matter-i-wouldn-t-ask-somebody-to-work-one-up-until-we-re-prepared-to-go-ahead",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-can-give-you-a-starting-price-i-d-separate-what-an-engineer-would-charge-from-the-cost-of-laying-asphalt-before-you-ask-the-members-for-cut",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.when-i-took-this-job-the-inherited-budget-year-budget-was-already-in-place-let-me-check-whether-staff-priced-the-design-work-or-just-the-paving",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13205,6 +13378,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-can-give-you-a-starting-price-i-d-separate-what-an-engineer-would-charge-from-the-cost-of-laying-asphalt-before-you-ask-the-members-for-cut",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.when-i-took-this-job-the-inherited-budget-year-budget-was-already-in-place-let-me-check-whether-staff-priced-the-design-work-or-just-the-paving",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13236,6 +13439,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-can-put-together-an-estimate-a-contractor-s-price-is-a-different-matter-i-wouldn-t-ask-somebody-to-work-one-up-until-we-re-prepared-to-go-ahead",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-can-give-you-a-starting-price-i-d-separate-what-an-engineer-would-charge-from-the-cost-of-laying-asphalt-before-you-ask-the-members-for-cut",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.when-i-took-this-job-the-inherited-budget-year-budget-was-already-in-place-let-me-check-whether-staff-priced-the-design-work-or-just-the-paving",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13364,6 +13595,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-keep-the-requests-on-one-sheet-and-the-jobs-we-can-actually-send-out-on-another-i-wouldn-t-put-a-date-beside-a-street-just-because-it-made-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.let-me-take-the-inherited-budget-year-list-out-with-someone-who-knows-the-route-when-i-bring-it-back-i-ll-mark-which-streets-have-work-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -13409,6 +13668,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.give-me-a-minute-with-that-list-i-d-put-the-streets-we-ve-been-asked-to-pave-on-one-page-and-only-print-dates-for-work-we-ve-actually-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-keep-the-requests-on-one-sheet-and-the-jobs-we-can-actually-send-out-on-another-i-wouldn-t-put-a-date-beside-a-street-just-because-it-made-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.let-me-take-the-inherited-budget-year-list-out-with-someone-who-knows-the-route-when-i-bring-it-back-i-ll-mark-which-streets-have-work-scheduled",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13466,6 +13753,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-keep-the-requests-on-one-sheet-and-the-jobs-we-can-actually-send-out-on-another-i-wouldn-t-put-a-date-beside-a-street-just-because-it-made-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.let-me-take-the-inherited-budget-year-list-out-with-someone-who-knows-the-route-when-i-bring-it-back-i-ll-mark-which-streets-have-work-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13511,6 +13828,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.give-me-a-minute-with-that-list-i-d-put-the-streets-we-ve-been-asked-to-pave-on-one-page-and-only-print-dates-for-work-we-ve-actually-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-keep-the-requests-on-one-sheet-and-the-jobs-we-can-actually-send-out-on-another-i-wouldn-t-put-a-date-beside-a-street-just-because-it-made-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.let-me-take-the-inherited-budget-year-list-out-with-someone-who-knows-the-route-when-i-bring-it-back-i-ll-mark-which-streets-have-work-scheduled",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13669,6 +14014,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-sit-down-with-the-treasurer-the-inherited-budget-year-budget-was-here-when-i-started-and-there-may-be-a-sidewalk-job-that-already-has-a-claim-on-that-money",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-ask-what-the-money-was-set-aside-for-finding-cut-in-a-street-fund-wouldn-t-tell-us-whether-we-could-spend-it-all-on-paving",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -13714,6 +14087,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.first-i-d-want-to-know-who-else-has-a-claim-on-that-money-then-i-d-ask-the-finance-office-to-show-me-which-jobs-it-can-pay-for",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-sit-down-with-the-treasurer-the-inherited-budget-year-budget-was-here-when-i-started-and-there-may-be-a-sidewalk-job-that-already-has-a-claim-on-that-money",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-ask-what-the-money-was-set-aside-for-finding-cut-in-a-street-fund-wouldn-t-tell-us-whether-we-could-spend-it-all-on-paving",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13771,6 +14172,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-sit-down-with-the-treasurer-the-inherited-budget-year-budget-was-here-when-i-started-and-there-may-be-a-sidewalk-job-that-already-has-a-claim-on-that-money",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-ask-what-the-money-was-set-aside-for-finding-cut-in-a-street-fund-wouldn-t-tell-us-whether-we-could-spend-it-all-on-paving",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -13816,6 +14247,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.first-i-d-want-to-know-who-else-has-a-claim-on-that-money-then-i-d-ask-the-finance-office-to-show-me-which-jobs-it-can-pay-for",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-sit-down-with-the-treasurer-the-inherited-budget-year-budget-was-here-when-i-started-and-there-may-be-a-sidewalk-job-that-already-has-a-claim-on-that-money",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.i-d-ask-what-the-money-was-set-aside-for-finding-cut-in-a-street-fund-wouldn-t-tell-us-whether-we-could-spend-it-all-on-paving",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -13974,6 +14433,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.not-until-i-ve-been-over-the-route-the-inherited-budget-year-request-tells-me-what-somebody-wanted-done-it-doesn-t-tell-me-when-a-crew-can-start",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.we-d-still-need-somebody-to-take-the-job-a-vote-to-put-cut-back-gives-me-money-to-work-with-not-a-contractor-or-a-start-date",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -14019,6 +14506,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.say-it-passes-i-still-have-to-call-the-people-who-d-do-the-work-before-i-tell-a-resident-to-expect-them-on-tuesday",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.not-until-i-ve-been-over-the-route-the-inherited-budget-year-request-tells-me-what-somebody-wanted-done-it-doesn-t-tell-me-when-a-crew-can-start",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.we-d-still-need-somebody-to-take-the-job-a-vote-to-put-cut-back-gives-me-money-to-work-with-not-a-contractor-or-a-start-date",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -14076,6 +14591,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.not-until-i-ve-been-over-the-route-the-inherited-budget-year-request-tells-me-what-somebody-wanted-done-it-doesn-t-tell-me-when-a-crew-can-start",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.we-d-still-need-somebody-to-take-the-job-a-vote-to-put-cut-back-gives-me-money-to-work-with-not-a-contractor-or-a-start-date",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -14122,6 +14667,36 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.say-it-passes-i-still-have-to-call-the-people-who-d-do-the-work-before-i-tell-a-resident-to-expect-them-on-tuesday",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["budget-year"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.not-until-i-ve-been-over-the-route-the-inherited-budget-year-request-tells-me-what-somebody-wanted-done-it-doesn-t-tell-me-when-a-crew-can-start",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["budget-year"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.we-d-still-need-somebody-to-take-the-job-a-vote-to-put-cut-back-gives-me-money-to-work-with-not-a-contractor-or-a-start-date",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -14296,6 +14871,34 @@
             "cut",
             "empty-appropriation"
           ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.bring-the-resident-s-request-and-a-map-showing-where-the-work-would-stop-i-d-want-both-in-front-of-me-before-i-put-my-name-to-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.the-request-itself-if-the-members-ask-what-restoring-cut-would-do-let-them-see-the-block-the-resident-is-talking-about",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
         }
       ],
       "elements": [
@@ -14341,6 +14944,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-d-bring-what-the-resident-sent-us-let-the-members-read-it-alongside-the-price-and-decide-whether-that-s-what-they-want-to-buy",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.bring-the-resident-s-request-and-a-map-showing-where-the-work-would-stop-i-d-want-both-in-front-of-me-before-i-put-my-name-to-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.the-request-itself-if-the-members-ask-what-restoring-cut-would-do-let-them-see-the-block-the-resident-is-talking-about",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -14398,6 +15029,36 @@
             "empty-appropriation"
           ],
           "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.bring-the-resident-s-request-and-a-map-showing-where-the-work-would-stop-i-d-want-both-in-front-of-me-before-i-put-my-name-to-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.the-request-itself-if-the-members-ask-what-restoring-cut-would-do-let-them-see-the-block-the-resident-is-talking-about",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "onlyWhen": ["half-restoration"]
         }
       ],
       "elements": [
@@ -14443,6 +15104,34 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "after": "scene-talk-office.follow-answer.i-d-bring-what-the-resident-sent-us-let-the-members-read-it-alongside-the-price-and-decide-whether-that-s-what-they-want-to-buy",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.bring-the-resident-s-request-and-a-map-showing-where-the-work-would-stop-i-d-want-both-in-front-of-me-before-i-put-my-name-to-the-inherited-budget-year-list",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.follow-answer.the-request-itself-if-the-members-ask-what-restoring-cut-would-do-let-them-see-the-block-the-resident-is-talking-about",
           "requiresFacts": [
             "budget-line-highways",
             "cut",
@@ -14643,6 +15332,438 @@
         "key": "cut-heard"
       },
       "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.give-me-the-street-name-the-inherited-budget-year-requests-were-on-the-books-before-i-took-this-job-i-ll-check-what-the-resident-was-told-and-call-back",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Give me the street name. The {inherited-budget-year} budget predates my appointment. I'll look for an answer on file before I call back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.what-happens-to-somebody-s-paving-request-while-we-re-waiting-to-vote",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "two-public-works-directors-drive-the-route",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-ll-take-the-call-before-i-give-anybody-a-date-from-the-inherited-budget-year-list-i-want-to-drive-that-block-and-see-what-we-d-be-asking-a-crew-to-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "When I took this job, the {inherited-budget-year} budget was already set. I'll take the call and go see the block before I promise anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.what-happens-to-somebody-s-paving-request-while-we-re-waiting-to-vote",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "offer-the-former-directors-help-to-council",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-can-give-you-a-starting-price-i-d-separate-what-an-engineer-would-charge-from-the-cost-of-laying-asphalt-before-you-ask-the-members-for-cut",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can give you a starting price. I'd separate what an engineer would charge from the cost of laying asphalt before you ask the members for {cut}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.how-much-can-you-find-out-about-the-price-before-we-invite-anybody-to-bid",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "is-the-city-engineer-already-hired-for-this",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.when-i-took-this-job-the-inherited-budget-year-budget-was-already-in-place-let-me-check-whether-staff-priced-the-design-work-or-just-the-paving",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "When I took this job, the {inherited-budget-year} budget was already in place. Let me check whether staff priced the design work or just the paving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.how-much-can-you-find-out-about-the-price-before-we-invite-anybody-to-bid",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "the-engineer-who-worked-for-the-paver",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-keep-the-requests-on-one-sheet-and-the-jobs-we-can-actually-send-out-on-another-i-wouldn-t-put-a-date-beside-a-street-just-because-it-made-the-inherited-budget-year-list",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd keep the requests on one sheet and the jobs we can actually send out on another. I wouldn't put a date beside a street just because it made the {inherited-budget-year} list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.where-would-i-look-on-your-list-to-see-which-streets-are-actually-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "treasurer-asks-for-the-actual-streets",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.let-me-take-the-inherited-budget-year-list-out-with-someone-who-knows-the-route-when-i-bring-it-back-i-ll-mark-which-streets-have-work-scheduled",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Let me take the {inherited-budget-year} list out with someone who knows the route. When I bring it back, I'll mark which streets have work scheduled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.where-would-i-look-on-your-list-to-see-which-streets-are-actually-scheduled",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "two-public-works-directors-drive-the-route",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-sit-down-with-the-treasurer-the-inherited-budget-year-budget-was-here-when-i-started-and-there-may-be-a-sidewalk-job-that-already-has-a-claim-on-that-money",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd sit down with the treasurer. The {inherited-budget-year} budget was here when I started, and there may be a sidewalk job that already has a claim on that money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.say-another-fund-has-money-in-it-how-would-you-tell-whether-we-can-use-it-on-a-particular-street",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "reserve-the-sidewalk-money-before-pricing-roads",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-ask-what-the-money-was-set-aside-for-finding-cut-in-a-street-fund-wouldn-t-tell-us-whether-we-could-spend-it-all-on-paving",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd ask what the money was set aside for. Finding {cut} in a street fund wouldn't tell us whether we could spend it all on paving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.say-another-fund-has-money-in-it-how-would-you-tell-whether-we-can-use-it-on-a-particular-street",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "street-balance-beside-the-annual-paving-amount",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.not-until-i-ve-been-over-the-route-the-inherited-budget-year-request-tells-me-what-somebody-wanted-done-it-doesn-t-tell-me-when-a-crew-can-start",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Let me go over the route first. Having the {inherited-budget-year} budget in front of me doesn't tell me which crew could start or when.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.suppose-the-members-put-the-money-back-tonight-could-you-give-somebody-a-start-date-tomorrow-morning",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "two-public-works-directors-drive-the-route",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "calm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.we-d-still-need-somebody-to-take-the-job-a-vote-to-put-cut-back-gives-me-money-to-work-with-not-a-contractor-or-a-start-date",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'd still need somebody to take the job. A vote to put {cut} back gives me money to work with, not a contractor or a start date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.suppose-the-members-put-the-money-back-tonight-could-you-give-somebody-a-start-date-tomorrow-morning",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "paving-vote-authorizes-an-engineer-search",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.bring-the-resident-s-request-and-a-map-showing-where-the-work-would-stop-i-d-want-both-in-front-of-me-before-i-put-my-name-to-the-inherited-budget-year-list",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Bring the request and a marked map if you have them. I'd want to see where the work would stop before I put my name to the {inherited-budget-year} list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.what-would-you-want-the-members-to-see-when-they-have-the-estimate-in-front-of-them",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "park-fence-locates-the-requested-right-of-way",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-request-itself-if-the-members-ask-what-restoring-cut-would-do-let-them-see-the-block-the-resident-is-talking-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The request itself. If the members ask what restoring {cut} would do, let them see the block the resident is talking about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "scene-talk-office.reply-ask.what-would-you-want-the-members-to-see-when-they-have-the-estimate-in-front-of-them",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation",
+            "inherited-budget-year"
+          ]
+        }
+      ],
+      "elements": [
+        "treasurer-asks-for-the-actual-streets",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
       "issues": ["budget:highways"]
     }
   ]

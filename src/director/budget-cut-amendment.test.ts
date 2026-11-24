@@ -4,7 +4,12 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { amendBudget, budgetsOf, governments } from "../core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+  putBudget,
+} from "../core2/modules/budgets";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
@@ -132,6 +137,32 @@ it("the director stops describing the road account as empty when a later vote re
     text: "$0",
     recordIds: [causeId, cut.id],
   });
+  const tenure = empty.facts.find(
+    (fact) => fact.key === "inherited-budget-year",
+  );
+  expect(tenure?.text).toBe(String(budget.fiscalYear));
+  expect(tenure?.recordIds).toContain(budget.id);
+  const appointment = core.durableLog.get(tenure!.recordIds[0]!)!;
+  expect(appointment.kind).toBe("official-appointed");
+  expect(appointment.facts?.appointee).toBe(empty.askerId);
+  // Older saves can have the holder on file without the original appointment event.
+  core.durableLog.delete(appointment.id);
+  try {
+    expect(
+      scene().facts.some((fact) => fact.key === "inherited-budget-year"),
+    ).toBe(false);
+  } finally {
+    core.durableLog.set(appointment.id, appointment);
+  }
+  // The records cannot establish which happened first on the same day.
+  putBudget(api, { ...cut, adoptedOn: appointment.date });
+  try {
+    expect(
+      scene().facts.some((fact) => fact.key === "inherited-budget-year"),
+    ).toBe(false);
+  } finally {
+    putBudget(api, cut);
+  }
   const half = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

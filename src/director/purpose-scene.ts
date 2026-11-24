@@ -18,6 +18,7 @@ import {
   governmentOfJurisdiction,
   type BudgetRow,
 } from "../core2/modules/budgets";
+import { lineForPost } from "../core2/budgets-treasury";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
@@ -3291,10 +3292,30 @@ function cutFacts(
     facts[`budget-line-${said.line}`] = facts.line;
   }
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
-    (row) => row.holderId === headId,
+    (row) =>
+      row.holderId === headId &&
+      lineForPost("city", `town:${row.post}`) === said.line,
   );
   if (!post) return true;
   facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
+  if (
+    votedBudget &&
+    post.since > votedBudget.adoptedOn &&
+    post.since <= core.date
+  ) {
+    const appointment = core.durableLog.get(
+      `appointed:${post.id}:${post.since}`,
+    );
+    if (
+      appointment?.kind === "official-appointed" &&
+      appointment.facts?.appointee === headId
+    ) {
+      facts["inherited-budget-year"] = {
+        text: String(votedBudget.fiscalYear),
+        sourceRecordIds: [appointment.id, votedBudget.id],
+      };
+    }
+  }
   const date = core.date;
   const years =
     Number(date.slice(P.zero, P.isoYearCharacters)) -
