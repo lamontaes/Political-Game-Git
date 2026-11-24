@@ -1084,12 +1084,49 @@ function seatOutsideOffices(
 }
 
 /**
- * Inauguration Day (U.S. Const. amend. XX, § 1): when the world opens on the
- * day the president's and vice president's terms begin, their taking office
- * is a public record on day one. Nothing else follows from it.
+ * Inauguration Day (U.S. Const. amend. XX, § 1): the day the president's and
+ * vice president's terms begin, their taking office is a public record. A
+ * world that opens on that day records it at once; one that opens before it (a
+ * new game builds its world 31 days early) schedules it for the term's own
+ * first day, and the record is written when the world reaches it. Nothing
+ * else follows from it.
  */
 function recordInauguration(api: CoreAPI, townPlaceId: string): void {
   const date = api.state.date;
+  const terms = ["seat:US:president", "seat:US:vice-president"]
+    .map(
+      (seatId) =>
+        (
+          table(api, "terms").query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0],
+    )
+    .filter((term): term is TermRow => term !== undefined);
+  const first = terms.map((term) => term.startDate).sort()[0];
+  if (!first) return;
+  if (first === date) emitInauguration(api, townPlaceId, first);
+  else if (first > date)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `inauguration:${first}`,
+      date: first,
+      kind: "inauguration",
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
+        asOf: date,
+      },
+      sourceRecordIds: terms.map((term) => term.id),
+    });
+}
+
+/** The inauguration record of the president and vice president whose terms begin on `date`. */
+function emitInauguration(
+  api: CoreAPI,
+  townPlaceId: string,
+  date: string,
+): void {
   const began = ["seat:US:president", "seat:US:vice-president"]
     .map(
       (seatId) =>
@@ -1101,7 +1138,7 @@ function recordInauguration(api: CoreAPI, townPlaceId: string): void {
         )[0],
     )
     .filter((term): term is TermRow => term?.startDate === date);
-  if (!began.length) return;
+  if (!began.length || api.state.date !== date) return;
   api.emit({
     id: `inauguration:${date}`,
     date,
@@ -2364,6 +2401,12 @@ function officesCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
+  if (work.kind === "inauguration") {
+    const town = table(api, "loaded").get("town") as unknown as
+      { townPlaceId: string } | undefined;
+    if (town) emitInauguration(api, town.townPlaceId, api.state.date);
+    return;
+  }
   if (work.kind !== "special-election") return;
   const vacancy = table(api, "vacancies").get(
     work.sourceRecordIds[0]!,

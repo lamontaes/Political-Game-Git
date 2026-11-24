@@ -39,6 +39,12 @@ describe("a holder takes the seat on the term's true first day", () => {
     // The office's start day (the Twentieth Amendment): never the world's first day.
     expect(term.startDate.slice(5)).toBe("01-20");
     expect(term.startDate <= api.state.date).toBe(true);
+    // The inauguration is recorded on the day the term begins, not on the world's
+    // first day and not missing: the played opening has it dated that day.
+    expect(
+      world.core.durableLog.has(`inauguration:${term.startDate}`),
+      `inauguration:${term.startDate}`,
+    ).toBe(true);
     for (const post of cabinetOf(api))
       if (post.nominatedOn)
         expect(
