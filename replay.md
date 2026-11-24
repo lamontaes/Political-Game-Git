@@ -260,3 +260,15 @@ Grade words: **pass** / **open since v0.114.0, no worse** / **worse on this head
 | Row | Grade | Note |
 | --- | --- | --- |
 | P1 | **pass on a227f3a2** | Box and scroll measured it (comment 7132366917): the builds list (`div.pager.roster-pages`) and the notes are two sibling scroll boxes, and `#sheet-body` has overflow auto but no overflow (728 of 728), so it never scrolls. My "two overflow-auto containers" counted that rule; the count is boxes whose content is taller than the box. |
+
+## #10363 at ca5589c9 (Stands): the county assessor's race, played locally (fetch pull/10363/head), never pushed
+
+Greenwald, Minnesota, seed ba363284-169e-42d3-8b32-bba1c1aa23cd, 1440x900, dev mode's run to the filing window (2026-04-03) so candidates exist.
+
+| Race | Stands shown | Grade | Picture |
+| --- | --- | --- | --- |
+| County assessor | Carol McCormick: "Government administration: For" (no housing or land use) | **pass** | replay-assr2-Countyassessor.png |
+| County treasurer | Curtis Jimenez: "Government administration: For" | **pass** | (same flow, text only) |
+| Sheriff | Raymond Li: "Police protection: For", "Corrections: For" | **pass** | (text only) |
+
+Filing: the button reads "You can't run for this office." (disabled, a refusal on the button, no caption). The stand is a budget line, not assessment or taxes by name; it is not zoning.
