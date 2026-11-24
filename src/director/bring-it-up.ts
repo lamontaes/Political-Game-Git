@@ -730,6 +730,47 @@ export function wordBringItUp(
   };
 }
 
+/**
+ * A printed story the talk said as its topic reaches the listener as told,
+ * the same record `tellBroughtUp` writes for the speaker's newest change: the
+ * change the story's read event names, with no blame (none was said). Nothing
+ * is written, and null returned, when the speaker knows no such change or the
+ * listener already has it; else the told record's id.
+ */
+export function tellStorySaid(
+  core: CoreState,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  storyId: string,
+  options: { rows?: BringRows } = {},
+): string | null {
+  const data = options.rows ?? BRING_IT_UP_ROWS;
+  const change = changesKnownTo(core, speakerId, data).find(
+    (row) => storyOfReadEvent(row.eventId) === storyId,
+  );
+  if (!change) return null;
+  if (
+    core.knowledgeByPerson
+      .get(listenerId)
+      ?.has(`${data.heardKey}:${change.eventId}`)
+  )
+    return null;
+  const toldEventId = `${data.toldEvent}:${speakerId}:${listenerId}:${change.eventId}:${core.date}`;
+  tellBroughtUp(
+    core,
+    speakerId,
+    listenerId,
+    {
+      lines: [],
+      change,
+      attribution: { eventId: change.eventId, how: "unknown" },
+      toldEventId,
+    },
+    options,
+  );
+  return toldEventId;
+}
+
 /** What was said reaches the listener: the change, and the blame if it was said. */
 export function tellBroughtUp(
   core: CoreState,

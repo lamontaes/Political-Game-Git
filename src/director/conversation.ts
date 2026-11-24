@@ -108,6 +108,7 @@ import type {
 import {
   BRING_IT_UP_ROWS,
   tellBroughtUp,
+  tellStorySaid,
   wordBringItUp,
   changesKnownTo,
   resultsKnownTo,
@@ -6404,6 +6405,31 @@ function openConversationNow(
   // The leading subject first; when it cannot be said (no wording fits its
   // facts), where they stand, if they would say it, rather than nothing.
   const opened = raisedBrought || (main ? open(main) : false);
+  // A printed story the talk opened on is told to the player as news said, as
+  // the newest change is (the story's own record, no blame). A room only
+  // looked at tells nothing.
+  if (
+    opened &&
+    main &&
+    !raisedBrought &&
+    !conversation.look &&
+    main.subject.kind === "news" &&
+    main.subject.id.startsWith("news:")
+  ) {
+    const said = conversation.lines.some(
+      (line) =>
+        line.speakerId === otherId && line.subjectId.endsWith(main.subject.id),
+    );
+    const toldEventId = said
+      ? tellStorySaid(
+          core as CoreState,
+          otherId,
+          playerId,
+          main.subject.id.slice("news:".length),
+        )
+      : null;
+    if (toldEventId) conversation.recorded.push(toldEventId);
+  }
   // A scene's talk keeps to its occasion: if nothing can be said about it,
   // the talk doesn't turn to small talk instead.
   if (
