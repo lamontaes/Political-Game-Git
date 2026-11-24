@@ -157,7 +157,38 @@
     "AZ": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/ars/11/00401.htm",
+        "note": "A.R.S. 11-401: \"The officers of the county are:\" sheriff, recorder, treasurer, school superintendent, county attorney, assessor, supervisors, clerk of the board of supervisors and tax collector. No coroner is among them; the constitution's list (art. 12, sec. 3) has none either."
       }
     },
     "CA": {
@@ -1110,6 +1141,34 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
       }
     },
     "PA": {
@@ -1423,7 +1482,40 @@
     "WA": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands. A county under forty thousand people \"may determine that no coroner shall be elected and instead appoint a coroner\", and one of 250,000 or more may \"replace the office of coroner with a medical examiner system\"; which counties did so was not read."
       }
     },
     "WI": {
@@ -1468,7 +1560,39 @@
     "WV": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/wv/west-virginia-constitution-of-1872/wv-const-art-ix-sect-2/",
+        "note": "W. Va. Const. art. IX, sec. 2: \"Coroners, overseers of the poor and surveyors of roads, shall be appointed by the county court\" (now the county commission)."
+      },
+      "clerk": {
+        "title": "Clerk of the county commission",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/12",
+        "note": "W. Va. Const. art. IX, sec. 12: \"The voters of each county shall elect a clerk of the county commission, whose term of office shall be six years.\"",
+        "termYears": 6
       }
     },
     "WY": {

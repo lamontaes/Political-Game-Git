@@ -1,0 +1,8 @@
+---
+id: elections-county-row-offices-remaining-states
+impact: minor
+section: Fixed
+title: More states' counties elect only the officers their law names.
+---
+
+An Arizona or West Virginia county no longer elects a coroner; Arizona's law lists none and West Virginia's county commission appoints one. A West Virginia county elects its Clerk of the county commission for six years. Washington, Oregon, Arizona and West Virginia county officers now rest on their own statutes or constitutions.
