@@ -1472,6 +1472,14 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-figure .strip-name {
   text-align: center;
+  /* The name stands on the portrait's faded lower chest, not under it, so a tall look
+     (a man's extra rows) with a name filled in still fits the window (owner, Nov 17:
+     no empty space in the creator; the CTO's catch, Nov 24: the panel's top ran off screen). */
+  position: relative;
+  margin-top: -44px;
+}
+#cr-figure .strip-name:empty {
+  display: none;
 }
 /* One row of buttons under both columns: Random draws the whole character, Begin starts the life. */
 #cr-foot {
