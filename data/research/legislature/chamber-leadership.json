@@ -32,6 +32,11 @@
       "title": "Senate party conference leadership and committee practice",
       "url": "https://www.senate.gov/senators/leadership.htm",
       "citation": "Party leadership elected by the party conferences; seniority custom is not a binding selection rule"
+    },
+    "ars-11-216": {
+      "title": "Arizona Revised Statutes § 11-216, Chairman; quorum; public sessions",
+      "url": "https://codes.findlaw.com/az/title-11-counties/az-rev-st-sect-11-216/",
+      "citation": "§ 11-216(A): \"The supervisors shall elect a chairman\""
     }
   },
   "tables": {
@@ -83,6 +88,12 @@
         "value": "council-president",
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:assignmentAuthority",
+        "value": "presiding-officer",
+        "sourceId": "ars-11-216",
+        "estimatedFrom": "Arizona Revised Statutes § 11-216 (a county board elects its own chair from its members); other states read as the same until their statutes are read"
       }
     ],
     "chairSelectionAuthority": [
@@ -133,6 +144,12 @@
         "value": "council-vote",
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:chairSelectionAuthority",
+        "value": "council-vote",
+        "sourceId": "ars-11-216",
+        "estimatedFrom": "Arizona Revised Statutes § 11-216 (a county board elects its own chair from its members); other states read as the same until their statutes are read"
       }
     ],
     "posts": [
@@ -311,6 +328,18 @@
         ],
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:posts",
+        "value": [
+          {
+            "key": "chair",
+            "title": "Chair",
+            "selection": "floor-vote"
+          }
+        ],
+        "sourceId": "ars-11-216",
+        "estimatedFrom": "Arizona Revised Statutes § 11-216 (a county board elects its own chair from its members); other states read as the same until their statutes are read"
       }
     ],
     "partyRatioRule": [
@@ -358,6 +387,12 @@
       },
       {
         "id": "elected-president:partyRatioRule",
+        "value": "not-applicable",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:partyRatioRule",
         "value": "not-applicable",
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
@@ -411,6 +446,12 @@
         "value": true,
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
       }
     ],
     "seniorityImportance": [
@@ -458,6 +499,12 @@
       },
       {
         "id": "elected-president:seniorityImportance",
+        "value": "slight",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "county-board:seniorityImportance",
         "value": "slight",
         "sourceId": "nlc-forms",
         "estimatedFrom": "National League of Cities: Forms of Municipal Government"
@@ -528,6 +575,14 @@
       "partyRatioRule": "elected-president:partyRatioRule",
       "chairMayDeclineBill": "elected-president:chairMayDeclineBill",
       "seniorityImportance": "elected-president:seniorityImportance"
+    },
+    "county-board": {
+      "assignmentAuthority": "county-board:assignmentAuthority",
+      "chairSelectionAuthority": "county-board:chairSelectionAuthority",
+      "posts": "county-board:posts",
+      "partyRatioRule": "county-board:partyRatioRule",
+      "chairMayDeclineBill": "county-board:chairMayDeclineBill",
+      "seniorityImportance": "county-board:seniorityImportance"
     }
   },
   "councilForms": {
