@@ -314,6 +314,20 @@ function seatingPlace(api: CoreAPI, office: object | null | undefined): string {
   ).townPlaceId;
 }
 
+/**
+ * Whether a serving term's holder has taken the seat: its first day is today
+ * or past. A holder seated for a start day in a warm-up's last days is
+ * serving on the record from the world's first day but takes office on the
+ * term's true first day, and nothing the office does (nominations, orders)
+ * runs before it.
+ */
+export function termHasBegun(
+  api: CoreAPI,
+  term: { readonly startDate: string },
+): boolean {
+  return term.startDate <= api.state.date;
+}
+
 /** A new mandate vacates only offices the law makes incompatible. */
 export function enforceIncompatibility(
   api: CoreAPI,
@@ -1178,7 +1192,7 @@ function pastTerms(
       table(api, "terms").put({
         ...term,
         ...elected,
-        startDate: start > api.state.date ? api.state.date : start,
+        startDate: start,
         serviceStart,
       } as unknown as ModuleRow);
     else if ("elected" in elected)
@@ -1319,10 +1333,11 @@ function pastTerms(
   }
   table(api, "terms").put({
     ...term,
-    // A term that begins after the world opened (a warm-up's last days) is
-    // held from the day the world opened by the person who takes it, so a
-    // death in between ends a term that had begun (`endDate` never before `startDate`).
-    startDate: start > api.state.date ? api.state.date : start,
+    // The term's true first day, also when it falls in a warm-up's last days
+    // (before the day the player starts): the holder takes the seat that day
+    // and not before (`termHasBegun`); a death in between ends a term that
+    // never began (`vacateSeat` keeps `endDate` from before `startDate`).
+    startDate: start,
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
@@ -1549,7 +1564,7 @@ export function vacateSeat(
   table(api, "terms").put({
     ...term,
     status: "ended",
-    endDate: date,
+    endDate: date < term.startDate ? term.startDate : date,
     endEstimated: false,
     endedBy: cause,
   } as unknown as ModuleRow);
