@@ -16,6 +16,7 @@
  * record.
  */
 import type { EntityId } from "../core2/kernel/brands";
+import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import type { GroundedEnglishFact } from "../english/grounded-english";
 import type { TellingInput } from "../english/outline-planner";
@@ -77,7 +78,7 @@ export function chapterOpenTelling(
   // The year the moment happened, from its own record (W3, Nov 24: a birth
   // opener had only its place to say).
   told["moment-year"] = {
-    text: moment.date.slice(0, moment.date.indexOf("-")),
+    text: moment.date.slice(P.zero, moment.date.indexOf("-")),
     sourceRecordIds: ids,
   };
   told[how.own ? "own-moment" : "other-moment"] = gate();
