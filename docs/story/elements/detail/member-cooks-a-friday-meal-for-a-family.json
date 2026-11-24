@@ -1,0 +1,29 @@
+{
+  "id": "member-cooks-a-friday-meal-for-a-family",
+  "kind": "detail",
+  "summary": "One member cooks a meal for a family every Friday because of their health.",
+  "realLife": "The same interview mentions a church member who cooks a meal for a family each Friday because of the family's health situation.",
+  "sources": [
+    "Orlando Memory, deaconess oral history interview: https://orlandomemory.org/people/deaconess-lillian-lancaster-mt-zion-missionary-baptist-institutional-church-oral-history-interview/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "an illness record plus a recurring favor; needs: a recurring help record between households",
+  "turns": [
+    {
+      "turn": "keeps-it-up-for-months",
+      "summary": "The Friday meal continues until the family recovers.",
+      "pulledBy": ["steady trait"],
+      "writesBack": "deep tie; the family owes a debt of thanks"
+    },
+    {
+      "turn": "fades-after-a-few-weeks",
+      "summary": "The meals stop when life gets busy.",
+      "pulledBy": ["busy cook"],
+      "writesBack": "quiet hurt; no one says anything"
+    }
+  ]
+}
