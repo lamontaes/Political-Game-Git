@@ -1,9 +1,10 @@
 {
   "id": "board-seat-lost-over-primary",
   "kind": "consequence",
-  "summary": "A board member loses an appointment after entering a race against the mayor’s preferred candidate.",
-  "realLife": "George Moscone removed Harvey Milk from the San Francisco permit appeals board after Milk entered a state Assembly primary.",
+  "summary": "An appointee gives up a board seat to enter a legislative primary.",
+  "realLife": "Harvey Milk left San Francisco’s permit appeals board when he announced his candidacy for the California Assembly, months after Mayor George Moscone appointed him.",
   "sources": [
+    "https://sfpl.org/pdf/libraries/main/sfhistory/GLBT/Harvey_Milk_Archives-Scott_Smith_Collection.pdf",
     "https://en.wikipedia.org/wiki/Harvey_Milk"
   ],
   "fits": [
