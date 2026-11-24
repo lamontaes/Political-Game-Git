@@ -1,0 +1,30 @@
+{
+  "id": "campaign-allies-versus-committee-votes",
+  "kind": "move",
+  "summary": "{person} brings the executive a list of lawmakers needed to govern after the campaign is over.",
+  "realLife": "Schlesinger recalled urging Bert Lance to build support among influential legislators, including energy committee chair Henry Jackson.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A new executive needs legislative support for a priority."],
+  "weights": ["Campaign supporters hold few relevant committee seats."],
+  "usedBy": [],
+  "inGame": "needs: committee membership and the status of legislative commitments.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A campaign ally already chairs the committee.",
+      "pulledBy": "The election coalition includes its chair.",
+      "writesBack": "The meeting is arranged through that ally."
+    },
+    {
+      "turn": "partial",
+      "what": "The chair offers a hearing alone.",
+      "pulledBy": "The chair has not committed to the bill.",
+      "writesBack": "The calendar records the hearing and leaves the vote open."
+    }
+  ],
+  "issues": ["none"]
+}
