@@ -13,5 +13,17 @@
   "weights": {
     "home": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The move was alone.",
+      "pulledBy": "no `moved_with` on the record",
+      "writesBack": "the entry says the writer went alone"
+    },
+    {
+      "turn": "The move was back.",
+      "pulledBy": "the writer returns to the earlier town",
+      "writesBack": "the entry says the writer came home"
+    }
+  ]
 }

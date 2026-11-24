@@ -13,5 +13,17 @@
   "weights": {
     "household": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "No quarrel; a warm evening.",
+      "pulledBy": "the household's relationships are close",
+      "writesBack": "the entry says a kind thing about someone in the house"
+    },
+    {
+      "turn": "The quarrel is about the news.",
+      "pulledBy": "the household's stands differ",
+      "writesBack": "the entry names the disagreement"
+    }
+  ]
 }

@@ -14,5 +14,22 @@
   "weights": {
     "vote": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "No line at the polls.",
+      "pulledBy": "a short wait at the writer's precinct",
+      "writesBack": "the entry says the vote took a few minutes"
+    },
+    {
+      "turn": "The writer could not vote.",
+      "pulledBy": "the writer is under voting age or not registered",
+      "writesBack": "the entry says who they would have voted for, or nothing"
+    },
+    {
+      "turn": "Left before the returns.",
+      "pulledBy": "the writer's work or household that evening",
+      "writesBack": "the entry says the result was learned the next day"
+    }
+  ]
 }

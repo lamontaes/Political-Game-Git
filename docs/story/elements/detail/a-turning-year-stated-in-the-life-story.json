@@ -13,5 +13,17 @@
   "weights": {
     "opening": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The year is not remembered.",
+      "pulledBy": "a long span since (trait: daydreaming)",
+      "writesBack": "the entry says only the season or the age"
+    },
+    {
+      "turn": "The year is exact.",
+      "pulledBy": "a dated record (marriage, move)",
+      "writesBack": "the entry gives the year"
+    }
+  ]
 }

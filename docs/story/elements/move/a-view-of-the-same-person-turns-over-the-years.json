@@ -14,5 +14,17 @@
   "weights": {
     "stand": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The view improves.",
+      "pulledBy": "the person's record later matches the writer's side",
+      "writesBack": "the entry says what changed their mind"
+    },
+    {
+      "turn": "The view stays the same.",
+      "pulledBy": "no change on the record",
+      "writesBack": "the entry says it is as it was"
+    }
+  ]
 }

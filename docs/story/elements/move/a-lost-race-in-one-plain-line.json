@@ -13,5 +13,17 @@
   "weights": {
     "office": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A win in one plain line.",
+      "pulledBy": "the filing record's result is a win",
+      "writesBack": "the entry says the writer won, with no comment"
+    },
+    {
+      "turn": "A loss told at length.",
+      "pulledBy": "a close margin or a bitter rival (trait: brooding)",
+      "writesBack": "the entry says how close and who won"
+    }
+  ]
 }

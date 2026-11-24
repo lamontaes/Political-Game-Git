@@ -13,5 +13,17 @@
   "weights": {
     "night": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Could not sleep.",
+      "pulledBy": "unease about the speech or the day",
+      "writesBack": "the entry says the writer stayed up and what about"
+    },
+    {
+      "turn": "Fell asleep during it.",
+      "pulledBy": "a long day's work",
+      "writesBack": "the entry says what the writer missed"
+    }
+  ]
 }

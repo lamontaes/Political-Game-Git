@@ -13,5 +13,17 @@
   "weights": {
     "home": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The partner moved instead.",
+      "pulledBy": "the partner's household took the move",
+      "writesBack": "the entry says the partner came to the writer"
+    },
+    {
+      "turn": "No move for the marriage.",
+      "pulledBy": "partners met in one town",
+      "writesBack": "the entry says they stayed where they were"
+    }
+  ]
 }

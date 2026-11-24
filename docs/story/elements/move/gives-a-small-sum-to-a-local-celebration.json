@@ -13,5 +13,17 @@
   "weights": {
     "money": 0.3
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Gives nothing.",
+      "pulledBy": "a tight month on the money record",
+      "writesBack": "the entry says the writer could not spare it"
+    },
+    {
+      "turn": "Gives a lot.",
+      "pulledBy": "an unusually good year",
+      "writesBack": "the entry names the sum and the occasion"
+    }
+  ]
 }

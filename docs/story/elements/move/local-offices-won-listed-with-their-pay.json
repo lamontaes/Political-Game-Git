@@ -13,5 +13,17 @@
   "weights": {
     "office": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A seat with no pay.",
+      "pulledBy": "the office's pay is zero on its record",
+      "writesBack": "the entry says it paid nothing"
+    },
+    {
+      "turn": "An office lost at the next race.",
+      "pulledBy": "a later `event:election-result` as the loser",
+      "writesBack": "the entry says the term ended and who followed"
+    }
+  ]
 }

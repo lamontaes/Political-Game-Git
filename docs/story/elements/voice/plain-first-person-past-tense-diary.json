@@ -12,5 +12,17 @@
   "gates": [],
   "inGame": "The Journal's voice for every entry kind; the journal rows already read first person.",
   "weights": {},
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A formal entry.",
+      "pulledBy": "the writer is an officeholder (trait: deferential, polite)",
+      "writesBack": "the entry uses a fuller register and the office"
+    },
+    {
+      "turn": "A hurried entry.",
+      "pulledBy": "a short night (trait: restless)",
+      "writesBack": "the entry is one sentence"
+    }
+  ]
 }

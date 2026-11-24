@@ -14,5 +14,22 @@
   "weights": {
     "money": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Pay went up.",
+      "pulledBy": "a new wage above the last (`paid_more_than`)",
+      "writesBack": "the entry says up from what"
+    },
+    {
+      "turn": "Pay went down.",
+      "pulledBy": "a new wage below the last (`paid_less_than`)",
+      "writesBack": "the entry says down from what"
+    },
+    {
+      "turn": "No pay at all.",
+      "pulledBy": "unpaid wages on the record",
+      "writesBack": "the entry says the work went unpaid"
+    }
+  ]
 }

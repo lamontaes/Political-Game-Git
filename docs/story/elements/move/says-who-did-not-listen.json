@@ -13,5 +13,17 @@
   "weights": {
     "household": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Everyone listened.",
+      "pulledBy": "the whole household is recorded as watching",
+      "writesBack": "the entry has no one skipping, and says so briefly"
+    },
+    {
+      "turn": "The one who skipped explains.",
+      "pulledBy": "a talk with that person after the address",
+      "writesBack": "the entry gives their reason in their own words"
+    }
+  ]
 }

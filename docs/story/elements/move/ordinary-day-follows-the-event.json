@@ -13,5 +13,17 @@
   "weights": {
     "night": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The event cancels the day.",
+      "pulledBy": "a disruption on the day's record",
+      "writesBack": "the entry says what the writer did instead"
+    },
+    {
+      "turn": "The next day is not ordinary.",
+      "pulledBy": "a scheduled filing or hearing next day",
+      "writesBack": "the entry looks ahead to it"
+    }
+  ]
 }

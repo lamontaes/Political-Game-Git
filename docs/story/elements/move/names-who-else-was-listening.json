@@ -13,5 +13,22 @@
   "weights": {
     "household": 0.8
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Nobody else listened.",
+      "pulledBy": "the record holds no other watcher (`alone`)",
+      "writesBack": "the entry says the writer listened alone"
+    },
+    {
+      "turn": "Someone left early.",
+      "pulledBy": "a housemate's record of leaving the room",
+      "writesBack": "the entry names who left and when"
+    },
+    {
+      "turn": "Guests were there.",
+      "pulledBy": "a visitor on the household's evening record",
+      "writesBack": "the entry names the guest"
+    }
+  ]
 }

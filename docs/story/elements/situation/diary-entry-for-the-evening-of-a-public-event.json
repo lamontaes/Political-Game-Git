@@ -15,5 +15,22 @@
     "household": 0.6,
     "stand": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The writer did not watch.",
+      "pulledBy": "a household member's choice and the writer's own habits (traits: independent, shy)",
+      "writesBack": "the entry says where the writer was instead and what they heard about it later"
+    },
+    {
+      "turn": "The household is split on it.",
+      "pulledBy": "the housemates' recorded stands differ",
+      "writesBack": "the entry names the disagreement and who was on which side"
+    },
+    {
+      "turn": "Written the next morning.",
+      "pulledBy": "a late entry when the writer slept first (trait: meticulous, restless)",
+      "writesBack": "the entry says what the writer remembered, and less of it"
+    }
+  ]
 }

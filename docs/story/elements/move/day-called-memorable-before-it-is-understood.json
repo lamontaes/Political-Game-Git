@@ -13,5 +13,17 @@
   "weights": {
     "stand": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The writer already knows what it means.",
+      "pulledBy": "a stand recorded (`stand-with` or `stand-against`)",
+      "writesBack": "the entry says what it means and why"
+    },
+    {
+      "turn": "The day was forgettable.",
+      "pulledBy": "no stake for the writer in the theme",
+      "writesBack": "the entry says so plainly and moves to the ordinary day"
+    }
+  ]
 }

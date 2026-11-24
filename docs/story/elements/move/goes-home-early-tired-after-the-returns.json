@@ -13,5 +13,17 @@
   "weights": {
     "night": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Stayed late.",
+      "pulledBy": "the writer's side won or lost narrowly",
+      "writesBack": "the entry says how late and who stayed"
+    },
+    {
+      "turn": "Went to a party.",
+      "pulledBy": "a campaign event on the evening's record",
+      "writesBack": "the entry names the party"
+    }
+  ]
 }

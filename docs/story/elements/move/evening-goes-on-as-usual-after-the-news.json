@@ -14,5 +14,17 @@
   "weights": {
     "night": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The evening is spoiled.",
+      "pulledBy": "bad news in the household that evening",
+      "writesBack": "the entry says what happened and who was told"
+    },
+    {
+      "turn": "The writer goes out.",
+      "pulledBy": "an invitation on the record",
+      "writesBack": "the entry names where and with whom"
+    }
+  ]
 }

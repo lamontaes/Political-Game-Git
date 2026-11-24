@@ -14,5 +14,17 @@
   "weights": {
     "money": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The sum is rounded.",
+      "pulledBy": "a large amount (trait: informal)",
+      "writesBack": "the entry says about how much"
+    },
+    {
+      "turn": "The sum is not mentioned.",
+      "pulledBy": "a writer who does not discuss money (trait: guarded)",
+      "writesBack": "the entry leaves it out"
+    }
+  ]
 }

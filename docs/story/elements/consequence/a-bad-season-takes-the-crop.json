@@ -13,5 +13,17 @@
   "weights": {
     "money": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A good season.",
+      "pulledBy": "no loss on the household's money",
+      "writesBack": "the entry says the crop came in"
+    },
+    {
+      "turn": "A bad season, and help comes.",
+      "pulledBy": "a neighbor or a program on the record",
+      "writesBack": "the entry says who helped"
+    }
+  ]
 }

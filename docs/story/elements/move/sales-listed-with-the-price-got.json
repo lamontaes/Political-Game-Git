@@ -13,5 +13,17 @@
   "weights": {
     "money": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Sold for less than hoped.",
+      "pulledBy": "the price below the expected",
+      "writesBack": "the entry says it was too cheap"
+    },
+    {
+      "turn": "Nothing sold.",
+      "pulledBy": "no sale on the job's record",
+      "writesBack": "the entry says there was nothing to sell"
+    }
+  ]
 }

@@ -13,5 +13,17 @@
   "weights": {
     "stand": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Nobody comes round.",
+      "pulledBy": "the party stays split on the record",
+      "writesBack": "the entry says who still holds out"
+    },
+    {
+      "turn": "The writer comes round.",
+      "pulledBy": "a change in the writer's stand",
+      "writesBack": "the entry says what moved them"
+    }
+  ]
 }

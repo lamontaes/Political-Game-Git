@@ -13,5 +13,22 @@
   "weights": {
     "family": 0.7
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A birth only.",
+      "pulledBy": "no death in the same stretch",
+      "writesBack": "the entry gives the birth and the name"
+    },
+    {
+      "turn": "A death only.",
+      "pulledBy": "no birth in the same stretch",
+      "writesBack": "the entry gives the death, the age and the illness"
+    },
+    {
+      "turn": "A birth and a death close together.",
+      "pulledBy": "both on the family record in one season",
+      "writesBack": "the entry puts them in one run, in the same tone"
+    }
+  ]
 }

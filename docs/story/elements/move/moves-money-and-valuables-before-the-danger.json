@@ -13,5 +13,17 @@
   "weights": {
     "money": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The danger passes.",
+      "pulledBy": "the emergency record ends with no loss",
+      "writesBack": "the entry says what was moved back"
+    },
+    {
+      "turn": "Nothing to move.",
+      "pulledBy": "no savings on the record",
+      "writesBack": "the entry says there was nothing to move"
+    }
+  ]
 }
